@@ -7,6 +7,7 @@ import hashlib
 import difflib
 import textwrap
 import speech.es as es
+import speech.sd as sd
 
 runtime = {
 'running':True,
@@ -22,8 +23,8 @@ runtime = {
 'newContentBytes': b'',
 'newContentText': '',
 'newContentAttrib': b'',
-'speechDriverString':'es',
-'speechDriver': es.speech()
+'speechDriverString':'sd',
+'speechDriver': sd.speech()
 }
 
 while(runtime['running']):
@@ -46,7 +47,7 @@ while(runtime['running']):
   # changes on the screen
   if runtime['oldContentBytes'] != runtime['newContentBytes']:
     if len(runtime['delta']) < 3:
-      runtime['speechDriver'].stop()
+      runtime['speechDriver'].cancel()
     print("tty3 changed")
     
     diff = difflib.ndiff(runtime['oldContentText'], runtime['newContentText'])

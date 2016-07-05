@@ -17,11 +17,11 @@ class speech():
     def speak(self,text, queueable=True):
         if not self.isInitialized:
             return False
-        if queueable == False: self.stop()
+        if queueable == False: self.cancel()
         self.es.synth(text)
         return True
 
-    def stop(self):
+    def cancel(self):
         if not self.isInitialized:
             return False
         self.es.cancel()
@@ -46,4 +46,5 @@ class speech():
         if not self.isInitialized:
             return False
         return es.set_parameter(espeak.Parameter.Rate, speed) 
-        
+    def shutdown(self):
+        pass
