@@ -28,5 +28,7 @@ http://devel.freebsoft.org/doc/speechd/speech-dispatcher.html#Client-Programming
 - Settings (make it configureable)
 - beeps (sound Icons)
 - autostart systemd
+https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/sect-Managing_Services_with_systemd-Unit_Files.html
+
 - translateable
 
