@@ -45,7 +45,8 @@ while(runtime['running']):
   
   # changes on the screen
   if runtime['oldContentBytes'] != runtime['newContentBytes']:
-    runtime['speechDriver'].stop()
+    if len(newContentText) < 3:
+      runtime['speechDriver'].stop()
     print("tty3 changed")
     
     diff = difflib.ndiff(runtime['oldContentText'], runtime['newContentText'])
