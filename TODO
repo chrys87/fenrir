@@ -1,0 +1,12 @@
+- Input and shortcuts
+http://python-evdev.readthedocs.io/en/latest/tutorial.html
+- detect all TTYs where users are logged in (maybe PAM notification)
+- detect collumns in TTYs automaticaly.
+- move from VCS to VCSA and parese the Attributes
+- implement command structure (next_[line,word,char], prev_[line,word,char], and others
+- implement braille
+http://mielke.cc/brltty/doc/Manual-BrlAPI/English/BrlAPI.html
+
+- implement speechdriver espeak
+- implement speechdriver speechd
+- implement speechdriver generci
