@@ -28,4 +28,5 @@ http://devel.freebsoft.org/doc/speechd/speech-dispatcher.html#Client-Programming
 - Settings (make it configureable)
 - beeps (sound Icons)
 - autostart systemd
+- translateable
 
