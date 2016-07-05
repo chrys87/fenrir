@@ -9,4 +9,7 @@ http://mielke.cc/brltty/doc/Manual-BrlAPI/English/BrlAPI.html
 
 - implement speechdriver espeak
 - implement speechdriver speechd
-- implement speechdriver generci
+- implement speechdriver generic
+
+- threading ReadContent, ReadShortcuts, executeCommands, listenNewTTYsForListen, controllThread (main)
+- debugging
