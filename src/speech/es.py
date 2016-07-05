@@ -3,20 +3,23 @@
 # Espeak driver
 
 class speech():
-    isInitialized = False
-    
-    def __init__(self):
-        try:
-            pass
-            isInitialized = True
-        except:
-            initialized = False
+    def __init__(self, ):
+        self.es = None
+        self.isInitialized = False
+#        try:
+        from espeak import espeak 
+        self.es = espeak
+        self.isInitialized = True
+#        except:
+#            self.initialized = False
 
-    def speak(text, queueable=True):
+
+    def speak(self,text, queueable=True):
         if queueable == False: self.stop()
+        self.es.synth(text)
 
     def stop(self):
-        pass
+        self.es.cancel()
 
     def clear_buffer(self):
         pass
