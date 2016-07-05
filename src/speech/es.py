@@ -3,6 +3,8 @@
 # Espeak driver
 
 class speech():
+    isInitialized = False
+    
     def __init__(self):
         pass
 
