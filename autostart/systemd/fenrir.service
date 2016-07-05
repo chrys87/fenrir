@@ -1,0 +1,11 @@
+[Unit]
+Description=fenrir
+#After=
+
+[Service]
+ExecStart=path_to_executable
+Type=forking
+PIDFile=path_to_pidfile
+
+[Install]
+WantedBy=default.target

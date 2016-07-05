@@ -1,4 +1,8 @@
 #!/bin/python
+
+# Fenrir TTY screen reader
+# By Chrys, Storm Dragon, and contributers.
+
 import hashlib
 import difflib
 import textwrap
