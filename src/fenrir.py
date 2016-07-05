@@ -9,6 +9,7 @@ import textwrap
 import speech.es as es
 
 runtime = {
+'running':True,
 'columns': 0,
 'lines': 0,
 'screenDriver': '/dev/vcsa3',
@@ -25,7 +26,7 @@ runtime = {
 'speechDriver': es.speech()
 }
 
-while(True):
+while(runtime['running']):
   # read screen
   vcsa = open(runtime['screenDriver'],'rb')
   runtime['newContentBytes'] = vcsa.read()
