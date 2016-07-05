@@ -45,7 +45,7 @@ while(runtime['running']):
   
   # changes on the screen
   if runtime['oldContentBytes'] != runtime['newContentBytes']:
-    if len(newContentText) < 3:
+    if len(runtime['delta']) < 3:
       runtime['speechDriver'].stop()
     print("tty3 changed")
     
