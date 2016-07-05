@@ -6,7 +6,6 @@
 import hashlib
 import difflib
 import textwrap
-import os
 import speech.es as es
 
 runtime = {
