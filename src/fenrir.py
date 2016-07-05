@@ -7,36 +7,43 @@ import hashlib
 import difflib
 import textwrap
 import os
+import speech.es as es
 
-oldContentBytes = bytes()
-oldContentString = ''
+runtime = {
+'columns': 0,
+'screenDriver': '/dev/vcsa3',
+'delta': '',
+'oldContentBytes': b'',
+'oldContentText': '',
+'oldContentAttrib': b'',
+'newContentBytes': b'',
+'newContentText': '',
+'newContentAttrib': b'',
+'speechDriverString':'es',
+'speechDriver': es.speech()
+}
+
 while(True):
-  vcs = open('/dev/vcs3','rb')
-  newContentBytes = vcs.read()
-  vcs.close()
-  newContentString = str(newContentBytes.decode('cp1252').encode('utf-8'))
-  newContentString = '\n'.join(textwrap.wrap(newContentString, 80)) 
-#  if oldContentBytes == b'':
-#    oldContentBytes = newContentBytes
-#    oldContentString = newContentString
-  if oldContentBytes != newContentBytes:
-    os.system('killall espeak')
+  vcsa = open(runtime['screenDriver'],'rb')
+  runtime['newContentBytes'] = vcsa.read()
+  vcsa.close()
+  runtime['columns'] = int( runtime['newContentBytes'][1])
+  runtime['newContentText'] = str(runtime['newContentBytes'][::2].decode('cp1252').encode('utf-8'))[7:]
+  runtime['newContentAttrib'] = runtime['newContentBytes'][1::2][7:]
+  print(runtime['newContentBytes'][9])
+  #runtime['newContentString'] = str(runtime['newContentBytes'].decode('cp1252').encode('utf-8'))
+  runtime['newContentText'] = '\n'.join(textwrap.wrap(runtime['newContentText'], runtime['columns'])) 
+  if runtime['oldContentBytes'] != runtime['newContentBytes']:
+    runtime['speechDriver'].stop()
     print("tty3 changed")
-    print("old content hash " + hashlib.sha256(str(oldContentBytes).encode('utf-8')).hexdigest())
-    print("new content hash " + hashlib.sha256(str(newContentBytes).encode('utf-8')).hexdigest())
-    '''
-    for i, c in enumerate(newContent):
-      if c != oldContent[i]:
-        changedContent = newContent[i:]
-        break
-    '''
-    diff = difflib.ndiff(oldContentString, newContentString)
-    delta = ''.join(x[2:] for x in diff if x.startswith('+ '))
-    print("whats new")
-    print(delta)
-    os.system('espeak -v de ' + '"' + delta.replace('\n','').replace('"','').replace('-','') +  '"&')
-    #os.system('spd-say ' + '"' + delta.replace('\n','') + '"')
+    
+    diff = difflib.ndiff(runtime['oldContentText'], runtime['newContentText'])
+    runtime['delta'] = ''.join(x[2:] for x in diff if x.startswith('+ '))
+    
+    #print(runtime['delta'])
+    #runtime['speechDriver'].speak(runtime['delta'])
 
-    oldContentBytes = newContentBytes
-    oldContentString = newContentString
+    runtime['oldContentBytes'] = runtime['newContentBytes']
+    runtime['oldContentText'] = runtime['newContentText']
+    runtime['oldContentTextAttrib'] = runtime['newContentAttrib']
 
