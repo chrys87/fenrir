@@ -13,7 +13,7 @@ runtime = {
 'running':True,
 'columns': 0,
 'lines': 0,
-'screenDriver': '/dev/vcsa3',
+'screenDriver': '/dev/vcsa',
 'delta': '',
 'oldCursor':{'x':0,'y':0},
 'oldContentBytes': b'',
@@ -23,15 +23,25 @@ runtime = {
 'newContentBytes': b'',
 'newContentText': '',
 'newContentAttrib': b'',
+'oldTTY':'0',
+'newTTY':'0',
 'speechDriverString':'sd',
 'speechDriver': sd.speech()
 }
 
 while(runtime['running']):
   # read screen
-  vcsa = open(runtime['screenDriver'],'rb')
-  runtime['newContentBytes'] = vcsa.read()
-  vcsa.close()
+  currTTY = open('/sys/devices/virtual/tty/tty0/active','r')
+  runtime['newTTY'] = currTTY.read()[3:-1]
+  currTTY.close()
+  runtime['newTTY'] = '3'
+  try:
+    vcsa = open(runtime['screenDriver'] + runtime['newTTY'] ,'rb')
+    runtime['newContentBytes'] = vcsa.read()
+    vcsa.close()
+  except:
+    print(runtime['screenDriver'] + runtime['newTTY'])
+    continue
 
   # get metadata like cursor or screensize
   runtime['lines'] = int( runtime['newContentBytes'][0])
@@ -43,7 +53,13 @@ while(runtime['running']):
   runtime['newContentText'] = str(runtime['newContentBytes'][4:][::2].decode('cp1252').encode('utf-8'))
   runtime['newContentAttrib'] = runtime['newContentBytes'][5:][::2]
   runtime['newContentText'] = '\n'.join(textwrap.wrap(runtime['newContentText'], runtime['columns'])) 
-  
+  if runtime['newTTY'] != runtime['oldTTY']:
+    runtime['oldContentBytes'] = b''
+    runtime['oldContentAttrib'] = b''
+    runtime['oldContentText'] = ''
+    runtime['oldCursor']['x'] = 0
+    runtime['oldCursor']['y'] = 0
+
   # changes on the screen
   if runtime['oldContentBytes'] != runtime['newContentBytes']:
     if len(runtime['delta']) < 3:
@@ -62,4 +78,4 @@ while(runtime['running']):
     runtime['oldContentTextAttrib'] = runtime['newContentAttrib']
     runtime['oldCursor']['x'] = runtime['newCursor']['x']
     runtime['oldCursor']['y'] = runtime['newCursor']['y']
-
+    runtime['oldTTY'] = runtime['newTTY']

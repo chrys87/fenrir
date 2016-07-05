@@ -63,7 +63,7 @@ class speech():
         if not self.isInitialized:
             return False
         try:
-            self.sd..set_output_module(module)
+            self.sd.set_output_module(module)
             return True
         except:
             return False
