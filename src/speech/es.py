@@ -3,14 +3,14 @@
 # Espeak driver
 
 class speech():
-    def __init__():
+    def __init__(self):
         pass
 
-    def start_speech(text, queueable=True):
-        if queueable == False: stop_speech()
+    def speak(text, queueable=True):
+        if queueable == False: self.stop()
 
-    def stop_speech():
+    def stop(self):
         pass
 
-    def clear_speech_buffer():
+    def clear_buffer(self):
         pass
