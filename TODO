@@ -13,3 +13,4 @@ http://mielke.cc/brltty/doc/Manual-BrlAPI/English/BrlAPI.html
 
 - threading ReadContent, ReadShortcuts, executeCommands, listenNewTTYsForListen, controllThread (main)
 - debugging
+- Settings (make it configureable)
