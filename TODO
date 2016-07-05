@@ -2,6 +2,8 @@
 http://python-evdev.readthedocs.io/en/latest/tutorial.html
 
 - detect all TTYs where users are logged in (maybe PAM notification)
+http://serverfault.com/questions/306854/how-to-find-out-the-currently-active-linux-virtual-terminal-while-connected-via
+
 - detect collumns in TTYs automaticaly. 
 it seems we have this info in vcsa
 
