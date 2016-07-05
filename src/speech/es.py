@@ -46,5 +46,9 @@ class speech():
         if not self.isInitialized:
             return False
         return es.set_parameter(espeak.Parameter.Rate, speed) 
+
+    def setModule(self, module):
+        pass
+
     def shutdown(self):
         pass

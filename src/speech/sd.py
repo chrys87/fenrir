@@ -59,6 +59,16 @@ class speech():
         except:
             return False
 
+    def setModule(self, module):
+        if not self.isInitialized:
+            return False
+        try:
+            self.sd..set_output_module(module)
+            return True
+        except:
+            return False
+
+
     def shutdown(self):
         self.cancel()
         self.sd.close()

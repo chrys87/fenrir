@@ -48,8 +48,9 @@ while(runtime['running']):
   if runtime['oldContentBytes'] != runtime['newContentBytes']:
     if len(runtime['delta']) < 3:
       runtime['speechDriver'].cancel()
+    print(len(runtime['delta']))
     print("tty3 changed")
-    
+    print(runtime['delta'])    
     diff = difflib.ndiff(runtime['oldContentText'], runtime['newContentText'])
     runtime['delta'] = ''.join(x[2:] for x in diff if x.startswith('+ '))
     
