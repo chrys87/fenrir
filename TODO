@@ -1,29 +1,15 @@
 - Input and shortcuts
 http://python-evdev.readthedocs.io/en/latest/tutorial.html
+http://stackoverflow.com/questions/12384772/how-can-i-capture-mouseevents-and-keyevents-using-python-in-background-on-linux
 
-- detect all TTYs where users are logged in (maybe PAM notification)
+- autodetect current TTY maybe with (PAM or a sys folder)
+cat /sys/devices/virtual/tty/tty0/active 
 http://serverfault.com/questions/306854/how-to-find-out-the-currently-active-linux-virtual-terminal-while-connected-via
-
-- detect collumns in TTYs automaticaly. 
-it seems we have this info in vcsa
-
-- move from VCS to VCSA and parese the Attributes
-http://linux.die.net/man/4/vcsa
-http://man.cx/vcsa(4)/de
-http://manpages.org/display-vcsa/7
-https://en.wikipedia.org/wiki/Virtual_console
-every second byte is a attribute others are text. fast way: c[::2],c[1::2]
-http://manpages.ubuntu.com/manpages/precise/de/man4/vcs.4.html
-https://docs.python.org/3/library/fcntl.html
-http://rodrigorivas.serveblog.net/en/imagenes-desde-vt-con-vcsa/
 
 - implement command structure (next_[line,word,char], prev_[line,word,char], and others
 - implement braille
 http://mielke.cc/brltty/doc/Manual-BrlAPI/English/BrlAPI.html
 https://git.gnome.org/browse/orca/tree/src/orca/braille.py
-
-- implement speechdriver espeak
-https://github.com/relsi/python-espeak
 
 - implement speechdriver speechd
 https://git.gnome.org/browse/orca/tree/src/orca/speech.py
@@ -39,4 +25,23 @@ http://devel.freebsoft.org/doc/speechd/speech-dispatcher.html#Client-Programming
 https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/sect-Managing_Services_with_systemd-Unit_Files.html
 
 - translateable
+
+-------------DONE--------------------------------
+-- move from VCS to VCSA and parese the Attributes
+http://linux.die.net/man/4/vcsa
+http://man.cx/vcsa(4)/de
+http://manpages.org/display-vcsa/7
+https://en.wikipedia.org/wiki/Virtual_console
+every second byte is a attribute others are text. fast way: c[::2],c[1::2]
+http://manpages.ubuntu.com/manpages/precise/de/man4/vcs.4.html
+https://docs.python.org/3/library/fcntl.html
+http://rodrigorivas.serveblog.net/en/imagenes-desde-vt-con-vcsa/
+
+- implement speechdriver espeak
+https://github.com/relsi/python-espeak
+
+- detect collumns in TTYs automaticaly. 
+it seems we have this info in vcsa
+
+- get current cursor
 
