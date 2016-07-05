@@ -2,7 +2,9 @@
 http://python-evdev.readthedocs.io/en/latest/tutorial.html
 
 - detect all TTYs where users are logged in (maybe PAM notification)
-- detect collumns in TTYs automaticaly.
+- detect collumns in TTYs automaticaly. 
+it seems we have this info in vcsa
+
 - move from VCS to VCSA and parese the Attributes
 http://linux.die.net/man/4/vcsa
 http://man.cx/vcsa(4)/de
