@@ -11,6 +11,8 @@ http://man.cx/vcsa(4)/de
 http://manpages.org/display-vcsa/7
 https://en.wikipedia.org/wiki/Virtual_console
 every second byte is a attribute others are text. fast way: c[::2],c[1::2]
+http://manpages.ubuntu.com/manpages/precise/de/man4/vcs.4.html
+https://docs.python.org/3/library/fcntl.html
 
 - implement command structure (next_[line,word,char], prev_[line,word,char], and others
 - implement braille
