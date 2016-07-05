@@ -6,7 +6,11 @@ class speech():
     isInitialized = False
     
     def __init__(self):
-        pass
+        try:
+            pass
+            isInitialized = True
+        except:
+            initialized = False
 
     def speak(text, queueable=True):
         if queueable == False: self.stop()
