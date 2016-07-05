@@ -12,6 +12,7 @@ https://en.wikipedia.org/wiki/Virtual_console
 - implement command structure (next_[line,word,char], prev_[line,word,char], and others
 - implement braille
 http://mielke.cc/brltty/doc/Manual-BrlAPI/English/BrlAPI.html
+https://git.gnome.org/browse/orca/tree/src/orca/braille.py
 
 - implement speechdriver espeak
 https://github.com/relsi/python-espeak
