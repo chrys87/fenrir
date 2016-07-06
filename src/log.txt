@@ -1,0 +1,637 @@
+shared memfd open() failed: Function not implemented
+shared memfd open() failed: Function not implemented
+0
+tty3 changed
+
+b"The Razor's edge
+A large bulletin board is hovering above the ground here.
+[Exits: east south west up down ]*
+Tux's Room
+[Exits: south ]*
+(friend) Grimreaper has entered the game.
+The Razor's edge
+A large bulletin board is hovering above the ground here.
+[Exits: east south west up down ]*
+The Forest
+[Exits: east west ]*
+Welcome to the jungle, we got fun and games
+[Exits: east ]*
+The Forest
+[Exits: east west ]*
+The Razor's edge
+A large bulletin board is hovering above the ground here.
+[Exits: east south west up down ]*
+Tux's Room
+[Exits: south ]*
+(friend) Lilmike posted: woooo!
+
+586
+tty3 changed
+b"The Razor's edge
+A large bulletin board is hovering above the ground here.
+[Exits: east south west up down ]*
+Tux's Room
+[Exits: south ]*
+(friend) Grimreaper has entered the game.
+The Razor's edge
+A large bulletin board is hovering above the ground here.
+[Exits: east south west up down ]*
+The Forest
+[Exits: east west ]*
+Welcome to the jungle, we got fun and games
+[Exits: east ]*
+The Forest
+[Exits: east west ]*
+The Razor's edge
+A large bulletin board is hovering above the ground here.
+[Exits: east south west up down ]*
+Tux's Room
+[Exits: south ]*
+(friend) Lilmike posted: woooo!
+
+a
+
+2
+tty3 changed
+a
+
+
+0
+tty3 changed
+
+The Razor's edge
+
+17
+tty3 changed
+The Razor's edge
+
+A large bulletin board is hovering above the ground here.
+[Exits: east south west up down ]*
+
+93
+tty3 changed
+A large bulletin board is hovering above the ground here.
+[Exits: east south west up down ]*
+
+The Forest
+
+11
+tty3 changed
+The Forest
+
+
+0
+tty3 changed
+
+[Exits: east west ]*
+
+21
+tty3 changed
+[Exits: east west ]*
+
+The Razor's edge
+A large bulletin board is hovering above the ground here.
+[Exits: east south west up down ]*
+The Forest
+[Exits: east west ]*
+Welcome to the jungle, we got fun and games
+[Exits: east ]*
+The Forest
+[Exits: east west ]*
+The Razor's edge
+A large bulletin board is hovering above the ground here.
+[Exits: east south west up down ]*
+Tux's Room
+[Exits: south ]*
+Llik o:woooo!
+TRzor's edge
+A large bulletin board is hovering above the ground her[Exits: east south west up down ]*
+The Forest
+[Exits: east west ]*
+
+521
+tty3 changed
+The Razor's edge
+A large bulletin board is hovering above the ground here.
+[Exits: east south west up down ]*
+The Forest
+[Exits: east west ]*
+Welcome to the jungle, we got fun and games
+[Exits: east ]*
+The Forest
+[Exits: east west ]*
+The Razor's edge
+A large bulletin board is hovering above the ground here.
+[Exits: east south west up down ]*
+Tux's Room
+[Exits: south ]*
+Llik o:woooo!
+TRzor's edge
+A large bulletin board is hovering above the ground her[Exits: east south west up down ]*
+The Forest
+[Exits: east west ]*
+
+A large bulletin board is hovering above the ground here.
+[Exits: east south west up down ]*
+
+93
+tty3 changed
+A large bulletin board is hovering above the ground here.
+[Exits: east south west up down ]*
+
+Tux's Room
+
+11
+tty3 changed
+Tux's Room
+
+
+0
+tty3 changed
+
+[Exits: south ]*
+
+17
+tty3 changed
+[Exits: south ]*
+
+The Razor's edge
+
+17
+tty3 changed
+The Razor's edge
+
+A large bulletin board is hovering above the ground here.
+
+58
+tty3 changed
+A large bulletin board is hovering above the ground here.
+
+[Exits: east south west up down ]*
+
+35
+tty3 changed
+[Exits: east south west up down ]*
+
+The Forest
+
+11
+tty3 changed
+The Forest
+
+
+0
+tty3 changed
+
+[Exits: east west ]*
+
+21
+tty3 changed
+[Exits: east west ]*
+
+Welcome to the jungle, we got fun and games
+
+44
+tty3 changed
+Welcome to the jungle, we got fun and games
+
+
+0
+tty3 changed
+
+[Exits: east ]*
+
+16
+tty3 changed
+[Exits: east ]*
+
+
+0
+tty3 changed
+
+Alas, you cannot go that way.
+
+30
+tty3 changed
+Alas, you cannot go that way.
+
+The Forest
+
+11
+tty3 changed
+The Forest
+
+
+0
+tty3 changed
+
+[Exits: east west ]*
+
+21
+tty3 changed
+[Exits: east west ]*
+
+The Razor's edge
+
+17
+tty3 changed
+The Razor's edge
+
+A large bulletin board is hovering above the ground here.
+
+58
+tty3 changed
+A large bulletin board is hovering above the ground here.
+
+[Exits: east south west up down ]*
+
+35
+tty3 changed
+[Exits: east south west up down ]*
+
+The Swamp
+
+10
+tty3 changed
+The Swamp
+
+
+0
+tty3 changed
+
+[Exits: east west ]
+
+20
+tty3 changed
+[Exits: east west ]
+
+Alas, you cannot go that way.
+
+30
+tty3 changed
+Alas, you cannot go that way.
+
+An Icy Wasteland
+
+17
+tty3 changed
+An Icy Wasteland
+
+[Exits: south west ]
+
+21
+tty3 changed
+[Exits: south west ]
+
+The Swamp
+
+10
+tty3 changed
+The Swamp
+
+
+0
+tty3 changed
+
+[Exits: east west ]*
+
+21
+tty3 changed
+[Exits: east west ]*
+
+
+0
+tty3 changed
+
+The Razor's edge
+
+17
+tty3 changed
+The Razor's edge
+
+A large bulletin board is hovering above the ground here.
+[Exits: east south west up down ]*
+
+93
+tty3 changed
+A large bulletin board is hovering above the ground here.
+[Exits: east south west up down ]*
+
+Tux's Room
+
+11
+tty3 changed
+Tux's Room
+
+
+0
+tty3 changed
+
+[Exits: south ]*
+
+17
+tty3 changed
+[Exits: south ]*
+
+(friend) Mailens was killed by an assistant smith!
+
+51
+tty3 changed
+(friend) Mailens was killed by an assistant smith!
+
+%w
+
+3
+tty3 changed
+%w
+
+
+0
+tty3 changed
+
+%w
+
+3
+tty3 changed
+%w
+
+mail read 3
+11
+tty3 changed
+mail read 3
+(auction) Starting bid on 'a moa egg' at 1 gold.
+48
+tty3 changed
+(auction) Starting bid on 'a moa egg' at 1 gold.
+(auction) New bid: 1 gold coins for 'a moa egg'.
+
+49
+tty3 changed
+(auction) New bid: 1 gold coins for 'a moa egg'.
+
+%w
+
+3
+tty3 changed
+%w
+
+
+0
+tty3 changed
+
+l
+
+2
+tty3 changed
+l
+
+
+0
+tty3 changed
+
+Tux's Room
+
+11
+tty3 changed
+Tux's Room
+
+[Exits: south ]*
+
+17
+tty3 changed
+[Exits: south ]*
+
+(auction) New bid: 21 gold coins for 'a moa egg'.
+
+50
+tty3 changed
+(auction) New bid: 21 gold coins for 'a moa egg'.
+
+%
+
+2
+tty3 changed
+%
+
+w
+1
+tty3 changed
+w
+
+0
+tty3 changed
+
+TSwmp]
+Alas, yo cannot go that way.
+An Icy Wasteland
+[Exits: south west ]
+The Swam
+[Exits:east estRzor's edge
+A large bulletin board is hovering above the ground here.ouh west up down*Tx' Room*
+(friend) Mailens was killed by an assistant smith!
+mail read 3(auction) Starting bid on 'a moa egg' at 1 gold.
+(auction) New bid: 1 gold coins for 'a moa egg'.
+lux'sRooouhPlayers listening to channel 'cowsay' are:
+tux             eassa           findrato        bodmall        *wily
+ignotus         samon           lilmike         teros           dentin
+
+548
+tty3 changed
+TSwmp]
+Alas, yo cannot go that way.
+An Icy Wasteland
+[Exits: south west ]
+The Swam
+[Exits:east estRzor's edge
+A large bulletin board is hovering above the ground here.ouh west up down*Tx' Room*
+(friend) Mailens was killed by an assistant smith!
+mail read 3(auction) Starting bid on 'a moa egg' at 1 gold.
+(auction) New bid: 1 gold coins for 'a moa egg'.
+lux'sRooouhPlayers listening to channel 'cowsay' are:
+tux             eassa           findrato        bodmall        *wily
+ignotus         samon           lilmike         teros           dentin
+
+         i
+10
+tty3 changed
+         i
+it
+
+3
+tty3 changed
+it
+
+
+0
+tty3 changed
+
+ i
+2
+tty3 changed
+ i
+s
+1
+tty3 changed
+s
+
+0
+tty3 changed
+
+ r
+2
+tty3 changed
+ r
+ea
+2
+tty3 changed
+ea
+d
+1
+tty3 changed
+d
+i
+1
+tty3 changed
+i
+n
+1
+tty3 changed
+n
+g
+1
+tty3 changed
+g
+
+0
+tty3 changed
+
+ t
+2
+tty3 changed
+ t
+h
+1
+tty3 changed
+h
+e
+1
+tty3 changed
+e
+
+0
+tty3 changed
+
+ w
+2
+tty3 changed
+ w
+h
+1
+tty3 changed
+h
+o
+1
+tty3 changed
+o
+l
+1
+tty3 changed
+l
+e
+1
+tty3 changed
+e
+
+0
+tty3 changed
+
+ s
+2
+tty3 changed
+ s
+c
+1
+tty3 changed
+c
+r
+1
+tty3 changed
+r
+e
+1
+tty3 changed
+e
+e
+1
+tty3 changed
+e
+n
+1
+tty3 changed
+n
+
+0
+tty3 changed
+
+ h
+2
+tty3 changed
+ h
+e
+1
+tty3 changed
+e
+r
+1
+tty3 changed
+r
+e
+1
+tty3 changed
+e
+What items do you want to search for in your inventory?
+
+56
+tty3 changed
+What items do you want to search for in your inventory?
+
+Alas, you cannot go that way.
+An Icy Wasteland
+ouhT Swmpea*Rzor's edge
+A large bulletin board is hovering above the ground here.ouh west up downux'sm
+(friend) Mailens was killed by an assistant smith!
+mail read 3(auction) Starting bid on 'a moa egg' at 1 gold.
+(auction) New bid: 1 gold coins for 'a moa egg'.
+l'a moa egg', going once for 21 gold.
+
+348
+tty3 changed
+Alas, you cannot go that way.
+An Icy Wasteland
+ouhT Swmpea*Rzor's edge
+A large bulletin board is hovering above the ground here.ouh west up downux'sm
+(friend) Mailens was killed by an assistant smith!
+mail read 3(auction) Starting bid on 'a moa egg' at 1 gold.
+(auction) New bid: 1 gold coins for 'a moa egg'.
+l'a moa egg', going once for 21 gold.
+
+'a moa egg', going twice for 21 gold.
+
+38
+tty3 changed
+'a moa egg', going twice for 21 gold.
+
+(auction) 'a moa egg' sold for 21 gold coins.
+
+Traceback (most recent call last):
+  File "./fenrir.py", line 55, in <module>
+    runtime['newContentText'] = '\n'.join(textwrap.wrap(runtime['newContentText'], runtime['columns']))[:-1] 
+  File "/usr/lib/python3.5/textwrap.py", line 380, in wrap
+    return w.wrap(text)
+  File "/usr/lib/python3.5/textwrap.py", line 352, in wrap
+    chunks = self._split_chunks(text)
+  File "/usr/lib/python3.5/textwrap.py", line 339, in _split_chunks
+    return self._split(text)
+  File "/usr/lib/python3.5/textwrap.py", line 177, in _split
+    chunks = self.wordsep_re.split(text)
+KeyboardInterrupt
