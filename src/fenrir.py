@@ -25,8 +25,8 @@ runtime = {
 'newContentAttrib': b'',
 'oldTTY':'0',
 'newTTY':'0',
-'speechDriverString':'sd',
-'speechDriver': sd.speech()
+'speechDriverString':'es',
+'speechDriver': es.speech()
 }
 
 while(runtime['running']):
