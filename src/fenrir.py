@@ -6,6 +6,9 @@
 import hashlib
 import difflib
 import textwrap
+from subprocess import Popen, PIPE
+
+import utils.debug
 import speech.es as es
 import speech.sd as sd
 
@@ -34,13 +37,16 @@ while(runtime['running']):
   currTTY = open('/sys/devices/virtual/tty/tty0/active','r')
   runtime['newTTY'] = currTTY.read()[3:-1]
   currTTY.close()
-  runtime['newTTY'] = '3'
+  p = Popen("fgconsole", stdout=PIPE, stderr=PIPE, shell=True)
+  runtime['newTTY'], stderr = p.communicate()
+  runtime['newTTY'] = str(int(runtime['newTTY']))
+  #runtime['newTTY'] = str(currTTY)
   try:
     vcsa = open(runtime['screenDriver'] + runtime['newTTY'] ,'rb')
     runtime['newContentBytes'] = vcsa.read()
     vcsa.close()
   except:
-    print(runtime['screenDriver'] + runtime['newTTY'])
+    print('Nope' + runtime['screenDriver'] + runtime['newTTY'])
     continue
 
   # get metadata like cursor or screensize
