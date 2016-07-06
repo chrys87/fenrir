@@ -1,21 +1,49 @@
 #!/usr/bin/python
 
 # Debugger module for the Fenrir screen reader.
+ERROR = 0
+WARNING = 1
+INFO = 2
 
 class debug():
-    def __init__(self, level=0i, debugFile=/var/log/fenrir.log)
-        self.debugLevel = level
+    def __init__(self,  fileName='/var/log/fenrir.log', level = ERROR):
+        self._level = level
+        self._fileName= fileName
+        self._file = open(self._fileName,'w')
+        self._fileOpened = True
 
-    def get_debug_level():
-        return debugLevel
+    def openDebugFile(self, fileName = ''):
+        if fileName != '':
+            self._fileName = fileName
+        if self._fileName != '':
+            self.file = open(self._fileName,'w')
+            self._fileOpened = True
 
-    def set_debug_level(level):
-        debugLevel = level
+    def writeLog(self, text, level = ERROR):
+        if not self._fileOpened:
+            return False
+        if self._level < level:
+            return False
+        self._file.write(text + '\n')
+        return True
 
-def get_debug_file():
-        return debugFile
+    def closeDebugFile(self):
+        if not self._fileOpened:
+            return False
+        self._file.close()
+        self._fileOpened = False
+        return True
+        
+    def getDebugLevel(self):
+        return self._level
 
-    def set_debug_file(file):
-        debugFile = file
+    def setDebugLevel(self, level):
+        self._level = level
+
+    def getDebugFile(self):
+        return self._fileName
+
+    def setDebugFile(self, fileName):
+        self._fileName = fileName
 
 
