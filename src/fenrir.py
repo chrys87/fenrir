@@ -7,7 +7,7 @@ import hashlib
 import difflib
 import textwrap
 import speech.es as es
-#import speech.sd as sd
+import speech.sd as sd
 
 runtime = {
 'running':True,
@@ -25,8 +25,8 @@ runtime = {
 'newContentAttrib': b'',
 'oldTTY':'0',
 'newTTY':'0',
-'speechDriverString':'es',
-'speechDriver': es.speech()
+'speechDriverString':'sd',
+'speechDriver': sd.speech()
 }
 
 while(runtime['running']):
