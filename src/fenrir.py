@@ -52,7 +52,7 @@ while(runtime['running']):
   # analyze content
   runtime['newContentText'] = str(runtime['newContentBytes'][4:][::2].decode('cp1252').encode('utf-8'))
   runtime['newContentAttrib'] = runtime['newContentBytes'][5:][::2]
-  runtime['newContentText'] = '\n'.join(textwrap.wrap(runtime['newContentText'], runtime['columns'])) 
+  runtime['newContentText'] = '\n'.join(textwrap.wrap(runtime['newContentText'], runtime['columns']))[:-1] 
   if runtime['newTTY'] != runtime['oldTTY']:
     runtime['oldContentBytes'] = b''
     runtime['oldContentAttrib'] = b''
@@ -69,7 +69,7 @@ while(runtime['running']):
     print(runtime['delta'])    
     diff = difflib.ndiff(runtime['oldContentText'], runtime['newContentText'])
     runtime['delta'] = ''.join(x[2:] for x in diff if x.startswith('+ '))
-    
+    print(runtime['delta']) 
     runtime['speechDriver'].speak(runtime['delta'])
 
     # set new "old" values
