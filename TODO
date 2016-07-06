@@ -1,6 +1,8 @@
 - Input and shortcuts
 http://python-evdev.readthedocs.io/en/latest/tutorial.html
 http://stackoverflow.com/questions/12384772/how-can-i-capture-mouseevents-and-keyevents-using-python-in-background-on-linux
+maybe TTY in RAW MODE
+https://docs.python.org/2/library/termios.html
 
 - autodetect current TTY maybe with (PAM or a sys folder)
 cat /sys/devices/virtual/tty/tty0/active 
