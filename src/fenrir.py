@@ -9,8 +9,8 @@ import textwrap
 from subprocess import Popen, PIPE
 
 import utils.debug
-import speech.es as es
-import speech.sd as sd
+import speech.espeak as es
+import speech.speechd as sd
 
 runtime = {
 'running':True,
@@ -28,7 +28,7 @@ runtime = {
 'newContentAttrib': b'',
 'oldTTY':'0',
 'newTTY':'0',
-'speechDriverString':'es',
+'speechDriverString':'speechd',
 'speechDriver': sd.speech()
 }
 
