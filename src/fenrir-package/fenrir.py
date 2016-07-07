@@ -23,6 +23,7 @@ class fenrir():
     def __init__(self):
         self.threadUpdateScreen = None
         self.threadHandleInput = None
+        self.threadHandleCommandQueue = None
         self.runtime = environment.runtime
         self.runtime['inputManager'] = inputManager.inputManager()
         if DEBUG:
@@ -41,8 +42,10 @@ class fenrir():
     def proceed(self):
         self.threadUpdateScreen = Thread(target=self.updateScreen, args=())
         self.threadHandleInput = Thread(target=self.handleInput, args=())
+        self.threadCommandQueue = Thread(target=self.handleCommandQueue, args=())
         self.threadUpdateScreen.start()
         self.threadHandleInput.start()
+        self.threadCommandQueue.start()
         while(self.runtime['running']):
             time.sleep(2)
         self.shutdown()
@@ -54,6 +57,10 @@ class fenrir():
     def updateScreen(self):
         while(self.runtime['running']):
             self.runtime = self.runtime['screenDriver'].analyzeScreen(self.runtime)
+
+    def handleCommandQueue(self):
+        while(self.runtime['running']):
+            self.runtime = self.runtime # command queue here
 
     def shutdown(self):
         self.threadUpdateScreen.stop()
