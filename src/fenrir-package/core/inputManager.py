@@ -21,4 +21,4 @@ class inputManager():
             for event in self.devices[fd].read():
                 if event.type == evdev.ecodes.EV_KEY:
                     print(evdev.categorize(event))
-
+        return runtime
