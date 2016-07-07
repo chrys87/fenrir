@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 # Debugger module for the Fenrir screen reader.
+
 ERROR = 0
 WARNING = 1
 INFO = 2
