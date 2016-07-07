@@ -39,7 +39,9 @@ class fenrir():
     def proceed(self):
         while(self.runtime['running']):
             self.runtime = self.runtime['screenDriver'].analyzeScreen(self.runtime)
-            self.runtime['inputManager'].getKeyPressed(self.runtime)
+#            self.runtime = self.runtime['inputManager'].getKeyPressed(self.runtime)
+        self.shutdown()
+
     def shutdown(self):
         pass 
 
