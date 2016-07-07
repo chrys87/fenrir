@@ -23,3 +23,7 @@ runtime = {
 'soundDriverString': '',
 'soundDriver': None,
 }
+
+settings = {
+
+}
