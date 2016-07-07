@@ -1,23 +1,19 @@
+ToDos in Priority order:
 - Input and shortcuts
 http://python-evdev.readthedocs.io/en/latest/tutorial.html
 http://stackoverflow.com/questions/12384772/how-can-i-capture-mouseevents-and-keyevents-using-python-in-background-on-linux
 maybe TTY in RAW MODE
 https://docs.python.org/2/library/termios.html
 
-- autodetect current TTY maybe with (PAM or a sys folder)
-cat /sys/devices/virtual/tty/tty0/active 
-http://serverfault.com/questions/306854/how-to-find-out-the-currently-active-linux-virtual-terminal-while-connected-via
-
 - implement command structure (next_[line,word,char], prev_[line,word,char], and others
+- threading ReadContent, ReadShortcuts, executeCommands, listenNewTTYsForListen, controllThread (main)
+- Settings (make it configureable)
+- beeps (sound Icons)
 - implement braille
 http://mielke.cc/brltty/doc/Manual-BrlAPI/English/BrlAPI.html
 https://git.gnome.org/browse/orca/tree/src/orca/braille.py
 
 - implement speechdriver generic (say)
-- threading ReadContent, ReadShortcuts, executeCommands, listenNewTTYsForListen, controllThread (main)
-- debugging
-- Settings (make it configureable)
-- beeps (sound Icons)
 - autostart systemd
 https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/sect-Managing_Services_with_systemd-Unit_Files.html
 
@@ -47,4 +43,8 @@ https://git.gnome.org/browse/orca/tree/src/orca/speech.py
 https://git.gnome.org/browse/orca/tree/src/orca/speechdispatcherfactory.py
 http://devel.freebsoft.org/doc/speechd/speech-dispatcher.html#Client-Programming
 
+- autodetect current TTY maybe with (PAM or a sys folder)
+cat /sys/devices/virtual/tty/tty0/active 
+http://serverfault.com/questions/306854/how-to-find-out-the-currently-active-linux-virtual-terminal-while-connected-via
 
+- debugging
