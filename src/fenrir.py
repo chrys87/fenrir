@@ -29,7 +29,7 @@ runtime = {
 'oldTTY':'0',
 'newTTY':'0',
 'speechDriverString':'es',
-'speechDriver': es.speech()
+'speechDriver': sd.speech()
 }
 
 while(runtime['running']):
@@ -67,7 +67,7 @@ while(runtime['running']):
 
   # changes on the screen
   if runtime['oldContentBytes'] != runtime['newContentBytes']:
-    if len(runtime['delta']) < 3:
+    if ((len(runtime['delta']) < 3) or runtime['oldTTY'] != runtime['newTTY']):
       runtime['speechDriver'].cancel()
     diff = difflib.ndiff(runtime['oldContentText'], runtime['newContentText'])
     runtime['delta'] = ''.join(x[2:] for x in diff if x.startswith('+ '))
