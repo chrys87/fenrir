@@ -6,43 +6,27 @@
 import hashlib
 import difflib
 import textwrap
+import time
 from subprocess import Popen, PIPE
 
 import utils.debug
+import core.environment as environment
 import speech.espeak as es
 import speech.speechd as sd
 
-runtime = {
-'running':True,
-'columns': 0,
-'lines': 0,
-'screenDriver': '/dev/vcsa',
-'delta': '',
-'oldCursor':{'x':0,'y':0},
-'oldContentBytes': b'',
-'oldContentText': '',
-'oldContentAttrib': b'',
-'newCursor':{'x':0,'y':0},
-'newContentBytes': b'',
-'newContentText': '',
-'newContentAttrib': b'',
-'oldTTY':'0',
-'newTTY':'0',
-'speechDriverString':'speechd',
-'speechDriver': sd.speech()
-}
+runtime = environment.runtime
+runtime['screenDriver'] = '/dev/vcsa'
+runtime['speechDriverString'] = 'speechd'
+runtime['speechDriver'] = sd.speech()
 
 while(runtime['running']):
   # read screen
   currTTY = open('/sys/devices/virtual/tty/tty0/active','r')
   runtime['newTTY'] = currTTY.read()[3:-1]
-  currTTY.close()
-  p = Popen("fgconsole", stdout=PIPE, stderr=PIPE, shell=True)
-  runtime['newTTY'], stderr = p.communicate()
-  runtime['newTTY'] = str(int(runtime['newTTY']))
-  #runtime['newTTY'] = str(currTTY)
+  currTTY.close() 
+
   try:
-    vcsa = open(runtime['screenDriver'] + runtime['newTTY'] ,'rb')
+    vcsa = open(runtime['screenDriver'] + runtime['newTTY'] ,'rb',0)
     runtime['newContentBytes'] = vcsa.read()
     vcsa.close()
   except:
@@ -55,9 +39,12 @@ while(runtime['running']):
   runtime['newCursor']['y'] = int( runtime['newContentBytes'][3])
 
   # analyze content
-  runtime['newContentText'] = str(runtime['newContentBytes'][4:][::2].decode('cp1252').encode('utf-8'))
+
+  runtime['newContentText'] = str(runtime['newContentBytes'][4:][::2].decode('cp1252').encode('utf-8'))[2:-1]
   runtime['newContentAttrib'] = runtime['newContentBytes'][5:][::2]
-  runtime['newContentText'] = '\n'.join(textwrap.wrap(runtime['newContentText'], runtime['columns']))[:-1] 
+  runtime['newContentText'] = '\n'.join(textwrap.wrap(runtime['newContentText'], runtime['columns']))[:-1]
+  print("|"+runtime['newContentText'] +"|")
+  print(runtime['newTTY'])
   if runtime['newTTY'] != runtime['oldTTY']:
     runtime['oldContentBytes'] = b''
     runtime['oldContentAttrib'] = b''
