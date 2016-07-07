@@ -1,25 +1,44 @@
+# Screen Reader Turned On or Off
 ScreenReaderOn=''
 ScreenReaderOff=''
-Abbording=''
+# Cancel the current command
+Cancel=''
+# Accept command
 Accept=''
+# Bell a sound if the TTY is changed (ctrl + alt +FX)
 ChangeTTY=''
+# Is the first Position on the Screen
 StartOfLine=''
+# Is the last position of the Line
 EndOfLine=''
+# the Line is empty
 EmptyLine=''
+# Is the first line on the screen.
 StartOfScreen=''
+# Is the last line on the screen
 EndOfScreen=''
+# The content has changed
 ContentChanged=''
+# Speech has turned On or Off
 SpeechOn=''
 SpeechOff=''
+# Braille has turned On or Off
 BrailleOn=''
 BrailleOff=''
+# SoundIcons has turned On or Off
 SoundIconsOn=''
 SoundIconsOff=''
+# Set beginnig mark for copy to clipboard
 PlaceStartCopyMark=''
+# Set end mark for copy to clipboard
 PlaceEndCopyMark=''
+# Copied to clipboard
 CopyToClipboard=''
+# Pasted on the screen
 PasedClipboardOnScreen=''
+# An error accoured while speech or braille output or reading the screen
 ErrorSpeech=''
 ErrorBraille=''
 ErrorScreen=''
+# I if you cursor over an text that has attributs (like color)
 HasAttributes=''
