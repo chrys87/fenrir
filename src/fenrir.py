@@ -39,9 +39,9 @@ while(runtime['running']):
 
     # analyze content
 
-    runtime['newContentText'] = str(runtime['newContentBytes'][4:][::2].decode('cp1252').encode('utf-8'))[2:-1]
+    runtime['newContentText'] = str(runtime['newContentBytes'][4:][::2].decode('cp1252').encode('utf-8'))[2:]
     runtime['newContentAttrib'] = runtime['newContentBytes'][5:][::2]
-    runtime['newContentText'] = '\n'.join(textwrap.wrap(runtime['newContentText'], runtime['columns']))[:-1]
+    runtime['newContentText'] = '\n'.join(textwrap.wrap(runtime['newContentText'], runtime['columns']))[:-2]
     print("|"+runtime['newContentText'] +"|")
     print(runtime['newTTY'])
     if runtime['newTTY'] != runtime['oldTTY']:
