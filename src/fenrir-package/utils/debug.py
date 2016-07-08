@@ -22,20 +22,20 @@ class debug():
             self.file = open(self._fileName,'w')
             self._fileOpened = True
 
-    def writeDebugOut(self, envirionment, text):
-        if not envirionment['generalInformation']['debugEnabled']:
+    def writeDebugOut(self, envirionment, text, level=ERROR):
+        if envirionment['generalInformation']['debugLevel']:
             if self._fileOpened:
                 self.closeDebugFile()
             return
         else:
             if not self._fileOpened:
                 self.openDebugFile()
-            self.writeLog(environment, text):
+            self.writeLog(environment, text, level):
 
-    def writeLog(self, environment, text):
-        if not self._fileOpened:
-            return False
+    def writeLog(self, environment, text, level:
         if self._level < envirionment['generalInformation']['debugLevel']:
+            return False
+        if not self._fileOpened:
             return False
         self._file.write(text + '\n')
         return True
