@@ -1,8 +1,10 @@
 #!/bin/python
 
+from utils import debug
+
 settings = {
 'speechDriverString':'speechd',
 'screenDriverString': 'linux',
 'soundDriverString': 'sox',
-'debugLevel': 0,
+'debugLevel': debug.debugLevel.DEACTIVE
 }
