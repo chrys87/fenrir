@@ -27,6 +27,9 @@ class speech():
         self._es.cancel()
         return True
 
+    def setCallback(self, callback)
+        pass
+
     def clear_buffer(self):
         if not self._isInitialized:
             return False
