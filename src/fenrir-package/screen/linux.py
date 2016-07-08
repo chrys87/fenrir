@@ -20,7 +20,7 @@ class screenManager():
             environment['screenData']['newContentBytes'] = vcsa.read()
             vcsa.close()
         except:
-            return runtime
+            return environment
 
         # get metadata like cursor or screensize
         environment['screenData']['lines'] = int( environment['screenData']['newContentBytes'][0])

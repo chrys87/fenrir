@@ -6,6 +6,8 @@ from core import bindings
 from core import runtime
 from core import screenData
 from core import generalInformation
+from core import commands
+from core import input
 
 environment = {
 'screenData': screenData.screenData,
@@ -13,6 +15,9 @@ environment = {
 'generalInformation': generalInformation.generalInformation,
 'settings': settings.settings,
 'bindings': bindings.bindings,
+'commands': commands.commands,
+'input': input.input,
+'commandInfo': commands.commandInfo,
 'soundIcons': soundIcons.soundIcons,
 'autospeak': ['speak_delta']
 }

@@ -11,6 +11,7 @@ if not os.getcwd() in sys.path:
 from threading import Thread
 from core import environment 
 from core import inputManager
+from core import commandManager
 from utils import debug
 
 from speech import espeak as es
@@ -24,6 +25,7 @@ class fenrir():
         self.threadHandleCommandQueue = None
         self.environment = environment.environment
         self.environment['runtime']['inputManager'] = inputManager.inputManager()
+        self.environment['runtime']['commandManager'] = commandManager.commandManager()
         self.environment['runtime']['debug'] = debug.debug()
         signal.signal(signal.SIGINT, self.captureSignal)
 
@@ -34,10 +36,10 @@ class fenrir():
     def proceed(self):
         self.threadUpdateScreen = Thread(target=self.updateScreen, args=())
         self.threadHandleInput = Thread(target=self.handleInput, args=())
-        self.threadCommandQueue = Thread(target=self.handleCommandQueue, args=())
+        self.threadCommands = Thread(target=self.handleCommands, args=())
         self.threadUpdateScreen.start()
         self.threadHandleInput.start()
-        self.threadCommandQueue.start()
+        self.threadCommands.start()
         while(self.environment['generalInformation']['running']):
             time.sleep(0.2)
         self.shutdown()
@@ -45,14 +47,21 @@ class fenrir():
     def handleInput(self):
         while(self.environment['generalInformation']['running']):
             self.environment = self.environment['runtime']['inputManager'].getKeyPressed(self.environment)
+            if self.environment['input']['currShortcutString'] == '':
+                self.environment['commandInfo']['currCommand'] = ''
 
     def updateScreen(self):
         while(self.environment['generalInformation']['running']):
             self.environment = self.environment['runtime']['screenDriver'].analyzeScreen(self.environment)
 
-    def handleCommandQueue(self):
+    def handleCommands(self):
         while(self.environment['generalInformation']['running']):
-            self.environment = self.environment # command queue here
+            self.environment = self.environment['runtime']['commandManager'].getCommandForShortcut(self.environment)
+            #self.environment['input']['currShortcut'] = {} 
+            #self.environment['input']['currShortcutString'] = ''
+            if self.environment['input']['currShortcutString'] != '':
+                self.environment = self.environment['runtime']['commandManager'].executeCommand(self.environment)
+                time.sleep(0.5)
 
     def shutdown(self):
         self.environment['generalInformation']['running'] = False
