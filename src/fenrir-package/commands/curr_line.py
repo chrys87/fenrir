@@ -8,8 +8,6 @@ class command():
         if environment['screenData']['newContentText'].replace(" ","") == '':
             environment['runtime']['speechDriver'].speak("empty screen")
         else:
-            print(environment['screenData']['newCursor'])
-            print(environment['screenData']['newContentText'].split('\n'))
             environment['runtime']['speechDriver'].speak(environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursor']['y']])
     def setCallback(self, callback):
         pass
