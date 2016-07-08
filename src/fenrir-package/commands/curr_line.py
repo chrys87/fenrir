@@ -5,9 +5,14 @@ class command():
         pass
     def run(self, environment):
         print('fire')
-        #print(environment['screenData']['newContentText'])i
-        print(environment['screenData']['newCursor']['x'])
-        environment['runtime']['speechDriver'].speak(environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursor']['x']-1])
+        #print(environment)
+        environment['runtime']['speechDriver'].cancel()
+        if environment['screenData']['newContentText'].replace(" ","") == '':
+            environment['runtime']['speechDriver'].speak("empty screen")
+        else:
+            print(environment['screenData']['newCursor'])
+            print(environment['screenData']['newContentText'].split('\n'))
+            environment['runtime']['speechDriver'].speak(environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursor']['y']])
     def setCallback(self, callback):
         pass
     def shutdown(self):

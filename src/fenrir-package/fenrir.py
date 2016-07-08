@@ -1,4 +1,5 @@
 #!/bin/python
+# -*- coding: utf-8 -*-
 
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
@@ -58,8 +59,7 @@ class fenrir():
         while(self.environment['generalInformation']['running']):
             self.environment = self.environment['runtime']['commandManager'].getCommandForShortcut(self.environment)
             #self.environment['input']['currShortcut'] = {} 
-            #self.environment['input']['currShortcutString'] = ''
-            if self.environment['input']['currShortcutString'] != '':
+            if self.environment['commandInfo']['currCommand'] != '':
                 self.environment = self.environment['runtime']['commandManager'].executeCommand(self.environment)
                 time.sleep(0.5)
 
