@@ -8,8 +8,6 @@ from core import screenData
 from core import generalInformation
 
 environment = {
-'running':True,
-
 'columns': 0,
 'lines': 0,
 'delta': '',
