@@ -2,7 +2,11 @@ ToDos in Priority order:
 
 https://docs.python.org/2/library/termios.html
 - shortcut handling
-- implement command structure (next_[line,word,char], prev_[line,word,char], and others
+http://stackoverflow.com/questions/287757/pythons-configparser-unique-keys-per-section
+0=down, 1=press, 2=hold
+say_line = 2KEY_SHIFT, 1KEY_A
+- implement command structure
+- implement commands  (next_[line,word,char], prev_[line,word,char], and others
 - Settings (make it configureable)
 - beeps (sound Icons)
 - implement braille
