@@ -2,13 +2,14 @@
 
 # Debugger module for the Fenrir screen reader.
 
-DEACTIVE = 0
-ERROR = 1
-WARNING = 2
-INFO = 3
+class debugLevel(Enum):
+    DEACTIVE = 0
+    ERROR = 1
+    WARNING = 2
+    INFO = 3
 
 class debug():
-    def __init__(self,  fileName='/var/log/fenrir.log', level = DEACTIVE):
+    def __init__(self,  fileName='/var/log/fenrir.log', level = debugLevel.DEACTIVE):
         self._level = level
         self._fileName = fileName
         self._file = ''
@@ -22,7 +23,7 @@ class debug():
             self.file = open(self._fileName,'w')
             self._fileOpened = True
 
-    def writeDebugOut(self, envirionment, text, level = DEACTIVE):
+    def writeDebugOut(self, envirionment, text, level = debugLevel.DEACTIVE):
         if envirionment['settings']['debugLevel'] < level:
             if self._fileOpened:
                 self.closeDebugFile()
