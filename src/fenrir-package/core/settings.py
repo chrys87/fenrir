@@ -4,4 +4,5 @@ settings = {
 'speechDriverString':'speechd',
 'screenDriverString': 'linux',
 'soundDriverString': 'sox',
+'debugLevel': 0,
 }
