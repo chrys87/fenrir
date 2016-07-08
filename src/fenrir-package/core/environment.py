@@ -3,8 +3,11 @@
 from core import settings
 from core import soundIcons
 from core import bindings
+from core import runtime
+from core import screenData
+from core import generalInformation
 
-runtime = {
+environment = {
 'running':True,
 'debug':None,
 'columns': 0,
