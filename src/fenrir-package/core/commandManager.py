@@ -8,7 +8,12 @@ class commandManager():
     def executeCommand(self, environment):
         print(environment['commandInfo']['currCommand'])
         if self.isCommandDefined(environment):
-            environment['commands'][environment['commandInfo']['currCommand']].run(environment)
+            try:
+                environ =  environment['commands'][environment['commandInfo']['currCommand']].run(environment)
+                if environ != None:
+                    environment = environ
+            exept: 
+                pass
         environment['commandInfo']['currCommand'] = ''
         return environment
         
