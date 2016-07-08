@@ -24,17 +24,15 @@ class fenrir():
         self.threadUpdateScreen = None
         self.threadHandleInput = None
         self.threadHandleCommandQueue = None
-        self.runtime = environment.runtime
-        self.runtime['inputManager'] = inputManager.inputManager()
+        self.environment = environment.environment
+        self.environment['runtime']['inputManager'] = inputManager.inputManager()
         if DEBUG:
-            self.runtime['debug'] = debug.debug()
+            self.environment['runtime']['debug'] = debug.debug()
         signal.signal(signal.SIGINT, self.captureSignal)
 
         # the following hard coded, in future we have a config loader
-        self.runtime['speechDriverString'] = 'speechd'
-        self.runtime['speechDriver'] = sd.speech()
-        self.runtime['screenDriverString'] = 'linux'
-        self.runtime['screenDriver'] = lx.screenManager()
+        self.environment['runtime']['speechDriver'] = sd.speech()
+        self.environment['runtime']['screenDriver'] = lx.screenManager()
 
     def proceed(self):
         self.threadUpdateScreen = Thread(target=self.updateScreen, args=())
@@ -43,28 +41,28 @@ class fenrir():
         self.threadUpdateScreen.start()
         self.threadHandleInput.start()
         self.threadCommandQueue.start()
-        while(self.runtime['running']):
+        while(self.environment['generalInformation']['running']):
             time.sleep(2)
         self.shutdown()
 
     def handleInput(self):
-        while(self.runtime['running']):
-            self.runtime = self.runtime['inputManager'].getKeyPressed(self.runtime)
+        while(self.environment['generalInformation']['running']):
+            self.environment = self.environment['runtime']['inputManager'].getKeyPressed(self.environment)
 
     def updateScreen(self):
-        while(self.runtime['running']):
-            self.runtime = self.runtime['screenDriver'].analyzeScreen(self.runtime)
+        while(self.environment['generalInformation']['running']):
+            self.environment = self.environment['runtime']['screenDriver'].analyzeScreen(self.environment)
 
     def handleCommandQueue(self):
-        while(self.runtime['running']):
-            self.runtime = self.runtime # command queue here
+        while(self.environment['generalInformation']['running']):
+            self.environment = self.environment # command queue here
 
     def shutdown(self):
-        self.runtime['running'] = False
-        if self.runtime['speechDriver'] != None:
-            self.runtime['speechDriver'].shutdown()
-        if self.runtime['debug'] != None:
-            self.runtime['debug'].closeDebugFile()
+        self.environment['generalInformation']['running'] = False
+        if self.environment['runtime']['speechDriver'] != None:
+            self.environment['runtime']['speechDriver'].shutdown()
+        if self.environment['runtime']['debug'] != None:
+            self.environment['runtime']['debug'].closeDebugFile()
 
     def captureSignal(self, siginit, frame):
         self.shutdown()
