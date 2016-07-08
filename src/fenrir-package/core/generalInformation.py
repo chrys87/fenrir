@@ -1,5 +1,6 @@
 #!/bin/python
 
 generalInformation = {
-'running':True,
+'running': True,
+'debugLevel': 0
 }
