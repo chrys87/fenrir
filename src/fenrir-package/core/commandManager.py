@@ -12,7 +12,7 @@ class commandManager():
                 environ =  environment['commands'][environment['commandInfo']['currCommand']].run(environment)
                 if environ != None:
                     environment = environ
-            execpt: 
+            except: 
                 pass
         environment['commandInfo']['currCommand'] = ''
         return environment
