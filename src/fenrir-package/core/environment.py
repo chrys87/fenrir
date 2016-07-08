@@ -1,10 +1,12 @@
 #!/bin/python
 
 settings = {
-
 }
 
 soundIcons = {
+}
+
+bindings = {
 }
 
 runtime = {
@@ -31,7 +33,7 @@ runtime = {
 'soundDriver': None,
 'inputManager': None,
 'settings' = settings,
-'bindings' = {},
-'autospeak' = [],
-'soundIcons' = {}
+'bindings' = bindings,
+'autospeak' = ['speak_delta'],
+'soundIcons' = soundIcons
 }
