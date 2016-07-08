@@ -27,8 +27,8 @@ runtime = {
 'soundDriverString': '',
 'soundDriver': None,
 'inputManager': None,
-'settings' = settings,
-'bindings' = bindings,
+'settings' = settings.settings,
+'bindings' = bindings.bindings,
+'soundIcons' = soundIcons.soundIcons,
 'autospeak' = ['speak_delta'],
-'soundIcons' = soundIcons
 }
