@@ -8,11 +8,11 @@ from core import screenData
 from core import generalInformation
 
 environment = {
-'screenData' = screenData.screenData,
-'runtime' = runtime.runtime,
-'generalInformation' = generalInformation.generalInformation,
-'settings' = settings.settings,
-'bindings' = bindings.bindings,
-'soundIcons' = soundIcons.soundIcons,
-'autospeak' = ['speak_delta']
+'screenData': screenData.screenData,
+'runtime': runtime.runtime,
+'generalInformation': generalInformation.generalInformation,
+'settings': settings.settings,
+'bindings': bindings.bindings,
+'soundIcons': soundIcons.soundIcons,
+'autospeak': ['speak_delta']
 }

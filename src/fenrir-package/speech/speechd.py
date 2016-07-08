@@ -27,7 +27,7 @@ class speech():
         self._sd.cancel()
         return True
 
-    def setCallback(self, callback)
+    def setCallback(self, callback):
         pass
     
     def clear_buffer(self):
@@ -71,7 +71,10 @@ class speech():
         except:
             return False
 
-
     def shutdown(self):
+        if not self._isInitialized:
+            return False
+        self._isInitialized = False
         self.cancel()
         self._sd.close()
+        return True

@@ -12,7 +12,7 @@ class screenManager():
     def analyzeScreen(self, environment):
         # read screen
         currTTY = open('/sys/devices/virtual/tty/tty0/active','r')
-        runtime['newTTY'] = currTTY.read()[3:-1]
+        environment['screenData']['newTTY'] = currTTY.read()[3:-1]
         currTTY.close() 
         
         try:
@@ -44,7 +44,7 @@ class screenManager():
         if environment['screenData']['oldContentBytes'] != environment['screenData']['newContentBytes']:
             if ((len(environment['screenData']['delta']) < 4) or environment['screenData']['oldTTY'] != environment['screenData']['newTTY']):
                 environment['runtime']['speechDriver'].cancel()
-            diff = difflib.ndiff(runtime['oldContentText'], environment['screenData']['newContentText'])
+            diff = difflib.ndiff(environment['screenData']['oldContentText'], environment['screenData']['newContentText'])
             environment['screenData']['delta'] = ''.join(x[2:] for x in diff if x.startswith('+ '))
             environment['runtime']['speechDriver'].speak(environment['screenData']['delta'])
 

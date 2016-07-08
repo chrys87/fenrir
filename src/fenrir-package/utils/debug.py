@@ -1,6 +1,7 @@
 #!/usr/bin/python
-
 # Debugger module for the Fenrir screen reader.
+
+from enum import Enum
 
 class debugLevel(Enum):
     DEACTIVE = 0
@@ -31,9 +32,9 @@ class debug():
         else:
             if not self._fileOpened:
                 self.openDebugFile()
-            self.writeLog(environment, text, level):
+            self.writeLog(environment, text, level)
 
-    def writeLog(self, environment, text, level:
+    def writeLog(self, environment, text, level = debugLevel.DEACTIVE):
         if envirionment['settings']['debugLevel'] < level:
             return False
         if not self._fileOpened:
@@ -54,7 +55,7 @@ class debug():
     def setDebugFile(self, fileName):
         self.closeDebugFile()
         if self._fileOpened:
-           self.openDebugFile(self, fileName):
+           self.openDebugFile(self, fileName)
 
 
 

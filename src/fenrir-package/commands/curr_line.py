@@ -5,7 +5,7 @@ class command():
         pass
     def run(self, environment):
         pass
-    def setCallback(self, callback)
+    def setCallback(self, callback):
         pass
     def shutdown(self):
         pass

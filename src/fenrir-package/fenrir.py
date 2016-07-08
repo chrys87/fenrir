@@ -39,7 +39,7 @@ class fenrir():
         self.threadHandleInput.start()
         self.threadCommandQueue.start()
         while(self.environment['generalInformation']['running']):
-            time.sleep(2)
+            time.sleep(0.2)
         self.shutdown()
 
     def handleInput(self):

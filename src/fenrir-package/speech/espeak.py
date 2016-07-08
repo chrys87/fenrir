@@ -27,7 +27,7 @@ class speech():
         self._es.cancel()
         return True
 
-    def setCallback(self, callback)
+    def setCallback(self, callback):
         pass
 
     def clear_buffer(self):
