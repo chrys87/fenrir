@@ -4,8 +4,6 @@ class command():
     def __init__(self):
         pass
     def run(self, environment):
-        print('fire')
-        #print(environment)
         environment['runtime']['speechDriver'].cancel()
         if environment['screenData']['newContentText'].replace(" ","") == '':
             environment['runtime']['speechDriver'].speak("empty screen")
