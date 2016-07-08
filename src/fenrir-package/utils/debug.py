@@ -8,7 +8,7 @@ WARNING = 2
 INFO = 3
 
 class debug():
-    def __init__(self,  fileName='/var/log/fenrir.log', level = ERROR):
+    def __init__(self,  fileName='/var/log/fenrir.log', level = DEACTIVE):
         self._level = level
         self._fileName = fileName
         self._file = ''
@@ -22,8 +22,8 @@ class debug():
             self.file = open(self._fileName,'w')
             self._fileOpened = True
 
-    def writeDebugOut(self, envirionment, text, level=ERROR):
-        if envirionment['generalInformation']['debugLevel']:
+    def writeDebugOut(self, envirionment, text, level = DEACTIVE):
+        if self._level < level:
             if self._fileOpened:
                 self.closeDebugFile()
             return
@@ -33,7 +33,7 @@ class debug():
             self.writeLog(environment, text, level):
 
     def writeLog(self, environment, text, level:
-        if self._level < envirionment['generalInformation']['debugLevel']:
+        if self._level < level:
             return False
         if not self._fileOpened:
             return False
