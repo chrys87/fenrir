@@ -1,13 +1,8 @@
 #!/bin/python
 
-settings = {
-}
-
-soundIcons = {
-}
-
-bindings = {
-}
+from core import settings
+from core import soundIcons
+from core import bindings
 
 runtime = {
 'running':True,
