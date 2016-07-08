@@ -3,7 +3,7 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-import os, sys, time
+import os, sys, time, signal
 
 DEBUG = False
 
@@ -32,7 +32,8 @@ class fenrir():
         self.bindings = {}
         self.autospeak = []
         self.soundIcons = {}
-        
+        signal.signal(signal.SIGINT, self.captureSignal)
+
         # the following hard coded, in future we have a config loader
         self.runtime['speechDriverString'] = 'speechd'
         self.runtime['speechDriver'] = sd.speech()
@@ -63,8 +64,14 @@ class fenrir():
             self.runtime = self.runtime # command queue here
 
     def shutdown(self):
-        self.threadUpdateScreen.stop()
-        self.threadHandleInput.stop()
+        self.runtime['running'] = False
+        if self.runtime['speechDriver'] != None:
+            self.runtime['speechDriver'].shutdown()
+        if self.runtime['debug'] != None:
+            self.runtime['debug'].closeDebugFile()
+
+    def captureSignal(self, siginit, frame):
+        self.shutdown()
 
 app = fenrir()
 app.proceed()
