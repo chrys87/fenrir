@@ -23,7 +23,7 @@ class debug():
             self._fileOpened = True
 
     def writeDebugOut(self, envirionment, text, level = DEACTIVE):
-        if self._level < level:
+        if envirionment['settings']['debugLevel'] < level:
             if self._fileOpened:
                 self.closeDebugFile()
             return
@@ -33,7 +33,7 @@ class debug():
             self.writeLog(environment, text, level):
 
     def writeLog(self, environment, text, level:
-        if self._level < level:
+        if envirionment['settings']['debugLevel'] < level:
             return False
         if not self._fileOpened:
             return False
@@ -46,12 +46,6 @@ class debug():
         self._file.close()
         self._fileOpened = False
         return True
-        
-    def getDebugLevel(self):
-        return self._level
-
-    def setDebugLevel(self, level):
-        self._level = level
 
     def getDebugFile(self):
         return self._fileName
