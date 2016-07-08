@@ -28,10 +28,6 @@ class fenrir():
         self.runtime['inputManager'] = inputManager.inputManager()
         if DEBUG:
             self.runtime['debug'] = debug.debug()
-        self.settings = environment.settings
-        self.bindings = {}
-        self.autospeak = []
-        self.soundIcons = {}
         signal.signal(signal.SIGINT, self.captureSignal)
 
         # the following hard coded, in future we have a config loader
