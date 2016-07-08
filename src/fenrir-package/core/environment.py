@@ -9,7 +9,7 @@ from core import generalInformation
 
 environment = {
 'running':True,
-'debug':None,
+
 'columns': 0,
 'lines': 0,
 'delta': '',
@@ -23,15 +23,11 @@ environment = {
 'newContentAttrib': b'',
 'oldTTY':'-1', #to get shure that the first loop is a chagne
 'newTTY':'0',
-'speechDriverString':'',
-'speechDriver': None,
-'screenDriverString': '',
-'screenDriver': None,
-'soundDriverString': '',
-'soundDriver': None,
-'inputManager': None,
+'screenData' = screenData.screenData,
+'runtime' = runtime.runtime,
+'generalInformation' = generalInformation.generalInformation,
 'settings' = settings.settings,
 'bindings' = bindings.bindings,
 'soundIcons' = soundIcons.soundIcons,
-'autospeak' = ['speak_delta'],
+'autospeak' = ['speak_delta']
 }
