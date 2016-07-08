@@ -5,8 +5,6 @@
 
 import os, sys, time, signal
 
-DEBUG = False
-
 if not os.getcwd() in sys.path:
     sys.path.append(os.getcwd())
 
@@ -26,8 +24,7 @@ class fenrir():
         self.threadHandleCommandQueue = None
         self.environment = environment.environment
         self.environment['runtime']['inputManager'] = inputManager.inputManager()
-        if DEBUG:
-            self.environment['runtime']['debug'] = debug.debug()
+        self.environment['runtime']['debug'] = debug.debug()
         signal.signal(signal.SIGINT, self.captureSignal)
 
         # the following hard coded, in future we have a config loader
@@ -63,6 +60,8 @@ class fenrir():
             self.environment['runtime']['speechDriver'].shutdown()
         if self.environment['runtime']['debug'] != None:
             self.environment['runtime']['debug'].closeDebugFile()
+        if self.environment['runtime']['soundDriver'] != None:
+            self.environment['runtime']['soundDriver'].shutdown()
 
     def captureSignal(self, siginit, frame):
         self.shutdown()
