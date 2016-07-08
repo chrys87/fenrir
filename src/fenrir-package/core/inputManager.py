@@ -10,15 +10,15 @@ class inputManager():
         self.devices = {dev.fd: dev for dev in self.devices}
         for dev in self.devices.values(): print(dev)
 
-    def getShortcutCommand(self, runtime, shortcuts):
+    def getShortcutCommand(self, environment, shortcuts):
         if not shortcuts:
             return ''
         return ''
 
-    def getKeyPressed(self, runtime):
+    def getKeyPressed(self, environment):
         r, w, x = select(self.devices, [], [])
         for fd in r:
             for event in self.devices[fd].read():
                 if event.type == evdev.ecodes.EV_KEY:
                     print(evdev.categorize(event))
-        return runtime
+        return environment
