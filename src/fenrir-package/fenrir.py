@@ -27,6 +27,7 @@ class fenrir():
         self.environment = environment.environment
         self.environment['runtime']['inputManager'] = inputManager.inputManager()
         self.environment['runtime']['commandManager'] = commandManager.commandManager()
+        self.environment = self.environment['runtime']['commandManager'].loadCommands(self.environment)
         self.environment['runtime']['debug'] = debug.debug()
         signal.signal(signal.SIGINT, self.captureSignal)
 

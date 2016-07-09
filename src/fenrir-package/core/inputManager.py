@@ -8,7 +8,7 @@ class inputManager():
     def __init__(self):
         self.devices = map(evdev.InputDevice, (evdev.list_devices()))
         self.devices = {dev.fd: dev for dev in self.devices}
-        for dev in self.devices.values(): print(dev)
+        #for dev in self.devices.values(): print(dev)
 
     def getKeyPressed(self, environment):
         r, w, x = select(self.devices, [], [])
