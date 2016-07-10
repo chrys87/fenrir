@@ -27,11 +27,11 @@ class commandManager():
 
     def executeCommand(self, environment, currCommand, section = 'commands'):
         if self.isCommandDefined(environment):
-            #try:
-            environ =  environment['commands'][section][currCommand].run(environment)
-            if environ != None:
-                environment = environ
-            #except: 
+            try:
+                environ =  environment['commands'][section][currCommand].run(environment)
+                if environ != None:
+                    environment = environ
+            except: 
                 pass
         environment['commandInfo']['currCommand'] = ''
         return environment

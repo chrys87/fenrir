@@ -10,7 +10,8 @@ import re
 class screenManager():
     def __init__(self, device='/dev/vcsa'):
         self.vcsaDevicePath = device
-
+        self.textWrapper = textwrap.TextWrapper()
+        self.textWrapper.drop_whitespace = False
     def analyzeScreen(self, environment):
         # read screen
         currTTY = open('/sys/devices/virtual/tty/tty0/active','r')
@@ -36,10 +37,12 @@ class screenManager():
         environment['screenData']['newContentText'] = str(environment['screenData']['newContentBytes'][4:][::2].decode('WINDOWS-1250'))
         #environment['screenData']['newContentText'] = str(environment['screenData']['newContentBytes'][4:][::2].decode('cp1252')).encode('utf-8')[2:]
         environment['screenData']['newContentAttrib'] = environment['screenData']['newContentBytes'][5:][::2]
-        #environment['screenData']['newContentText'] = '\n'.join(textwrap.wrap(environment['screenData']['newContentText'], environment['screenData']['columns']))[:-2]
-        environment['screenData']['newContentText'] =  re.sub("(.{"+ str(environment['screenData']['columns'])+"})", "\\1\n", str(environment['screenData']['newContentText']), 0, re.DOTALL)
+#        environment['screenData']['newContentText'] = '\n'.join(textwrap.wrap(environment['screenData']['newContentText'], environment['screenData']['columns']))[:-2]
+        #environment['screenData']['newContentText'] =  re.sub("(.{"+ str(environment['screenData']['columns'])+"})", "\\1\n", str(environment['screenData']['newContentText']), 0, re.DOTALL)
+        environment['screenData']['newContentText'] = '\n'.join(self.textWrapper.wrap(environment['screenData']['newContentText'], ))[:-2]
 
         if environment['screenData']['newTTY'] != environment['screenData']['oldTTY']:
+            self.textWrapper.width = environment['screenData']['columns']
             environment['screenData']['oldContentBytes'] = b''
             environment['screenData']['oldContentAttrib'] = b''
             environment['screenData']['oldContentText'] = ''

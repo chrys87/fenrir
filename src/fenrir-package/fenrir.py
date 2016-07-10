@@ -41,30 +41,37 @@ class fenrir():
         self.threadUpdateScreen = Thread(target=self.updateScreen, args=())
         self.threadHandleInput = Thread(target=self.handleInput, args=())
         self.threadCommands = Thread(target=self.handleCommands, args=())
-        self.threadUpdateScreen.start()
-        self.threadHandleInput.start()
-        self.threadCommands.start()
+        #self.threadUpdateScreen.start()
+        #self.threadHandleInput.start()
+        #self.threadCommands.start()
         while(self.environment['generalInformation']['running']):
-            time.sleep(0.2)
+            #starttime = time.time()
+            #time.sleep(0.2)
+            self.updateScreen()
+            self.handleInput()
+            self.handleCommands()
+            #print(time.time() -starttime)
         self.shutdown()
 
     def handleInput(self):
-        while(self.environment['generalInformation']['running']):
-            self.environment = self.environment['runtime']['inputManager'].getKeyPressed(self.environment)
-            if self.environment['input']['currShortcutString'] == '':
-                self.environment['commandInfo']['currCommand'] = ''
+        #while(self.environment['generalInformation']['running']):
+        self.environment = self.environment['runtime']['inputManager'].getKeyPressed(self.environment)
+        #if self.environment['input']['currShortcutString'] == '':
+        #    self.environment['commandInfo']['currCommand'] = ''
 
     def updateScreen(self):
-        while(self.environment['generalInformation']['running']):
-            self.environment = self.environment['runtime']['screenDriver'].analyzeScreen(self.environment)
+        #while(self.environment['generalInformation']['running']):
+        self.environment = self.environment['runtime']['screenDriver'].analyzeScreen(self.environment)
 
     def handleCommands(self):
-        while(self.environment['generalInformation']['running']):
-            self.environment = self.environment['runtime']['commandManager'].getCommandForShortcut(self.environment)
-            #self.environment['input']['currShortcut'] = {} 
-            if self.environment['commandInfo']['currCommand'] != '':
-                self.environment = self.environment['runtime']['commandManager'].executeCommand(self.environment, self.environment['commandInfo']['currCommand'], 'commands')
-                time.sleep(0.5)
+        #while(self.environment['generalInformation']['running']):
+        self.environment = self.environment['runtime']['commandManager'].getCommandForShortcut(self.environment)
+        #self.environment['input']['currShortcut'] = {} 
+        print( self.environment['commandInfo']['currCommand'] )
+        if (self.environment['commandInfo']['currCommand'] != '') and \
+          (time.time() - self.environment['commandInfo']['lastCommandTime'] >= 0.4):
+            self.environment = self.environment['runtime']['commandManager'].executeCommand(self.environment, self.environment['commandInfo']['currCommand'], 'commands')
+            #time.sleep(0.5)
 
     def shutdown(self):
         self.environment['generalInformation']['running'] = False

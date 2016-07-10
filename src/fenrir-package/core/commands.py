@@ -1,10 +1,10 @@
 #!/bin/python
-#from commands import curr_line
-#from commands import shut_up
+import time
 
 commandInfo = {
 'currCommand': '',
-'commandCueue':[]
+'commandCueue':[],
+'lastCommandTime': time.time()
 }
 
 commands = {
