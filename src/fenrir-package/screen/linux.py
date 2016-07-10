@@ -52,7 +52,7 @@ class screenManager():
         # changes on the screen
         if (environment['screenData']['oldContentText'] != environment['screenData']['newContentText']) and \
           (len(environment['screenData']['newContentText']) > 0):
-            diff = difflib.ndiff(environment['screenData']['oldContentText'], environment['screenData']['newContentText'])
+            diff = difflib.ndiff(" ".join(environment['screenData']['oldContentText'].split()), " ".join(environment['screenData']['newContentText'].split()))
             environment['screenData']['delta'] = ''.join(x[2:] for x in diff if x.startswith('+ '))
             if ((len(environment['screenData']['delta']) < 3)):
                 environment['runtime']['speechDriver'].cancel()
