@@ -22,7 +22,6 @@ class inputManager():
                         del(currShortcut[str(event.code)])
         environment['input']['currShortcut'] = currShortcut
         environment['input']['currShortcutString'] = self.getShortcutString(environment)
-        print(environment['input']['currShortcutString'])
         return environment
 
     def getShortcutString(self, environment):
@@ -72,18 +71,14 @@ class inputManager():
                     break
                 else:
                     currShortcut.append(key[0] + '-' + str(keyInt))
-            print(currShortcut)
             if validKeyString:
                 keyString = ''
                 for k in sorted(currShortcut):
                     if keyString != '':
                         keyString += ','
                     keyString += k
-                print(keyString)
-                print(commandString)
                 environment['bindings'][keyString] = commandString
         kbConfig.close()
-        print(environment['bindings'])        
         return environment
 
     def getCodeForKeyID(self, keyID):
