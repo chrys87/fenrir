@@ -21,6 +21,8 @@ class screenManager():
             vcsa = open(self.vcsaDevicePath + environment['screenData']['newTTY'] ,'rb',0)
             environment['screenData']['newContentBytes'] = vcsa.read()
             vcsa.close()
+            if len(environment['screenData']['newContentBytes']) < 5:
+                return environment
         except:
             return environment
 
@@ -43,11 +45,19 @@ class screenManager():
             environment['screenData']['oldContentText'] = ''
             environment['screenData']['oldCursor']['x'] = 0
             environment['screenData']['oldCursor']['y'] = 0
-
+            environment['runtime']['speechDriver'].cancel()
+        print('runs')
         # changes on the screen
-        if environment['screenData']['oldContentBytes'] != environment['screenData']['newContentBytes']:
+        if (environment['screenData']['oldContentText'] != environment['screenData']['newContentText']) and \
+          (len(environment['screenData']['newContentText']) > 0):
+            print('runs1')
             diff = difflib.ndiff(environment['screenData']['oldContentText'], environment['screenData']['newContentText'])
+            print('runs2')
+            print(environment['screenData']['oldContentText'])
+            print(environment['screenData']['newContentText'])
             environment['screenData']['delta'] = ''.join(x[2:] for x in diff if x.startswith('+ '))
+            print(environment['screenData']['delta'])
+            print('______________________________________')            
             if ((len(environment['screenData']['delta']) < 3)):
                 environment['runtime']['speechDriver'].cancel()
             environment['runtime']['speechDriver'].speak(environment['screenData']['delta'])
