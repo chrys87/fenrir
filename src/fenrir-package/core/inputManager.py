@@ -34,7 +34,7 @@ class inputManager():
         currShortcutStringList = sorted(currShortcutStringList)
         return str(currShortcutStringList)[1:-1].replace(" ","").replace("'","")
 
-    def loadShortcuts(self, environment, kbConfigPath='/home/chrys/Projekte/fenrir/fenrir/config/keyboard/desktop.kb'):
+    def loadShortcuts(self, environment, kbConfigPath='../../config/keyboard/desktop.kb'):
         kbConfig = open(kbConfigPath,"r")
         while(True):
             line = kbConfig.readline()
