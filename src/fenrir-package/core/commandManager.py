@@ -6,8 +6,9 @@ import os
 class commandManager():
     def __init__(self):
         pass
-    def loadCommands(self, environment):
-        commandFolder = "commands/"
+
+    def loadCommands(self, environment, section='commands'):
+        commandFolder = "commands/" + section +"/"
         commandList = glob.glob(commandFolder+'*')
         for currCommand in commandList:
             try:
@@ -15,24 +16,22 @@ class commandManager():
                 fileName = fileName.split('/')[-1]
                 if fileName in ['__init__','__pycache__']:
                     continue
-                print(fileName)
-                if fileExtension.lower() == 'py':
+                if fileExtension.lower() == '.py':
                     spec = importlib.util.spec_from_file_location(fileName, currCommand)
                     command_mod = importlib.util.module_from_spec(spec)
                     spec.loader.exec_module(command_mod)
-                    environment['commands']['fileName'] = command_mod()
+                    environment['commands'][section][fileName] = command_mod.command()
             except:
                 continue
         return environment
 
-    def executeCommand(self, environment):
-        print(environment['commandInfo']['currCommand'])
+    def executeCommand(self, environment, currCommand, section = 'commands'):
         if self.isCommandDefined(environment):
-            try:
-                environ =  environment['commands'][environment['commandInfo']['currCommand']].run(environment)
-                if environ != None:
-                    environment = environ
-            except: 
+            #try:
+            environ =  environment['commands'][section][currCommand].run(environment)
+            if environ != None:
+                environment = environ
+            #except: 
                 pass
         environment['commandInfo']['currCommand'] = ''
         return environment
@@ -49,7 +48,7 @@ class commandManager():
         return environment
 
     def isCommandDefined(self, environment):
-        return( environment['commandInfo']['currCommand'] in environment['commands'])
+        return( environment['commandInfo']['currCommand'] in environment['commands']['commands'])
 
     def enqueueCommand(self, environment):
         if not self.isCommandDefined(environment):

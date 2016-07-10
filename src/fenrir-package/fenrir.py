@@ -27,10 +27,11 @@ class fenrir():
         self.environment = environment.environment
         self.environment['runtime']['inputManager'] = inputManager.inputManager()
         self.environment['runtime']['commandManager'] = commandManager.commandManager()
-        self.environment = self.environment['runtime']['commandManager'].loadCommands(self.environment)
+        self.environment = self.environment['runtime']['commandManager'].loadCommands(self.environment,'commands')
+        self.environment = self.environment['runtime']['commandManager'].loadCommands(self.environment,'onInput')
+        self.environment = self.environment['runtime']['commandManager'].loadCommands(self.environment,'onScreenChanged')
         self.environment['runtime']['debug'] = debug.debug()
         signal.signal(signal.SIGINT, self.captureSignal)
-
         # the following hard coded, in future we have a config loader
         self.environment['runtime']['speechDriver'] = sd.speech()
         self.environment['runtime']['screenDriver'] = lx.screenManager()
@@ -61,7 +62,7 @@ class fenrir():
             self.environment = self.environment['runtime']['commandManager'].getCommandForShortcut(self.environment)
             #self.environment['input']['currShortcut'] = {} 
             if self.environment['commandInfo']['currCommand'] != '':
-                self.environment = self.environment['runtime']['commandManager'].executeCommand(self.environment)
+                self.environment = self.environment['runtime']['commandManager'].executeCommand(self.environment, self.environment['commandInfo']['currCommand'], 'commands')
                 time.sleep(0.5)
 
     def shutdown(self):

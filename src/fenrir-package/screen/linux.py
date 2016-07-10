@@ -46,10 +46,10 @@ class screenManager():
 
         # changes on the screen
         if environment['screenData']['oldContentBytes'] != environment['screenData']['newContentBytes']:
-            if ((len(environment['screenData']['delta']) < 4) or environment['screenData']['oldTTY'] != environment['screenData']['newTTY']):
-                environment['runtime']['speechDriver'].cancel()
             diff = difflib.ndiff(environment['screenData']['oldContentText'], environment['screenData']['newContentText'])
             environment['screenData']['delta'] = ''.join(x[2:] for x in diff if x.startswith('+ '))
+            if ((len(environment['screenData']['delta']) < 3)):
+                environment['runtime']['speechDriver'].cancel()
             environment['runtime']['speechDriver'].speak(environment['screenData']['delta'])
             # set new "old" values
             environment['screenData']['oldContentBytes'] = environment['screenData']['newContentBytes']
