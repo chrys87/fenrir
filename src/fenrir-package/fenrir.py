@@ -27,7 +27,7 @@ class fenrir():
         self.threadHandleCommandQueue = None
         self.environment = environment.environment
         self.environment['runtime']['inputManager'] = inputManager.inputManager()
-        self.environment = self.environment['runtime']['settingsManager'] = settingsManager.settingsManager()
+        self.environment['runtime']['settingsManager'] = settingsManager.settingsManager()
         self.environment = self.environment['runtime']['settingsManager'].loadShortcuts(self.environment)
         self.environment['runtime']['commandManager'] = commandManager.commandManager()
         self.environment = self.environment['runtime']['commandManager'].loadCommands(self.environment,'commands')

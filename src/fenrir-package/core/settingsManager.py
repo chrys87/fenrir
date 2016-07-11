@@ -1,6 +1,6 @@
 #!/bin/python
 from configparser import ConfigParser
-import settings.settings
+from core.settings import settings
 
 class settingsManager():
     def __init__(self):
