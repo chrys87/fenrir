@@ -46,9 +46,9 @@ class inputManager():
             line = line.replace('\n','')
             if line.replace(" ","").startswith("#"):
                 continue
-            if line.count("=") != 1:
+            if line.split('#')[0].count("=") != 1:
                 continue
-            sepLine = line.split('=')
+            sepLine = line.split('#')[0].split('=')
             commandString = sepLine[1]
             keys = sepLine[0].replace(" ","").split(',')
             currShortcut = []
