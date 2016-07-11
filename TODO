@@ -35,6 +35,7 @@ https://docs.python.org/3/library/fcntl.html
 http://rodrigorivas.serveblog.net/en/imagenes-desde-vt-con-vcsa/
 good doku:
 http://angband.oook.cz/d/eyangband-052/src/main-vcs.c
+http://manpages.ubuntu.com/manpages/trusty/man1/screader.1.html
 
 - implement speechdriver espeak
 https://github.com/relsi/python-espeak
