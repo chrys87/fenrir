@@ -6,23 +6,24 @@ ToDos in Priority order:
   commands -> a new thread should spawned from inputloop
   updatescreen -> maybe we could watch it with inotify vsca should support polling
   https://github.com/seb-m/pyinotify/wiki/Tutorial
-# Example: prints statistics.
-#
 import pyinotify
 
 class Identity(pyinotify.ProcessEvent):
     def process_default(self, event):
-        print('Does nothing.')
+        p = event.pathname
+        print(p)
 
-def on_loop(notifier):
-    s_inst = notifier.proc_fun().nested_pevent()
-    print(s_inst)
 
 wm = pyinotify.WatchManager()
-s = pyinotify.Stats()
-notifier = pyinotify.Notifier(wm, default_proc_fun=Identity(s), read_freq=5)
-wm.add_watch('/dev/vcsa1', pyinotify.ALL_EVENTS, rec=True, auto_add=True)
-notifier.loop(callback=on_loop)
+
+notifier = pyinotify.Notifier(wm, default_proc_fun=Identity())
+wm.add_watch('/dev/vcsa1', pyinotify.ALL_EVENTS, auto_add=True)
+wm.add_watch('/dev/vcsa2', pyinotify.ALL_EVENTS, auto_add=True)
+wm.add_watch('/dev/vcsa3', pyinotify.ALL_EVENTS, auto_add=True)
+wm.add_watch('/dev/vcsa4', pyinotify.ALL_EVENTS, auto_add=True)
+wm.add_watch('/dev/vcsa5', pyinotify.ALL_EVENTS, auto_add=True)
+wm.add_watch('/dev/vcsa6', pyinotify.ALL_EVENTS, auto_add=True)
+notifier.loop()
 
   https://www.infoq.com/articles/inotify-linux-file-system-event-monitoring
   https://github.com/seb-m/pyinotify/wiki/Tutorial
