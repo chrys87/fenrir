@@ -7,6 +7,7 @@ ToDos in Priority order:
   updatescreen -> maybe we could watch it with inotify vsca should support polling
   https://www.infoq.com/articles/inotify-linux-file-system-event-monitoring
   https://github.com/seb-m/pyinotify/wiki/Tutorial
+  http://www.saltycrane.com/blog/2010/04/monitoring-filesystem-python-and-pyinotify/
   
 - beeps (sound Icons)
 - implement commands  (next_[line,word,char], prev_[line,word,char], and others
