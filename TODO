@@ -8,7 +8,7 @@ ToDos in Priority order:
   https://github.com/seb-m/pyinotify/wiki/Tutorial
 
 import pyinotify
-
+import glob
 class Identity(pyinotify.ProcessEvent):
     def process_default(self, event):
         p = event.pathname
@@ -17,13 +17,9 @@ class Identity(pyinotify.ProcessEvent):
 wm = pyinotify.WatchManager()
 
 notifier = pyinotify.Notifier(wm, default_proc_fun=Identity(), timeout=5)
-wm.add_watch('/dev/vcsa1', pyinotify.IN_CLOSE_WRITE, auto_add=True)
-wm.add_watch('/dev/vcsa2', pyinotify.IN_CLOSE_WRITE, auto_add=True)
-wm.add_watch('/dev/vcsa3', pyinotify.IN_CLOSE_WRITE, auto_add=True)
-wm.add_watch('/dev/vcsa4', pyinotify.IN_CLOSE_WRITE, auto_add=True)
-wm.add_watch('/dev/vcsa5', pyinotify.IN_CLOSE_WRITE, auto_add=True)
-wm.add_watch('/dev/vcsa6', auto_add=True)
-#notifier.loop( )
+for file in list(glob.glob('/dev/vcsa[0-64]')):
+    wm.add_watch(file, pyinotify.IN_CLOSE_WRITE, auto_add=True)
+    print(file)
 
 try:
     while 1:
