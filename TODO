@@ -13,17 +13,25 @@ class Identity(pyinotify.ProcessEvent):
         p = event.pathname
         print(p)
 
-
 wm = pyinotify.WatchManager()
 
-notifier = pyinotify.Notifier(wm, default_proc_fun=Identity())
+notifier = pyinotify.Notifier(wm, default_proc_fun=Identity(), timeout=5)
 wm.add_watch('/dev/vcsa1', pyinotify.ALL_EVENTS, auto_add=True)
 wm.add_watch('/dev/vcsa2', pyinotify.ALL_EVENTS, auto_add=True)
 wm.add_watch('/dev/vcsa3', pyinotify.ALL_EVENTS, auto_add=True)
 wm.add_watch('/dev/vcsa4', pyinotify.ALL_EVENTS, auto_add=True)
 wm.add_watch('/dev/vcsa5', pyinotify.ALL_EVENTS, auto_add=True)
 wm.add_watch('/dev/vcsa6', pyinotify.ALL_EVENTS, auto_add=True)
-notifier.loop()
+#notifier.loop( )
+
+try:
+    while 1:
+        notifier.process_events()
+        if notifier.check_events():
+            notifier.read_events()
+except KeyboardInterrupt:
+    notifier.stop()
+    print('fin')
 
   https://www.infoq.com/articles/inotify-linux-file-system-event-monitoring
   https://github.com/seb-m/pyinotify/wiki/Tutorial
