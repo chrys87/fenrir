@@ -17,7 +17,7 @@ class Identity(pyinotify.ProcessEvent):
 wm = pyinotify.WatchManager()
 
 notifier = pyinotify.Notifier(wm, default_proc_fun=Identity(), timeout=5)
-wm.add_watch('/sys/devices/virtual/tty/tty0/active', pyinotify.INCLOSE_WRITE)
+wm.add_watch('/sys/devices/virtual/tty/tty0/active', pyinotify.IN_CLOSE_WRITE)
 for file in list(glob.glob('/dev/vcsa[0-64]')):
     wm.add_watch(file, pyinotify.IN_CLOSE_WRITE)
     print(file)
