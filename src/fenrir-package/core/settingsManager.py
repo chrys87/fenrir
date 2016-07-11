@@ -4,6 +4,7 @@ import settings.settings
 
 class settingsManager():
     def __init__(self):
+        pass
 
     def loadShortcuts(self, environment, kbConfigPath='../../config/keyboard/desktop.kb'):
         kbConfig = open(kbConfigPath,"r")
