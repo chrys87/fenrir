@@ -5,6 +5,24 @@ ToDos in Priority order:
   inputloop -> does block with an select
   commands -> a new thread should spawned from inputloop
   updatescreen -> maybe we could watch it with inotify vsca should support polling
+# Example: prints statistics.
+#
+import pyinotify
+
+class Identity(pyinotify.ProcessEvent):
+    def process_default(self, event):
+        print('Does nothing.')
+
+def on_loop(notifier):
+    s_inst = notifier.proc_fun().nested_pevent()
+    print(s_inst)
+
+wm = pyinotify.WatchManager()
+s = pyinotify.Stats()
+notifier = pyinotify.Notifier(wm, default_proc_fun=Identity(s), read_freq=5)
+wm.add_watch('/dev/vcsa1', pyinotify.ALL_EVENTS, rec=True, auto_add=True)
+notifier.loop(callback=on_loop)
+
   https://www.infoq.com/articles/inotify-linux-file-system-event-monitoring
   https://github.com/seb-m/pyinotify/wiki/Tutorial
   http://www.saltycrane.com/blog/2010/04/monitoring-filesystem-python-and-pyinotify/
