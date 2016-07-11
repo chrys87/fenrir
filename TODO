@@ -5,6 +5,7 @@ ToDos in Priority order:
   inputloop -> does block with an select
   commands -> a new thread should spawned from inputloop
   updatescreen -> maybe we could watch it with inotify vsca should support polling
+  https://github.com/seb-m/pyinotify/wiki/Tutorial
 # Example: prints statistics.
 #
 import pyinotify
