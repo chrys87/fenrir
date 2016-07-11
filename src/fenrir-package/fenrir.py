@@ -13,6 +13,7 @@ from threading import Thread
 from core import environment 
 from core import inputManager
 from core import commandManager
+from core import settingsManager
 from utils import debug
 
 from speech import espeak as es
@@ -26,7 +27,8 @@ class fenrir():
         self.threadHandleCommandQueue = None
         self.environment = environment.environment
         self.environment['runtime']['inputManager'] = inputManager.inputManager()
-        self.environment = self.environment['runtime']['inputManager'].loadShortcuts(self.environment)
+        self.environment = self.environment['runtime']['settingsManager'] = settingsManager.settingsManager()
+        self.environment = self.environment['runtime']['settingsManager'].loadShortcuts(self.environment)
         self.environment['runtime']['commandManager'] = commandManager.commandManager()
         self.environment = self.environment['runtime']['commandManager'].loadCommands(self.environment,'commands')
         self.environment = self.environment['runtime']['commandManager'].loadCommands(self.environment,'onInput')
