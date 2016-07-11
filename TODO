@@ -6,15 +6,13 @@ ToDos in Priority order:
   commands -> a new thread should spawned from inputloop
   updatescreen -> maybe we could watch it with inotify vsca should support polling
   https://github.com/seb-m/pyinotify/wiki/Tutorial
-# Example: prints statistics.
-#
+
 import pyinotify
 
 class Identity(pyinotify.ProcessEvent):
     def process_default(self, event):
         p = event.pathname
         print(p)
-
 
 wm = pyinotify.WatchManager()
 
@@ -32,8 +30,9 @@ try:
         notifier.process_events()
         if notifier.check_events( timeout=1000):
             notifier.read_events()
-        print('drin')
-        notifier.stop()
+            print('events')
+        else:
+            print('timeout')
 except KeyboardInterrupt:
     notifier.stop()
     print('fin')
