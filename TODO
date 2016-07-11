@@ -6,6 +6,8 @@ ToDos in Priority order:
   commands -> a new thread should spawned from inputloop
   updatescreen -> maybe we could watch it with inotify vsca should support polling
   https://github.com/seb-m/pyinotify/wiki/Tutorial
+# Example: prints statistics.
+#
 import pyinotify
 
 class Identity(pyinotify.ProcessEvent):
@@ -13,22 +15,25 @@ class Identity(pyinotify.ProcessEvent):
         p = event.pathname
         print(p)
 
+
 wm = pyinotify.WatchManager()
 
 notifier = pyinotify.Notifier(wm, default_proc_fun=Identity(), timeout=5)
-wm.add_watch('/dev/vcsa1', pyinotify.ALL_EVENTS, auto_add=True)
-wm.add_watch('/dev/vcsa2', pyinotify.ALL_EVENTS, auto_add=True)
-wm.add_watch('/dev/vcsa3', pyinotify.ALL_EVENTS, auto_add=True)
-wm.add_watch('/dev/vcsa4', pyinotify.ALL_EVENTS, auto_add=True)
-wm.add_watch('/dev/vcsa5', pyinotify.ALL_EVENTS, auto_add=True)
-wm.add_watch('/dev/vcsa6', pyinotify.ALL_EVENTS, auto_add=True)
+wm.add_watch('/dev/vcsa1', pyinotify.IN_CLOSE_WRITE, auto_add=True)
+wm.add_watch('/dev/vcsa2', pyinotify.IN_CLOSE_WRITE, auto_add=True)
+wm.add_watch('/dev/vcsa3', pyinotify.IN_CLOSE_WRITE, auto_add=True)
+wm.add_watch('/dev/vcsa4', pyinotify.IN_CLOSE_WRITE, auto_add=True)
+wm.add_watch('/dev/vcsa5', pyinotify.IN_CLOSE_WRITE, auto_add=True)
+wm.add_watch('/dev/vcsa6', auto_add=True)
 #notifier.loop( )
 
 try:
     while 1:
         notifier.process_events()
-        if notifier.check_events():
+        if notifier.check_events( timeout=1000):
             notifier.read_events()
+        print('drin')
+        notifier.stop()
 except KeyboardInterrupt:
     notifier.stop()
     print('fin')
