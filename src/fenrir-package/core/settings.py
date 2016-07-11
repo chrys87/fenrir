@@ -3,18 +3,29 @@
 from utils import debug
 
 settings = {
-'speechEnabled': True,
-'speechDriverString':'speechd',
-'speechRate': 1,
-'speechPitch': 1,
-'speechModule': '',
-'speechVoice': 'de',
-'screenDriverString': 'linux',
-'keyboardLayout': "desktop",
-'brailleEnabled': False, 
-'soundEnabled': False,
-'soundDriverString': 'sox', 
-'soundTheme': 'default',
-'debugLevel': debug.debugLevel.DEACTIVE,
-'punctuationLevel': 1 
+'sound': {
+    'enabled': False,
+    'driver': 'sox', 
+    'theme': 'default',
+},
+'speech':{
+    'enabled': True,
+    'driver':'speechd',
+    'rate': 1,
+    'pitch': 1,
+    'module': '',
+    'voice': 'de',
+},
+'braille':{
+    'enabled': False, 
+    'layout': 'en',
+},
+'screen':{
+    'driver': 'linux',
+},
+'general':{
+  'keyboardLayout': "desktop",
+  'debugLevel': debug.debugLevel.DEACTIVE,
+  'punctuationLevel': 1 
+}
 }
