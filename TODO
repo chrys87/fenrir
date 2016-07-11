@@ -1,6 +1,13 @@
 ToDos in Priority order:
 
 - Settings (make it configureable)
+- restructure loops to listen for events
+  inputloop -> does block with an select
+  commands -> a new thread should spawned from inputloop
+  updatescreen -> maybe we could watch it with inotify vsca should support polling
+  https://www.infoq.com/articles/inotify-linux-file-system-event-monitoring
+  https://github.com/seb-m/pyinotify/wiki/Tutorial
+  
 - beeps (sound Icons)
 - implement commands  (next_[line,word,char], prev_[line,word,char], and others
 - implement braille
@@ -12,6 +19,8 @@ https://git.gnome.org/browse/orca/tree/src/orca/braille.py
 https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/sect-Managing_Services_with_systemd-Unit_Files.html
 
 - translateable
+
+- improve differ speed
 
 -------------DONE--------------------------------
 -- move from VCS to VCSA and parese the Attributes
