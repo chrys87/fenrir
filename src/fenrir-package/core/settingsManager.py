@@ -2,10 +2,11 @@
 from configparser import ConfigParser
 from core.settings import settings
 import evdev
+import importlib.util
 
 class settingsManager():
     def __init__(self):
-        pass
+        self.settings = settings
 
     def loadShortcuts(self, environment, kbConfigPath='../../config/keyboard/desktop.kb'):
         kbConfig = open(kbConfigPath,"r")
@@ -66,7 +67,43 @@ class settingsManager():
         environment['settings'].read(settingConfigPath)
         return environment
 
-    def getSetting(self, environment, setting):
-        value = True # do be implemented
+    def getSetting(self, environment, section, setting):
+        value = ''
+        try:
+            value = environment['settings'].get(section, setting)
+        except:
+            value = self.settings[section][setting]
         return value
+
+    def getSettingAsInt(self, environment, section, setting):
+        return int(getSetting(self, environment, section, setting))
+
+    def getSettingAsBool(self, environment, section, setting):
+        return bool(getSetting(self, environment, section, setting))  
+      
+    def loadSpeechDriver(self, environment, driverName):
+        if environment['runtime']['speechDriver'] != None:
+            environment['runtime']['speechDriver'].shutdown()    
+        spec = importlib.util.spec_from_file_location(driverName, 'speech/' + driverName + '.py')
+        driver_mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(driver_mod)
+        environment['runtime']['speechDriver'] = driver_mod.speech()
+        return environment
+
+    def loadSoundDriver(self, environment, driverName):
+        if environment['runtime']['soundDriver'] != None:
+            environment['runtime']['soundDriver'].shutdown()    
+        spec = importlib.util.spec_from_file_location(driverName, 'sound/' + driverName + '.py')
+        driver_mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(driver_mod)
+        environment['runtime']['soundDriver'] = driver_mod.sound()        
+        return environment
+
+    def loadScreenDriver(self, environment, driverName):
+        spec = importlib.util.spec_from_file_location(driverName, 'screen/' + driverName + '.py')
+        driver_mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(driver_mod)
+        environment['runtime']['screenDriver'] = driver_mod.screen() 
+        return environment        
+
     

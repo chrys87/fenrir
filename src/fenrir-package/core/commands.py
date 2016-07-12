@@ -8,12 +8,10 @@ commandInfo = {
 }
 
 commands = {
-'onnInput':{
+'onInput':{
     },
 'onScreenChanged':{
     },
 'commands':{
-#    'curr_line': curr_line.command(),
-#    'shut_up': shut_up.command()
     }
 }

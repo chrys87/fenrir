@@ -25,7 +25,10 @@ class commandManager():
             except:
                 continue
         return environment
-
+    def executeTriggerCommands(self, environment, trigger):
+        for cmd in sorted(environment['commands'][trigger]):
+            environment = environment['commands'][trigger][cmd].run(environment)
+        return environment
     def executeCommand(self, environment, currCommand, section = 'commands'):
         if self.isCommandDefined(environment):
             try:

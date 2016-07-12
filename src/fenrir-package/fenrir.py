@@ -16,10 +16,6 @@ from core import commandManager
 from core import settingsManager
 from utils import debug
 
-from speech import espeak as es
-from speech import speechd as sd
-from screen import linux as lx
-
 class fenrir():
     def __init__(self):
         self.threadUpdateScreen = None
@@ -29,16 +25,21 @@ class fenrir():
         self.environment['runtime']['inputManager'] = inputManager.inputManager()
         self.environment['runtime']['settingsManager'] = settingsManager.settingsManager()
         self.environment = self.environment['runtime']['settingsManager'].loadShortcuts(self.environment)
+        self.environment = self.environment['runtime']['settingsManager'].loadSettings(self.environment)
+
         self.environment['runtime']['commandManager'] = commandManager.commandManager()
         self.environment = self.environment['runtime']['commandManager'].loadCommands(self.environment,'commands')
         self.environment = self.environment['runtime']['commandManager'].loadCommands(self.environment,'onInput')
         self.environment = self.environment['runtime']['commandManager'].loadCommands(self.environment,'onScreenChanged')
         self.environment['runtime']['debug'] = debug.debug()
         signal.signal(signal.SIGINT, self.captureSignal)
-        # the following hard coded, in future we have a config loader
-        self.environment['runtime']['speechDriver'] = sd.speech()
-        self.environment['runtime']['screenDriver'] = lx.screenManager()
-
+        self.environment = self.environment['runtime']['settingsManager'].loadSpeechDriver(self.environment,\
+          self.environment['runtime']['settingsManager'].getSetting(self.environment,'speech', 'driver'))
+        self.environment = self.environment['runtime']['settingsManager'].loadScreenDriver(self.environment,\
+          self.environment['runtime']['settingsManager'].getSetting(self.environment,'screen', 'driver'))
+        self.environment = self.environment['runtime']['settingsManager'].loadSoundDriver(self.environment,\
+          self.environment['runtime']['settingsManager'].getSetting(self.environment,'sound', 'driver'))   
+     
     def proceed(self):
         #self.threadUpdateScreen = Thread(target=self.updateScreen, args=())
         self.threadHandleInput = Thread(target=self.handleInput, args=())
@@ -53,16 +54,18 @@ class fenrir():
     def handleInput(self):
         while(self.environment['generalInformation']['running']):
             self.environment = self.environment['runtime']['inputManager'].getKeyPressed(self.environment)
+            self.environment = self.environment['runtime']['commandManager'].getCommandForShortcut(self.environment)
             self.environment = self.environment['runtime']['screenDriver'].analyzeScreen(self.environment)
+            self.environment = self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onInput')
             if self.environment['input']['currShortcutString'] != '':
                 self.handleCommands()
 
     def updateScreen(self):
             self.environment = self.environment['runtime']['screenDriver'].analyzeScreen(self.environment)
+            self.environment = self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onScreenChanged')            
             time.sleep(0.5)
 
     def handleCommands(self):
-        self.environment = self.environment['runtime']['commandManager'].getCommandForShortcut(self.environment)
         if (self.environment['commandInfo']['currCommand'] != '') and \
           (time.time() - self.environment['commandInfo']['lastCommandTime'] >= 0.4):
             self.environment = self.environment['runtime']['commandManager'].executeCommand(self.environment, self.environment['commandInfo']['currCommand'], 'commands')
