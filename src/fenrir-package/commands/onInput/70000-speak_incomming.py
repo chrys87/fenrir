@@ -7,7 +7,6 @@ class command():
         if environment['screenData']['newDelta'] != environment['screenData']['oldDelta'] or \
           environment['screenData']['newTTY'] != environment['screenData']['oldTTY']:
             environment['runtime']['speechDriver'].speak(environment['screenData']['newDelta'])
-        print('input changed bla')
         return environment
     def setCallback(self, callback):
         pass
