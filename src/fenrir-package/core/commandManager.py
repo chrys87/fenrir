@@ -2,6 +2,7 @@
 import importlib.util
 import glob
 import os
+import time
 
 class commandManager():
     def __init__(self):
@@ -34,6 +35,7 @@ class commandManager():
             except: 
                 pass
         environment['commandInfo']['currCommand'] = ''
+        environment['commandInfo']['lastCommandTime'] = time.time()
         return environment
         
     def executeNextCommand(self, environment):

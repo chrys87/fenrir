@@ -1,6 +1,7 @@
 #!/bin/python
 from configparser import ConfigParser
 from core.settings import settings
+import evdev
 
 class settingsManager():
     def __init__(self):
