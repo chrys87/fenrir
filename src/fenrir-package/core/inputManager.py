@@ -11,7 +11,7 @@ class inputManager():
         #for dev in self.devices.values(): print(dev)
 
     def getKeyPressed(self, environment):
-        r, w, x = select(self.devices, [], [],0)
+        r, w, x = select(self.devices, [], [])
         currShortcut = environment['input']['currShortcut']
         if r != []:
             for fd in r:

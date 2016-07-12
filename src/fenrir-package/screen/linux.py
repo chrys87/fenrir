@@ -54,7 +54,7 @@ class screenManager():
           (len(environment['screenData']['newContentText']) > 0):
             diff = difflib.ndiff(" ".join(environment['screenData']['oldContentText'].split()), " ".join(environment['screenData']['newContentText'].split()))
             environment['screenData']['delta'] = ''.join(x[2:] for x in diff if x.startswith('+ '))
-            if ((len(environment['screenData']['delta']) < 3)):
+            if ((len(environment['screenData']['delta']) == 1)):
                 environment['runtime']['speechDriver'].cancel()
             environment['runtime']['speechDriver'].speak(environment['screenData']['delta'])
             # set new "old" values
