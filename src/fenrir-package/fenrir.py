@@ -41,6 +41,7 @@ class fenrir():
     def proceed(self):
         self.threadHandleInput = Thread(target=self.handleInput, args=())
         self.threadHandleInput.start()
+        self.updateScreen()
         while(self.environment['generalInformation']['running']):
             self.updateScreen()
         self.shutdown()

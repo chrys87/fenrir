@@ -11,19 +11,22 @@ class inputManager():
         #for dev in self.devices.values(): print(dev)
 
     def getKeyPressed(self, environment):
-        r, w, x = select(self.devices, [], [])
-        currShortcut = environment['input']['currShortcut']
-        if r != []:
-            for fd in r:
-                for event in self.devices[fd].read():
-                    if event.type == evdev.ecodes.EV_KEY:
-                        if event.value != 0:
-                            currShortcut[str(event.code)] = event.value
-                        else:
-                            try:
-                                del(currShortcut[str(event.code)])
-                            except:
-                                pass
+        try:
+            r, w, x = select(self.devices, [], [])
+            currShortcut = environment['input']['currShortcut']
+            if r != []:
+                for fd in r:
+                    for event in self.devices[fd].read():
+                        if event.type == evdev.ecodes.EV_KEY:
+                            if event.value != 0:
+                                currShortcut[str(event.code)] = event.value
+                            else:
+                                try:
+                                    del(currShortcut[str(event.code)])
+                                except:
+                                    pass
+        except:
+            pass
         environment['input']['currShortcut'] = currShortcut
         environment['input']['currShortcutString'] = self.getShortcutString(environment)
         return environment

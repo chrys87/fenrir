@@ -35,7 +35,7 @@ class screen():
                 return environment
         except:
             return environment
-
+        
         # get metadata like cursor or screensize
         environment['screenData']['lines'] = int( environment['screenData']['newContentBytes'][0])
         environment['screenData']['columns'] = int( environment['screenData']['newContentBytes'][1])

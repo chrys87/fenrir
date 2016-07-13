@@ -1,3 +1,8 @@
-2-KEY_LEFTCTRL,1-KEY_LEFTSHIFT=curr_line
-2-KEY_LEFTCTRL,1-KEY_A=shut_up
+#2-KEY_LEFTCTRL,1-KEY_LEFTSHIFT=curr_line
+#2-KEY_LEFTCTRL,1-KEY_S=next_line
+#2-KEY_LEFTCTRL,1-KEY_W=prev_line
+2-KEY_LEFTCTRL,1-KEY_E=shut_up
+1-KEY_KP8=curr_line
+1-KEY_KP7=prev_line
+1-KEY_KP9=next_line
 

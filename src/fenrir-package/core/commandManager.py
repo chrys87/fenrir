@@ -29,6 +29,7 @@ class commandManager():
         for cmd in sorted(environment['commands'][trigger]):
             environment = environment['commands'][trigger][cmd].run(environment)
         return environment
+
     def executeCommand(self, environment, currCommand, section = 'commands'):
         if self.isCommandDefined(environment):
             try:
@@ -38,7 +39,7 @@ class commandManager():
             except: 
                 pass
         environment['commandInfo']['currCommand'] = ''
-        environment['commandInfo']['lastCommandTime'] = time.time()
+        environment['commandInfo']['lastCommandTime'] = time.time()    
         return environment
         
     def executeNextCommand(self, environment):
