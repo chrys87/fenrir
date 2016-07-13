@@ -18,9 +18,7 @@ from utils import debug
 
 class fenrir():
     def __init__(self):
-        self.threadUpdateScreen = None
         self.threadHandleInput = None
-        self.threadHandleCommandQueue = None
         self.environment = environment.environment
         self.environment['runtime']['inputManager'] = inputManager.inputManager()
         self.environment['runtime']['settingsManager'] = settingsManager.settingsManager()
@@ -41,12 +39,8 @@ class fenrir():
           self.environment['runtime']['settingsManager'].getSetting(self.environment,'sound', 'driver'))   
      
     def proceed(self):
-        #self.threadUpdateScreen = Thread(target=self.updateScreen, args=())
         self.threadHandleInput = Thread(target=self.handleInput, args=())
-        #self.threadCommands = Thread(target=self.handleCommands, args=())
-        #self.threadUpdateScreen.start()
         self.threadHandleInput.start()
-        #self.threadCommands.start()
         while(self.environment['generalInformation']['running']):
             self.updateScreen()
         self.shutdown()
