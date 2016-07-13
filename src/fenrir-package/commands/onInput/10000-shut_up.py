@@ -4,7 +4,8 @@ class command():
     def __init__(self):
         pass
     def run(self, environment):
-        environment['runtime']['speechDriver'].cancel()
+        if environment['screenData']['newDelta'] != environment['screenData']['oldDelta']:
+            environment['runtime']['speechDriver'].cancel()
         return environment
     def setCallback(self, callback):
         pass
