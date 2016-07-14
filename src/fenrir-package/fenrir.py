@@ -33,7 +33,9 @@ class fenrir():
             self.environment = self.environment['runtime']['commandManager'].getCommandForShortcut(self.environment)
             self.environment = self.environment['runtime']['screenDriver'].analyzeScreen(self.environment)
             self.environment = self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onInput')
-            if self.environment['input']['currShortcutString'] != '':
+            if self.environment['commandInfo']['currCommand'] != '':
+                self.environment['input']['currShortcut'] = {}
+                self.environment['input']['currShortcutString'] = ''
                 self.handleCommands()
             self.environment['runtime']['globalLock'].release()
 
