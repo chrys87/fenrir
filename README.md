@@ -5,6 +5,7 @@ An TTY screenreader for Linux. Be careful, is just experimental now.
 linux
 python3
 python-espeak
+python-evdev
 
 # optional 
 sox [using for soundicons via sox]
