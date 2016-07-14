@@ -9,7 +9,7 @@ class command():
             environment['screenData']['newCursorReview'] = environment['screenData']['newCursor'].copy()
                  
         if environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursorReview']['y']].replace(" ","").replace("\n","").replace("\t","") == '':
-            environment['runtime']['outputManager'].speakText(environment, "empty line")
+            environment['runtime']['outputManager'].speakText(environment, "blank")
         else:
             environment['runtime']['outputManager'].speakText(environment, environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursorReview']['y']])
         return environment

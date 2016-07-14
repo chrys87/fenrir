@@ -11,7 +11,7 @@ class command():
             environment['screenData']['newCursorReview']['y'] = environment['screenData']['newCursorReview']['y'] + 1
                  
         if environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursorReview']['y']].replace(" ","").replace("\n","").replace("\t","") == '':
-            environment['runtime']['outputManager'].speakText(environment, "empty line")
+            environment['runtime']['outputManager'].speakText(environment, "blank")
         else:
             environment['runtime']['outputManager'].speakText(environment, environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursorReview']['y']])
         return environment    
