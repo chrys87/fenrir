@@ -31,6 +31,7 @@ class commandManager():
         return environment
 
     def executeCommand(self, environment, currCommand, section = 'commands'):
+        environment =  environment['commands'][section][currCommand].run(environment)
         if self.isCommandDefined(environment):
             try:
                 environ =  environment['commands'][section][currCommand].run(environment)

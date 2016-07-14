@@ -3,6 +3,7 @@ import evdev
 import importlib.util
 from configparser import ConfigParser
 from core import inputManager
+from core import outputManager
 from core import commandManager
 from core import environment 
 from core.settings import settings
@@ -80,10 +81,10 @@ class settingsManager():
         return value
 
     def getSettingAsInt(self, environment, section, setting):
-        return int(getSetting(self, environment, section, setting))
+        return int(self.getSetting( environment, section, setting))
 
     def getSettingAsBool(self, environment, section, setting):
-        return bool(getSetting(self, environment, section, setting))  
+        return bool(self.getSetting(environment, section, setting))  
       
     def loadSpeechDriver(self, environment, driverName):
         if environment['runtime']['speechDriver'] != None:
@@ -108,7 +109,8 @@ class settingsManager():
         driver_mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(driver_mod)
         environment['runtime']['screenDriver'] = driver_mod.screen() 
-        return environment        
+        return environment  
+
     def initFenrirConfig(self):
         return self.reInitFenrirConfig(environment.environment)
 
@@ -116,6 +118,7 @@ class settingsManager():
 
         environment['runtime']['settingsManager'] = self 
         environment['runtime']['inputManager'] = inputManager.inputManager()
+        environment['runtime']['outputManager'] = outputManager.outputManager()
         environment = environment['runtime']['settingsManager'].loadShortcuts(environment)
         environment = environment['runtime']['settingsManager'].loadSettings(environment)
 

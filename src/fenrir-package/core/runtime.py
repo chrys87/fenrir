@@ -1,4 +1,5 @@
 #!/bin/python
+from _thread import allocate_lock
 
 runtime = {
 'speechDriver': None,
@@ -7,4 +8,5 @@ runtime = {
 'inputManager': None,
 'commandManager': None,
 'debug':None,
+'globalLock': allocate_lock(),
 }

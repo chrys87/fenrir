@@ -13,6 +13,7 @@ class inputManager():
     def getKeyPressed(self, environment):
         try:
             r, w, x = select(self.devices, [], [])
+            environment['runtime']['globalLock'].acquire(True)
             currShortcut = environment['input']['currShortcut']
             if r != []:
                 for fd in r:

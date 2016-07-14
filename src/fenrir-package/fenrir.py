@@ -16,13 +16,13 @@ from core import settingsManager
 class fenrir():
     def __init__(self):
         self.threadHandleInput = None
+        
         self.environment = settingsManager.settingsManager().initFenrirConfig()
         signal.signal(signal.SIGINT, self.captureSignal)
     
     def proceed(self):
         self.threadHandleInput = Thread(target=self.handleInput, args=())
         self.threadHandleInput.start()
-        self.updateScreen()
         while(self.environment['generalInformation']['running']):
             self.updateScreen()
         self.shutdown()
@@ -35,15 +35,18 @@ class fenrir():
             self.environment = self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onInput')
             if self.environment['input']['currShortcutString'] != '':
                 self.handleCommands()
+            self.environment['runtime']['globalLock'].release()
 
     def updateScreen(self):
+            self.environment['runtime']['globalLock'].acquire(True)
             self.environment = self.environment['runtime']['screenDriver'].analyzeScreen(self.environment)
             self.environment = self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onScreenChanged')            
+            self.environment['runtime']['globalLock'].release()
             time.sleep(0.5)
 
     def handleCommands(self):
         if (self.environment['commandInfo']['currCommand'] != '') and \
-          (time.time() - self.environment['commandInfo']['lastCommandTime'] >= 0.04):
+          (time.time() - self.environment['commandInfo']['lastCommandTime'] >= 0.05):
             self.environment = self.environment['runtime']['commandManager'].executeCommand(self.environment, self.environment['commandInfo']['currCommand'], 'commands')
 
     def shutdown(self):
