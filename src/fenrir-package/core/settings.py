@@ -15,6 +15,8 @@ settings = {
     'pitch': 1,
     'module': '',
     'voice': 'de',
+    'language': 'de',
+    'volume': 100
 },
 'braille':{
     'enabled': False, 

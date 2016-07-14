@@ -76,6 +76,11 @@ class speech():
             return False    
         self._sd.set_language(language)
         
+    def setVolume(self, volume):
+        if not self._isInitialized:
+            return False    
+        self._sd.set_volume(volume)        
+        
     def shutdown(self):
         if not self._isInitialized:
             return False
