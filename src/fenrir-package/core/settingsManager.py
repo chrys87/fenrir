@@ -1,8 +1,12 @@
 #!/bin/python
-from configparser import ConfigParser
-from core.settings import settings
 import evdev
 import importlib.util
+from configparser import ConfigParser
+from core import inputManager
+from core import commandManager
+from core import environment 
+from core.settings import settings
+from utils import debug
 
 class settingsManager():
     def __init__(self):
@@ -105,5 +109,26 @@ class settingsManager():
         spec.loader.exec_module(driver_mod)
         environment['runtime']['screenDriver'] = driver_mod.screen() 
         return environment        
+    def initFenrirConfig(self):
+        return self.reInitFenrirConfig(environment.environment)
 
+    def reInitFenrirConfig(self, environment):
+
+        environment['runtime']['settingsManager'] = self 
+        environment['runtime']['inputManager'] = inputManager.inputManager()
+        environment = environment['runtime']['settingsManager'].loadShortcuts(environment)
+        environment = environment['runtime']['settingsManager'].loadSettings(environment)
+
+        environment['runtime']['commandManager'] = commandManager.commandManager()
+        environment = environment['runtime']['commandManager'].loadCommands(environment,'commands')
+        environment = environment['runtime']['commandManager'].loadCommands(environment,'onInput')
+        environment = environment['runtime']['commandManager'].loadCommands(environment,'onScreenChanged')
+        environment['runtime']['debug'] = debug.debug()
+        environment = environment['runtime']['settingsManager'].loadSpeechDriver(environment,\
+          environment['runtime']['settingsManager'].getSetting(environment,'speech', 'driver'))
+        environment = environment['runtime']['settingsManager'].loadScreenDriver(environment,\
+          environment['runtime']['settingsManager'].getSetting(environment,'screen', 'driver'))
+        environment = environment['runtime']['settingsManager'].loadSoundDriver(environment,\
+          environment['runtime']['settingsManager'].getSetting(environment,'sound', 'driver'))
+        return environment
     

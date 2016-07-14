@@ -11,33 +11,14 @@ if not os.getcwd() in sys.path:
 
 from threading import Thread
 from core import environment 
-from core import inputManager
-from core import commandManager
 from core import settingsManager
-from utils import debug
 
 class fenrir():
     def __init__(self):
         self.threadHandleInput = None
-        self.environment = environment.environment
-        self.environment['runtime']['inputManager'] = inputManager.inputManager()
-        self.environment['runtime']['settingsManager'] = settingsManager.settingsManager()
-        self.environment = self.environment['runtime']['settingsManager'].loadShortcuts(self.environment)
-        self.environment = self.environment['runtime']['settingsManager'].loadSettings(self.environment)
-
-        self.environment['runtime']['commandManager'] = commandManager.commandManager()
-        self.environment = self.environment['runtime']['commandManager'].loadCommands(self.environment,'commands')
-        self.environment = self.environment['runtime']['commandManager'].loadCommands(self.environment,'onInput')
-        self.environment = self.environment['runtime']['commandManager'].loadCommands(self.environment,'onScreenChanged')
-        self.environment['runtime']['debug'] = debug.debug()
+        self.environment = settingsManager.settingsManager().initFenrirConfig()
         signal.signal(signal.SIGINT, self.captureSignal)
-        self.environment = self.environment['runtime']['settingsManager'].loadSpeechDriver(self.environment,\
-          self.environment['runtime']['settingsManager'].getSetting(self.environment,'speech', 'driver'))
-        self.environment = self.environment['runtime']['settingsManager'].loadScreenDriver(self.environment,\
-          self.environment['runtime']['settingsManager'].getSetting(self.environment,'screen', 'driver'))
-        self.environment = self.environment['runtime']['settingsManager'].loadSoundDriver(self.environment,\
-          self.environment['runtime']['settingsManager'].getSetting(self.environment,'sound', 'driver'))   
-     
+    
     def proceed(self):
         self.threadHandleInput = Thread(target=self.handleInput, args=())
         self.threadHandleInput.start()
