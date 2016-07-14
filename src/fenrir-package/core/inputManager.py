@@ -14,21 +14,19 @@ class inputManager():
         try:
             r, w, x = select(self.devices, [], [])
             environment['runtime']['globalLock'].acquire(True)
-            currShortcut = environment['input']['currShortcut']
             if r != []:
                 for fd in r:
                     for event in self.devices[fd].read():
                         if event.type == evdev.ecodes.EV_KEY:
                             if event.value != 0:
-                                currShortcut[str(event.code)] = event.value
+                                environment['input']['currShortcut'][str(event.code)] = event.value
                             else:
                                 try:
-                                    del(currShortcut[str(event.code)])
+                                    del(environment['input']['currShortcut'][str(event.code)])
                                 except:
                                     pass
         except:
             pass
-        environment['input']['currShortcut'] = currShortcut
         environment['input']['currShortcutString'] = self.getShortcutString(environment)
         return environment
 

@@ -83,6 +83,9 @@ class settingsManager():
     def getSettingAsInt(self, environment, section, setting):
         return int(self.getSetting( environment, section, setting))
 
+    def getSettingAsFloat(self, environment, section, setting):
+        return float(self.getSetting( environment, section, setting))
+
     def getSettingAsBool(self, environment, section, setting):
         return bool(self.getSetting(environment, section, setting))  
       

@@ -70,7 +70,12 @@ class speech():
             return True
         except:
             return False
-
+            
+    def setLanguage(self, language):
+        if not self._isInitialized:
+            return False    
+        self._sd.set_language(language)
+        
     def shutdown(self):
         if not self._isInitialized:
             return False

@@ -38,7 +38,7 @@ class speech():
     def setVoice(self, voice):
         if not self._isInitialized:
             return False
-        return _es.set_voice('de')
+        return _es.set_voice(voice)
 
     def setPitch(self, pitch):
         if not self._isInitialized:
@@ -51,7 +51,13 @@ class speech():
         return _es.set_parameter(espeak.Parameter.Rate, speed) 
 
     def setModule(self, module):
-        pass
+        if not self._isInitialized:
+            return False
+
+    def setLanguage(self, language):
+        if not self._isInitialized:
+            return False
+        return _es.set_voice(voice)
 
     def shutdown(self):
         pass
