@@ -14,7 +14,7 @@ class command():
             environment['runtime']['outputManager'].speakText(environment, "empty line")
         else:
             environment['runtime']['outputManager'].speakText(environment, environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursorReview']['y']])
-         
+        print(environment['screenData']['newCursorReview']) 
         return environment
     def setCallback(self, callback):
         pass
