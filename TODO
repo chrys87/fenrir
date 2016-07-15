@@ -13,6 +13,7 @@ ToDos in Priority order:
   set_copy_end_mark
   copy_marked
   paste
+  attributes_curr_char
 
 - implement onInput commands 
   read_line_if_cursor_change_vertical (needed if you arrow up and down, we want to announce the line)
