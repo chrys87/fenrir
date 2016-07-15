@@ -1,17 +1,31 @@
 ToDos in Priority order:
 
 - beeps (sound Icons)
+
 - implement commands
+  curr_word
+  curr_char
   next_word
   next_char
   prev_word
   prev_char
+  set_copy_begin_mark
+  set_copy_end_mark
+  copy_marked
+  paste
 
+- implement onInput commands 
+  read_line_if_cursor_change_vertical (needed if you arrow up and down, we want to announce the line)
+  read_char_if_cursur_change_horizontal (needed if you arrow left and right, we want to announce the char under the cursor)
+  echo_char (echos the last char on pressing space or return)
+  echo_word (echos the last word on pressing space or return)
+  
+- autostart systemd
 - implement braille
 http://mielke.cc/brltty/doc/Manual-BrlAPI/English/BrlAPI.html
 https://git.gnome.org/browse/orca/tree/src/orca/braille.py
 
-- autostart systemd
+- configuration should be overwriteable with parameter and alternative paths
 - implement speechdriver generic (say)
 https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/sect-Managing_Services_with_systemd-Unit_Files.html
 
