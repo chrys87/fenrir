@@ -1,42 +1,5 @@
 ToDos in Priority order:
 
-- Settings (make it configureable)
-- restructure loops to listen for events
-  inputloop -> does block with an select
-  commands -> a new thread should spawned from inputloop
-  updatescreen -> maybe we could watch it with inotify vsca should support polling
-  https://github.com/seb-m/pyinotify/wiki/Tutorial
-
-import pyinotify
-import glob
-class Identity(pyinotify.ProcessEvent):
-    def process_default(self, event):
-        p = event.pathname
-        print(p)
-
-wm = pyinotify.WatchManager()
-
-notifier = pyinotify.Notifier(wm, default_proc_fun=Identity(), timeout=5)
-wm.add_watch('/sys/devices/virtual/tty/tty0/active', pyinotify.IN_CLOSE_WRITE)
-for file in list(glob.glob('/dev/vcsa[0-64]')):
-    wm.add_watch(file, pyinotify.IN_CLOSE_WRITE)
-    print(file)
-
-try:
-    while 1:
-        notifier.process_events()
-        if notifier.check_events( timeout=1000):
-            notifier.read_events()
-            print('events')
-        else:
-            print('timeout')
-except KeyboardInterrupt:
-    notifier.stop()
-    print('fin')
-
-  https://www.infoq.com/articles/inotify-linux-file-system-event-monitoring
-  https://github.com/seb-m/pyinotify/wiki/Tutorial
-  http://www.saltycrane.com/blog/2010/04/monitoring-filesystem-python-and-pyinotify/
   
 - beeps (sound Icons)
 - implement commands  (next_[line,word,char], prev_[line,word,char], and others
@@ -49,8 +12,6 @@ https://git.gnome.org/browse/orca/tree/src/orca/braille.py
 https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/sect-Managing_Services_with_systemd-Unit_Files.html
 
 - translateable
-
-- improve differ speed
 
 -------------DONE--------------------------------
 -- move from VCS to VCSA and parese the Attributes
@@ -96,3 +57,43 @@ http://serverfault.com/questions/306854/how-to-find-out-the-currently-active-lin
 http://python-evdev.readthedocs.io/en/latest/tutorial.html
 http://stackoverflow.com/questions/12384772/how-can-i-capture-mouseevents-and-keyevents-using-python-in-background-on-linux
 maybe TTY in RAW MODE
+
+- Settings (make it configureable)
+- restructure loops to listen for events
+  inputloop -> does block with an select
+  commands -> a new thread should spawned from inputloop
+  updatescreen -> maybe we could watch it with inotify vsca should support polling COMMENT: sadly not possible, poll events not fired as expected
+  https://github.com/seb-m/pyinotify/wiki/Tutorial
+
+import pyinotify
+import glob
+class Identity(pyinotify.ProcessEvent):
+    def process_default(self, event):
+        p = event.pathname
+        print(p)
+
+wm = pyinotify.WatchManager()
+
+notifier = pyinotify.Notifier(wm, default_proc_fun=Identity(), timeout=5)
+wm.add_watch('/sys/devices/virtual/tty/tty0/active', pyinotify.IN_CLOSE_WRITE)
+for file in list(glob.glob('/dev/vcsa[0-64]')):
+    wm.add_watch(file, pyinotify.IN_CLOSE_WRITE)
+    print(file)
+
+try:
+    while 1:
+        notifier.process_events()
+        if notifier.check_events( timeout=1000):
+            notifier.read_events()
+            print('events')
+        else:
+            print('timeout')
+except KeyboardInterrupt:
+    notifier.stop()
+    print('fin')
+
+  https://www.infoq.com/articles/inotify-linux-file-system-event-monitoring
+  https://github.com/seb-m/pyinotify/wiki/Tutorial
+  http://www.saltycrane.com/blog/2010/04/monitoring-filesystem-python-and-pyinotify/
+
+- improve differ speed
