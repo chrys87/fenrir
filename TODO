@@ -1,7 +1,6 @@
 ToDos in Priority order:
 
 - beeps (sound Icons)
-
 - implement commands
   curr_word
   curr_char
@@ -14,27 +13,36 @@ ToDos in Priority order:
   copy_marked
   paste
   attributes_curr_char
-
+  enable_disable_output #enable, disable speech, braile and sound
+  enable_disable_speech #enable, disable speech
+  enable_disable_braile #enable, disable braile
+  enable_disable_sound #enable, disable sound  
+  
 - implement onInput commands 
   read_line_if_cursor_change_vertical (needed if you arrow up and down, we want to announce the line)
   read_char_if_cursur_change_horizontal (needed if you arrow left and right, we want to announce the char under the cursor)
   echo_char (echos the last char on pressing space or return)
   echo_word (echos the last word on pressing space or return)
-  
+
+- default soundIcon theme (soundfiles)  
 - autostart systemd
 - implement braille
 http://mielke.cc/brltty/doc/Manual-BrlAPI/English/BrlAPI.html
 https://git.gnome.org/browse/orca/tree/src/orca/braille.py
 
+- add the debugging to core
 - performance tuning
+- make screenUpdate rate configurable
 - configuration should be overwriteable with parameter and alternative paths
+- write settings
+- menue for settings configuration 
 - implement speechdriver generic (say)
 https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/sect-Managing_Services_with_systemd-Unit_Files.html
 
 - translateable
 
 -------------DONE--------------------------------
--- move from VCS to VCSA and parese the Attributes
+- move from VCS to VCSA and parese the Attributes
 http://linux.die.net/man/4/vcsa
 http://man.cx/vcsa(4)/de
 http://manpages.org/display-vcsa/7
@@ -72,13 +80,13 @@ http://serverfault.com/questions/306854/how-to-find-out-the-currently-active-lin
 - debugging
 - threading ReadContent, ReadShortcuts, executeCommands, listenNewTTYsForListen, controllThread (main)
 - autoload plugins while starting
-
 - Input 
 http://python-evdev.readthedocs.io/en/latest/tutorial.html
 http://stackoverflow.com/questions/12384772/how-can-i-capture-mouseevents-and-keyevents-using-python-in-background-on-linux
 maybe TTY in RAW MODE
 
 - Settings (make it configureable)
+- improve differ speed
 - restructure loops to listen for events
   inputloop -> does block with an select
   commands -> a new thread should spawned from inputloop
@@ -116,5 +124,3 @@ except KeyboardInterrupt:
   https://www.infoq.com/articles/inotify-linux-file-system-event-monitoring
   https://github.com/seb-m/pyinotify/wiki/Tutorial
   http://www.saltycrane.com/blog/2010/04/monitoring-filesystem-python-and-pyinotify/
-
-- improve differ speed
