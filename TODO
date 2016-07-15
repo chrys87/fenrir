@@ -85,6 +85,7 @@ maybe TTY in RAW MODE
 
 - Settings (make it configureable)
 - improve differ speed
+- lock mechanism for threads
 - restructure loops to listen for events
   inputloop -> does block with an select
   commands -> a new thread should spawned from inputloop
