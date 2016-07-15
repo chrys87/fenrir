@@ -35,7 +35,7 @@ class screen():
                 return environment
         except:
             return environment
-        if trigger != 'onInput':
+        if trigger != 'onInput': # so we already moved the cursor and is not input -> screenchanges was faster
             if ((newContentBytes[2] != environment['screenData']['oldCursor']['x']) or\
               (newContentBytes[3] != environment['screenData']['oldCursor']['y'])) and\
               (newTTY == environment['screenData']['oldTTY']):
@@ -51,7 +51,8 @@ class screen():
         # analyze content
         environment['screenData']['newContentText'] = str(environment['screenData']['newContentBytes'][4:][::2].decode('WINDOWS-1250'))
         environment['screenData']['newContentAttrib'] = environment['screenData']['newContentBytes'][5:][::2]
-        environment['screenData']['newContentText'] = '\n'.join(self.textWrapper.wrap(environment['screenData']['newContentText'], ))[:-2]
+        if environment['screenData']['newContentText'].count('\n') == 0:
+            environment['screenData']['newContentText'] = '\n'.join(self.textWrapper.wrap(environment['screenData']['newContentText'], ))[:-2]
 
         if environment['screenData']['newTTY'] != environment['screenData']['oldTTY']:
             self.textWrapper.width = environment['screenData']['columns']
