@@ -1,7 +1,12 @@
 ToDos in Priority order:
 
 - beeps (sound Icons)
-- implement commands  (next_[line,word,char], prev_[line,word,char], and others
+- implement commands
+  next_word
+  next_char
+  prev_word
+  prev_char
+
 - implement braille
 http://mielke.cc/brltty/doc/Manual-BrlAPI/English/BrlAPI.html
 https://git.gnome.org/browse/orca/tree/src/orca/braille.py
