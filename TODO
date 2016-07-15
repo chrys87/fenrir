@@ -16,13 +16,20 @@ ToDos in Priority order:
   enable_disable_speech #enable, disable speech
   enable_disable_braile #enable, disable braile
   enable_disable_sound #enable, disable sound  
+  set_area_mark
+  reset_area_marks
+  toggle_highlighted_mode
   
 - implement onInput commands 
   read_line_if_cursor_change_vertical (needed if you arrow up and down, we want to announce the line)
   read_char_if_cursur_change_horizontal (needed if you arrow left and right, we want to announce the char under the cursor)
   echo_char (echos the last char on pressing space or return)
   echo_word (echos the last word on pressing space or return)
-
+  
+- implement onScreenChange commands
+  read highlighted text mode
+  window mode (define a area and just read that changes)
+  
 - default soundIcon theme (soundfiles)  
 - autostart systemd
 - implement braille
