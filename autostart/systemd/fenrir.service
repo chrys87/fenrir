@@ -1,11 +1,9 @@
 [Unit]
-Description=fenrir
-#After=
+Description=Fenrir screenreader
 
 [Service]
-ExecStart=path_to_executable
+ExecStart=/usr/bin/fenrir
 Type=forking
-PIDFile=path_to_pidfile
 
 [Install]
 WantedBy=default.target
