@@ -51,8 +51,9 @@ class screen():
         # analyze content
         environment['screenData']['newContentText'] = str(environment['screenData']['newContentBytes'][4:][::2].decode('WINDOWS-1250'))
         environment['screenData']['newContentAttrib'] = environment['screenData']['newContentBytes'][5:][::2]
-        if environment['screenData']['newContentText'].count('\n') == 0:
-            environment['screenData']['newContentText'] = '\n'.join(self.textWrapper.wrap(environment['screenData']['newContentText'], ))[:-2]
+        if environment['screenData']['newContentText'].count('\n') != 0:
+           environment['screenData']['newContentText'] = environment['screenData']['newContentText'].replace('\n',"")
+        environment['screenData']['newContentText'] = '\n'.join(self.textWrapper.wrap(environment['screenData']['newContentText'], ))[:-2]
 
         if environment['screenData']['newTTY'] != environment['screenData']['oldTTY']:
             self.textWrapper.width = environment['screenData']['columns']
