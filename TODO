@@ -1,5 +1,4 @@
 ToDos in Priority order:
-
 - beeps (sound Icons)
 - implement commands
   curr_word
@@ -36,10 +35,9 @@ https://git.gnome.org/browse/orca/tree/src/orca/braille.py
 - configuration should be overwriteable with parameter and alternative paths
 - write settings
 - menue for settings configuration 
+- translateable
 - implement speechdriver generic (say)
 https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/sect-Managing_Services_with_systemd-Unit_Files.html
-
-- translateable
 
 -------------DONE--------------------------------
 - move from VCS to VCSA and parese the Attributes
