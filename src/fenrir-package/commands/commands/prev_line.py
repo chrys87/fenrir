@@ -10,9 +10,9 @@ class command():
         if environment['screenData']['newCursorReview']['y'] - 1 >= 0:
             environment['screenData']['newCursorReview']['y'] = environment['screenData']['newCursorReview']['y'] - 1
         if environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursorReview']['y']].replace(" ","").replace("\n","").replace("\t","") == '':
-            environment['runtime']['outputManager'].speakText(environment, "blank")
+            environment['runtime']['outputManager'].presentText(environment, "blank")
         else:
-            environment['runtime']['outputManager'].speakText(environment, environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursorReview']['y']])
+            environment['runtime']['outputManager'].presentText(environment, environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursorReview']['y']])
         return environment
     def setCallback(self, callback):
         pass

@@ -6,7 +6,7 @@ class command():
     def run(self, environment):
         if environment['screenData']['newDelta'] != environment['screenData']['oldDelta'] or \
           environment['screenData']['newTTY'] != environment['screenData']['oldTTY']:
-            environment['runtime']['outputManager'].speakText(environment, environment['screenData']['newDelta'])
+            environment['runtime']['outputManager'].presentText(environment, environment['screenData']['newDelta'])
         return environment
     def setCallback(self, callback):
         pass

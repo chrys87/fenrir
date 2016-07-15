@@ -24,7 +24,7 @@ class outputManager():
         environment['runtime']['speechDriver'].speak(Text)
 
     def brailleText(self, environment, Text):
-        if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'braile', 'enabled'):
+        if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'braille', 'enabled'):
             return    
         print('braille')
     def interruptOutput(self, environment):

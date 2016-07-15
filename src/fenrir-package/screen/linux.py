@@ -12,7 +12,7 @@ class screen():
         self.vcsaDevicePath = device
         self.textWrapper = textwrap.TextWrapper()
         self.textWrapper.drop_whitespace = False
-    def analyzeScreen(self, environment):
+    def analyzeScreen(self, environment, trigger='updateScreen'):
         # set new "old" values
         environment['screenData']['oldContentBytes'] = environment['screenData']['newContentBytes']
         environment['screenData']['oldContentText'] = environment['screenData']['newContentText']
@@ -21,21 +21,27 @@ class screen():
         environment['screenData']['oldCursor']['y'] = environment['screenData']['newCursor']['y']
         environment['screenData']['oldTTY'] = environment['screenData']['newTTY']
         environment['screenData']['oldDelta'] = environment['screenData']['newDelta']
-        
+        newTTY = environment['screenData']['newTTY']
         # read screen
         currTTY = open('/sys/devices/virtual/tty/tty0/active','r')
-        environment['screenData']['newTTY'] = currTTY.read()[3:-1]
+        newTTY = currTTY.read()[3:-1]
         currTTY.close() 
-     
+        newContentBytes = b''     
         try:
-            vcsa = open(self.vcsaDevicePath + environment['screenData']['newTTY'] ,'rb',0)
-            environment['screenData']['newContentBytes'] = vcsa.read()
+            vcsa = open(self.vcsaDevicePath + newTTY,'rb',0)
+            newContentBytes = vcsa.read()
             vcsa.close()
-            if len(environment['screenData']['newContentBytes']) < 5:
+            if len(newContentBytes) < 5:
                 return environment
         except:
             return environment
-        
+        if trigger != 'onInput':
+            if ((newContentBytes[2] != environment['screenData']['oldCursor']['x']) or\
+              (newContentBytes[3] != environment['screenData']['oldCursor']['y'])) and\
+              (newTTY == environment['screenData']['oldTTY']):
+                return environment
+        environment['screenData']['newTTY'] = newTTY
+        environment['screenData']['newContentBytes'] = newContentBytes
         # get metadata like cursor or screensize
         environment['screenData']['lines'] = int( environment['screenData']['newContentBytes'][0])
         environment['screenData']['columns'] = int( environment['screenData']['newContentBytes'][1])

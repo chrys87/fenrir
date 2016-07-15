@@ -31,7 +31,7 @@ class fenrir():
         while(self.environment['generalInformation']['running']):
             self.environment = self.environment['runtime']['inputManager'].getKeyPressed(self.environment)
             self.environment = self.environment['runtime']['commandManager'].getCommandForShortcut(self.environment)
-            self.environment = self.environment['runtime']['screenDriver'].analyzeScreen(self.environment)
+            self.environment = self.environment['runtime']['screenDriver'].analyzeScreen(self.environment, 'onInput')
             self.environment = self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onInput')
             if self.environment['commandInfo']['currCommand'] != '':
                 self.environment['input']['currShortcut'] = {}
@@ -41,7 +41,7 @@ class fenrir():
 
     def updateScreen(self):
             self.environment['runtime']['globalLock'].acquire(True)
-            self.environment = self.environment['runtime']['screenDriver'].analyzeScreen(self.environment)
+            self.environment = self.environment['runtime']['screenDriver'].analyzeScreen(self.environment,'updateScreen')
             self.environment = self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onScreenChanged')            
             self.environment['runtime']['globalLock'].release()
             time.sleep(0.5)
