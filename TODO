@@ -1,6 +1,5 @@
 ToDos in Priority order:
 
-  
 - beeps (sound Icons)
 - implement commands  (next_[line,word,char], prev_[line,word,char], and others
 - implement braille
