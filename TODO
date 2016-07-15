@@ -26,6 +26,7 @@ ToDos in Priority order:
 http://mielke.cc/brltty/doc/Manual-BrlAPI/English/BrlAPI.html
 https://git.gnome.org/browse/orca/tree/src/orca/braille.py
 
+- performance tuning
 - configuration should be overwriteable with parameter and alternative paths
 - implement speechdriver generic (say)
 https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/sect-Managing_Services_with_systemd-Unit_Files.html
