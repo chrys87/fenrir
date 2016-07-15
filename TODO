@@ -64,7 +64,7 @@ maybe TTY in RAW MODE
   commands -> a new thread should spawned from inputloop
   updatescreen -> maybe we could watch it with inotify vsca should support polling COMMENT: sadly not possible, poll events not fired as expected
   https://github.com/seb-m/pyinotify/wiki/Tutorial
-
+<Example Code>
 import pyinotify
 import glob
 class Identity(pyinotify.ProcessEvent):
@@ -91,6 +91,7 @@ try:
 except KeyboardInterrupt:
     notifier.stop()
     print('fin')
+</Example Code>
 
   https://www.infoq.com/articles/inotify-linux-file-system-event-monitoring
   https://github.com/seb-m/pyinotify/wiki/Tutorial
