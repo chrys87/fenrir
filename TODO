@@ -1,5 +1,5 @@
 ToDos in Priority order:
-- beeps (sound Icons)
+- soundIcons
 - implement commands
   curr_word
   curr_char
