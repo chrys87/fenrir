@@ -27,9 +27,9 @@ class screen():
         except:
             return environment
         if trigger != 'onInput' and False: # so we already moved the cursor and is not input -> screenUpdate was faster
-            if ((newContentBytes[2] != environment['screenData']['oldCursor']['x']) or\
-              (newContentBytes[3] != environment['screenData']['oldCursor']['y'])) and\
-              (newTTY == environment['screenData']['oldTTY']):
+            if ((newContentBytes[2] != environment['screenData']['newCursor']['x']) or\
+              (newContentBytes[3] != environment['screenData']['newCursor']['y'])) and\
+              (newTTY == environment['screenData']['newTTY']):
                 return environment
         # set new "old" values
         environment['screenData']['oldContentBytes'] = environment['screenData']['newContentBytes']

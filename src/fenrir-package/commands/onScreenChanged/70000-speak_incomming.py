@@ -7,7 +7,7 @@ class command():
         if environment['screenData']['newDelta'] == environment['screenData']['oldDelta'] and \
           environment['screenData']['newTTY'] == environment['screenData']['oldTTY']:
             return environment
-        environment['runtime']['outputManager'].presentText(environment, environment['screenData']['newDelta'],len(environment['screenData']['newDelta']) == 1)
+        environment['runtime']['outputManager'].presentText(environment, environment['screenData']['newDelta'],False)
         return environment
     def setCallback(self, callback):
         pass

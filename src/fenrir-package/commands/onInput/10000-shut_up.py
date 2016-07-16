@@ -8,7 +8,6 @@ class command():
           environment['screenData']['newDelta'] == environment['screenData']['oldDelta']:
             return environment
         environment['runtime']['outputManager'].interruptOutput(environment)
-        print('10000-shut_up.py')
         return environment
     def setCallback(self, callback):
         pass
