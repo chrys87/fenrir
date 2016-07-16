@@ -11,10 +11,12 @@ class inputManager():
         #for dev in self.devices.values(): print(dev)
 
     def getKeyPressed(self, environment):
+        timeout = True
         try:
-            r, w, x = select(self.devices, [], [])
+            r, w, x = select(self.devices, [], [],0.5)
             environment['runtime']['globalLock'].acquire(True)
             if r != []:
+                timeout = False
                 for fd in r:
                     for event in self.devices[fd].read():
                         if event.type == evdev.ecodes.EV_KEY:
@@ -28,7 +30,7 @@ class inputManager():
         except:
             pass
         environment['input']['currShortcutString'] = self.getShortcutString(environment)
-        return environment
+        return environment, timeout
 
     def getShortcutString(self, environment):
         if environment['input']['currShortcut'] == {}:

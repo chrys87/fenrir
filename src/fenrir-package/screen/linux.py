@@ -13,15 +13,6 @@ class screen():
         self.textWrapper = textwrap.TextWrapper()
         self.textWrapper.drop_whitespace = False
     def analyzeScreen(self, environment, trigger='updateScreen'):
-        # set new "old" values
-        environment['screenData']['oldContentBytes'] = environment['screenData']['newContentBytes']
-        environment['screenData']['oldContentText'] = environment['screenData']['newContentText']
-        environment['screenData']['oldContentTextAttrib'] = environment['screenData']['newContentAttrib']
-        environment['screenData']['oldCursor']['x'] = environment['screenData']['newCursor']['x']
-        environment['screenData']['oldCursor']['y'] = environment['screenData']['newCursor']['y']
-        environment['screenData']['oldTTY'] = environment['screenData']['newTTY']
-        environment['screenData']['oldDelta'] = environment['screenData']['newDelta']
-        newTTY = environment['screenData']['newTTY']
         # read screen
         currTTY = open('/sys/devices/virtual/tty/tty0/active','r')
         newTTY = currTTY.read()[3:-1]
@@ -35,11 +26,20 @@ class screen():
                 return environment
         except:
             return environment
-        if trigger != 'onInput': # so we already moved the cursor and is not input -> screenchanges was faster
+        if trigger != 'onInput' and False: # so we already moved the cursor and is not input -> screenUpdate was faster
             if ((newContentBytes[2] != environment['screenData']['oldCursor']['x']) or\
               (newContentBytes[3] != environment['screenData']['oldCursor']['y'])) and\
               (newTTY == environment['screenData']['oldTTY']):
                 return environment
+        # set new "old" values
+        environment['screenData']['oldContentBytes'] = environment['screenData']['newContentBytes']
+        environment['screenData']['oldContentText'] = environment['screenData']['newContentText']
+        environment['screenData']['oldContentTextAttrib'] = environment['screenData']['newContentAttrib']
+        environment['screenData']['oldCursor']['x'] = environment['screenData']['newCursor']['x']
+        environment['screenData']['oldCursor']['y'] = environment['screenData']['newCursor']['y']
+        environment['screenData']['oldTTY'] = environment['screenData']['newTTY']
+        environment['screenData']['oldDelta'] = environment['screenData']['newDelta']
+                
         environment['screenData']['newTTY'] = newTTY
         environment['screenData']['newContentBytes'] = newContentBytes
         # get metadata like cursor or screensize
@@ -47,12 +47,9 @@ class screen():
         environment['screenData']['columns'] = int( environment['screenData']['newContentBytes'][1])
         environment['screenData']['newCursor']['x'] = int( environment['screenData']['newContentBytes'][2])
         environment['screenData']['newCursor']['y'] = int( environment['screenData']['newContentBytes'][3])
-
         # analyze content
-        environment['screenData']['newContentText'] = str(environment['screenData']['newContentBytes'][4:][::2].decode('WINDOWS-1250'))
+        environment['screenData']['newContentText'] = str(environment['screenData']['newContentBytes'][4:][::2].decode("ascii", "replace"))
         environment['screenData']['newContentAttrib'] = environment['screenData']['newContentBytes'][5:][::2]
-        if environment['screenData']['newContentText'].count('\n') != 0:
-           environment['screenData']['newContentText'] = environment['screenData']['newContentText'].replace('\n',"")
         environment['screenData']['newContentText'] = '\n'.join(self.textWrapper.wrap(environment['screenData']['newContentText'], ))[:-2]
 
         if environment['screenData']['newTTY'] != environment['screenData']['oldTTY']:

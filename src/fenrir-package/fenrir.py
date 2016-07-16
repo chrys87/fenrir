@@ -15,24 +15,25 @@ from core import settingsManager
 
 class fenrir():
     def __init__(self):
-        self.threadHandleInput = None
+        self.threadonInput = Thread(target=self.onInput, args=())
         
         self.environment = settingsManager.settingsManager().initFenrirConfig()
         signal.signal(signal.SIGINT, self.captureSignal)
     
     def proceed(self):
-        self.threadHandleInput = Thread(target=self.handleInput, args=())
-        self.threadHandleInput.start()
+        self.threadonInput.start()
         while(self.environment['generalInformation']['running']):
             self.updateScreen()
         self.shutdown()
 
-    def handleInput(self):
+    def onInput(self):
         while(self.environment['generalInformation']['running']):
-            self.environment = self.environment['runtime']['inputManager'].getKeyPressed(self.environment)
+            self.environment, timeout = self.environment['runtime']['inputManager'].getKeyPressed(self.environment)
             self.environment = self.environment['runtime']['commandManager'].getCommandForShortcut(self.environment)
             self.environment = self.environment['runtime']['screenDriver'].analyzeScreen(self.environment, 'onInput')
-            self.environment = self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onInput')
+            if not timeout:
+                self.environment = self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onInput')
+            self.environment = self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onScreenChanged') 
             if self.environment['commandInfo']['currCommand'] != '':
                 self.environment['input']['currShortcut'] = {}
                 self.environment['input']['currShortcutString'] = ''
@@ -40,6 +41,7 @@ class fenrir():
             self.environment['runtime']['globalLock'].release()
 
     def updateScreen(self):
+            return
             self.environment['runtime']['globalLock'].acquire(True)
             self.environment = self.environment['runtime']['screenDriver'].analyzeScreen(self.environment,'updateScreen')
             self.environment = self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onScreenChanged')            
@@ -48,7 +50,7 @@ class fenrir():
 
     def handleCommands(self):
         if (self.environment['commandInfo']['currCommand'] != '') and \
-          (time.time() - self.environment['commandInfo']['lastCommandTime'] >= 0.02):
+          (time.time() - self.environment['commandInfo']['lastCommandTime'] >= 0.01):
             self.environment = self.environment['runtime']['commandManager'].executeCommand(self.environment, self.environment['commandInfo']['currCommand'], 'commands')
 
     def shutdown(self):
