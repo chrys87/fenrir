@@ -5,7 +5,7 @@ class command():
         pass
     def run(self, environment):
         if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'keyboard', 'charEcho') and\
-          len(environment['screenData']['newDelta']) <= 2 and \
+          #len(environment['screenData']['newDelta']) <= 2 and \
           environment['screenData']['newCursor'] != environment['screenData']['oldCursor']:
             return environment 
         if environment['screenData']['newDelta'] == environment['screenData']['oldDelta'] and \
