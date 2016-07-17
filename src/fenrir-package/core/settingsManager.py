@@ -81,14 +81,27 @@ class settingsManager():
         return value
 
     def getSettingAsInt(self, environment, section, setting):
-        return int(self.getSetting( environment, section, setting))
-
+        value = ''
+        try:
+            value = environment['settings'].getint(section, setting)
+        except:
+            value = self.settings[section][setting]
+        return value
+        
     def getSettingAsFloat(self, environment, section, setting):
-        return float(self.getSetting( environment, section, setting))
-
+        value = ''
+        try:
+            value = environment['settings'].getfloat(section, setting)
+        except:
+            value = self.settings[section][setting]
+        return value
     def getSettingAsBool(self, environment, section, setting):
-        return bool(self.getSetting(environment, section, setting))  
-      
+        value = ''
+        try:
+            value = environment['settings'].getboolean(section, setting)
+        except:
+            value = self.settings[section][setting]
+        return value   
     def loadSpeechDriver(self, environment, driverName):
         if environment['runtime']['speechDriver'] != None:
             environment['runtime']['speechDriver'].shutdown()    

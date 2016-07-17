@@ -29,5 +29,10 @@ settings = {
   'keyboardLayout': "desktop",
   'debugLevel': debug.debugLevel.DEACTIVE,
   'punctuationLevel': 1 
+},
+'keyboard':{
+  'keyboardLayout': "desktop",
+  'charEcho':False,
+  'wordEcho':True,
 }
 }

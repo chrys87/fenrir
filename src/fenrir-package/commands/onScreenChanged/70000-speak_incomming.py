@@ -4,6 +4,12 @@ class command():
     def __init__(self):
         pass
     def run(self, environment):
+        print(environment['runtime']['settingsManager'].getSettingAsBool(environment, 'keyboard', 'charEcho') )
+        if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'keyboard', 'charEcho') and\
+          len(environment['screenData']['newDelta']) <= 2 and \
+          environment['screenData']['newCursor'] != environment['screenData']['oldCursor']:
+            print('dri')
+            return environment 
         if environment['screenData']['newDelta'] == environment['screenData']['oldDelta'] and \
           environment['screenData']['newTTY'] == environment['screenData']['oldTTY']:
             return environment
