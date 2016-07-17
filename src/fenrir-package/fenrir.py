@@ -49,8 +49,7 @@ class fenrir():
             time.sleep(0.5)
 
     def handleCommands(self):
-        if (self.environment['commandInfo']['currCommand'] != '') and \
-          (time.time() - self.environment['commandInfo']['lastCommandTime'] >= 0.01):
+        if (self.environment['commandInfo']['currCommand'] != ''):
             self.environment = self.environment['runtime']['commandManager'].executeCommand(self.environment, self.environment['commandInfo']['currCommand'], 'commands')
 
     def shutdown(self):
