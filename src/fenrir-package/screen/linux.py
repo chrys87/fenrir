@@ -48,10 +48,10 @@ class screen():
         environment['screenData']['newCursor']['x'] = int( environment['screenData']['newContentBytes'][2])
         environment['screenData']['newCursor']['y'] = int( environment['screenData']['newContentBytes'][3])
         # analyze content
-        environment['screenData']['newContentText'] = str(environment['screenData']['newContentBytes'][4:][::2].decode("ascii", "replace"))
+        environment['screenData']['newContentText'] = str(environment['screenData']['newContentBytes'][4:][::2].decode("CP1252", "replace"))
         environment['screenData']['newContentAttrib'] = environment['screenData']['newContentBytes'][5:][::2]
         environment['screenData']['newContentText'] = '\n'.join(self.textWrapper.wrap(environment['screenData']['newContentText'], ))[:-2]
-
+        
         if environment['screenData']['newTTY'] != environment['screenData']['oldTTY']:
             self.textWrapper.width = environment['screenData']['columns']
             environment['screenData']['oldContentBytes'] = b''
@@ -67,5 +67,6 @@ class screen():
           (len(environment['screenData']['newContentText']) > 0):
             diff = difflib.ndiff(" ".join(environment['screenData']['oldContentText'].split()), " ".join(environment['screenData']['newContentText'].split()))
             environment['screenData']['newDelta'] = ''.join(x[2:] for x in diff if x.startswith('+ '))
+
 
         return environment

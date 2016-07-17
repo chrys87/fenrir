@@ -8,7 +8,8 @@ class command():
           environment['screenData']['newCursor']['x'] == environment['screenData']['oldCursor']['x']:
             return environment
         if environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursor']['y']][environment['screenData']['newCursor']['x']].replace(" ","").replace("\n","").replace("\t","") == '':
-            environment['runtime']['outputManager'].presentText(environment, "blank",True)
+            pass
+            #environment['runtime']['outputManager'].presentText(environment, "blank",True)
         else:
             environment['runtime']['outputManager'].presentText(environment, environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursor']['y']][environment['screenData']['newCursor']['x']],True)
 
