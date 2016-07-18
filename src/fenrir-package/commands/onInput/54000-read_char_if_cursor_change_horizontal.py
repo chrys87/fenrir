@@ -7,7 +7,7 @@ class command():
         if environment['screenData']['newCursor']['y'] != environment['screenData']['oldCursor']['y'] or\
           environment['screenData']['newCursor']['x'] == environment['screenData']['oldCursor']['x']:
             return environment
-        if environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursor']['y']][environment['screenData']['newCursor']['x']].strip(" \n\t") == '':
+        if environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursor']['y']][environment['screenData']['newCursor']['x']].strip(" \t\n") == '':
             pass
             #environment['runtime']['outputManager'].presentText(environment, "blank",True)
         else:

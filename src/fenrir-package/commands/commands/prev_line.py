@@ -9,10 +9,11 @@ class command():
             environment['screenData']['newCursorReview'] = environment['screenData']['newCursor'].copy()
         if environment['screenData']['newCursorReview']['y'] - 1 >= 0:
             environment['screenData']['newCursorReview']['y'] = environment['screenData']['newCursorReview']['y'] - 1
-        if environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursorReview']['y']].replace(" ","").replace("\n","").replace("\t","") == '':
+        wrappedLines = environment['screenData']['newContentText'].split('\n')          
+        if wrappedLines[environment['screenData']['newCursorReview']['y']].strip(" \t\n") == '':
             environment['runtime']['outputManager'].presentText(environment, "blank")
         else:
-            environment['runtime']['outputManager'].presentText(environment, environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursorReview']['y']])
+            environment['runtime']['outputManager'].presentText(environment, wrappedLines[environment['screenData']['newCursorReview']['y']])
         return environment
     def setCallback(self, callback):
         pass

@@ -12,18 +12,18 @@ class commandManager():
         commandFolder = "commands/" + section +"/"
         commandList = glob.glob(commandFolder+'*')
         for currCommand in commandList:
-            try:
-                fileName, fileExtension = os.path.splitext(currCommand)
-                fileName = fileName.split('/')[-1]
-                if fileName in ['__init__','__pycache__']:
-                    continue
-                if fileExtension.lower() == '.py':
-                    spec = importlib.util.spec_from_file_location(fileName, currCommand)
-                    command_mod = importlib.util.module_from_spec(spec)
-                    spec.loader.exec_module(command_mod)
-                    environment['commands'][section][fileName] = command_mod.command()
-            except:
+            #try:
+            fileName, fileExtension = os.path.splitext(currCommand)
+            fileName = fileName.split('/')[-1]
+            if fileName in ['__init__','__pycache__']:
                 continue
+            if fileExtension.lower() == '.py':
+                spec = importlib.util.spec_from_file_location(fileName, currCommand)
+                command_mod = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(command_mod)
+                environment['commands'][section][fileName] = command_mod.command()
+            #except:
+            #    continue
         return environment
     def executeTriggerCommands(self, environment, trigger):
         for cmd in sorted(environment['commands'][trigger]):

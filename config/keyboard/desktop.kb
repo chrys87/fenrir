@@ -2,4 +2,7 @@
 1-KEY_KP8=curr_line
 1-KEY_KP7=prev_line
 1-KEY_KP9=next_line
+1-KEY_KP5=curr_word
+1-KEY_KP4=prev_word
+1-KEY_KP6=next_word
 1-KEY_KPDOT=exit_review
