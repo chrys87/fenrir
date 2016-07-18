@@ -21,9 +21,9 @@ class fenrir():
         signal.signal(signal.SIGINT, self.captureSignal)
     
     def proceed(self):
-        self.threadonInput.start()
-        while(self.environment['generalInformation']['running']):
-            self.updateScreen()
+        #self.threadonInput.start()
+        #while(self.environment['generalInformation']['running']):
+        self.onInput()
         self.shutdown()
 
     def onInput(self):
@@ -49,8 +49,8 @@ class fenrir():
             time.sleep(0.5)
 
     def handleCommands(self):
-        if (self.environment['commandInfo']['currCommand'] != '') and \
-          (time.time() - self.environment['commandInfo']['lastCommandTime'] >= 0.01):
+        if (self.environment['commandInfo']['currCommand'] != ''):# and \
+#          (time.time() - self.environment['commandInfo']['lastCommandTime'] >= 0.01):
             self.environment = self.environment['runtime']['commandManager'].executeCommand(self.environment, self.environment['commandInfo']['currCommand'], 'commands')
 
     def shutdown(self):

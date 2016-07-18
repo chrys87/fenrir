@@ -4,7 +4,6 @@
 import difflib
 import textwrap
 import time
-import re
 
 #import fenrir.utils.debug
 class screen():
@@ -13,12 +12,13 @@ class screen():
         self.textWrapper = textwrap.TextWrapper()
         self.textWrapper.drop_whitespace = False
     def analyzeScreen(self, environment, trigger='updateScreen'):
-        # read screen
-        currTTY = open('/sys/devices/virtual/tty/tty0/active','r')
-        newTTY = currTTY.read()[3:-1]
-        currTTY.close() 
-        newContentBytes = b''     
+        newTTY = ''
+        newContentBytes = b''       
         try:
+            # read screen
+            currTTY = open('/sys/devices/virtual/tty/tty0/active','r')
+            newTTY = currTTY.read()[3:-1]
+            currTTY.close() 
             vcsa = open(self.vcsaDevicePath + newTTY,'rb',0)
             newContentBytes = vcsa.read()
             vcsa.close()
@@ -26,11 +26,7 @@ class screen():
                 return environment
         except:
             return environment
-        if trigger != 'onInput' and False: # so we already moved the cursor and is not input -> screenUpdate was faster
-            if ((newContentBytes[2] != environment['screenData']['newCursor']['x']) or\
-              (newContentBytes[3] != environment['screenData']['newCursor']['y'])) and\
-              (newTTY == environment['screenData']['newTTY']):
-                return environment
+
         # set new "old" values
         environment['screenData']['oldContentBytes'] = environment['screenData']['newContentBytes']
         environment['screenData']['oldContentText'] = environment['screenData']['newContentText']
