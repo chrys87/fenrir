@@ -66,7 +66,12 @@ class screen():
               environment['screenData']['newContentText'] != '':
                 environment['screenData']['newDelta'] = environment['screenData']['newContentText']  
             else:
-                diff = difflib.ndiff(" ".join(environment['screenData']['oldContentText'].split(' ')), " ".join(environment['screenData']['newContentText'].split(' ')))
+                diffStart = 0
+                lastLine = len(environment['screenData']['newDelta']) - environment['screenData']['columns']
+                if environment['screenData']['newDelta'][:lastLine] == environment['screenData']['newDelta'][:lastLine]:
+                    diffStart = lastLine + 1
+                diff = difflib.ndiff(" ".join(environment['screenData']['oldContentText'][diffStart:].split(' ')),\
+                  " ".join(environment['screenData']['newContentText'][diffStart:].split(' ')))
                 environment['screenData']['newDelta'] = ''.join(x[2:] for x in diff if x.startswith('+ '))
 
         return environment
