@@ -8,6 +8,12 @@ class command():
         if environment['screenData']['newCursorReview']['y'] == -1:
             environment['screenData']['newCursorReview'] = environment['screenData']['newCursor'].copy()
         wrappedLines = environment['screenData']['newContentText'].split('\n')          
+        if environment['screenData']['newCursorReview']['x'] + 1 = len(wrappedLines[environment['screenData']['newCursorReview']['y']):
+            if environment['screenData']['newCursorReview']['y'] +1 < len(wrappedLines) - 1:
+                environment['screenData']['newCursorReview']['y'] += 1
+                environment['screenData']['newCursorReview']['x'] = 0
+        else:
+            environment['screenData']['newCursorReview']['x'] += 1
         if wrappedLines[environment['screenData']['newCursorReview']['y']][environment['screenData']['newCursorReview']['x']].strip(" \t\n") == '':
             environment['runtime']['outputManager'].presentText(environment, "blank")
         else:
