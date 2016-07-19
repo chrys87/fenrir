@@ -67,7 +67,6 @@ class screen():
                 environment['screenData']['newDelta'] = environment['screenData']['newContentText']  
             else:
                 diffStart = 0
-                print(len(environment['screenData']['newContentText']), environment['screenData']['columns'])
                 lastLine = len(environment['screenData']['newContentText']) - environment['screenData']['columns']
                 if environment['screenData']['newContentText'][:lastLine] == environment['screenData']['oldContentText'][:lastLine]:
                     diffStart = lastLine + 1
