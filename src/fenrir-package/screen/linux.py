@@ -67,7 +67,7 @@ class screen():
                 environment['screenData']['newDelta'] = environment['screenData']['newContentText']  
             else:
                 diffStart = 0
-                lastLine = len(environment['screenData']['newDelta']) - environment['screenData']['columns']
+                lastLine = len(environment['screenData']['newDelta']) - environment['screenData']['columns'] -1
                 if environment['screenData']['newDelta'][:lastLine] == environment['screenData']['oldDelta'][:lastLine]:
                     diffStart = lastLine + 1
                 diff = difflib.ndiff(" ".join(environment['screenData']['oldContentText'][diffStart:].split(' ')),\
