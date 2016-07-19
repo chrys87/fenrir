@@ -5,12 +5,15 @@ class command():
         pass
     def run(self, environment):
         if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'keyboard', 'charEcho') and\
-          environment['screenData']['newCursor'] - environment['screenData']['oldCursor'] ==1:
+          environment['screenData']['newCursor']['x'] - environment['screenData']['oldCursor']['x'] ==1:
             return environment 
+
         ttyChanged = environment['screenData']['newTTY'] != environment['screenData']['oldTTY']
         if environment['screenData']['newDelta'] == environment['screenData']['oldDelta'] and \
           not ttyChanged:
             return environment
+        print(environment['screenData']['newDelta'])
+            
         environment['runtime']['outputManager'].presentText(environment, environment['screenData']['newDelta'], ttyChanged)
         return environment
     def setCallback(self, callback):
