@@ -57,14 +57,17 @@ class screen():
             environment['screenData']['oldCursor']['y'] = 0
             environment['screenData']['oldDelta'] = ''
             environment['screenData']['newDelta'] = ''
-            
+        
         # changes on the screen
         if (environment['screenData']['oldContentText'] != environment['screenData']['newContentText']) and \
           (len(environment['screenData']['newContentText']) > 0):
 #            diff = difflib.ndiff(environment['screenData']['oldContentText'], environment['screenData']['newContentText'])
-          
-            diff = difflib.ndiff(" ".join(environment['screenData']['oldContentText'].split(' ')), " ".join(environment['screenData']['newContentText'].split(' ')))
-            environment['screenData']['newDelta'] = ''.join(x[2:] for x in diff if x.startswith('+ '))
+            if environment['screenData']['oldContentText'] == '' and\
+              environment['screenData']['newContentText'] != '':
+                environment['screenData']['newDelta'] = environment['screenData']['newContentText']  
+            else:
+                diff = difflib.ndiff(" ".join(environment['screenData']['oldContentText'].split(' ')), " ".join(environment['screenData']['newContentText'].split(' ')))
+                environment['screenData']['newDelta'] = ''.join(x[2:] for x in diff if x.startswith('+ '))
 
 
         return environment
