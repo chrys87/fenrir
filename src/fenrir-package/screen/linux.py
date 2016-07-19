@@ -60,7 +60,7 @@ class screen():
         
         # changes on the screen
         if (environment['screenData']['oldContentText'] != environment['screenData']['newContentText']) and \
-          (environment['screenData']['newContentText']) != '' ):
+          (environment['screenData']['newContentText'] != '' ):
 #            diff = difflib.ndiff(environment['screenData']['oldContentText'], environment['screenData']['newContentText'])
             if environment['screenData']['oldContentText'] == '' and\
               environment['screenData']['newContentText'] != '':
