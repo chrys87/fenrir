@@ -7,7 +7,13 @@ class command():
         environment['screenData']['oldCursorReview'] = environment['screenData']['newCursorReview']
         if environment['screenData']['newCursorReview']['y'] == -1:
             environment['screenData']['newCursorReview'] = environment['screenData']['newCursor'].copy()
-        wrappedLines = environment['screenData']['newContentText'].split('\n')          
+        wrappedLines = environment['screenData']['newContentText'].split('\n') 
+        if environment['screenData']['newCursorReview']['x'] - 1 < 0:
+            if environment['screenData']['newCursorReview']['y'] -1 > 0:
+                environment['screenData']['newCursorReview']['y'] -= 1
+                environment['screenData']['newCursorReview']['x'] = len(wrappedLines[environment['screenData']['newCursorReview']['y']) - 1
+        else:
+            environment['screenData']['newCursorReview']['x'] =- 1
         if wrappedLines[environment['screenData']['newCursorReview']['y']][environment['screenData']['newCursorReview']['x']].strip(" \t\n") == '':
             environment['runtime']['outputManager'].presentText(environment, "blank")
         else:
