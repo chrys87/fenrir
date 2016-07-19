@@ -12,7 +12,6 @@ class command():
         if environment['screenData']['newDelta'] == environment['screenData']['oldDelta'] and \
           not ttyChanged:
             return environment
-        print(environment['screenData']['newDelta'])
             
         environment['runtime']['outputManager'].presentText(environment, environment['screenData']['newDelta'], ttyChanged)
         return environment
