@@ -1,6 +1,6 @@
 #!/bin/python
 
-def getCurrentWord(x,y, currText):
+def getCurrentWord(currX,currY, currText):
     if currText == '':
         return -1, -1, ''
     wordFound = False
@@ -26,7 +26,7 @@ def getCurrentWord(x,y, currText):
                 y -= 1
                 currLine = wrappedLines[y].replace("\t"," ")
             else:
-                break
+                 return currX, currY, '' 
             x = len(wrappedLines[y]) - 1
         else:
             x -= 1
