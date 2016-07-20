@@ -1,6 +1,8 @@
 #!/bin/python
 
 def getCurrentWord(x,y, currText):
+    if currText == '':
+        return -1, -1, ''
     wordFound = False
     currWord = ''
     currLine = wrappedLines[y].replace("\t"," ")
