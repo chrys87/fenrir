@@ -4,6 +4,7 @@
 import difflib
 import textwrap
 import time
+import re
 
 #import fenrir.utils.debug
 class screen():
@@ -71,8 +72,8 @@ class screen():
                 if environment['screenData']['newContentText'][:lastLine] == environment['screenData']['oldContentText'][:lastLine]:
                     diffStart = lastLine + 1
       
-                diff = difflib.ndiff(" ".join(environment['screenData']['oldContentText'][diffStart:].split(' ')),\
-                  " ".join(environment['screenData']['newContentText'][diffStart:].split(' ')))
+                diff = difflib.ndiff(re.sub('[ \t]+', ' ', environment['screenData']['oldContentText'][diffStart:]),\
+                  re.sub('[ \t]+', ' ', environment['screenData']['newContentText'][diffStart:]))
                 environment['screenData']['newDelta'] = ''.join(x[2:] for x in diff if x.startswith('+ '))
 
         return environment
