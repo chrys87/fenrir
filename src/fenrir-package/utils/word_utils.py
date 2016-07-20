@@ -3,6 +3,9 @@
 def getCurrentWord(currX,currY, currText):
     if currText == '':
         return -1, -1, ''
+    x = currX
+    y = currY
+    wrappedLines = currText.split('\n')
     wordFound = False
     currWord = ''
     currLine = wrappedLines[y].replace("\t"," ")
@@ -30,4 +33,4 @@ def getCurrentWord(currX,currY, currText):
             x = len(wrappedLines[y]) - 1
         else:
             x -= 1
-    return x, y, currWord    
+    return x, y, currWord
