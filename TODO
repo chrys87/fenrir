@@ -35,6 +35,7 @@ ToDos in Priority order:
 - implement braille
 http://mielke.cc/brltty/doc/Manual-BrlAPI/English/BrlAPI.html
 https://git.gnome.org/browse/orca/tree/src/orca/braille.py
+https://wiki.gnome.org/Attic/LSR/ScratchPad/Braille/BrlAPI
 
 - add the debugging to core
 - performance tuning
