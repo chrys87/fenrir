@@ -7,7 +7,7 @@ Cancel=''
 Accept=''
 # Bell a sound if the TTY is changed (ctrl + alt +FX)
 ChangeTTY=''
-# Is the first Position on the Screen
+# Is the first Position on the line
 StartOfLine=''
 # Is the last position of the Line
 EndOfLine=''
