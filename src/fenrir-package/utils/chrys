@@ -67,27 +67,40 @@ def getNextWord(currX,currY, currText):
     wordFound = False
     currWord = ''
     currLine = wrappedLines[y].replace("\t"," ")
-    if currLine[x] == ' ' and  x + 1 < len(currLine):
-        x = x + 1
     while not wordFound:
-        print(x,y)
-		x = currLine[x:].find(" ")
-        if x == -1:
-            if y != len(wrappedLines):
+        xtmp = 0
+        if  x + 1 >= len(currLine):
+            if y < len(wrappedLines):
                 y += 1
                 currLine = wrappedLines[y].replace("\t"," ")
             else:
                  return currX, currY, '' 
             x = 0
         else:
-            x += currLine[x + 1:].find(" ")
-        wordEnd = currLine[x + 1:].find(" ")
+            x += 1
+            xtmp = x    
+            x = currLine[x:].find(" ")          
+        if x == -1:
+            x = len(currLine)
+            continue
+        else:
+            if xtmp <> 0:
+              xtmp += 1
+            x += xtmp
+        if x + 1 < len(currLine):
+            wordEnd = currLine[x + 1:].find(" ")
+        else:
+            wordEnd = -1
         if wordEnd == -1:
             wordEnd = len(currLine)
         else:
-            wordEnd += x + 2
+            wordEnd += x + 1
+        if wordEnd >= len(currLine) and y + 1 >= len(wrappedLines):
+            return currX, currY, ''
         currWord = currLine[x:wordEnd]
         wordFound = currWord.strip(" \t\n") != ''
+        if not wordFound:
+            x = wordEnd
     return x, y, currWord
 
 currText = "    das ist ein   test\ntest das\ntesttest\n\ntest"
