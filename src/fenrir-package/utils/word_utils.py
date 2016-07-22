@@ -60,9 +60,47 @@ def getCurrentWord(currX,currY, currText):
             x -= 1
     return x, y, currWord
 
-currText = "    das ist ein   test\ntest das\ntesttest\n\ntest"
-currY = 4
-currX = 3
-currX, currY, word = getCurrentWord(currX,currY,currText)
-#currX, currY, word = getPrevWord(currX,currY,currText)
-print(currX, currY, word)
+def getNextWord(currX,currY, currText):
+    if currText == '':
+        return -1, -1, ''
+    x = currX
+    y = currY
+    wrappedLines = currText.split('\n')
+    wordFound = False
+    currWord = ''
+    currLine = wrappedLines[y].replace("\t"," ")
+    while not wordFound:
+        xtmp = 0
+        if  x + 1 >= len(currLine):
+            if y < len(wrappedLines):
+                y += 1
+                currLine = wrappedLines[y].replace("\t"," ")
+            else:
+                 return currX, currY, '' 
+            x = 0
+        else:
+            x += 1
+            xtmp = x    
+            x = currLine[x:].find(" ")          
+        if x == -1:
+            x = len(currLine)
+            continue
+        else:
+            if xtmp <> 0:
+              xtmp += 1
+            x += xtmp
+        if x + 1 < len(currLine):
+            wordEnd = currLine[x + 1:].find(" ")
+        else:
+            wordEnd = -1
+        if wordEnd == -1:
+            wordEnd = len(currLine)
+        else:
+            wordEnd += x + 1
+        if wordEnd >= len(currLine) and y + 1 >= len(wrappedLines):
+            return currX, currY, ''
+        currWord = currLine[x:wordEnd]
+        wordFound = currWord.strip(" \t\n") != ''
+        if not wordFound:
+            x = wordEnd
+    return x, y, currWord
