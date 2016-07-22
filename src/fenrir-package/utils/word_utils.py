@@ -3,9 +3,9 @@
 def getPrevWord(currX,currY, currText):
     if currText == '':
         return -1, -1, ''
-    x, y, word = getCurrentWord(currX,currY,currText)
+    x, y, currWord = getCurrentWord(currX,currY,currText)
     wrappedLines = currText.split('\n') 
-    if (word == ''):
+    if (currWord == ''):
         return currX, currY, '' 
     while True:
         if x < 2:
@@ -18,10 +18,10 @@ def getPrevWord(currX,currY, currText):
             x -= 1
         if wrappedLines[y] != '':
             break
-    x, y, word = getCurrentWord(x, y, currText)
-    if word == '':
+    x, y, currWord = getCurrentWord(x, y, currText)
+    if currWord == '':
         return currX, currY, ''
-    return x, y, word
+    return x, y, currWord
 
 def getCurrentWord(currX,currY, currText):
     if currText == '':
@@ -86,7 +86,7 @@ def getNextWord(currX,currY, currText):
             x = len(currLine)
             continue
         else:
-            if xtmp <> 0:
+            if xtmp != 0:
               xtmp += 1
             x += xtmp
         if x + 1 < len(currLine):
