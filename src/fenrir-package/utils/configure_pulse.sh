@@ -2,12 +2,7 @@
 
 # This script configures pulse to work both in the graphical invironment and in the console with root apps.
 
-# Make sure we aren't started as root:
-if [[ $(whoami) = "root" ]]; then
-    echo "Please don't start this script with root priveleges, the script will call sudo when needed."
-    exit 1
-fi
-
+if [[ $(whoami) != "root" ]]; then
 # Get the current user's XDG_HOME
 xdgPath="${XDG_CONFIG_HOME:-$HOME/.config}"
 
@@ -17,21 +12,18 @@ if [ -f "$xdgPath/pulse/default.pa" ]; then
 fi
 echo '.include /etc/pulse/default.pa
 load-module module-native-protocol-unix auth-anonymous=1 socket=/tmp/pulse.sock' > $xdgPath/pulse/default.pa
-
+echo "If you have not yet done so, please run this script as root to write the client.conf file."
+else
 # This section does the root part:
-read -p "This next sections requires root priveleges.. If you don't have access to sudo, please control c to abort this script, if you can use sudo, press enter to continue. " continue
-
-
-# Get root's 's XDG_HOME
 xdgPath="/root/.config"
-sudo mkdir -p "$xdgPath/pulse"
+mkdir -p "$xdgPath/pulse"
 
 # Warn user if we are going to overwrite an existing default.pa
 if [ -f "$xdgPath/pulse/default.pa" ]; then
     read -p "This will replace the current file located at $xdgPath/pulse/default.pa, press enter to continue or control+c to abort. " continue
 fi
 
-sudo cat << EOF > "$xdgPath/pulse/client.conf"
+cat << EOF > "$xdgPath/pulse/client.conf"
 # This file is part of PulseAudio.
 #
 # PulseAudio is free software; you can redistribute it and/or modify
@@ -69,6 +61,8 @@ autospawn = no
 ; auto-connect-localhost = no
 ; auto-connect-display = no
 EOF
+echo "If you have not yet done so, run this script as your normal user to write the user default.pa"
+fi
 
 # If there were no errors tell user to restart, else warn them errors happened.
 if [ $? -eq 0 ]; then
