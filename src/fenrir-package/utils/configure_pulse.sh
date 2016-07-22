@@ -24,7 +24,7 @@ read -p "This next sections requires root priveleges.. If you don't have access 
 
 # Get root's 's XDG_HOME
 xdgPath="/root/.config"
-sudo mkdir -p "$xdgPath"
+sudo mkdir -p "$xdgPath/pulse"
 
 # Warn user if we are going to overwrite an existing default.pa
 if [ -f "$xdgPath/pulse/default.pa" ]; then
