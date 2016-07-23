@@ -10,3 +10,6 @@
 1-KEY_KP1=prev_char
 1-KEY_KP3=next_char
 1-KEY_KPDOT=exit_review
+#=toggle_braille_enable
+#=toggle_speech_enable
+#=toggle_sound_enable
