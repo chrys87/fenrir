@@ -21,7 +21,7 @@ class inputManager():
                     for event in self.devices[fd].read():
                         if event.type == evdev.ecodes.EV_KEY:
                             if event.value != 0:
-                                environment['input']['currShortcut'][str(event.code)] = event.value
+                                environment['input']['currShortcut'][str(event.code)] = 1 #event.value
                             else:
                                 try:
                                     del(environment['input']['currShortcut'][str(event.code)])
