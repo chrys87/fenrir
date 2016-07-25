@@ -1,44 +1,44 @@
 # Screen Reader Turned On or Off
-ScreenReaderOn=''
-ScreenReaderOff=''
+ScreenReaderOn='ScreenReaderOn.opus'
+ScreenReaderOff='ScreenReaderOff.opus'
 # Cancel the current command
-Cancel=''
+Cancel='Cancel.opus'
 # Accept command
-Accept=''
+Accept='Accept.opus'
 # Bell a sound if the TTY is changed (ctrl + alt +FX)
-ChangeTTY=''
+ChangeTTY='ChangeTTY.opus'
 # Is the first Position on the line
-StartOfLine=''
+StartOfLine='StartOfLine.opus'
 # Is the last position of the Line
-EndOfLine=''
+EndOfLine='EndOfLine.opus'
 # the Line is empty
-EmptyLine=''
+EmptyLine='EmptyLine.opus'
 # Is the first line on the screen.
-StartOfScreen=''
+StartOfScreen='StartOfScreen.opus'
 # Is the last line on the screen
-EndOfScreen=''
+EndOfScreen='EndOfScreen.opus'
 # The content has changed
-ContentChanged=''
+ContentChanged='ContentChanged.opus'
 # Speech has turned On or Off
-SpeechOn=''
-SpeechOff=''
+SpeechOn='SpeechOn.opus'
+SpeechOff='SpeechOff.opus'
 # Braille has turned On or Off
-BrailleOn=''
-BrailleOff=''
+BrailleOn='BrailleOn.opus'
+BrailleOff='BrailleOff.opus'
 # SoundIcons has turned On or Off
-SoundIconsOn=''
-SoundIconsOff=''
+SoundIconsOn='SoundIconsOn.opus'
+SoundIconsOff='SoundIconsOff.opus'
 # Set beginnig mark for copy to clipboard
-PlaceStartCopyMark=''
+PlaceStartCopyMark='PlaceStartCopyMark.opus'
 # Set end mark for copy to clipboard
-PlaceEndCopyMark=''
+PlaceEndCopyMark='PlaceEndCopyMark.opus'
 # Copied to clipboard
-CopyToClipboard=''
+CopyToClipboard='CopyToClipboard.opus'
 # Pasted on the screen
-PasedClipboardOnScreen=''
+PasedClipboardOnScreen='PasedClipboardOnScreen.opus'
 # An error accoured while speech or braille output or reading the screen
-ErrorSpeech=''
-ErrorBraille=''
-ErrorScreen=''
+ErrorSpeech='ErrorSpeech.opus'
+ErrorBraille='ErrorBraille.opus'
+ErrorScreen='ErrorScreen.opus'
 # I if you cursor over an text that has attributs (like color)
-HasAttributes=''
+HasAttributes='HasAttributes.opus'
