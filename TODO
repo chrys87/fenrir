@@ -6,7 +6,6 @@ ToDos in Priority order:
   copy_marked
   paste
   attributes_curr_char
-  enable_disable_output #enable, disable speech, braile and sound
   set_area_mark
   reset_area_marks
   toggle_highlighted_mode
@@ -131,7 +130,8 @@ except KeyboardInterrupt:
   enable_disable_speech #enable, disable speech
   enable_disable_braile #enable, disable braile
   enable_disable_sound #enable, disable sound 
-  
+  enable_disable_output #enable, disable speech, braile and sound
+
 - implement onInput commands 
   read_line_if_cursor_change_vertical (needed if you arrow up and down, we want to announce the line)
   read_char_if_cursur_change_horizontal (needed if you arrow left and right, we want to announce the char under the cursor)
