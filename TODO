@@ -19,7 +19,6 @@ ToDos in Priority order:
   read highlighted text mode
   window mode (define a area and just read that changes)
   
-- default soundIcon theme (soundfiles)  
 - autostart systemd
 - implement braille
 http://mielke.cc/brltty/doc/Manual-BrlAPI/English/BrlAPI.html
@@ -121,7 +120,7 @@ except KeyboardInterrupt:
   https://github.com/seb-m/pyinotify/wiki/Tutorial
   http://www.saltycrane.com/blog/2010/04/monitoring-filesystem-python-and-pyinotify/
   
-  
+- default soundIcon theme (soundfiles)  
 - implement commands
   curr_word
   curr_char
