@@ -11,11 +11,11 @@ class command():
             environment = environment['runtime']['settingsManager'].setSetting(environment, 'speech', 'enabled','False')
             environment = environment['runtime']['settingsManager'].setSetting(environment, 'sound', 'enabled','False')
             environment = environment['runtime']['settingsManager'].setSetting(environment, 'braille', 'enabled','False')
-        else:
-            environment['runtime']['outputManager'].presentText(environment, "fenrir unmuted")           
+        else:     
             environment = environment['runtime']['settingsManager'].setSetting(environment, 'speech', 'enabled','True')
             environment = environment['runtime']['settingsManager'].setSetting(environment, 'sound', 'enabled','True')
             environment = environment['runtime']['settingsManager'].setSetting(environment, 'braille', 'enabled','True')
+            environment['runtime']['outputManager'].presentText(environment, "fenrir unmuted")                  
         return environment    
     def setCallback(self, callback):
         pass
