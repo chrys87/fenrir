@@ -72,6 +72,10 @@ class settingsManager():
         environment['settings'].read(settingConfigPath)
         return environment
 
+    def setSetting(self, environment, section, setting, value):
+        environment['settings'].set(section, setting, value)
+        return environment
+
     def getSetting(self, environment, section, setting):
         value = ''
         try:
@@ -81,7 +85,7 @@ class settingsManager():
         return value
 
     def getSettingAsInt(self, environment, section, setting):
-        value = ''
+        value = 0
         try:
             value = environment['settings'].getint(section, setting)
         except:
@@ -89,14 +93,14 @@ class settingsManager():
         return value
         
     def getSettingAsFloat(self, environment, section, setting):
-        value = ''
+        value = 0.0
         try:
             value = environment['settings'].getfloat(section, setting)
         except:
             value = self.settings[section][setting]
         return value
     def getSettingAsBool(self, environment, section, setting):
-        value = ''
+        value = False
         try:
             value = environment['settings'].getboolean(section, setting)
         except:
