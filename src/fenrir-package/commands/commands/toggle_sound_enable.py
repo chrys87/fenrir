@@ -7,9 +7,9 @@ class command():
         
         if environment['runtime']['settingsManager'].getSettingAsBool(environment, 'sound', 'enabled'): 
             environment['runtime']['outputManager'].presentText(environment, "sound disabled")
-        else:
-            environment['runtime']['outputManager'].presentText(environment, "sound enabled")
-        environment = environment['runtime']['settingsManager'].setSetting(environment, 'sound', 'enabled', str(not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'sound', 'enabled')))            
+        environment = environment['runtime']['settingsManager'].setSetting(environment, 'sound', 'enabled', str(not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'sound', 'enabled')))   
+        if environment['runtime']['settingsManager'].getSettingAsBool(environment, 'sound', 'enabled'): 
+            environment['runtime']['outputManager'].presentText(environment, "sound enabled")                 
         return environment    
     def setCallback(self, callback):
         pass
