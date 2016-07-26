@@ -3,17 +3,17 @@
 class outputManager():
     def __init__(self):
         pass
-    def presentText(self, environment, Text, Interrupt=True, soundIconName = ''):
-        self.speakText(environment, Text, Interrupt)
-        self.brailleText(environment, Text)
+    def presentText(self, environment, text, interrupt=True, soundIconName = ''):
+        self.speakText(environment, text, interrupt)
+        self.brailleText(environment, text)
         self.playSoundIcon(environment, soundIconName):
 
-    def speakText(self, environment, Text, Interrupt=True):
+    def speakText(self, environment, text, interrupt=True):
+        if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'speech', 'enabled'):
+            return        
         if environment['runtime']['speechDriver'] == None:
             return
-        if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'speech', 'enabled'):
-            return
-        if Interrupt:
+        if interrupt:
             self.interruptOutput(environment)
         environment['runtime']['speechDriver'].setLanguage(environment['runtime']['settingsManager'].getSetting(environment, 'speech', 'language'))            
         environment['runtime']['speechDriver'].setVoice(environment['runtime']['settingsManager'].getSetting(environment, 'speech', 'voice'))
@@ -21,23 +21,28 @@ class outputManager():
         environment['runtime']['speechDriver'].setSpeed(environment['runtime']['settingsManager'].getSettingAsInt(environment, 'speech', 'rate'))
         environment['runtime']['speechDriver'].setModule(environment['runtime']['settingsManager'].getSetting(environment, 'speech', 'module'))
         environment['runtime']['speechDriver'].setVolume(environment['runtime']['settingsManager'].getSettingAsInt(environment, 'speech', 'volume'))
-         
-        environment['runtime']['speechDriver'].speak(Text)
+        environment['runtime']['speechDriver'].speak(text)
 
-    def brailleText(self, environment, Text, Interrupt=True):
+    def brailleText(self, environment, text, interrupt=True):
         if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'braille', 'enabled'):
-            return    
+            return
+        if environment['runtime']['braillehDriver'] == None:
+            return        
         print('braille')
     def interruptOutput(self, environment):
         environment['runtime']['speechDriver'].cancel()
- 
-    def playSoundIcon(self, environment, IconName, Interrupt=True):
+        environment['runtime']['soundDriver'].cancel()
+    
+    def playSoundIcon(self, environment, iconName, interrupt=True):
         if soundIconName == '':
             return
         if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'sound', 'enabled'):
             return    
+        if environment['runtime']['soundDriver'] == None:
+            return        
         print(IconName)
         try:
-            print(environment['soundIcons'][IconName])
+            print(environment['soundIcons'][iconName])
+            environment['runtime']['soundDriver'].playSoundFile(environment, environment['soundIcons'][iconName], interrupt)
         except:
             print('no icon there for' + IconName)
