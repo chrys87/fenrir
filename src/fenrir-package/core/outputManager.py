@@ -6,7 +6,7 @@ class outputManager():
     def presentText(self, environment, text, interrupt=True, soundIconName = ''):
         self.speakText(environment, text, interrupt)
         self.brailleText(environment, text)
-        self.playSoundIcon(environment, soundIconName):
+        self.playSoundIcon(environment, soundIconName)
 
     def speakText(self, environment, text, interrupt=True):
         if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'speech', 'enabled'):
@@ -32,17 +32,17 @@ class outputManager():
     def interruptOutput(self, environment):
         environment['runtime']['speechDriver'].cancel()
         environment['runtime']['soundDriver'].cancel()
-    
-    def playSoundIcon(self, environment, iconName, interrupt=True):
+
+    def playSoundIcon(self, environment, soundIconName, interrupt=True):
         if soundIconName == '':
             return
         if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'sound', 'enabled'):
             return    
         if environment['runtime']['soundDriver'] == None:
             return        
-        print(IconName)
+        print(soundIconName)
         try:
-            print(environment['soundIcons'][iconName])
-            environment['runtime']['soundDriver'].playSoundFile(environment, environment['soundIcons'][iconName], interrupt)
+            print(environment['soundIcons'][soundIconName])
+            environment['runtime']['soundDriver'].playSoundFile(environment, environment['soundIcons'][soundIconName], interrupt)
         except:
             print('no icon there for' + IconName)

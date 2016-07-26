@@ -1,6 +1,7 @@
 #!/bin/python
 import evdev
 import importlib.util
+import os
 from configparser import ConfigParser
 from core import inputManager
 from core import outputManager
@@ -89,9 +90,9 @@ class settingsManager():
                 FilePath = Values[1]
                 validKeyString = True
             else:
-                if os.path.exists(soundIconPath + Values[1])
-                FilePath = soundIconPath + Values[1]
-                validSoundIcon = True
+                if os.path.exists(soundIconPath + Values[1]):
+                    FilePath = soundIconPath + Values[1]
+                    validSoundIcon = True
             if validSoundIcon:
                 environment['soundIcons'][soundIcon] = FilePath
         siConfig.close()
@@ -99,6 +100,7 @@ class settingsManager():
     
     def loadSettings(self, environment, settingConfigPath='../../config/settings/settings.conf'):
         environment['settings'] = ConfigParser()
+        #if not exist what is ?????
         environment['settings'].read(settingConfigPath)
         return environment
 
@@ -164,29 +166,29 @@ class settingsManager():
     def initFenrirConfig(self):
         return self.reInitFenrirConfig(environment.environment)
 
-    def reInitFenrirConfig(self, environment, settingsRoot = '/etc/fenrir/'):
+    def reInitFenrirConfig(self, environment, settingsRoot = '../../config/'):
 
         environment['runtime']['settingsManager'] = self 
         environment['runtime']['inputManager'] = inputManager.inputManager()
         environment['runtime']['outputManager'] = outputManager.outputManager()
         environment = environment['runtime']['settingsManager'].loadSettings(environment)
-        if not os.path.exists(self.getSetting('keyboard','keyboardLayout')):
-            if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout')):  
-                self.setSetting(environment, 'keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout')):
+        if not os.path.exists(self.getSetting(environment, 'keyboard','keyboardLayout')):
+            if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting(environment, 'keyboard','keyboardLayout')):  
+                self.setSetting(environment, 'keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting(environment, 'keyboard','keyboardLayout'))
                 environment = environment['runtime']['settingsManager'].loadShortcuts(environment, self.getSetting('keyboard','keyboardLayout'))
-            if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout') + '.conf'):  
-                self.setSetting(environment, 'keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout') + '.conf'):
-                environment = environment['runtime']['settingsManager'].loadShortcuts(environment, self.getSetting('keyboard','keyboardLayout'))
+            if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting(environment, 'keyboard','keyboardLayout') + '.conf'):  
+                self.setSetting(environment, 'keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting(environment, 'keyboard','keyboardLayout') + '.conf')
+                environment = environment['runtime']['settingsManager'].loadShortcuts(environment, self.getSetting(environment, 'keyboard','keyboardLayout'))
         else:
-            environment = environment['runtime']['settingsManager'].loadShortcuts(environment, self.getSetting('keyboard','keyboardLayout'))
+            environment = environment['runtime']['settingsManager'].loadShortcuts(environment, self.getSetting(environment, 'keyboard','keyboardLayout'))
         
-        if not os.path.exists(self.getSetting('sound','theme') + '/soundicons.conf'):
-            if os.path.exists(settingsRoot + 'sound/'+ self.getSetting('sound','theme')):  
-                self.setSetting(environment, 'sound', 'theme', settingsRoot + 'sound/'+ self.getSetting('sound','theme'))
-                if os.path.exists(settingsRoot + 'sound/'+ self.getSetting('sound','theme') + '/soundicons.conf'):  
-                     environment = environment['runtime']['settingsManager'].loadSoundIcons(environment, self.getSetting('sound','theme'))
+        if not os.path.exists(self.getSetting(environment, 'sound','theme') + '/soundicons.conf'):
+            if os.path.exists(settingsRoot + 'sound/'+ self.getSetting(environment, 'sound','theme')):  
+                self.setSetting(environment, 'sound', 'theme', settingsRoot + 'sound/'+ self.getSetting(environment, 'sound','theme'))
+                if os.path.exists(settingsRoot + 'sound/'+ self.getSetting(environment, 'sound','theme') + '/soundicons.conf'):  
+                     environment = environment['runtime']['settingsManager'].loadSoundIcons(environment, self.getSetting(environment, 'sound','theme'))
         else:
-            environment = environment['runtime']['settingsManager'].loadSoundIcons(environment, self.getSetting('sound','theme'))
+            environment = environment['runtime']['settingsManager'].loadSoundIcons(environment, self.getSetting(environment, 'sound','theme'))
 
         environment['runtime']['commandManager'] = commandManager.commandManager()
         environment = environment['runtime']['commandManager'].loadCommands(environment,'commands')
