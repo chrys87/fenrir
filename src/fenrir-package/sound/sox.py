@@ -5,7 +5,7 @@ class sound():
         pass
     def playFrequence(self, frequence, duration, adjustVolume):
         pass
-    def playSoundFile(self, Path):
+    def playSoundFile(self, filePath):
         pass
     def stop(self):
         pass        
