@@ -66,6 +66,36 @@ class settingsManager():
             return evdev.ecodes.ecodes[keyID.upper()]
         except:
             return 0
+
+    def loadSoundIcons(self, environment, soundIconPath=''):
+        siConfig = open(soundIconPath + '/soundicons.conf',"r")
+        while(True):
+            line = siConfig.readline()
+            if not line:
+                break
+            line = line.replace('\n','')
+            if line.replace(" ","").startswith("#"):
+                continue
+            if line.count("=") != 1:
+                continue
+            Values = line.split('=')
+            if len(Values) > 2:
+                continue
+            soundIcon = Values[0]
+            Values[1] = Values[1].replace("'","")
+            Values[1] = Values[1].replace('"',"")
+            validSoundIcon = False
+            if os.path.exists(Values[1]):
+                FilePath = Values[1]
+                validKeyString = True
+            else:
+                if os.path.exists(soundIconPath + Values[1])
+                FilePath = soundIconPath + Values[1]
+                validSoundIcon = True
+            if validSoundIcon:
+                environment['soundIcons'][soundIcon] = FilePath
+        siConfig.close()
+        return environment
     
     def loadSettings(self, environment, settingConfigPath='../../config/settings/settings.conf'):
         environment['settings'] = ConfigParser()
@@ -143,16 +173,20 @@ class settingsManager():
         if not os.path.exists(self.getSetting('keyboard','keyboardLayout')):
             if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout')):  
                 self.setSetting(environment, 'keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout')):
+                environment = environment['runtime']['settingsManager'].loadShortcuts(environment, self.getSetting('keyboard','keyboardLayout'))
             if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout') + '.conf'):  
                 self.setSetting(environment, 'keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout') + '.conf'):
-        environment = environment['runtime']['settingsManager'].loadShortcuts(environment, self.getSetting('keyboard','keyboardLayout'))
+                environment = environment['runtime']['settingsManager'].loadShortcuts(environment, self.getSetting('keyboard','keyboardLayout'))
+        else:
+            environment = environment['runtime']['settingsManager'].loadShortcuts(environment, self.getSetting('keyboard','keyboardLayout'))
         
-        if not os.path.exists(self.getSetting('sound','theme')):
+        if not os.path.exists(self.getSetting('sound','theme') + '/soundicons.conf'):
             if os.path.exists(settingsRoot + 'sound/'+ self.getSetting('sound','theme')):  
-                self.setSetting(environment, 'sound', 'theme', settingsRoot + 'theme/'+ self.getSetting('sound','theme')):
-            if os.path.exists(settingsRoot + 'sound/'+ self.getSetting('sound','theme') + '.conf'):  
-                self.setSetting(environment, 'sound', 'theme', settingsRoot + 'keyboard/'+ self.getSetting('sound','theme') + '.conf'):
-        environment = environment['runtime']['settingsManager'].loadSoundIcons(environment, self.getSetting('sound','theme'))
+                self.setSetting(environment, 'sound', 'theme', settingsRoot + 'sound/'+ self.getSetting('sound','theme'))
+                if os.path.exists(settingsRoot + 'sound/'+ self.getSetting('sound','theme') + '/soundicons.conf'):  
+                     environment = environment['runtime']['settingsManager'].loadSoundIcons(environment, self.getSetting('sound','theme'))
+        else:
+            environment = environment['runtime']['settingsManager'].loadSoundIcons(environment, self.getSetting('sound','theme'))
 
         environment['runtime']['commandManager'] = commandManager.commandManager()
         environment = environment['runtime']['commandManager'].loadCommands(environment,'commands')
