@@ -13,7 +13,7 @@ class settingsManager():
     def __init__(self):
         self.settings = settings
 
-    def loadShortcuts(self, environment, kbConfigPath='../../config/keyboard/desktop.kb'):
+    def loadShortcuts(self, environment, kbConfigPath='../../config/keyboard/desktop.conf'):
         kbConfig = open(kbConfigPath,"r")
         while(True):
             line = kbConfig.readline()
@@ -67,7 +67,7 @@ class settingsManager():
         except:
             return 0
     
-    def loadSettings(self, environment, settingConfigPath='../../config/settings/settings.cfg'):
+    def loadSettings(self, environment, settingConfigPath='../../config/settings/settings.conf'):
         environment['settings'] = ConfigParser()
         environment['settings'].read(settingConfigPath)
         return environment
@@ -139,8 +139,13 @@ class settingsManager():
         environment['runtime']['settingsManager'] = self 
         environment['runtime']['inputManager'] = inputManager.inputManager()
         environment['runtime']['outputManager'] = outputManager.outputManager()
-        environment = environment['runtime']['settingsManager'].loadShortcuts(environment)
         environment = environment['runtime']['settingsManager'].loadSettings(environment)
+        if not os.path.exists(self.getSetting('keyboard','keyboardLayout')):
+            if os.path.exists('/etc/fenrir/'+ self.getSetting('keyboard','keyboardLayout')):  
+                self.setSetting(environment, 'keyboard', 'keyboardLayout', '/etc/fenrir/'+ self.getSetting('keyboard','keyboardLayout')):
+            if os.path.exists('/etc/fenrir/'+ self.getSetting('keyboard','keyboardLayout') + '.conf'):  
+                self.setSetting(environment, 'keyboard', 'keyboardLayout', '/etc/fenrir/'+ self.getSetting('keyboard','keyboardLayout') + '.conf'):
+        environment = environment['runtime']['settingsManager'].loadShortcuts(environment, self.getSetting('keyboard','keyboardLayout'))
 
         environment['runtime']['commandManager'] = commandManager.commandManager()
         environment = environment['runtime']['commandManager'].loadCommands(environment,'commands')
