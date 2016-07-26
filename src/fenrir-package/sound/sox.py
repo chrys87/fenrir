@@ -7,7 +7,7 @@ class sound():
         pass
     def playSoundFile(self, filePath):
         pass
-    def stop(self):
+    def cancel(self):
         pass        
     def setCallback(self, callback):
         pass
