@@ -76,7 +76,7 @@ class sound:
 
         self._initialized = True
 
-    def stop(self, element=None):
+    def cancel(self, element=None):
         if not _gstreamerAvailable:
             return
         if element:
