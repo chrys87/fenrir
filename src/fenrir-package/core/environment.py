@@ -19,5 +19,4 @@ environment = {
 'input': input.input,
 'commandInfo': commands.commandInfo,
 'soundIcons': soundIcons.soundIcons,
-'autospeak': ['speak_delta']
 }
