@@ -10,8 +10,6 @@ else:
     _gstreamerAvailable, args = Gst.init_check(None)
 
 class sound:
-    """Plays Icons and Tones."""
-
     def __init__(self):
         self._initialized = False
         self._source = None
@@ -55,7 +53,6 @@ class sound:
         GLib.timeout_add(duration, self._onTimeout, self._pipeline)
 
     def init(self):
-        """(Re)Initializes the Player."""
         if self._initialized:
             return
         if not _gstreamerAvailable:
