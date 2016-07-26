@@ -134,18 +134,25 @@ class settingsManager():
     def initFenrirConfig(self):
         return self.reInitFenrirConfig(environment.environment)
 
-    def reInitFenrirConfig(self, environment):
+    def reInitFenrirConfig(self, environment, settingsRoot = '/etc/fenrir/'):
 
         environment['runtime']['settingsManager'] = self 
         environment['runtime']['inputManager'] = inputManager.inputManager()
         environment['runtime']['outputManager'] = outputManager.outputManager()
         environment = environment['runtime']['settingsManager'].loadSettings(environment)
         if not os.path.exists(self.getSetting('keyboard','keyboardLayout')):
-            if os.path.exists('/etc/fenrir/'+ self.getSetting('keyboard','keyboardLayout')):  
-                self.setSetting(environment, 'keyboard', 'keyboardLayout', '/etc/fenrir/'+ self.getSetting('keyboard','keyboardLayout')):
-            if os.path.exists('/etc/fenrir/'+ self.getSetting('keyboard','keyboardLayout') + '.conf'):  
-                self.setSetting(environment, 'keyboard', 'keyboardLayout', '/etc/fenrir/'+ self.getSetting('keyboard','keyboardLayout') + '.conf'):
+            if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout')):  
+                self.setSetting(environment, 'keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout')):
+            if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout') + '.conf'):  
+                self.setSetting(environment, 'keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout') + '.conf'):
         environment = environment['runtime']['settingsManager'].loadShortcuts(environment, self.getSetting('keyboard','keyboardLayout'))
+        
+        if not os.path.exists(self.getSetting('sound','theme')):
+            if os.path.exists(settingsRoot + 'sound/'+ self.getSetting('sound','theme')):  
+                self.setSetting(environment, 'sound', 'theme', settingsRoot + 'theme/'+ self.getSetting('sound','theme')):
+            if os.path.exists(settingsRoot + 'sound/'+ self.getSetting('sound','theme') + '.conf'):  
+                self.setSetting(environment, 'sound', 'theme', settingsRoot + 'keyboard/'+ self.getSetting('sound','theme') + '.conf'):
+        environment = environment['runtime']['settingsManager'].loadSoundIcons(environment, self.getSetting('sound','theme'))
 
         environment['runtime']['commandManager'] = commandManager.commandManager()
         environment = environment['runtime']['commandManager'].loadCommands(environment,'commands')
