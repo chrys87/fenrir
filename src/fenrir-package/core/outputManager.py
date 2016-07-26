@@ -3,9 +3,10 @@
 class outputManager():
     def __init__(self):
         pass
-    def presentText(self, environment, Text, Interrupt=True):
+    def presentText(self, environment, Text, Interrupt=True, soundIconName = ''):
         self.speakText(environment, Text, Interrupt)
         self.brailleText(environment, Text)
+        self.playSoundIcon(environment, soundIconName):
 
     def speakText(self, environment, Text, Interrupt=True):
         if environment['runtime']['speechDriver'] == None:
@@ -23,14 +24,20 @@ class outputManager():
          
         environment['runtime']['speechDriver'].speak(Text)
 
-    def brailleText(self, environment, Text):
+    def brailleText(self, environment, Text, Interrupt=True):
         if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'braille', 'enabled'):
             return    
         print('braille')
     def interruptOutput(self, environment):
         environment['runtime']['speechDriver'].cancel()
  
-    def playSoundIcon(self, environment, IconName):
+    def playSoundIcon(self, environment, IconName, Interrupt=True):
+        if soundIconName == '':
+            return
         if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'sound', 'enabled'):
             return    
         print(IconName)
+        try:
+            print(environment['soundIcons'][IconName])
+        except:
+            print('no icon there for' + IconName)
