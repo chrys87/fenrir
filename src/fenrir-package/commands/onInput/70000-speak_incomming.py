@@ -12,8 +12,10 @@ class command():
         if environment['screenData']['newDelta'] == environment['screenData']['oldDelta'] and \
           not ttyChanged:
             return environment
-            
+        if ttyChanged:
+            environment['runtime']['outputManager'].playSoundIcon(environment,'ChangeTTY')            
         environment['runtime']['outputManager'].presentText(environment, environment['screenData']['newDelta'], ttyChanged)
+
         return environment
     def setCallback(self, callback):
         pass

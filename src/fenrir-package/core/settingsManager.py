@@ -86,16 +86,20 @@ class settingsManager():
             Values[1] = Values[1].replace("'","")
             Values[1] = Values[1].replace('"',"")
             validSoundIcon = False
+            FilePath = ''
             if os.path.exists(Values[1]):
                 FilePath = Values[1]
-                validKeyString = True
+                validSoundIcon = True
             else:
+                if not soundIconPath.endswith("/"):
+                    soundIconPath += '/'
                 if os.path.exists(soundIconPath + Values[1]):
                     FilePath = soundIconPath + Values[1]
                     validSoundIcon = True
             if validSoundIcon:
                 environment['soundIcons'][soundIcon] = FilePath
         siConfig.close()
+        print(environment['soundIcons'])
         return environment
     
     def loadSettings(self, environment, settingConfigPath='../../config/settings/settings.conf'):

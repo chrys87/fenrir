@@ -1,4 +1,5 @@
 import gi
+import time
 from gi.repository import GLib
 
 try:
@@ -18,33 +19,37 @@ class sound:
             return
         self.init()
 
+
     def _onPlayerMessage(self, bus, message):
         if message.type == Gst.MessageType.EOS:
             self._player.set_state(Gst.State.NULL)
         elif message.type == Gst.MessageType.ERROR:
             self._player.set_state(Gst.State.NULL)
             error, info = message.parse_error()
-
+            print(error, info)
+        print('drin')
     def _onPipelineMessage(self, bus, message):
         if message.type == Gst.MessageType.EOS:
             self._pipeline.set_state(Gst.State.NULL)
         elif message.type == Gst.MessageType.ERROR:
             self._pipeline.set_state(Gst.State.NULL)
             error, info = message.parse_error()
-
+            print(error, info)
+        print('drin')
+            
     def _onTimeout(self, element):
         element.set_state(Gst.State.NULL)
         return False
 
     def playSoundFile(self, fileName, interrupt=True):
         if interrupt:
-            self.stop()
+            self.cancel()
         self._player.set_property('uri', 'file://%s' % fileName)
         self._player.set_state(Gst.State.PLAYING)
 
     def playFrequence(self, frequence, duration, adjustVolume, interrupt=True):
         if interrupt:
-            self.stop()
+            self.cancel()
         self._source.set_property('volume', tone.volume)
         self._source.set_property('freq', tone.frequency)
         self._source.set_property('wave', tone.wave)
@@ -89,7 +94,7 @@ class sound:
         global _gstreamerAvailable
         if not _gstreamerAvailable:
             return
-        self.stop()
+        self.cancel()
         self._initialized = False
         _gstreamerAvailable = False
 

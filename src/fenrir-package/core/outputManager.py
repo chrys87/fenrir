@@ -41,8 +41,9 @@ class outputManager():
         if environment['runtime']['soundDriver'] == None:
             return        
         print(soundIconName)
+        environment['runtime']['soundDriver'].playSoundFile( environment['soundIcons'][soundIconName], interrupt)
         try:
             print(environment['soundIcons'][soundIconName])
-            environment['runtime']['soundDriver'].playSoundFile(environment, environment['soundIcons'][soundIconName], interrupt)
+            environment['runtime']['soundDriver'].playSoundFile(environment['soundIcons'][soundIconName], interrupt)
         except:
-            print('no icon there for' + IconName)
+            print('no icon there for' + soundIconName)
