@@ -11,11 +11,13 @@ from xdg import BaseDirectory
 # Get configuration directory
 if len(sys.argv) > 1:
     configPath = sys.argv[1]
-else if os.geteuid() == 0:
+elif os.geteuid() == 0:
     # Save settings system wide
-    configPath = "/etc"
-else
+    configPath = "/etc/fenrir.conf"
+else:
     # Use local settings
-    configPath = BaseDirectory.xdg_config_data + "/fenrir"
+    configPath = BaseDirectory.xdg_data_home + "/fenrir"
+    if not os.path.exists(configPath): os.makedirs(configPath)
+    configPath = configPath + "/fenrir.conf"
 
 
