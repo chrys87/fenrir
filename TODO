@@ -1,5 +1,4 @@
 ToDos in Priority order:
-- soundIcons
 - implement commands
   set_copy_begin_mark
   set_copy_end_mark
@@ -119,6 +118,8 @@ except KeyboardInterrupt:
   https://github.com/seb-m/pyinotify/wiki/Tutorial
   http://www.saltycrane.com/blog/2010/04/monitoring-filesystem-python-and-pyinotify/
   
+- soundIcons
+
 - default soundIcon theme (soundfiles)  
 - implement commands
   curr_word
