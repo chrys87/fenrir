@@ -7,7 +7,7 @@ class sound():
     def playFrequence(self, frequence, duration, adjustVolume):
         pass
     def playSoundFile(self, filePath, interrupt = True):
-         subprocess.call("play " + filePath, shell=True)
+        subprocess.call("play -q " + filePath, shell=True)
     def cancel(self):
         pass        
     def setCallback(self, callback):

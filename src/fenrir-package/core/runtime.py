@@ -5,6 +5,7 @@ runtime = {
 'speechDriver': None,
 'screenDriver': None,
 'soundDriver': None,
+'brailleDriver': None,
 'inputManager': None,
 'commandManager': None,
 'debug':None,

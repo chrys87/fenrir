@@ -36,7 +36,7 @@ class screen():
         environment['screenData']['oldCursor']['y'] = environment['screenData']['newCursor']['y']
         environment['screenData']['oldTTY'] = environment['screenData']['newTTY']
         environment['screenData']['oldDelta'] = environment['screenData']['newDelta']
-                
+        environment['screenData']['oldNegativeDelta'] = environment['screenData']['newNegativeDelta']
         environment['screenData']['newTTY'] = newTTY
         environment['screenData']['newContentBytes'] = newContentBytes
         # get metadata like cursor or screensize
@@ -58,6 +58,8 @@ class screen():
             environment['screenData']['oldCursor']['y'] = 0
             environment['screenData']['oldDelta'] = ''
             environment['screenData']['newDelta'] = ''
+            environment['screenData']['oldNegativeDelta'] = ''
+            environment['screenData']['newNegativeDelta'] = ''
         
         # changes on the screen
         if (environment['screenData']['oldContentText'] != environment['screenData']['newContentText']) and \
@@ -75,5 +77,6 @@ class screen():
                 diff = difflib.ndiff(re.sub('[ \t]+', ' ', environment['screenData']['oldContentText'][diffStart:]),\
                   re.sub('[ \t]+', ' ', environment['screenData']['newContentText'][diffStart:]))
                 environment['screenData']['newDelta'] = ''.join(x[2:] for x in diff if x.startswith('+ '))
+                environment['screenData']['newNegativeDelta'] = ''.join(x[2:] for x in diff if x.startswith('- '))
 
         return environment

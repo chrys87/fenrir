@@ -14,7 +14,7 @@ class command():
             return environment
         if ttyChanged:
             environment['runtime']['outputManager'].playSoundIcon(environment,'ChangeTTY')            
-        environment['runtime']['outputManager'].presentText(environment, environment['screenData']['newDelta'], ttyChanged)
+        environment['runtime']['outputManager'].presentText(environment, environment['screenData']['newDelta'], interrupt=ttyChanged)
 
         return environment
     def setCallback(self, callback):

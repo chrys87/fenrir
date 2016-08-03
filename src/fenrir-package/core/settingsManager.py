@@ -99,7 +99,6 @@ class settingsManager():
             if validSoundIcon:
                 environment['soundIcons'][soundIcon] = FilePath
         siConfig.close()
-        print(environment['soundIcons'])
         return environment
     
     def loadSettings(self, environment, settingConfigPath='../../config/settings/settings.conf'):

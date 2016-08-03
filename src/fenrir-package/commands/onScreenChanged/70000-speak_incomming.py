@@ -13,7 +13,7 @@ class command():
           not ttyChanged:
             return environment
             
-        environment['runtime']['outputManager'].presentText(environment, environment['screenData']['newDelta'], ttyChanged)
+        environment['runtime']['outputManager'].presentText(environment, environment['screenData']['newDelta'], soundIconName='', interrupt=ttyChanged)
         return environment
     def setCallback(self, callback):
         pass

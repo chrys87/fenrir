@@ -4,9 +4,10 @@ class outputManager():
     def __init__(self):
         pass
     def presentText(self, environment, text, interrupt=True, soundIconName = ''):
+        if self.playSoundIcon(environment, soundIconName, interrupt):
+            return
         self.speakText(environment, text, interrupt)
         self.brailleText(environment, text)
-        self.playSoundIcon(environment, soundIconName)
 
     def speakText(self, environment, text, interrupt=True):
         if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'speech', 'enabled'):
@@ -23,10 +24,10 @@ class outputManager():
         environment['runtime']['speechDriver'].setVolume(environment['runtime']['settingsManager'].getSettingAsInt(environment, 'speech', 'volume'))
         environment['runtime']['speechDriver'].speak(text)
 
-    def brailleText(self, environment, text, interrupt=True):
+    def brailleText(self, environment, text, soundIconName = '', interrupt=True):
         if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'braille', 'enabled'):
             return
-        if environment['runtime']['braillehDriver'] == None:
+        if environment['runtime']['brailleDriver'] == None:
             return        
         print('braille')
     def interruptOutput(self, environment):
@@ -35,15 +36,14 @@ class outputManager():
 
     def playSoundIcon(self, environment, soundIconName, interrupt=True):
         if soundIconName == '':
-            return
+            return False
         if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'sound', 'enabled'):
-            return    
+            return False  
         if environment['runtime']['soundDriver'] == None:
-            return        
-        print(soundIconName)
-        environment['runtime']['soundDriver'].playSoundFile( environment['soundIcons'][soundIconName], interrupt)
+            return False       
         try:
-            print(environment['soundIcons'][soundIconName])
             environment['runtime']['soundDriver'].playSoundFile(environment['soundIcons'][soundIconName], interrupt)
+            return True
         except:
             print('no icon there for' + soundIconName)
+        return False
