@@ -1,4 +1,11 @@
 ToDos in Priority order:
+  
+- implement onInput commands 
+  echo_word (echos the last word on pressing space or return)
+  echo_deleted_char (echos deleted char on screen
+
+- try to consume shortcuts
+  
 - implement commands
   set_copy_begin_mark
   set_copy_end_mark
@@ -8,10 +15,6 @@ ToDos in Priority order:
   set_area_mark
   reset_area_marks
   toggle_highlighted_mode
-  
-- implement onInput commands 
-  echo_word (echos the last word on pressing space or return)
-  echo_deleted_char (echos deleted char on screen
  
 - implement onScreenChange commands
   read highlighted text mode
