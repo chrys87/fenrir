@@ -33,6 +33,7 @@ settings = {
 'keyboard':{
   'keyboardLayout': "desktop",
   'charEcho':False,
+  'charDeleteEcho':True,
   'wordEcho':True,
   'interruptOnKeyPress': True,
 }
