@@ -4,6 +4,7 @@ class command():
     def __init__(self):
         pass
     def run(self, environment):
+ 
         if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'keyboard', 'charEcho'):
             return environment 
         if environment['screenData']['newCursor']['x'] <= environment['screenData']['oldCursor']['x']:

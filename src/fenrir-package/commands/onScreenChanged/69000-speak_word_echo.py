@@ -5,7 +5,7 @@ class command():
     def __init__(self):
         pass
     def run(self, environment):
-
+        return environment
         if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'keyboard', 'wordEcho') and\
           environment['screenData']['newCursor']['x'] <= environment['screenData']['oldCursor']['x']:
             return environment 
@@ -22,7 +22,7 @@ class command():
         if environment['screenData']['newCursor']['x'] > 0 and \
           newContent[environment['screenData']['newCursor']['x'] - 1] == ' ':
             environment['runtime']['outputManager'].presentText(environment, currWord, interrupt=True)
-
+            print('word')
         return environment
     def setCallback(self, callback):
         pass

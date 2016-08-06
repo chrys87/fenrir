@@ -31,13 +31,9 @@ class fenrir():
             self.environment, timeout = self.environment['runtime']['inputManager'].getKeyPressed(self.environment)
             self.environment = self.environment['runtime']['commandManager'].getCommandForShortcut(self.environment)
             self.environment = self.environment['runtime']['screenDriver'].analyzeScreen(self.environment, 'onInput')
-            if not timeout:
-                self.environment = self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onInput')
-            else:
-                self.environment = self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onScreenChanged') 
+            self.environment = self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onInput')            
+            self.environment = self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onScreenChanged')        
             if self.environment['commandInfo']['currCommand'] != '':
-                self.environment['input']['currShortcut'] = {}
-                self.environment['input']['currShortcutString'] = ''
                 self.handleCommands()
             self.environment['runtime']['globalLock'].release()
 

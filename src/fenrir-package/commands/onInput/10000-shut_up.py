@@ -4,6 +4,7 @@ class command():
     def __init__(self):
         pass
     def run(self, environment):
+        return environment    
         if environment['screenData']['newCursor'] == environment['screenData']['oldCursor'] and\
           environment['screenData']['newDelta'] == environment['screenData']['oldDelta']:
             return environment

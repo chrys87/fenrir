@@ -64,19 +64,23 @@ class screen():
         # changes on the screen
         if (environment['screenData']['oldContentText'] != environment['screenData']['newContentText']) and \
           (environment['screenData']['newContentText'] != '' ):
-#            diff = difflib.ndiff(environment['screenData']['oldContentText'], environment['screenData']['newContentText'])
             if environment['screenData']['oldContentText'] == '' and\
               environment['screenData']['newContentText'] != '':
                 environment['screenData']['newDelta'] = environment['screenData']['newContentText']  
             else:
                 diffStart = 0
-                lastLine = len(environment['screenData']['newContentText']) - environment['screenData']['columns']
-                if environment['screenData']['newContentText'][:lastLine] == environment['screenData']['oldContentText'][:lastLine]:
-                    diffStart = lastLine + 1
-      
-                diff = difflib.ndiff(re.sub('[ \t]+', ' ', environment['screenData']['oldContentText'][diffStart:]),\
-                  re.sub('[ \t]+', ' ', environment['screenData']['newContentText'][diffStart:]))
-                environment['screenData']['newDelta'] = ''.join(x[2:] for x in diff if x.startswith('+ '))
-                environment['screenData']['newNegativeDelta'] = ''.join(x[2:] for x in diff if x.startswith('- '))
+                if environment['screenData']['oldCursor']['x'] != environment['screenData']['newCursor']['x'] and \
+                  environment['screenData']['oldCursor']['y'] == environment['screenData']['newCursor']['y'] and \
+                  environment['screenData']['newContentText'][:environment['screenData']['newCursor']['y']] == environment['screenData']['oldContentText'][:environment['screenData']['newCursor']['y']]:
+                    diffStart = environment['screenData']['newCursor']['y'] * environment['screenData']['newCursor']['x'] + environment['screenData']['newCursor']['y']
+                    diff = difflib.ndiff(environment['screenData']['oldContentText'][diffStart:],\
+                      environment['screenData']['newContentText'][diffStart:])      
+                else:
+                   diff = difflib.ndiff( environment['screenData']['oldContentText'][diffStart:].splitlines(),\
+                     environment['screenData']['newContentText'][diffStart:].splitlines())
+                
+                diffList = list(diff)
+                environment['screenData']['newDelta'] = ''.join(x[2:] for x in diffList if x.startswith('+ '))             
+                environment['screenData']['newNegativeDelta'] = ''.join(x[2:] for x in diffList if x.startswith('- '))
 
         return environment
