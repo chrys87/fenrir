@@ -5,7 +5,9 @@ class command():
         pass
     def run(self, environment):
         if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'keyboard', 'interruptOnKeyPress'):
-            return environment       
+            return environment     
+        if environment['screenData']['newTTY'] != environment['screenData']['oldTTY']:
+            return environment              
 #        if environment['screenData']['newCursor'] == environment['screenData']['oldCursor'] and\
 #          environment['screenData']['newDelta'] == environment['screenData']['oldDelta']:
 #            return environment

@@ -27,7 +27,7 @@ class sound:
             self._player.set_state(Gst.State.NULL)
             error, info = message.parse_error()
             print(error, info)
-        print('drin')
+        print('_onPlayerMessage')
     def _onPipelineMessage(self, bus, message):
         if message.type == Gst.MessageType.EOS:
             self._pipeline.set_state(Gst.State.NULL)
@@ -35,7 +35,7 @@ class sound:
             self._pipeline.set_state(Gst.State.NULL)
             error, info = message.parse_error()
             print(error, info)
-        print('drin')
+        print('_onPipelineMessage')
             
     def _onTimeout(self, element):
         element.set_state(Gst.State.NULL)
@@ -46,7 +46,7 @@ class sound:
             self.cancel()
         self._player.set_property('uri', 'file://%s' % fileName)
         self._player.set_state(Gst.State.PLAYING)
-
+        print('playSoundFile')
     def playFrequence(self, frequence, duration, adjustVolume, interrupt=True):
         if interrupt:
             self.cancel()
