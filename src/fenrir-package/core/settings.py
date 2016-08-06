@@ -34,5 +34,6 @@ settings = {
   'keyboardLayout': "desktop",
   'charEcho':False,
   'wordEcho':True,
+  'interruptOnKeyPress': True,
 }
 }
