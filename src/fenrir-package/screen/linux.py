@@ -80,7 +80,10 @@ class screen():
                      environment['screenData']['newContentText'][diffStart:].splitlines())
                 
                 diffList = list(diff)
+
                 environment['screenData']['newDelta'] = ''.join(x[2:] for x in diffList if x.startswith('+ '))             
                 environment['screenData']['newNegativeDelta'] = ''.join(x[2:] for x in diffList if x.startswith('- '))
-
+        else:
+            environment['screenData']['newNegativeDelta'] = ''
+            environment['screenData']['newDelta'] = ''           
         return environment
