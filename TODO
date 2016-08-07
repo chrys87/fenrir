@@ -1,9 +1,5 @@
 ToDos in Priority order:
   
-- implement onInput commands 
-  echo_word (echos the last word on pressing space or return)
-  echo_deleted_char (echos deleted char on screen
-
 - try to consume shortcuts
   
 - implement commands
@@ -140,3 +136,7 @@ except KeyboardInterrupt:
   read_line_if_cursor_change_vertical (needed if you arrow up and down, we want to announce the line)
   read_char_if_cursur_change_horizontal (needed if you arrow left and right, we want to announce the char under the cursor)
   echo_char (echos the last char on pressing space or return)     
+
+- implement onInput commands 
+  echo_word (echos the last word)
+  echo_deleted_char (echos deleted char on screen  
