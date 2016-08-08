@@ -1,7 +1,6 @@
 ToDos in Priority order:
   
 - try to consume shortcuts
-- convert volume to percent in config
 - convert pitch to percent in config
 - convert rate to percent in config
   
@@ -122,7 +121,8 @@ except KeyboardInterrupt:
   
 - soundIcons
 - performance tuning
-
+- add sound volume
+- convert volume to percent in config
 - default soundIcon theme (soundfiles)  
 - implement commands
   curr_word
