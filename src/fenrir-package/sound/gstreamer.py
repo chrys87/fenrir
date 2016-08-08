@@ -15,6 +15,7 @@ class sound:
         self._initialized = False
         self._source = None
         self._sink = None
+        self.volume = 1
         if not _gstreamerAvailable:
             return
         self.init()
@@ -89,7 +90,8 @@ class sound:
             return
         self._player.set_state(Gst.State.NULL)
         self._pipeline.set_state(Gst.State.NULL)
-
+    def setVolume(self, volume):
+        self.volume = volume  
     def shutdown(self):
         global _gstreamerAvailable
         if not _gstreamerAvailable:

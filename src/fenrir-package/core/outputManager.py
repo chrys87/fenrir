@@ -21,7 +21,7 @@ class outputManager():
         environment['runtime']['speechDriver'].setPitch(environment['runtime']['settingsManager'].getSettingAsInt(environment, 'speech', 'pitch'))
         environment['runtime']['speechDriver'].setSpeed(environment['runtime']['settingsManager'].getSettingAsInt(environment, 'speech', 'rate'))
         environment['runtime']['speechDriver'].setModule(environment['runtime']['settingsManager'].getSetting(environment, 'speech', 'module'))
-        environment['runtime']['speechDriver'].setVolume(environment['runtime']['settingsManager'].getSettingAsInt(environment, 'speech', 'volume'))
+        environment['runtime']['speechDriver'].setVolume(environment['runtime']['settingsManager'].getSettingAsFloat(environment, 'speech', 'volume'))
         environment['runtime']['speechDriver'].speak(text)
 
     def brailleText(self, environment, text, soundIconName = '', interrupt=True):
@@ -42,6 +42,7 @@ class outputManager():
         if environment['runtime']['soundDriver'] == None:
             return False       
         try:
+            environment['runtime']['soundDriver'].setVolume(environment['runtime']['settingsManager'].getSettingAsFloat(environment, 'sound', 'volume'))
             environment['runtime']['soundDriver'].playSoundFile(environment['soundIcons'][soundIconName], interrupt)
             return True
         except:

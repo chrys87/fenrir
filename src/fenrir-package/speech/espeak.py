@@ -62,7 +62,7 @@ class speech():
     def setVolume(self, volume):
         if not self._isInitialized:
             return False    
-        return self._es.set_parameter(self._es.Parameter().Volume, volume)     
+        return self._es.set_parameter(self._es.Parameter().Volume, int(volume * 200))
 
     def shutdown(self):
         pass

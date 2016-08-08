@@ -1,6 +1,9 @@
 ToDos in Priority order:
   
 - try to consume shortcuts
+- convert volume to percent in config
+- convert pitch to percent in config
+- convert rate to percent in config
   
 - implement commands
   set_copy_begin_mark
@@ -23,12 +26,12 @@ https://git.gnome.org/browse/orca/tree/src/orca/braille.py
 https://wiki.gnome.org/Attic/LSR/ScratchPad/Braille/BrlAPI
 
 - add the debugging to core
-- performance tuning
 - make screenUpdate rate configurable
 - configuration should be overwriteable with parameter and alternative paths
 - write settings
 - menue for settings configuration 
 - translateable
+- dictonary for special chars and string replacements
 - implement speechdriver generic (say)
 https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/sect-Managing_Services_with_systemd-Unit_Files.html
 
@@ -118,6 +121,7 @@ except KeyboardInterrupt:
   http://www.saltycrane.com/blog/2010/04/monitoring-filesystem-python-and-pyinotify/
   
 - soundIcons
+- performance tuning
 
 - default soundIcon theme (soundfiles)  
 - implement commands

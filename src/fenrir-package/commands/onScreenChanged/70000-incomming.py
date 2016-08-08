@@ -4,8 +4,8 @@ class command():
     def __init__(self):
         pass
     def run(self, environment):
-        #if environment['screenData']['newCursor']['x'] > environment['screenData']['oldCursor']['x']:
-        #    return environment 
+        if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'speech', 'autoReadIncomming'):
+            return environment
 
         if environment['screenData']['newTTY'] != environment['screenData']['oldTTY']:
             return environment

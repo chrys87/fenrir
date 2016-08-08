@@ -116,7 +116,7 @@ class settingsManager():
         try:
             value = environment['settings'].get(section, setting)
         except:
-            value = self.settings[section][setting]
+            value = str(self.settings[section][setting])
         return value
 
     def getSettingAsInt(self, environment, section, setting):

@@ -7,6 +7,7 @@ settings = {
     'enabled': False,
     'driver': 'sox', 
     'theme': 'default',
+    'volume':1.0,
 },
 'speech':{
     'enabled': True,
@@ -16,7 +17,8 @@ settings = {
     'module': '',
     'voice': 'de',
     'language': 'de',
-    'volume': 100
+    'volume': 1.0,
+    'autoReadIncomming':True,
 },
 'braille':{
     'enabled': False, 
@@ -31,6 +33,7 @@ settings = {
   'punctuationLevel': 1 
 },
 'keyboard':{
+  'device':"all",
   'keyboardLayout': "desktop",
   'charEcho':False,
   'charDeleteEcho':True,

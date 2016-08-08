@@ -79,7 +79,7 @@ class speech():
     def setVolume(self, volume):
         if not self._isInitialized:
             return False    
-        self._sd.set_volume(volume)        
+        self._sd.set_volume(int(-100 + volume * 200))
         
     def shutdown(self):
         if not self._isInitialized:
