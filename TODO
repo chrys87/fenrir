@@ -1,6 +1,7 @@
 ToDos in Priority order:
   
 - try to consume shortcuts
+- fix line wrapping bug (multible lines and make a linebreak in the middle of a line)
   
 - implement commands
   set_copy_begin_mark
@@ -23,10 +24,9 @@ https://git.gnome.org/browse/orca/tree/src/orca/braille.py
 https://wiki.gnome.org/Attic/LSR/ScratchPad/Braille/BrlAPI
 
 - add the debugging to core
-- make screenUpdate rate configurable
 - configuration should be overwriteable with parameter and alternative paths
 - write settings
-- menue for settings configuration 
+- menue for settings configuration #storm
 - translateable
 - dictonary for special chars and string replacements
 - implement speechdriver generic (say)
@@ -68,9 +68,6 @@ http://devel.freebsoft.org/doc/speechd/speech-dispatcher.html#Client-Programming
 cat /sys/devices/virtual/tty/tty0/active 
 http://serverfault.com/questions/306854/how-to-find-out-the-currently-active-linux-virtual-terminal-while-connected-via
 
-- debugging
-- threading ReadContent, ReadShortcuts, executeCommands, listenNewTTYsForListen, controllThread (main)
-- autoload plugins while starting
 - Input 
 http://python-evdev.readthedocs.io/en/latest/tutorial.html
 http://stackoverflow.com/questions/12384772/how-can-i-capture-mouseevents-and-keyevents-using-python-in-background-on-linux
@@ -123,8 +120,11 @@ except KeyboardInterrupt:
 - convert volume to percent in config
 - convert pitch to percent in config
 - convert rate to percent in config
-
+- make screenUpdate rate configurable
 - default soundIcon theme (soundfiles)  
+- debugging
+- threading ReadContent, ReadShortcuts, executeCommands, listenNewTTYsForListen, controllThread (main)
+- autoload plugins while starting
 - implement commands
   curr_word
   curr_char

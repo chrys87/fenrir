@@ -13,7 +13,7 @@ class inputManager():
     def getKeyPressed(self, environment):
         timeout = True
         try:
-            r, w, x = select(self.devices, [], [],0.4)
+            r, w, x = select(self.devices, [], [], environment['runtime']['settingsManager'].getSettingAsFloat(environment, 'screen', 'screenUpdateDelay'))
             environment['runtime']['globalLock'].acquire(True)
             if r != []:
                 timeout = False

@@ -26,6 +26,7 @@ settings = {
 },
 'screen':{
     'driver': 'linux',
+    'screenUpdateDelay':0.4,
 },
 'general':{
   'keyboardLayout': "desktop",
