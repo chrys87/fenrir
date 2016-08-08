@@ -31,7 +31,7 @@ class command():
         x, y, currWord =  word_utils.getCurrentWord(environment['screenData']['newCursor']['x'], 0, newContent)                  
         if not(newContent[environment['screenData']['newCursor']['x']].strip(" \t\n") == '' and x != environment['screenData']['newCursor']['x']):
             return environment
-
+        print('word')
         if currWord != '':
             environment['runtime']['outputManager'].presentText(environment, currWord, interrupt=True)
 
