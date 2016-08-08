@@ -29,9 +29,15 @@ class command():
         # get the word
         newContent = environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursor']['y']]
         x, y, currWord =  word_utils.getCurrentWord(environment['screenData']['newCursor']['x'], 0, newContent)                  
-        if not(newContent[environment['screenData']['newCursor']['x']].strip(" \t\n") == '' and x != environment['screenData']['newCursor']['x']):
-            return environment
-        print('word')
+        # was this a typed word?
+        if environment['screenData']['newDelta'] != '':
+            if not(newContent[environment['screenData']['oldCursor']['x']].strip(" \t\n") == '' and x != environment['screenData']['oldCursor']['x']):
+                return environment
+        else:
+        # or just arrow arround?
+            if not(newContent[environment['screenData']['newCursor']['x']].strip(" \t\n") == '' and x != environment['screenData']['newCursor']['x']):
+                return environment            
+
         if currWord != '':
             environment['runtime']['outputManager'].presentText(environment, currWord, interrupt=True)
 

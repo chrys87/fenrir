@@ -14,6 +14,7 @@ class command():
             environment['runtime']['outputManager'].presentText(environment, "blank", soundIconName='EmptyLine', interrupt=True)
         else:
             environment['runtime']['outputManager'].presentText(environment, environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursor']['y']], True)
+
         return environment    
     def setCallback(self, callback):
         pass
