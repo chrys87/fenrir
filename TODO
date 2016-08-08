@@ -1,8 +1,6 @@
 ToDos in Priority order:
   
 - try to consume shortcuts
-- convert pitch to percent in config
-- convert rate to percent in config
   
 - implement commands
   set_copy_begin_mark
@@ -123,6 +121,9 @@ except KeyboardInterrupt:
 - performance tuning
 - add sound volume
 - convert volume to percent in config
+- convert pitch to percent in config
+- convert rate to percent in config
+
 - default soundIcon theme (soundfiles)  
 - implement commands
   curr_word

@@ -12,8 +12,8 @@ settings = {
 'speech':{
     'enabled': True,
     'driver':'speechd',
-    'rate': 1,
-    'pitch': 1,
+    'rate': 0.75,
+    'pitch': 0.5,
     'module': '',
     'voice': 'de',
     'language': 'de',
@@ -30,7 +30,7 @@ settings = {
 'general':{
   'keyboardLayout': "desktop",
   'debugLevel': debug.debugLevel.DEACTIVE,
-  'punctuationLevel': 1 
+  'punctuationLevel': 1,
 },
 'keyboard':{
   'device':"all",

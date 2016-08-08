@@ -48,7 +48,7 @@ class speech():
         if not self._isInitialized:
             return False
         try:
-            self._sd.set_pitch(pitch) 
+            self._sd.set_pitch(int(-100 + pitch * 200)) 
             return True
         except:
             return False
@@ -57,7 +57,7 @@ class speech():
         if not self._isInitialized:
             return False
         try:
-            self._sd.set_rate(speed)
+            self._sd.set_rate(int(-100 + speed * 200))
             return True
         except:
             return False
