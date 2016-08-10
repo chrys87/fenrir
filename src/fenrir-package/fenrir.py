@@ -21,7 +21,8 @@ class fenrir():
         signal.signal(signal.SIGINT, self.captureSignal)
     
     def proceed(self):
-        self.environment['runtime']['outputManager'].presentText(environment, "Start Fenrir", soundIcon= 'ScreenReaderOn', interrupt=True)      
+        self.environment['runtime']['outputManager'].presentText(self.environment, "Start Fenrir", soundIcon='ScreenReaderOn', interrupt=True)   
+        time.sleep(1)# we need a is presenting methot for exact waiting           
         #self.threadonInput.start()
         while(self.environment['generalInformation']['running']):
             self.onInput()
@@ -49,19 +50,19 @@ class fenrir():
     def handleCommands(self):
         if (self.environment['commandInfo']['currCommand'] != ''):
             self.environment = self.environment['runtime']['commandManager'].executeCommand(self.environment, self.environment['commandInfo']['currCommand'], 'commands')
+    def shutdownRequest(self):
+        self.environment['generalInformation']['running'] = False
+    def shutdown(self):      
+        self.environment['runtime']['outputManager'].presentText(self.environment, "Quit Fenrir", soundIcon='ScreenReaderOff', interrupt=True)  
 
-    def shutdown(self):
-        self.environment['runtime']['outputManager'].presentText(environment, "Quit Fenrir", soundIcon= 'ScreenReaderOff', interrupt=True)  
-        time.sleep(1)
-        if self.environment['runtime']['speechDriver'] != None:
-            self.environment['runtime']['speechDriver'].shutdown()
         if self.environment['runtime']['debug'] != None:
             self.environment['runtime']['debug'].closeDebugFile()
         if self.environment['runtime']['soundDriver'] != None:
             self.environment['runtime']['soundDriver'].shutdown()
-
+        if self.environment['runtime']['speechDriver'] != None:
+            self.environment['runtime']['speechDriver'].shutdown()
     def captureSignal(self, siginit, frame):
-        self.shutdown()
+        self.shutdownRequest()
 
 app = fenrir()
 app.proceed()

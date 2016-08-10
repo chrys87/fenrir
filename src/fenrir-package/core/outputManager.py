@@ -3,8 +3,8 @@
 class outputManager():
     def __init__(self):
         pass
-    def presentText(self, environment, text, interrupt=True, soundIconName = ''):
-        if self.playSoundIcon(environment, soundIconName, interrupt):
+    def presentText(self, environment, text, interrupt=True, soundIcon = ''):
+        if self.playSoundIcon(environment, soundIcon, interrupt):
             return
         self.speakText(environment, text, interrupt)
         self.brailleText(environment, text, interrupt)
@@ -34,8 +34,8 @@ class outputManager():
         environment['runtime']['speechDriver'].cancel()
         environment['runtime']['soundDriver'].cancel()
 
-    def playSoundIcon(self, environment, soundIconName = '', interrupt=True):
-        if soundIconName == '':
+    def playSoundIcon(self, environment, soundIcon = '', interrupt=True):
+        if soundIcon == '':
             return False
         if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'sound', 'enabled'):
             return False  
@@ -43,8 +43,8 @@ class outputManager():
             return False       
         try:
             environment['runtime']['soundDriver'].setVolume(environment['runtime']['settingsManager'].getSettingAsFloat(environment, 'sound', 'volume'))
-            environment['runtime']['soundDriver'].playSoundFile(environment['soundIcons'][soundIconName], interrupt)
+            environment['runtime']['soundDriver'].playSoundFile(environment['soundIcons'][soundIcon], interrupt)
             return True
         except:
-            print('no icon there for' + soundIconName)
+            pass
         return False

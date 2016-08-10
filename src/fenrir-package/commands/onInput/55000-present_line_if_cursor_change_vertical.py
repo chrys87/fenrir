@@ -11,7 +11,7 @@ class command():
         if environment['screenData']['newCursor']['y'] == environment['screenData']['oldCursor']['y']:
             return environment
         if environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursor']['y']].strip(" \t\n") == '':
-            environment['runtime']['outputManager'].presentText(environment, "blank", soundIconName='EmptyLine', interrupt=True)
+            environment['runtime']['outputManager'].presentText(environment, "blank", soundIcon='EmptyLine', interrupt=True)
         else:
             environment['runtime']['outputManager'].presentText(environment, environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursor']['y']], True)
 
