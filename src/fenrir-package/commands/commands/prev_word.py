@@ -14,9 +14,9 @@ class command():
           word_utils.getPrevWord(environment['screenData']['newCursorReview']['x'], environment['screenData']['newCursorReview']['y'], environment['screenData']['newContentText'])
         
         if currWord.strip(" \t\n") == '':
-            environment['runtime']['outputManager'].presentText(environment, "blank")
+            environment['runtime']['outputManager'].presentText(environment, "blank", interrupt=True)
         else:
-            environment['runtime']['outputManager'].presentText(environment, currWord)
+            environment['runtime']['outputManager'].presentText(environment, currWord, interrupt=True)
         return environment    
     def setCallback(self, callback):
         pass

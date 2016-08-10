@@ -21,22 +21,22 @@ class fenrir():
         signal.signal(signal.SIGINT, self.captureSignal)
     
     def proceed(self):
+        self.environment['runtime']['outputManager'].presentText(environment, "Start Fenrir", soundIcon= 'ScreenReaderOn', interrupt=True)      
         #self.threadonInput.start()
-        #while(self.environment['generalInformation']['running']):
-        self.onInput()
+        while(self.environment['generalInformation']['running']):
+            self.onInput()
         self.shutdown()
 
     def onInput(self):
-        while(self.environment['generalInformation']['running']):
-            self.environment, timeout = self.environment['runtime']['inputManager'].getKeyPressed(self.environment)
-            self.environment = self.environment['runtime']['commandManager'].getCommandForShortcut(self.environment)
-            self.environment = self.environment['runtime']['screenDriver'].analyzeScreen(self.environment, 'onInput')
-            if not timeout:
-                self.environment = self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onInput')            
-            self.environment = self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onScreenChanged')        
-            if self.environment['commandInfo']['currCommand'] != '':
-                self.handleCommands()
-            self.environment['runtime']['globalLock'].release()
+        self.environment, timeout = self.environment['runtime']['inputManager'].getKeyPressed(self.environment)
+        self.environment = self.environment['runtime']['commandManager'].getCommandForShortcut(self.environment)
+        self.environment = self.environment['runtime']['screenDriver'].analyzeScreen(self.environment, 'onInput')
+        if not timeout:
+            self.environment = self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onInput')            
+        self.environment = self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onScreenChanged')        
+        if self.environment['commandInfo']['currCommand'] != '':
+            self.handleCommands()
+        self.environment['runtime']['globalLock'].release()
 
     def updateScreen(self):
             return
@@ -51,7 +51,8 @@ class fenrir():
             self.environment = self.environment['runtime']['commandManager'].executeCommand(self.environment, self.environment['commandInfo']['currCommand'], 'commands')
 
     def shutdown(self):
-        self.environment['generalInformation']['running'] = False
+        self.environment['runtime']['outputManager'].presentText(environment, "Quit Fenrir", soundIcon= 'ScreenReaderOff', interrupt=True)  
+        time.sleep(1)
         if self.environment['runtime']['speechDriver'] != None:
             self.environment['runtime']['speechDriver'].shutdown()
         if self.environment['runtime']['debug'] != None:

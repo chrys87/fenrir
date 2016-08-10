@@ -9,6 +9,7 @@ iDevices = {dev.fd: dev for dev in iDevices if dev.fn in ['/dev/input/event18']}
 uDevices = {}
 for fd in iDevices:
     dev = iDevices[fd]
+    dev.capabilities()
     uDevices[fd] = UInput()
     dev.grab()
 

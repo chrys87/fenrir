@@ -14,9 +14,9 @@ class command():
           line_utils.getPrevLine(environment['screenData']['newCursorReview']['x'], environment['screenData']['newCursorReview']['y'], environment['screenData']['newContentText'])
         
         if currLine.strip(" \t\n") == '':
-            environment['runtime']['outputManager'].presentText(environment, "blank")
+            environment['runtime']['outputManager'].presentText(environment, "blank", interrupt=True)
         else:
-            environment['runtime']['outputManager'].presentText(environment, currLine)
+            environment['runtime']['outputManager'].presentText(environment, currLine, interrupt=True)
         return environment    
     def setCallback(self, callback):
         pass

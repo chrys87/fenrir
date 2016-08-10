@@ -6,7 +6,7 @@ class command():
     def run(self, environment):
         environment['screenData']['oldCursorReview'] = {'x':-1,'y':-1}
         environment['screenData']['newCursorReview'] = {'x':-1,'y':-1}
-        environment['runtime']['outputManager'].presentText(environment, "leve review mode")
+        environment['runtime']['outputManager'].presentText(environment, "leve review mode", interrupt=True)
         return environment    
     def setCallback(self, callback):
         pass
