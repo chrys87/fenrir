@@ -1,3 +1,4 @@
+#!/bin/python
 import evdev
 from evdev import InputDevice
 from select import select

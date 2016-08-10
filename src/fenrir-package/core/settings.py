@@ -35,6 +35,8 @@ settings = {
 },
 'keyboard':{
   'device':"all",
+  'grabDevices':True,
+  'ignoreShortcuts':False,  
   'keyboardLayout': "desktop",
   'charEcho':False,
   'charDeleteEcho':True,

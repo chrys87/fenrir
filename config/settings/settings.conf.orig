@@ -30,7 +30,7 @@ ignoreShortcuts=False
 keyboardLayout=desktop
 charEcho=False
 charDeleteEcho=True
-wordEcho=True
+wordEcho=False
 interruptOnKeyPress=False
 
 [general]

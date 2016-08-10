@@ -23,6 +23,7 @@ ToDos in Priority order:
 - implement onScreenChange commands
   read highlighted text mode
   window mode (define a area and just read that changes)
+  promoted text
   
 - autostart systemd
 - implement braille
