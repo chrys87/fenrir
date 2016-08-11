@@ -2,6 +2,9 @@
 
 input = {
 'currShortcut': {}, 
-'currShortcutString': '' 
+'currShortcutString': '',
+'consumeKey': False,
+'fenrirKey': ['82'],
+'keyForeward': False,
 }
 

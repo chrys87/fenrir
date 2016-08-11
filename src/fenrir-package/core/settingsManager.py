@@ -30,6 +30,7 @@ class settingsManager():
             keys = sepLine[0].replace(" ","").split(',')
             currShortcut = []
             validKeyString = True
+            keyIdent = ''
             for key in keys:
                 if len(key) < 3:
                     validKeyString = False
@@ -41,24 +42,28 @@ class settingsManager():
                     validKeyString = False
                     break
                 if key[2:] != '':
-                    keyInt = self.getCodeForKeyID(key[2:])
+                    if key[2:] == 'FENRIR':
+                        keyIdent= 'FENRIR'
+                    else:
+                        keyInt = self.getCodeForKeyID(key[2:])
+                        keyIdent = str(keyInt)
                 else:
                     validKeyString = False
                     break
-                if keyInt == 0:
+                if keyIdent == '':
                     validKeyString = False
-                    break
+                    break                
                 if not validKeyString:
                     break
                 else:
-                    currShortcut.append(key[0] + '-' + str(keyInt))
+                    currShortcut.append(key[0] + '-' + keyIdent)
             if validKeyString:
                 keyString = ''
                 for k in sorted(currShortcut):
                     if keyString != '':
                         keyString += ','
                     keyString += k
-                environment['bindings'][keyString] = commandString
+                environment['bindings'][keyString] = commandString          
         kbConfig.close()
         return environment
 
@@ -165,7 +170,20 @@ class settingsManager():
         spec.loader.exec_module(driver_mod)
         environment['runtime']['screenDriver'] = driver_mod.screen() 
         return environment  
-
+    def setFenrirKeys(self, environment, keys):
+        keyList = keys.split(',')
+        for key in keyList:
+            keyID = self.keyIDasString( key)
+            if keyID != '':
+                if not keyID in  environment['input']['fenrirKey']:
+                    environment['input']['fenrirKey'].append(keyID)
+        return environment
+    def keyIDasString(self, key):
+        try:
+            KeyID = self.getCodeForKeyID(key)
+            return str(KeyID)
+        except:
+            return ''  
     def initFenrirConfig(self):
         return self.reInitFenrirConfig(environment.environment)
 
@@ -175,6 +193,7 @@ class settingsManager():
         environment['runtime']['inputManager'] = inputManager.inputManager()
         environment['runtime']['outputManager'] = outputManager.outputManager()
         environment = environment['runtime']['settingsManager'].loadSettings(environment)
+        environment = self.setFenrirKeys(environment, self.getSetting(environment, 'general','fenrirKeys'))
         if not os.path.exists(self.getSetting(environment, 'keyboard','keyboardLayout')):
             if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting(environment, 'keyboard','keyboardLayout')):  
                 self.setSetting(environment, 'keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting(environment, 'keyboard','keyboardLayout'))
@@ -205,4 +224,4 @@ class settingsManager():
         environment = environment['runtime']['settingsManager'].loadSoundDriver(environment,\
           environment['runtime']['settingsManager'].getSetting(environment,'sound', 'driver'))
         return environment
-    
+     

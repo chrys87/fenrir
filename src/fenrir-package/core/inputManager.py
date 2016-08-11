@@ -19,25 +19,31 @@ class inputManager():
                 timeout = False
                 for fd in r:
                     for event in self.iDevices[fd].read():
-                        if event.code == 82:  # a
-                            environment['generalInformation']['consumeKey'] = True
-                        if not environment['generalInformation']['consumeKey']:      
+                        if self.isFenrirKey(environment, event):  # a
+                            environment['input']['consumeKey'] = not environment['input']['keyForeward']
+                        if not environment['input']['consumeKey']:   
                             self.uDevices[fd].write_event(event)
                             self.uDevices[fd].syn()
-                            time.sleep(0.01)
                         else:
+                            keyString = ''
+                            if self.isFenrirKey(environment, event):
+                                keyString = 'FENRIR'
+                            else:
+                                keyString = str(event.code) 
                             if event.type == evdev.ecodes.EV_KEY:
                                 if event.value != 0:
-                                    environment['input']['currShortcut'][str(event.code)] = 1 #event.value
+                                    environment['input']['currShortcut'][keyString] = 1 #event.value
                                 else:
                                     try:
-                                        del(environment['input']['currShortcut'][str(event.code)])
+                                        del(environment['input']['currShortcut'][keyString])
                                     except:
                                         pass
         except Exception as e:
             self.freeDevices()
+        time.sleep(0.01)        
         environment['input']['currShortcutString'] = self.getShortcutString(environment)
-        environment['generalInformation']['consumeKey'] = environment['input']['currShortcut'] != {}
+        environment['input']['consumeKey'] = environment['input']['currShortcut'] != {} and environment['input']['consumeKey']
+        environment['input']['keyForeward'] = environment['input']['keyForeward'] and environment['input']['currShortcut'] == {}
         return environment, timeout
 
     def getShortcutString(self, environment):
@@ -45,10 +51,12 @@ class inputManager():
             return '' 
         currShortcutStringList = []
         for key in environment['input']['currShortcut']:
-            currShortcutStringList.append("%s-%s" % (environment['input']['currShortcut'][key], key))
+             currShortcutStringList.append("%s-%s" % (environment['input']['currShortcut'][key], key))
         currShortcutStringList = sorted(currShortcutStringList)
         return str(currShortcutStringList)[1:-1].replace(" ","").replace("'","")
-    
+    def isFenrirKey(self,environment, event):
+        return str(event.code) in environment['input']['fenrirKey']
+  
     def getDevices(self):
         self.iDevices = map(evdev.InputDevice, (evdev.list_devices()))
         self.iDevices = {dev.fd: dev for dev in self.iDevices if 1 in dev.capabilities()}
@@ -57,7 +65,6 @@ class inputManager():
             dev = self.iDevices[fd]
             cap = dev.capabilities()
             del cap[0]
-            print(dev.name)
             self.uDevices[fd] = UInput(
               cap,
               dev.name,
