@@ -6,12 +6,12 @@ volume=1.0
 
 [speech]
 enabled=True
-driver=espeak
+driver=speechd
 rate=0.75
 pitch=0.5
 module=espeak
-voice=en-us
-language=en-us
+voice=de
+language=de
 volume=1.0
 autoReadIncomming=True
 
@@ -27,8 +27,8 @@ screenUpdateDelay=0.4
 device=all
 grabDevices=True
 ignoreShortcuts=False
-keyboardLayout=desktop
-charEcho=False
+keyboardLayout=test
+charEcho=True
 charDeleteEcho=True
 wordEcho=True
 interruptOnKeyPress=False

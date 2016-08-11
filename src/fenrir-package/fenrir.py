@@ -37,14 +37,11 @@ class fenrir():
         self.environment = self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onScreenChanged')        
         if self.environment['commandInfo']['currCommand'] != '':
             self.handleCommands()
-        self.environment['runtime']['globalLock'].release()
 
     def updateScreen(self):
             return
-            self.environment['runtime']['globalLock'].acquire(True)
             self.environment = self.environment['runtime']['screenDriver'].analyzeScreen(self.environment,'updateScreen')
             self.environment = self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onScreenChanged')            
-            self.environment['runtime']['globalLock'].release()
             time.sleep(0.5)
 
     def handleCommands(self):
@@ -61,6 +58,8 @@ class fenrir():
             self.environment['runtime']['soundDriver'].shutdown()
         if self.environment['runtime']['speechDriver'] != None:
             self.environment['runtime']['speechDriver'].shutdown()
+        self.environment['runtime']['inputManager'].freeDevices()
+        
     def captureSignal(self, siginit, frame):
         self.shutdownRequest()
 

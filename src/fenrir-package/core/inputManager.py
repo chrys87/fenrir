@@ -1,35 +1,43 @@
 #!/bin/python
 
 import evdev
-from evdev import InputDevice
+from evdev import InputDevice, UInput
 from select import select
+import time
 
 class inputManager():
     def __init__(self):
-        self.devices = map(evdev.InputDevice, (evdev.list_devices()))
-        self.devices = {dev.fd: dev for dev in self.devices}
-        #for dev in self.devices.values(): print(dev)
+        self.iDevices = {}
+        self.uDevices = {}
+        self.getDevices()
 
     def getKeyPressed(self, environment):
         timeout = True
         try:
-            r, w, x = select(self.devices, [], [], environment['runtime']['settingsManager'].getSettingAsFloat(environment, 'screen', 'screenUpdateDelay'))
-            environment['runtime']['globalLock'].acquire(True)
+            r, w, x = select(self.iDevices, [], [], environment['runtime']['settingsManager'].getSettingAsFloat(environment, 'screen', 'screenUpdateDelay'))
             if r != []:
                 timeout = False
                 for fd in r:
-                    for event in self.devices[fd].read():
-                        if event.type == evdev.ecodes.EV_KEY:
-                            if event.value != 0:
-                                environment['input']['currShortcut'][str(event.code)] = 1 #event.value
-                            else:
-                                try:
-                                    del(environment['input']['currShortcut'][str(event.code)])
-                                except:
-                                    pass
-        except:
-            pass
+                    for event in self.iDevices[fd].read():
+                        if event.code == 82:  # a
+                            environment['generalInformation']['consumeKey'] = True
+                        if not environment['generalInformation']['consumeKey']:      
+                            self.uDevices[fd].write_event(event)
+                            self.uDevices[fd].syn()
+                            time.sleep(0.01)
+                        else:
+                            if event.type == evdev.ecodes.EV_KEY:
+                                if event.value != 0:
+                                    environment['input']['currShortcut'][str(event.code)] = 1 #event.value
+                                else:
+                                    try:
+                                        del(environment['input']['currShortcut'][str(event.code)])
+                                    except:
+                                        pass
+        except Exception as e:
+            self.freeDevices()
         environment['input']['currShortcutString'] = self.getShortcutString(environment)
+        environment['generalInformation']['consumeKey'] = environment['input']['currShortcut'] != {}
         return environment, timeout
 
     def getShortcutString(self, environment):
@@ -40,4 +48,46 @@ class inputManager():
             currShortcutStringList.append("%s-%s" % (environment['input']['currShortcut'][key], key))
         currShortcutStringList = sorted(currShortcutStringList)
         return str(currShortcutStringList)[1:-1].replace(" ","").replace("'","")
+    
+    def getDevices(self):
+        self.iDevices = map(evdev.InputDevice, (evdev.list_devices()))
+        self.iDevices = {dev.fd: dev for dev in self.iDevices if 1 in dev.capabilities()}
+
+        for fd in self.iDevices:
+            dev = self.iDevices[fd]
+            cap = dev.capabilities()
+            del cap[0]
+            print(dev.name)
+            self.uDevices[fd] = UInput(
+              cap,
+              dev.name,
+              dev.info.vendor
+        #      dev.info.product,
+        #      dev.version,
+        #      dev.info.bustype,
+         #     '/dev/uinput'
+              )
+            dev.grab()
+
+    def freeDevices(self):
+        for fd in self.iDevices:
+            try:
+                self.iDevices[fd].ungrab()
+            except:
+                pass
+            try:
+                self.iDevices[fd].close()
+            except:
+                pass
+            try:
+                self.uDevices[fd].close()
+            except:
+                pass
+
+        self.iDevices.clear()
+        self.uDevices.clear()
+
+        def __del__(self):
+            self.freeDevices()
+
 
