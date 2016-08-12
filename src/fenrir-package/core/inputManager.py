@@ -21,7 +21,7 @@ class inputManager():
                     for event in self.iDevices[fd].read():
                         if self.isFenrirKey(environment, event):  # a
                             environment['input']['consumeKey'] = not environment['input']['keyForeward']
-                        if not environment['input']['consumeKey']:   
+                        if not environment['input']['consumeKey'] or environment['input']['keyForeward']:   
                             self.uDevices[fd].write_event(event)
                             self.uDevices[fd].syn()
                         else:
