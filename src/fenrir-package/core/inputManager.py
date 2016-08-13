@@ -10,9 +10,12 @@ class inputManager():
         self.iDevices = {}
         self.uDevices = {}
         self.getDevices()
+        self.ignoreKeyRelease = 0
 
     def getKeyPressed(self, environment):
         timeout = True
+        if not environment['input']['keyForeward']:
+            self.ignoreKeyRelease = 0
         try:
             r, w, x = select(self.iDevices, [], [], environment['runtime']['settingsManager'].getSettingAsFloat(environment, 'screen', 'screenUpdateDelay'))
             if r != []:
@@ -24,28 +27,32 @@ class inputManager():
                         if not environment['input']['consumeKey'] or environment['input']['keyForeward']:   
                             self.uDevices[fd].write_event(event)
                             self.uDevices[fd].syn()
+                        keyString = ''
+                        if self.isFenrirKey(environment, event):
+                            keyString = 'FENRIR'
                         else:
-                            keyString = ''
-                            if self.isFenrirKey(environment, event):
-                                keyString = 'FENRIR'
+                            keyString = str(event.code) 
+                        if event.type == evdev.ecodes.EV_KEY:
+                            if event.value != 0:
+                                environment['input']['currShortcut'][keyString] = 1 #event.value
                             else:
-                                keyString = str(event.code) 
-                            if event.type == evdev.ecodes.EV_KEY:
-                                if event.value != 0:
-                                    environment['input']['currShortcut'][keyString] = 1 #event.value
-                                else:
-                                    try:
-                                        del(environment['input']['currShortcut'][keyString])
-                                    except:
-                                        pass
+                                try:
+                                    del(environment['input']['currShortcut'][keyString])
+                                except:
+                                    pass
         except Exception as e:
             self.freeDevices()
         time.sleep(0.01)        
         environment['input']['currShortcutString'] = self.getShortcutString(environment)
-        environment['input']['consumeKey'] = environment['input']['currShortcut'] != {} and environment['input']['consumeKey']
-        environment['input']['keyForeward'] = environment['input']['keyForeward'] and environment['input']['currShortcut'] == {}
+        if not timeout:
+            environment['input']['consumeKey'] = environment['input']['currShortcut'] != {} and environment['input']['consumeKey']
+            if (environment['input']['keyForeward'] and environment['input']['currShortcut'] == {}):
+                self.ignoreKeyRelease += 1
+            if self.ignoreKeyRelease >= 2: # a hack... has to bee done more clean
+                environment['input']['keyForeward'] = environment['input']['keyForeward'] and not environment['input']['currShortcut'] == {}
+   
         return environment, timeout
-
+	
     def getShortcutString(self, environment):
         if environment['input']['currShortcut'] == {}:
             return '' 
@@ -68,11 +75,11 @@ class inputManager():
             self.uDevices[fd] = UInput(
               cap,
               dev.name,
-              dev.info.vendor
-        #      dev.info.product,
-        #      dev.version,
-        #      dev.info.bustype,
-         #     '/dev/uinput'
+              #dev.info.vendor,
+              #dev.info.product,
+              #dev.version,
+              #dev.info.bustype,
+              #'/dev/uinput'
               )
             dev.grab()
 
