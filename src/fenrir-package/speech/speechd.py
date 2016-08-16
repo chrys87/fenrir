@@ -6,6 +6,7 @@ class speech():
     def __init__(self ):
         self._sd = None
         self._isInitialized = False
+        self._language = ''
         try:
             import speechd 
             self._sd =  speechd.SSIPClient('fenrir')
@@ -18,6 +19,10 @@ class speech():
         if not self._isInitialized:
             return False
         if queueable == False: self.cancel()
+        try:
+            self._sd.set_synthesis_voice(self._language)        
+        except:
+            pass
         self._sd.speak(text)
         return True
 
@@ -39,7 +44,8 @@ class speech():
         if not self._isInitialized:
             return False
         try:
-            self._sd.set_voice(voice)
+            if voice != '':
+                self._sd.set_voice(voice)
             return True
         except:
             return False
@@ -74,7 +80,7 @@ class speech():
     def setLanguage(self, language):
         if not self._isInitialized:
             return False    
-        self._sd.set_language(language)
+        self._language = language
         
     def setVolume(self, volume):
         if not self._isInitialized:

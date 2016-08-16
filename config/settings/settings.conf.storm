@@ -10,8 +10,8 @@ driver=speechd
 rate=0.75
 pitch=0.5
 module=espeak
-voice=us
-language=en
+voice=
+language=english-us
 volume=1.0
 autoReadIncomming=True
 
