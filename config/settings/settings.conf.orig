@@ -57,15 +57,22 @@ screenUpdateDelay=0.4
 
 [keyboard]
 device=all
+# gives fenrir exclusive access to the keyboard and let consume keystrokes. just disable on problems.
 grabDevices=True
 ignoreShortcuts=False
+# the current shortcut layout located in /etc/fenrir/keyboard
 keyboardLayout=desktop
+# echo chars while typing.
 charEcho=False
+# echo deleted chars
 charDeleteEcho=True
+# echo word after pressing space
 wordEcho=True
+# interrupt speech on any keypress
 interruptOnKeyPress=False
 
 [general]
 debugLevel=0
 punctuationLevel=1
+# define the current fenrir key
 fenrirKeys=KEY_KP0
