@@ -21,8 +21,7 @@ class fenrir():
         signal.signal(signal.SIGINT, self.captureSignal)
     
     def proceed(self):
-        self.environment['runtime']['outputManager'].presentText(self.environment, "Start Fenrir", soundIcon='ScreenReaderOn', interrupt=True)   
-        time.sleep(1)# we need a is presenting methot for exact waiting           
+        self.environment['runtime']['outputManager'].presentText(self.environment, "Start Fenrir", soundIcon='ScreenReaderOn', interrupt=True)          
         #self.threadonInput.start()
         while(self.environment['generalInformation']['running']):
             self.onInput()
