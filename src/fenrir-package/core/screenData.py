@@ -17,6 +17,6 @@ screenData = {
 'newContentBytes': b'',
 'newContentText': '',
 'newContentAttrib': b'',
-'oldTTY':'-1', #to get shure that the first loop is a chagne
+'oldTTY':'0',
 'newTTY':'0',
 }
