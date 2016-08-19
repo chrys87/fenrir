@@ -12,22 +12,28 @@ class commandManager():
         commandFolder = "commands/" + section +"/"
         commandList = glob.glob(commandFolder+'*')
         for currCommand in commandList:
-            #try:
-            fileName, fileExtension = os.path.splitext(currCommand)
-            fileName = fileName.split('/')[-1]
-            if fileName in ['__init__','__pycache__']:
+            try:
+                fileName, fileExtension = os.path.splitext(currCommand)
+                fileName = fileName.split('/')[-1]
+                if fileName in ['__init__','__pycache__']:
+                    continue
+                if fileExtension.lower() == '.py':
+                    spec = importlib.util.spec_from_file_location(fileName, currCommand)
+                    command_mod = importlib.util.module_from_spec(spec)
+                    spec.loader.exec_module(command_mod)
+                    environment['commands'][section][fileName] = command_mod.command()
+            except Exception as e:
+                print(e)
                 continue
-            if fileExtension.lower() == '.py':
-                spec = importlib.util.spec_from_file_location(fileName, currCommand)
-                command_mod = importlib.util.module_from_spec(spec)
-                spec.loader.exec_module(command_mod)
-                environment['commands'][section][fileName] = command_mod.command()
-            #except:
-            #    continue
         return environment
     def executeTriggerCommands(self, environment, trigger):
         for cmd in sorted(environment['commands'][trigger]):
-            environment = environment['commands'][trigger][cmd].run(environment)
+            try:
+               environ = environment['commands'][trigger][cmd].run(environment)
+               if environ != None:
+                    environment = environ
+            except Exception as e:
+                print(e)
         return environment
 
     def executeCommand(self, environment, currCommand, section = 'commands'):
@@ -36,14 +42,12 @@ class commandManager():
                 environ =  environment['commands'][section][currCommand].run(environment)
                 if environ != None:
                     environment = environ
-            except: 
-                pass
+            except Exception as e:
+                print(e)
         environment['commandInfo']['currCommand'] = ''
         environment['commandInfo']['lastCommandTime'] = time.time()    
         return environment
-        
-    def executeNextCommand(self, environment):
-        pass
+
     def isShortcutDefined(self, environment):
         return( environment['input']['currShortcutString'] in environment['bindings'])
 
@@ -56,7 +60,3 @@ class commandManager():
     def isCommandDefined(self, environment):
         return( environment['commandInfo']['currCommand'] in environment['commands']['commands'])
 
-    def enqueueCommand(self, environment):
-        if not self.isCommandDefined(environment):
-            return False
-        return True
