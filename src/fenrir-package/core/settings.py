@@ -34,6 +34,11 @@ settings = {
   'punctuationLevel': 1,
   'fenrirKeys':['82'],
 },
+'promote':{
+  'enabled': True,
+  'inactiveTimeoutSec':120,
+  'list':'',
+},
 'keyboard':{
   'device':"all",
   'grabDevices':True,

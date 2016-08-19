@@ -1,4 +1,5 @@
 #!/bin/python
+import time
 
 input = {
 'currShortcut': {}, 
@@ -6,5 +7,5 @@ input = {
 'consumeKey': False,
 'fenrirKey': ['82'],
 'keyForeward': False,
+'lastInputTime':time.time(),
 }
-

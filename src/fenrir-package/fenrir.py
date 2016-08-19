@@ -29,7 +29,7 @@ class fenrir():
         self.shutdown()
 
     def onInput(self):
-        self.environment, timeout = self.environment['runtime']['inputManager'].getKeyPressed(self.environment)
+        self.environment, timeout = self.environment['runtime']['inputManager'].proceedInputEvents(self.environment)
         self.environment = self.environment['runtime']['screenDriver'].analyzeScreen(self.environment, 'onInput')
         if not timeout:
             self.environment = self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onInput')            

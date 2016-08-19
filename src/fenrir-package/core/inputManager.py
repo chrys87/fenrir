@@ -9,10 +9,11 @@ class inputManager():
     def __init__(self):
         self.iDevices = {}
         self.uDevices = {}
-        self.getDevices()
+        self.getInputDevices()
+        self.grabDevices()
         self.ignoreKeyRelease = 0
 
-    def getKeyPressed(self, environment):
+    def proceedInputEvents(self, environment):
         timeout = True
         if not environment['input']['keyForeward']:
             self.ignoreKeyRelease = 0
@@ -22,11 +23,10 @@ class inputManager():
                 timeout = False
                 for fd in r:
                     for event in self.iDevices[fd].read():
-                        if self.isFenrirKey(environment, event):  # a
+                        if self.isFenrirKey(environment, event): 
                             environment['input']['consumeKey'] = not environment['input']['keyForeward']
-                        if not environment['input']['consumeKey'] or environment['input']['keyForeward']:   
-                            self.uDevices[fd].write_event(event)
-                            self.uDevices[fd].syn()
+                        if self.isConsumeKeypress(environment):   
+                            self.writeUInput(self.uDevices[fd], event)
                         keyString = ''
                         if self.isFenrirKey(environment, event):
                             keyString = 'FENRIR'
@@ -45,6 +45,7 @@ class inputManager():
         time.sleep(0.01)        
         environment['input']['currShortcutString'] = self.getShortcutString(environment)
         if not timeout:
+            environment['input']['lastInputTime'] = time.time()
             environment['input']['consumeKey'] = environment['input']['currShortcut'] != {} and environment['input']['consumeKey']
             if (environment['input']['keyForeward'] and environment['input']['currShortcut'] == {}):
                 self.ignoreKeyRelease += 1
@@ -52,7 +53,16 @@ class inputManager():
                 environment['input']['keyForeward'] = environment['input']['keyForeward'] and not environment['input']['currShortcut'] == {}
    
         return environment, timeout
-	
+
+    def isConsumeKeypress(self, environment):
+	    return not environment['input']['consumeKey'] or \
+          environment['input']['keyForeward'] or \
+          not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'keyboard', 'grabDevices')
+
+    def writeUInput(self, uDevice, event):
+        uDevice.write_event(event)
+        uDevice.syn()
+
     def getShortcutString(self, environment):
         if environment['input']['currShortcut'] == {}:
             return '' 
@@ -64,10 +74,13 @@ class inputManager():
     def isFenrirKey(self,environment, event):
         return str(event.code) in environment['input']['fenrirKey']
   
-    def getDevices(self):
+    def getInputDevices(self):
         self.iDevices = map(evdev.InputDevice, (evdev.list_devices()))
         self.iDevices = {dev.fd: dev for dev in self.iDevices if 1 in dev.capabilities()}
 
+    def grabDevices(self):
+#        if environment['runtime']['settingsManager'].getSettingAsBool(environment, 'keyboard', 'grabDevices'):
+#            return
         for fd in self.iDevices:
             dev = self.iDevices[fd]
             cap = dev.capabilities()
