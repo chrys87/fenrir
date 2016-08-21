@@ -23,7 +23,8 @@ class commandManager():
                     spec.loader.exec_module(command_mod)
                     environment['commands'][section][fileName] = command_mod.command()
             except Exception as e:
-                print(e)
+                environment['runtime']['debug'].writeDebugOut(environment,"Error while loading command:" + currCommand ,debug.debugLevel.ERROR)
+                environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR)                
                 continue
         return environment
     def executeTriggerCommands(self, environment, trigger):
@@ -33,7 +34,8 @@ class commandManager():
                if environ != None:
                     environment = environ
             except Exception as e:
-                print(e)
+                environment['runtime']['debug'].writeDebugOut(environment,"Error while executing trigger:" + trigger + "." + cmd ,debug.debugLevel.ERROR)
+                environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR) 
         return environment
 
     def executeCommand(self, environment, currCommand, section = 'commands'):
@@ -43,7 +45,8 @@ class commandManager():
                 if environ != None:
                     environment = environ
             except Exception as e:
-                print(e)
+                environment['runtime']['debug'].writeDebugOut(environment,"Error while executing command:" + section + "." + currCommand ,debug.debugLevel.ERROR)
+                environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR) 
         environment['commandInfo']['currCommand'] = ''
         environment['commandInfo']['lastCommandTime'] = time.time()    
         return environment
