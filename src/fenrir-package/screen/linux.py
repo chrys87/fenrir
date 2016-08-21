@@ -34,7 +34,10 @@ class screen():
         environment['screenData']['oldContentTextAttrib'] = environment['screenData']['newContentAttrib']
         environment['screenData']['oldCursor']['x'] = environment['screenData']['newCursor']['x']
         environment['screenData']['oldCursor']['y'] = environment['screenData']['newCursor']['y']
-        environment['screenData']['oldTTY'] = environment['screenData']['newTTY']
+        if environment['screenData']['oldTTY'] == '-1':
+            environment['screenData']['oldTTY'] = newTTY # dont recognice starting fenrir as change
+        else:    
+            environment['screenData']['oldTTY'] = environment['screenData']['newTTY']
         environment['screenData']['oldDelta'] = environment['screenData']['newDelta']
         environment['screenData']['oldNegativeDelta'] = environment['screenData']['newNegativeDelta']
         environment['screenData']['newTTY'] = newTTY

@@ -17,6 +17,6 @@ screenData = {
 'newContentBytes': b'',
 'newContentText': '',
 'newContentAttrib': b'',
-'oldTTY':'0',
+'oldTTY':'-1',
 'newTTY':'0',
 }
