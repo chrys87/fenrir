@@ -45,10 +45,10 @@ class speech():
             return False
         return self._es.set_parameter(self._es.Parameter().Pitch, int(pitch * 99)) 
 
-    def setSpeed(self, speed):
+    def setRate(self, rate):
         if not self._isInitialized:
             return False
-        return self._es.set_parameter(self._es.Parameter().Rate, int(speed*450 + 80))
+        return self._es.set_parameter(self._es.Parameter().Rate, int(rate*450 + 80))
 
     def setModule(self, module):
         if not self._isInitialized:

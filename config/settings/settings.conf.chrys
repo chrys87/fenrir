@@ -12,7 +12,7 @@ pitch=0.5
 module=espeak
 voice=de
 language=de
-volume=1.0
+volume=0.8
 autoReadIncomming=True
 
 [braille]

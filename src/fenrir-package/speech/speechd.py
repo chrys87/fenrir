@@ -59,11 +59,11 @@ class speech():
         except:
             return False
 
-    def setSpeed(self, speed):
+    def setRate(self, rate):
         if not self._isInitialized:
             return False
         try:
-            self._sd.set_rate(int(-100 + speed * 200))
+            self._sd.set_rate(int(-100 + rate * 200))
             return True
         except:
             return False

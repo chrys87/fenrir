@@ -19,7 +19,7 @@ class outputManager():
         environment['runtime']['speechDriver'].setLanguage(environment['runtime']['settingsManager'].getSetting(environment, 'speech', 'language'))            
         environment['runtime']['speechDriver'].setVoice(environment['runtime']['settingsManager'].getSetting(environment, 'speech', 'voice'))
         environment['runtime']['speechDriver'].setPitch(environment['runtime']['settingsManager'].getSettingAsFloat(environment, 'speech', 'pitch'))
-        environment['runtime']['speechDriver'].setSpeed(environment['runtime']['settingsManager'].getSettingAsFloat(environment, 'speech', 'rate'))
+        environment['runtime']['speechDriver'].setRate(environment['runtime']['settingsManager'].getSettingAsFloat(environment, 'speech', 'rate'))
         environment['runtime']['speechDriver'].setModule(environment['runtime']['settingsManager'].getSetting(environment, 'speech', 'module'))
         environment['runtime']['speechDriver'].setVolume(environment['runtime']['settingsManager'].getSettingAsFloat(environment, 'speech', 'volume'))
         environment['runtime']['speechDriver'].speak(text)
