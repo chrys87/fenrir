@@ -13,7 +13,7 @@ class command():
             value = 0.1  
         environment = environment['runtime']['settingsManager'].setSetting(environment, 'speech', 'volume', str(value))   
 
-        environment['runtime']['outputManager'].presentText(environment, str(int(value * 100)) + " percent speech volume", soundIcon='SpeechOff', interrupt=True)
+        environment['runtime']['outputManager'].presentText(environment, str(int(value * 100)) + " percent speech volume", soundIcon='', interrupt=True)
                
         return environment    
     def setCallback(self, callback):
