@@ -105,7 +105,7 @@ class settingsManager():
                 environment['soundIcons'][soundIcon] = FilePath
         siConfig.close()
         return environment
-    
+
     def loadSettings(self, environment, settingConfigPath='../../config/settings/settings.conf'):
         environment['settings'] = ConfigParser()
         #if not exist what is ?????
@@ -131,7 +131,7 @@ class settingsManager():
         except:
             value = self.settings[section][setting]
         return value
-        
+
     def getSettingAsFloat(self, environment, section, setting):
         value = 0.0
         try:
@@ -139,13 +139,15 @@ class settingsManager():
         except:
             value = self.settings[section][setting]
         return value
+
     def getSettingAsBool(self, environment, section, setting):
         value = False
         try:
             value = environment['settings'].getboolean(section, setting)
         except:
             value = self.settings[section][setting]
-        return value   
+        return value
+
     def loadSpeechDriver(self, environment, driverName):
         if environment['runtime']['speechDriver'] != None:
             environment['runtime']['speechDriver'].shutdown()    
@@ -169,7 +171,8 @@ class settingsManager():
         driver_mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(driver_mod)
         environment['runtime']['screenDriver'] = driver_mod.screen() 
-        return environment  
+        return environment
+
     def setFenrirKeys(self, environment, keys):
         keyList = keys.split(',')
         for key in keyList:
@@ -178,20 +181,20 @@ class settingsManager():
                 if not keyID in  environment['input']['fenrirKey']:
                     environment['input']['fenrirKey'].append(keyID)
         return environment
+
     def keyIDasString(self, key):
         try:
             KeyID = self.getCodeForKeyID(key)
             return str(KeyID)
         except:
-            return ''  
+            return ''
+
     def initFenrirConfig(self):
         return self.reInitFenrirConfig(environment.environment)
 
     def reInitFenrirConfig(self, environment, settingsRoot = '../../config/'):
-
-        environment['runtime']['settingsManager'] = self 
-        environment['runtime']['inputManager'] = inputManager.inputManager()
-        environment['runtime']['outputManager'] = outputManager.outputManager()
+        environment['runtime']['settingsManager'] = self
+        environment['runtime']['debug'] = debug.debug()        
         environment = environment['runtime']['settingsManager'].loadSettings(environment)
         environment = self.setFenrirKeys(environment, self.getSetting(environment, 'general','fenrirKeys'))
         if not os.path.exists(self.getSetting(environment, 'keyboard','keyboardLayout')):
@@ -212,16 +215,24 @@ class settingsManager():
         else:
             environment = environment['runtime']['settingsManager'].loadSoundIcons(environment, self.getSetting(environment, 'sound','theme'))
 
+        environment['runtime']['inputManager'] = inputManager.inputManager()
+        environment['runtime']['outputManager'] = outputManager.outputManager()
         environment['runtime']['commandManager'] = commandManager.commandManager()
         environment = environment['runtime']['commandManager'].loadCommands(environment,'commands')
         environment = environment['runtime']['commandManager'].loadCommands(environment,'onInput')
         environment = environment['runtime']['commandManager'].loadCommands(environment,'onScreenChanged')
-        environment['runtime']['debug'] = debug.debug()
+
         environment = environment['runtime']['settingsManager'].loadSpeechDriver(environment,\
           environment['runtime']['settingsManager'].getSetting(environment,'speech', 'driver'))
         environment = environment['runtime']['settingsManager'].loadScreenDriver(environment,\
           environment['runtime']['settingsManager'].getSetting(environment,'screen', 'driver'))
         environment = environment['runtime']['settingsManager'].loadSoundDriver(environment,\
           environment['runtime']['settingsManager'].getSetting(environment,'sound', 'driver'))
+          
+        environment['runtime']['debug'].writeDebugOut(environment,'\/-------environment-------\/',debug.debugLevel.ERROR)        
+        environment['runtime']['debug'].writeDebugOut(environment,str(environment),debug.debugLevel.ERROR)
+        environment['runtime']['debug'].writeDebugOut(environment,'\/-------settings.conf-------\/',debug.debugLevel.ERROR)        
+        environment['runtime']['debug'].writeDebugOut(environment,str(environment['settings']._sections
+),debug.debugLevel.ERROR)        
         return environment
      
