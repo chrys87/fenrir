@@ -8,7 +8,7 @@ class command():
         
         value = environment['runtime']['settingsManager'].getSettingAsFloat(environment, 'sound', 'volume')
 
-        value = round((math.ceil(20 * value) / 20) + 0.1, 2)
+        value = round((math.ceil(10 * value) / 10) + 0.1, 2)
         if value > 1.0:
             value = 1.0  
         environment = environment['runtime']['settingsManager'].setSetting(environment, 'sound', 'volume', str(value))   
