@@ -24,15 +24,15 @@ ToDos in Priority order:
 - implement onScreenChange commands
   read highlighted text mode
   window mode (define a area and just read that changes)
-  promoted text
-  
+
+- add the debugging to core  
 - autostart systemd
 - implement braille
 httstormp://mielke.cc/brltty/doc/Manual-BrlAPI/English/BrlAPI.html
 https://git.gnome.org/browse/orca/tree/src/orca/braille.py
 https://wiki.gnome.org/Attic/LSR/ScratchPad/Braille/BrlAPI
 
-- add the debugging to core
+
 - configuration should be overwriteable with parameter and alternative paths
 - write settings
 - menue for settings configuration #storm
@@ -150,7 +150,8 @@ except KeyboardInterrupt:
   read_line_if_cursor_change_vertical (needed if you arrow up and down, we want to announce the line)
   read_char_if_cursur_change_horizontal (needed if you arrow left and right, we want to announce the char under the cursor)
   echo_char (echos the last char on pressing space or return)     
-
-- implement onInput commands 
   echo_word (echos the last word)
-  echo_deleted_char (echos deleted char on screen  
+  echo_deleted_char (echos deleted char on screen
+  
+- implement onScreenChange commands
+  promoted text  
