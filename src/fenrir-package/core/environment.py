@@ -1,8 +1,6 @@
 #!/bin/python
 
 from core import settings
-from core import soundIcons
-from core import bindings
 from core import runtime
 from core import screenData
 from core import generalInformation
@@ -14,9 +12,10 @@ environment = {
 'runtime': runtime.runtime,
 'generalInformation': generalInformation.generalInformation,
 'settings': settings.settings,
-'bindings': bindings.bindings,
 'commands': commands.commands,
-'input': input.input,
 'commandInfo': commands.commandInfo,
-'soundIcons': soundIcons.soundIcons,
+'commandBuffer': commands.commandBuffer,
+'input': input.input,
+'soundIcons': {},
+'bindings': {},
 }

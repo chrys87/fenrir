@@ -15,7 +15,6 @@ ToDos in Priority order:
   set_copy_begin_mark
   set_copy_end_mark
   copy_marked
-  paste
   attributes_curr_char
   set_area_mark
   reset_area_marks
@@ -145,6 +144,8 @@ except KeyboardInterrupt:
   enable_disable_braile #enable, disable braile
   enable_disable_sound #enable, disable sound 
   enable_disable_output #enable, disable speech, braile and sound
+  next,prev,first,last_clipboard
+  paste
 
 - implement onInput commands 
   read_line_if_cursor_change_vertical (needed if you arrow up and down, we want to announce the line)
