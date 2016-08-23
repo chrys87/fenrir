@@ -1,6 +1,6 @@
 #!/bin/python
 
-def getTextBetweenMarks(inText, firstMark, secondMark):
+def getTextBetweenMarks(firstMark, secondMark, inText):
     if firstMark == None:
         return ''
     if secondMark == None:
