@@ -17,7 +17,6 @@ ToDos in Priority order:
 - implement commands
   copy_marked
   set_clipboard_mark
-  clear_clipboard_marks
   read_clipboard_mark_text  
   attributes_curr_char
   set_area_mark
@@ -154,6 +153,7 @@ except KeyboardInterrupt:
   curr_clipboard
   paste_clipboard
   reset_review_on_screen_change
+  remove_clipboard_marks
 
 - implement onInput commands 
   read_line_if_cursor_change_vertical (needed if you arrow up and down, we want to announce the line)
@@ -165,4 +165,4 @@ except KeyboardInterrupt:
 - implement onScreenChange commands
   promoted text
   clear_marks_on_screen_change
-  
+  leve_review_mode_on_screen_change
