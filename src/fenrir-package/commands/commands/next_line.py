@@ -13,7 +13,7 @@ class command():
           line_utils.getNextLine(environment['screenData']['newCursorReview']['x'], environment['screenData']['newCursorReview']['y'], environment['screenData']['newContentText'])
         
         if currLine.strip(" \t\n") == '':
-            environment['runtime']['outputManager'].presentText(environment, "blank", interrupt=True)
+            environment['runtime']['outputManager'].presentText(environment, "blank", soundIcon='EmptyLine', interrupt=True)
         else:
             environment['runtime']['outputManager'].presentText(environment, currLine, interrupt=True)
         return environment    
