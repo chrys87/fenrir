@@ -1,6 +1,10 @@
 #!/bin/python
 
-def getTextBetweenMarks(inText, firstMark = {'x':0,'y':0}, secondMark = {'x':0,'y':2}):
+def getTextBetweenMarks(inText, firstMark, secondMark):
+    if firstMark == None:
+        return ''
+    if secondMark == None:
+        return ''        
     if (firstMark['y'] + 1) * (firstMark['x'] + 1) <= (secondMark['y'] + 1) * (secondMark['x'] + 1):
         startMark = firstMark.copy()
         endMark = secondMark.copy()
