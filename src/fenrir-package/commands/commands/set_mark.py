@@ -7,10 +7,10 @@ class command():
         if environment['screenData']['newCursorReview'] == None:
             environment['runtime']['outputManager'].presentText(environment, 'no review cursor', interrupt=True)
 
-        if environment['commandBuffer']['Mark']['1'] == None:
-            environment['commandBuffer']['Mark']['1'] = environment['screenData']['newCursorReview']
+        if environment['commandBuffer']['Marks']['1'] == None:
+            environment['commandBuffer']['Marks']['1'] = environment['screenData']['newCursorReview']
         else:
-            environment['commandBuffer']['Mark']['2'] = environment['screenData']['newCursorReview']
+            environment['commandBuffer']['Marks']['2'] = environment['screenData']['newCursorReview']
 
         environment['runtime']['outputManager'].presentText(environment, 'set mark', interrupt=True)
         return environment                
