@@ -6,8 +6,7 @@ class command():
         pass
     def run(self, environment):
         environment['screenData']['oldCursorReview'] = environment['screenData']['newCursorReview']
-        if (environment['screenData']['newCursorReview']['y'] == -1) or \
-          (environment['screenData']['newCursorReview']['x'] == -1):
+        if environment['screenData']['newCursorReview'] == None:
             environment['screenData']['newCursorReview'] = environment['screenData']['newCursor'].copy()
 
         environment['screenData']['newCursorReview']['x'], environment['screenData']['newCursorReview']['y'], currChar = \
