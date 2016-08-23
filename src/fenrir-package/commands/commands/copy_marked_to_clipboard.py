@@ -1,15 +1,24 @@
 #!/bin/python
+from utils import mark_utils
 
 class command():
     def __init__(self):
         pass
     def run(self, environment):
-        if len(environment['commandBuffer']['clipboard']) == 0:
-            environment['runtime']['outputManager'].presentText(environment, 'clipboard empty', interrupt=True)
-            return environment 
-        environment['commandBuffer']['currClipboard'] = 0
-        environment['runtime']['outputManager'].presentText(environment, environment['commandBuffer']['clipboard'][environment['commandBuffer']['currClipboard']], interrupt=True)
-        return environment                
+        if (environment['commandBuffer']['Marks']['1'] == None) or \
+          (environment['commandBuffer']['Marks']['2'] == None):
+            environment['runtime']['outputManager'].presentText(environment, "two marks needed", interrupt=True)
+            return environment
+        
+        marked = mark_utils.getTextBetweenMarks(environment['commandBuffer']['Marks']['1'], environment['commandBuffer']['Marks']['2'], environment['screenData']['newContentText'])
+        environment['commandBuffer']['clipboard'] = [marked] + environment['commandBuffer']['clipboard'][:9]
+        environment['commandBuffer']['clipboard'] = 0
+
+        if marked.strip(" \t\n") == '':
+            environment['runtime']['outputManager'].presentText(environment, "blank", soundIcon='EmptyLine', interrupt=True)
+        else:
+            environment['runtime']['outputManager'].presentText(environment, marked, interrupt=True)
+        return environment    
     def setCallback(self, callback):
         pass
     def shutdown(self):
