@@ -1,20 +1,24 @@
 ToDos in Priority order:
   
 - try to consume shortcuts
-  get shortcuts
-  forwart nonshortcuts
-  grab keyboard
-  release keyboard
+  grab keyboard exclusive
+  release keyboard on error or quit
+  grab shortcuts with fenrir key
+  grab "singel key shortcuts" like numpad navigation for review
+  forwart nonshortcuts to system
   make grabbing configuarble
-  possiblity to forewart shortcut
+  possiblity to forewart shortcut [proxyshortcut]
+  possiblity to forewart shortcut [pressing twice while timeout]
+  cleanup inputManager
   
 - fix line wrapping bug (multible lines and make a linebreak in the middle of a line)
 - handle ncurses "optimisations.."
   
 - implement commands
-  set_copy_begin_mark
-  set_copy_end_mark
   copy_marked
+  set_clipboard_mark
+  clear_clipboard_marks
+  read_clipboard_mark_text  
   attributes_curr_char
   set_area_mark
   reset_area_marks
@@ -144,8 +148,12 @@ except KeyboardInterrupt:
   enable_disable_braile #enable, disable braile
   enable_disable_sound #enable, disable sound 
   enable_disable_output #enable, disable speech, braile and sound
-  next,prev,first,last_clipboard
-  paste
+  next_clipboard
+  prev_clipboard
+  first_clipboard
+  last_clipboard
+  curr_clipboard
+  paste_clipboard
 
 - implement onInput commands 
   read_line_if_cursor_change_vertical (needed if you arrow up and down, we want to announce the line)
