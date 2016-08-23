@@ -6,6 +6,7 @@ linux
 python3
 python-espeak
 python-evdev
+loaded uinput kernelmodule
 
 # optional 
 sox [using for soundicons via sox]
