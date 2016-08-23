@@ -10,7 +10,7 @@ class command():
             environment['runtime']['outputManager'].presentText(environment, "two marks needed", interrupt=True)
             return environment
         
-        marked = mark_utils.getTextBetweenMarks(environment['commandBuffer']['Marks']['1'], environment['commandBuffer']['Marks']['2'], environment['screenData']['newContentText'])
+        marked = mark_utils.getTextBetweenMarks(environment['commandBuffer']['Marks']['1'], environment['commandBuffer']['Marks']['2'], environment['screenData']['newContentText'].split('\n'))
         
         if marked.strip(" \t\n") == '':
             environment['runtime']['outputManager'].presentText(environment, "blank", soundIcon='EmptyLine', interrupt=True)

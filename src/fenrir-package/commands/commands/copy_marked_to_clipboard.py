@@ -10,7 +10,7 @@ class command():
             environment['runtime']['outputManager'].presentText(environment, "two marks needed", interrupt=True)
             return environment
         
-        marked = mark_utils.getTextBetweenMarks(environment['commandBuffer']['Marks']['1'], environment['commandBuffer']['Marks']['2'], environment['screenData']['newContentText'])
+        marked = mark_utils.getTextBetweenMarks(environment['commandBuffer']['Marks']['1'], environment['commandBuffer']['Marks']['2'], environment['screenData']['newContentText'].split('\n'))
         environment['commandBuffer']['clipboard'] = [marked] + environment['commandBuffer']['clipboard'][:9]
         environment['commandBuffer']['clipboard'] = 0
 
