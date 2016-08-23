@@ -4,8 +4,8 @@ class command():
     def __init__(self):
         pass
     def run(self, environment):
-        environment['commandBuffer']['clipboardMark']['1']  = None
-        environment['commandBuffer']['clipboardMark']['2']  = None
+        environment['commandBuffer']['clipboardMark']['1'] = None
+        environment['commandBuffer']['clipboardMark']['2'] = None
         environment['runtime']['outputManager'].presentText(environment, 'Remove clipboard marks', interrupt=True)
         return environment
     def setCallback(self, callback):
