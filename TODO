@@ -1,15 +1,15 @@
 ToDos in Priority order:
   
 - try to consume shortcuts
-  grab keyboard exclusive
-  release keyboard on error or quit
-  grab shortcuts with fenrir key
-  grab "singel key shortcuts" like numpad navigation for review
-  forwart nonshortcuts to system
-  make grabbing configuarble
-  possiblity to forewart shortcut [proxyshortcut]
-  possiblity to forewart shortcut [pressing twice while timeout]
-  cleanup inputManager
+  grab keyboard exclusive [x]
+  release keyboard on error or quit [-]
+  grab shortcuts with fenrir key [x]
+  grab "singel key shortcuts" like numpad navigation for review []
+  forwart nonshortcuts to system [x]
+  make grabbing configuarble [-]
+  possiblity to forewart shortcut [proxyshortcut] [x]
+  possiblity to forewart shortcut [pressing twice while timeout] []
+  cleanup inputManager [-]
   
 - fix line wrapping bug (multible lines and make a linebreak in the middle of a line)
 - handle ncurses "optimisations.."
