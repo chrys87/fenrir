@@ -15,12 +15,15 @@ def getTextBetweenMarks(firstMark, secondMark, inText):
     startY = startMark['y']
     textPart = ''
     while startY <= endMark['y']:
-        if startY < endMark['y']:
-            textPart += inText[startY][startX:]
-            if len(textPart) - len(textPart[::-1].strip()) > 0: 
-                textPart = textPart[:len(textPart[::-1].strip())] + "\n"
+        if startMark['y'] == endMark['y']:
+            textPart += inText[startY][startX:endMark['x'] + 1]
         else:
-            textPart += inText[startY][:startX + 1]
+            if startY < endMark['y']:
+                textPart += inText[startY][startX:]
+                if len(textPart) - len(textPart[::-1].strip()) > 0: 
+                    textPart = textPart[:len(textPart[::-1].strip())] + "\n"
+            else:
+                textPart += inText[startY][:startX + 1]
         startX = 0
         startY += 1
     return textPart

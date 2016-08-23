@@ -1,5 +1,6 @@
 #!/bin/python
 from utils import debug
+
 class outputManager():
     def __init__(self):
         pass

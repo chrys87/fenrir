@@ -5,7 +5,7 @@ import time
 # used as shared memory between commands
 # use this in your own commands
 commandBuffer = {
-'clipboard':['chrys\n', 'test', 'ls\n'],
+'clipboard':[],
 'currClipboard': 0,
 'Marks':{'1':None, '2':None}
 }

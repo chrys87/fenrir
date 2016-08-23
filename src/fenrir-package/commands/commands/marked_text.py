@@ -11,7 +11,7 @@ class command():
             return environment
         
         marked = mark_utils.getTextBetweenMarks(environment['commandBuffer']['Marks']['1'], environment['commandBuffer']['Marks']['2'], environment['screenData']['newContentText'].split('\n'))
-        
+        print(marked)
         if marked.strip(" \t\n") == '':
             environment['runtime']['outputManager'].presentText(environment, "blank", soundIcon='EmptyLine', interrupt=True)
         else:

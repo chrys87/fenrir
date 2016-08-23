@@ -3,6 +3,7 @@ import importlib.util
 import glob
 import os
 import time
+from utils import debug
 
 class commandManager():
     def __init__(self):
@@ -27,6 +28,7 @@ class commandManager():
                 environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR)                
                 continue
         return environment
+
     def executeTriggerCommands(self, environment, trigger):
         for cmd in sorted(environment['commands'][trigger]):
             try:

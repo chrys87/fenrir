@@ -4,6 +4,7 @@ import evdev
 from evdev import InputDevice, UInput
 from select import select
 import time
+from utils import debug
 
 class inputManager():
     def __init__(self):
