@@ -6,8 +6,8 @@ class command():
     def run(self, environment):
         if environment['screenData']['newTTY'] == environment['screenData']['oldTTY']:
             return environment
-        environment['commandBuffer']['clipboardMark']['1']  = None
-        environment['commandBuffer']['clipboardMark']['2']  = None
+        environment['commandBuffer']['Marks']['1']  = None
+        environment['commandBuffer']['Marks']['2']  = None
         return environment
     def setCallback(self, callback):
         pass
