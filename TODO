@@ -27,7 +27,6 @@ ToDos in Priority order:
 - implement onScreenChange commands
   read highlighted text mode
   window mode (define a area and just read that changes)
-  clear_marks_on_screen_change
   
 - add the debugging to core  
 - autostart systemd
@@ -163,4 +162,6 @@ except KeyboardInterrupt:
   echo_deleted_char (echos deleted char on screen
   
 - implement onScreenChange commands
-  promoted text  
+  promoted text
+  clear_marks_on_screen_change
+  
