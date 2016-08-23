@@ -153,6 +153,7 @@ except KeyboardInterrupt:
   last_clipboard
   curr_clipboard
   paste_clipboard
+  reset_review_on_screen_change
 
 - implement onInput commands 
   read_line_if_cursor_change_vertical (needed if you arrow up and down, we want to announce the line)
