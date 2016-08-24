@@ -3,12 +3,10 @@
 def getTextBetweenMarks(firstMark, secondMark, inText):
     if inText == None:
         return ''
-    if isinstance(inText, list):
+    if not isinstance(inText, list):
         inText = inText.split('\n')
     if len(inText) < 1:
         return ''        
-    if inText == '':
-        return ''
     if firstMark == None:
         return ''
     if secondMark == None:
@@ -19,40 +17,36 @@ def getTextBetweenMarks(firstMark, secondMark, inText):
     else:
         endMark = firstMark.copy()
         startMark = secondMark.copy() 
-    currX = startMark['x']
-    currY = startMark['y']
     textPart = ''
-    while currY <= endMark['y'] and currY <= len(inText):
-        if startMark['y'] == endMark['y']:
-            textPart += inText[currY][currX:endMark['x'] + 1]
-        else:
+    if startMark['y'] == endMark['y']:
+        textPart += inText[startMark['y']][startMark['x']:endMark['x'] + 1]
+    else:
+        currY = startMark['y']     
+        while currY <= endMark['y']:
             if currY < endMark['y']:
-                textPart += inText[currY][currX:]
-                if len(textPart) - len(textPart[::-1].strip()) > 0: 
-                    textPart = textPart[:len(textPart[::-1].strip())] + "\n"
+                if currY == startMark['y']:
+                    textPart += inText[currY][startMark['x']:]
+                else:
+                    textPart += inText[currY]
+                if len(inText[currY].strip()) != 0:
+                    if len(textPart) - len(textPart[::-1].strip()) > 0: 
+                        textPart = textPart[:len(textPart[::-1].strip())] + "\n"
+                else:
+                    textPart += '\n'
             else:
-                textPart += inText[currY][:currX + 1]
-        currX = 0
-        currY += 1
+                textPart += inText[currY][:endMark['x'] + 1]
+            currY += 1
     return textPart
 
 def getTextBeforeMark(mark, inText):
     if inText == None:
         return ''
-    if isinstance(inText, list):
-        inText = inText.split('\n')
-    if len(inText) < 1:
-        return ''        
     if mark == None:
         return ''
     return getTextBetweenMarks({'x':0,'y':0}, mark, inText)
 
 def getTextAfterMark(mark, inText):
     if inText == None:
-        return ''
-    if isinstance(inText, list):
-        inText = inText.split('\n')
-    if len(inText) < 1:
         return ''
     if mark == None:
         return ''

@@ -16,9 +16,9 @@ class command():
         if environment['commandBuffer']['Marks']['3'] != None:
             endMark = environment['commandBuffer']['Marks']['3'].copy()    
 
-        marked = mark_utils.getTextBetweenMarks(startMark, endMark, environment['screenData']['newContentText'].split('\n'))
+        marked = mark_utils.getTextBetweenMarks(startMark, endMark, environment['screenData']['newContentText'])
 
-        if marked.strip(" \t\n") == '':
+        if marked.strip() == '':
             environment['runtime']['outputManager'].presentText(environment, "blank", soundIcon='EmptyLine', interrupt=True)
         else:
             environment['runtime']['outputManager'].presentText(environment, marked, interrupt=True)

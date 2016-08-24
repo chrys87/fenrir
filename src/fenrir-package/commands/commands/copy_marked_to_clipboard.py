@@ -1,11 +1,13 @@
 #!/bin/python
-from utils import mark_utils
-
+try:
+    from utils import mark_utils
+except Exception as e:
+    print(e)
 class command():
     def __init__(self):
         pass
     def run(self, environment):
-        print('run')
+
         if (environment['commandBuffer']['Marks']['1'] == None) or \
           (environment['commandBuffer']['Marks']['2'] == None):
             environment['runtime']['outputManager'].presentText(environment, "two marks needed", interrupt=True)
@@ -17,12 +19,15 @@ class command():
         if environment['commandBuffer']['Marks']['3'] != None:
             endMark = environment['commandBuffer']['Marks']['3'].copy()    
 
-        marked = mark_utils.getTextBetweenMarks(startMark, endMark, environment['screenData']['newContentText'].split('\n'))
+        marked = mark_utils.getTextBetweenMarks(startMark, endMark, environment['screenData']['newContentText'])
 
         environment['commandBuffer']['clipboard'] = [marked] + environment['commandBuffer']['clipboard'][:9]
         environment['commandBuffer']['currClipboard'] = 0
-
-        if marked.strip(" \t\n") == '':
+        environment['commandBuffer']['Marks']['1'] = None
+        environment['commandBuffer']['Marks']['2'] = None
+        environment['commandBuffer']['Marks']['3'] = None
+        
+        if marked.strip() == '':
             environment['runtime']['outputManager'].presentText(environment, "blank", soundIcon='EmptyLine', interrupt=True)
         else:
             environment['runtime']['outputManager'].presentText(environment, marked, interrupt=True)

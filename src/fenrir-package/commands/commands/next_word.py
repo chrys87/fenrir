@@ -12,7 +12,7 @@ class command():
         environment['screenData']['newCursorReview']['x'], environment['screenData']['newCursorReview']['y'], currWord = \
           word_utils.getNextWord(environment['screenData']['newCursorReview']['x'], environment['screenData']['newCursorReview']['y'], environment['screenData']['newContentText'])
         
-        if currWord.strip(" \t\n") == '':
+        if currWord.strip() == '':
             environment['runtime']['outputManager'].presentText(environment, "blank", interrupt=True)
         else:
             environment['runtime']['outputManager'].presentText(environment, currWord, interrupt=True)

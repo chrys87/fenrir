@@ -15,7 +15,7 @@ class command():
         with open("/dev/tty" + environment['screenData']['newTTY'], 'w') as fd:
             for c in environment['commandBuffer']['clipboard'][currClipboard]:
                 fcntl.ioctl(fd, termios.TIOCSTI, c)
-                time.sleep(0.01)
+                time.sleep(0.02)
         return environment                
     def setCallback(self, callback):
         pass
