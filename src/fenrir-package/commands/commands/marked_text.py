@@ -7,7 +7,7 @@ class command():
     def run(self, environment):
         if (environment['commandBuffer']['Marks']['1'] == None) or \
           (environment['commandBuffer']['Marks']['2'] == None):
-            environment['runtime']['outputManager'].presentText(environment, "two marks needed", interrupt=True)
+            environment['runtime']['outputManager'].presentText(environment, "set a begin and a endmark", interrupt=True)
             return environment
 
         # use the last first and the last setted mark as range
