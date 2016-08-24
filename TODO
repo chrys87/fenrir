@@ -15,12 +15,7 @@ ToDos in Priority order:
 - handle ncurses "optimisations.."
 
 - implement commands
-  copy_marked
-  set_clipboard_mark
-  read_clipboard_mark_text  
   attributes_curr_char
-  set_area_mark
-  reset_area_marks
   toggle_highlighted_mode
  
 - implement onScreenChange commands
@@ -29,6 +24,8 @@ ToDos in Priority order:
   
 - add the debugging to core  
 - autostart systemd
+https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/sect-Managing_Services_with_systemd-Unit_Files.html
+
 - implement braille
 httstormp://mielke.cc/brltty/doc/Manual-BrlAPI/English/BrlAPI.html
 https://git.gnome.org/browse/orca/tree/src/orca/braille.py
@@ -40,8 +37,6 @@ https://wiki.gnome.org/Attic/LSR/ScratchPad/Braille/BrlAPI
 - translateable
 - dictonary for special chars and string replacements
 - implement speechdriver generic (say)
-https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/sect-Managing_Services_with_systemd-Unit_Files.html
-
 -------------DONE--------------------------------
 - move from VCS to VCSA and parese the Attributes
 http://linux.die.net/man/4/vcsa
@@ -154,7 +149,10 @@ except KeyboardInterrupt:
   paste_clipboard
   reset_review_on_screen_change
   remove_clipboard_marks
-
+  copy_marked
+  set_mark (this could also used for area?)
+  read_clipboard_mark_text  
+  
 - implement onInput commands 
   read_line_if_cursor_change_vertical (needed if you arrow up and down, we want to announce the line)
   read_char_if_cursur_change_horizontal (needed if you arrow left and right, we want to announce the char under the cursor)
