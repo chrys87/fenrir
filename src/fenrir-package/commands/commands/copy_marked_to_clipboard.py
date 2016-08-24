@@ -11,7 +11,13 @@ class command():
             environment['runtime']['outputManager'].presentText(environment, "two marks needed", interrupt=True)
             return environment
 
-        marked = mark_utils.getTextBetweenMarks(environment['commandBuffer']['Marks']['1'], environment['commandBuffer']['Marks']['2'], environment['screenData']['newContentText'].split('\n'))
+        # use the last first and the last setted mark as range
+        startMark = environment['commandBuffer']['Marks']['1'].copy()
+        endMark = environment['commandBuffer']['Marks']['2'].copy() 
+        if environment['commandBuffer']['Marks']['3'] != None:
+            endMark = environment['commandBuffer']['Marks']['3'].copy()    
+
+        marked = mark_utils.getTextBetweenMarks(startMark, endMark, environment['screenData']['newContentText'].split('\n'))
 
         environment['commandBuffer']['clipboard'] = [marked] + environment['commandBuffer']['clipboard'][:9]
         environment['commandBuffer']['currClipboard'] = 0
