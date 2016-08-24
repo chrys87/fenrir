@@ -21,7 +21,7 @@ class command():
 
         marked = mark_utils.getTextBetweenMarks(startMark, endMark, environment['screenData']['newContentText'])
 
-        environment['commandBuffer']['clipboard'] = [marked] + environment['commandBuffer']['clipboard'][:9]
+        environment['commandBuffer']['clipboard'] = [marked] + environment['commandBuffer']['clipboard'][:environment['runtime']['settingsManager'].getSettingAsFloat(environment, 'general', 'numberOfClipboards') -1]
         environment['commandBuffer']['currClipboard'] = 0
         environment['commandBuffer']['Marks']['1'] = None
         environment['commandBuffer']['Marks']['2'] = None

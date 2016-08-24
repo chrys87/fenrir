@@ -32,6 +32,7 @@ settings = {
   'keyboardLayout': "desktop",
   'debugLevel': debug.debugLevel.DEACTIVE,
   'punctuationLevel': 1,
+  'numberOfClipboards': 10,
   'fenrirKeys':['82'],
 },
 'promote':{
