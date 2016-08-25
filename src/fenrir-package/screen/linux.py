@@ -79,8 +79,8 @@ class screen():
                     diff = difflib.ndiff(environment['screenData']['oldContentText'][diffStart:],\
                       environment['screenData']['newContentText'][diffStart:])      
                 else:
-                   diff = difflib.ndiff( environment['screenData']['oldContentText'][diffStart:].splitlines(),\
-                     environment['screenData']['newContentText'][diffStart:].splitlines())
+                   diff = difflib.ndiff( environment['screenData']['oldContentText'][diffStart:].split('\n'),\
+                     environment['screenData']['newContentText'][diffStart:].split('\n'))
                 
                 diffList = list(diff)
 
