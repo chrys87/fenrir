@@ -1,5 +1,7 @@
 #!/bin/python
 
+import datetime
+
 class command():
     def __init__(self):
         pass
@@ -11,9 +13,14 @@ class command():
         # the following has to been added to core/settings.py to the key 'general'
         # the settings.py is used for default values
         # 'timeFormat':"%H:%M;%P",
-        timeString = environment['runtime']['settingsManager'].getSetting(environment,'general', 'timeFormat')
-        
-        timeString = datetime.datetime.strftime(datetime.datetime.now(), '%H:%M:%P')
+        timeFormat = environment['runtime']['settingsManager'].getSetting(environment,'general', 'timeFormat')
+
+        # get the time formatted
+        timeString = datetime.datetime.strftime(datetime.datetime.now(), timeFormat)
+
+        # present the time via speak and braile, there is no soundicon, interrupt the current speech
+        environment['runtime']['outputManager'].presentText(environment, timeString , soundIcon='', interrupt=True)
+
         return environment
     def setCallback(self, callback):
         pass

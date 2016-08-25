@@ -10,9 +10,9 @@ driver=speechd
 rate=0.75
 pitch=0.5
 module=espeak
-voice=
-language=english-us
-volume=1.0
+voice=de
+language=de
+volume=0.8
 autoReadIncomming=True
 
 [braille]
@@ -28,13 +28,13 @@ device=all
 grabDevices=True
 ignoreShortcuts=False
 keyboardLayout=test
-charEcho=False
+charEcho=True
 charDeleteEcho=True
 wordEcho=True
 interruptOnKeyPress=False
 
 [general]
-debugLevel=0
+debugLevel=1
 punctuationLevel=1
 numberOfClipboards=10
 fenrirKeys=KEY_KP0
@@ -43,4 +43,4 @@ timeFormat=%H:%M:%P
 [promote]
 enabled=True
 inactiveTimeoutSec=120
-list=
+list=chrys,test
