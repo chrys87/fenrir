@@ -19,7 +19,15 @@ ToDos in Priority order:
 - implement commands
   attributes_curr_char
   toggle_highlighted_mode
- 
+  say_char_phonetic
+  spell_word_phonetic
+  "alpha", "bravo", "charlie", "delta", "echo",
+  "foxtrot", "golf", "hotel", "india", "juliet",
+  "kilo", "lima", "mike", "november", "oscar",
+  "papa", "quebec", "romeo", "sierra", "tango",
+  "uniform", "victor", "whisky", "x ray",
+  "yankee", "zulu"
+  
 - implement onScreenChange commands
   read highlighted text mode
   window mode (define a area and just read that changes)
