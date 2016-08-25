@@ -153,7 +153,10 @@ except KeyboardInterrupt:
   remove_clipboard_marks
   copy_marked
   set_mark (this could also used for area?)
-  read_clipboard_mark_text  
+  read_clipboard_mark_text
+  curr_screen
+  curr_screen_before_cursor
+  curr_screen_after_cursor
   
 - implement onInput commands 
   read_line_if_cursor_change_vertical (needed if you arrow up and down, we want to announce the line)
