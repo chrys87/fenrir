@@ -1,13 +1,11 @@
 #!/bin/python
-try:
-    from utils import mark_utils
-except Exception as e:
-    print(e)
+
+from utils import mark_utils
+
 class command():
     def __init__(self):
         pass
     def run(self, environment):
-
         if (environment['commandBuffer']['Marks']['1'] == None) or \
           (environment['commandBuffer']['Marks']['2'] == None):
             environment['runtime']['outputManager'].presentText(environment, "two marks needed", interrupt=True)
@@ -23,6 +21,7 @@ class command():
 
         environment['commandBuffer']['clipboard'] = [marked] + environment['commandBuffer']['clipboard'][:environment['runtime']['settingsManager'].getSettingAsFloat(environment, 'general', 'numberOfClipboards') -1]
         environment['commandBuffer']['currClipboard'] = 0
+        # reset marks
         environment['commandBuffer']['Marks']['1'] = None
         environment['commandBuffer']['Marks']['2'] = None
         environment['commandBuffer']['Marks']['3'] = None
