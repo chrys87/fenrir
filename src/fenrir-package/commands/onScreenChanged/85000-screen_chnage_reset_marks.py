@@ -8,6 +8,7 @@ class command():
             return environment
         environment['commandBuffer']['Marks']['1']  = None
         environment['commandBuffer']['Marks']['2']  = None
+        environment['commandBuffer']['Marks']['3']  = None
         return environment
     def setCallback(self, callback):
         pass
