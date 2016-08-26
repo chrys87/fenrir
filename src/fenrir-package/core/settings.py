@@ -26,6 +26,7 @@ settings = {
 },
 'screen':{
     'driver': 'linux',
+    'encoding': 'cp850',
     'screenUpdateDelay':0.4,
 },
 'general':{
