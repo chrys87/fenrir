@@ -27,7 +27,7 @@ class screen():
                 return environment
         except:
             return environment
-
+        screenEncoding = environment['runtime']['settingsManager'].getSetting(environment,'screen', 'encoding')
         # set new "old" values
         environment['screenData']['oldContentBytes'] = environment['screenData']['newContentBytes']
         environment['screenData']['oldContentText'] = environment['screenData']['newContentText']
@@ -48,7 +48,7 @@ class screen():
         environment['screenData']['newCursor']['x'] = int( environment['screenData']['newContentBytes'][2])
         environment['screenData']['newCursor']['y'] = int( environment['screenData']['newContentBytes'][3])
         # analyze content
-        environment['screenData']['newContentText'] = str(environment['screenData']['newContentBytes'][4:][::2].decode("ascii", "replace")).replace('\n'," ")
+        environment['screenData']['newContentText'] = environment['screenData']['newContentBytes'][4:][::2].decode(screenEncoding, "replace")
         environment['screenData']['newContentAttrib'] = environment['screenData']['newContentBytes'][5:][::2]
         environment['screenData']['newContentText'] = '\n'.join(self.textWrapper.wrap(environment['screenData']['newContentText'], ))[:-2]
         
