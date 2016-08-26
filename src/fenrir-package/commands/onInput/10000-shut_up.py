@@ -11,6 +11,8 @@ class command():
 #        if environment['screenData']['newCursor'] == environment['screenData']['oldCursor'] and\
 #          environment['screenData']['newDelta'] == environment['screenData']['oldDelta']:
 #            return environment
+        if environment['input']['currShortcut'] != '':
+            return environment
         environment['runtime']['outputManager'].interruptOutput(environment)
         return environment
     def setCallback(self, callback):
