@@ -27,11 +27,12 @@ class fenrir():
     def handleProcess(self):
         self.environment, timeout = self.environment['runtime']['inputManager'].proceedInputEvents(self.environment)
         self.environment = self.environment['runtime']['screenDriver'].analyzeScreen(self.environment)
+        if not self.environment['input']['keyForeward']:        
+            self.environment = self.environment['runtime']['commandManager'].getCommandForShortcut(self.environment)        
         if not timeout:
             self.environment = self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onInput')            
         self.environment = self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onScreenChanged')        
-        if not self.environment['input']['keyForeward']:        
-            self.environment = self.environment['runtime']['commandManager'].getCommandForShortcut(self.environment)        
+        if not self.environment['input']['keyForeward']:
             if self.environment['commandInfo']['currCommand'] != '':
                 self.handleCommands()
 
