@@ -79,7 +79,8 @@ punctuationLevel=1
 numberOfClipboards=10
 # define the current fenrir key
 fenrirKeys=KEY_KP0
-timeFormat=%H:%M:%P
+timeFormat=%H:%M%P
+dateFormat="%A, %B %d, %Y"
 
 [promote]
 enabled=True

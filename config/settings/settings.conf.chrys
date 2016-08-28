@@ -40,6 +40,7 @@ punctuationLevel=1
 numberOfClipboards=10
 fenrirKeys=KEY_KP0
 timeFormat=%H:%M:%P
+dateFormat="%A, %B %d, %Y"
 
 [promote]
 enabled=True
