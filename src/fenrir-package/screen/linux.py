@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import difflib
-import textwrap
 import time
 import re
 
@@ -10,8 +9,10 @@ import re
 class screen():
     def __init__(self, device='/dev/vcsa'):
         self.vcsaDevicePath = device
-        self.textWrapper = textwrap.TextWrapper()
-        self.textWrapper.drop_whitespace = False
+
+    def insert_newlines(self, string, every=64):
+        return '\n'.join(string[i:i+every] for i in range(0, len(string), every))
+            
     def analyzeScreen(self, environment, trigger='updateScreen'):
         newTTY = ''
         newContentBytes = b''       
@@ -50,10 +51,10 @@ class screen():
         # analyze content
         environment['screenData']['newContentText'] = environment['screenData']['newContentBytes'][4:][::2].decode(screenEncoding, "replace")
         environment['screenData']['newContentAttrib'] = environment['screenData']['newContentBytes'][5:][::2]
-        environment['screenData']['newContentText'] = '\n'.join(self.textWrapper.wrap(environment['screenData']['newContentText'], ))[:-2]
-        
+        #environment['screenData']['newContentText'] = '\n'.join(self.textWrapper.wrap(environment['screenData']['newContentText'], ))[:-2]
+        environment['screenData']['newContentText'] = self.insert_newlines(environment['screenData']['newContentText'], environment['screenData']['columns'])
+
         if environment['screenData']['newTTY'] != environment['screenData']['oldTTY']:
-            self.textWrapper.width = environment['screenData']['columns']
             environment['screenData']['oldContentBytes'] = b''
             environment['screenData']['oldContentAttrib'] = b''
             environment['screenData']['oldContentText'] = ''

@@ -17,7 +17,7 @@ class command():
             return environment
 
         # More than just a deletion happend
-        if environment['screenData']['newDelta'].strip(" \t\n") != '':
+        if environment['screenData']['newDelta'].strip() != '':
             if environment['screenData']['newDelta'] != environment['screenData']['oldDelta']:
     	        return environment
             
