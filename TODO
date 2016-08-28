@@ -17,14 +17,6 @@ ToDos in Priority order:
 - implement commands
   attributes_curr_char
   toggle_highlighted_mode
-  say_char_phonetic
-  spell_word_phonetic
-  "alpha", "bravo", "charlie", "delta", "echo",
-  "foxtrot", "golf", "hotel", "india", "juliet",
-  "kilo", "lima", "mike", "november", "oscar",
-  "papa", "quebec", "romeo", "sierra", "tango",
-  "uniform", "victor", "whisky", "x ray",
-  "yankee", "zulu"
   
 - implement onScreenChange commands
   read highlighted text mode
@@ -165,7 +157,15 @@ except KeyboardInterrupt:
   curr_screen_after_cursor
   cursor_position
   indention
-  
+  say_char_phonetic
+  spell_word_phonetic
+  "alpha", "bravo", "charlie", "delta", "echo",
+  "foxtrot", "golf", "hotel", "india", "juliet",
+  "kilo", "lima", "mike", "november", "oscar",
+  "papa", "quebec", "romeo", "sierra", "tango",
+  "uniform", "victor", "whisky", "x ray",
+  "yankee", "zulu"
+
 - implement onInput commands 
   read_line_if_cursor_change_vertical (needed if you arrow up and down, we want to announce the line)
   read_char_if_cursur_change_horizontal (needed if you arrow left and right, we want to announce the char under the cursor)
