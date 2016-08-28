@@ -12,9 +12,6 @@ ToDos in Priority order:
   cleanup inputManager [-]
 
 - Known Bugs  
-  fix line wrapping bug (multible lines and make a linebreak in the middle of a line)
-  print(str(b'\x94'.decode('cp850')).encode('utf-8').decode('utf-8'))
-  handle ncurses "optimisations.."
   sometimes the screen is spoken from the beginning without need to
 
 - implement commands

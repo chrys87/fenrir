@@ -49,7 +49,7 @@ class screen():
         environment['screenData']['newCursor']['x'] = int( environment['screenData']['newContentBytes'][2])
         environment['screenData']['newCursor']['y'] = int( environment['screenData']['newContentBytes'][3])
         # analyze content
-        environment['screenData']['newContentText'] = environment['screenData']['newContentBytes'][4:][::2].decode(screenEncoding, "replace")
+        environment['screenData']['newContentText'] = environment['screenData']['newContentBytes'][4:][::2].decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
         environment['screenData']['newContentAttrib'] = environment['screenData']['newContentBytes'][5:][::2]
         #environment['screenData']['newContentText'] = '\n'.join(self.textWrapper.wrap(environment['screenData']['newContentText'], ))[:-2]
         environment['screenData']['newContentText'] = self.insert_newlines(environment['screenData']['newContentText'], environment['screenData']['columns'])
