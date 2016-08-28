@@ -13,8 +13,8 @@ class command():
         if environment['screenData']['newTTY'] != environment['screenData']['oldTTY']:
             return environment
         # its a cursor movement (experimental) - maybe also check current shortcut string?
-        if abs(environment['screenData']['newCursor']['x'] - environment['screenData']['oldCursor']['x']) == 1:
-            if len(environment['screenData']['newDelta']) == 1:
+        if abs(environment['screenData']['newCursor']['x'] - environment['screenData']['oldCursor']['x']) >= 1:
+            if len(environment['screenData']['newDelta']) <= 5:
                 return environment          
     
         environment['runtime']['outputManager'].presentText(environment, environment['screenData']['newDelta'], interrupt=False)
