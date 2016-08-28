@@ -7,7 +7,7 @@ class command():
         pass
     def run(self, environment):
         # Prefer review cursor over text cursor
-        if (environment['screenData']['newCursorReview'] != None) 
+        if (environment['screenData']['newCursorReview'] != None):
             cursorPos = environment['screenData']['newCursorReview'].copy()
         else:
             cursorPos = environment['screenData']['newCursor'].copy()

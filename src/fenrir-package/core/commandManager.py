@@ -24,6 +24,7 @@ class commandManager():
                     spec.loader.exec_module(command_mod)
                     environment['commands'][section][fileName] = command_mod.command()
             except Exception as e:
+                print(e)
                 environment['runtime']['debug'].writeDebugOut(environment,"Error while loading command:" + currCommand ,debug.debugLevel.ERROR)
                 environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR)                
                 continue
