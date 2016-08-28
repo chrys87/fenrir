@@ -163,6 +163,8 @@ except KeyboardInterrupt:
   curr_screen
   curr_screen_before_cursor
   curr_screen_after_cursor
+  cursor_position
+  indention
   
 - implement onInput commands 
   read_line_if_cursor_change_vertical (needed if you arrow up and down, we want to announce the line)
