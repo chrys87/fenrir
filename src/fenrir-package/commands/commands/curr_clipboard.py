@@ -1,8 +1,4 @@
 #!/bin/python
-import fcntl
-import sys
-import termios
-
 
 class command():
     def __init__(self):
