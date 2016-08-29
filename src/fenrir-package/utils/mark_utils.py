@@ -29,8 +29,8 @@ def getTextBetweenMarks(firstMark, secondMark, inText):
                 else:
                     textPart += inText[currY]
                 if len(inText[currY].strip()) != 0:
-                    if len(textPart) - len(textPart[::-1].strip()) > 0: 
-                        textPart = textPart[:len(textPart[::-1].strip())] + "\n"
+                    if len(textPart) - len(textPart.rstrip()) > 0: 
+                        textPart = textPart[:len(textPart.rstrip())] + "\n"
                 else:
                     textPart += '\n'
             else:
