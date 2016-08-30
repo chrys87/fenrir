@@ -13,10 +13,9 @@ class inputManager():
         self.getInputDevices()
         self.grabDevices()
         self.ignoreKeyRelease = 0
-        if environment['generalInformation ']['suspend']:
-            return environment
+
     def proceedInputEvents(self, environment):
-        timeout = True
+        timeout = True    	
         if not environment['input']['keyForeward']:
             self.ignoreKeyRelease = 0
         try:
