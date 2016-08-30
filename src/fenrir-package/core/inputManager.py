@@ -42,6 +42,7 @@ class inputManager():
                                 except:
                                     pass
         except Exception as e:
+            environment['runtime']['debug'].writeDebugOut(environment,str(e),0)               
             self.freeDevices()
         time.sleep(0.01)        
         environment['input']['currShortcutString'] = self.getShortcutString(environment)

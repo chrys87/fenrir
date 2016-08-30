@@ -4,8 +4,8 @@
 import difflib
 import time
 import re
+from utils import debug
 
-#import fenrir.utils.debug
 class screen():
     def __init__(self, device='/dev/vcsa'):
         self.vcsaDevicePath = device
@@ -14,6 +14,7 @@ class screen():
         return '\n'.join(string[i:i+every] for i in range(0, len(string), every))
             
     def analyzeScreen(self, environment, trigger='updateScreen'):
+        environment['runtime']['debug'].writeDebugOut(environment,"start-------------"+ str(time.time()),0)   
         newTTY = ''
         newContentBytes = b''       
         try:
@@ -26,7 +27,8 @@ class screen():
             vcsa.close()
             if len(newContentBytes) < 5:
                 return environment
-        except:
+        except Exception as e:
+            environment['runtime']['debug'].writeDebugOut(environment,str(e),0)   
             return environment
         screenEncoding = environment['runtime']['settingsManager'].getSetting(environment,'screen', 'encoding')
         environment['generalInformation']['suspend'] = newTTY in \
@@ -66,6 +68,9 @@ class screen():
             environment['screenData']['newDelta'] = ''
             environment['screenData']['oldNegativeDelta'] = ''
             environment['screenData']['newNegativeDelta'] = ''
+        environment['runtime']['debug'].writeDebugOut(environment,'____CONT START_____'),0)               
+        environment['runtime']['debug'].writeDebugOut(environment,environment['screenData']['newContentText']+ str(time.time()),0)               
+        environment['runtime']['debug'].writeDebugOut(environment,'____CONT END____'),0)               
         
         # changes on the screen
         if (environment['screenData']['oldContentText'] != environment['screenData']['newContentText']) and \
@@ -74,6 +79,7 @@ class screen():
               environment['screenData']['newContentText'] != '':
                 environment['screenData']['newDelta'] = environment['screenData']['newContentText']  
             else:
+                environment['runtime']['debug'].writeDebugOut(environment,"diff start-------------"+ str(time.time()),0)               
                 diffStart = 0
                 if environment['screenData']['oldCursor']['x'] != environment['screenData']['newCursor']['x'] and \
                   environment['screenData']['oldCursor']['y'] == environment['screenData']['newCursor']['y'] and \
@@ -86,6 +92,7 @@ class screen():
                      environment['screenData']['newContentText'][diffStart:].split('\n'))
                 
                 diffList = list(diff)
+                environment['runtime']['debug'].writeDebugOut(environment,"diff end-------------"+ str(time.time()),0)               
 
                 environment['screenData']['newDelta'] = ''.join(x[2:] for x in diffList if x.startswith('+ '))             
                 environment['screenData']['newNegativeDelta'] = ''.join(x[2:] for x in diffList if x.startswith('- '))

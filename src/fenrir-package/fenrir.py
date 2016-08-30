@@ -4,7 +4,7 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-import os, sys, signal
+import os, sys, signal, time
 
 if not os.getcwd() in sys.path:
     sys.path.append(os.getcwd())
@@ -22,6 +22,8 @@ class fenrir():
         #self.threadonInput.start()
         while(self.environment['generalInformation']['running']):
             self.handleProcess()
+            self.environment['runtime']['debug'].writeDebugOut(environment,'happy loop at'+str(time.time()),0)               
+
         self.shutdown()
 
     def handleProcess(self):
