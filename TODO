@@ -1,5 +1,10 @@
 ToDos in Priority order:
   
+- Known Bugs  
+  sometimes the screen is spoken from the beginning without need to
+  sometimes it crashes (mostly on huge screenchanges)
+  gstreamer sounddriver doesnt work
+
 - try to consume shortcuts
   grab keyboard exclusive [x]
   release keyboard on error or quit [-]
@@ -11,14 +16,8 @@ ToDos in Priority order:
   possiblity to forewart shortcut [pressing twice while timeout] []
   cleanup inputManager [-]
 
-- add setting for ignore screens ( dont grab shortcuts from X or orca)  
 - add setting for autodetect X
 - dictonary for special chars and string replacements
-
-- Known Bugs  
-  sometimes the screen is spoken from the beginning without need to
-  sometimes it crashes (mostly on huge screenchanges)
-  gstreamer sounddriver doesnt work
 
 - implement commands
   attributes_curr_char
@@ -125,6 +124,7 @@ except KeyboardInterrupt:
   https://github.com/seb-m/pyinotify/wiki/Tutorial
   http://www.saltycrane.com/blog/2010/04/monitoring-filesystem-python-and-pyinotify/
   
+- add setting for ignore screens ( dont grab shortcuts from X or orca)    
 - soundIcons
 - performance tuning
 - add sound volume
