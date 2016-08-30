@@ -28,6 +28,8 @@ settings = {
     'driver': 'linux',
     'encoding': 'cp850',
     'screenUpdateDelay':0.4,
+    'suspendingScreen':'1,2',
+    'autodetectSuspendingScreen':False,
 },
 'general':{
   'keyboardLayout': "desktop",
