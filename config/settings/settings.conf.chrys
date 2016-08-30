@@ -23,6 +23,8 @@ layout=en
 driver=linux
 encoding=cp850
 screenUpdateDelay=0.4
+suspendingScreen=1,2
+autodetectSuspendingScreen=False
 
 [keyboard]
 device=all
