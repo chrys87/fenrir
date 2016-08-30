@@ -7,7 +7,7 @@ volume=1.0
 [speech]
 enabled=True
 driver=speechd
-rate=0.75
+rate=0.85
 pitch=0.5
 module=espeak
 voice=
@@ -23,7 +23,7 @@ layout=en
 driver=linux
 encoding=cp850
 screenUpdateDelay=0.4
-suspendingScreen=1,2
+suspendingScreen=7
 autodetectSuspendingScreen=False
 
 [keyboard]
@@ -33,7 +33,7 @@ ignoreShortcuts=False
 keyboardLayout=test
 charEcho=False
 charDeleteEcho=True
-wordEcho=True
+wordEcho=False
 interruptOnKeyPress=False
 
 [general]
