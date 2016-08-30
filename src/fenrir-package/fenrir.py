@@ -29,7 +29,10 @@ class fenrir():
 
     def handleProcess(self):
         self.environment, timeout = self.environment['runtime']['inputManager'].proceedInputEvents(self.environment)
-        self.environment = self.environment['runtime']['screenDriver'].analyzeScreen(self.environment)
+        try:
+            self.environment = self.environment['runtime']['screenDriver'].analyzeScreen(self.environment)
+        except Exception as e:
+            self.environment['runtime']['debug'].writeDebugOut(self.environment, str(e)+' error happy loop at'+str(time.time()),debug.debugLevel.ERROR)                
         if not self.environment['input']['keyForeward']:        
             self.environment = self.environment['runtime']['commandManager'].getCommandForShortcut(self.environment)        
         if not timeout:
