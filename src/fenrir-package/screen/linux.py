@@ -29,7 +29,7 @@ class screen():
         except:
             return environment
         screenEncoding = environment['runtime']['settingsManager'].getSetting(environment,'screen', 'encoding')
-        environment['generalInformation ']['suspend'] = newTTY in \
+        environment['generalInformation']['suspend'] = newTTY in \
           environment['runtime']['settingsManager'].getSetting(environment,'screen', 'suspendingScreen').split(',')
         # set new "old" values
         environment['screenData']['oldContentBytes'] = environment['screenData']['newContentBytes']
