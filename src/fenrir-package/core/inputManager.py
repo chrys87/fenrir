@@ -25,7 +25,7 @@ class inputManager():
                 for fd in r:
                     for event in self.iDevices[fd].read():
                         if self.isFenrirKey(environment, event): 
-                            environment['input']['consumeKey'] = not environment['input']['keyForeward'] and not environment['generalInformation ']['suspend']
+                            environment['input']['consumeKey'] = not environment['input']['keyForeward'] and not environment['generalInformation']['suspend']
                         if self.isConsumeKeypress(environment):   
                             self.writeUInput(self.uDevices[fd], event)
                         keyString = ''
