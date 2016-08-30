@@ -13,7 +13,8 @@ class inputManager():
         self.getInputDevices()
         self.grabDevices()
         self.ignoreKeyRelease = 0
-
+        if environment['generalInformation ']['suspend']:
+            return environment
     def proceedInputEvents(self, environment):
         timeout = True
         if not environment['input']['keyForeward']:
@@ -25,7 +26,7 @@ class inputManager():
                 for fd in r:
                     for event in self.iDevices[fd].read():
                         if self.isFenrirKey(environment, event): 
-                            environment['input']['consumeKey'] = not environment['input']['keyForeward']
+                            environment['input']['consumeKey'] = not environment['input']['keyForeward'] and not environment['generalInformation ']['suspend']
                         if self.isConsumeKeypress(environment):   
                             self.writeUInput(self.uDevices[fd], event)
                         keyString = ''
