@@ -11,8 +11,13 @@ ToDos in Priority order:
   possiblity to forewart shortcut [pressing twice while timeout] []
   cleanup inputManager [-]
 
+- add setting for ignore screens ( dont grab shortcuts from X or orca)  
+- add setting for autodetect X
+- dictonary for special chars and string replacements
+
 - Known Bugs  
   sometimes the screen is spoken from the beginning without need to
+  sometimes it crashes (mostly on huge screenchanges)
 
 - implement commands
   attributes_curr_char
@@ -21,8 +26,7 @@ ToDos in Priority order:
 - implement onScreenChange commands
   read highlighted text mode
   window mode (define a area and just read that changes)
-  
-- add setting for ignore screens ( dont grab shortcuts from X or orca)  
+
 - add the debugging to core  
 - autostart systemd
 https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/sect-Managing_Services_with_systemd-Unit_Files.html
@@ -36,7 +40,7 @@ https://wiki.gnome.org/Attic/LSR/ScratchPad/Braille/BrlAPI
 - write settings
 - menue for settings configuration #storm
 - translateable
-- dictonary for special chars and string replacements
+
 - implement speechdriver generic (say)
 -------------DONE--------------------------------
 - move from VCS to VCSA and parese the Attributes
