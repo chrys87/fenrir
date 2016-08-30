@@ -28,7 +28,7 @@ class debug():
         if fileName != '':
             self._fileName = fileName
         if self._fileName != '':
-            self._file = open(self._fileName,'w')
+            self._file = open(self._fileName,'a')
             self._fileOpened = True
 
     def writeDebugOut(self, environment, text, level = debugLevel.DEACTIVE):

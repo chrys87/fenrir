@@ -11,6 +11,7 @@ if not os.getcwd() in sys.path:
 
 from core import environment 
 from core import settingsManager
+from utils import debug
 
 class fenrir():
     def __init__(self):
@@ -22,7 +23,7 @@ class fenrir():
         #self.threadonInput.start()
         while(self.environment['generalInformation']['running']):
             self.handleProcess()
-            self.environment['runtime']['debug'].writeDebugOut(environment,'happy loop at'+str(time.time()),0)               
+            self.environment['runtime']['debug'].writeDebugOut(self.environment,'happy loop at'+str(time.time()),debug.debugLevel.ERROR)               
 
         self.shutdown()
 

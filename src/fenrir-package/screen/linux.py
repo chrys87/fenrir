@@ -28,7 +28,7 @@ class screen():
             if len(newContentBytes) < 5:
                 return environment
         except Exception as e:
-            environment['runtime']['debug'].writeDebugOut(environment,str(e),0)   
+            environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR)   
             return environment
         screenEncoding = environment['runtime']['settingsManager'].getSetting(environment,'screen', 'encoding')
         environment['generalInformation']['suspend'] = newTTY in \
@@ -68,9 +68,9 @@ class screen():
             environment['screenData']['newDelta'] = ''
             environment['screenData']['oldNegativeDelta'] = ''
             environment['screenData']['newNegativeDelta'] = ''
-        environment['runtime']['debug'].writeDebugOut(environment,'____CONT START_____'),0)               
-        environment['runtime']['debug'].writeDebugOut(environment,environment['screenData']['newContentText']+ str(time.time()),0)               
-        environment['runtime']['debug'].writeDebugOut(environment,'____CONT END____'),0)               
+        environment['runtime']['debug'].writeDebugOut(environment,'____CONT START_____',debug.debugLevel.ERROR)               
+        environment['runtime']['debug'].writeDebugOut(environment,environment['screenData']['newContentText']+ str(time.time()),debug.debugLevel.ERROR)               
+        environment['runtime']['debug'].writeDebugOut(environment,'____CONT END____',debug.debugLevel.ERROR)               
         
         # changes on the screen
         if (environment['screenData']['oldContentText'] != environment['screenData']['newContentText']) and \
@@ -79,7 +79,7 @@ class screen():
               environment['screenData']['newContentText'] != '':
                 environment['screenData']['newDelta'] = environment['screenData']['newContentText']  
             else:
-                environment['runtime']['debug'].writeDebugOut(environment,"diff start-------------"+ str(time.time()),0)               
+                environment['runtime']['debug'].writeDebugOut(environment,"diff start-------------"+ str(time.time()),debug.debugLevel.ERROR)               
                 diffStart = 0
                 if environment['screenData']['oldCursor']['x'] != environment['screenData']['newCursor']['x'] and \
                   environment['screenData']['oldCursor']['y'] == environment['screenData']['newCursor']['y'] and \
@@ -92,7 +92,7 @@ class screen():
                      environment['screenData']['newContentText'][diffStart:].split('\n'))
                 
                 diffList = list(diff)
-                environment['runtime']['debug'].writeDebugOut(environment,"diff end-------------"+ str(time.time()),0)               
+                environment['runtime']['debug'].writeDebugOut(environment,"diff end-------------"+ str(time.time()),debug.debugLevel.ERROR)               
 
                 environment['screenData']['newDelta'] = ''.join(x[2:] for x in diffList if x.startswith('+ '))             
                 environment['screenData']['newNegativeDelta'] = ''.join(x[2:] for x in diffList if x.startswith('- '))
