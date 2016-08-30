@@ -31,6 +31,8 @@ class commandManager():
         return environment
 
     def executeTriggerCommands(self, environment, trigger):
+        if environment['generalInformation ']['suspend']:
+            return environment
         for cmd in sorted(environment['commands'][trigger]):
             try:
                environ = environment['commands'][trigger][cmd].run(environment)
@@ -42,6 +44,8 @@ class commandManager():
         return environment
 
     def executeCommand(self, environment, currCommand, section = 'commands'):
+        if environment['generalInformation ']['suspend']:
+            return environment        
         if self.isCommandDefined(environment):
             try:
                 environ =  environment['commands'][section][currCommand].run(environment)
