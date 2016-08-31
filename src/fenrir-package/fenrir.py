@@ -22,7 +22,10 @@ class fenrir():
         self.environment['runtime']['outputManager'].presentText(self.environment, "Start Fenrir", soundIcon='ScreenReaderOn', interrupt=True)          
         #self.threadonInput.start()
         while(self.environment['generalInformation']['running']):
-            self.handleProcess()
+            try:
+                self.handleProcess()
+            except Exception as e:
+                self.environment['runtime']['debug'].writeDebugOut(self.environment,str(e)+'error in  happy loop at'+str(time.time()),debug.debugLevel.ERROR)               
             self.environment['runtime']['debug'].writeDebugOut(self.environment,'happy loop at'+str(time.time()),debug.debugLevel.ERROR)               
 
         self.shutdown()
