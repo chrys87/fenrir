@@ -26,7 +26,8 @@ class inputManager():
                     for event in self.iDevices[fd].read():
                         if self.isFenrirKey(environment, event): 
                             environment['input']['consumeKey'] = not environment['input']['keyForeward'] and not environment['generalInformation']['suspend']
-                        if self.isConsumeKeypress(environment):   
+                        if self.isConsumeKeypress(environment):
+                            environment['runtime']['debug'].writeDebugOut(environment, str(event)+' consume'+str(time.time()),debug.debugLevel.ERROR)      
                             self.writeUInput(self.uDevices[fd], event)
                         keyString = ''
                         if self.isFenrirKey(environment, event):
@@ -62,8 +63,12 @@ class inputManager():
           not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'keyboard', 'grabDevices')
 
     def writeUInput(self, uDevice, event):
-        uDevice.write_event(event)
-        uDevice.syn()
+        try:
+            environment['runtime']['debug'].writeDebugOut(environment, str(event)+' write event '+str(time.time()),debug.debugLevel.ERROR)      
+            uDevice.write_event(event)
+            uDevice.syn()
+        except Exception as a:
+            environment['runtime']['debug'].writeDebugOut(environment, str(e)+' error exception '+str(time.time()),debug.debugLevel.ERROR)      
 
     def getShortcutString(self, environment):
         if environment['input']['currShortcut'] == {}:
