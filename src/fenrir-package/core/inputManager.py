@@ -28,7 +28,7 @@ class inputManager():
                             environment['input']['consumeKey'] = not environment['input']['keyForeward'] and not environment['generalInformation']['suspend']
                         if self.isConsumeKeypress(environment):
                             environment['runtime']['debug'].writeDebugOut(environment, str(event)+' consume'+str(time.time()),debug.debugLevel.ERROR)      
-                            self.writeUInput(self.uDevices[fd], event)
+                            self.writeUInput(self.uDevices[fd], event,environment)
                         keyString = ''
                         if self.isFenrirKey(environment, event):
                             keyString = 'FENRIR'
@@ -62,7 +62,7 @@ class inputManager():
           environment['input']['keyForeward'] or \
           not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'keyboard', 'grabDevices')
 
-    def writeUInput(self, uDevice, event):
+    def writeUInput(self, uDevice, event,environment):
         try:
             environment['runtime']['debug'].writeDebugOut(environment, str(event)+' write event '+str(time.time()),debug.debugLevel.ERROR)      
             uDevice.write_event(event)
