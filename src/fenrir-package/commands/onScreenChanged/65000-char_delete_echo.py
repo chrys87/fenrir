@@ -24,7 +24,9 @@ class command():
         # No deletion 
         if environment['screenData']['newNegativeDelta'] == '':
             return environment
-
+        # too much for a single backspace...
+        if len(environment['screenData']['newNegativeDelta']) >= 5:
+            return environment           
         environment['runtime']['outputManager'].presentText(environment, environment['screenData']['newNegativeDelta'], interrupt=True)
         return environment
     def setCallback(self, callback):
