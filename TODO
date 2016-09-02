@@ -17,6 +17,7 @@ ToDos in Priority order:
 
 - add setting for autodetect X
 - dictonary for special chars and string replacements
+- punctuation
 
 - implement commands
   attributes_curr_char
