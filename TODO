@@ -2,7 +2,6 @@ ToDos in Priority order:
   
 - Known Bugs  
   sometimes the screen is spoken from the beginning without need to
-  sometimes it crashes (mostly on huge screenchanges)
   gstreamer sounddriver doesnt work
 
 - try to consume shortcuts
