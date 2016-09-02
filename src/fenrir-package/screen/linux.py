@@ -85,8 +85,8 @@ class screen():
                   environment['screenData']['oldCursor']['y'] == environment['screenData']['newCursor']['y'] and \
                   environment['screenData']['newContentText'][:environment['screenData']['newCursor']['y']] == environment['screenData']['oldContentText'][:environment['screenData']['newCursor']['y']]:
                     diffStart = environment['screenData']['newCursor']['y'] * environment['screenData']['newCursor']['x'] + environment['screenData']['newCursor']['y']
-                    diff = difflib.ndiff(environment['screenData']['oldContentText'][diffStart:],\
-                      environment['screenData']['newContentText'][diffStart:])      
+                    diff = difflib.ndiff(environment['screenData']['oldContentText'][diffStart:diffStart  + environment['screenData']['columns']],\
+                      environment['screenData']['newContentText'][diffStart:diffStart  + environment['screenData']['columns']])      
                 else:
                    diff = difflib.ndiff( environment['screenData']['oldContentText'][diffStart:].split('\n'),\
                      environment['screenData']['newContentText'][diffStart:].split('\n'))
