@@ -71,25 +71,21 @@ class screen():
         # changes on the screen
         if (environment['screenData']['oldContentText'] != environment['screenData']['newContentText']) and \
           (environment['screenData']['newContentText'] != '' ):
-            if environment['screenData']['oldContentText'] == '' and\
-              environment['screenData']['newContentText'] != '':
-                environment['screenData']['newDelta'] = environment['screenData']['newContentText']  
+            diffStart = 0
+            if environment['screenData']['oldCursor']['x'] != environment['screenData']['newCursor']['x'] and \
+              environment['screenData']['oldCursor']['y'] == environment['screenData']['newCursor']['y'] and \
+              environment['screenData']['newContentText'][:environment['screenData']['newCursor']['y']] == environment['screenData']['oldContentText'][:environment['screenData']['newCursor']['y']]:
+                diffStart = environment['screenData']['newCursor']['y'] * environment['screenData']['columns'] + environment['screenData']['newCursor']['y']
+                diff = difflib.ndiff(environment['screenData']['oldContentText'][diffStart:diffStart  + environment['screenData']['columns']],\
+                  environment['screenData']['newContentText'][diffStart:diffStart  + environment['screenData']['columns']])      
             else:
-                diffStart = 0
-                if environment['screenData']['oldCursor']['x'] != environment['screenData']['newCursor']['x'] and \
-                  environment['screenData']['oldCursor']['y'] == environment['screenData']['newCursor']['y'] and \
-                  environment['screenData']['newContentText'][:environment['screenData']['newCursor']['y']] == environment['screenData']['oldContentText'][:environment['screenData']['newCursor']['y']]:
-                    diffStart = environment['screenData']['newCursor']['y'] * environment['screenData']['columns'] + environment['screenData']['newCursor']['y']
-                    diff = difflib.ndiff(environment['screenData']['oldContentText'][diffStart:diffStart  + environment['screenData']['columns']],\
-                      environment['screenData']['newContentText'][diffStart:diffStart  + environment['screenData']['columns']])      
-                else:
-                   diff = difflib.ndiff( environment['screenData']['oldContentText'][diffStart:].split('\n'),\
-                     environment['screenData']['newContentText'][diffStart:].split('\n'))
-                
-                diffList = list(diff)
+               diff = difflib.ndiff( environment['screenData']['oldContentText'][diffStart:].split('\n'),\
+                 environment['screenData']['newContentText'][diffStart:].split('\n'))
+            
+            diffList = list(diff)
 
-                environment['screenData']['newDelta'] = ''.join(x[2:] for x in diffList if x.startswith('+ '))             
-                environment['screenData']['newNegativeDelta'] = ''.join(x[2:] for x in diffList if x.startswith('- '))
+            environment['screenData']['newDelta'] = ''.join(x[2:] for x in diffList if x.startswith('+ '))             
+            environment['screenData']['newNegativeDelta'] = ''.join(x[2:] for x in diffList if x.startswith('- '))
         else:
             environment['screenData']['newNegativeDelta'] = ''
             environment['screenData']['newDelta'] = ''           
