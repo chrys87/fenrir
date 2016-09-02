@@ -18,5 +18,3 @@ class sound():
         pass
     def setVolume(self, volume):
         self.volume = volume        
-    def shutdown(self):
-        pass

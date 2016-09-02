@@ -16,14 +16,15 @@ class screen():
     def insert_newlines(self, string, every=64):
         return '\n'.join(string[i:i+every] for i in range(0, len(string), every))
     def getCurrScreen(self):
+        currScreen = -1
         try:    
             currScreenFile = open('/sys/devices/virtual/tty/tty0/active','r')
             currScreen = currScreenFile.read()[3:-1]
             currScreenFile.close()
         except Exception as e:
             environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR)   
-            return -1
-         return currScreen
+
+        return currScreen
                        
     def update(self, environment, trigger='updateScreen'):
         newTTY = ''

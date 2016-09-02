@@ -9,5 +9,6 @@ runtime = {
 'inputManager': None,
 'commandManager': None,
 'screenManager': None,
+'outputManager': None,
 'debug':None,
 }

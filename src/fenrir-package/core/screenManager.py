@@ -16,6 +16,6 @@ class screenManager():
         return environment
     
     def isSuspendingScreen(self, environment):
-        return environment['generalInformation']['suspend'] = environment['runtime']['screenDriver'].getCurrScreen() in \
+        return environment['runtime']['screenDriver'].getCurrScreen() in \
           environment['runtime']['settingsManager'].getSetting(environment,'screen', 'suspendingScreen').split(',')
 

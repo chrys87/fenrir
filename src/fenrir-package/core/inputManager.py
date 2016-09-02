@@ -10,14 +10,14 @@ class inputManager():
         return environment
     def shutdown(self, environment):
         return environment
-    def getInput(self, environment):
+    def proceedInputEvent(self, environment):
         environment, timeout = environment['runtime']['inputDriver'].getInput(environment)
         return environment, timeout       
     def grabDevices(self, environment):
         environment['runtime']['inputDriver'].grabDevices(environment)
 
     def releaseDevices(self, environment):
-        environment['runtime']['inputDriver'].releaseDevices(environment)
+        environment['runtime']['inputDriver'].releaseDevices()
         
     def isConsumeInput(self, environment):
 	    return environment['input']['consumeKey'] and \

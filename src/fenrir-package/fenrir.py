@@ -28,7 +28,7 @@ class fenrir():
         self.shutdown()
 
     def handleProcess(self):
-        self.environment, timeout = self.environment['runtime']['inputManager'].proceedInputEvents(self.environment)
+        self.environment, timeout = self.environment['runtime']['inputManager'].proceedInputEvent(self.environment)
         try:
             self.environment = self.environment['runtime']['screenManager'].update(self.environment)
         except Exception as e:
@@ -58,10 +58,11 @@ class fenrir():
         if self.environment['runtime']['debug'] != None:
             self.environment['runtime']['debug'].closeDebugFile()
         if self.environment['runtime']['soundDriver'] != None:
-            self.environment['runtime']['soundDriver'].shutdown()
+            self.environment['runtime']['soundDriver'].shutdown(environment)
         if self.environment['runtime']['speechDriver'] != None:
-            self.environment['runtime']['speechDriver'].shutdown()
-        self.environment['runtime']['inputManager'].freeDevices()
+            self.environment['runtime']['speechDriver'].shutdown(environment)
+        self.environment['runtime']['inputManager'].releaseDevices(self.environment)
+        self.environment = None
 
 app = fenrir()
 app.proceed()

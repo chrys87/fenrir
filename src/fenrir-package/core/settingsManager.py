@@ -184,7 +184,7 @@ class settingsManager():
         spec = importlib.util.spec_from_file_location(driverName, 'input/' + driverName + '.py')
         driver_mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(driver_mod)
-        environment['runtime']['inputDriver'] = driver_mod.screen() 
+        environment['runtime']['inputDriver'] = driver_mod.input() 
         environment['runtime']['inputDriver'].initialize(environment)        
         return environment
 
