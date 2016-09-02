@@ -64,10 +64,10 @@ class screen():
             environment['screenData']['oldCursor']['x'] = 0
             environment['screenData']['oldCursor']['y'] = 0
             environment['screenData']['oldDelta'] = ''
-            environment['screenData']['newDelta'] = ''
             environment['screenData']['oldNegativeDelta'] = ''
-            environment['screenData']['newNegativeDelta'] = ''
-        
+        # always clear deltas
+        environment['screenData']['newNegativeDelta'] = ''
+        environment['screenData']['newDelta'] = ''        
         # changes on the screen
         if (environment['screenData']['oldContentText'] != environment['screenData']['newContentText']) and \
           (environment['screenData']['newContentText'] != '' ):
@@ -86,7 +86,5 @@ class screen():
 
             environment['screenData']['newDelta'] = ''.join(x[2:] for x in diffList if x.startswith('+ '))             
             environment['screenData']['newNegativeDelta'] = ''.join(x[2:] for x in diffList if x.startswith('- '))
-        else:
-            environment['screenData']['newNegativeDelta'] = ''
-            environment['screenData']['newDelta'] = ''           
+        
         return environment
