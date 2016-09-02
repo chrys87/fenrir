@@ -14,7 +14,6 @@ class screen():
         return '\n'.join(string[i:i+every] for i in range(0, len(string), every))
             
     def analyzeScreen(self, environment, trigger='updateScreen'):
-        environment['runtime']['debug'].writeDebugOut(environment,"start-------------"+ str(time.time()),0)   
         newTTY = ''
         newContentBytes = b''       
         try:
@@ -68,9 +67,6 @@ class screen():
             environment['screenData']['newDelta'] = ''
             environment['screenData']['oldNegativeDelta'] = ''
             environment['screenData']['newNegativeDelta'] = ''
-        environment['runtime']['debug'].writeDebugOut(environment,'____CONT START_____',debug.debugLevel.ERROR)               
-        environment['runtime']['debug'].writeDebugOut(environment,environment['screenData']['newContentText']+ str(time.time()),debug.debugLevel.ERROR)               
-        environment['runtime']['debug'].writeDebugOut(environment,'____CONT END____',debug.debugLevel.ERROR)               
         
         # changes on the screen
         if (environment['screenData']['oldContentText'] != environment['screenData']['newContentText']) and \
@@ -79,7 +75,6 @@ class screen():
               environment['screenData']['newContentText'] != '':
                 environment['screenData']['newDelta'] = environment['screenData']['newContentText']  
             else:
-                environment['runtime']['debug'].writeDebugOut(environment,"diff start-------------"+ str(time.time()),debug.debugLevel.ERROR)               
                 diffStart = 0
                 if environment['screenData']['oldCursor']['x'] != environment['screenData']['newCursor']['x'] and \
                   environment['screenData']['oldCursor']['y'] == environment['screenData']['newCursor']['y'] and \
@@ -92,7 +87,6 @@ class screen():
                      environment['screenData']['newContentText'][diffStart:].split('\n'))
                 
                 diffList = list(diff)
-                environment['runtime']['debug'].writeDebugOut(environment,"diff end-------------"+ str(time.time()),debug.debugLevel.ERROR)               
 
                 environment['screenData']['newDelta'] = ''.join(x[2:] for x in diffList if x.startswith('+ '))             
                 environment['screenData']['newNegativeDelta'] = ''.join(x[2:] for x in diffList if x.startswith('- '))

@@ -7,7 +7,7 @@ class outputManager():
     def presentText(self, environment, text, interrupt=True, soundIcon = ''):
         environment['runtime']['debug'].writeDebugOut(environment,"presentText:\nsoundIcon:'"+soundIcon+"'\nText:\n" + text ,debug.debugLevel.INFO)
         if self.playSoundIcon(environment, soundIcon, interrupt):
-            environment['runtime']['debug'].writeDebugOut(environment,"presentText:\n" + text ,debug.debugLevel.INFO)            
+            environment['runtime']['debug'].writeDebugOut(environment,"soundIcon found" ,debug.debugLevel.INFO)            
             return
         self.speakText(environment, text, interrupt)
         self.brailleText(environment, text, interrupt)

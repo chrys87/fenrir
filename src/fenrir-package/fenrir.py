@@ -25,8 +25,7 @@ class fenrir():
             try:
                 self.handleProcess()
             except Exception as e:
-                self.environment['runtime']['debug'].writeDebugOut(self.environment,str(e)+'error in  happy loop at'+str(time.time()),debug.debugLevel.ERROR)               
-            self.environment['runtime']['debug'].writeDebugOut(self.environment,'happy loop at'+str(time.time()),debug.debugLevel.ERROR)               
+                self.environment['runtime']['debug'].writeDebugOut(self.environment,str(e),debug.debugLevel.ERROR) 
 
         self.shutdown()
 
@@ -35,7 +34,7 @@ class fenrir():
         try:
             self.environment = self.environment['runtime']['screenDriver'].analyzeScreen(self.environment)
         except Exception as e:
-            self.environment['runtime']['debug'].writeDebugOut(self.environment, str(e)+' error happy loop at'+str(time.time()),debug.debugLevel.ERROR)                
+            self.environment['runtime']['debug'].writeDebugOut(self.environment, str(e),debug.debugLevel.ERROR)                
         if not self.environment['input']['keyForeward']:        
             self.environment = self.environment['runtime']['commandManager'].getCommandForShortcut(self.environment)        
         if not timeout:

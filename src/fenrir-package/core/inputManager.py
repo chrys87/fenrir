@@ -27,7 +27,6 @@ class inputManager():
                         if self.isFenrirKey(environment, event): 
                             environment['input']['consumeKey'] = not environment['input']['keyForeward'] and not environment['generalInformation']['suspend']
                         if self.isConsumeKeypress(environment):
-                            environment['runtime']['debug'].writeDebugOut(environment, str(event)+' consume'+str(time.time()),debug.debugLevel.ERROR)      
                             self.writeUInput(self.uDevices[fd], event,environment)
                         keyString = ''
                         if self.isFenrirKey(environment, event):
@@ -43,6 +42,7 @@ class inputManager():
                                 except:
                                     pass
         except Exception as e:
+            environment['runtime']['debug'].writeDebugOut(environment,"Error while inputHandling",debug.debugLevel.ERROR)        
             environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR)               
             self.freeDevices()
         time.sleep(0.01)        
@@ -64,11 +64,11 @@ class inputManager():
 
     def writeUInput(self, uDevice, event,environment):
         try:
-            environment['runtime']['debug'].writeDebugOut(environment, str(event)+' write event '+str(time.time()),debug.debugLevel.ERROR)      
             uDevice.write_event(event)
             uDevice.syn()
-        except Exception as a:
-            environment['runtime']['debug'].writeDebugOut(environment, str(e)+' error exception '+str(time.time()),debug.debugLevel.ERROR)      
+        except Exception as e:
+            environment['runtime']['debug'].writeDebugOut(environment,"Error while writeUInput",debug.debugLevel.ERROR)
+            environment['runtime']['debug'].writeDebugOut(environment, str(e),debug.debugLevel.ERROR)      
 
     def getShortcutString(self, environment):
         if environment['input']['currShortcut'] == {}:
