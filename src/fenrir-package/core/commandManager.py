@@ -8,7 +8,10 @@ from utils import debug
 class commandManager():
     def __init__(self):
         pass
-
+    def initialize(self, environment):
+        return environment
+    def shutdown(self, environment):
+        return environment
     def loadCommands(self, environment, section='commands'):
         commandFolder = "commands/" + section +"/"
         commandList = glob.glob(commandFolder+'*')
@@ -23,6 +26,7 @@ class commandManager():
                     command_mod = importlib.util.module_from_spec(spec)
                     spec.loader.exec_module(command_mod)
                     environment['commands'][section][fileName] = command_mod.command()
+                    environment['commands'][section][fileName].initialize(environment)
             except Exception as e:
                 print(e)
                 environment['runtime']['debug'].writeDebugOut(environment,"Error while loading command:" + currCommand ,debug.debugLevel.ERROR)

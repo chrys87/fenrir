@@ -3,8 +3,14 @@
 class command():
     def __init__(self):
         pass
+    def initialize(self, environment):
+        return environment
+    def shutdown(self, environment):
+        return environment 
+    def getDescription(self):
+        return ''
+
     def run(self, environment):
- 
         if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'keyboard', 'charEcho'):
             return environment
         # detect deletion or chilling 
@@ -24,5 +30,4 @@ class command():
         return environment
     def setCallback(self, callback):
         pass
-    def shutdown(self):
-        pass
+

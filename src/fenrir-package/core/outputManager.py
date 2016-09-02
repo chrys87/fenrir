@@ -4,6 +4,10 @@ from utils import debug
 class outputManager():
     def __init__(self):
         pass
+    def initialize(self, environment):
+        return environment
+    def shutdown(self, environment):
+        return environment
     def presentText(self, environment, text, interrupt=True, soundIcon = ''):
         environment['runtime']['debug'].writeDebugOut(environment,"presentText:\nsoundIcon:'"+soundIcon+"'\nText:\n" + text ,debug.debugLevel.INFO)
         if self.playSoundIcon(environment, soundIcon, interrupt):

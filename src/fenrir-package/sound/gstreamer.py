@@ -18,8 +18,32 @@ class sound:
         self.volume = 1
         if not _gstreamerAvailable:
             return
-        self.init()
+    def initialize(self, environment):
+        if self._initialized:
+           return environment
+        if not _gstreamerAvailable:
+            return environment
 
+        self._player = Gst.ElementFactory.make('playbin', 'player')
+        bus = self._player.get_bus()
+        bus.add_signal_watch()
+        bus.connect("message", self._onPlayerMessage)
+
+        self._pipeline = Gst.Pipeline(name='fenrir-pipeline')
+        bus = self._pipeline.get_bus()
+        bus.add_signal_watch()
+        bus.connect("message", self._onPipelineMessage)
+
+        self._source = Gst.ElementFactory.make('audiotestsrc', 'src')
+        self._sink = Gst.ElementFactory.make('autoaudiosink', 'output')
+        self._pipeline.add(self._source)
+        self._pipeline.add(self._sink)
+        self._source.link(self._sink)
+
+        self._initialized = True
+        return environment        
+    def shutdown(self, environment):
+        return environment
 
     def _onPlayerMessage(self, bus, message):
         if message.type == Gst.MessageType.EOS:
@@ -57,30 +81,6 @@ class sound:
         self._pipeline.set_state(Gst.State.PLAYING)
         duration = int(1000 * tone.duration)
         GLib.timeout_add(duration, self._onTimeout, self._pipeline)
-
-    def init(self):
-        if self._initialized:
-            return
-        if not _gstreamerAvailable:
-            return
-
-        self._player = Gst.ElementFactory.make('playbin', 'player')
-        bus = self._player.get_bus()
-        bus.add_signal_watch()
-        bus.connect("message", self._onPlayerMessage)
-
-        self._pipeline = Gst.Pipeline(name='fenrir-pipeline')
-        bus = self._pipeline.get_bus()
-        bus.add_signal_watch()
-        bus.connect("message", self._onPipelineMessage)
-
-        self._source = Gst.ElementFactory.make('audiotestsrc', 'src')
-        self._sink = Gst.ElementFactory.make('autoaudiosink', 'output')
-        self._pipeline.add(self._source)
-        self._pipeline.add(self._sink)
-        self._source.link(self._sink)
-
-        self._initialized = True
 
     def cancel(self, element=None):
         if not _gstreamerAvailable:

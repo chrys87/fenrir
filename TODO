@@ -14,6 +14,7 @@ ToDos in Priority order:
   possiblity to forewart shortcut [proxyshortcut] [x]
   possiblity to forewart shortcut [pressing twice while timeout] []
   cleanup inputManager [-]
+  split input driver out of the handler
 
 - add setting for autodetect X
 - dictonary for special chars and string replacements

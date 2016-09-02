@@ -20,19 +20,17 @@ class fenrir():
     
     def proceed(self):
         self.environment['runtime']['outputManager'].presentText(self.environment, "Start Fenrir", soundIcon='ScreenReaderOn', interrupt=True)          
-        #self.threadonInput.start()
         while(self.environment['generalInformation']['running']):
             try:
                 self.handleProcess()
             except Exception as e:
                 self.environment['runtime']['debug'].writeDebugOut(self.environment,str(e),debug.debugLevel.ERROR) 
-
         self.shutdown()
 
     def handleProcess(self):
         self.environment, timeout = self.environment['runtime']['inputManager'].proceedInputEvents(self.environment)
         try:
-            self.environment = self.environment['runtime']['screenDriver'].analyzeScreen(self.environment)
+            self.environment = self.environment['runtime']['screenManager'].update(self.environment)
         except Exception as e:
             self.environment['runtime']['debug'].writeDebugOut(self.environment, str(e),debug.debugLevel.ERROR)                
         if not self.environment['input']['keyForeward']:        

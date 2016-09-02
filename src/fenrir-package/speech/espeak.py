@@ -3,7 +3,9 @@
 # Espeak driver
 
 class speech():
-    def __init__(self, ):
+    def __init__(self ):
+        pass
+    def initialize(self, environment):
         self._es = None
         self._isInitialized = False
         try:
@@ -12,12 +14,15 @@ class speech():
             self._isInitialized = True
         except:
             self._initialized = False
-
+        return environment            
+    def shutdown(self, environment):
+        return environment
 
     def speak(self,text, queueable=True):
         if not self._isInitialized:
             return False
-        if queueable == False: self.cancel()
+        if not queueable:
+            self.cancel()
         self._es.synth(text)
         return True
 
@@ -43,13 +48,13 @@ class speech():
     def setPitch(self, pitch):
         if not self._isInitialized:
             return False
-        return self._es.set_parameter(self._es.Parameter().Pitch, int(pitch * 99)) 
 
     def setRate(self, rate):
         if not self._isInitialized:
             return False
         return self._es.set_parameter(self._es.Parameter().Rate, int(rate*450 + 80))
 
+        return self._es.set_parameter(self._es.Parameter().Pitch, int(pitch * 99)) 
     def setModule(self, module):
         if not self._isInitialized:
             return False

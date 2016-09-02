@@ -1,5 +1,7 @@
 #!/bin/python
 
+import time
+
 screenData = {
 'columns': 0,
 'lines': 0,
@@ -19,4 +21,5 @@ screenData = {
 'newContentAttrib': b'',
 'oldTTY':'-1',
 'newTTY':'0',
+'lastScreenUpdate': time.time()
 }

@@ -7,20 +7,30 @@ import re
 from utils import debug
 
 class screen():
-    def __init__(self, device='/dev/vcsa'):
-        self.vcsaDevicePath = device
-
+    def __init__(self):
+        self.vcsaDevicePath = '/dev/vcsa'
+    def initialize(self, environment):
+        return environment
+    def shutdown(self, environment):
+        return environment
     def insert_newlines(self, string, every=64):
         return '\n'.join(string[i:i+every] for i in range(0, len(string), every))
-            
-    def analyzeScreen(self, environment, trigger='updateScreen'):
+    def getCurrScreen(self):
+        try:    
+            currScreenFile = open('/sys/devices/virtual/tty/tty0/active','r')
+            currScreen = currScreenFile.read()[3:-1]
+            currScreenFile.close()
+        except Exception as e:
+            environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR)   
+            return -1
+         return currScreen
+                       
+    def update(self, environment, trigger='updateScreen'):
         newTTY = ''
         newContentBytes = b''       
         try:
             # read screen
-            currTTY = open('/sys/devices/virtual/tty/tty0/active','r')
-            newTTY = currTTY.read()[3:-1]
-            currTTY.close() 
+            newTTY = self.getCurrScreen()
             vcsa = open(self.vcsaDevicePath + newTTY,'rb',0)
             newContentBytes = vcsa.read()
             vcsa.close()
@@ -30,8 +40,6 @@ class screen():
             environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR)   
             return environment
         screenEncoding = environment['runtime']['settingsManager'].getSetting(environment,'screen', 'encoding')
-        environment['generalInformation']['suspend'] = newTTY in \
-          environment['runtime']['settingsManager'].getSetting(environment,'screen', 'suspendingScreen').split(',')
         # set new "old" values
         environment['screenData']['oldContentBytes'] = environment['screenData']['newContentBytes']
         environment['screenData']['oldContentText'] = environment['screenData']['newContentText']

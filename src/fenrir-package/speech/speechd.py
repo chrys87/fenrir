@@ -13,8 +13,16 @@ class speech():
             self._isInitialized = True
         except:
             self._initialized = False
-
-
+    def initialize(self, environment):
+        return environment
+    def shutdown(self, environment):
+        if not self._isInitialized:
+            return environment
+        self._isInitialized = False
+        self.cancel()
+        self._sd.close()
+        return environment
+        
     def speak(self,text, queueable=True):
         if not self._isInitialized:
             return False
@@ -86,11 +94,4 @@ class speech():
         if not self._isInitialized:
             return False    
         self._sd.set_volume(int(-100 + volume * 200))
-        
-    def shutdown(self):
-        if not self._isInitialized:
-            return False
-        self._isInitialized = False
-        self.cancel()
-        self._sd.close()
-        return True
+

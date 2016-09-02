@@ -4,6 +4,12 @@ from utils import mark_utils
 class command():
     def __init__(self):
         pass
+    def initialize(self, environment):
+        return environment
+    def shutdown(self, environment):
+        return environment 
+    def getDescription(self):
+        return 'No Description found'        
     def run(self, environment):
         if (environment['commandBuffer']['Marks']['1'] == None) or \
           (environment['commandBuffer']['Marks']['2'] == None):
@@ -24,6 +30,4 @@ class command():
             environment['runtime']['outputManager'].presentText(environment, marked, interrupt=True)
         return environment    
     def setCallback(self, callback):
-        pass
-    def shutdown(self):
         pass

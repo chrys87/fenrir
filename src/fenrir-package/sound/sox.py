@@ -4,6 +4,10 @@ import subprocess
 class sound():
     def __init__(self):
         self.volume = 1.0;
+    def initialize(self, environment):
+        return environment
+    def shutdown(self, environment):
+        return environment
     def playFrequence(self, frequence, duration, adjustVolume):
         pass
     def playSoundFile(self, filePath, interrupt = True):

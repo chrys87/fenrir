@@ -6,6 +6,7 @@ from configparser import ConfigParser
 from core import inputManager
 from core import outputManager
 from core import commandManager
+from core import screenManager
 from core import environment 
 from core.settings import settings
 from utils import debug
@@ -13,7 +14,10 @@ from utils import debug
 class settingsManager():
     def __init__(self):
         self.settings = settings
-
+    def initialize(self, environment):
+        return environment
+    def shutdown(self, environment):
+        return environment
     def loadShortcuts(self, environment, kbConfigPath='../../config/keyboard/desktop.conf'):
         kbConfig = open(kbConfigPath,"r")
         while(True):
@@ -155,6 +159,7 @@ class settingsManager():
         driver_mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(driver_mod)
         environment['runtime']['speechDriver'] = driver_mod.speech()
+        environment['runtime']['speechDriver'].initialize(environment)           
         return environment
 
     def loadSoundDriver(self, environment, driverName):
@@ -163,7 +168,8 @@ class settingsManager():
         spec = importlib.util.spec_from_file_location(driverName, 'sound/' + driverName + '.py')
         driver_mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(driver_mod)
-        environment['runtime']['soundDriver'] = driver_mod.sound()        
+        environment['runtime']['soundDriver'] = driver_mod.sound()
+        environment['runtime']['soundDriver'].initialize(environment)           
         return environment
 
     def loadScreenDriver(self, environment, driverName):
@@ -171,6 +177,15 @@ class settingsManager():
         driver_mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(driver_mod)
         environment['runtime']['screenDriver'] = driver_mod.screen() 
+        environment['runtime']['screenDriver'].initialize(environment)
+        return environment
+
+    def loadInputDriver(self, environment, driverName):
+        spec = importlib.util.spec_from_file_location(driverName, 'input/' + driverName + '.py')
+        driver_mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(driver_mod)
+        environment['runtime']['inputDriver'] = driver_mod.screen() 
+        environment['runtime']['inputDriver'].initialize(environment)        
         return environment
 
     def setFenrirKeys(self, environment, keys):
@@ -215,9 +230,20 @@ class settingsManager():
         else:
             environment = environment['runtime']['settingsManager'].loadSoundIcons(environment, self.getSetting(environment, 'sound','theme'))
 
-        environment['runtime']['inputManager'] = inputManager.inputManager()
-        environment['runtime']['outputManager'] = outputManager.outputManager()
-        environment['runtime']['commandManager'] = commandManager.commandManager()
+        if environment['runtime']['inputManager'] == None:
+            environment['runtime']['inputManager'] = inputManager.inputManager()
+            environment = environment['runtime']['inputManager'].initialize(environment)             
+        if environment['runtime']['outputManager'] == None:
+            environment['runtime']['outputManager'] = outputManager.outputManager()
+            environment = environment['runtime']['outputManager'].initialize(environment)             
+        if environment['runtime']['commandManager'] == None:
+            environment['runtime']['commandManager'] = commandManager.commandManager()
+            environment = environment['runtime']['commandManager'].initialize(environment)             
+        if environment['runtime']['screenManager'] == None:
+            environment['runtime']['screenManager'] = screenManager.screenManager()
+            environment = environment['runtime']['screenManager'].initialize(environment) 
+            
+            
         environment = environment['runtime']['commandManager'].loadCommands(environment,'commands')
         environment = environment['runtime']['commandManager'].loadCommands(environment,'onInput')
         environment = environment['runtime']['commandManager'].loadCommands(environment,'onScreenChanged')
@@ -228,7 +254,8 @@ class settingsManager():
           environment['runtime']['settingsManager'].getSetting(environment,'screen', 'driver'))
         environment = environment['runtime']['settingsManager'].loadSoundDriver(environment,\
           environment['runtime']['settingsManager'].getSetting(environment,'sound', 'driver'))
-          
+        environment = environment['runtime']['settingsManager'].loadInputDriver(environment,\
+          environment['runtime']['settingsManager'].getSetting(environment,'keyboard', 'driver'))         
         environment['runtime']['debug'].writeDebugOut(environment,'\/-------environment-------\/',debug.debugLevel.ERROR)        
         environment['runtime']['debug'].writeDebugOut(environment,str(environment),debug.debugLevel.ERROR)
         environment['runtime']['debug'].writeDebugOut(environment,'\/-------settings.conf-------\/',debug.debugLevel.ERROR)        

@@ -27,6 +27,7 @@ suspendingScreen=1,2
 autodetectSuspendingScreen=False
 
 [keyboard]
+driver=evdev
 device=all
 grabDevices=True
 ignoreShortcuts=False

@@ -2,7 +2,10 @@
 import time
 
 input = {
-'currShortcut': {}, 
+'currInput': {},
+'prevInput': {}, 
+'currEvent': None, 
+'firstEvent': {}, 
 'currShortcutString': '',
 'consumeKey': False,
 'fenrirKey': ['82'],
