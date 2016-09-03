@@ -4,8 +4,6 @@
 
 class speech():
     def __init__(self ):
-        pass
-    def initialize(self, environment):
         self._es = None
         self._isInitialized = False
         try:
@@ -14,6 +12,7 @@ class speech():
             self._isInitialized = True
         except:
             self._initialized = False
+    def initialize(self, environment):
         return environment            
     def shutdown(self, environment):
         return environment
@@ -68,6 +67,3 @@ class speech():
         if not self._isInitialized:
             return False    
         return self._es.set_parameter(self._es.Parameter().Volume, int(volume * 200))
-
-    def shutdown(self):
-        pass

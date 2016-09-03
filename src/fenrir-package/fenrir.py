@@ -24,6 +24,7 @@ class fenrir():
             try:
                 self.handleProcess()
             except Exception as e:
+                print(e)
                 self.environment['runtime']['debug'].writeDebugOut(self.environment,str(e),debug.debugLevel.ERROR) 
         self.shutdown()
 

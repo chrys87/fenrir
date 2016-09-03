@@ -18,9 +18,7 @@ class input():
     def shutdown(self, environment):
         return environment
     def getInput(self, environment):
-        timeout = True    	
-        if not environment['input']['keyForeward']:
-            self.ignoreKeyRelease = 0
+
         try:
             r, w, x = select(self.iDevices, [], [], environment['runtime']['settingsManager'].getSettingAsFloat(environment, 'screen', 'screenUpdateDelay'))
             if r != []:
@@ -49,14 +47,7 @@ class input():
             environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR)               
             self.releaseDevices()
         time.sleep(0.01)        
-        environment['input']['currShortcutString'] = self.getShortcutString(environment)
-        if not timeout:
-            environment['input']['lastInputTime'] = time.time()
-            environment['input']['consumeKey'] = environment['input']['currShortcut'] != {} and environment['input']['consumeKey']
-            if (environment['input']['keyForeward'] and environment['input']['currShortcut'] == {}):
-                self.ignoreKeyRelease += 1
-            if self.ignoreKeyRelease >= 2: # a hack... has to bee done more clean
-                environment['input']['keyForeward'] = environment['input']['keyForeward'] and not environment['input']['currShortcut'] == {}
+
    
         return environment, timeout
 
