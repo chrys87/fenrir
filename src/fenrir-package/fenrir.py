@@ -34,8 +34,10 @@ class fenrir():
             self.environment = self.environment['runtime']['screenManager'].update(self.environment)
         except Exception as e:
             self.environment['runtime']['debug'].writeDebugOut(self.environment, str(e),debug.debugLevel.ERROR)                
-        if not self.environment['input']['keyForeward']:        
-            self.environment = self.environment['runtime']['commandManager'].getCommandForShortcut(self.environment)        
+        if not self.environment['input']['keyForeward']:  
+            currShortcut = self.environment['runtime']['inputManager'].getCurrShortcut(self.environment)        
+            currCommand = self.environment['runtime']['commandManager'].getCommandForShortcut(self.environment)        
+            self.environment = self.environment['runtime']['commandManager'].setCurrCommandForExec(self.environment, currCommand)        
         if not timeout:
             self.environment = self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onInput')            
         self.environment = self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onScreenChanged')        

@@ -2,19 +2,21 @@
 # -*- coding: utf-8 -*-
 
 import difflib
-import time
-import re
 from utils import debug
 
 class screen():
     def __init__(self):
         self.vcsaDevicePath = '/dev/vcsa'
+    
     def initialize(self, environment):
         return environment
+    
     def shutdown(self, environment):
         return environment
+    
     def insert_newlines(self, string, every=64):
         return '\n'.join(string[i:i+every] for i in range(0, len(string), every))
+    
     def getCurrScreen(self):
         currScreen = -1
         try:    
@@ -63,7 +65,6 @@ class screen():
         # analyze content
         environment['screenData']['newContentText'] = environment['screenData']['newContentBytes'][4:][::2].decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
         environment['screenData']['newContentAttrib'] = environment['screenData']['newContentBytes'][5:][::2]
-        #environment['screenData']['newContentText'] = '\n'.join(self.textWrapper.wrap(environment['screenData']['newContentText'], ))[:-2]
         environment['screenData']['newContentText'] = self.insert_newlines(environment['screenData']['newContentText'], environment['screenData']['columns'])
 
         if environment['screenData']['newTTY'] != environment['screenData']['oldTTY']:

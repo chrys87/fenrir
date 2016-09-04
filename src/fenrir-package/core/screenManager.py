@@ -13,8 +13,9 @@ class screenManager():
         environment['generalInformation']['suspend'] = self.isSuspendingScreen(environment)
         if not environment['generalInformation']['suspend']:
             environment = environment['runtime']['screenDriver'].update(environment)
+            environment['screenData']['lastScreenUpdate'] = time.time()
         return environment
-    
+
     def isSuspendingScreen(self, environment):
         return environment['runtime']['screenDriver'].getCurrScreen() in \
           environment['runtime']['settingsManager'].getSetting(environment,'screen', 'suspendingScreen').split(',')

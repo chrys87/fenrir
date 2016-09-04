@@ -2,5 +2,4 @@
 
 generalInformation = {
 'running': True,
-'suspend': False,
 }

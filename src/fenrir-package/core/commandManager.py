@@ -35,7 +35,7 @@ class commandManager():
         return environment
 
     def executeTriggerCommands(self, environment, trigger):
-        if environment['generalInformation']['suspend']:
+        if environment['runtime']['screenManager'].isSuspendingScreen(environment) :
             return environment
         for cmd in sorted(environment['commands'][trigger]):
             try:
@@ -43,6 +43,7 @@ class commandManager():
                if environ != None:
                     environment = environ
             except Exception as e:
+                print(e)
                 environment['runtime']['debug'].writeDebugOut(environment,"Error while executing trigger:" + trigger + "." + cmd ,debug.debugLevel.ERROR)
                 environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR) 
         return environment
@@ -56,21 +57,27 @@ class commandManager():
                 if environ != None:
                     environment = environ
             except Exception as e:
+                print(e)
                 environment['runtime']['debug'].writeDebugOut(environment,"Error while executing command:" + section + "." + currCommand ,debug.debugLevel.ERROR)
                 environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR) 
         environment['commandInfo']['currCommand'] = ''
         environment['commandInfo']['lastCommandTime'] = time.time()    
         return environment
 
-    def isShortcutDefined(self, environment):
+    def isShortcutDefined(self, environment, currCommand):
         return( environment['input']['currShortcutString'] in environment['bindings'])
 
-    def getCommandForShortcut(self, environment):
+    def setCurrCommandForExec(self, environment, currCommand=''):
         if not self.isShortcutDefined(environment):
             return environment 
-        environment['commandInfo']['currCommand'] = environment['bindings'][environment['input']['currShortcutString']]
+        environment['commandInfo']['currCommand'] = currCommand
         return environment
+        
+    def getCommandForShortcut(self, environment, currShortcutString):
+        if not self.isShortcutDefined(environment):
+            return environment 
+        return environment['bindings'][currShortcutString]
 
-    def isCommandDefined(self, environment):
-        return( environment['commandInfo']['currCommand'] in environment['commands']['commands'])
+    def isCommandDefined(self, environment, currCommand):
+        return( currCommand in environment['commands']['commands'])
 
