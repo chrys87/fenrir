@@ -44,6 +44,8 @@ numberOfClipboards=10
 fenrirKeys=KEY_KP0
 timeFormat=%H:%M:%P
 dateFormat="%A, %B %d, %Y"
+autoSpellCheck=True
+spellCheckLanguage=en_US
 
 [promote]
 enabled=True
