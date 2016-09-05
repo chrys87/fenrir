@@ -39,6 +39,7 @@ class commandManager():
                if environ != None:
                     environment = environ
             except Exception as e:
+                print(e)
                 environment['runtime']['debug'].writeDebugOut(environment,"Error while executing trigger:" + trigger + "." + cmd ,debug.debugLevel.ERROR)
                 environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR) 
         return environment
@@ -52,6 +53,7 @@ class commandManager():
                 if environ != None:
                     environment = environ
             except Exception as e:
+                print(e)
                 environment['runtime']['debug'].writeDebugOut(environment,"Error while executing command:" + section + "." + currCommand ,debug.debugLevel.ERROR)
                 environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR) 
         environment['commandInfo']['currCommand'] = ''

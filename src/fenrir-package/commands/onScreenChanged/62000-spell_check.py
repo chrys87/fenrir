@@ -1,22 +1,23 @@
 #!/bin/python
 from utils import word_utils
-
+initialized = False
+try:
+    import enchant
+    initialized = True
+except:
+    print('nööP')
+    
 class command():
     def __init__(self):
-        self.initialized = False
-        try:
-            import enchant
-            self.initialized = True
-        except:
-            pass
+        pass
     
     def run(self, environment):
         if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'general', 'autoSpellCheck'):
             return environment
 
-        if not self.initialized:
+        if not initialized:
            environment['runtime']['outputManager'].presentText(environment, 'pychant is not installed', interrupt=True) 
-        
+           return environment      
         spellChecker = enchant.Dict(environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage'))
    
         # just when cursor move worddetection is needed
