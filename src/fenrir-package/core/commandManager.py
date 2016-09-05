@@ -67,7 +67,7 @@ class commandManager():
     def isShortcutDefined(self, environment, currCommand):
         return( environment['input']['currShortcutString'] in environment['bindings'])
 
-    def setCurrCommandForExec(self, environment, currCommand=''):
+    def setCurrCommandForExec(self, environment, currCommand):
         if not self.isShortcutDefined(environment):
             return environment 
         environment['commandInfo']['currCommand'] = currCommand
