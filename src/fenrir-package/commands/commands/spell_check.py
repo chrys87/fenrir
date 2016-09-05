@@ -16,6 +16,7 @@ class command():
             return environment
 
         if not initialized:
+           environment['runtime']['outputManager'].presentText(environment, 'pychant is not installed', interrupt=True) 
            return environment      
         spellChecker = enchant.Dict(environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage'))
    
