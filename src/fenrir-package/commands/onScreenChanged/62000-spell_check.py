@@ -6,16 +6,18 @@ class command():
         self.initialized = False
         try:
             import enchant
-            self.spellChecker = enchant.Dict(environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage'))
             self.initialized = True
         except:
             pass
     
     def run(self, environment):
-        if not self.initialized:
-           environment['runtime']['outputManager'].presentText(environment, 'pychant is not installed', interrupt=True) 
         if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'general', 'autoSpellCheck'):
             return environment
+
+        if not self.initialized:
+           environment['runtime']['outputManager'].presentText(environment, 'pychant is not installed', interrupt=True) 
+        
+        spellChecker = enchant.Dict(environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage'))
    
         # just when cursor move worddetection is needed
         if environment['screenData']['newCursor']['x'] == environment['screenData']['oldCursor']['x']:
@@ -48,7 +50,7 @@ class command():
                 return environment            
 
         if currWord != '':
-            if not self.spellChecker.check(currWord):
+            if not spellChecker.check(currWord):
                 environment['runtime']['outputManager'].presentText(environment, 'misspelled', interrupt=True)
 
         return environment
