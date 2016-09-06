@@ -5,20 +5,26 @@ try:
     import enchant
     initialized = True
 except:
-    print('nööP')
+    pass
     
 class command():
     def __init__(self):
-        pass
+        self.language = ''
+        self.spellChecker = ''
     
     def run(self, environment):
         if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'general', 'autoSpellCheck'):
             return environment
 
         if not initialized:
-           return environment      
-        spellChecker = enchant.Dict(environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage'))
-   
+           return environment
+        if environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage') != self.language:
+            try:
+                self.spellChecker = enchant.Dict(environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage'))
+                self.language = environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage')
+            except:
+               return environment
+
         # just when cursor move worddetection is needed
         if environment['screenData']['newCursor']['x'] == environment['screenData']['oldCursor']['x']:
             return environment 
@@ -50,8 +56,8 @@ class command():
                 return environment            
 
         if currWord != '':
-            if not spellChecker.check(currWord):
-                environment['runtime']['outputManager'].presentText(environment, 'misspelled', interrupt=True)
+            if not self.spellChecker.check(currWord):
+                environment['runtime']['outputManager'].presentText(environment, 'misspelled',soundIcon='mispell', interrupt=True)
 
         return environment
     def setCallback(self, callback):
