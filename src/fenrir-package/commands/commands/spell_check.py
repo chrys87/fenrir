@@ -23,9 +23,6 @@ class command():
                 spellChecker = enchant.Dict(environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage'))
             except:
                 return environment    
-                    
-        if not newContent[environment['screenData']['newCursor']['x']].strip() == '':
-            return environment    
 
         if (environment['screenData']['newCursorReview'] != None):
             cursorPos = environment['screenData']['newCursorReview'].copy()
@@ -34,7 +31,7 @@ class command():
             
         # get the word
         newContent = environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursor']['y']]
-        x, y, currWord =  word_utils.getCurrentWord(cursorPos['x'], cursorPos['y'], newContent)                  
+        x, y, currWord =  word_utils.getCurrentWord(cursorPos['x'], 0, newContent)                  
 
         if currWord != '':
             if not spellChecker.check(currWord):
