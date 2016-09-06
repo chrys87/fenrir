@@ -10,6 +10,7 @@ except:
 class command():
     def __init__(self):
         self.language = ''
+        self.spellChecker = ''
     
     def run(self, environment):
         if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'general', 'autoSpellCheck'):
@@ -19,7 +20,8 @@ class command():
            return environment
         if environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage') != self.language:
             try:
-                spellChecker = enchant.Dict(environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage'))
+                self.spellChecker = enchant.Dict(environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage'))
+                self.language = environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage')
             except:
                return environment
 
@@ -54,7 +56,7 @@ class command():
                 return environment            
 
         if currWord != '':
-            if not spellChecker.check(currWord):
+            if not self.spellChecker.check(currWord):
                 environment['runtime']['outputManager'].presentText(environment, 'misspelled', interrupt=True)
 
         return environment
