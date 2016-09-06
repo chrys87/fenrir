@@ -37,7 +37,7 @@ class command():
 
         if currWord != '':
             if not self.spellChecker.check(currWord):
-                environment['runtime']['outputManager'].presentText(environment, 'misspelled', interrupt=True)
+                environment['runtime']['outputManager'].presentText(environment, 'misspelled',soundIcon='mispell', interrupt=True)
 
         return environment
     def setCallback(self, callback):
