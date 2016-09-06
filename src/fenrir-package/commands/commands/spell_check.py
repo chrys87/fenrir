@@ -13,9 +13,6 @@ class command():
         self.spellChecker = None
     
     def run(self, environment):
-        if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'general', 'autoSpellCheck'):
-            return environment
-
         if not initialized:
            environment['runtime']['outputManager'].presentText(environment, 'pychant is not installed', interrupt=True) 
            return environment
@@ -32,7 +29,7 @@ class command():
             cursorPos = environment['screenData']['newCursor'].copy()
             
         # get the word
-        newContent = environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursor']['y']]
+        newContent = environment['screenData']['newContentText'].split('\n')[cursorPos['y']]
         x, y, currWord =  word_utils.getCurrentWord(cursorPos['x'], 0, newContent)                  
 
         if currWord != '':
