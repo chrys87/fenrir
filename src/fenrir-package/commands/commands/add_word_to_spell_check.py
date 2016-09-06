@@ -33,14 +33,11 @@ class command():
         x, y, currWord =  word_utils.getCurrentWord(cursorPos['x'], 0, newContent)                  
 
         if currWord != '':
-            if self.spellChecker.check(currWord):
-                environment['runtime']['outputManager'].presentText(environment, 'not misspelled',soundIcon='mispell', interrupt=True)
+            if self.spellChecker.is_added(currWord):
+                environment['runtime']['outputManager'].presentText(environment, currWord + ' is already in dict',soundIcon='Cancel', interrupt=True)                
             else:
-                if self.spellChecker.is_added(currWord):
-                    environment['runtime']['outputManager'].presentText(environment, 'not misspelled',soundIcon='Cancel', interrupt=True)                
-                else:
-                    self.spellChecker.add(currWord)             
-                    environment['runtime']['outputManager'].presentText(environment, currWord + ' added',soundIcon='Accept', interrupt=True)                
+                self.spellChecker.add(currWord)             
+                environment['runtime']['outputManager'].presentText(environment, currWord + ' added',soundIcon='Accept', interrupt=True)               
                     
         return environment
     def setCallback(self, callback):
