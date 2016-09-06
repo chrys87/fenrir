@@ -5,11 +5,11 @@ try:
     import enchant
     initialized = True
 except:
-    print('nööP')
+    pass
     
 class command():
     def __init__(self):
-        pass
+        self.language = ''
     
     def run(self, environment):
         if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'general', 'autoSpellCheck'):
@@ -17,38 +17,24 @@ class command():
 
         if not initialized:
            environment['runtime']['outputManager'].presentText(environment, 'pychant is not installed', interrupt=True) 
-           return environment      
-        spellChecker = enchant.Dict(environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage'))
-   
-        # just when cursor move worddetection is needed
-        if environment['screenData']['newCursor']['x'] == environment['screenData']['oldCursor']['x']:
-            return environment 
-            
-        # for now no new line
-        if environment['screenData']['newCursor']['y'] != environment['screenData']['oldCursor']['y']:
-            return environment 
-        if len(environment['screenData']['newDelta']) > 1:
-            return environment            
-            
-        # TTY Change is no new word
-        if environment['screenData']['newTTY'] != environment['screenData']['oldTTY']:
-            return environment
-            
-        # first place could not be the end of a word
-        if environment['screenData']['newCursor']['x'] == 0:
-            return environment
+           return environment
+        if environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage') != self.language:
+            try:
+                spellChecker = enchant.Dict(environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage'))
+            except:
+                return environment    
+                    
+        if not newContent[environment['screenData']['newCursor']['x']].strip() == '':
+            return environment    
+
+        if (environment['screenData']['newCursorReview'] != None):
+            cursorPos = environment['screenData']['newCursorReview'].copy()
+        else:
+            cursorPos = environment['screenData']['newCursor'].copy()
             
         # get the word
         newContent = environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursor']['y']]
-        x, y, currWord =  word_utils.getCurrentWord(environment['screenData']['newCursor']['x'], 0, newContent)                  
-        # was this a typed word?
-        if environment['screenData']['newDelta'] != '':
-            if not(newContent[environment['screenData']['oldCursor']['x']].strip() == '' and x != environment['screenData']['oldCursor']['x']):
-                return environment
-        else:
-        # or just arrow arround?
-            if not(newContent[environment['screenData']['newCursor']['x']].strip() == '' and x != environment['screenData']['newCursor']['x']):
-                return environment            
+        x, y, currWord =  word_utils.getCurrentWord(cursorPos['x'], cursorPos['y'], newContent)                  
 
         if currWord != '':
             if not spellChecker.check(currWord):
