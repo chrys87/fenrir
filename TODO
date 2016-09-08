@@ -46,7 +46,8 @@ https://wiki.gnome.org/Attic/LSR/ScratchPad/Braille/BrlAPI
 - menue for settings configuration #storm
 - translateable
 
-- implement speechdriver generic (say)
+- implement speechdriver generic
+- implement sounddriver generic (use current sox and make it configurable)
 -------------DONE--------------------------------
 - move from VCS to VCSA and parese the Attributes
 http://linux.die.net/man/4/vcsa
