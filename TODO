@@ -2,6 +2,7 @@ ToDos in Priority order:
   
 - Known Bugs  
   gstreamer sounddriver doesnt work
+  next word wrapping sometimes skips a word on beginn of line
 
 - try to consume shortcuts
   grab keyboard exclusive [x]
