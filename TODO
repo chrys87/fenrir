@@ -21,6 +21,12 @@ ToDos in Priority order:
 - implement commands
   attributes_curr_char
   toggle_highlighted_mode
+  generic list command (convert clipboard management)
+    next item
+    pref item
+    curr item
+    first item
+    last item
   
 - implement onScreenChange commands
   read highlighted text mode
