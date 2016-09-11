@@ -1,11 +1,10 @@
 #!/bin/python
-from utils import char_utils
 
 class command():
     def __init__(self):
         pass
     def run(self, environment):
-        environment['screenData']['newCursorReview'] = {'x':environment [screenData][columns],'y':0}
+        environment['screenData']['newCursorReview'] = {'x':0,'y':environment[screenData][lines]}
 
         environment['runtime']['outputManager'].presentText(environment, "Bottom", interrupt=True)
         return environment    
