@@ -2,6 +2,7 @@ ToDos in Priority order:
   
 - Known Bugs  
   gstreamer sounddriver doesnt work (i think it needs a Glib 
+  next word wrapping sometimes skips a word on beginn of line
 
 - try to consume shortcuts
   grab keyboard exclusive [x]
@@ -22,6 +23,12 @@ ToDos in Priority order:
 - implement commands
   attributes_curr_char
   toggle_highlighted_mode
+  generic list command (convert clipboard management)
+    next item
+    pref item
+    curr item
+    first item
+    last item
   
 - implement onScreenChange commands
   read highlighted text mode
@@ -41,7 +48,8 @@ https://wiki.gnome.org/Attic/LSR/ScratchPad/Braille/BrlAPI
 - menue for settings configuration #storm
 - translateable
 
-- implement speechdriver generic (say)
+- implement speechdriver generic
+- implement sounddriver generic (use current sox and make it configurable)
 -------------DONE--------------------------------
 - move from VCS to VCSA and parese the Attributes
 http://linux.die.net/man/4/vcsa
