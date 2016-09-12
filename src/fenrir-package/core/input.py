@@ -5,10 +5,15 @@ input = {
 'currInput': {},
 'prevInput': {}, 
 'currEvent': None, 
-'firstEvent': {}, 
+'firstEvent': None
+'firstEvent': None, 
 'currShortcutString': '',
 'consumeKey': False,
 'fenrirKey': ['82'],
 'keyForeward': False,
 'lastInputTime':time.time(),
+'oldNumLock': True,
+'newNumLock':True,
+'oldCapsLock':False,
+'newCapsLock':False
 }

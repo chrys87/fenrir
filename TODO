@@ -12,7 +12,7 @@ ToDos in Priority order:
   forwart nonshortcuts to system [x]
   make grabbing configuarble [-]
   possiblity to forewart shortcut [proxyshortcut] [x]
-  possiblity to forewart shortcut [pressing twice while timeout] []
+  possiblity to forewart shortcut (or use them as shortcut) [pressing twice while timeout] []
   cleanup inputManager [-]
   split input driver out of the handler
 
