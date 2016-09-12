@@ -64,18 +64,16 @@ class commandManager():
         environment['commandInfo']['lastCommandTime'] = time.time()    
         return environment
 
-    def isShortcutDefined(self, environment, currCommand):
-        return( environment['input']['currShortcutString'] in environment['bindings'])
+    def isShortcutDefined(self, environment, currShortcutString):
+        return( currShortcutString in environment['bindings'])
 
     def setCurrCommandForExec(self, environment, currCommand):
-        if not self.isShortcutDefined(environment):
-            return environment 
         environment['commandInfo']['currCommand'] = currCommand
         return environment
         
     def getCommandForShortcut(self, environment, currShortcutString):
-        if not self.isShortcutDefined(environment):
-            return environment 
+        if not self.isShortcutDefined(environment, currShortcutString):
+            return '' 
         return environment['bindings'][currShortcutString]
 
     def isCommandDefined(self, environment, currCommand):
