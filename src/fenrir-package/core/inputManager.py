@@ -12,18 +12,9 @@ class inputManager():
         return environment
     def proceedInputEvent(self, environment):
         timeout = True    	
-        if not environment['input']['keyForeward']:
-            self.ignoreKeyRelease = 0    
         environment, timeout = environment['runtime']['inputDriver'].getInput(environment)
-        environment['input']['currShortcutString'] = self.getShortcutString(environment)
-        if not timeout:
-            environment['input']['lastInputTime'] = time.time()
-            environment['input']['consumeKey'] = environment['input']['currShortcut'] != {} and environment['input']['consumeKey']
-            if (environment['input']['keyForeward'] and environment['input']['currShortcut'] == {}):
-                self.ignoreKeyRelease += 1
-            if self.ignoreKeyRelease >= 2: # a hack... has to bee done more clean
-                environment['input']['keyForeward'] = environment['input']['keyForeward'] and not environment['input']['currShortcut'] == {}        
-        return environment, timeout       
+        return environment, timeout
+    
     def grabDevices(self, environment):
         environment['runtime']['inputDriver'].grabDevices(environment)
 
@@ -42,6 +33,7 @@ class inputManager():
             environment['runtime']['debug'].writeDebugOut(environment,"Error while writeUInput",debug.debugLevel.ERROR)
             environment['runtime']['debug'].writeDebugOut(environment, str(e),debug.debugLevel.ERROR)    
         return environment
+
     def getShortcutString(self, environment):
         if environment['input']['currShortcut'] == {}:
             return '' 

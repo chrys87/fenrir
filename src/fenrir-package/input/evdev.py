@@ -11,8 +11,6 @@ class input():
         self.iDevices = {}
         self.uDevices = {}
         self.getInputDevices()
-        self.grabDevices()
-        self.ignoreKeyRelease = 0
     def initialize(self, environment):
         return environment
     def shutdown(self, environment):
