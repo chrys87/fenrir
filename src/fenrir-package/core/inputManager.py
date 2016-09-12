@@ -12,7 +12,10 @@ class inputManager():
         return environment
     def proceedInputEvent(self, environment):
         timeout = True    	
-        environment, timeout = environment['runtime']['inputDriver'].getInput(environment)
+        event = environment['runtime']['inputDriver'].getInput(environment)
+        if event:
+            timeout = False
+            print(event)
         return environment, timeout
     
     def grabDevices(self, environment):

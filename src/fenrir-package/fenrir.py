@@ -29,7 +29,7 @@ class fenrir():
         self.shutdown()
 
     def handleProcess(self):
-        #self.environment, timeout = self.environment['runtime']['inputManager'].proceedInputEvent(self.environment)
+        self.environment, timeout = self.environment['runtime']['inputManager'].proceedInputEvent(self.environment)
         timeout = True
         try:
             self.environment = self.environment['runtime']['screenManager'].update(self.environment)

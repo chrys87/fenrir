@@ -5,7 +5,7 @@ input = {
 'currInput': {},
 'prevInput': {}, 
 'currEvent': None, 
-'firstEvent': None
+'firstEvent': None,
 'firstEvent': None, 
 'currShortcutString': '',
 'consumeKey': False,
