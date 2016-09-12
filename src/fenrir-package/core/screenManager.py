@@ -9,6 +9,7 @@ class screenManager():
         return environment
     def shutdown(self, environment):
         return environment
+
     def update(self, environment):
         environment['generalInformation']['suspend'] = self.isSuspendingScreen(environment)
         if not environment['generalInformation']['suspend']:
