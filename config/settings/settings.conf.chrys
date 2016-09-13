@@ -36,6 +36,8 @@ charEcho=True
 charDeleteEcho=True
 wordEcho=True
 interruptOnKeyPress=False
+# timeout for double tap in sec
+doubleTapDelay=0.2
 
 [general]
 debugLevel=1
