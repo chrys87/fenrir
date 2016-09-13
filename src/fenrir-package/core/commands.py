@@ -16,7 +16,8 @@ commandBuffer = {
 # used by the commandManager
 commandInfo = {
 'currCommand': '',
-'lastCommandTime': time.time()
+'lastCommandExecutionTime': time.time()
+'lastCommandRequestTime': time.time()
 }
 
 # used by the commandManager
