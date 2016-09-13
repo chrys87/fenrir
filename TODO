@@ -16,11 +16,12 @@ ToDos in Priority order:
   cleanup inputManager [-]
   split input driver out of the handler
 
+- dictonary for special chars and string replacements
+- punctuation
+
 - add setting for autodetect X
 ps a -o tty,comm  | grep -e Xorg | grep -v "grep -e Xorg"
 
-- dictonary for special chars and string replacements
-- punctuation
 
 - implement commands
   attributes_curr_char
