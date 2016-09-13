@@ -6,7 +6,6 @@ input = {
 'prevInput': {}, 
 'currEvent': None, 
 'firstEvent': None,
-'firstEvent': None, 
 'currShortcutString': '',
 'consumeKey': False,
 'fenrirKey': ['82'],
