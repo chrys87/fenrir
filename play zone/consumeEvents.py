@@ -20,22 +20,25 @@ for fd in iDevices:
 #      dev.info.bustype,
  #     '/dev/uinput'
       )
+    dev.grab()
+
 
 i = 0
-while  i < 1000:
+while  i < 100:
     r, w, x = select(iDevices, [], [])
     if r != []:
         i += 1
         for fd in r:
             for event in iDevices[fd].read():
                 if event.code != 30:  # a
-                    print('Devicename:'+ iDevices[fd].name + '  Devicepath:' + iDevices[fd].fn + '  Events:' + str(iDevices[fd].active_keys(verbose=True)) + '  Value:' + str(event.value))
+                    uDevices[fd].write_event(event)
+                    uDevices[fd].syn()
+                       #print('Devicename:'+ devices[fd].name + '  Devicepath:' + devices[fd].fn + '  Events:' + str(devices[fd].active_keys(verbose=True)) + '  Value:' + str(event.value))
                 else:
                     print('this key is consumed')
-            break
-        break
 
 for fd in iDevices:
+    iDevices[fd].ungrab()
     iDevices[fd].close()
     uDevices[fd].close()
 
