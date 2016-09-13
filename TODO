@@ -5,15 +5,15 @@ ToDos in Priority order:
   next word wrapping sometimes skips a word on beginn of line
 
 - try to consume shortcuts
-  grab keyboard exclusive [x]
-  release keyboard on error or quit [-]
-  grab shortcuts with fenrir key [x]
-  grab "singel key shortcuts" like numpad navigation for review []
-  forwart nonshortcuts to system [x]
-  make grabbing configuarble [-]
-  possiblity to forewart shortcut [proxyshortcut] [x]
-  possiblity to forewart shortcut (or use them as shortcut) [pressing twice while timeout] []
-  cleanup inputManager [-]
+  grab keyboard exclusive 
+  release keyboard on error or quit
+  grab shortcuts with fenrir key
+  grab "singel key shortcuts" like numpad navigation for review 
+  forwart nonshortcuts to system
+  make grabbing configuarble
+  possiblity to forewart shortcut [proxyshortcut]
+  possiblity to forewart shortcut (or use them as shortcut) [pressing twice while timeout]
+  cleanup inputManager
   split input driver out of the handler
 
 - dictonary for special chars and string replacements
