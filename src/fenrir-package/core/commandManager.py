@@ -61,7 +61,7 @@ class commandManager():
                 environment['runtime']['debug'].writeDebugOut(environment,"Error while executing command:" + section + "." + currCommand ,debug.debugLevel.ERROR)
                 environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR) 
         environment['commandInfo']['currCommand'] = ''
-        environment['commandInfo']['lastCommandTime'] = time.time()    
+        environment['commandInfo']['lastCommandExecutionTime'] = time.time()    
         return environment
 
     def isShortcutDefined(self, environment, currShortcutString):
