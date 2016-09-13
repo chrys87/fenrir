@@ -75,6 +75,8 @@ charDeleteEcho=True
 wordEcho=True
 # interrupt speech on any keypress
 interruptOnKeyPress=False
+# timeout for double tap in sec
+doubleTapDelay=0.2
 
 [general]
 debugLevel=0
