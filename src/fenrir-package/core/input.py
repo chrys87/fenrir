@@ -4,6 +4,7 @@ import time
 input = {
 'currInput': {},
 'prevInput': {}, 
+'prevDeepestInput': {}, 
 'currEvent': None, 
 'firstEvent': None,
 'currShortcutString': '',
