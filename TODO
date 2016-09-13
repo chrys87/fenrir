@@ -17,6 +17,8 @@ ToDos in Priority order:
   split input driver out of the handler
 
 - add setting for autodetect X
+ps a -o tty,comm  | grep -e Xorg | grep -v "grep -e Xorg"
+
 - dictonary for special chars and string replacements
 - punctuation
 
