@@ -57,12 +57,19 @@ class fenrir():
     def captureSignal(self, siginit, frame):
         self.shutdownRequest()
 
-    def shutdown(self):      
-        self.environment['runtime']['outputManager'].presentText(self.environment, "Quit Fenrir", soundIcon='ScreenReaderOff', interrupt=True)  
-
+    def shutdown(self):
+        self.environment['runtime']['inputManager'].releaseDevices(self.environment)               
+        self.environment['runtime']['outputManager'].presentText(self.environment, "Quit Fenrir", soundIcon='ScreenReaderOff', interrupt=True)   
+        if self.environment['runtime']['screenManager']:
+            self.environment['runtime']['screenManager'].shutdown(self.environment)  
+        if self.environment['runtime']['commandManager']:
+            self.environment['runtime']['commandManager'].shutdown(self.environment)                                   
+        if self.environment['runtime']['inputManager']:
+            self.environment['runtime']['inputManager'].shutdown(self.environment)   
+        if self.environment['runtime']['outputManager']:
+            self.environment['runtime']['outputManager'].shutdown(self.environment)                          
         if self.environment['runtime']['screenDriver']:
-            self.environment['runtime']['screenDriver'].shutdown(self.environment)            
-        self.environment['runtime']['inputManager'].releaseDevices(self.environment)        
+            self.environment['runtime']['screenDriver'].shutdown(self.environment)               
         if self.environment['runtime']['inputDriver']:
             self.environment['runtime']['inputDriver'].shutdown(self.environment)            
         if self.environment['runtime']['soundDriver']:
@@ -71,6 +78,7 @@ class fenrir():
             self.environment['runtime']['speechDriver'].shutdown(self.environment) 
         if self.environment['runtime']['debug']:
             self.environment['runtime']['debug'].closeDebugFile()                   
+        time.sleep(0.8) # wait a little before splatter it :)
         self.environment = None
 
 app = fenrir()
