@@ -204,7 +204,7 @@ class settingsManager():
         except:
             return ''
 
-    def initFenrirConfig(self, environment = environment.environment, settingsRoot = '/etc/fenrir/config/'):
+    def initFenrirConfig(self, environment = environment.environment, settingsRoot = '/etc/fenrir/config/', settingsFile='settings.conf'):
         if not os.path.exists(settingsRoot):
             if os.path.exists('../../config/'):
                 settingsRoot = '../../config/'
@@ -212,7 +212,7 @@ class settingsManager():
                 return None    
         environment['runtime']['settingsManager'] = self
         environment['runtime']['debug'] = debug.debug()        
-        environment = environment['runtime']['settingsManager'].loadSettings(environment)
+        environment = environment['runtime']['settingsManager'].loadSettings(environment, settingsRoot + '/settings/' + settingsFile)
         environment = self.setFenrirKeys(environment, self.getSetting(environment, 'general','fenrirKeys'))
         if not os.path.exists(self.getSetting(environment, 'keyboard','keyboardLayout')):
             if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting(environment, 'keyboard','keyboardLayout')):  
