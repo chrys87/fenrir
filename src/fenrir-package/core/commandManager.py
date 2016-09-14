@@ -49,8 +49,8 @@ class commandManager():
         return environment
 
     def executeCommand(self, environment, currCommand, section = 'commands'):
-        if environment['generalInformation']['suspend']:
-            return environment        
+        if environment['runtime']['screenManager'].isSuspendingScreen(environment) :
+            return environment    
         if self.isCommandDefined(environment):
             try:
                 environ =  environment['commands'][section][currCommand].run(environment)

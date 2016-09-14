@@ -204,10 +204,12 @@ class settingsManager():
         except:
             return ''
 
-    def initFenrirConfig(self):
-        return self.reInitFenrirConfig(environment.environment)
-
-    def reInitFenrirConfig(self, environment, settingsRoot = '../../config/'):
+    def initFenrirConfig(self, environment = environment.environment, settingsRoot = '/etc/fenrir/config/'):
+        if not os.path.exists(settingsRoot):
+            if os.path.exists('../../config/'):
+                settingsRoot = '../../config/'
+            else:
+                return None    
         environment['runtime']['settingsManager'] = self
         environment['runtime']['debug'] = debug.debug()        
         environment = environment['runtime']['settingsManager'].loadSettings(environment)
@@ -230,15 +232,12 @@ class settingsManager():
         else:
             environment = environment['runtime']['settingsManager'].loadSoundIcons(environment, self.getSetting(environment, 'sound','theme'))
 
-        if environment['runtime']['inputManager'] == None:
-            environment['runtime']['inputManager'] = inputManager.inputManager()
-            environment = environment['runtime']['inputManager'].initialize(environment)             
-        if environment['runtime']['outputManager'] == None:
-            environment['runtime']['outputManager'] = outputManager.outputManager()
-            environment = environment['runtime']['outputManager'].initialize(environment)             
-        if environment['runtime']['commandManager'] == None:
-            environment['runtime']['commandManager'] = commandManager.commandManager()
-            environment = environment['runtime']['commandManager'].initialize(environment)  
+        environment['runtime']['inputManager'] = inputManager.inputManager()
+        environment = environment['runtime']['inputManager'].initialize(environment)             
+        environment['runtime']['outputManager'] = outputManager.outputManager()
+        environment = environment['runtime']['outputManager'].initialize(environment)             
+        environment['runtime']['commandManager'] = commandManager.commandManager()
+        environment = environment['runtime']['commandManager'].initialize(environment)  
     
         if environment['runtime']['screenManager'] == None:
             environment['runtime']['screenManager'] = screenManager.screenManager()
