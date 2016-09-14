@@ -9,7 +9,6 @@ import os, sys, signal, time
 if not os.getcwd() in sys.path:
     sys.path.append(os.getcwd())
 
-from core import environment 
 from core import settingsManager
 from utils import debug
 
@@ -61,13 +60,17 @@ class fenrir():
     def shutdown(self):      
         self.environment['runtime']['outputManager'].presentText(self.environment, "Quit Fenrir", soundIcon='ScreenReaderOff', interrupt=True)  
 
-        if self.environment['runtime']['debug'] != None:
-            self.environment['runtime']['debug'].closeDebugFile()
-        if self.environment['runtime']['soundDriver'] != None:
-            self.environment['runtime']['soundDriver'].shutdown(environment)
-        if self.environment['runtime']['speechDriver'] != None:
-            self.environment['runtime']['speechDriver'].shutdown(environment)
-        self.environment['runtime']['inputManager'].releaseDevices(self.environment)
+        if self.environment['runtime']['screenDriver']:
+            self.environment['runtime']['screenDriver'].shutdown(self.environment)            
+        self.environment['runtime']['inputManager'].releaseDevices(self.environment)        
+        if self.environment['runtime']['inputDriver']:
+            self.environment['runtime']['inputDriver'].shutdown(self.environment)            
+        if self.environment['runtime']['soundDriver']:
+            self.environment['runtime']['soundDriver'].shutdown(self.environment)
+        if self.environment['runtime']['speechDriver']:
+            self.environment['runtime']['speechDriver'].shutdown(self.environment) 
+        if self.environment['runtime']['debug']:
+            self.environment['runtime']['debug'].closeDebugFile()                   
         self.environment = None
 
 app = fenrir()
