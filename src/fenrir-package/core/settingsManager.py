@@ -238,7 +238,8 @@ class settingsManager():
             environment = environment['runtime']['outputManager'].initialize(environment)             
         if environment['runtime']['commandManager'] == None:
             environment['runtime']['commandManager'] = commandManager.commandManager()
-            environment = environment['runtime']['commandManager'].initialize(environment)             
+            environment = environment['runtime']['commandManager'].initialize(environment)  
+    
         if environment['runtime']['screenManager'] == None:
             environment['runtime']['screenManager'] = screenManager.screenManager()
             environment = environment['runtime']['screenManager'].initialize(environment) 

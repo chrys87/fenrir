@@ -4,11 +4,12 @@ from utils import debug
 
 class screenManager():
     def __init__(self):
-
+        pass
     def initialize(self, environment):
         self.autoIgnoreScreens = []
         if environment['runtime']['settingsManager'].getSettingAsBool(environment,'screen', 'autodetectSuspendingScreen'):
             self.autoIgnoreScreens = environment['runtime']['screenDriver'].getIgnoreScreens()
+        return environment
     def shutdown(self, environment):
         return environment
 
@@ -21,7 +22,7 @@ class screenManager():
 
     def isSuspendingScreen(self, environment):
         currScreen = environment['runtime']['screenDriver'].getCurrScreen()
-        return (currScreen in \
+        return ((currScreen in \
           environment['runtime']['settingsManager'].getSetting(environment,'screen', 'suspendingScreen').split(',')) or
-          (currScreen in self.autoIgnoreScreens)
+          (currScreen in self.autoIgnoreScreens))
 
