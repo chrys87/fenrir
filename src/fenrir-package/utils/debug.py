@@ -2,6 +2,7 @@
 # Debugger module for the Fenrir screen reader.
 
 from enum import Enum
+import time
 
 class debugLevel(Enum):
     DEACTIVE = 0
@@ -10,6 +11,8 @@ class debugLevel(Enum):
     INFO = 3
     def __int__(self):
         return self.value
+    def __str__(self):
+        return self.name
 
 class debug():
     def __init__(self,  fileName='/var/log/fenrir.log'):
@@ -39,7 +42,7 @@ class debug():
         else:
             if not self._fileOpened:
                 self.openDebugFile()
-            self._file.write(text + '\n')
+            self._file.write(str(level) +': ' + str(time.time()) + ' ' + text + '\n')
 
     def closeDebugFile(self):
         if not self._fileOpened:
