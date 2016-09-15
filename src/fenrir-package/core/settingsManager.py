@@ -138,12 +138,11 @@ class settingsManager():
         return environment
 
     def setFenrirKeys(self, environment, keys):
+        keys = keys.upper()
         keyList = keys.split(',')
         for key in keyList:
-            keyID = self.keyIDasString( key)
-            if keyID != '':
-                if not keyID in  environment['input']['fenrirKey']:
-                    environment['input']['fenrirKey'].append(keyID)
+            if not key in  environment['input']['fenrirKey']:
+                environment['input']['fenrirKey'].append(key)
         return environment
 
     def keyIDasString(self, key):
