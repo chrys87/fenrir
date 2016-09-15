@@ -15,7 +15,6 @@ ToDos in Priority order:
   possiblity to forewart shortcut [pressing twice while timeout] []
   cleanup inputManager [-]
 
-- add setting for autodetect X
 - dictonary for special chars and string replacements
 - punctuation
 
@@ -143,6 +142,7 @@ except KeyboardInterrupt:
 - debugging
 - threading ReadContent, ReadShortcuts, executeCommands, listenNewTTYsForListen, controllThread (main)
 - autoload plugins while starting
+- add setting for autodetect X
 - implement commands
   curr_word
   curr_char
