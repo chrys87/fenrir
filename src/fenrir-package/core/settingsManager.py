@@ -71,16 +71,15 @@ class settingsManager():
             soundIcon = Values[0]
             Values[1] = Values[1].replace("'","")
             Values[1] = Values[1].replace('"',"")
-            validSoundIcon = False
-            FilePath = ''
+            soundIconFile = ''
             if os.path.exists(Values[1]):
-                FilePath = Values[1]
+                soundIconFile = Values[1]
             else:
                 if not soundIconPath.endswith("/"):
                     soundIconPath += '/'
                 if os.path.exists(soundIconPath + Values[1]):
-                    FilePath = soundIconPath + Values[1]
-            environment['soundIcons'][soundIcon] = FilePath
+                    soundIconFile = soundIconPath + Values[1]
+            environment['soundIcons'][soundIcon] = soundIconFile
         siConfig.close()
         return environment
 
