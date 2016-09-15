@@ -8,7 +8,7 @@ class command():
     def shutdown(self, environment):
         return environment 
     def getDescription(self):
-        return 'No Description found'        
+        return 'removes marks from selected text'        
     def run(self, environment):
         environment['commandBuffer']['Marks']['1'] = None
         environment['commandBuffer']['Marks']['2'] = None

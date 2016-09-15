@@ -8,7 +8,7 @@ class command():
     def shutdown(self, environment):
         return environment 
     def getDescription(self):
-        return 'No Description found'        
+        return 'interrupts the current presentation'        
     def run(self, environment):
         environment['runtime']['outputManager'].interruptOutput(environment)
     def setCallback(self, callback):

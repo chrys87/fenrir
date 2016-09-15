@@ -8,10 +8,10 @@ class command():
     def shutdown(self, environment):
         return environment 
     def getDescription(self):
-        return 'exits Fenrir'        
+        return 'sends the following keypress to the terminal'        
     def run(self, environment):
-        environment['generalInformation']['running'] = False
+        environment['input']['keyForeward'] = True
+        environment['runtime']['outputManager'].presentText(environment, 'Foreward next keypress', interrupt=True)
         return environment    
     def setCallback(self, callback):
         pass
-

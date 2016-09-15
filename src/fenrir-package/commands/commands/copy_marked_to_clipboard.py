@@ -10,7 +10,7 @@ class command():
     def shutdown(self, environment):
         return environment 
     def getDescription(self):
-        return 'No Description found'    
+        return 'copies marked text to the currently selected clipboard'    
     def run(self, environment):
         if (environment['commandBuffer']['Marks']['1'] == None) or \
           (environment['commandBuffer']['Marks']['2'] == None):
