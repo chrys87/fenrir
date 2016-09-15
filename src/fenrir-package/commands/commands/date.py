@@ -10,7 +10,7 @@ class command():
     def shutdown(self, environment):
         return environment 
     def getDescription(self):
-        return 'No Description found'        
+        return 'presents the date'        
     def run(self, environment):
         dateFormat = environment['runtime']['settingsManager'].getSetting(environment,'general', 'dateFormat')
 

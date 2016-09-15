@@ -8,7 +8,7 @@ class command():
     def shutdown(self, environment):   
         return environment 
     def getDescription(self):
-        return 'No Description found'         
+        return 'move review to bottom of screen'         
     def run(self, environment):
         environment['screenData']['newCursorReview'] = { 'x': 0, 'y':environment['screenData']['lines']}
         environment['runtime']['outputManager'].presentText(environment, "Bottom", interrupt=True)     

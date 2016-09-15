@@ -9,7 +9,7 @@ class command():
     def shutdown(self, environment):
         return environment 
     def getDescription(self):
-        return 'No Description found'        
+        return 'moves review to the previous line and presents it'        
     def run(self, environment):
         environment['screenData']['oldCursorReview'] = environment['screenData']['newCursorReview']
         if environment['screenData']['newCursorReview'] == None:
