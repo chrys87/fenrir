@@ -2,7 +2,7 @@
 # Debugger module for the Fenrir screen reader.
 
 from enum import Enum
-import time
+from datetime import datetime
 
 class debugLevel(Enum):
     DEACTIVE = 0
@@ -42,7 +42,8 @@ class debug():
         else:
             if not self._fileOpened:
                 self.openDebugFile()
-            self._file.write(str(level) +': ' + str(time.time()) + ' ' + text + '\n')
+            self._file.write(str(level) +' ' + str(datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')
+) + ': ' + text + '\n')
 
     def closeDebugFile(self):
         if not self._fileOpened:
