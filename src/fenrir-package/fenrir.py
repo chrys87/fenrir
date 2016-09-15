@@ -14,9 +14,12 @@ from utils import debug
 
 class fenrir():
     def __init__(self):
-        self.environment = settingsManager.settingsManager().initFenrirConfig()
-        if not self.environment:
-                
+        try:
+            self.environment = settingsManager.settingsManager().initFenrirConfig()
+            if not self.environment:
+                raise RuntimeError('Cannot Initialize. Maybe the configfile is not available or not parseable')
+        except RuntimeError:
+            raise
         signal.signal(signal.SIGINT, self.captureSignal)
     
     def proceed(self):
