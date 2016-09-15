@@ -15,6 +15,8 @@ from utils import debug
 class fenrir():
     def __init__(self):
         self.environment = settingsManager.settingsManager().initFenrirConfig()
+        if not self.environment:
+                
         signal.signal(signal.SIGINT, self.captureSignal)
     
     def proceed(self):
@@ -81,5 +83,6 @@ class fenrir():
         time.sleep(0.8) # wait a little before splatter it :)
         self.environment = None
 
-app = fenrir()
-app.proceed()
+if __name__ == "__main__":
+    app = fenrir()
+    app.proceed()
