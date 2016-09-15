@@ -31,7 +31,10 @@ class settingsManager():
                 continue
             sepLine = line.split('=')
             commandName = sepLine[1]
-            keys = sepLine[0].replace(" ","").replace("'","").replace('"',"").split(',')
+            sepLine[0] = sepLine[0].replace(" ","")
+            sepLine[0] = sepLine[0].replace("'","")
+            sepLine[0] = sepLine[0].replace('"',"")
+            keys = sepLine[0]..split(',')
             shortcutKeys = []
             shortcutRepeat = 1
             shortcut = []
@@ -39,7 +42,7 @@ class settingsManager():
                 try:
                     shortcutRepeat = int(key)
                 except:
-                    shortcutKeys.append(key) 
+                    shortcutKeys.append(key.upper()) 
             shortcut.append(shortcutRepeat)
             shortcut.append(sorted(shortcutKeys))
             print(str(shortcut))
@@ -53,7 +56,7 @@ class settingsManager():
         except:
             return 0
 
-    def loadSoundIcons(self, environment, soundIconPath=''):
+    def loadSoundIcons(self, environment, soundIconPath):
         siConfig = open(soundIconPath + '/soundicons.conf',"r")
         while(True):
             line = siConfig.readline()
@@ -65,8 +68,6 @@ class settingsManager():
             if line.count("=") != 1:
                 continue
             Values = line.split('=')
-            if len(Values) > 2:
-                continue
             soundIcon = Values[0]
             Values[1] = Values[1].replace("'","")
             Values[1] = Values[1].replace('"',"")
@@ -74,15 +75,12 @@ class settingsManager():
             FilePath = ''
             if os.path.exists(Values[1]):
                 FilePath = Values[1]
-                validSoundIcon = True
             else:
                 if not soundIconPath.endswith("/"):
                     soundIconPath += '/'
                 if os.path.exists(soundIconPath + Values[1]):
                     FilePath = soundIconPath + Values[1]
-                    validSoundIcon = True
-            if validSoundIcon:
-                environment['soundIcons'][soundIcon] = FilePath
+            environment['soundIcons'][soundIcon] = FilePath
         siConfig.close()
         return environment
 
@@ -156,12 +154,13 @@ class settingsManager():
             return ''
 
     def initFenrirConfig(self, environment = environment.environment, settingsRoot = '/etc/fenrir/', settingsFile='settings.conf'):
+        environment['runtime']['debug'] = debug.debug()
         if not os.path.exists(settingsRoot):
             if os.path.exists('../../config/'):
                 settingsRoot = '../../config/'
             else:
                 return None
-        environment['runtime']['debug'] = debug.debug()                     
+               
         environment['runtime']['settingsManager'] = self    
         environment = environment['runtime']['settingsManager'].loadSettings(environment, settingsRoot + '/settings/' + settingsFile)
         if environment == None:
