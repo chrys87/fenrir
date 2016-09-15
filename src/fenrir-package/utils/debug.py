@@ -59,6 +59,3 @@ class debug():
     def setDebugFile(self, fileName):
         self.closeDebugFile()
         self._fileName = fileName
-
-
-
