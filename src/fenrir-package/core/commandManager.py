@@ -1,8 +1,6 @@
 #!/bin/python
 import importlib.util
-import glob
-import os
-import time
+import glob, os, time
 from utils import debug
 
 class commandManager():
@@ -55,7 +53,10 @@ class commandManager():
             return environment    
         if self.commandExists(environment, command, section):
             try:
-                environment['commands'][section][command].run(environment)
+                if environment['generalInformation']['tutorialMode']:
+                    environment['commands'][section][command].getDescription()
+                else:    
+                    environment['commands'][section][command].run(environment)
             except Exception as e:
                 print(e)
                 environment['runtime']['debug'].writeDebugOut(environment,"Error while executing command:" + section + "." + command ,debug.debugLevel.ERROR)

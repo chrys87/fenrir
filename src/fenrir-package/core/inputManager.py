@@ -20,7 +20,11 @@ class inputManager():
         event = environment['runtime']['inputDriver'].getInput(environment)
         if event:
             timeout = False
+            environment['input']['firstEvent'] = event
+            environment['input']['currEvent'] = event
+            if not 
             #print(event)
+       
         return timeout
     
     def grabDevices(self, environment):
@@ -42,23 +46,30 @@ class inputManager():
             environment['runtime']['debug'].writeDebugOut(environment, str(e),debug.debugLevel.ERROR)    
         return environment
 
-    def getShortcutString(self, environment):
-        if environment['input']['currShortcut'] == {}:
-            return '' 
-        currShortcutStringList = []
-        for key in environment['input']['currShortcut']:
-             currShortcutStringList.append("%s-%s" % (environment['input']['currShortcut'][key], key))
-        currShortcutStringList = sorted(currShortcutStringList)
-        return str(currShortcutStringList)[1:-1].replace(" ","").replace("'","")
+    def getPrevDeepestInput(self, environment):
+        shortcut = []
+        shortcut.append(environment['input']['shortcutRepeat'])
+        shortcut.append(sorted(environment['input']['prevDeepestInput']))
+
+    def getPrevShortcut(self, environment):
+        shortcut = []
+        shortcut.append(environment['input']['shortcutRepeat'])
+        shortcut.append(sorted(environment['input']['prevInput']))
+
+    def getPrevShortcut(self, environment):
+        shortcut = []
+        shortcut.append(environment['input']['shortcutRepeat'])
+        shortcut.append(sorted(environment['input']['prevInput']))
         
     def isFenrirKey(self,environment, event):
         return str(event.code) in environment['input']['fenrirKey']
 
     def getCommandForShortcut(self, environment, shortcut):
         shortcut = shortcut.upper()
-        if not self.isShortcutDefined(environment, shortcut):
+        if not self.shortcutExists(environment, shortcut):
             return '' 
-        return environment['bindings'][shortcut]
+        return environment['bindings'][shortcut].upper()
 
-    def isCommandDefined(self, environment, currCommand):
-        return( currCommand in environment['commands']['commands']) 
+    def shortcutExists(self, environment, shortcut):
+        return( str(shortcut).upper() in environment['bindings'])
+        

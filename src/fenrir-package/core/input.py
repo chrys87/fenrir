@@ -2,13 +2,12 @@
 import time
 
 input = {
-'currInput': {},
-'prevInput': {}, 
-'prevDeepestInput': {}, 
+'currInput': [],
+'prevInput': [], 
+'prevDeepestInput': [], 
 'currEvent': None, 
 'firstEvent': None,
-'currShortcutString': '',
-'consumeKey': False,
+'shortcutRepeat': 0,
 'fenrirKey': ['82'],
 'keyForeward': False,
 'lastInputTime':time.time(),
@@ -16,4 +15,11 @@ input = {
 'newNumLock':True,
 'oldCapsLock':False,
 'newCapsLock':False
+}
+
+inputEvent = {
+'EventName': '',
+'EventValue': '',
+'EventTime': time.time(),
+'EventState': 0,
 }

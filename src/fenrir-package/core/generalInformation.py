@@ -2,4 +2,5 @@
 
 generalInformation = {
 'running': True,
+'tutorialMode': False,
 }
