@@ -15,7 +15,7 @@ ReadWrite permission
 /dev/uinput
 
 # optional 
-- sox [using for soundicons via sox]
+- sox [its used by default in the generic sound driver for playing soundicons]
 - speech-dispatcher, python3-speechd [for use the speech-dispatcher]
 - brltty, python-brlapi [for using braille] # not implemented yet
 - gstreamer [using for soundicons via gsteramer] # not working yet
