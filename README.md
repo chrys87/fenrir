@@ -1,5 +1,5 @@
 # fenrir
-An TTY screenreader for Linux. Be careful, is just experimental now.
+An TTY screenreader for Linux. Its an early alpha version. you can test it. it is not recommented for productive use. if you want to help just let me know. 
 
 # requirements
 - linux
