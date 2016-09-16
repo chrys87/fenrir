@@ -19,10 +19,6 @@ ToDos in Priority order:
 - dictonary for special chars and string replacements
 - punctuation
 
-- add setting for autodetect X
-ps a -o tty,comm  | grep -e Xorg | grep -v "grep -e Xorg"
-
-
 - implement commands
   attributes_curr_char
   toggle_highlighted_mode
@@ -151,6 +147,8 @@ except KeyboardInterrupt:
 - threading ReadContent, ReadShortcuts, executeCommands, listenNewTTYsForListen, controllThread (main)
 - autoload plugins while starting
 - add setting for autodetect X
+ps a -o tty,comm  | grep -e Xorg | grep -v "grep -e Xorg"
+
 - implement commands
   curr_word
   curr_char
