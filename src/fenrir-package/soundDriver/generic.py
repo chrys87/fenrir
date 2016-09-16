@@ -11,6 +11,10 @@ class driver():
     def initialize(self, environment):
         self.soundFileCommand = environment['runtime']['settingsManager'].getSetting(environment,'sound', 'genericPlayFileCommand')
         self.frequenceCommand = environment['runtime']['settingsManager'].getSetting(environment,'sound', 'genericFrequencyCommand')
+        if self.soundFileCommand == '':
+            self.soundFileCommand = 'play -q -v fenrirVolume fenrirSoundFile'
+        if self.frequenceCommand == '':
+            self.frequenceCommand = '=play -q -v fenrirVolume -n -c1 synth fenrirDuration sine fenrirFrequence'
         return environment
     def shutdown(self, environment):
         return environment
