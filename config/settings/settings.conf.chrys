@@ -4,8 +4,8 @@ driver=sox
 theme=default
 volume=1.0
 # shell commands for generic sound driver
-genericPlayFile=play -q -v fenrirVolume fenrirSoundFile
-genericFrequency=play -q -v fenrirVolume fenrirSoundFile
+genericPlayFileCommand=play -q -v fenrirVolume fenrirSoundFile
+genericFrequencyCommand=playFreq -v fenrirVolume -f fenrirFrequence -d fenrirDuration
 
 [speech]
 enabled=True
