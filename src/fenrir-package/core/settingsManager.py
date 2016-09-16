@@ -34,7 +34,7 @@ class settingsManager():
             sepLine[0] = sepLine[0].replace(" ","")
             sepLine[0] = sepLine[0].replace("'","")
             sepLine[0] = sepLine[0].replace('"',"")
-            keys = sepLine[0]..split(',')
+            keys = sepLine[0].split(',')
             shortcutKeys = []
             shortcutRepeat = 1
             shortcut = []
