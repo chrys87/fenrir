@@ -41,6 +41,9 @@ ps a -o tty,comm  | grep -e Xorg | grep -v "grep -e Xorg"
 - autostart systemd
 https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/sect-Managing_Services_with_systemd-Unit_Files.html
 
+- implement autodetection of plugged and removed input devices (python-pyudev)
+http://askubuntu.com/questions/508236/how-can-i-run-code-whenever-a-usb-device-is-unplugged-without-requiring-root
+
 - implement braille
 httstormp://mielke.cc/brltty/doc/Manual-BrlAPI/English/BrlAPI.html
 https://git.gnome.org/browse/orca/tree/src/orca/braille.py
