@@ -2,7 +2,7 @@
 # Turn sound on or off:
 enabled=True
 
-# Select the driver used to play sounds, choices are sox and gstreamer.
+# Select the driver used to play sounds, choices are generic and gstreamer.
 # Sox is the default.
 driver=generic
 
