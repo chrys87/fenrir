@@ -32,6 +32,8 @@ class driver():
     def cancel(self):
         if self.soundType == 'file':
             self.proc.kill()
+        if self.soundType == 'frequence':
+            self.proc.kill()            
         self.soundType = ''
     def setCallback(self, callback):
         pass
