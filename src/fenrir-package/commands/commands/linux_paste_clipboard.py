@@ -12,7 +12,7 @@ class command():
     def shutdown(self, environment):
         return environment 
     def getDescription(self):
-        return 'No Description found'        
+        return 'pastes the text from the currently selected clipboard'        
     def run(self, environment):
         currClipboard = environment['commandBuffer']['currClipboard']
         if currClipboard < 0:

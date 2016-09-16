@@ -10,7 +10,7 @@ class command():
     def shutdown(self, environment):
         return environment 
     def getDescription(self):
-        return 'No Description found'        
+        return 'reads from the cursor to the bottom of the screen'        
     def run(self, environment):
         # Prefer review cursor over text cursor
         if (environment['screenData']['newCursorReview'] != None):

@@ -8,7 +8,7 @@ class command():
     def shutdown(self, environment):
         return environment 
     def getDescription(self):
-        return 'No Description found'        
+        return 'reads the contents of the current screen'        
     def run(self, environment):
         if environment['screenData']['newContentText'].strip() == '':
             environment['runtime']['outputManager'].presentText(environment, "screen is empty", soundIcon='EmptyLine', interrupt=True)

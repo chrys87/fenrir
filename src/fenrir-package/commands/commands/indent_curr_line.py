@@ -9,7 +9,7 @@ class command():
     def shutdown(self, environment):
         return environment 
     def getDescription(self):
-        return 'No Description found'        
+        return 'shows the indention level for the current line'        
     def run(self, environment):
         # Prefer review cursor over text cursor
 

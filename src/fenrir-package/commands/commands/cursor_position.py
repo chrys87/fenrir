@@ -9,7 +9,7 @@ class command():
     def shutdown(self, environment):
         return environment 
     def getDescription(self):
-        return 'No Description found'        
+        return 'displays the position of the review cursor'        
     def run(self, environment):
         # Prefer review cursor over text cursor
 

@@ -8,7 +8,7 @@ class command():
     def shutdown(self, environment):
         return environment 
     def getDescription(self):
-        return 'No Description found'        
+        return 'enables and disables output in braille'        
     def run(self, environment):
         
         if environment['runtime']['settingsManager'].getSettingAsBool(environment, 'braille', 'enabled'): 

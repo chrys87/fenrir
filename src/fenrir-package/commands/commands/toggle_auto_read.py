@@ -8,7 +8,7 @@ class command():
     def shutdown(self, environment):
         return environment 
     def getDescription(self):
-        return 'No Description found'        
+        return 'enables or disables automatic reading of new text as it appears'        
     def run(self, environment):
         
         environment = environment['runtime']['settingsManager'].setSetting(environment, 'speech', 'autoReadIncomming', str(not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'speech', 'autoReadIncomming')))   

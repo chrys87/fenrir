@@ -9,7 +9,7 @@ class command():
     def shutdown(self, environment):
         return environment 
     def getDescription(self):
-        return 'No Description found'        
+        return 'adjusts the volume for in coming sounds'        
     def run(self, environment):
         
         value = environment['runtime']['settingsManager'].getSettingAsFloat(environment, 'sound', 'volume')

@@ -8,7 +8,7 @@ class command():
     def shutdown(self, environment):
         return environment 
     def getDescription(self):
-        return 'No Description found'        
+        return 'enables or disables sound'        
     def run(self, environment):
         
         if environment['runtime']['settingsManager'].getSettingAsBool(environment, 'sound', 'enabled'): 

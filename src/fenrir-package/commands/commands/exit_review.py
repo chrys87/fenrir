@@ -8,7 +8,7 @@ class command():
     def shutdown(self, environment):
         return environment 
     def getDescription(self):
-        return 'No Description found'        
+        return 'exits review mode'        
     def run(self, environment):
         if (environment['screenData']['oldCursorReview'] == None) and \
           (environment['screenData']['newCursorReview'] == None):
