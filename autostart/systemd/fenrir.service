@@ -2,8 +2,12 @@
 Description=Fenrir screenreader
 
 [Service]
-ExecStart=/usr/bin/fenrir
 Type=forking
+PIDFile=/var/run/fenrir.pid
+ExecStart=/usr/bin/fenrir
+Restart=on-abort
+#Group=fenrir
+#User=fenrir
 
 [Install]
-WantedBy=default.target
+WantedBy=multi-user.target
