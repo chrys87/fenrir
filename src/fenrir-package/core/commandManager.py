@@ -18,21 +18,21 @@ class commandManager():
     def loadCommands(self, environment, section='commands'):
         commandFolder = "commands/" + section +"/"
         commandList = glob.glob(commandFolder+'*')
-        for currCommand in commandList:
+        for command in commandList:
             try:
-                fileName, fileExtension = os.path.splitext(currCommand)
+                fileName, fileExtension = os.path.splitext(command)
                 fileName = fileName.split('/')[-1]
                 if fileName in ['__init__','__pycache__']:
                     continue
                 if fileExtension.lower() == '.py':
-                    spec = importlib.util.spec_from_file_location(fileName, currCommand)
+                    spec = importlib.util.spec_from_file_location(fileName, command)
                     command_mod = importlib.util.module_from_spec(spec)
                     spec.loader.exec_module(command_mod)
-                    environment['commands'][section][fileName] = command_mod.command()
-                    environment['commands'][section][fileName].initialize(environment)
+                    environment['commands'][section][fileName.upper()] = command_mod.command()
+                    environment['commands'][section][fileName.upper()].initialize(environment)
             except Exception as e:
                 print(e)
-                environment['runtime']['debug'].writeDebugOut(environment,"Error while loading command:" + currCommand ,debug.debugLevel.ERROR)
+                environment['runtime']['debug'].writeDebugOut(environment,"Error while loading command:" + command ,debug.debugLevel.ERROR)
                 environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR)                
                 continue
         return environment
@@ -40,33 +40,36 @@ class commandManager():
     def executeTriggerCommands(self, environment, trigger):
         if environment['runtime']['screenManager'].isSuspendingScreen(environment):
             return environment
-        for cmd in sorted(environment['commands'][trigger]):
-            try:
-               environment['commands'][trigger][cmd].run(environment)
-            except Exception as e:
-                print(e)
-                environment['runtime']['debug'].writeDebugOut(environment,"Error while executing trigger:" + trigger + "." + cmd ,debug.debugLevel.ERROR)
-                environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR) 
+        for command in sorted(environment['commands'][trigger]):
+            if self.commandExists(environment, command, trigger):        
+                try:
+                   environment['commands'][trigger][command].run(environment)
+                except Exception as e:
+                    print(e)
+                    environment['runtime']['debug'].writeDebugOut(environment,"Error while executing trigger:" + trigger + "." + cmd ,debug.debugLevel.ERROR)
+                    environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR) 
         return environment
 
-    def executeCommand(self, environment, currCommand, section = 'commands'):
+    def executeCommand(self, environment, command, section = 'commands'):
         if environment['runtime']['screenManager'].isSuspendingScreen(environment) :
             return environment    
-        if self.isCommandDefined(environment):
+        if self.commandExists(environment, command, section):
             try:
-                environment['commands'][section][currCommand].run(environment)
+                environment['commands'][section][command].run(environment)
             except Exception as e:
                 print(e)
-                environment['runtime']['debug'].writeDebugOut(environment,"Error while executing command:" + section + "." + currCommand ,debug.debugLevel.ERROR)
+                environment['runtime']['debug'].writeDebugOut(environment,"Error while executing command:" + section + "." + command ,debug.debugLevel.ERROR)
                 environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR) 
         environment['commandInfo']['currCommand'] = ''
         environment['commandInfo']['lastCommandExecutionTime'] = time.time()    
         return environment
 
-    def isShortcutDefined(self, environment, shortcut):
-        return( str(shortcut).upper() in environment['bindings'])
-
-    def setCurrCommandForExec(self, environment, currCommand):
-        environment['commandInfo']['currCommand'] = currCommand
+    def isCommandQueued(self, environment):
+        return environment['commandInfo']['currCommand'] != ''
+        
+    def queueCommand(self, environment, command):
+        environment['commandInfo']['currCommand'] = command
         return environment
-
+        
+    def commandExists(self, environment, command, section = 'commands'):
+        return( command.upper() in environment['commands'][section]) 
