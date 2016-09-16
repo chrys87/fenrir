@@ -4,7 +4,7 @@ enabled=True
 
 # Select the driver used to play sounds, choices are sox and gstreamer.
 # Sox is the default.
-driver=sox
+driver=generic
 
 # Sound themes. This is the pack of sounds used for sound alerts.
 # Sound packs may be located at /usr/share/sounds
@@ -17,8 +17,8 @@ theme=default
 volume=1.0
 
 # shell commands for generic sound driver
-genericPlayFile=play -q -v fenrirVolume fenrirSoundFile
-genericFrequency=play -q -v fenrirVolume fenrirSoundFile
+genericPlayFileCommand=play -q -v fenrirVolume fenrirSoundFile
+genericFrequencyCommand=playFreq -v fenrirVolume -f fenrirFrequence -d fenrirDuration
 
 [speech]
 # Turn speech on or off:
