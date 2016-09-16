@@ -48,7 +48,7 @@ class settingsManager():
             print(str(shortcut))
             environment['bindings'][str(shortcut)] = commandName     
         kbConfig.close()
-        return environment
+
 
     def getCodeForKeyID(self, keyID):
         try:
@@ -85,10 +85,10 @@ class settingsManager():
 
     def loadSettings(self, environment, settingConfigPath):
         if not os.path.exists(settingConfigPath):
-            return None
+            return False
         environment['settings'] = ConfigParser()
         environment['settings'].read(settingConfigPath)
-        return environment
+        return True
 
     def setSetting(self, environment, section, setting, value):
         environment['settings'].set(section, setting, value)
@@ -128,13 +128,13 @@ class settingsManager():
 
     def loadDriver(self, environment, driverName, driverType):
         if environment['runtime'][driverType] != None:
-            environment['runtime'][driverType].shutdown()    
+            print('shutdown %s',driverType)
+            environment['runtime'][driverType].shutdown(environment)    
         spec = importlib.util.spec_from_file_location(driverName, driverType + '/' + driverName + '.py')
         driver_mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(driver_mod)
         environment['runtime'][driverType] = driver_mod.driver()
         environment['runtime'][driverType].initialize(environment)           
-        return environment
 
     def setFenrirKeys(self, environment, keys):
         keys = keys.upper()
@@ -142,7 +142,6 @@ class settingsManager():
         for key in keyList:
             if not key in  environment['input']['fenrirKey']:
                 environment['input']['fenrirKey'].append(key)
-        return environment
 
     def keyIDasString(self, key):
         try:
@@ -160,52 +159,39 @@ class settingsManager():
                 return None
                
         environment['runtime']['settingsManager'] = self    
-        environment = environment['runtime']['settingsManager'].loadSettings(environment, settingsRoot + '/settings/' + settingsFile)
-        if environment == None:
+        validConfig = environment['runtime']['settingsManager'].loadSettings(environment, settingsRoot + '/settings/' + settingsFile)
+        if not validConfig:
             return None
-        environment = self.setFenrirKeys(environment, self.getSetting(environment, 'general','fenrirKeys'))
+        self.setFenrirKeys(environment, self.getSetting(environment, 'general','fenrirKeys'))
         if not os.path.exists(self.getSetting(environment, 'keyboard','keyboardLayout')):
             if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting(environment, 'keyboard','keyboardLayout')):  
                 self.setSetting(environment, 'keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting(environment, 'keyboard','keyboardLayout'))
-                environment = environment['runtime']['settingsManager'].loadShortcuts(environment, self.getSetting('keyboard','keyboardLayout'))
+                environment['runtime']['settingsManager'].loadShortcuts(environment, self.getSetting('keyboard','keyboardLayout'))
             if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting(environment, 'keyboard','keyboardLayout') + '.conf'):  
                 self.setSetting(environment, 'keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting(environment, 'keyboard','keyboardLayout') + '.conf')
-                environment = environment['runtime']['settingsManager'].loadShortcuts(environment, self.getSetting(environment, 'keyboard','keyboardLayout'))
+                environment['runtime']['settingsManager'].loadShortcuts(environment, self.getSetting(environment, 'keyboard','keyboardLayout'))
         else:
-            environment = environment['runtime']['settingsManager'].loadShortcuts(environment, self.getSetting(environment, 'keyboard','keyboardLayout'))
+            environment['runtime']['settingsManager'].loadShortcuts(environment, self.getSetting(environment, 'keyboard','keyboardLayout'))
         
         if not os.path.exists(self.getSetting(environment, 'sound','theme') + '/soundicons.conf'):
             if os.path.exists(settingsRoot + 'sound/'+ self.getSetting(environment, 'sound','theme')):  
                 self.setSetting(environment, 'sound', 'theme', settingsRoot + 'sound/'+ self.getSetting(environment, 'sound','theme'))
                 if os.path.exists(settingsRoot + 'sound/'+ self.getSetting(environment, 'sound','theme') + '/soundicons.conf'):  
-                     environment = environment['runtime']['settingsManager'].loadSoundIcons(environment, self.getSetting(environment, 'sound','theme'))
+                     environment['runtime']['settingsManager'].loadSoundIcons(environment, self.getSetting(environment, 'sound','theme'))
         else:
-            environment = environment['runtime']['settingsManager'].loadSoundIcons(environment, self.getSetting(environment, 'sound','theme'))
+            environment['runtime']['settingsManager'].loadSoundIcons(environment, self.getSetting(environment, 'sound','theme'))
 
         environment['runtime']['inputManager'] = inputManager.inputManager()
-        environment = environment['runtime']['inputManager'].initialize(environment)             
+        environment['runtime']['inputManager'].initialize(environment)             
         environment['runtime']['outputManager'] = outputManager.outputManager()
-        environment = environment['runtime']['outputManager'].initialize(environment)             
+        environment['runtime']['outputManager'].initialize(environment)             
         environment['runtime']['commandManager'] = commandManager.commandManager()
-        environment = environment['runtime']['commandManager'].initialize(environment)  
+        environment['runtime']['commandManager'].initialize(environment)  
     
         if environment['runtime']['screenManager'] == None:
             environment['runtime']['screenManager'] = screenManager.screenManager()
-            environment = environment['runtime']['screenManager'].initialize(environment) 
+            environment['runtime']['screenManager'].initialize(environment) 
             
-            
-        environment = environment['runtime']['commandManager'].loadCommands(environment,'commands')
-        environment = environment['runtime']['commandManager'].loadCommands(environment,'onInput')
-        environment = environment['runtime']['commandManager'].loadCommands(environment,'onScreenChanged')
-
-        environment = environment['runtime']['settingsManager'].loadDriver(environment,\
-          environment['runtime']['settingsManager'].getSetting(environment,'speech', 'driver'), 'speechDriver')
-        environment = environment['runtime']['settingsManager'].loadDriver(environment,\
-          environment['runtime']['settingsManager'].getSetting(environment,'screen', 'driver'), 'screenDriver')
-        environment = environment['runtime']['settingsManager'].loadDriver(environment,\
-          environment['runtime']['settingsManager'].getSetting(environment,'sound', 'driver'), 'soundDriver')
-        environment = environment['runtime']['settingsManager'].loadDriver(environment,\
-          environment['runtime']['settingsManager'].getSetting(environment,'keyboard', 'driver'), 'inputDriver') 
         environment['runtime']['debug'].writeDebugOut(environment,'\/-------environment-------\/',debug.debugLevel.ERROR)        
         environment['runtime']['debug'].writeDebugOut(environment,str(environment),debug.debugLevel.ERROR)
         environment['runtime']['debug'].writeDebugOut(environment,'\/-------settings.conf-------\/',debug.debugLevel.ERROR)        

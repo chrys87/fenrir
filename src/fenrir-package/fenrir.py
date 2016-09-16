@@ -33,10 +33,10 @@ class fenrir():
         self.shutdown()
 
     def handleProcess(self):
-        self.environment, timeout = self.environment['runtime']['inputManager'].proceedInputEvent(self.environment)
+        timeout = self.environment['runtime']['inputManager'].proceedInputEvent(self.environment)
         timeout = True
         try:
-            self.environment = self.environment['runtime']['screenManager'].update(self.environment)
+            self.environment['runtime']['screenManager'].update(self.environment)
         except Exception as e:
             print(e)
             self.environment['runtime']['debug'].writeDebugOut(self.environment, str(e),debug.debugLevel.ERROR)                
@@ -44,17 +44,17 @@ class fenrir():
             #currShortcut = self.environment['runtime']['inputManager'].getCurrShortcut(self.environment)        
             currShortcut = ''
             currCommand = self.environment['runtime']['commandManager'].getCommandForShortcut(self.environment, currShortcut)        
-            self.environment = self.environment['runtime']['commandManager'].setCurrCommandForExec(self.environment, currCommand)        
+            self.environment['runtime']['commandManager'].setCurrCommandForExec(self.environment, currCommand)        
         if not timeout:
-            self.environment = self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onInput')            
-        self.environment = self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onScreenChanged')        
+            self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onInput')            
+        self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onScreenChanged')        
         if not self.environment['input']['keyForeward']:
             if self.environment['commandInfo']['currCommand'] != '':
                 self.handleCommands()
 
     def handleCommands(self):
         if (self.environment['commandInfo']['currCommand'] != ''):
-            self.environment = self.environment['runtime']['commandManager'].executeCommand(self.environment, self.environment['commandInfo']['currCommand'], 'commands')
+            self.environment['runtime']['commandManager'].executeCommand(self.environment, self.environment['commandInfo']['currCommand'], 'commands')
 
     def shutdownRequest(self):
         self.environment['generalInformation']['running'] = False
@@ -63,24 +63,18 @@ class fenrir():
         self.shutdownRequest()
 
     def shutdown(self):
-        self.environment['runtime']['inputManager'].releaseDevices(self.environment)               
+        if self.environment['runtime']['inputManager']:
+            self.environment['runtime']['inputManager'].shutdown(self.environment)                      
         self.environment['runtime']['outputManager'].presentText(self.environment, "Quit Fenrir", soundIcon='ScreenReaderOff', interrupt=True)   
+        time.sleep(1.0) # wait a little before splatter it :)
+        
         if self.environment['runtime']['screenManager']:
             self.environment['runtime']['screenManager'].shutdown(self.environment)  
         if self.environment['runtime']['commandManager']:
-            self.environment['runtime']['commandManager'].shutdown(self.environment)                                   
-        if self.environment['runtime']['inputManager']:
-            self.environment['runtime']['inputManager'].shutdown(self.environment)   
+            self.environment['runtime']['commandManager'].shutdown(self.environment)                                    
         if self.environment['runtime']['outputManager']:
-            self.environment['runtime']['outputManager'].shutdown(self.environment)                          
-        if self.environment['runtime']['screenDriver']:
-            self.environment['runtime']['screenDriver'].shutdown(self.environment)               
-        if self.environment['runtime']['inputDriver']:
-            self.environment['runtime']['inputDriver'].shutdown(self.environment)            
-        if self.environment['runtime']['soundDriver']:
-            self.environment['runtime']['soundDriver'].shutdown(self.environment)
-        if self.environment['runtime']['speechDriver']:
-            self.environment['runtime']['speechDriver'].shutdown(self.environment) 
+            self.environment['runtime']['outputManager'].shutdown(self.environment)                                      
+      
         if self.environment['runtime']['debug']:
             self.environment['runtime']['debug'].closeDebugFile()                   
         time.sleep(0.8) # wait a little before splatter it :)

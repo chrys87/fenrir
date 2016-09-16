@@ -9,6 +9,9 @@ class commandManager():
     def __init__(self):
         pass
     def initialize(self, environment):
+        environment['runtime']['commandManager'].loadCommands(environment,'commands')
+        environment['runtime']['commandManager'].loadCommands(environment,'onInput')
+        environment['runtime']['commandManager'].loadCommands(environment,'onScreenChanged')    
         return environment
     def shutdown(self, environment):
         return environment
@@ -35,13 +38,11 @@ class commandManager():
         return environment
 
     def executeTriggerCommands(self, environment, trigger):
-        if environment['runtime']['screenManager'].isSuspendingScreen(environment) :
+        if environment['runtime']['screenManager'].isSuspendingScreen(environment):
             return environment
         for cmd in sorted(environment['commands'][trigger]):
             try:
-               environ = environment['commands'][trigger][cmd].run(environment)
-               if environ != None:
-                    environment = environ
+               environment['commands'][trigger][cmd].run(environment)
             except Exception as e:
                 print(e)
                 environment['runtime']['debug'].writeDebugOut(environment,"Error while executing trigger:" + trigger + "." + cmd ,debug.debugLevel.ERROR)
@@ -53,9 +54,7 @@ class commandManager():
             return environment    
         if self.isCommandDefined(environment):
             try:
-                environ =  environment['commands'][section][currCommand].run(environment)
-                if environ != None:
-                    environment = environ
+                environment['commands'][section][currCommand].run(environment)
             except Exception as e:
                 print(e)
                 environment['runtime']['debug'].writeDebugOut(environment,"Error while executing command:" + section + "." + currCommand ,debug.debugLevel.ERROR)
@@ -70,13 +69,4 @@ class commandManager():
     def setCurrCommandForExec(self, environment, currCommand):
         environment['commandInfo']['currCommand'] = currCommand
         return environment
-        
-    def getCommandForShortcut(self, environment, shortcut):
-        shortcut = shortcut.upper()
-        if not self.isShortcutDefined(environment, shortcut):
-            return '' 
-        return environment['bindings'][shortcut]
-
-    def isCommandDefined(self, environment, currCommand):
-        return( currCommand in environment['commands']['commands'])
 

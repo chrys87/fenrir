@@ -7,14 +7,19 @@ class screenManager():
         self.autoIgnoreScreens = []
 
     def initialize(self, environment):
+        environment['runtime']['settingsManager'].loadDriver(environment,\
+          environment['runtime']['settingsManager'].getSetting(environment,'screen', 'driver'), 'screenDriver')    
         if environment['runtime']['settingsManager'].getSettingAsBool(environment,'screen', 'autodetectSuspendingScreen'):
             self.autoIgnoreScreens = environment['runtime']['screenDriver'].getIgnoreScreens()
         return environment
         
     def shutdown(self, environment):
+        if environment['runtime']['screenDriver']:
+            environment['runtime']['screenDriver'].shutdown(environment)    
         return environment
 
     def update(self, environment):
+        print(self.isSuspendingScreen(environment))
         if not self.isSuspendingScreen(environment):
             environment = environment['runtime']['screenDriver'].update(environment)
             environment['screenData']['lastScreenUpdate'] = time.time()

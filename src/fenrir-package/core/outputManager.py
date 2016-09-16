@@ -5,10 +5,19 @@ class outputManager():
     def __init__(self):
         pass
     def initialize(self, environment):
-        return environment
+        environment['runtime']['settingsManager'].loadDriver(environment,\
+          environment['runtime']['settingsManager'].getSetting(environment,'speech', 'driver'), 'speechDriver')    
+        environment['runtime']['settingsManager'].loadDriver(environment,\
+          environment['runtime']['settingsManager'].getSetting(environment,'sound', 'driver'), 'soundDriver')    
+    
     def shutdown(self, environment):
-        return environment
+        if environment['runtime']['soundDriver']:
+            environment['runtime']['soundDriver'].shutdown(environment)
+        if environment['runtime']['speechDriver']:
+            environment['runtime']['speechDriver'].shutdown(environment)     
+
     def presentText(self, environment, text, interrupt=True, soundIcon = ''):
+        print(soundIcon,text)
         environment['runtime']['debug'].writeDebugOut(environment,"presentText:\nsoundIcon:'"+soundIcon+"'\nText:\n" + text ,debug.debugLevel.INFO)
         if self.playSoundIcon(environment, soundIcon, interrupt):
             environment['runtime']['debug'].writeDebugOut(environment,"soundIcon found" ,debug.debugLevel.INFO)            

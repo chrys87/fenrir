@@ -10,11 +10,10 @@ class command():
     def getDescription(self):
         return ''        
     def run(self, environment):
-
         if environment['screenData']['newTTY'] == environment['screenData']['oldTTY']:
             return environment
-        environment['runtime']['outputManager'].playSoundIcon(environment,'ChangeTTY')            
-        environment['runtime']['outputManager'].presentText(environment, environment['screenData']['newDelta'], interrupt=True)
+        environment['runtime']['outputManager'].presentText(environment, "screen " + str(environment['screenData']['newTTY']),soundIcon='ChangeTTY', interrupt=True)         
+        environment['runtime']['outputManager'].presentText(environment, environment['screenData']['newDelta'], interrupt=False)
 
         return environment
     def setCallback(self, callback):

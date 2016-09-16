@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import difflib
+import subprocess
 from utils import debug
 
 class driver():
@@ -31,12 +32,13 @@ class driver():
     def getIgnoreScreens(self):
         xlist = []
         try:
-            x = subprocess.Popen('ps a -o tty,comm | grep -e irssi | grep -v "grep -e irssi"', shell=True, stdout=subprocess.PIPE).stdout.read().decode()[:-1].split('\n')
-        except:
+            x = subprocess.Popen('ps a -o tty,comm | grep -e Xorg | grep -v "grep -e Xorg"', shell=True, stdout=subprocess.PIPE).stdout.read().decode()[:-1].split('\n')
+        except Exception as e:
+            print(e)
             return xlist
         for i in x:
-            if x[:3].upper() == 'TTY':
-                xlist.append(i[4])
+            if i[:3].upper() == 'TTY':
+                xlist.append(i[3])
         return xlist        
                        
     def update(self, environment, trigger='updateScreen'):

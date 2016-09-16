@@ -17,6 +17,7 @@ class driver():
             self.frequenceCommand = '=play -q -v fenrirVolume -n -c1 synth fenrirDuration sine fenrirFrequence'
         return environment
     def shutdown(self, environment):
+        self.cancel()
         return environment
     def playFrequence(self, frequence, duration, adjustVolume):
         if interrupt:
@@ -34,6 +35,8 @@ class driver():
         self.proc = subprocess.Popen(popenSoundFileCommand, shell=True)
         self.soundType = 'file'
     def cancel(self):
+        if self.soundType == '':
+            return
         if self.soundType == 'file':
             self.proc.kill()
         if self.soundType == 'frequence':

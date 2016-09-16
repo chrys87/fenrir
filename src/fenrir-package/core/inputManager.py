@@ -7,16 +7,21 @@ class inputManager():
     def __init__(self):
         pass
     def initialize(self, environment):
-        return environment
+        environment['runtime']['settingsManager'].loadDriver(environment,\
+          environment['runtime']['settingsManager'].getSetting(environment,'keyboard', 'driver'), 'inputDriver')     
+
     def shutdown(self, environment):
-        return environment
+        environment['runtime']['inputManager'].releaseDevices(environment)    
+        if environment['runtime']['inputDriver']:
+            environment['runtime']['inputDriver'].shutdown(environment)
+    
     def proceedInputEvent(self, environment):
         timeout = True    	
         event = environment['runtime']['inputDriver'].getInput(environment)
         if event:
             timeout = False
-            print(event)
-        return environment, timeout
+            #print(event)
+        return timeout
     
     def grabDevices(self, environment):
         environment['runtime']['inputDriver'].grabDevices(environment)
@@ -47,4 +52,13 @@ class inputManager():
         return str(currShortcutStringList)[1:-1].replace(" ","").replace("'","")
         
     def isFenrirKey(self,environment, event):
-        return str(event.code) in environment['input']['fenrirKey']        
+        return str(event.code) in environment['input']['fenrirKey']
+
+    def getCommandForShortcut(self, environment, shortcut):
+        shortcut = shortcut.upper()
+        if not self.isShortcutDefined(environment, shortcut):
+            return '' 
+        return environment['bindings'][shortcut]
+
+    def isCommandDefined(self, environment, currCommand):
+        return( currCommand in environment['commands']['commands']) 
