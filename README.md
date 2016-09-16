@@ -19,6 +19,7 @@ ReadWrite permission
 - speech-dispatcher, python3-speechd [for use the speech-dispatcher]
 - brltty, python-brlapi [for using braille] # not implemented yet
 - gstreamer [using for soundicons via gsteramer] # not working yet
+
 # installation
 Currently there is no setupscript (sorry). But you can just run src/fenrir-package/fenrir.py as root or setup the needed permissions
 
