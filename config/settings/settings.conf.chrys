@@ -5,7 +5,7 @@ theme=default
 volume=1.0
 # shell commands for generic sound driver
 genericPlayFileCommand=play -q -v fenrirVolume fenrirSoundFile
-genericFrequencyCommand=playFreq -v fenrirVolume -f fenrirFrequence -d fenrirDuration
+genericFrequencyCommand=play -q -v fenrirVolume -n -c1 synth fenrirDuration sine fenrirFrequence
 
 [speech]
 enabled=True
