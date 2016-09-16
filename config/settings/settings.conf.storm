@@ -3,6 +3,8 @@ enabled=True
 driver=sox
 theme=default
 volume=1.0
+genericPlayFile=play -q -v fenrirVolume fenrirSoundFile
+genericFrequency=play -q -v fenrirVolume fenrirSoundFile
 
 [speech]
 enabled=True
