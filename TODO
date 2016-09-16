@@ -1,9 +1,9 @@
 ToDos in Priority order:
-  
+
 - Known Bugs  
   gstreamer sounddriver doesnt work (i think it needs a Glib 
   next word wrapping sometimes skips a word on beginn of line
-
+  
 - try to consume shortcuts
   grab keyboard exclusive 
   release keyboard on error or quit
@@ -147,6 +147,7 @@ except KeyboardInterrupt:
 - debugging
 - threading ReadContent, ReadShortcuts, executeCommands, listenNewTTYsForListen, controllThread (main)
 - autoload plugins while starting
+- add setting for autodetect X
 - implement commands
   curr_word
   curr_char
