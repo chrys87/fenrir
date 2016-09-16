@@ -6,7 +6,8 @@ class driver():
         self.proc = None
         self.volume = 1.0
         self.soundType = ''
-        self.soundFileCommand = 'play -q -v fenrirVolume fenrirSoundFile'
+        self.soundFileCommand = ''
+        self.frequenceCommand = ''
     def initialize(self, environment):
         self.soundFileCommand = environment['runtime']['settingsManager'].getSetting(environment,'sound', 'genericPlayFileCommand')
         self.frequenceCommand = environment['runtime']['settingsManager'].getSetting(environment,'sound', 'genericFrequencyCommand')
