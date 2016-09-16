@@ -1,6 +1,6 @@
 [sound]
 enabled=True
-driver=sox
+driver=generic
 theme=default
 volume=1.0
 # shell commands for generic sound driver
