@@ -51,7 +51,6 @@ https://wiki.gnome.org/Attic/LSR/ScratchPad/Braille/BrlAPI
 - translateable
 
 - implement speechdriver generic
-- implement sounddriver generic (use current sox and make it configurable)
 -------------DONE--------------------------------
 - move from VCS to VCSA and parese the Attributes
 http://linux.die.net/man/4/vcsa
@@ -146,6 +145,7 @@ except KeyboardInterrupt:
 - debugging
 - threading ReadContent, ReadShortcuts, executeCommands, listenNewTTYsForListen, controllThread (main)
 - autoload plugins while starting
+- implement sounddriver generic (use current sox and make it configurable)
 - add setting for autodetect X
 ps a -o tty,comm  | grep -e Xorg | grep -v "grep -e Xorg"
 
