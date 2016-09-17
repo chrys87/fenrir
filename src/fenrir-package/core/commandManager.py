@@ -10,9 +10,9 @@ class commandManager():
         environment['runtime']['commandManager'].loadCommands(environment,'commands')
         environment['runtime']['commandManager'].loadCommands(environment,'onInput')
         environment['runtime']['commandManager'].loadCommands(environment,'onScreenChanged')    
-        return environment
+
     def shutdown(self, environment):
-        return environment
+        pass
     def loadCommands(self, environment, section='commands'):
         commandFolder = "commands/" + section +"/"
         commandList = glob.glob(commandFolder+'*')
@@ -33,7 +33,6 @@ class commandManager():
                 environment['runtime']['debug'].writeDebugOut(environment,"Error while loading command:" + command ,debug.debugLevel.ERROR)
                 environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR)                
                 continue
-        return environment
 
     def executeTriggerCommands(self, environment, trigger):
         if environment['runtime']['screenManager'].isSuspendingScreen(environment):
@@ -46,7 +45,6 @@ class commandManager():
                     print(e)
                     environment['runtime']['debug'].writeDebugOut(environment,"Error while executing trigger:" + trigger + "." + cmd ,debug.debugLevel.ERROR)
                     environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR) 
-        return environment
 
     def executeCommand(self, environment, command, section = 'commands'):
         if environment['runtime']['screenManager'].isSuspendingScreen(environment) :
@@ -62,16 +60,17 @@ class commandManager():
                 print(e)
                 environment['runtime']['debug'].writeDebugOut(environment,"Error while executing command:" + section + "." + command ,debug.debugLevel.ERROR)
                 environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR) 
-        environment['commandInfo']['currCommand'] = ''
+        self.clearCommandQueued(environment)
         environment['commandInfo']['lastCommandExecutionTime'] = time.time()    
-        return environment
 
     def isCommandQueued(self, environment):
         return environment['commandInfo']['currCommand'] != ''
+
+    def clearCommandQueued(self, environment):
+        environment['commandInfo']['currCommand'] = ''
         
     def queueCommand(self, environment, command):
         environment['commandInfo']['currCommand'] = command
-        return environment
         
     def commandExists(self, environment, command, section = 'commands'):
         return( command.upper() in environment['commands'][section]) 
