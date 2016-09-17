@@ -45,7 +45,7 @@ class settingsManager():
                     shortcutKeys.append(key.upper()) 
             shortcut.append(shortcutRepeat)
             shortcut.append(sorted(shortcutKeys))
-            print(str(shortcut))
+            print(str(shortcut), commandName)
             environment['bindings'][str(shortcut)] = commandName     
         kbConfig.close()
 

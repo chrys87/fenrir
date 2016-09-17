@@ -33,8 +33,9 @@ class fenrir():
         self.shutdown()
 
     def handleProcess(self):
+        time.sleep(3)
         timeout = self.environment['runtime']['inputManager'].proceedInputEvent(self.environment)
-        timeout = True
+        timeout = False
         try:
             self.environment['runtime']['screenManager'].update(self.environment)
         except Exception as e:
@@ -42,18 +43,17 @@ class fenrir():
             self.environment['runtime']['debug'].writeDebugOut(self.environment, str(e),debug.debugLevel.ERROR)                
         if not (self.environment['input']['keyForeward'] or timeout):  
             #currShortcut = self.environment['runtime']['inputManager'].getCurrShortcut(self.environment)        
-            shortcut = ''
+            shortcut = "[1, ['KEY_FENRIR', 'KEY_T']]"
             command = self.environment['runtime']['inputManager'].getCommandForShortcut(self.environment, shortcut)        
             self.environment['runtime']['commandManager'].queueCommand(self.environment, command)        
         if not timeout:
             self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onInput')            
         self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onScreenChanged')        
         if not self.environment['input']['keyForeward']:
-            if self.environment['runtime']['commandManager'].isCommandQueued():
-                self.handleCommands()
+            self.handleCommands()
 
     def handleCommands(self):
-        if (self.environment['commandInfo']['currCommand'] != ''):
+        if self.environment['runtime']['commandManager'].isCommandQueued(self.environment):
             self.environment['runtime']['commandManager'].executeCommand(self.environment, self.environment['commandInfo']['currCommand'], 'commands')
 
     def shutdownRequest(self):

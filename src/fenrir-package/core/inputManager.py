@@ -22,7 +22,7 @@ class inputManager():
             timeout = False
             environment['input']['firstEvent'] = event
             environment['input']['currEvent'] = event
-            if not 
+            #if not 
             #print(event)
        
         return timeout

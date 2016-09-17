@@ -17,7 +17,6 @@ class outputManager():
             environment['runtime']['speechDriver'].shutdown(environment)     
 
     def presentText(self, environment, text, interrupt=True, soundIcon = ''):
-        print(soundIcon,text)
         environment['runtime']['debug'].writeDebugOut(environment,"presentText:\nsoundIcon:'"+soundIcon+"'\nText:\n" + text ,debug.debugLevel.INFO)
         if self.playSoundIcon(environment, soundIcon, interrupt):
             environment['runtime']['debug'].writeDebugOut(environment,"soundIcon found" ,debug.debugLevel.INFO)            
