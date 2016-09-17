@@ -54,7 +54,8 @@ class commandManager():
         if self.commandExists(environment, command, section):
             try:
                 if environment['generalInformation']['tutorialMode']:
-                    environment['commands'][section][command].getDescription(environment)
+                    description = environment['commands'][section][command].getDescription(environment)
+                    environment['runtime']['outputManager'].presentText(environment, description, interrupt=True)                
                 else:    
                     environment['commands'][section][command].run(environment)
             except Exception as e:

@@ -7,8 +7,9 @@ class command():
         return environment
     def shutdown(self, environment):
         return environment 
-    def getDescription(self):
+    def getDescription(self, environment):
         return ''          
+    
     def run(self, environment):
         # TTY Change
         if environment['screenData']['newTTY'] != environment['screenData']['oldTTY']:
