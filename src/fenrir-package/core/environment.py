@@ -5,7 +5,7 @@ from core import runtime
 from core import screenData
 from core import generalInformation
 from core import commands
-from core import input
+from core import inputEvent
 
 environment = {
 'screenData': screenData.screenData,
@@ -15,7 +15,7 @@ environment = {
 'commands': commands.commands,
 'commandInfo': commands.commandInfo,
 'commandBuffer': commands.commandBuffer,
-'input': input.input,
+'input': inputEvent.input,
 'soundIcons': {},
 'bindings': {},
 }

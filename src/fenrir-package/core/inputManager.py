@@ -2,6 +2,7 @@
 
 import time
 from utils import debug
+from core import inputEvent
 
 class inputManager():
     def __init__(self):
@@ -18,13 +19,30 @@ class inputManager():
     def proceedInputEvent(self, environment):
         timeout = True    	
         event = environment['runtime']['inputDriver'].getInput(environment)
-        if event:
+        mEvent = environment['runtime']['inputDriver'].mapEvent(environment, event)
+        if mEvent and event:
+            if mEvent['EventValue'] == 0:
+                return True        
             timeout = False
-            environment['input']['firstEvent'] = event
-            environment['input']['currEvent'] = event
-            #if not 
-            #print(event)
-       
+            if mEvent['EventState'] == 0:
+                if self.isFenrirKey(environment, mEvent):
+                    environment['input']['currInput'].remove('KEY_FENRIR')
+                else:
+                    environment['input']['currInput'].remove(mEvent['EventName'])
+                environment['input']['currInput'] = sorted(environment['input']['currInput'])                    
+            elif mEvent['EventState'] == 1:
+                if self.isFenrirKey(environment, mEvent):
+                    environment['input']['currInput'].append('KEY_FENRIR')
+                else:                
+                    environment['input']['currInput'].append(mEvent['EventName'])            
+                environment['input']['currInput'] = sorted(environment['input']['currInput'])
+            elif mEvent['EventState'] == 2:
+                pass
+            else:
+                pass
+            print(environment['input']['currInput'])    
+            environment['input']['lastInputTime'] = time.time()
+            environment['input']['shortcutRepeat'] = 1
         return timeout
     
     def grabDevices(self, environment):
@@ -55,14 +73,16 @@ class inputManager():
         shortcut = []
         shortcut.append(environment['input']['shortcutRepeat'])
         shortcut.append(sorted(environment['input']['prevInput']))
+        return str(shortcut)
 
-    def getPrevShortcut(self, environment):
+    def getCurrShortcut(self, environment):
         shortcut = []
         shortcut.append(environment['input']['shortcutRepeat'])
-        shortcut.append(sorted(environment['input']['prevInput']))
+        shortcut.append(sorted(environment['input']['currInput']))
+        return str(shortcut)
         
-    def isFenrirKey(self,environment, event):
-        return str(event.code) in environment['input']['fenrirKey']
+    def isFenrirKey(self,environment, mEvent):
+        return str(mEvent['EventName']) in environment['input']['fenrirKey']
 
     def getCommandForShortcut(self, environment, shortcut):
         shortcut = shortcut.upper()

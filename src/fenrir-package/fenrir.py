@@ -34,25 +34,28 @@ class fenrir():
 
     def handleProcess(self):
         timeout = self.environment['runtime']['inputManager'].proceedInputEvent(self.environment)
-        timeout = True
         try:
             self.environment['runtime']['screenManager'].update(self.environment)
         except Exception as e:
             print(e)
             self.environment['runtime']['debug'].writeDebugOut(self.environment, str(e),debug.debugLevel.ERROR)                
-        if not (self.environment['input']['keyForeward'] or timeout):  
-            #currShortcut = self.environment['runtime']['inputManager'].getCurrShortcut(self.environment)        
-            shortcut = "[1, ['KEY_FENRIR', 'KEY_T']]"
-            command = self.environment['runtime']['inputManager'].getCommandForShortcut(self.environment, shortcut)        
-            print(command)
-            #self.environment['runtime']['commandManager'].queueCommand(self.environment, command)        
-        if not timeout:
+        if not timeout:  
+            self.prepareCommand()
             self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onInput')            
         self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onScreenChanged')        
-        if not self.environment['input']['keyForeward']:
-            self.handleCommands()
+        self.handleCommands()
 
+    def prepareCommand(self):
+        if self.environment['input']['keyForeward']:
+            return
+        shortcut = self.environment['runtime']['inputManager'].getCurrShortcut(self.environment)        
+        command = self.environment['runtime']['inputManager'].getCommandForShortcut(self.environment, shortcut)        
+        print(command)
+        self.environment['runtime']['commandManager'].queueCommand(self.environment, command)           
+    
     def handleCommands(self):
+        if self.environment['input']['keyForeward']:
+            return
         if self.environment['runtime']['commandManager'].isCommandQueued(self.environment):
             self.environment['runtime']['commandManager'].executeCommand(self.environment, self.environment['commandInfo']['currCommand'], 'commands')
 

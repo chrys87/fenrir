@@ -6,9 +6,9 @@ input = {
 'prevInput': [], 
 'prevDeepestInput': [], 
 'currEvent': None, 
-'firstEvent': None,
-'shortcutRepeat': 0,
-'fenrirKey': ['82'],
+'eventBuffer': None,
+'shortcutRepeat': 1,
+'fenrirKey': ['KEY_KP0'],
 'keyForeward': False,
 'lastInputTime':time.time(),
 'oldNumLock': True,
@@ -20,6 +20,7 @@ input = {
 inputEvent = {
 'EventName': '',
 'EventValue': '',
-'EventTime': time.time(),
+'EventSec': 0,
+'EventUsec': 0,
 'EventState': 0,
 }

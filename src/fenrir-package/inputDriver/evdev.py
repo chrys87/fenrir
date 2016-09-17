@@ -2,8 +2,10 @@
 
 import evdev
 from evdev import InputDevice, UInput
-from select import select
 import time
+from select import select
+
+from core import inputEvent
 from utils import debug
 
 class driver():
@@ -32,11 +34,20 @@ class driver():
         self.iDevices = map(evdev.InputDevice, (evdev.list_devices()))
         self.iDevices = {dev.fd: dev for dev in self.iDevices if 1 in dev.capabilities()}
 
-    def mapEvent(self, event):
+    def mapEvent(self,environment, event):
+        if not event:
+            return None
+        mEvent = inputEvent.inputEvent
         try:
-            return evdev.ecodes.ecodes[keyID.upper()]
-        except:
-            return 0
+            mEvent['EventName'] = evdev.ecodes.keys[event.code].upper()
+            mEvent['EventValue'] = event.code
+            mEvent['EventSec'] = event.sec
+            mEvent['EventUsec'] = event.usec                
+            mEvent['EventState'] = event.value
+            return mEvent
+        except Exception as e:
+            print(e)
+            return None
             
     def grabDevices(self):
         for fd in self.iDevices:
