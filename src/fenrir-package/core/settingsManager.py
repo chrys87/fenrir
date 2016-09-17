@@ -15,9 +15,9 @@ class settingsManager():
     def __init__(self):
         self.settings = settings
     def initialize(self, environment):
-        return environment
+        pass
     def shutdown(self, environment):
-        return environment
+        pass
     def loadShortcuts(self, environment, kbConfigPath='../../config/keyboard/desktop.conf'):
         kbConfig = open(kbConfigPath,"r")
         while(True):
@@ -74,7 +74,6 @@ class settingsManager():
                     soundIconFile = soundIconPath + Values[1]
             environment['soundIcons'][soundIcon] = soundIconFile
         siConfig.close()
-        return environment
 
     def loadSettings(self, environment, settingConfigPath):
         if not os.path.exists(settingConfigPath):
@@ -85,7 +84,6 @@ class settingsManager():
 
     def setSetting(self, environment, section, setting, value):
         environment['settings'].set(section, setting, value)
-        return environment
 
     def getSetting(self, environment, section, setting):
         value = ''

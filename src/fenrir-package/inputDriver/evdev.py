@@ -12,9 +12,9 @@ class driver():
         self.uDevices = {}
         self.getInputDevices()
     def initialize(self, environment):
-        return environment
+        pass
     def shutdown(self, environment):
-        return environment
+        pass
     def getInput(self, environment):
         event = None
         r, w, x = select(self.iDevices, [], [], environment['runtime']['settingsManager'].getSettingAsFloat(environment, 'screen', 'screenUpdateDelay'))

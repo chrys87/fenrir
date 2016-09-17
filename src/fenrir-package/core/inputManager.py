@@ -45,7 +45,6 @@ class inputManager():
         except Exception as e:
             environment['runtime']['debug'].writeDebugOut(environment,"Error while writeUInput",debug.debugLevel.ERROR)
             environment['runtime']['debug'].writeDebugOut(environment, str(e),debug.debugLevel.ERROR)    
-        return environment
 
     def getPrevDeepestInput(self, environment):
         shortcut = []
