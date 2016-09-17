@@ -28,7 +28,8 @@ class inputManager():
         return timeout
     
     def grabDevices(self, environment):
-        environment['runtime']['inputDriver'].grabDevices(environment)
+        if environment['runtime']['settingsManager'].getSettingAsBool(environment, 'keyboard', 'grabDevices'):
+            environment['runtime']['inputDriver'].grabDevices(environment)
 
     def releaseDevices(self, environment):
         environment['runtime']['inputDriver'].releaseDevices()
