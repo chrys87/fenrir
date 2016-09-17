@@ -8,12 +8,11 @@ class command():
         return environment
     def shutdown(self, environment):
         return environment 
-    def getDescription(self):
+    def getDescription(self, environment):
         return 'decreases the rate of the speech'        
+    
     def run(self, environment):
-        
         value = environment['runtime']['settingsManager'].getSettingAsFloat(environment, 'speech', 'rate')
-
         value = round((math.ceil(10 * value) / 10) - 0.1, 2)
         if value < 0.0:
             value = 0.0 

@@ -7,8 +7,9 @@ class command():
         return environment
     def shutdown(self, environment):
         return environment 
-    def getDescription(self):
+    def getDescription(self, environment):
         return 'displays the last received text'        
+    
     def run(self, environment):
         environment['runtime']['outputManager'].presentText(environment, environment['screenData']['newDelta'], interrupt=True)
         return environment    

@@ -7,10 +7,10 @@ class command():
         return environment
     def shutdown(self, environment):
         return environment 
-    def getDescription(self):
+    def getDescription(self, environment):
         return 'enables and disables output in braille'        
+
     def run(self, environment):
-        
         if environment['runtime']['settingsManager'].getSettingAsBool(environment, 'braille', 'enabled'): 
             environment['runtime']['outputManager'].presentText(environment, "braille disabled", soundIcon='BrailleOff', interrupt=True)
         environment = environment['runtime']['settingsManager'].setSetting(environment, 'braille', 'enabled', str(not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'braille', 'enabled')))   

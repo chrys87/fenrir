@@ -8,12 +8,11 @@ class command():
         return environment
     def shutdown(self, environment):
         return environment 
-    def getDescription(self):
+    def getDescription(self, environment):
         return 'increase the speech volume'        
+    
     def run(self, environment):
-        
         value = environment['runtime']['settingsManager'].getSettingAsFloat(environment, 'speech', 'volume')
-
         value = round((math.ceil(10 * value) / 10) + 0.1, 2)
         if value > 1.0:
             value = 1.0  

@@ -15,8 +15,9 @@ class command():
         return environment
     def shutdown(self, environment):
         return environment 
-    def getDescription(self):
+    def getDescription(self, environment):
         return 'removes the current word from the exceptions dictionary'        
+    
     def run(self, environment):
         if not initialized:
            environment['runtime']['outputManager'].presentText(environment, 'pychant is not installed', interrupt=True) 

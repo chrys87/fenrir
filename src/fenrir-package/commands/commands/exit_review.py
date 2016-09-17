@@ -7,8 +7,9 @@ class command():
         return environment
     def shutdown(self, environment):
         return environment 
-    def getDescription(self):
+    def getDescription(self, environment):
         return 'exits review mode'        
+    
     def run(self, environment):
         if (environment['screenData']['oldCursorReview'] == None) and \
           (environment['screenData']['newCursorReview'] == None):

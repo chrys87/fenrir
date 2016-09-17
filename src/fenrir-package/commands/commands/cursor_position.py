@@ -8,8 +8,9 @@ class command():
         return environment
     def shutdown(self, environment):
         return environment 
-    def getDescription(self):
+    def getDescription(self, environment):
         return 'displays the position of the review cursor'        
+
     def run(self, environment):
         # Prefer review cursor over text cursor
 

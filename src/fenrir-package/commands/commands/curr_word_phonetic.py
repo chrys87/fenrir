@@ -9,8 +9,9 @@ class command():
         return environment
     def shutdown(self, environment):
         return environment 
-    def getDescription(self):
+    def getDescription(self, environment):
         return 'phonetically spells the current word'        
+    
     def run(self, environment):
         if (environment['screenData']['newCursorReview'] != None):
             cursorPos = environment['screenData']['newCursorReview'].copy()

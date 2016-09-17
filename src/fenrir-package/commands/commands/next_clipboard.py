@@ -11,8 +11,9 @@ class command():
         return environment
     def shutdown(self, environment):
         return environment 
-    def getDescription(self):
+    def getDescription(self, environment):
         return 'selects the next clipboard'        
+    
     def run(self, environment):
         if len(environment['commandBuffer']['clipboard']) == 0:
             environment['runtime']['outputManager'].presentText(environment, 'clipboard empty', interrupt=True)

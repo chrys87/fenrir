@@ -7,8 +7,9 @@ class command():
         return environment
     def shutdown(self, environment):
         return environment 
-    def getDescription(self):
+    def getDescription(self, environment):
         return 'places marks to select text to copy to the clipboard'        
+    
     def run(self, environment):
         if environment['screenData']['newCursorReview'] == None:
             environment['runtime']['outputManager'].presentText(environment, 'no review cursor', interrupt=True)

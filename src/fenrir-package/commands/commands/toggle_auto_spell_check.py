@@ -7,8 +7,9 @@ class command():
         return environment
     def shutdown(self, environment):
         return environment 
-    def getDescription(self):
+    def getDescription(self, environment):
         return 'enables or disables automatic spell checking'            
+    
     def run(self, environment):      
         environment = environment['runtime']['settingsManager'].setSetting(environment, 'general', 'autoSpellCheck', str(not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'general', 'autoSpellCheck')))   
         if environment['runtime']['settingsManager'].getSettingAsBool(environment, 'general', 'autoSpellCheck'): 

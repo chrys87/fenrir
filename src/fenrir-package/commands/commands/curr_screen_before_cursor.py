@@ -9,8 +9,9 @@ class command():
         return environment
     def shutdown(self, environment):
         return environment 
-    def getDescription(self):
+    def getDescription(self, environment):
         return 'Reads from the top of the screen to the cursor position'        
+
     def run(self, environment):
         # Prefer review cursor over text cursor
         if (environment['screenData']['newCursorReview'] != None):

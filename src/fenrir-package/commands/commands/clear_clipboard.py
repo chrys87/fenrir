@@ -11,8 +11,9 @@ class command():
         return environment
     def shutdown(self, environment):
         return environment 
-    def getDescription(self):
+    def getDescription(self, environment):
         return 'clears the currently selected clipboard'     
+
     def run(self, environment):
         environment['commandBuffer']['currClipboard'] = -1
         del environment['commandBuffer']['clipboard'][:]

@@ -8,8 +8,9 @@ class command():
         return environment
     def shutdown(self, environment):
         return environment 
-    def getDescription(self):
-        return 'current word.'        
+    def getDescription(self, environment):
+            return 'current word.'        
+
     def run(self, environment):
         environment['screenData']['oldCursorReview'] = environment['screenData']['newCursorReview']
         if environment['screenData']['newCursorReview'] == None:

@@ -7,8 +7,9 @@ class command():
         return environment
     def shutdown(self, environment):
         return environment 
-    def getDescription(self):
+    def getDescription(self, environment):
         return 'toggles all output settings'        
+    
     def run(self, environment):
         if environment['runtime']['settingsManager'].getSettingAsBool(environment, 'speech', 'enabled') or \
           environment['runtime']['settingsManager'].getSettingAsBool(environment, 'sound', 'enabled') or \
