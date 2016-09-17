@@ -12,7 +12,10 @@ class commandManager():
         environment['runtime']['commandManager'].loadCommands(environment,'onScreenChanged')    
 
     def shutdown(self, environment):
-        pass
+        environment['runtime']['commandManager'].shutdownCommands(environment,'commands')
+        environment['runtime']['commandManager'].shutdownCommands(environment,'onInput')
+        environment['runtime']['commandManager'].shutdownCommands(environment,'onScreenChanged')    
+        
     def loadCommands(self, environment, section='commands'):
         commandFolder = "commands/" + section +"/"
         commandList = glob.glob(commandFolder+'*')
@@ -30,25 +33,36 @@ class commandManager():
                     environment['commands'][section][fileName.upper()].initialize(environment)
             except Exception as e:
                 print(e)
-                environment['runtime']['debug'].writeDebugOut(environment,"Error while loading command:" + command ,debug.debugLevel.ERROR)
+                environment['runtime']['debug'].writeDebugOut(environment,"Loading command:" + command ,debug.debugLevel.ERROR)
                 environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR)                
+                continue
+
+    def shutdownCommands(self, environment, section):
+        for command in sorted(environment['commands'][section]):
+            try:
+                environment['commands'][section][command].shutdown(environment)
+                environment['commands'][section][command] = None
+            except Exception as e:
+                print(e)
+                environment['runtime']['debug'].writeDebugOut(environment,"Shutdown command:" + section + "." + cmd ,debug.debugLevel.ERROR)
+                environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR) 
                 continue
 
     def executeTriggerCommands(self, environment, trigger):
         if environment['runtime']['screenManager'].isSuspendingScreen(environment):
-            return environment
+            return
         for command in sorted(environment['commands'][trigger]):
             if self.commandExists(environment, command, trigger):        
                 try:
                    environment['commands'][trigger][command].run(environment)
                 except Exception as e:
                     print(e)
-                    environment['runtime']['debug'].writeDebugOut(environment,"Error while executing trigger:" + trigger + "." + cmd ,debug.debugLevel.ERROR)
+                    environment['runtime']['debug'].writeDebugOut(environment,"Executing trigger:" + trigger + "." + cmd ,debug.debugLevel.ERROR)
                     environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR) 
 
     def executeCommand(self, environment, command, section = 'commands'):
         if environment['runtime']['screenManager'].isSuspendingScreen(environment) :
-            return environment    
+            return    
         if self.commandExists(environment, command, section):
             try:
                 if environment['generalInformation']['tutorialMode']:
@@ -58,7 +72,7 @@ class commandManager():
                     environment['commands'][section][command].run(environment)
             except Exception as e:
                 print(e)
-                environment['runtime']['debug'].writeDebugOut(environment,"Error while executing command:" + section + "." + command ,debug.debugLevel.ERROR)
+                environment['runtime']['debug'].writeDebugOut(environment,"Executing command:" + section + "." + command ,debug.debugLevel.ERROR)
                 environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR) 
         self.clearCommandQueued(environment)
         environment['commandInfo']['lastCommandExecutionTime'] = time.time()    
