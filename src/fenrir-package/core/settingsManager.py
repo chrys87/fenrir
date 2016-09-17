@@ -61,7 +61,7 @@ class settingsManager():
             if line.count("=") != 1:
                 continue
             Values = line.split('=')
-            soundIcon = Values[0]
+            soundIcon = Values[0].upper()
             Values[1] = Values[1].replace("'","")
             Values[1] = Values[1].replace('"',"")
             soundIconFile = ''
