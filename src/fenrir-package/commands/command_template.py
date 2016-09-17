@@ -7,7 +7,7 @@ class command():
         return environment
     def shutdown(self, environment):
         return environment 
-    def getDescription(self):
+    def getDescription(self, environment):
         return 'No Description found'         
     def run(self, environment):
         return environment
