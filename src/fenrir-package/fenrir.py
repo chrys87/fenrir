@@ -33,9 +33,8 @@ class fenrir():
         self.shutdown()
 
     def handleProcess(self):
-        time.sleep(3)
         timeout = self.environment['runtime']['inputManager'].proceedInputEvent(self.environment)
-        timeout = False
+        timeout = True
         try:
             self.environment['runtime']['screenManager'].update(self.environment)
         except Exception as e:
@@ -45,7 +44,8 @@ class fenrir():
             #currShortcut = self.environment['runtime']['inputManager'].getCurrShortcut(self.environment)        
             shortcut = "[1, ['KEY_FENRIR', 'KEY_T']]"
             command = self.environment['runtime']['inputManager'].getCommandForShortcut(self.environment, shortcut)        
-            self.environment['runtime']['commandManager'].queueCommand(self.environment, command)        
+            print(command)
+            #self.environment['runtime']['commandManager'].queueCommand(self.environment, command)        
         if not timeout:
             self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onInput')            
         self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onScreenChanged')        

@@ -1,5 +1,5 @@
 #!/bin/python
-import evdev
+
 import importlib.util
 import os
 from configparser import ConfigParser
@@ -30,7 +30,7 @@ class settingsManager():
             if line.count("=") != 1:
                 continue
             sepLine = line.split('=')
-            commandName = sepLine[1]
+            commandName = sepLine[1].upper()
             sepLine[0] = sepLine[0].replace(" ","")
             sepLine[0] = sepLine[0].replace("'","")
             sepLine[0] = sepLine[0].replace('"',"")
@@ -48,13 +48,6 @@ class settingsManager():
             print(str(shortcut), commandName)
             environment['bindings'][str(shortcut)] = commandName     
         kbConfig.close()
-
-
-    def getCodeForKeyID(self, keyID):
-        try:
-            return evdev.ecodes.ecodes[keyID.upper()]
-        except:
-            return 0
 
     def loadSoundIcons(self, environment, soundIconPath):
         siConfig = open(soundIconPath + '/soundicons.conf',"r")

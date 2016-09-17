@@ -1,15 +1,16 @@
 #!/bin/python
+from utils import debug
 
 class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        return environment
+        pass
     def shutdown(self, environment):
-        return environment 
+        pass
     def getDescription(self, environment):
         return 'No Description found'         
     def run(self, environment):
-        return environment
+        pass
     def setCallback(self, callback):
         pass

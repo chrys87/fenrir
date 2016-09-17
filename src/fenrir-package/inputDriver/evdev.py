@@ -18,7 +18,6 @@ class driver():
     def getInput(self, environment):
         event = None
         r, w, x = select(self.iDevices, [], [], environment['runtime']['settingsManager'].getSettingAsFloat(environment, 'screen', 'screenUpdateDelay'))
-        print(len(list(r)))
         if r != []:
             for fd in r:
                 event = self.iDevices[fd].read_one()
@@ -33,6 +32,12 @@ class driver():
         self.iDevices = map(evdev.InputDevice, (evdev.list_devices()))
         self.iDevices = {dev.fd: dev for dev in self.iDevices if 1 in dev.capabilities()}
 
+    def mapEvent(self, event):
+        try:
+            return evdev.ecodes.ecodes[keyID.upper()]
+        except:
+            return 0
+            
     def grabDevices(self):
         for fd in self.iDevices:
             dev = self.iDevices[fd]
