@@ -15,10 +15,10 @@ class driver():
             self.soundFileCommand = 'play -q -v fenrirVolume fenrirSoundFile'
         if self.frequenceCommand == '':
             self.frequenceCommand = '=play -q -v fenrirVolume -n -c1 synth fenrirDuration sine fenrirFrequence'
-        return environment
+        return
     def shutdown(self, environment):
         self.cancel()
-        return environment
+        return
     def playFrequence(self, frequence, duration, adjustVolume):
         if interrupt:
             self.cancel()

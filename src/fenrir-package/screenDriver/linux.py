@@ -10,10 +10,10 @@ class driver():
         self.vcsaDevicePath = '/dev/vcsa'
     
     def initialize(self, environment):
-        return environment
+        pass
     
     def shutdown(self, environment):
-        return environment
+        pass
     
     def insert_newlines(self, string, every=64):
         return '\n'.join(string[i:i+every] for i in range(0, len(string), every))
@@ -26,7 +26,6 @@ class driver():
             currScreenFile.close()
         except Exception as e:
             environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR)   
-
         return currScreen
 
     def getIgnoreScreens(self):
@@ -113,6 +112,4 @@ class driver():
 
                 environment['screenData']['newDelta'] = ''.join(x[2:] for x in diffList if x.startswith('+ '))             
                 environment['screenData']['newNegativeDelta'] = ''.join(x[2:] for x in diffList if x.startswith('- '))
-
-        return environment
 

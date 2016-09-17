@@ -13,9 +13,9 @@ class driver():
         except:
             self._initialized = False
     def initialize(self, environment):
-        return environment            
+        pass          
     def shutdown(self, environment):
-        return environment
+        pass
 
     def speak(self,text, queueable=True):
         if not self._isInitialized:

@@ -18,7 +18,7 @@ class screenManager():
 
     def update(self, environment):
         if not self.isSuspendingScreen(environment):
-            environment = environment['runtime']['screenDriver'].update(environment)
+            environment['runtime']['screenDriver'].update(environment)
             environment['screenData']['lastScreenUpdate'] = time.time()
 
     def isSuspendingScreen(self, environment):

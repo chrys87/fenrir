@@ -6,10 +6,9 @@ class driver():
     def __init__(self ):
         pass
     def initialize(self, environment):
-        self._isInitialized = False
-        return environment    
+        self._isInitialized = False    
     def shutdown(self, environment):
-        return environment
+        pass
 
     def speak(self,text, queueable=True):
         if not self._isInitialized:

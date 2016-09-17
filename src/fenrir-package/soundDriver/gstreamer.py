@@ -20,9 +20,9 @@ class driver:
             return
     def initialize(self, environment):
         if self._initialized:
-           return environment
+           return
         if not _gstreamerAvailable:
-            return environment
+            return
 
         self._player = Gst.ElementFactory.make('playbin', 'player')
         bus = self._player.get_bus()
@@ -41,9 +41,14 @@ class driver:
         self._source.link(self._sink)
 
         self._initialized = True
-        return environment        
+        return        
     def shutdown(self, environment):
-        return environment
+        global _gstreamerAvailable
+        if not _gstreamerAvailable:
+            return
+        self.cancel()
+        self._initialized = False
+        _gstreamerAvailable = False
 
     def _onPlayerMessage(self, bus, message):
         if message.type == Gst.MessageType.EOS:
@@ -92,12 +97,6 @@ class driver:
         self._pipeline.set_state(Gst.State.NULL)
     def setVolume(self, volume):
         self.volume = volume  
-    def shutdown(self):
-        global _gstreamerAvailable
-        if not _gstreamerAvailable:
-            return
-        self.cancel()
-        self._initialized = False
-        _gstreamerAvailable = False
+
 
 
