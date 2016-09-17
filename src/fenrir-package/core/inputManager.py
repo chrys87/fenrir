@@ -10,6 +10,7 @@ class inputManager():
     def initialize(self, environment):
         environment['runtime']['settingsManager'].loadDriver(environment,\
           environment['runtime']['settingsManager'].getSetting(environment,'keyboard', 'driver'), 'inputDriver')     
+        #self.grabDevices(environment)
 
     def shutdown(self, environment):
         environment['runtime']['inputManager'].releaseDevices(environment)    
