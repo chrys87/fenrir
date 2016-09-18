@@ -18,12 +18,13 @@ class inputManager():
             environment['runtime']['inputDriver'].shutdown(environment)
     
     def proceedInputEvent(self, environment):
+
         timeout = True    	
         event = environment['runtime']['inputDriver'].getInput(environment)
         mEvent = environment['runtime']['inputDriver'].mapEvent(environment, event)
         if mEvent and event:
             if mEvent['EventValue'] == 0:
-                return True        
+                return True  
             timeout = False
             if mEvent['EventState'] == 0:
                 if self.isFenrirKey(environment, mEvent):
@@ -40,8 +41,13 @@ class inputManager():
             elif mEvent['EventState'] == 2:
                 pass
             else:
-                pass
-            print(environment['input']['currInput'])    
+                pass  
+            environment['input']['oldNumLock'] = environment['input']['newNumLock']
+            environment['input']['newNumLock'] = environment['runtime']['inputDriver'].getNumlock(environment) 
+            environment['input']['oldCapsLock'] = environment['input']['newCapsLock'] 
+            environment['input']['newCapsLock'] = environment['runtime']['inputDriver'].getCapslock(environment)       
+            environment['input']['oldScrollLock'] = environment['input']['newScrollLock'] 
+            environment['input']['newScrollLock'] = environment['runtime']['inputDriver'].getScrollLock(environment)                     
             environment['input']['lastInputTime'] = time.time()
             environment['input']['shortcutRepeat'] = 1
         return timeout

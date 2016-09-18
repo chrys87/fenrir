@@ -12,9 +12,10 @@ class driver():
     def __init__(self):
         self.iDevices = {}
         self.uDevices = {}
-        self.getInputDevices()
+        self.ledDevices = {}        
+
     def initialize(self, environment):
-        pass
+        self.getInputDevices()
     def shutdown(self, environment):
         pass
     def getInput(self, environment):
@@ -31,9 +32,16 @@ class driver():
         uDevice.syn()
   
     def getInputDevices(self):
+        # 3 pos absolute
+        # 2 pos relative
+        # 17 LEDs
+        # 1 Keys
+        # we try to filter out mices and other stuff here
         self.iDevices = map(evdev.InputDevice, (evdev.list_devices()))
-        self.iDevices = {dev.fd: dev for dev in self.iDevices if 1 in dev.capabilities()}
-
+        self.iDevices = {dev.fd: dev for dev in self.iDevices if 1 in dev.capabilities() and not 3 in dev.capabilities() and not 2 in dev.capabilities()}
+        self.ledDevices = map(evdev.InputDevice, (evdev.list_devices()))        
+        self.ledDevices = {dev.fd: dev for dev in self.ledDevices if 1 in dev.capabilities() and 17 in dev.capabilities() and not 3 in dev.capabilities() and not 2 in dev.capabilities()}     
+        
     def mapEvent(self,environment, event):
         if not event:
             return None
@@ -48,7 +56,34 @@ class driver():
         except Exception as e:
             print(e)
             return None
-            
+
+    def getNumlock(self,environment):
+        if self.ledDevices == {}:
+            return True
+        if self.ledDevices == None:
+            return True                      
+        for fd, dev in self.ledDevices.items():
+            return 0 in dev.leds()
+        return True
+
+    def getCapslock(self,environment):
+        if self.ledDevices == {}:
+            return False
+        if self.ledDevices == None:
+            return False                      
+        for fd, dev in self.ledDevices.items():
+            return 1 in dev.leds()
+        return False   
+        
+    def getScrollLock(self,environment):
+        if self.ledDevices == {}:
+            return False
+        if self.ledDevices == None:
+            return False                      
+        for fd, dev in self.ledDevices.items():
+            return 2 in dev.leds()
+        return False          
+        
     def grabDevices(self):
         for fd in self.iDevices:
             dev = self.iDevices[fd]

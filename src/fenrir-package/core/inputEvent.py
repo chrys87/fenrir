@@ -13,6 +13,8 @@ input = {
 'lastInputTime':time.time(),
 'oldNumLock': True,
 'newNumLock':True,
+'oldScrollLock': True,
+'newScrollLock':True,
 'oldCapsLock':False,
 'newCapsLock':False
 }
