@@ -38,13 +38,17 @@ class inputManager():
                 environment['input']['currInput'] = sorted(environment['input']['currInput'])                    
             elif mEvent['EventState'] == 1:
                 if self.isFenrirKey(environment, mEvent):
-                    environment['input']['currInput'].append('KEY_FENRIR')
+                    if not 'KEY_FENRIR' in environment['input']['currInput']:                
+                       environment['input']['currInput'].append('KEY_FENRIR')
                 elif mEvent['EventName'] in ['KEY_RIGHTCTRL','KEY_LEFTCTRL'] :
-                    environment['input']['currInput'].append('KEY_CTRL')
+                    if not 'KEY_CTRL' in environment['input']['currInput']:
+                        environment['input']['currInput'].append('KEY_CTRL')
                 elif mEvent['EventName'] in ['KEY_RIGHTSHIFT','KEY_LEFTSHIFT'] :
-                    environment['input']['currInput'].append('KEY_SHIFT')                       
-                else:                
-                    environment['input']['currInput'].append(mEvent['EventName'])            
+                    if not 'KEY_SHIFT' in environment['input']['currInput']:                
+                        environment['input']['currInput'].append('KEY_SHIFT')                       
+                else:
+                    if not mEvent['EventName'] in environment['input']['currInput']:                                
+                        environment['input']['currInput'].append(mEvent['EventName'])            
                 environment['input']['currInput'] = sorted(environment['input']['currInput'])
             elif mEvent['EventState'] == 2:
                 pass
