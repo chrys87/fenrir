@@ -10,6 +10,13 @@ class inputManager():
     def initialize(self, environment):
         environment['runtime']['settingsManager'].loadDriver(environment,\
           environment['runtime']['settingsManager'].getSetting(environment,'keyboard', 'driver'), 'inputDriver')     
+        # init LEDs with current state
+        environment['input']['newNumLock'] = environment['runtime']['inputDriver'].getNumlock(environment) 
+        environment['input']['oldNumLock'] = environment['input']['newNumLock']
+        environment['input']['newCapsLock'] = environment['runtime']['inputDriver'].getCapslock(environment)       
+        environment['input']['oldCapsLock'] = environment['input']['newCapsLock']         
+        environment['input']['newScrollLock'] = environment['runtime']['inputDriver'].getScrollLock(environment)            
+        environment['input']['oldScrollLock'] = environment['input']['newScrollLock']         
         #self.grabDevices(environment)
 
     def shutdown(self, environment):
