@@ -17,7 +17,7 @@ class inputManager():
         environment['input']['oldCapsLock'] = environment['input']['newCapsLock']         
         environment['input']['newScrollLock'] = environment['runtime']['inputDriver'].getScrollLock(environment)            
         environment['input']['oldScrollLock'] = environment['input']['newScrollLock']         
-        #self.grabDevices(environment)
+        self.grabDevices(environment)
 
     def shutdown(self, environment):
         environment['runtime']['inputManager'].releaseDevices(environment)    
@@ -25,11 +25,9 @@ class inputManager():
             environment['runtime']['inputDriver'].shutdown(environment)
     
     def proceedInputEvent(self, environment):
-
         timeout = True    	
-        event = environment['runtime']['inputDriver'].getInput(environment)
-        mEvent = environment['runtime']['inputDriver'].mapEvent(environment, event)
-        if mEvent and event:
+        mEvent = environment['runtime']['inputDriver'].getInput(environment)
+        if mEvent:
             if mEvent['EventValue'] == 0:
                 return True  
             timeout = False
@@ -45,7 +43,7 @@ class inputManager():
                 environment['input']['currInput'] = sorted(environment['input']['currInput'])                    
             elif mEvent['EventState'] == 1:
                 if self.isFenrirKey(environment, mEvent):
-                    if not 'KEY_FENRIR' in environment['input']['currInput']:                
+                    if not self.isFenrirKeyPressed(environment):                
                        environment['input']['currInput'].append('KEY_FENRIR')
                 elif mEvent['EventName'] in ['KEY_RIGHTCTRL','KEY_LEFTCTRL'] :
                     if not 'KEY_CTRL' in environment['input']['currInput']:
@@ -76,20 +74,30 @@ class inputManager():
             environment['runtime']['inputDriver'].grabDevices(environment)
 
     def releaseDevices(self, environment):
-        environment['runtime']['inputDriver'].releaseDevices()
+        environment['runtime']['inputDriver'].releaseDevices(environment)
         
     def isConsumeInput(self, environment):
-	    return environment['input']['consumeKey'] and \
-          not environment['input']['keyForeward'] or \
-          not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'keyboard', 'grabDevices')
+	    return environment['runtime']['commandManager'].isCommandQueued(environment) and \
+	      not environment['input']['keyForeward']
+	    #and
+	    #  not (environment['input']['keyForeward'] or \
+        #  environment['runtime']['settingsManager'].getSettingAsBool(environment, 'keyboard', 'grabDevices'))
+ 
+    def clearEventBuffer(self, environment):
+        environment['runtime']['inputDriver'].clearEventBuffer(environment) 
           
-    def passInput(self, environment):
+    def writeEventBuffer(self, environment):
         try:
-            environment['runtime']['inputDriver']
+            environment['runtime']['inputDriver'].writeEventBuffer(environment)
         except Exception as e:
+            print(e)
             environment['runtime']['debug'].writeDebugOut(environment,"Error while writeUInput",debug.debugLevel.ERROR)
             environment['runtime']['debug'].writeDebugOut(environment, str(e),debug.debugLevel.ERROR)    
+    def isFenrirKeyPressed(self, environment):
+        return 'KEY_FENRIR' in environment['input']['currInput']
 
+    def noKeyPressed(self, environment):
+        return environment['input']['currInput'] == []
     def getPrevDeepestInput(self, environment):
         shortcut = []
         shortcut.append(environment['input']['shortcutRepeat'])

@@ -4,9 +4,9 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        return environment
+        pass
     def shutdown(self, environment):
-        return environment 
+        pass
     def getDescription(self, environment):
         return ''           
     
@@ -21,8 +21,7 @@ class command():
             environment['runtime']['outputManager'].presentText(environment, "blank", soundIcon='EmptyLine', interrupt=True)
         else:
             environment['runtime']['outputManager'].presentText(environment, environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursor']['y']], True)
-
-        return environment    
+ 
     def setCallback(self, callback):
         pass
 

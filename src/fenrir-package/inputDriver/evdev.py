@@ -15,7 +15,7 @@ class driver():
         self.ledDevices = {}        
 
     def initialize(self, environment):
-        self.getInputDevices()
+        self.getInputDevices(environment)
     def shutdown(self, environment):
         pass
     def getInput(self, environment):
@@ -24,14 +24,23 @@ class driver():
         if r != []:
             for fd in r:
                 event = self.iDevices[fd].read_one()
-                return event
+                environment['input']['eventBuffer'].append( [self.iDevices[fd], self.uDevices[fd], event])
+                return environment['runtime']['inputDriver'].mapEvent(environment, event)
         return None
 
-    def writeUInput(self, uDevice, event,environment):
+    def writeEventBuffer(self, environment):
+        for iDevice, uDevice, event in environment['input']['eventBuffer']:
+            self.writeUInput(environment, uDevice, event)
+        self.clearEventBuffer(environment)
+
+    def clearEventBuffer(self, environment):
+        del environment['input']['eventBuffer'][:]
+                        
+    def writeUInput(self, environment, uDevice, event):
         uDevice.write_event(event)
         uDevice.syn()
   
-    def getInputDevices(self):
+    def getInputDevices(self, environment):
         # 3 pos absolute
         # 2 pos relative
         # 17 LEDs
@@ -84,7 +93,7 @@ class driver():
             return 2 in dev.leds()
         return False          
         
-    def grabDevices(self):
+    def grabDevices(self, environment):
         for fd in self.iDevices:
             dev = self.iDevices[fd]
             cap = dev.capabilities()
@@ -100,7 +109,7 @@ class driver():
               )
             dev.grab()
 
-    def releaseDevices(self):
+    def releaseDevices(self, environment):
         for fd in self.iDevices:
             try:
                 self.iDevices[fd].ungrab()

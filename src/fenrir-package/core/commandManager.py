@@ -72,6 +72,7 @@ class commandManager():
                     environment['commands'][section][command].run(environment)
             except Exception as e:
                 print(e)
+                
                 environment['runtime']['debug'].writeDebugOut(environment,"Executing command:" + section + "." + command ,debug.debugLevel.ERROR)
                 environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR) 
         self.clearCommandQueued(environment)
