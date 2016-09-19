@@ -4,9 +4,9 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        return environment
+        pass
     def shutdown(self, environment):
-        return environment 
+        pass 
     def getDescription(self, environment):
         return 'toggles all output settings'        
     
@@ -23,6 +23,6 @@ class command():
             environment = environment['runtime']['settingsManager'].setSetting(environment, 'sound', 'enabled','True')
             environment = environment['runtime']['settingsManager'].setSetting(environment, 'braille', 'enabled','True')
             environment['runtime']['outputManager'].presentText(environment, "fenrir unmuted", soundIcon='Cancel', interrupt=True)                  
-        return environment    
+        return    
     def setCallback(self, callback):
         pass

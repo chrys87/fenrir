@@ -12,12 +12,15 @@ class command():
         self.language = ''
         self.spellChecker = ''
     def initialize(self, environment):
-        pass
+        self.updateSpellLanguage(environment)
     def shutdown(self, environment):
         pass 
     def getDescription(self, environment):
         return 'No Description found'        
-    
+     def updateSpellLanguage(self, environment):  
+        self.spellChecker = enchant.Dict(environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage'))
+        self.language = environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage')      
+      
     def run(self, environment):
         if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'general', 'autoSpellCheck'):
             return
@@ -26,8 +29,7 @@ class command():
            return
         if environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage') != self.language:
             try:
-                self.spellChecker = enchant.Dict(environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage'))
-                self.language = environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage')
+                self.updateSpellLanguage(environment)
             except:
                return
 

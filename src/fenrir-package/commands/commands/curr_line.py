@@ -5,9 +5,9 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        return environment
+        pass
     def shutdown(self, environment):
-        return environment 
+        pass
     def getDescription(self, environment):
         return 'current line'        
     
@@ -19,11 +19,10 @@ class command():
         environment['screenData']['newCursorReview']['x'], environment['screenData']['newCursorReview']['y'], currLine = \
           line_utils.getCurrentLine(environment['screenData']['newCursorReview']['x'], environment['screenData']['newCursorReview']['y'], environment['screenData']['newContentText'])
         
-        if currLine.strip() == '':
+        if currLine.strip(" \t\n") == '':
             environment['runtime']['outputManager'].presentText(environment, "blank", soundIcon='EmptyLine', interrupt=True)
         else:
-            environment['runtime']['outputManager'].presentText(environment, currLine, interrupt=True)
-        return environment    
+            environment['runtime']['outputManager'].presentText(environment, currLine, interrupt=True) 
     def setCallback(self, callback):
         pass
 

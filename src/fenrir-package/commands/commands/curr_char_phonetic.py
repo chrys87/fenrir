@@ -5,9 +5,9 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        return environment
+        pass
     def shutdown(self, environment):
-        return environment 
+        pass
     def getDescription(self, environment):
         return 'phonetically presents the current character'    
     
@@ -20,11 +20,11 @@ class command():
         x, y, currChar = \
           char_utils.getCurrentChar(cursorPos['x'], cursorPos['y'], environment['screenData']['newContentText'])
         
-        if currChar.strip() == '':
+        if currChar.strip(" \t\n") == '':
             environment['runtime']['outputManager'].presentText(environment, "blank" ,interrupt=True)
         else:
             currChar = char_utils.getPhonetic(currChar)
             environment['runtime']['outputManager'].presentText(environment, currChar ,interrupt=True)
-        return environment    
+  
     def setCallback(self, callback):
         pass

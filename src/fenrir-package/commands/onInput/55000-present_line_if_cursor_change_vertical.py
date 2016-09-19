@@ -17,6 +17,8 @@ class command():
             return    
         if environment['screenData']['newCursor']['y'] == environment['screenData']['oldCursor']['y']:
             return
+        if environment['runtime']['inputManager'].noKeyPressed(environment):
+            return              
         currLine = environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursor']['y']]
         if currLine.strip(" \t\n") == '':
             environment['runtime']['outputManager'].presentText(environment, "blank", soundIcon='EmptyLine', interrupt=True)
