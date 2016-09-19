@@ -5,33 +5,33 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        return environment
+        pass
     def shutdown(self, environment):
-        return environment 
+        pass  
     def getDescription(self, environment):
         return ''        
 
     def run(self, environment):
         if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'keyboard', 'wordEcho'):
-            return environment
+            return
    
         # just when cursor move worddetection is needed
         if environment['screenData']['newCursor']['x'] == environment['screenData']['oldCursor']['x']:
-            return environment 
+            return 
             
         # for now no new line
         if environment['screenData']['newCursor']['y'] != environment['screenData']['oldCursor']['y']:
             return environment 
         if len(environment['screenData']['newDelta']) > 1:
-            return environment            
+            return            
             
         # TTY Change is no new word
         if environment['screenData']['newTTY'] != environment['screenData']['oldTTY']:
-            return environment
+            return
             
         # first place could not be the end of a word
         if environment['screenData']['newCursor']['x'] == 0:
-            return environment
+            return
             
         # get the word
         newContent = environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursor']['y']]
@@ -39,16 +39,15 @@ class command():
         # was this a typed word?
         if environment['screenData']['newDelta'] != '':
             if not(newContent[environment['screenData']['oldCursor']['x']].strip() == '' and x != environment['screenData']['oldCursor']['x']):
-                return environment
+                return
         else:
         # or just arrow arround?
             if not(newContent[environment['screenData']['newCursor']['x']].strip() == '' and x != environment['screenData']['newCursor']['x']):
-                return environment            
+                return            
 
         if currWord != '':
             environment['runtime']['outputManager'].presentText(environment, currWord, interrupt=True)
 
-        return environment
     def setCallback(self, callback):
         pass
 

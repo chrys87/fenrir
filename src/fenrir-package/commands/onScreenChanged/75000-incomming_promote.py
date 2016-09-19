@@ -5,30 +5,29 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        return environment
+        pass
     def shutdown(self, environment):
-        return environment 
+        pass 
     def getDescription(self, environment):
         return ''        
 
     def run(self, environment):
         if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'promote', 'enabled'):
-            return environment
+            return
         if environment['screenData']['newTTY'] != environment['screenData']['oldTTY']:
-            return environment
+            return
         if environment['screenData']['newDelta'] == '':
-            return environment
+            return
         if int(time.time() - environment['input']['lastInputTime']) < environment['runtime']['settingsManager'].getSettingAsInt(environment, 'promote', 'inactiveTimeoutSec'):
-            return environment
+            return
         if len(environment['runtime']['settingsManager'].getSetting(environment, 'promote', 'list')) == 0:
-            return environment       
+            return       
         for promote in environment['runtime']['settingsManager'].getSetting(environment, 'promote', 'list').split(','):
             if promote in environment['screenData']['newDelta']:    
                 environment['runtime']['outputManager'].playSoundIcon(environment,'PromotedText')        
                 environment['input']['lastInputTime'] = time.time()
-                return environment
+                return
 
-        return environment
     def setCallback(self, callback):
         pass
 
