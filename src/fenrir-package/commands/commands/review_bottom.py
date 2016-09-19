@@ -17,7 +17,7 @@ class command():
         return 'move review to bottom of screen'         
 
     def run(self, environment):
-        environment['screenData']['newCursorReview'] = { 'x': 0, 'y':environment['screenData']['lines']}
+        environment['screenData']['newCursorReview'] = { 'x': 0, 'y':environment['screenData']['lines'] -1}
         environment['runtime']['outputManager'].presentText(environment, "Bottom", interrupt=True)     
 
     def setCallback(self, callback):
