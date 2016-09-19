@@ -6,9 +6,9 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        return environment
+        pass
     def shutdown(self, environment):
-        return environment 
+        pass
     def getDescription(self, environment):
         return 'phonetically spells the current word'        
     
@@ -20,7 +20,7 @@ class command():
         x, y, currWord = \
           word_utils.getCurrentWord(cursorPos['x'], cursorPos['y'], environment['screenData']['newContentText'])
         
-        if currWord.strip() == '':
+        if currWord.strip(" \t\n") == '':
             environment['runtime']['outputManager'].presentText(environment, "blank", interrupt=True)
         else:
             firstSequence = True
@@ -28,6 +28,6 @@ class command():
                 currChar = char_utils.getPhonetic(c) 
                 environment['runtime']['outputManager'].presentText(environment, currChar, interrupt=firstSequence)
                 firstSequence = False
-        return environment    
+   
     def setCallback(self, callback):
         pass

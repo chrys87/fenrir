@@ -6,9 +6,9 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        return environment
+        pass
     def shutdown(self, environment):
-        return environment 
+        pass
     def getDescription(self, environment):
         return 'presents the time'        
 
@@ -21,6 +21,5 @@ class command():
         # present the time via speak and braile, there is no soundicon, interrupt the current speech
         environment['runtime']['outputManager'].presentText(environment, timeString , soundIcon='', interrupt=True)
 
-        return environment
     def setCallback(self, callback):
         pass

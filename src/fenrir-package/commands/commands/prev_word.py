@@ -5,9 +5,9 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        return environment
+        pass
     def shutdown(self, environment):
-        return environment 
+        pass
     def getDescription(self, environment):
         return 'moves review focus to the previous word and presents it'        
 
@@ -19,10 +19,10 @@ class command():
         environment['screenData']['newCursorReview']['x'], environment['screenData']['newCursorReview']['y'], currWord = \
           word_utils.getPrevWord(environment['screenData']['newCursorReview']['x'], environment['screenData']['newCursorReview']['y'], environment['screenData']['newContentText'])
         
-        if currWord.strip() == '':
+        if currWord.strip(" \t\n") == '':
             environment['runtime']['outputManager'].presentText(environment, "blank", interrupt=True)
         else:
             environment['runtime']['outputManager'].presentText(environment, currWord, interrupt=True)
-        return environment    
+
     def setCallback(self, callback):
         pass

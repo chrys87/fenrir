@@ -12,20 +12,22 @@ class command():
         self.language = ''
         self.spellChecker = None
     def initialize(self, environment):
-        return environment
+        self.updateSpellLanguage(environment)
     def shutdown(self, environment):
-        return environment 
+        pass
     def getDescription(self, environment):
         return 'removes the current word from the exceptions dictionary'        
-    
+    def updateSpellLanguage(self, environment):  
+        self.spellChecker = enchant.Dict(environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage'))
+        self.language = environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage')      
+       
     def run(self, environment):
         if not initialized:
            environment['runtime']['outputManager'].presentText(environment, 'pychant is not installed', interrupt=True) 
            return environment
         if environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage') != self.language:
             try:
-                self.spellChecker = enchant.Dict(environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage'))
-                self.language = environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage')
+                self.updateSpellLanguage(environment)
             except:
                 return environment    
 
@@ -44,7 +46,6 @@ class command():
             else:
                 self.spellChecker.remove(currWord)             
                 environment['runtime']['outputManager'].presentText(environment, currWord + ' removed',soundIcon='Accept', interrupt=True)                    
-                    
-        return environment
+
     def setCallback(self, callback):
         pass

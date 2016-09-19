@@ -4,16 +4,16 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        return environment
+        pass
     def shutdown(self, environment):
-        return environment 
+        pass
     def getDescription(self, environment):
         return 'places marks to select text to copy to the clipboard'        
     
     def run(self, environment):
         if environment['screenData']['newCursorReview'] == None:
             environment['runtime']['outputManager'].presentText(environment, 'no review cursor', interrupt=True)
-            return environment   
+            return
 
         if environment['commandBuffer']['Marks']['1'] == None:
             environment['commandBuffer']['Marks']['1'] = environment['screenData']['newCursorReview'].copy()
@@ -24,7 +24,6 @@ class command():
                 environment['commandBuffer']['Marks']['3'] = environment['screenData']['newCursorReview'].copy()
 
         environment['runtime']['outputManager'].presentText(environment, 'set mark', interrupt=True)
-
-        return environment          
+ 
     def setCallback(self, callback):
         pass

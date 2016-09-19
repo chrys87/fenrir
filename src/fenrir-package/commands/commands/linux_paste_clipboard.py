@@ -8,9 +8,9 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        return environment
+        pass
     def shutdown(self, environment):
-        return environment 
+        pass
     def getDescription(self, environment):
         return 'pastes the text from the currently selected clipboard'        
     
@@ -18,11 +18,11 @@ class command():
         currClipboard = environment['commandBuffer']['currClipboard']
         if currClipboard < 0:
             environment['runtime']['outputManager'].presentText(environment, 'clipboard empty', interrupt=True)
-            return environment
+            return
         with open("/dev/tty" + environment['screenData']['newTTY'], 'w') as fd:
             for c in environment['commandBuffer']['clipboard'][currClipboard]:
                 fcntl.ioctl(fd, termios.TIOCSTI, c)
                 time.sleep(0.02)
-        return environment                
+              
     def setCallback(self, callback):
         pass

@@ -4,9 +4,9 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        return environment
+        pass
     def shutdown(self, environment):
-        return environment 
+        pass
     def getDescription(self, environment):
         return 'exits review mode'        
     
@@ -14,11 +14,11 @@ class command():
         if (environment['screenData']['oldCursorReview'] == None) and \
           (environment['screenData']['newCursorReview'] == None):
             environment['runtime']['outputManager'].presentText(environment, "Not in review mode", interrupt=True)
-            return environment    
+            return  
 
         environment['screenData']['oldCursorReview'] = None
         environment['screenData']['newCursorReview'] = None
         environment['runtime']['outputManager'].presentText(environment, "leve review mode", interrupt=True)
-        return environment    
+   
     def setCallback(self, callback):
         pass

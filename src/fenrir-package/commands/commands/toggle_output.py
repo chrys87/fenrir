@@ -15,14 +15,14 @@ class command():
           environment['runtime']['settingsManager'].getSettingAsBool(environment, 'sound', 'enabled') or \
           environment['runtime']['settingsManager'].getSettingAsBool(environment, 'braille', 'enabled'):
             environment['runtime']['outputManager'].presentText(environment, "fenrir muted", soundIcon='Accept', interrupt=True)          
-            environment = environment['runtime']['settingsManager'].setSetting(environment, 'speech', 'enabled','False')
-            environment = environment['runtime']['settingsManager'].setSetting(environment, 'sound', 'enabled','False')
-            environment = environment['runtime']['settingsManager'].setSetting(environment, 'braille', 'enabled','False')
+            environment['runtime']['settingsManager'].setSetting(environment, 'speech', 'enabled','False')
+            environment['runtime']['settingsManager'].setSetting(environment, 'sound', 'enabled','False')
+            environment['runtime']['settingsManager'].setSetting(environment, 'braille', 'enabled','False')
         else:     
-            environment = environment['runtime']['settingsManager'].setSetting(environment, 'speech', 'enabled','True')
-            environment = environment['runtime']['settingsManager'].setSetting(environment, 'sound', 'enabled','True')
-            environment = environment['runtime']['settingsManager'].setSetting(environment, 'braille', 'enabled','True')
+            environment['runtime']['settingsManager'].setSetting(environment, 'speech', 'enabled','True')
+            environment['runtime']['settingsManager'].setSetting(environment, 'sound', 'enabled','True')
+            environment['runtime']['settingsManager'].setSetting(environment, 'braille', 'enabled','True')
             environment['runtime']['outputManager'].presentText(environment, "fenrir unmuted", soundIcon='Cancel', interrupt=True)                  
-        return    
+
     def setCallback(self, callback):
         pass

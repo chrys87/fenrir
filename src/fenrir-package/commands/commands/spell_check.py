@@ -12,22 +12,24 @@ class command():
         self.language = ''
         self.spellChecker = None
     def initialize(self, environment):
-        return environment
+        self.updateSpellLanguage(environment)
     def shutdown(self, environment):
-        return environment 
+        pass
     def getDescription(self, environment):
         return 'checks the spelling of the current word'        
-    
+    def updateSpellLanguage(self, environment):  
+        self.spellChecker = enchant.Dict(environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage'))
+        self.language = environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage')      
+       
     def run(self, environment):
         if not initialized:
            environment['runtime']['outputManager'].presentText(environment, 'pychant is not installed', interrupt=True) 
-           return environment
+           return
         if environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage') != self.language:
             try:
-                self.spellChecker = enchant.Dict(environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage'))
-                self.language = environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage')
+                self.updateSpellLanguage(environment)
             except:
-                return environment    
+                return    
 
         if (environment['screenData']['newCursorReview'] != None):
             cursorPos = environment['screenData']['newCursorReview'].copy()
@@ -42,6 +44,5 @@ class command():
             if not self.spellChecker.check(currWord):
                 environment['runtime']['outputManager'].presentText(environment, 'misspelled',soundIcon='mispell', interrupt=True)
 
-        return environment
     def setCallback(self, callback):
         pass

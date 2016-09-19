@@ -5,9 +5,9 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        return environment
+        pass
     def shutdown(self, environment):
-        return environment 
+        pass
     def getDescription(self, environment):
         return 'decreases the pitch of the speech'        
     
@@ -16,10 +16,9 @@ class command():
         value = round((math.ceil(10 * value) / 10) - 0.1, 2)
         if value < 0.0:
             value = 0.0 
-        environment = environment['runtime']['settingsManager'].setSetting(environment, 'speech', 'pitch', str(value))   
+        environment['runtime']['settingsManager'].setSetting(environment, 'speech', 'pitch', str(value))   
 
         environment['runtime']['outputManager'].presentText(environment, str(int(value * 100)) + " percent speech pitch", soundIcon='', interrupt=True)
-               
-        return environment    
+ 
     def setCallback(self, callback):
         pass

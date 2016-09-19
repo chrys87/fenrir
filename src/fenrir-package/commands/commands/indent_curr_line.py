@@ -5,9 +5,9 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        return environment
+        pass
     def shutdown(self, environment):
-        return environment 
+        pass
     def getDescription(self, environment):
         return 'shows the indention level for the current line'        
 
@@ -21,10 +21,10 @@ class command():
         x, y, currLine = \
           line_utils.getCurrentLine(cursorPos['x'], cursorPos['y'], environment['screenData']['newContentText'])
         
-        if currLine.strip() == '':
+        if currLine.strip(" \t\n") == '':
             environment['runtime']['outputManager'].presentText(environment, "blank", soundIcon='EmptyLine', interrupt=True)
         else:        
             environment['runtime']['outputManager'].presentText(environment, "indent "+  str(len(currLine) - len(currLine.lstrip())), interrupt=True)
-        return environment    
+
     def setCallback(self, callback):
         pass
