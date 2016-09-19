@@ -25,12 +25,9 @@ class command():
         if environment['screenData']['newCursor']['y'] != environment['screenData']['oldCursor']['y'] or\
           environment['screenData']['newCursor']['x'] == environment['screenData']['oldCursor']['x']:
             return
-        print('drin')
-        if environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursor']['y']][environment['screenData']['newCursor']['x']].strip() == '':
-            pass
-            #environment['runtime']['outputManager'].presentText(environment, "blank",True)
-        else:
-            environment['runtime']['outputManager'].presentText(environment, environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursor']['y']][environment['screenData']['newCursor']['x']],interrupt=True)
+        currChar = environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursor']['y']][environment['screenData']['newCursor']['x']]
+        if not currChar.strip(" \t\n") == '':
+            environment['runtime']['outputManager'].presentText(environment, currChar, interrupt=True)
  
     def setCallback(self, callback):
         pass

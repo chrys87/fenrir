@@ -14,6 +14,8 @@ class command():
     def run(self, environment):
         if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'promote', 'enabled'):
             return
+        if environment['runtime']['settingsManager'].getSetting(environment, 'promote', 'list').strip(" \t\n") == '':
+            return
         if environment['screenData']['newTTY'] != environment['screenData']['oldTTY']:
             return
         if environment['screenData']['newDelta'] == '':

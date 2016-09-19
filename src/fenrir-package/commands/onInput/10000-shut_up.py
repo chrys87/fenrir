@@ -17,9 +17,7 @@ class command():
             return
         if environment['screenData']['newTTY'] != environment['screenData']['oldTTY']:
             return               
-#        if environment['screenData']['newCursor'] == environment['screenData']['oldCursor'] and\
-#          environment['screenData']['newDelta'] == environment['screenData']['oldDelta']:
-#            return environment
+
         environment['runtime']['outputManager'].interruptOutput(environment)
 
     def setCallback(self, callback):

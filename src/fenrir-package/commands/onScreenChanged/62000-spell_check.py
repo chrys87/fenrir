@@ -54,11 +54,11 @@ class command():
         x, y, currWord =  word_utils.getCurrentWord(environment['screenData']['newCursor']['x'], 0, newContent)                  
         # was this a typed word?
         if environment['screenData']['newDelta'] != '':
-            if not(newContent[environment['screenData']['oldCursor']['x']].strip() == '' and x != environment['screenData']['oldCursor']['x']):
+            if not(newContent[environment['screenData']['oldCursor']['x']].strip(" \t\n") == '' and x != environment['screenData']['oldCursor']['x']):
                 return
         else:
         # or just arrow arround?
-            if not(newContent[environment['screenData']['newCursor']['x']].strip() == '' and x != environment['screenData']['newCursor']['x']):
+            if not(newContent[environment['screenData']['newCursor']['x']].strip(" \t\n") == '' and x != environment['screenData']['newCursor']['x']):
                 return            
 
         if currWord != '':
