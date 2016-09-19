@@ -10,7 +10,7 @@ if not os.getcwd() in sys.path:
     sys.path.append(os.getcwd())
 
 from core import settingsManager
-from utils import debug
+from core import debug
 
 class fenrir():
     def __init__(self):

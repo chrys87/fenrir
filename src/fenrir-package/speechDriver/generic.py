@@ -1,6 +1,11 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
+# Fenrir TTY screen reader
+# By Chrys, Storm Dragon, and contributers.
 # generic driver
+
+from core import debug
 
 class driver():
     def __init__(self ):

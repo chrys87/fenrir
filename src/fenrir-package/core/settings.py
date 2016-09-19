@@ -1,6 +1,10 @@
 #!/bin/python
+# -*- coding: utf-8 -*-
 
-from utils import debug
+# Fenrir TTY screen reader
+# By Chrys, Storm Dragon, and contributers.
+
+from core import debug
 
 settings = {
 'sound': {

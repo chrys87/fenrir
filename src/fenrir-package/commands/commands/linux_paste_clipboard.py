@@ -1,8 +1,13 @@
 #!/bin/python
+# -*- coding: utf-8 -*-
+
+# Fenrir TTY screen reader
+# By Chrys, Storm Dragon, and contributers.
+
+from core import debug
 import fcntl
-import sys
 import termios
-import time
+import time, sys
 
 class command():
     def __init__(self):

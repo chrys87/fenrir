@@ -1,4 +1,8 @@
 #!/bin/python
+# -*- coding: utf-8 -*-
+
+# Fenrir TTY screen reader
+# By Chrys, Storm Dragon, and contributers.
 
 import importlib.util
 import os
@@ -9,7 +13,7 @@ from core import commandManager
 from core import screenManager
 from core import environment 
 from core.settings import settings
-from utils import debug
+from core import debug
 
 class settingsManager():
     def __init__(self):

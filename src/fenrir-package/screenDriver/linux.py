@@ -1,9 +1,12 @@
 #!/bin/python
 # -*- coding: utf-8 -*-
 
+# Fenrir TTY screen reader
+# By Chrys, Storm Dragon, and contributers.
+
 import difflib
 import subprocess
-from utils import debug
+from core import debug
 
 class driver():
     def __init__(self):
@@ -50,10 +53,10 @@ class driver():
             newContentBytes = vcsa.read()
             vcsa.close()
             if len(newContentBytes) < 5:
-                return environment
+                return
         except Exception as e:
             environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR)   
-            return environment
+            return
         screenEncoding = environment['runtime']['settingsManager'].getSetting(environment,'screen', 'encoding')
         # set new "old" values
         environment['screenData']['oldContentBytes'] = environment['screenData']['newContentBytes']

@@ -1,6 +1,11 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
+# Fenrir TTY screen reader
+# By Chrys, Storm Dragon, and contributers.
 # speech-dispatcher driver
+
+from core import debug
 
 class driver():
     def __init__(self ):
@@ -14,14 +19,14 @@ class driver():
         except:
             self._initialized = False
     def initialize(self, environment):
-        return environment
+        pass
     def shutdown(self, environment):
         if not self._isInitialized:
-            return environment
+            return
         self._isInitialized = False
         self.cancel()
         self._sd.close()
-        return environment
+        return
         
     def speak(self,text, queueable=True):
         if not self._isInitialized:

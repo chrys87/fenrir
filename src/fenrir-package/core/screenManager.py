@@ -1,6 +1,11 @@
 #!/bin/python
+# -*- coding: utf-8 -*-
+
+# Fenrir TTY screen reader
+# By Chrys, Storm Dragon, and contributers.
+
+from core import debug
 import time
-from utils import debug
 
 class screenManager():
     def __init__(self):

@@ -1,7 +1,12 @@
 #!/bin/python
+# -*- coding: utf-8 -*-
+
+# Fenrir TTY screen reader
+# By Chrys, Storm Dragon, and contributers.
+
 import importlib.util
 import glob, os, time
-from utils import debug
+from core import debug
 
 class commandManager():
     def __init__(self):

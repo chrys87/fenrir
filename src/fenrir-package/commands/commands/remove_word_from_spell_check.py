@@ -1,4 +1,10 @@
 #!/bin/python
+# -*- coding: utf-8 -*-
+
+# Fenrir TTY screen reader
+# By Chrys, Storm Dragon, and contributers.
+
+from core import debug
 from utils import word_utils
 initialized = False
 try:
@@ -24,12 +30,12 @@ class command():
     def run(self, environment):
         if not initialized:
            environment['runtime']['outputManager'].presentText(environment, 'pychant is not installed', interrupt=True) 
-           return environment
+           return
         if environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage') != self.language:
             try:
                 self.updateSpellLanguage(environment)
             except:
-                return environment    
+                return    
 
         if (environment['screenData']['newCursorReview'] != None):
             cursorPos = environment['screenData']['newCursorReview'].copy()

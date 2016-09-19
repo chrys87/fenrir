@@ -1,12 +1,16 @@
 #!/bin/python
+# -*- coding: utf-8 -*-
+
+# Fenrir TTY screen reader
+# By Chrys, Storm Dragon, and contributers.
 
 import evdev
-from evdev import InputDevice, UInput
 import time
+from evdev import InputDevice, UInput
 from select import select
 
 from core import inputEvent
-from utils import debug
+from core import debug
 
 class driver():
     def __init__(self):
