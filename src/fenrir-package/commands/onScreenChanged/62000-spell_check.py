@@ -23,7 +23,7 @@ class command():
         pass 
     def getDescription(self, environment):
         return 'No Description found'        
-     def updateSpellLanguage(self, environment):  
+    def updateSpellLanguage(self, environment):  
         self.spellChecker = enchant.Dict(environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage'))
         self.language = environment['runtime']['settingsManager'].getSetting(environment, 'general', 'spellCheckLanguage')      
       
