@@ -24,10 +24,7 @@ class command():
         if environment['commandBuffer']['Marks']['1'] == None:
             environment['commandBuffer']['Marks']['1'] = environment['screenData']['newCursorReview'].copy()
         else:
-            if environment['commandBuffer']['Marks']['2'] == None:
-                environment['commandBuffer']['Marks']['2'] = environment['screenData']['newCursorReview'].copy()
-            else:
-                environment['commandBuffer']['Marks']['3'] = environment['screenData']['newCursorReview'].copy()
+            environment['commandBuffer']['Marks']['2'] = environment['screenData']['newCursorReview'].copy()
 
         environment['runtime']['outputManager'].presentText(environment, 'set mark', interrupt=True)
  
