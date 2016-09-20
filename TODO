@@ -3,8 +3,9 @@ ToDos in Priority order:
 - Known Bugs  
   gstreamer sounddriver doesnt work (i think it needs a Glib 
   next word wrapping sometimes skips a word on beginn of line
-  
-- try to consume shortcuts
+
+- rework inputManager
+  try to consume shortcuts
   grab keyboard exclusive 
   release keyboard on error or quit
   grab shortcuts with fenrir key
@@ -15,7 +16,9 @@ ToDos in Priority order:
   possiblity to forewart shortcut (or use them as shortcut) [pressing twice while timeout]
   cleanup inputManager
   split input driver out of the handler
-
+- add screenManager
+  abstract screen driver
+  
 - dictonary for special chars and string replacements
 - punctuation
 
@@ -37,7 +40,10 @@ ToDos in Priority order:
 - implement onScreenChange commands
   read highlighted text mode
   window mode (define a area and just read that changes)
-
+- add onApplicationChange trigger
+  per application commands
+  per application onScreenChange
+  per application onInput
 - add the debugging to core  
 - autostart systemd
 https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/sect-Managing_Services_with_systemd-Unit_Files.html
