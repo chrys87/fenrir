@@ -34,13 +34,14 @@ class driver():
     def getIgnoreScreens(self):
         xlist = []
         try:
-            x = subprocess.Popen('ps a -o tty,comm | grep -e Xorg | grep -v "grep -e Xorg"', shell=True, stdout=subprocess.PIPE).stdout.read().decode()[:-1].split('\n')
+            x = subprocess.Popen('ps a -o tty,comm | grep Xorg', shell=True, stdout=subprocess.PIPE).stdout.read().decode()[:-1].split('\n')
         except Exception as e:
             print(e)
             return xlist
         for i in x:
-            if i[:3].upper() == 'TTY':
-                xlist.append(i[3])
+            if not "grep" in i:
+                if (i[:3].lower() == 'tty'):
+                    xlist.append(i[3])
         return xlist        
                        
     def update(self, environment, trigger='updateScreen'):
