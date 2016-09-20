@@ -21,9 +21,10 @@ class fenrir():
         except RuntimeError:
             raise
         signal.signal(signal.SIGINT, self.captureSignal)
-    
-    def proceed(self):
+        signal.signal(signal.SIGTERM, self.captureSignal)
         self.environment['runtime']['outputManager'].presentText(self.environment, "Start Fenrir", soundIcon='ScreenReaderOn', interrupt=True)          
+
+    def proceed(self):
         while(self.environment['generalInformation']['running']):
             try:
                 self.handleProcess()
@@ -54,15 +55,13 @@ class fenrir():
     def prepareCommand(self):
         if self.environment['input']['keyForeward']:
             return
-        if time.time() -  self.environment['commandInfo']['lastCommandExecutionTime'] < 0.2:
+        if time.time() - self.environment['commandInfo']['lastCommandExecutionTime'] < 0.2:
             return
         shortcut = self.environment['runtime']['inputManager'].getCurrShortcut(self.environment)        
         command = self.environment['runtime']['inputManager'].getCommandForShortcut(self.environment, shortcut)        
         self.environment['runtime']['commandManager'].queueCommand(self.environment, command)           
     
     def handleCommands(self):
-        if self.environment['input']['keyForeward']:
-            return
         if self.environment['runtime']['commandManager'].isCommandQueued(self.environment):
             self.environment['runtime']['commandManager'].executeCommand(self.environment, self.environment['commandInfo']['currCommand'], 'commands')
 
@@ -76,7 +75,7 @@ class fenrir():
         if self.environment['runtime']['inputManager']:
             self.environment['runtime']['inputManager'].shutdown(self.environment)                      
         self.environment['runtime']['outputManager'].presentText(self.environment, "Quit Fenrir", soundIcon='ScreenReaderOff', interrupt=True)   
-        time.sleep(1.0) # wait a little before splatter it :)
+        time.sleep(.8) # wait a little for sound
         
         if self.environment['runtime']['screenManager']:
             self.environment['runtime']['screenManager'].shutdown(self.environment)  
@@ -87,7 +86,7 @@ class fenrir():
       
         if self.environment['runtime']['debug']:
             self.environment['runtime']['debug'].closeDebugFile()                   
-        time.sleep(0.8) # wait a little before splatter it :)
+        time.sleep(0.5) # wait a little before splatter it :)
         self.environment = None
 
 if __name__ == "__main__":
