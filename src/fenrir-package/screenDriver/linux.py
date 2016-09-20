@@ -11,13 +11,10 @@ from core import debug
 class driver():
     def __init__(self):
         self.vcsaDevicePath = '/dev/vcsa'
-    
     def initialize(self, environment):
         pass
-    
     def shutdown(self, environment):
         pass
-    
     def insert_newlines(self, string, every=64):
         return '\n'.join(string[i:i+every] for i in range(0, len(string), every))
     
@@ -115,6 +112,7 @@ def getCurrApplication(self, screen):
             environment['screenData']['oldCursor']['y'] = 0
             environment['screenData']['oldDelta'] = ''
             environment['screenData']['oldNegativeDelta'] = ''
+            environment['screenData']['oldApplication'] = ''
         # always clear current deltas
         environment['screenData']['newNegativeDelta'] = ''
         environment['screenData']['newDelta'] = ''                   
