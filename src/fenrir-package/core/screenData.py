@@ -17,6 +17,8 @@ screenData = {
 'oldContentBytes': b'',
 'oldContentText': '',
 'oldContentAttrib': b'',
+'oldApplication': [],
+'oldTTY':'-1',
 'newDelta': '',
 'newNegativeDelta': '',
 'newCursorReview':None,
@@ -24,7 +26,7 @@ screenData = {
 'newContentBytes': b'',
 'newContentText': '',
 'newContentAttrib': b'',
-'oldTTY':'-1',
 'newTTY':'0',
+'newApplication': [],
 'lastScreenUpdate': time.time()
 }
