@@ -25,10 +25,8 @@ class command():
 
         # use the last first and the last setted mark as range
         startMark = environment['commandBuffer']['Marks']['1'].copy()
-        if environment['commandBuffer']['Marks']['3'] != None:
-            endMark = environment['commandBuffer']['Marks']['3'].copy()    
-        else:
-            endMark = environment['commandBuffer']['Marks']['2'].copy()         
+        endMark = environment['commandBuffer']['Marks']['2'].copy()         
+        
         marked = mark_utils.getTextBetweenMarks(startMark, endMark, environment['screenData']['newContentText'])
 
         environment['commandBuffer']['clipboard'] = [marked] + environment['commandBuffer']['clipboard'][:environment['runtime']['settingsManager'].getSettingAsFloat(environment, 'general', 'numberOfClipboards') -1]
@@ -36,7 +34,6 @@ class command():
         # reset marks
         environment['commandBuffer']['Marks']['1'] = None
         environment['commandBuffer']['Marks']['2'] = None
-        environment['commandBuffer']['Marks']['3'] = None
         
         if marked.strip(" \t\n") == '':
             environment['runtime']['outputManager'].presentText(environment, "blank", soundIcon='EmptyLine', interrupt=True)
