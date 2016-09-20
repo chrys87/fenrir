@@ -16,7 +16,7 @@ commandBuffer = {
 'genericListSelection': 0,
 'clipboard':[],
 'currClipboard': 0,
-'Marks':{'1':None, '2':None, '3':None}
+'Marks':{'1':None, '2':None}
 }
 
 # used by the commandManager
