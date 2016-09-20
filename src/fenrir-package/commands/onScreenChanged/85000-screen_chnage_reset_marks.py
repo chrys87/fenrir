@@ -21,7 +21,6 @@ class command():
             return
         environment['commandBuffer']['Marks']['1']  = None
         environment['commandBuffer']['Marks']['2']  = None
-        environment['commandBuffer']['Marks']['3']  = None
 
     def setCallback(self, callback):
         pass
