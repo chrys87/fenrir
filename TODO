@@ -20,6 +20,11 @@ ToDos in Priority order:
 - punctuation
 
 - implement commands
+  define_window
+  remove_window
+  add_bookmark
+  remove_bookmark
+  present_bookmark
   attributes_curr_char
   toggle_highlighted_mode
   generic list command (convert clipboard management)
