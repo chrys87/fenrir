@@ -45,7 +45,7 @@ class driver():
                     xlist.append(i[3])
         return xlist
 
-def getCurrApplication(self):
+def getCurrApplication(self, screen):
     apps = []
     appList = []
     try:
@@ -53,7 +53,7 @@ def getCurrApplication(self):
     except Exception as e:
         print(e)
         return appList
-    currScreen = str(self.getCurrScreen())
+    currScreen = str(screen)
     for i in apps:
         i = i.split()
         i[0] = i[0].lower()
@@ -93,6 +93,7 @@ def getCurrApplication(self):
             environment['screenData']['oldTTY'] = environment['screenData']['newTTY']
         environment['screenData']['oldDelta'] = environment['screenData']['newDelta']
         environment['screenData']['oldNegativeDelta'] = environment['screenData']['newNegativeDelta']
+        environment['screenData']['oldApplication'] = environment['screenData']['newApplication'] 
         environment['screenData']['newTTY'] = newTTY
         environment['screenData']['newContentBytes'] = newContentBytes
         # get metadata like cursor or screensize
@@ -100,6 +101,7 @@ def getCurrApplication(self):
         environment['screenData']['columns'] = int( environment['screenData']['newContentBytes'][1])
         environment['screenData']['newCursor']['x'] = int( environment['screenData']['newContentBytes'][2])
         environment['screenData']['newCursor']['y'] = int( environment['screenData']['newContentBytes'][3])
+        environment['screenData']['newApplication'] = self.getCurrApplication(newTTY)
         # analyze content
         environment['screenData']['newContentText'] = environment['screenData']['newContentBytes'][4:][::2].decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
         environment['screenData']['newContentAttrib'] = environment['screenData']['newContentBytes'][5:][::2]
