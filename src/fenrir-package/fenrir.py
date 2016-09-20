@@ -38,12 +38,12 @@ class fenrir():
         if not timeout:  
             self.prepareCommand()
             if not (self.environment['runtime']['inputManager'].isConsumeInput(self.environment) or \
-              self.environment['runtime']['inputManager'].isFenrirKeyPressed(self.environment) and
+              self.environment['runtime']['inputManager'].isFenrirKeyPressed(self.environment)) and \
               not self.environment['runtime']['commandManager'].isCommandQueued(self.environment):
                 self.environment['runtime']['inputManager'].writeEventBuffer(self.environment)
             elif self.environment['runtime']['inputManager'].noKeyPressed(self.environment):
                 self.environment['runtime']['inputManager'].clearEventBuffer(self.environment)
-        
+
         try:
             self.environment['runtime']['screenManager'].update(self.environment)
         except Exception as e:

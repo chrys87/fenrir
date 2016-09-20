@@ -28,6 +28,27 @@ class driver():
             environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR)   
         return currScreen
 
+    def getCurrApplication(self, screen):
+        apps = []
+        appList = []
+        try:
+            apps = subprocess.Popen('ps a -o comm,tty,stat', shell=True, stdout=subprocess.PIPE).stdout.read().decode()[:-1].split('\n')
+        except Exception as e:
+            print(e)
+            return appList
+        currScreen = str(screen)
+        for i in apps:
+            i = i.split()
+            i[0] = i[0].lower()
+            i[1] = i[1].lower()
+            if '+' in i[2]:
+                if not "grep" == i[0] and \
+                  not "sh" == i[0] and \
+                  not "ps" == i[0]:
+                    if "tty"+currScreen in i[1]:
+                        appList.append(i[0])
+        return appList
+
     def getIgnoreScreens(self):
         xlist = []
         try:
@@ -37,32 +58,12 @@ class driver():
             return xlist
         for i in x:
             if not "grep" in i and \
-              if not "ps" in i:                
+              not "ps" in i:                
                 if (i[:3].lower() == 'tty'):
                     xlist.append(i[3])
         return xlist
 
-def getCurrApplication(self, screen):
-    apps = []
-    appList = []
-    try:
-        apps = subprocess.Popen('ps a -o comm,tty,stat', shell=True, stdout=subprocess.PIPE).stdout.read().decode()[:-1].split('\n')
-    except Exception as e:
-        print(e)
-        return appList
-    currScreen = str(screen)
-    for i in apps:
-        i = i.split()
-        i[0] = i[0].lower()
-        i[1] = i[1].lower()
-        if '+' in i[2]:
-            if not "grep" == i[0] and \
-              not "sh" == i[0] and \
-              not "ps" == i[0]:
-                if "tty"+currScreen in i[1]:
-                    appList.append(i[0])
-    return appList
-    
+
     def update(self, environment, trigger='updateScreen'):
         newTTY = ''
         newContentBytes = b''       
@@ -138,4 +139,3 @@ def getCurrApplication(self, screen):
 
                 environment['screenData']['newDelta'] = ''.join(x[2:] for x in diffList if x.startswith('+ '))             
                 environment['screenData']['newNegativeDelta'] = ''.join(x[2:] for x in diffList if x.startswith('- '))
-
