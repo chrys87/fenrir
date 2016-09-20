@@ -26,8 +26,6 @@ class command():
         # use the last first and the last setted mark as range
         startMark = environment['commandBuffer']['Marks']['1'].copy()
         endMark = environment['commandBuffer']['Marks']['2'].copy() 
-        if environment['commandBuffer']['Marks']['3'] != None:
-            endMark = environment['commandBuffer']['Marks']['3'].copy()    
 
         marked = mark_utils.getTextBetweenMarks(startMark, endMark, environment['screenData']['newContentText'])
 
