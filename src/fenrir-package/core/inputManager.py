@@ -27,6 +27,7 @@ class inputManager():
         environment['runtime']['inputManager'].releaseDevices(environment)    
         if environment['runtime']['inputDriver']:
             environment['runtime']['inputDriver'].shutdown(environment)
+            del environment['runtime']['inputDriver']
     
     def getInputEvent(self, environment):
         eventReceived = False    	
