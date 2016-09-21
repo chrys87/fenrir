@@ -3,7 +3,8 @@ ToDos in Priority order:
 - Known Bugs  
   gstreamer sounddriver doesnt work (i think it needs a Glib 
   next word wrapping sometimes skips a word on beginn of line
-
+  input handling does not work propperly
+  
 - rework inputManager
   try to consume shortcuts
   grab keyboard exclusive 
@@ -33,7 +34,7 @@ ToDos in Priority order:
 - implement commands
   define_window
   remove_window
-  add_bookmark
+  add_bookmark (per application)
   remove_bookmark
   present_bookmark
   attributes_curr_char
