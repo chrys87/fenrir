@@ -21,7 +21,11 @@ ToDos in Priority order:
   
 - dictonary for special chars and string replacements
 - punctuation
-
+- New Triggers
+  onAppChange
+  onScreenChange
+  rename current onScreenChange to onScreenUpdate
+  
 - implement commands
   define_window
   remove_window
