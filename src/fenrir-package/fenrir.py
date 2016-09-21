@@ -34,8 +34,8 @@ class fenrir():
         self.shutdown()
 
     def handleProcess(self):
-        timeout = self.environment['runtime']['inputManager'].proceedInputEvent(self.environment)
-        if not timeout:  
+        eventReceived = self.environment['runtime']['inputManager'].getInputEvent(self.environment)
+        if eventReceived:  
             self.prepareCommand()
             if not (self.environment['runtime']['inputManager'].isConsumeInput(self.environment) or \
               self.environment['runtime']['inputManager'].isFenrirKeyPressed(self.environment)) and \
