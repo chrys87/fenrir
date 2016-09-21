@@ -18,8 +18,10 @@ class outputManager():
     def shutdown(self, environment):
         if environment['runtime']['soundDriver']:
             environment['runtime']['soundDriver'].shutdown(environment)
+            del environment['runtime']['soundDriver']
         if environment['runtime']['speechDriver']:
-            environment['runtime']['speechDriver'].shutdown(environment)     
+            environment['runtime']['speechDriver'].shutdown(environment)   
+            del environment['runtime']['speechDriver']
 
     def presentText(self, environment, text, interrupt=True, soundIcon = ''):
         environment['runtime']['debug'].writeDebugOut(environment,"presentText:\nsoundIcon:'"+soundIcon+"'\nText:\n" + text ,debug.debugLevel.INFO)
