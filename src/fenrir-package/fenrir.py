@@ -78,18 +78,23 @@ class fenrir():
     def shutdown(self):
         if self.environment['runtime']['inputManager']:
             self.environment['runtime']['inputManager'].shutdown(self.environment)                      
+            del self.environment['runtime']['inputManager']
         self.environment['runtime']['outputManager'].presentText(self.environment, "Quit Fenrir", soundIcon='ScreenReaderOff', interrupt=True)   
         time.sleep(.8) # wait a little for sound
         
         if self.environment['runtime']['screenManager']:
             self.environment['runtime']['screenManager'].shutdown(self.environment)  
+            del self.environment['runtime']['screenManager']
         if self.environment['runtime']['commandManager']:
             self.environment['runtime']['commandManager'].shutdown(self.environment)                                    
+            del self.environment['runtime']['commandManager']
         if self.environment['runtime']['outputManager']:
-            self.environment['runtime']['outputManager'].shutdown(self.environment)                                      
+            self.environment['runtime']['outputManager'].shutdown(self.environment)    
+            del self.environment['runtime']['outputManager']
       
         if self.environment['runtime']['debug']:
-            self.environment['runtime']['debug'].closeDebugFile()                   
+            self.environment['runtime']['debug'].closeDebugFile() 
+            del self.environment['runtime']['debug']
         time.sleep(0.5) # wait a little before splatter it :)
         self.environment = None
 
