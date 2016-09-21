@@ -14,12 +14,14 @@ class commandManager():
     def initialize(self, environment):
         self.env = environment
         self.env['runtime']['commandManager'].loadCommands('commands')
-        environment['runtime']['commandManager'].loadCommands('onInput')
-        environment['runtime']['commandManager'].loadCommands('onScreenChanged')    
+        self.env['runtime']['commandManager'].loadCommands('onInput')
+        self.env['runtime']['commandManager'].loadCommands('onScreenUpdate')         
+        self.env['runtime']['commandManager'].loadCommands('onScreenChanged')    
 
     def shutdown(self):
         self.env['runtime']['commandManager'].shutdownCommands('commands')
         self.env['runtime']['commandManager'].shutdownCommands('onInput')
+        self.env['runtime']['commandManager'].shutdownCommands('onScreenUpdate')         
         self.env['runtime']['commandManager'].shutdownCommands('onScreenChanged')    
         
     def loadCommands(self, section='commands'):

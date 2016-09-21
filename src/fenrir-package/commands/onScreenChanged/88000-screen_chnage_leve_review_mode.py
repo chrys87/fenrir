@@ -17,8 +17,6 @@ class command():
         return 'No Description found'  
 
     def run(self):
-        if self.env['screenData']['newTTY'] == self.env['screenData']['oldTTY']:
-            return
         self.env['screenData']['oldCursorReview'] = None
         self.env['screenData']['newCursorReview'] = None
 

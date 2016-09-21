@@ -17,8 +17,6 @@ class command():
         return 'No Description found'      
 
     def run(self):
-        if self.env['screenData']['newTTY'] == self.env['screenData']['oldTTY']:
-            return
         self.env['runtime']['outputManager'].presentText("screen " + str(self.env['screenData']['newTTY']),soundIcon='ChangeTTY', interrupt=True)         
         self.env['runtime']['outputManager'].presentText(self.env['screenData']['newDelta'], interrupt=False)
 

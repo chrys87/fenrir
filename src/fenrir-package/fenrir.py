@@ -50,9 +50,11 @@ class fenrir():
             print(e)
             self.environment['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)         
         
-        self.environment['runtime']['commandManager'].executeTriggerCommands('onInput')                   
-        self.environment['runtime']['commandManager'].executeTriggerCommands('onScreenChanged')         
-            
+        self.environment['runtime']['commandManager'].executeTriggerCommands('onInput')
+        if self.environment['screenData']['newTTY'] == self.environment['screenData']['oldTTY']:                 
+            self.environment['runtime']['commandManager'].executeTriggerCommands('onScreenUpdate')         
+        else:
+            self.environment['runtime']['commandManager'].executeTriggerCommands('onScreenChanged')             
         self.handleCommands()
 
     def prepareCommand(self):

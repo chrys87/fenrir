@@ -17,8 +17,6 @@ ToDos in Priority order:
   possiblity to forewart shortcut (or use them as shortcut) [pressing twice while timeout]
   cleanup inputManager
   split input driver out of the handler
-- add screenManager
-  abstract screen driver
   
 - dictonary for special chars and string replacements
 - punctuation
@@ -46,7 +44,6 @@ ToDos in Priority order:
     first item
     last item
 - improve performance  
-- pass environment instance in init and remove it from function calls
 
 - implement onScreenChange (new onScreenUpdate) commands
   read highlighted text mode
@@ -214,3 +211,7 @@ ps a -o tty,comm  | grep -e Xorg | grep -v "grep -e Xorg"
   promoted text
   clear_marks_on_screen_change
   leve_review_mode_on_screen_change
+  
+- add screenManager
+  abstract screen driver
+- pass environment instance in init and remove it from function calls  
