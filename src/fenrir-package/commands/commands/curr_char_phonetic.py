@@ -11,26 +11,26 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        pass
-    def shutdown(self, environment):
-        pass
-    def getDescription(self, environment):
+        self.env = environment
+    def shutdown(self):
+        pass 
+    def getDescription(self):
         return 'phonetically presents the current character'    
     
-    def run(self, environment):
-        if (environment['screenData']['newCursorReview'] != None):
-            cursorPos = environment['screenData']['newCursorReview'].copy()
+    def run(self):
+        if self.env['screenData']['newCursorReview']:
+            cursorPos = self.env['screenData']['newCursorReview'].copy()
         else:
-            cursorPos = environment['screenData']['newCursor'].copy()
+            cursorPos = self.env['screenData']['newCursor'].copy()
 
         x, y, currChar = \
-          char_utils.getCurrentChar(cursorPos['x'], cursorPos['y'], environment['screenData']['newContentText'])
+          char_utils.getCurrentChar(cursorPos['x'], cursorPos['y'], self.env['screenData']['newContentText'])
         
         if currChar.strip(" \t\n") == '':
-            environment['runtime']['outputManager'].presentText(environment, "blank" ,interrupt=True)
+            self.env['runtime']['outputManager'].presentText("blank" ,interrupt=True)
         else:
             currChar = char_utils.getPhonetic(currChar)
-            environment['runtime']['outputManager'].presentText(environment, currChar ,interrupt=True)
+            self.env['runtime']['outputManager'].presentText(currChar ,interrupt=True)
   
     def setCallback(self, callback):
         pass

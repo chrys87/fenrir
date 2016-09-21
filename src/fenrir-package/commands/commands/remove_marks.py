@@ -10,16 +10,16 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        pass
-    def shutdown(self, environment):
-        pass
-    def getDescription(self, environment):
+        self.env = environment
+    def shutdown(self):
+        pass 
+    def getDescription(self):
         return 'removes marks from selected text'        
     
-    def run(self, environment):
-        environment['commandBuffer']['Marks']['1'] = None
-        environment['commandBuffer']['Marks']['2'] = None
-        environment['runtime']['outputManager'].presentText(environment, 'Remove marks', interrupt=True)
+    def run(self):
+        self.env['commandBuffer']['Marks']['1'] = None
+        self.env['commandBuffer']['Marks']['2'] = None
+        self.env['runtime']['outputManager'].presentText('Remove marks', interrupt=True)
 
     def setCallback(self, callback):
         pass

@@ -11,48 +11,48 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
+        self.env = environment
+    def shutdown(self):
         pass
-    def shutdown(self, environment):
-        pass  
-    def getDescription(self, environment):
-        return ''        
+    def getDescription(self):
+        return 'No Description found'     
 
-    def run(self, environment):
-        if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'keyboard', 'wordEcho'):
+    def run(self):
+        if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'wordEcho'):
             return
 
         # just when cursor move worddetection is needed
-        if environment['screenData']['newCursor']['x'] == environment['screenData']['oldCursor']['x']:
+        if self.env['screenData']['newCursor']['x'] == self.env['screenData']['oldCursor']['x']:
             return 
 
         # for now no new line
-        if environment['screenData']['newCursor']['y'] != environment['screenData']['oldCursor']['y']:
+        if self.env['screenData']['newCursor']['y'] != self.env['screenData']['oldCursor']['y']:
             return 
-        if len(environment['screenData']['newDelta']) > 1:
+        if len(self.env['screenData']['newDelta']) > 1:
             return          
 
         # TTY Change is no new word
-        if environment['screenData']['newTTY'] != environment['screenData']['oldTTY']:
+        if self.env['screenData']['newTTY'] != self.env['screenData']['oldTTY']:
             return
             
         # first place could not be the end of a word
-        if environment['screenData']['newCursor']['x'] == 0:
+        if self.env['screenData']['newCursor']['x'] == 0:
             return
 
         # get the word
-        newContent = environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursor']['y']]
-        x, y, currWord =  word_utils.getCurrentWord(environment['screenData']['newCursor']['x'], 0, newContent)                  
+        newContent = self.env['screenData']['newContentText'].split('\n')[self.env['screenData']['newCursor']['y']]
+        x, y, currWord =  word_utils.getCurrentWord(self.env['screenData']['newCursor']['x'], 0, newContent)                  
         # was this a typed word?
-        if environment['screenData']['newDelta'] != '':
-            if not(newContent[environment['screenData']['oldCursor']['x']].strip(" \t\n") == '' and x != environment['screenData']['oldCursor']['x']):
+        if self.env['screenData']['newDelta'] != '':
+            if not(newContent[self.env['screenData']['oldCursor']['x']].strip(" \t\n") == '' and x != self.env['screenData']['oldCursor']['x']):
                 return
         else:
         # or just arrow arround?
-            if not(newContent[environment['screenData']['newCursor']['x']].strip(" \t\n") == '' and x != environment['screenData']['newCursor']['x']):
+            if not(newContent[self.env['screenData']['newCursor']['x']].strip(" \t\n") == '' and x != self.env['screenData']['newCursor']['x']):
                 return            
 
         if currWord != '':
-            environment['runtime']['outputManager'].presentText(environment, currWord, interrupt=True)
+            self.env['runtime']['outputManager'].presentText(currWord, interrupt=True)
 
     def setCallback(self, callback):
         pass

@@ -11,25 +11,25 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        pass
-    def shutdown(self, environment):
-        pass
-    def getDescription(self, environment):
+        self.env = environment
+    def shutdown(self):
+        pass 
+    def getDescription(self):
         return 'Reads from the top of the screen to the cursor position'        
 
-    def run(self, environment):
+    def run(self):
         # Prefer review cursor over text cursor
-        if (environment['screenData']['newCursorReview'] != None):
-            cursorPos = environment['screenData']['newCursorReview'].copy()
+        if self.env['screenData']['newCursorReview']:
+            cursorPos = self.env['screenData']['newCursorReview'].copy()
         else:
-            cursorPos = environment['screenData']['newCursor'].copy()
+            cursorPos = self.env['screenData']['newCursor'].copy()
 
-        textBeforeCursor = mark_utils.getTextBeforeMark(cursorPos, environment['screenData']['newContentText'])
+        textBeforeCursor = mark_utils.getTextBeforeMark(cursorPos, self.env['screenData']['newContentText'])
 
         if textBeforeCursor.strip(" \t\n") == '':
-            environment['runtime']['outputManager'].presentText(environment, "blank", soundIcon='EmptyLine', interrupt=True)
+            self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True)
         else:
-            environment['runtime']['outputManager'].presentText(environment, textBeforeCursor, interrupt=True)
+            self.env['runtime']['outputManager'].presentText(textBeforeCursor, interrupt=True)
    
     def setCallback(self, callback):
         pass

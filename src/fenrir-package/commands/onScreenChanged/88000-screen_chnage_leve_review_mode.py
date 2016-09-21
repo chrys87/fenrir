@@ -10,17 +10,17 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
+        self.env = environment
+    def shutdown(self):
         pass
-    def shutdown(self, environment):
-        pass 
-    def getDescription(self, environment):
-        return ''        
+    def getDescription(self):
+        return 'No Description found'  
 
-    def run(self, environment):
-        if environment['screenData']['newTTY'] == environment['screenData']['oldTTY']:
+    def run(self):
+        if self.env['screenData']['newTTY'] == self.env['screenData']['oldTTY']:
             return
-        environment['screenData']['oldCursorReview'] = None
-        environment['screenData']['newCursorReview'] = None
+        self.env['screenData']['oldCursorReview'] = None
+        self.env['screenData']['newCursorReview'] = None
 
     def setCallback(self, callback):
         pass

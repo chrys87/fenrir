@@ -10,36 +10,36 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
+        self.env = environment
+    def shutdown(self):
         pass
-    def shutdown(self, environment):
-        pass
-    def getDescription(self, environment):
-        return ''        
+    def getDescription(self):
+        return 'No Description found'        
 
-    def run(self, environment):
-        if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'keyboard', 'charDeleteEcho'):
+    def run(self):
+        if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'charDeleteEcho'):
             return
    
         # detect typing or chilling
-        if environment['screenData']['newCursor']['x'] >= environment['screenData']['oldCursor']['x']:
+        if self.env['screenData']['newCursor']['x'] >= self.env['screenData']['oldCursor']['x']:
             return 
 
         # TTY change
-        if environment['screenData']['newTTY'] != environment['screenData']['oldTTY']:
+        if self.env['screenData']['newTTY'] != self.env['screenData']['oldTTY']:
             return
 
         # More than just a deletion happend
-        if environment['screenData']['newDelta'].strip() != '':
-            if environment['screenData']['newDelta'] != environment['screenData']['oldDelta']:
+        if self.env['screenData']['newDelta'].strip() != '':
+            if self.env['screenData']['newDelta'] != self.env['screenData']['oldDelta']:
     	        return
             
         # No deletion 
-        if environment['screenData']['newNegativeDelta'] == '':
+        if self.env['screenData']['newNegativeDelta'] == '':
             return
         # too much for a single backspace...
-        if len(environment['screenData']['newNegativeDelta']) >= 5:
+        if len(self.env['screenData']['newNegativeDelta']) >= 5:
             return           
-        environment['runtime']['outputManager'].presentText(environment, environment['screenData']['newNegativeDelta'], interrupt=True)
+        self.env['runtime']['outputManager'].presentText(self.env['screenData']['newNegativeDelta'], interrupt=True)
 
     def setCallback(self, callback):
         pass

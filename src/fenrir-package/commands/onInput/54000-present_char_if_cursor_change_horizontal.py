@@ -10,30 +10,30 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
+        self.env = environment
+    def shutdown(self):
         pass
-    def shutdown(self, environment):
-        pass
-    def getDescription(self, environment):
-        return ''          
+    def getDescription(self):
+        return ''           
     
-    def run(self, environment):
+    def run(self):
         # TTY Change
-        if environment['screenData']['newTTY'] != environment['screenData']['oldTTY']:
+        if self.env['screenData']['newTTY'] != self.env['screenData']['oldTTY']:
             return
-        if environment['runtime']['inputManager'].noKeyPressed(environment):
+        if self.env['runtime']['inputManager'].noKeyPressed():
             return            
         # detect an change on the screen, we just want to cursor arround, so no change should appear
-        if environment['screenData']['newDelta'] != '':
+        if self.env['screenData']['newDelta'] != '':
             return
-        if environment['screenData']['newNegativeDelta'] != '':
+        if self.env['screenData']['newNegativeDelta'] != '':
             return            
         # is it a horizontal change?
-        if environment['screenData']['newCursor']['y'] != environment['screenData']['oldCursor']['y'] or\
-          environment['screenData']['newCursor']['x'] == environment['screenData']['oldCursor']['x']:
+        if self.env['screenData']['newCursor']['y'] != self.env['screenData']['oldCursor']['y'] or\
+          self.env['screenData']['newCursor']['x'] == self.env['screenData']['oldCursor']['x']:
             return
-        currChar = environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursor']['y']][environment['screenData']['newCursor']['x']]
+        currChar = self.env['screenData']['newContentText'].split('\n')[self.env['screenData']['newCursor']['y']][self.env['screenData']['newCursor']['x']]
         if not currChar.strip(" \t\n") == '':
-            environment['runtime']['outputManager'].presentText(environment, currChar, interrupt=True)
+            self.env['runtime']['outputManager'].presentText(currChar, interrupt=True)
  
     def setCallback(self, callback):
         pass

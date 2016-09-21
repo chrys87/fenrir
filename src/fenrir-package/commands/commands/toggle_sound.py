@@ -10,18 +10,18 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        pass
-    def shutdown(self, environment):
-        pass
-    def getDescription(self, environment):
+        self.env = environment
+    def shutdown(self):
+        pass 
+    def getDescription(self):
         return 'enables or disables sound'        
 
-    def run(self, environment):
-        if environment['runtime']['settingsManager'].getSettingAsBool(environment, 'sound', 'enabled'): 
-            environment['runtime']['outputManager'].presentText(environment, "sound disabled", soundIcon='SoundOff', interrupt=True)
-        environment['runtime']['settingsManager'].setSetting(environment, 'sound', 'enabled', str(not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'sound', 'enabled')))   
-        if environment['runtime']['settingsManager'].getSettingAsBool(environment, 'sound', 'enabled'): 
-            environment['runtime']['outputManager'].presentText(environment, "sound enabled", soundIcon='SoundOn', interrupt=True)                 
+    def run(self):
+        if self.env['runtime']['settingsManager'].getSettingAsBool('sound', 'enabled'): 
+            self.env['runtime']['outputManager'].presentText("sound disabled", soundIcon='SoundOff', interrupt=True)
+        self.env['runtime']['settingsManager'].setSetting('sound', 'enabled', str(not self.env['runtime']['settingsManager'].getSettingAsBool('sound', 'enabled')))   
+        if self.env['runtime']['settingsManager'].getSettingAsBool('sound', 'enabled'): 
+            self.env['runtime']['outputManager'].presentText("sound enabled", soundIcon='SoundOn', interrupt=True)                 
   
     def setCallback(self, callback):
         pass

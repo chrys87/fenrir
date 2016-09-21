@@ -12,61 +12,60 @@ class inputManager():
     def __init__(self):
         pass
     def initialize(self, environment):
-        environment['runtime']['settingsManager'].loadDriver(environment,\
-          environment['runtime']['settingsManager'].getSetting(environment,'keyboard', 'driver'), 'inputDriver')
+        self.env = environment
+        self.env['runtime']['settingsManager'].loadDriver(\
+          self.env['runtime']['settingsManager'].getSetting('keyboard', 'driver'), 'inputDriver')
         # init LEDs with current state
-        environment['input']['newNumLock'] = environment['runtime']['inputDriver'].getNumlock(environment)
-        environment['input']['oldNumLock'] = environment['input']['newNumLock']
-        environment['input']['newCapsLock'] = environment['runtime']['inputDriver'].getCapslock(environment)
-        environment['input']['oldCapsLock'] = environment['input']['newCapsLock']
-        environment['input']['newScrollLock'] = environment['runtime']['inputDriver'].getScrollLock(environment)
-        environment['input']['oldScrollLock'] = environment['input']['newScrollLock']
-        self.grabDevices(environment)
+        self.env['input']['newNumLock'] = self.env['runtime']['inputDriver'].getNumlock()
+        self.env['input']['oldNumLock'] = self.env['input']['newNumLock']
+        self.env['input']['newCapsLock'] = self.env['runtime']['inputDriver'].getCapslock()
+        self.env['input']['oldCapsLock'] = self.env['input']['newCapsLock']
+        self.env['input']['newScrollLock'] = self.env['runtime']['inputDriver'].getScrollLock()
+        self.env['input']['oldScrollLock'] = self.env['input']['newScrollLock']
+        self.grabDevices()
 
-    def shutdown(self, environment):
-        environment['runtime']['inputManager'].releaseDevices(environment)
-        if environment['runtime']['inputDriver']:
-            environment['runtime']['inputDriver'].shutdown(environment)
-            del environment['runtime']['inputDriver']
+    def shutdown(self):
+        self.env['runtime']['inputManager'].releaseDevices()
+        self.env['runtime']['settingsManager'].shutdownDriver('inputDriver')
 
-    def getInputEvent(self, environment):
+    def getInputEvent(self):
         eventReceived = False
-        mEvent = environment['runtime']['inputDriver'].getInputEvent(environment)
+        mEvent = self.env['runtime']['inputDriver'].getInputEvent()
         if mEvent:
-            mEvent['EventName'] = self.convertEventName(environment, mEvent['EventName'])        
+            mEvent['EventName'] = self.convertEventName(mEvent['EventName'])        
             if mEvent['EventValue'] == 0:
                 return False  
             eventReceived = True
             if mEvent['EventState'] == 0:
-                if mEvent['EventName'] in environment['input']['currInput']:
-                    environment['input']['currInput'].remove(mEvent['EventName'])
-                    environment['input']['currInput'] = sorted(environment['input']['currInput'])
+                if mEvent['EventName'] in self.env['input']['currInput']:
+                    self.env['input']['currInput'].remove(mEvent['EventName'])
+                    self.env['input']['currInput'] = sorted(self.env['input']['currInput'])
             elif mEvent['EventState'] == 1:
-                if not mEvent['EventName'] in environment['input']['currInput']:
-                    environment['input']['currInput'].append(mEvent['EventName'])
-                    environment['input']['currInput'] = sorted(environment['input']['currInput'])
+                if not mEvent['EventName'] in self.env['input']['currInput']:
+                    self.env['input']['currInput'].append(mEvent['EventName'])
+                    self.env['input']['currInput'] = sorted(self.env['input']['currInput'])
             elif mEvent['EventState'] == 2:
                 pass
             else:
                 pass  
-            environment['input']['oldNumLock'] = environment['input']['newNumLock']
-            environment['input']['newNumLock'] = environment['runtime']['inputDriver'].getNumlock(environment)
-            environment['input']['oldCapsLock'] = environment['input']['newCapsLock'] 
-            environment['input']['newCapsLock'] = environment['runtime']['inputDriver'].getCapslock(environment)
-            environment['input']['oldScrollLock'] = environment['input']['newScrollLock'] 
-            environment['input']['newScrollLock'] = environment['runtime']['inputDriver'].getScrollLock(environment)
-            environment['input']['lastInputTime'] = time.time()
-            environment['input']['shortcutRepeat'] = 1
+            self.env['input']['oldNumLock'] = self.env['input']['newNumLock']
+            self.env['input']['newNumLock'] = self.env['runtime']['inputDriver'].getNumlock()
+            self.env['input']['oldCapsLock'] = self.env['input']['newCapsLock'] 
+            self.env['input']['newCapsLock'] = self.env['runtime']['inputDriver'].getCapslock()
+            self.env['input']['oldScrollLock'] = self.env['input']['newScrollLock'] 
+            self.env['input']['newScrollLock'] = self.env['runtime']['inputDriver'].getScrollLock()
+            self.env['input']['lastInputTime'] = time.time()
+            self.env['input']['shortcutRepeat'] = 1
         return eventReceived
     
-    def grabDevices(self, environment):
-        if environment['runtime']['settingsManager'].getSettingAsBool(environment, 'keyboard', 'grabDevices'):
-            environment['runtime']['inputDriver'].grabDevices(environment)
+    def grabDevices(self):
+        if self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
+            self.env['runtime']['inputDriver'].grabDevices()
 
-    def releaseDevices(self, environment):
-        environment['runtime']['inputDriver'].releaseDevices(environment)
+    def releaseDevices(self):
+        self.env['runtime']['inputDriver'].releaseDevices()
 
-    def convertEventName(self, environment, eventName):
+    def convertEventName(self, eventName):
         if not eventName:
             return ''
         if eventName == 'KEY_LEFTCTRL':
@@ -81,58 +80,59 @@ class inputManager():
             eventName = 'KEY_ALT'
         elif eventName == 'KEY_RIGHTALT':
             eventName = 'KEY_ALT'
-        if self.isFenrirKey(environment, eventName):
+        if self.isFenrirKey(eventName):
             eventName = 'KEY_FENRIR'
         return eventName
 	
-    def isConsumeInput(self, environment):
-        return environment['runtime']['commandManager'].isCommandQueued(environment) and \
-          not environment['input']['keyForeward']
+    def isConsumeInput(self):
+        return self.env['runtime']['commandManager'].isCommandQueued() and \
+          not self.env['input']['keyForeward']
         #and
-        #  not (environment['input']['keyForeward'] or \
-        #  environment['runtime']['settingsManager'].getSettingAsBool(environment, 'keyboard', 'grabDevices'))
+        #  not (self.env['input']['keyForeward'] or \
+        #  self.env['runtime']['settingsManager'].getSettingAsBool(, 'keyboard', 'grabDevices'))
  
-    def clearEventBuffer(self, environment):
-        environment['runtime']['inputDriver'].clearEventBuffer(environment)
+    def clearEventBuffer(self):
+        self.env['runtime']['inputDriver'].clearEventBuffer()
           
-    def writeEventBuffer(self, environment):
+    def writeEventBuffer(self):
         try:
-            environment['runtime']['inputDriver'].writeEventBuffer(environment)
+            self.env['runtime']['inputDriver'].writeEventBuffer()
         except Exception as e:
             print(e)
-            environment['runtime']['debug'].writeDebugOut(environment,"Error while writeUInput",debug.debugLevel.ERROR)
-            environment['runtime']['debug'].writeDebugOut(environment, str(e),debug.debugLevel.ERROR)
+            self.env['runtime']['debug'].writeDebugOut("Error while writeUInput",debug.debugLevel.ERROR)
+            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)
 
-    def isFenrirKeyPressed(self, environment):
-        return 'KEY_FENRIR' in environment['input']['currInput']
+    def isFenrirKeyPressed(self):
+        return 'KEY_FENRIR' in self.env['input']['currInput']
 
-    def noKeyPressed(self, environment):
-        return environment['input']['currInput'] == []
-    def getPrevDeepestInput(self, environment):
+    def noKeyPressed(self):
+        return self.env['input']['currInput'] == []
+        
+    def getPrevDeepestInput(self):
         shortcut = []
-        shortcut.append(environment['input']['shortcutRepeat'])
-        shortcut.append(sorted(environment['input']['prevDeepestInput']))
+        shortcut.append(self.env['input']['shortcutRepeat'])
+        shortcut.append(sorted(self.env['input']['prevDeepestInput']))
 
-    def getPrevShortcut(self, environment):
+    def getPrevShortcut(self):
         shortcut = []
-        shortcut.append(environment['input']['shortcutRepeat'])
-        shortcut.append(sorted(environment['input']['prevInput']))
+        shortcut.append(self.env['input']['shortcutRepeat'])
+        shortcut.append(sorted(self.env['input']['prevInput']))
         return str(shortcut)
 
-    def getCurrShortcut(self, environment):
+    def getCurrShortcut(self):
         shortcut = []
-        shortcut.append(environment['input']['shortcutRepeat'])
-        shortcut.append(sorted(environment['input']['currInput']))
+        shortcut.append(self.env['input']['shortcutRepeat'])
+        shortcut.append(sorted(self.env['input']['currInput']))
         return str(shortcut)
         
-    def isFenrirKey(self,environment, eventName):
-        return eventName in environment['input']['fenrirKey']
+    def isFenrirKey(self, eventName):
+        return eventName in self.env['input']['fenrirKey']
 
-    def getCommandForShortcut(self, environment, shortcut):
+    def getCommandForShortcut(self, shortcut):
         shortcut = shortcut.upper()
-        if not self.shortcutExists(environment, shortcut):
+        if not self.shortcutExists(shortcut):
             return '' 
-        return environment['bindings'][shortcut].upper()
+        return self.env['bindings'][shortcut].upper()
 
-    def shortcutExists(self, environment, shortcut):
-        return( str(shortcut).upper() in environment['bindings'])
+    def shortcutExists(self, shortcut):
+        return( str(shortcut).upper() in self.env['bindings'])

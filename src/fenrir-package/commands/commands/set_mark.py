@@ -10,23 +10,23 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        pass
-    def shutdown(self, environment):
-        pass
-    def getDescription(self, environment):
+        self.env = environment
+    def shutdown(self):
+        pass 
+    def getDescription(self):
         return 'places marks to select text to copy to the clipboard'        
     
-    def run(self, environment):
-        if environment['screenData']['newCursorReview'] == None:
-            environment['runtime']['outputManager'].presentText(environment, 'no review cursor', interrupt=True)
+    def run(self):
+        if not self.env['screenData']['newCursorReview']:
+            self.env['runtime']['outputManager'].presentText('no review cursor', interrupt=True)
             return
 
-        if environment['commandBuffer']['Marks']['1'] == None:
-            environment['commandBuffer']['Marks']['1'] = environment['screenData']['newCursorReview'].copy()
+        if not self.env['commandBuffer']['Marks']['1']:
+            self.env['commandBuffer']['Marks']['1'] = self.env['screenData']['newCursorReview'].copy()
         else:
-            environment['commandBuffer']['Marks']['2'] = environment['screenData']['newCursorReview'].copy()
+            self.env['commandBuffer']['Marks']['2'] = self.env['screenData']['newCursorReview'].copy()
 
-        environment['runtime']['outputManager'].presentText(environment, 'set mark', interrupt=True)
+        self.env['runtime']['outputManager'].presentText('set mark', interrupt=True)
  
     def setCallback(self, callback):
         pass

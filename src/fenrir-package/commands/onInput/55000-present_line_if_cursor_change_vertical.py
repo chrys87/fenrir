@@ -10,26 +10,26 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
+        self.env = environment
+    def shutdown(self):
         pass
-    def shutdown(self, environment):
-        pass
-    def getDescription(self, environment):
-        return ''           
+    def getDescription(self):
+        return ''        
     
-    def run(self, environment):
-        if environment['screenData']['newTTY'] != environment['screenData']['oldTTY']:
+    def run(self):
+        if self.env['screenData']['newTTY'] != self.env['screenData']['oldTTY']:
             return
-        if environment['screenData']['newDelta'] != environment['screenData']['oldDelta']:
+        if self.env['screenData']['newDelta'] != self.env['screenData']['oldDelta']:
             return    
-        if environment['screenData']['newCursor']['y'] == environment['screenData']['oldCursor']['y']:
+        if self.env['screenData']['newCursor']['y'] == self.env['screenData']['oldCursor']['y']:
             return
-        if environment['runtime']['inputManager'].noKeyPressed(environment):
+        if self.env['runtime']['inputManager'].noKeyPressed():
             return              
-        currLine = environment['screenData']['newContentText'].split('\n')[environment['screenData']['newCursor']['y']]
+        currLine = self.env['screenData']['newContentText'].split('\n')[self.env['screenData']['newCursor']['y']]
         if currLine.strip(" \t\n") == '':
-            environment['runtime']['outputManager'].presentText(environment, "blank", soundIcon='EmptyLine', interrupt=True)
+            self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True)
         else:
-            environment['runtime']['outputManager'].presentText(environment, currLine, interrupt=True)
+            self.env['runtime']['outputManager'].presentText(currLine, interrupt=True)
  
     def setCallback(self, callback):
         pass

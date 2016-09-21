@@ -11,29 +11,29 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
+        self.env = environment
+    def shutdown(self):
         pass
-    def shutdown(self, environment):
-        pass 
-    def getDescription(self, environment):
-        return ''        
+    def getDescription(self):
+        return 'No Description found'     
 
-    def run(self, environment):
-        if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'promote', 'enabled'):
+    def run(self):
+        if not self.env['runtime']['settingsManager'].getSettingAsBool('promote', 'enabled'):
             return
-        if environment['runtime']['settingsManager'].getSetting(environment, 'promote', 'list').strip(" \t\n") == '':
+        if self.env['runtime']['settingsManager'].getSetting('promote', 'list').strip(" \t\n") == '':
             return
-        if environment['screenData']['newTTY'] != environment['screenData']['oldTTY']:
+        if self.env['screenData']['newTTY'] != self.env['screenData']['oldTTY']:
             return
-        if environment['screenData']['newDelta'] == '':
+        if self.env['screenData']['newDelta'] == '':
             return
-        if int(time.time() - environment['input']['lastInputTime']) < environment['runtime']['settingsManager'].getSettingAsInt(environment, 'promote', 'inactiveTimeoutSec'):
+        if int(time.time() - self.env['input']['lastInputTime']) < self.env['runtime']['settingsManager'].getSettingAsInt('promote', 'inactiveTimeoutSec'):
             return
-        if len(environment['runtime']['settingsManager'].getSetting(environment, 'promote', 'list')) == 0:
+        if len(self.env['runtime']['settingsManager'].getSetting('promote', 'list')) == 0:
             return       
-        for promote in environment['runtime']['settingsManager'].getSetting(environment, 'promote', 'list').split(','):
-            if promote in environment['screenData']['newDelta']:    
-                environment['runtime']['outputManager'].playSoundIcon(environment,'PromotedText')        
-                environment['input']['lastInputTime'] = time.time()
+        for promote in self.env['runtime']['settingsManager'].getSetting('promote', 'list').split(','):
+            if promote in self.env['screenData']['newDelta']:    
+                self.env['runtime']['outputManager'].playSoundIcon('PromotedText')        
+                self.env['input']['lastInputTime'] = time.time()
                 return
 
     def setCallback(self, callback):

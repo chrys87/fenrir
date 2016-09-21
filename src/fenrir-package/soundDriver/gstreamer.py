@@ -30,7 +30,7 @@ class driver:
            return
         if not _gstreamerAvailable:
             return
-
+        self.env = environment
         self._player = Gst.ElementFactory.make('playbin', 'player')
         bus = self._player.get_bus()
         bus.add_signal_watch()
@@ -49,7 +49,7 @@ class driver:
 
         self._initialized = True
         return        
-    def shutdown(self, environment):
+    def shutdown(self):
         global _gstreamerAvailable
         if not _gstreamerAvailable:
             return

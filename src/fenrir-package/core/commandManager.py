@@ -12,16 +12,17 @@ class commandManager():
     def __init__(self):
         pass
     def initialize(self, environment):
-        environment['runtime']['commandManager'].loadCommands(environment,'commands')
-        environment['runtime']['commandManager'].loadCommands(environment,'onInput')
-        environment['runtime']['commandManager'].loadCommands(environment,'onScreenChanged')    
+        self.env = environment
+        self.env['runtime']['commandManager'].loadCommands('commands')
+        environment['runtime']['commandManager'].loadCommands('onInput')
+        environment['runtime']['commandManager'].loadCommands('onScreenChanged')    
 
-    def shutdown(self, environment):
-        environment['runtime']['commandManager'].shutdownCommands(environment,'commands')
-        environment['runtime']['commandManager'].shutdownCommands(environment,'onInput')
-        environment['runtime']['commandManager'].shutdownCommands(environment,'onScreenChanged')    
+    def shutdown(self):
+        self.env['runtime']['commandManager'].shutdownCommands('commands')
+        self.env['runtime']['commandManager'].shutdownCommands('onInput')
+        self.env['runtime']['commandManager'].shutdownCommands('onScreenChanged')    
         
-    def loadCommands(self, environment, section='commands'):
+    def loadCommands(self, section='commands'):
         commandFolder = "commands/" + section +"/"
         commandList = glob.glob(commandFolder+'*')
         for command in commandList:
@@ -34,63 +35,63 @@ class commandManager():
                     spec = importlib.util.spec_from_file_location(fileName, command)
                     command_mod = importlib.util.module_from_spec(spec)
                     spec.loader.exec_module(command_mod)
-                    environment['commands'][section][fileName.upper()] = command_mod.command()
-                    environment['commands'][section][fileName.upper()].initialize(environment)
+                    self.env['commands'][section][fileName.upper()] = command_mod.command()
+                    self.env['commands'][section][fileName.upper()].initialize(self.env)
             except Exception as e:
                 print(e)
-                environment['runtime']['debug'].writeDebugOut(environment,"Loading command:" + command ,debug.debugLevel.ERROR)
-                environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR)                
+                self.env['runtime']['debug'].writeDebugOut("Loading command:" + command ,debug.debugLevel.ERROR)
+                self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)                
                 continue
 
-    def shutdownCommands(self, environment, section):
-        for command in sorted(environment['commands'][section]):
+    def shutdownCommands(self, section):
+        for command in sorted(self.env['commands'][section]):
             try:
-                environment['commands'][section][command].shutdown(environment)
-                del environment['commands'][section][command]
+                self.env['commands'][section][command].shutdown()
+                del self.env['commands'][section][command]
             except Exception as e:
                 print(e)
-                environment['runtime']['debug'].writeDebugOut(environment,"Shutdown command:" + section + "." + cmd ,debug.debugLevel.ERROR)
-                environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR) 
+                self.env['runtime']['debug'].writeDebugOut("Shutdown command:" + section + "." + command ,debug.debugLevel.ERROR)
+                self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR) 
                 continue
 
-    def executeTriggerCommands(self, environment, trigger):
-        if environment['runtime']['screenManager'].isSuspendingScreen(environment):
+    def executeTriggerCommands(self, trigger):
+        if self.env['runtime']['screenManager'].isSuspendingScreen():
             return
-        for command in sorted(environment['commands'][trigger]):
-            if self.commandExists(environment, command, trigger):        
+        for command in sorted(self.env['commands'][trigger]):
+            if self.commandExists(command, trigger):        
                 try:
-                   environment['commands'][trigger][command].run(environment)
+                   self.env['commands'][trigger][command].run()
                 except Exception as e:
                     print(e)
-                    environment['runtime']['debug'].writeDebugOut(environment,"Executing trigger:" + trigger + "." + cmd ,debug.debugLevel.ERROR)
-                    environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR) 
+                    self.env['runtime']['debug'].writeDebugOut("Executing trigger:" + trigger + "." + cmd ,debug.debugLevel.ERROR)
+                    self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR) 
 
-    def executeCommand(self, environment, command, section = 'commands'):
-        if environment['runtime']['screenManager'].isSuspendingScreen(environment) :
+    def executeCommand(self, command, section = 'commands'):
+        if self.env['runtime']['screenManager'].isSuspendingScreen():
             return    
-        if self.commandExists(environment, command, section):
+        if self.commandExists(command, section):
             try:
-                if environment['generalInformation']['tutorialMode']:
-                    description = environment['commands'][section][command].getDescription(environment)
-                    environment['runtime']['outputManager'].presentText(environment, description, interrupt=True)                
+                if self.env['generalInformation']['tutorialMode']:
+                    description = self.env['commands'][section][command].getDescription()
+                    self.env['runtime']['outputManager'].presentText(description, interrupt=True)                
                 else:    
-                    environment['commands'][section][command].run(environment)
+                    self.env['commands'][section][command].run()
             except Exception as e:
                 print(e)
                 
-                environment['runtime']['debug'].writeDebugOut(environment,"Executing command:" + section + "." + command ,debug.debugLevel.ERROR)
-                environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR) 
-        self.clearCommandQueued(environment)
-        environment['commandInfo']['lastCommandExecutionTime'] = time.time()    
+                self.env['runtime']['debug'].writeDebugOut("Executing command:" + section + "." + command ,debug.debugLevel.ERROR)
+                self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR) 
+        self.clearCommandQueued()
+        self.env['commandInfo']['lastCommandExecutionTime'] = time.time()    
 
-    def isCommandQueued(self, environment):
-        return environment['commandInfo']['currCommand'] != ''
+    def isCommandQueued(self):
+        return self.env['commandInfo']['currCommand'] != ''
 
-    def clearCommandQueued(self, environment):
-        environment['commandInfo']['currCommand'] = ''
+    def clearCommandQueued(self):
+        self.env['commandInfo']['currCommand'] = ''
         
-    def queueCommand(self, environment, command):
-        environment['commandInfo']['currCommand'] = command
+    def queueCommand(self, command):
+        self.env['commandInfo']['currCommand'] = command
         
-    def commandExists(self, environment, command, section = 'commands'):
-        return( command.upper() in environment['commands'][section]) 
+    def commandExists(self, command, section = 'commands'):
+        return( command.upper() in self.env['commands'][section]) 

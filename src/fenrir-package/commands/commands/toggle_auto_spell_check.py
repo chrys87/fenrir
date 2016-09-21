@@ -10,18 +10,18 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        pass
-    def shutdown(self, environment):
-        pass
-    def getDescription(self, environment):
+        self.env = environment
+    def shutdown(self):
+        pass 
+    def getDescription(self):
         return 'enables or disables automatic spell checking'            
     
-    def run(self, environment):      
-        environment['runtime']['settingsManager'].setSetting(environment, 'general', 'autoSpellCheck', str(not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'general', 'autoSpellCheck')))   
-        if environment['runtime']['settingsManager'].getSettingAsBool(environment, 'general', 'autoSpellCheck'): 
-            environment['runtime']['outputManager'].presentText(environment, "auto spellcheck enabled", soundIcon='', interrupt=True)
+    def run(self):      
+        self.env['runtime']['settingsManager'].setSetting('general', 'autoSpellCheck', str(not self.env['runtime']['settingsManager'].getSettingAsBool('general', 'autoSpellCheck')))   
+        if self.env['runtime']['settingsManager'].getSettingAsBool('general', 'autoSpellCheck'): 
+            self.env['runtime']['outputManager'].presentText("auto spellcheck enabled", soundIcon='', interrupt=True)
         else:
-            environment['runtime']['outputManager'].presentText(environment, "auto spellcheck disabled", soundIcon='', interrupt=True)                          
+            self.env['runtime']['outputManager'].presentText("auto spellcheck disabled", soundIcon='', interrupt=True)                          
   
     def setCallback(self, callback):
         pass

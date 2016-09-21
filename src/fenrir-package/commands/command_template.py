@@ -10,12 +10,12 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
+        self.env = environment
+    def shutdown(self):
         pass
-    def shutdown(self, environment):
-        pass
-    def getDescription(self, environment):
-        return 'No Description found'         
-    def run(self, environment):
+    def getDescription(self):
+        return 'No description found'         
+    def run(self):
         pass
     def setCallback(self, callback):
         pass

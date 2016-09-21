@@ -19,8 +19,8 @@ class driver():
         except:
             self._initialized = False
     def initialize(self, environment):
-        pass
-    def shutdown(self, environment):
+        self.env = environment
+    def shutdown(self):
         if not self._isInitialized:
             return
         self._isInitialized = False

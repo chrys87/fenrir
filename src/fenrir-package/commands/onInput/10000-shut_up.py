@@ -10,21 +10,21 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
+        self.env = environment
+    def shutdown(self):
         pass
-    def shutdown(self, environment):
-        pass
-    def getDescription(self, environment):
+    def getDescription(self):
         return ''               
     
-    def run(self, environment):
-        if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'keyboard', 'interruptOnKeyPress'):
+    def run(self):
+        if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'interruptOnKeyPress'):
             return 
-        if environment['runtime']['inputManager'].noKeyPressed(environment):
+        if self.env['runtime']['inputManager'].noKeyPressed():
             return
-        if environment['screenData']['newTTY'] != environment['screenData']['oldTTY']:
+        if self.env['screenData']['newTTY'] != self.env['screenData']['oldTTY']:
             return               
 
-        environment['runtime']['outputManager'].interruptOutput(environment)
+        self.env['runtime']['outputManager'].interruptOutput()
 
     def setCallback(self, callback):
         pass

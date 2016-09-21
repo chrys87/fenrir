@@ -19,10 +19,13 @@ class debug():
         self._fileName = fileName
         self._file = None
         self._fileOpened = False
-
+    def initialize(self, environment):
+        self.env = environment    
+    def shutdown(self):
+        self.closeDebugFile()
     def __del__(self):
         try:
-            self.closeDebugFile()
+            self.shutdown()
         except:
             pass
 
@@ -34,8 +37,8 @@ class debug():
             self._file = open(self._fileName,'a')
             self._fileOpened = True
 
-    def writeDebugOut(self, environment, text, level = debugLevel.DEACTIVE):
-        if environment['runtime']['settingsManager'].getSettingAsInt(environment, 'general','debugLevel') < int(level):
+    def writeDebugOut(self, text, level = debugLevel.DEACTIVE):
+        if self.env['runtime']['settingsManager'].getSettingAsInt('general','debugLevel') < int(level):
             if self._fileOpened:
                 self.closeDebugFile()
             return

@@ -10,14 +10,14 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        pass
-    def shutdown(self, environment):
-        pass
-    def getDescription(self, environment):
+        self.env = environment
+    def shutdown(self):
+        pass 
+    def getDescription(self):
         return 'displays the last received text'        
     
-    def run(self, environment):
-        environment['runtime']['outputManager'].presentText(environment, environment['screenData']['newDelta'], interrupt=True)
+    def run(self):
+        self.env['runtime']['outputManager'].presentText(self.env['screenData']['newDelta'], interrupt=True)
   
     def setCallback(self, callback):
         pass

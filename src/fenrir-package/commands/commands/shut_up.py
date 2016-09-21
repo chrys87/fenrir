@@ -10,12 +10,12 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        pass
-    def shutdown(self, environment):
-        pass
-    def getDescription(self, environment):
+        self.env = environment
+    def shutdown(self):
+        pass 
+    def getDescription(self):
         return 'interrupts the current presentation'        
-    def run(self, environment):
-        environment['runtime']['outputManager'].interruptOutput(environment)
+    def run(self):
+        self.env['runtime']['outputManager'].interruptOutput()
     def setCallback(self, callback):
         pass

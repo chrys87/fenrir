@@ -11,24 +11,24 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        pass
-    def shutdown(self, environment):
-        pass
-    def getDescription(self, environment):
+        self.env = environment
+    def shutdown(self):
+        pass 
+    def getDescription(self):
         return 'presents the current character.'        
     
-    def run(self, environment):
-        environment['screenData']['oldCursorReview'] = environment['screenData']['newCursorReview']
-        if environment['screenData']['newCursorReview'] == None:
-            environment['screenData']['newCursorReview'] = environment['screenData']['newCursor'].copy()
+    def run(self):
+        self.env['screenData']['oldCursorReview'] = self.env['screenData']['newCursorReview']
+        if not self.env['screenData']['newCursorReview']:
+            self.env['screenData']['newCursorReview'] = self.env['screenData']['newCursor'].copy()
 
-        environment['screenData']['newCursorReview']['x'], environment['screenData']['newCursorReview']['y'], currChar = \
-          char_utils.getCurrentChar(environment['screenData']['newCursorReview']['x'], environment['screenData']['newCursorReview']['y'], environment['screenData']['newContentText'])
+        self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], currChar = \
+          char_utils.getCurrentChar(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
         
         if currChar.strip(" \t\n") == '':
-            environment['runtime']['outputManager'].presentText(environment, "blank" ,interrupt=True)
+            self.env['runtime']['outputManager'].presentText("blank" ,interrupt=True)
         else:
-            environment['runtime']['outputManager'].presentText(environment, currChar ,interrupt=True)
+            self.env['runtime']['outputManager'].presentText(currChar ,interrupt=True)
   
     def setCallback(self, callback):
         pass

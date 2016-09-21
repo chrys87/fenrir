@@ -10,104 +10,102 @@ class outputManager():
     def __init__(self):
         pass
     def initialize(self, environment):
-        environment['runtime']['settingsManager'].loadDriver(environment,\
-          environment['runtime']['settingsManager'].getSetting(environment,'speech', 'driver'), 'speechDriver')    
-        environment['runtime']['settingsManager'].loadDriver(environment,\
-          environment['runtime']['settingsManager'].getSetting(environment,'sound', 'driver'), 'soundDriver')    
+        self.env = environment
+        self.env['runtime']['settingsManager'].loadDriver(\
+          self.env['runtime']['settingsManager'].getSetting('speech', 'driver'), 'speechDriver')    
+        self.env['runtime']['settingsManager'].loadDriver(\
+          self.env['runtime']['settingsManager'].getSetting('sound', 'driver'), 'soundDriver')    
     
-    def shutdown(self, environment):
-        if environment['runtime']['soundDriver']:
-            environment['runtime']['soundDriver'].shutdown(environment)
-            del environment['runtime']['soundDriver']
-        if environment['runtime']['speechDriver']:
-            environment['runtime']['speechDriver'].shutdown(environment)   
-            del environment['runtime']['speechDriver']
+    def shutdown(self):
+        self.env['runtime']['settingsManager'].shutdownDriver('soundDriver')
+        self.env['runtime']['settingsManager'].shutdownDriver('speechDriver')
 
-    def presentText(self, environment, text, interrupt=True, soundIcon = ''):
-        environment['runtime']['debug'].writeDebugOut(environment,"presentText:\nsoundIcon:'"+soundIcon+"'\nText:\n" + text ,debug.debugLevel.INFO)
-        if self.playSoundIcon(environment, soundIcon, interrupt):
-            environment['runtime']['debug'].writeDebugOut(environment,"soundIcon found" ,debug.debugLevel.INFO)            
+    def presentText(self, text, interrupt=True, soundIcon = ''):
+        self.env['runtime']['debug'].writeDebugOut("presentText:\nsoundIcon:'"+soundIcon+"'\nText:\n" + text ,debug.debugLevel.INFO)
+        if self.playSoundIcon(soundIcon, interrupt):
+            self.env['runtime']['debug'].writeDebugOut("soundIcon found" ,debug.debugLevel.INFO)            
             return
-        self.speakText(environment, text, interrupt)
-        self.brailleText(environment, text, interrupt)
+        self.speakText(text, interrupt)
+        self.brailleText(text, interrupt)
 
-    def speakText(self, environment, text, interrupt=True):
-        if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'speech', 'enabled'):
-            environment['runtime']['debug'].writeDebugOut(environment,"Speech disabled in outputManager.speakText",debug.debugLevel.INFO)
+    def speakText(self, text, interrupt=True):
+        if not self.env['runtime']['settingsManager'].getSettingAsBool('speech', 'enabled'):
+            self.env['runtime']['debug'].writeDebugOut("Speech disabled in outputManager.speakText",debug.debugLevel.INFO)
             return
-        if environment['runtime']['speechDriver'] == None:
-            environment['runtime']['debug'].writeDebugOut(environment,"No speechDriver in outputManager.speakText",debug.debugLevel.ERROR)
+        if self.env['runtime']['speechDriver'] == None:
+            self.env['runtime']['debug'].writeDebugOut("No speechDriver in outputManager.speakText",debug.debugLevel.ERROR)
             return
         if interrupt:
-            self.interruptOutput(environment)
+            self.interruptOutput()
         try:
-            environment['runtime']['speechDriver'].setLanguage(environment['runtime']['settingsManager'].getSetting(environment, 'speech', 'language'))
+            self.env['runtime']['speechDriver'].setLanguage(self.env['runtime']['settingsManager'].getSetting('speech', 'language'))
         except Exception as e:
-            environment['runtime']['debug'].writeDebugOut(environment,"setting speech language in outputManager.speakText",debug.debugLevel.ERROR)
-            environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR)
+            self.env['runtime']['debug'].writeDebugOut("setting speech language in outputManager.speakText",debug.debugLevel.ERROR)
+            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)
         
         try:
-            environment['runtime']['speechDriver'].setVoice(environment['runtime']['settingsManager'].getSetting(environment, 'speech', 'voice'))
+            self.env['runtime']['speechDriver'].setVoice(self.env['runtime']['settingsManager'].getSetting('speech', 'voice'))
         except Exception as e:
-            environment['runtime']['debug'].writeDebugOut(environment,"Error while setting speech voice in outputManager.speakText",debug.debugLevel.ERROR)
-            environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR)        
+            self.env['runtime']['debug'].writeDebugOut("Error while setting speech voice in outputManager.speakText",debug.debugLevel.ERROR)
+            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)        
         
         try:
-            environment['runtime']['speechDriver'].setPitch(environment['runtime']['settingsManager'].getSettingAsFloat(environment, 'speech', 'pitch'))
+            self.env['runtime']['speechDriver'].setPitch(self.env['runtime']['settingsManager'].getSettingAsFloat('speech', 'pitch'))
         except Exception as e:
-            environment['runtime']['debug'].writeDebugOut(environment,"setting speech pitch in outputManager.speakText",debug.debugLevel.ERROR)
-            environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR)            
+            self.env['runtime']['debug'].writeDebugOut("setting speech pitch in outputManager.speakText",debug.debugLevel.ERROR)
+            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)            
         
         try:
-            environment['runtime']['speechDriver'].setRate(environment['runtime']['settingsManager'].getSettingAsFloat(environment, 'speech', 'rate'))
+            self.env['runtime']['speechDriver'].setRate(self.env['runtime']['settingsManager'].getSettingAsFloat('speech', 'rate'))
         except Exception as e:
-            environment['runtime']['debug'].writeDebugOut(environment,"setting speech rate in outputManager.speakText",debug.debugLevel.ERROR)
-            environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR)            
+            self.env['runtime']['debug'].writeDebugOut("setting speech rate in outputManager.speakText",debug.debugLevel.ERROR)
+            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)            
         
         try:
-            environment['runtime']['speechDriver'].setModule(environment['runtime']['settingsManager'].getSetting(environment, 'speech', 'module'))
+            self.env['runtime']['speechDriver'].setModule(self.env['runtime']['settingsManager'].getSetting('speech', 'module'))
         except Exception as e:
-            environment['runtime']['debug'].writeDebugOut(environment,"setting speech module in outputManager.speakText",debug.debugLevel.ERROR)
-            environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR)
+            self.env['runtime']['debug'].writeDebugOut("setting speech module in outputManager.speakText",debug.debugLevel.ERROR)
+            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)
 
         try:            
-            environment['runtime']['speechDriver'].setVolume(environment['runtime']['settingsManager'].getSettingAsFloat(environment, 'speech', 'volume'))
+            self.env['runtime']['speechDriver'].setVolume(self.env['runtime']['settingsManager'].getSettingAsFloat('speech', 'volume'))
         except Exception as e:
-            environment['runtime']['debug'].writeDebugOut(environment,"setting speech volume in outputManager.speakText ",debug.debugLevel.ERROR)
-            environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR)            
+            self.env['runtime']['debug'].writeDebugOut("setting speech volume in outputManager.speakText ",debug.debugLevel.ERROR)
+            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)            
         
         try:
-            environment['runtime']['speechDriver'].speak(text)
+            self.env['runtime']['speechDriver'].speak(text)
         except Exception as e:
-            environment['runtime']['debug'].writeDebugOut(environment,"\"speak\" in outputManager.speakText ",debug.debugLevel.ERROR)
-            environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR)            
+            self.env['runtime']['debug'].writeDebugOut("\"speak\" in outputManager.speakText ",debug.debugLevel.ERROR)
+            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)            
 
-    def brailleText(self, environment, text, interrupt=True):
-        if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'braille', 'enabled'):
+    def brailleText(self, text, interrupt=True):
+        if not self.env['runtime']['settingsManager'].getSettingAsBool('braille', 'enabled'):
             return
-        if environment['runtime']['brailleDriver'] == None:
+        if self.env['runtime']['brailleDriver'] == None:
             return        
         print('braille:'+text)
-    def interruptOutput(self, environment):
-        environment['runtime']['speechDriver'].cancel()
-        environment['runtime']['soundDriver'].cancel()
 
-    def playSoundIcon(self, environment, soundIcon = '', interrupt=True):
+    def interruptOutput(self):
+        self.env['runtime']['speechDriver'].cancel()
+        self.env['runtime']['soundDriver'].cancel()
+
+    def playSoundIcon(self, soundIcon = '', interrupt=True):
         if soundIcon == '':
             return False
         soundIcon = soundIcon.upper()
-        if not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'sound', 'enabled'):
-            environment['runtime']['debug'].writeDebugOut(environment,"Sound disabled in outputManager.speakText",debug.debugLevel.INFO)        
+        if not self.env['runtime']['settingsManager'].getSettingAsBool('sound', 'enabled'):
+            self.env['runtime']['debug'].writeDebugOut("Sound disabled in outputManager.speakText",debug.debugLevel.INFO)        
             return False  
             
-        if environment['runtime']['soundDriver'] == None:
-            environment['runtime']['debug'].writeDebugOut(environment,"No speechDriver in outputManager.speakText",debug.debugLevel.ERROR)        
+        if self.env['runtime']['soundDriver'] == None:
+            self.env['runtime']['debug'].writeDebugOut("No speechDriver in outputManager.speakText",debug.debugLevel.ERROR)        
             return False       
         try:
-            environment['runtime']['soundDriver'].setVolume(environment['runtime']['settingsManager'].getSettingAsFloat(environment, 'sound', 'volume'))
-            environment['runtime']['soundDriver'].playSoundFile(environment['soundIcons'][soundIcon], interrupt)
+            self.env['runtime']['soundDriver'].setVolume(self.env['runtime']['settingsManager'].getSettingAsFloat('sound', 'volume'))
+            self.env['runtime']['soundDriver'].playSoundFile(self.env['soundIcons'][soundIcon], interrupt)
             return True
         except Exception as e:
-            environment['runtime']['debug'].writeDebugOut(environment,"\"playSoundIcon\" in outputManager.speakText ",debug.debugLevel.ERROR)
-            environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR)            
+            self.env['runtime']['debug'].writeDebugOut("\"playSoundIcon\" in outputManager.speakText ",debug.debugLevel.ERROR)
+            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)            
         return False

@@ -11,34 +11,34 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        pass
-    def shutdown(self, environment):
-        pass
-    def getDescription(self, environment):
+        self.env = environment
+    def shutdown(self):
+        pass 
+    def getDescription(self):
         return 'copies marked text to the currently selected clipboard'    
     
-    def run(self, environment):
-        if (environment['commandBuffer']['Marks']['1'] == None) or \
-          (environment['commandBuffer']['Marks']['2'] == None):
-            environment['runtime']['outputManager'].presentText(environment, "two marks needed", interrupt=True)
+    def run(self):
+        if not (self.env['commandBuffer']['Marks']['1'] and \
+          self.env['commandBuffer']['Marks']['2']):
+            self.env['runtime']['outputManager'].presentText("two marks needed", interrupt=True)
             return
 
         # use the last first and the last setted mark as range
-        startMark = environment['commandBuffer']['Marks']['1'].copy()
-        endMark = environment['commandBuffer']['Marks']['2'].copy()         
+        startMark = self.env['commandBuffer']['Marks']['1'].copy()
+        endMark = self.env['commandBuffer']['Marks']['2'].copy()         
         
-        marked = mark_utils.getTextBetweenMarks(startMark, endMark, environment['screenData']['newContentText'])
+        marked = mark_utils.getTextBetweenMarks(startMark, endMark, self.env['screenData']['newContentText'])
 
-        environment['commandBuffer']['clipboard'] = [marked] + environment['commandBuffer']['clipboard'][:environment['runtime']['settingsManager'].getSettingAsFloat(environment, 'general', 'numberOfClipboards') -1]
-        environment['commandBuffer']['currClipboard'] = 0
+        self.env['commandBuffer']['clipboard'] = [marked] + self.env['commandBuffer']['clipboard'][:self.env['runtime']['settingsManager'].getSettingAsFloat('general', 'numberOfClipboards') -1]
+        self.env['commandBuffer']['currClipboard'] = 0
         # reset marks
-        environment['commandBuffer']['Marks']['1'] = None
-        environment['commandBuffer']['Marks']['2'] = None
+        self.env['commandBuffer']['Marks']['1'] = None
+        self.env['commandBuffer']['Marks']['2'] = None
         
         if marked.strip(" \t\n") == '':
-            environment['runtime']['outputManager'].presentText(environment, "blank", soundIcon='EmptyLine', interrupt=True)
+            self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True)
         else:
-            environment['runtime']['outputManager'].presentText(environment, marked, interrupt=True)
+            self.env['runtime']['outputManager'].presentText(marked, interrupt=True)
 
     def setCallback(self, callback):
         pass

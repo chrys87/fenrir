@@ -10,23 +10,23 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        pass
-    def shutdown(self, environment):
-        pass
-    def getDescription(self, environment):
+        self.env = environment
+    def shutdown(self):
+        pass 
+    def getDescription(self):
         return 'selects the next clipboard'        
     
-    def run(self, environment):
-        if len(environment['commandBuffer']['clipboard']) == 0:
-            environment['runtime']['outputManager'].presentText(environment, 'clipboard empty', interrupt=True)
+    def run(self):
+        if len(self.env['commandBuffer']['clipboard']) == 0:
+            self.env['runtime']['outputManager'].presentText('clipboard empty', interrupt=True)
             return 
-        environment['commandBuffer']['currClipboard'] += 1
-        if environment['commandBuffer']['currClipboard'] > len(environment['commandBuffer']['clipboard']) -1:
-            environment['commandBuffer']['currClipboard'] = 0
-            environment['runtime']['outputManager'].presentText(environment, 'First clipboard ', interrupt=True)            
-            environment['runtime']['outputManager'].presentText(environment, environment['commandBuffer']['clipboard'][environment['commandBuffer']['currClipboard']], interrupt=False)            
+        self.env['commandBuffer']['currClipboard'] += 1
+        if self.env['commandBuffer']['currClipboard'] > len(self.env['commandBuffer']['clipboard']) -1:
+            self.env['commandBuffer']['currClipboard'] = 0
+            self.env['runtime']['outputManager'].presentText('First clipboard ', interrupt=True)            
+            self.env['runtime']['outputManager'].presentText(self.env['commandBuffer']['clipboard'][self.env['commandBuffer']['currClipboard']], interrupt=False)            
         else:
-            environment['runtime']['outputManager'].presentText(environment, environment['commandBuffer']['clipboard'][environment['commandBuffer']['currClipboard']], interrupt=True)
+            self.env['runtime']['outputManager'].presentText(self.env['commandBuffer']['clipboard'][self.env['commandBuffer']['currClipboard']], interrupt=True)
              
     def setCallback(self, callback):
         pass

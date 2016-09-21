@@ -11,8 +11,9 @@ class driver():
     def __init__(self ):
         pass
     def initialize(self, environment):
-        self._isInitialized = False    
-    def shutdown(self, environment):
+        self._isInitialized = False 
+        self.env = environment   
+    def shutdown(self):
         pass
 
     def speak(self,text, queueable=True):

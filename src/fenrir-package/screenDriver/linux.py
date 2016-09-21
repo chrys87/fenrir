@@ -12,8 +12,8 @@ class driver():
     def __init__(self):
         self.vcsaDevicePath = '/dev/vcsa'
     def initialize(self, environment):
-        pass
-    def shutdown(self, environment):
+        self.env = environment
+    def shutdown(self):
         pass
     def insert_newlines(self, string, every=64):
         return '\n'.join(string[i:i+every] for i in range(0, len(string), every))
@@ -25,7 +25,7 @@ class driver():
             currScreen = currScreenFile.read()[3:-1]
             currScreenFile.close()
         except Exception as e:
-            environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR)   
+            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)   
         return currScreen
 
     def getCurrApplication(self, screen):
@@ -64,7 +64,7 @@ class driver():
         return xlist
 
 
-    def update(self, environment, trigger='updateScreen'):
+    def update(self, trigger='updateScreen'):
         newTTY = ''
         newContentBytes = b''       
         try:
@@ -76,66 +76,66 @@ class driver():
             if len(newContentBytes) < 5:
                 return
         except Exception as e:
-            environment['runtime']['debug'].writeDebugOut(environment,str(e),debug.debugLevel.ERROR)   
+            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)   
             return
-        screenEncoding = environment['runtime']['settingsManager'].getSetting(environment,'screen', 'encoding')
+        screenEncoding = self.env['runtime']['settingsManager'].getSetting('screen', 'encoding')
         # set new "old" values
-        environment['screenData']['oldContentBytes'] = environment['screenData']['newContentBytes']
-        environment['screenData']['oldContentText'] = environment['screenData']['newContentText']
-        environment['screenData']['oldContentTextAttrib'] = environment['screenData']['newContentAttrib']
-        environment['screenData']['oldCursor']['x'] = environment['screenData']['newCursor']['x']
-        environment['screenData']['oldCursor']['y'] = environment['screenData']['newCursor']['y']
-        if environment['screenData']['oldTTY'] == '-1':
-            environment['screenData']['oldTTY'] = newTTY # dont recognice starting fenrir as change
+        self.env['screenData']['oldContentBytes'] = self.env['screenData']['newContentBytes']
+        self.env['screenData']['oldContentText'] = self.env['screenData']['newContentText']
+        self.env['screenData']['oldContentTextAttrib'] = self.env['screenData']['newContentAttrib']
+        self.env['screenData']['oldCursor']['x'] = self.env['screenData']['newCursor']['x']
+        self.env['screenData']['oldCursor']['y'] = self.env['screenData']['newCursor']['y']
+        if self.env['screenData']['oldTTY'] == '-1':
+            self.env['screenData']['oldTTY'] = newTTY # dont recognice starting fenrir as change
         else:    
-            environment['screenData']['oldTTY'] = environment['screenData']['newTTY']
-        environment['screenData']['oldDelta'] = environment['screenData']['newDelta']
-        environment['screenData']['oldNegativeDelta'] = environment['screenData']['newNegativeDelta']
-        environment['screenData']['oldApplication'] = environment['screenData']['newApplication'] 
-        environment['screenData']['newTTY'] = newTTY
-        environment['screenData']['newContentBytes'] = newContentBytes
+            self.env['screenData']['oldTTY'] = self.env['screenData']['newTTY']
+        self.env['screenData']['oldDelta'] = self.env['screenData']['newDelta']
+        self.env['screenData']['oldNegativeDelta'] = self.env['screenData']['newNegativeDelta']
+        self.env['screenData']['oldApplication'] = self.env['screenData']['newApplication'] 
+        self.env['screenData']['newTTY'] = newTTY
+        self.env['screenData']['newContentBytes'] = newContentBytes
         # get metadata like cursor or screensize
-        environment['screenData']['lines'] = int( environment['screenData']['newContentBytes'][0])
-        environment['screenData']['columns'] = int( environment['screenData']['newContentBytes'][1])
-        environment['screenData']['newCursor']['x'] = int( environment['screenData']['newContentBytes'][2])
-        environment['screenData']['newCursor']['y'] = int( environment['screenData']['newContentBytes'][3])
-        environment['screenData']['newApplication'] = self.getCurrApplication(newTTY)
+        self.env['screenData']['lines'] = int( self.env['screenData']['newContentBytes'][0])
+        self.env['screenData']['columns'] = int( self.env['screenData']['newContentBytes'][1])
+        self.env['screenData']['newCursor']['x'] = int( self.env['screenData']['newContentBytes'][2])
+        self.env['screenData']['newCursor']['y'] = int( self.env['screenData']['newContentBytes'][3])
+        self.env['screenData']['newApplication'] = self.getCurrApplication(newTTY)
         # analyze content
-        environment['screenData']['newContentText'] = environment['screenData']['newContentBytes'][4:][::2].decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
-        environment['screenData']['newContentAttrib'] = environment['screenData']['newContentBytes'][5:][::2]
-        environment['screenData']['newContentText'] = self.insert_newlines(environment['screenData']['newContentText'], environment['screenData']['columns'])
+        self.env['screenData']['newContentText'] = self.env['screenData']['newContentBytes'][4:][::2].decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
+        self.env['screenData']['newContentAttrib'] = self.env['screenData']['newContentBytes'][5:][::2]
+        self.env['screenData']['newContentText'] = self.insert_newlines(self.env['screenData']['newContentText'], self.env['screenData']['columns'])
 
-        if environment['screenData']['newTTY'] != environment['screenData']['oldTTY']:
-            environment['screenData']['oldContentBytes'] = b''
-            environment['screenData']['oldContentAttrib'] = b''
-            environment['screenData']['oldContentText'] = ''
-            environment['screenData']['oldCursor']['x'] = 0
-            environment['screenData']['oldCursor']['y'] = 0
-            environment['screenData']['oldDelta'] = ''
-            environment['screenData']['oldNegativeDelta'] = ''
-            environment['screenData']['oldApplication'] = ''
+        if self.env['screenData']['newTTY'] != self.env['screenData']['oldTTY']:
+            self.env['screenData']['oldContentBytes'] = b''
+            self.env['screenData']['oldContentAttrib'] = b''
+            self.env['screenData']['oldContentText'] = ''
+            self.env['screenData']['oldCursor']['x'] = 0
+            self.env['screenData']['oldCursor']['y'] = 0
+            self.env['screenData']['oldDelta'] = ''
+            self.env['screenData']['oldNegativeDelta'] = ''
+            self.env['screenData']['oldApplication'] = ''
         # always clear current deltas
-        environment['screenData']['newNegativeDelta'] = ''
-        environment['screenData']['newDelta'] = ''                   
+        self.env['screenData']['newNegativeDelta'] = ''
+        self.env['screenData']['newDelta'] = ''                   
         # changes on the screen
-        if (environment['screenData']['oldContentText'] != environment['screenData']['newContentText']) and \
-          (environment['screenData']['newContentText'] != '' ):
-            if environment['screenData']['oldContentText'] == '' and\
-              environment['screenData']['newContentText'] != '':
-                environment['screenData']['newDelta'] = environment['screenData']['newContentText']  
+        if (self.env['screenData']['oldContentText'] != self.env['screenData']['newContentText']) and \
+          (self.env['screenData']['newContentText'] != '' ):
+            if self.env['screenData']['oldContentText'] == '' and\
+              self.env['screenData']['newContentText'] != '':
+                self.env['screenData']['newDelta'] = self.env['screenData']['newContentText']  
             else:
                 diffStart = 0
-                if environment['screenData']['oldCursor']['x'] != environment['screenData']['newCursor']['x'] and \
-                  environment['screenData']['oldCursor']['y'] == environment['screenData']['newCursor']['y'] and \
-                  environment['screenData']['newContentText'][:environment['screenData']['newCursor']['y']] == environment['screenData']['oldContentText'][:environment['screenData']['newCursor']['y']]:
-                    diffStart = environment['screenData']['newCursor']['y'] * environment['screenData']['columns'] + environment['screenData']['newCursor']['y']
-                    diff = difflib.ndiff(environment['screenData']['oldContentText'][diffStart:diffStart  + environment['screenData']['columns']],\
-                      environment['screenData']['newContentText'][diffStart:diffStart  + environment['screenData']['columns']])      
+                if self.env['screenData']['oldCursor']['x'] != self.env['screenData']['newCursor']['x'] and \
+                  self.env['screenData']['oldCursor']['y'] == self.env['screenData']['newCursor']['y'] and \
+                  self.env['screenData']['newContentText'][:self.env['screenData']['newCursor']['y']] == self.env['screenData']['oldContentText'][:self.env['screenData']['newCursor']['y']]:
+                    diffStart = self.env['screenData']['newCursor']['y'] * self.env['screenData']['columns'] + self.env['screenData']['newCursor']['y']
+                    diff = difflib.ndiff(self.env['screenData']['oldContentText'][diffStart:diffStart  + self.env['screenData']['columns']],\
+                      self.env['screenData']['newContentText'][diffStart:diffStart  + self.env['screenData']['columns']])      
                 else:
-                   diff = difflib.ndiff( environment['screenData']['oldContentText'][diffStart:].split('\n'),\
-                     environment['screenData']['newContentText'][diffStart:].split('\n'))
+                   diff = difflib.ndiff( self.env['screenData']['oldContentText'][diffStart:].split('\n'),\
+                     self.env['screenData']['newContentText'][diffStart:].split('\n'))
                 
                 diffList = list(diff)
 
-                environment['screenData']['newDelta'] = ''.join(x[2:] for x in diffList if x.startswith('+ '))             
-                environment['screenData']['newNegativeDelta'] = ''.join(x[2:] for x in diffList if x.startswith('- '))
+                self.env['screenData']['newDelta'] = ''.join(x[2:] for x in diffList if x.startswith('+ '))             
+                self.env['screenData']['newNegativeDelta'] = ''.join(x[2:] for x in diffList if x.startswith('- '))

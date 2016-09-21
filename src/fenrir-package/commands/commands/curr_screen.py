@@ -10,17 +10,17 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        pass
-    def shutdown(self, environment):
-        pass
-    def getDescription(self, environment):
+        self.env = environment
+    def shutdown(self):
+        pass 
+    def getDescription(self):
         return 'reads the contents of the current screen'        
 
-    def run(self, environment):
-        if environment['screenData']['newContentText'].strip(" \t\n") == '':
-            environment['runtime']['outputManager'].presentText(environment, "screen is empty", soundIcon='EmptyLine', interrupt=True)
+    def run(self):
+        if self.env['screenData']['newContentText'].strip(" \t\n") == '':
+            self.env['runtime']['outputManager'].presentText("screen is empty", soundIcon='EmptyLine', interrupt=True)
         else:    
-           environment['runtime']['outputManager'].presentText(environment, environment['screenData']['newContentText'],interrupt=True)
+           self.env['runtime']['outputManager'].presentText(self.env['screenData']['newContentText'],interrupt=True)
  
     def setCallback(self, callback):
         pass

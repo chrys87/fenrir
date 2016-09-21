@@ -20,7 +20,7 @@ class fenrir():
                 raise RuntimeError('Cannot Initialize. Maybe the configfile is not available or not parseable')
         except RuntimeError:
             raise
-        self.environment['runtime']['outputManager'].presentText(self.environment, "Start Fenrir", soundIcon='ScreenReaderOn', interrupt=True)          
+        self.environment['runtime']['outputManager'].presentText("Start Fenrir", soundIcon='ScreenReaderOn', interrupt=True)          
         signal.signal(signal.SIGINT, self.captureSignal)
         signal.signal(signal.SIGTERM, self.captureSignal)
 
@@ -30,44 +30,44 @@ class fenrir():
                 self.handleProcess()
             except Exception as e:
                 print(e)
-                self.environment['runtime']['debug'].writeDebugOut(self.environment,str(e),debug.debugLevel.ERROR) 
+                self.environment['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR) 
         self.shutdown()
 
     def handleProcess(self):
-        eventReceived = self.environment['runtime']['inputManager'].getInputEvent(self.environment)
+        eventReceived = self.environment['runtime']['inputManager'].getInputEvent()
         if eventReceived:  
             self.prepareCommand()
-            if not (self.environment['runtime']['inputManager'].isConsumeInput(self.environment) or \
-              self.environment['runtime']['inputManager'].isFenrirKeyPressed(self.environment)) and \
-              not self.environment['runtime']['commandManager'].isCommandQueued(self.environment):
-                self.environment['runtime']['inputManager'].writeEventBuffer(self.environment)
-            elif self.environment['runtime']['inputManager'].noKeyPressed(self.environment):
-                self.environment['runtime']['inputManager'].clearEventBuffer(self.environment)
+            if not (self.environment['runtime']['inputManager'].isConsumeInput() or \
+              self.environment['runtime']['inputManager'].isFenrirKeyPressed()) and \
+              not self.environment['runtime']['commandManager'].isCommandQueued():
+                self.environment['runtime']['inputManager'].writeEventBuffer()
+            elif self.environment['runtime']['inputManager'].noKeyPressed():
+                self.environment['runtime']['inputManager'].clearEventBuffer()
 
         try:
-            self.environment['runtime']['screenManager'].update(self.environment)
+            self.environment['runtime']['screenManager'].update()
         except Exception as e:
             print(e)
-            self.environment['runtime']['debug'].writeDebugOut(self.environment, str(e),debug.debugLevel.ERROR)         
+            self.environment['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)         
         
-        self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onInput')                   
-        self.environment['runtime']['commandManager'].executeTriggerCommands(self.environment, 'onScreenChanged')         
+        self.environment['runtime']['commandManager'].executeTriggerCommands('onInput')                   
+        self.environment['runtime']['commandManager'].executeTriggerCommands('onScreenChanged')         
             
         self.handleCommands()
 
     def prepareCommand(self):
         if self.environment['input']['keyForeward']:
             return
-        shortcut = self.environment['runtime']['inputManager'].getCurrShortcut(self.environment)        
-        command = self.environment['runtime']['inputManager'].getCommandForShortcut(self.environment, shortcut)        
-        self.environment['runtime']['commandManager'].queueCommand(self.environment, command)           
+        shortcut = self.environment['runtime']['inputManager'].getCurrShortcut()        
+        command = self.environment['runtime']['inputManager'].getCommandForShortcut(shortcut)        
+        self.environment['runtime']['commandManager'].queueCommand(command)           
     
     def handleCommands(self):
         if time.time() - self.environment['commandInfo']['lastCommandExecutionTime'] < 0.2:
             return        
-        if not self.environment['runtime']['commandManager'].isCommandQueued(self.environment):
+        if not self.environment['runtime']['commandManager'].isCommandQueued():
             return
-        self.environment['runtime']['commandManager'].executeCommand(self.environment, self.environment['commandInfo']['currCommand'], 'commands')
+        self.environment['runtime']['commandManager'].executeCommand( self.environment['commandInfo']['currCommand'], 'commands')
 
     def shutdownRequest(self):
         self.environment['generalInformation']['running'] = False
@@ -77,23 +77,23 @@ class fenrir():
 
     def shutdown(self):
         if self.environment['runtime']['inputManager']:
-            self.environment['runtime']['inputManager'].shutdown(self.environment)                      
+            self.environment['runtime']['inputManager'].shutdown()                      
             del self.environment['runtime']['inputManager']
-        self.environment['runtime']['outputManager'].presentText(self.environment, "Quit Fenrir", soundIcon='ScreenReaderOff', interrupt=True)   
+        self.environment['runtime']['outputManager'].presentText("Quit Fenrir", soundIcon='ScreenReaderOff', interrupt=True)   
         time.sleep(.8) # wait a little for sound
         
         if self.environment['runtime']['screenManager']:
-            self.environment['runtime']['screenManager'].shutdown(self.environment)  
+            self.environment['runtime']['screenManager'].shutdown()  
             del self.environment['runtime']['screenManager']
         if self.environment['runtime']['commandManager']:
-            self.environment['runtime']['commandManager'].shutdown(self.environment)                                    
+            self.environment['runtime']['commandManager'].shutdown()                                    
             del self.environment['runtime']['commandManager']
         if self.environment['runtime']['outputManager']:
-            self.environment['runtime']['outputManager'].shutdown(self.environment)    
+            self.environment['runtime']['outputManager'].shutdown()    
             del self.environment['runtime']['outputManager']
       
         if self.environment['runtime']['debug']:
-            self.environment['runtime']['debug'].closeDebugFile() 
+            self.environment['runtime']['debug'].shutdown() 
             del self.environment['runtime']['debug']
         time.sleep(0.5) # wait a little before splatter it :)
         self.environment = None

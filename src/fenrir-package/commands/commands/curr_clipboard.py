@@ -10,17 +10,17 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        pass
-    def shutdown(self, environment):
+        self.env = environment
+    def shutdown(self):
         pass 
-    def getDescription(self, environment):
+    def getDescription(self):
         return 'speaks the contents of the currently selected clipboard'       
 
-    def run(self, environment):
-        if len(environment['commandBuffer']['clipboard']) == 0:
-            environment['runtime']['outputManager'].presentText(environment, 'clipboard empty', interrupt=True)
+    def run(self):
+        if len(self.env['commandBuffer']['clipboard']) == 0:
+            self.env['runtime']['outputManager'].presentText('clipboard empty', interrupt=True)
             return 
-        environment['runtime']['outputManager'].presentText(environment, environment['commandBuffer']['clipboard'][environment['commandBuffer']['currClipboard']], interrupt=True)
+        self.env['runtime']['outputManager'].presentText(self.env['commandBuffer']['clipboard'][self.env['commandBuffer']['currClipboard']], interrupt=True)
                
     def setCallback(self, callback):
         pass

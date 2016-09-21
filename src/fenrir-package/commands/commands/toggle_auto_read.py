@@ -9,18 +9,18 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        pass
-    def shutdown(self, environment):
-        pass
-    def getDescription(self, environment):
+        self.env = environment
+    def shutdown(self):
+        pass 
+    def getDescription(self):
         return 'enables or disables automatic reading of new text as it appears'        
     
-    def run(self, environment):
-        environment['runtime']['settingsManager'].setSetting(environment, 'speech', 'autoReadIncomming', str(not environment['runtime']['settingsManager'].getSettingAsBool(environment, 'speech', 'autoReadIncomming')))   
-        if environment['runtime']['settingsManager'].getSettingAsBool(environment, 'speech', 'autoReadIncomming'): 
-            environment['runtime']['outputManager'].presentText(environment, "autoread enabled", soundIcon='', interrupt=True)
+    def run(self):
+        self.env['runtime']['settingsManager'].setSetting('speech', 'autoReadIncomming', str(not self.env['runtime']['settingsManager'].getSettingAsBool('speech', 'autoReadIncomming')))   
+        if self.env['runtime']['settingsManager'].getSettingAsBool('speech', 'autoReadIncomming'): 
+            self.env['runtime']['outputManager'].presentText("autoread enabled", soundIcon='', interrupt=True)
         else:
-            environment['runtime']['outputManager'].presentText(environment, "autoread disabled", soundIcon='', interrupt=True)                          
+            self.env['runtime']['outputManager'].presentText("autoread disabled", soundIcon='', interrupt=True)                          
     
     def setCallback(self, callback):
         pass

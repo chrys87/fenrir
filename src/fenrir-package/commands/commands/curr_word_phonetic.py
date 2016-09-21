@@ -12,27 +12,27 @@ class command():
     def __init__(self):
         pass
     def initialize(self, environment):
-        pass
-    def shutdown(self, environment):
-        pass
-    def getDescription(self, environment):
+        self.env = environment
+    def shutdown(self):
+        pass 
+    def getDescription(self):
         return 'phonetically spells the current word'        
     
-    def run(self, environment):
-        if (environment['screenData']['newCursorReview'] != None):
-            cursorPos = environment['screenData']['newCursorReview'].copy()
+    def run(self):
+        if self.env['screenData']['newCursorReview']:
+            cursorPos = self.env['screenData']['newCursorReview'].copy()
         else:
-            cursorPos = environment['screenData']['newCursor'].copy()
+            cursorPos = self.env['screenData']['newCursor'].copy()
         x, y, currWord = \
-          word_utils.getCurrentWord(cursorPos['x'], cursorPos['y'], environment['screenData']['newContentText'])
+          word_utils.getCurrentWord(cursorPos['x'], cursorPos['y'], self.env['screenData']['newContentText'])
         
         if currWord.strip(" \t\n") == '':
-            environment['runtime']['outputManager'].presentText(environment, "blank", interrupt=True)
+            self.env['runtime']['outputManager'].presentText("blank", interrupt=True)
         else:
             firstSequence = True
             for c in currWord:
                 currChar = char_utils.getPhonetic(c) 
-                environment['runtime']['outputManager'].presentText(environment, currChar, interrupt=firstSequence)
+                self.env['runtime']['outputManager'].presentText(currChar, interrupt=firstSequence)
                 firstSequence = False
    
     def setCallback(self, callback):
