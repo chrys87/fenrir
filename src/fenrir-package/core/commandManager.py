@@ -16,13 +16,15 @@ class commandManager():
         self.env['runtime']['commandManager'].loadCommands('commands')
         self.env['runtime']['commandManager'].loadCommands('onInput')
         self.env['runtime']['commandManager'].loadCommands('onScreenUpdate')         
-        self.env['runtime']['commandManager'].loadCommands('onScreenChanged')    
+        self.env['runtime']['commandManager'].loadCommands('onScreenChanged')
+        self.env['runtime']['commandManager'].loadCommands('onApplicationChange')          
 
     def shutdown(self):
         self.env['runtime']['commandManager'].shutdownCommands('commands')
         self.env['runtime']['commandManager'].shutdownCommands('onInput')
         self.env['runtime']['commandManager'].shutdownCommands('onScreenUpdate')         
         self.env['runtime']['commandManager'].shutdownCommands('onScreenChanged')    
+        self.env['runtime']['commandManager'].shutdownCommands('onApplicationChange') 
         
     def loadCommands(self, section='commands'):
         commandFolder = "commands/" + section +"/"

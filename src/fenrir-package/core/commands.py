@@ -33,7 +33,9 @@ commands = {
 'onScreenChanged':{
     },
 'onScreenUpdate':{
-    },    
+    },
+'onApplicationChange':{
+    },   
 'commands':{
-    }
+    },
 }

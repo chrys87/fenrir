@@ -22,8 +22,7 @@ ToDos in Priority order:
 - punctuation
 - New Triggers
   onAppChange
-  onScreenChange
-  rename current onScreenChange to onScreenUpdate
+
 - add perApplicationTrigger trigger
   per application commands
   per application onScreenChange
@@ -214,4 +213,8 @@ ps a -o tty,comm  | grep -e Xorg | grep -v "grep -e Xorg"
   
 - add screenManager
   abstract screen driver
-- pass environment instance in init and remove it from function calls  
+- pass environment instance in init and remove it from function calls
+
+- New Triggers
+  onScreenChange
+  rename current onScreenChange to onScreenUpdate  

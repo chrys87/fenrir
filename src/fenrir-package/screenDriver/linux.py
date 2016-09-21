@@ -113,7 +113,6 @@ class driver():
             self.env['screenData']['oldCursor']['y'] = 0
             self.env['screenData']['oldDelta'] = ''
             self.env['screenData']['oldNegativeDelta'] = ''
-            self.env['screenData']['oldApplication'] = ''
         # always clear current deltas
         self.env['screenData']['newNegativeDelta'] = ''
         self.env['screenData']['newDelta'] = ''                   
