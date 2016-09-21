@@ -22,7 +22,7 @@ class driver():
         self.getInputDevices(environment)
     def shutdown(self, environment):
         pass
-    def getInput(self, environment):
+    def getInputEvent(self, environment):
         event = None
         r, w, x = select(self.iDevices, [], [], environment['runtime']['settingsManager'].getSettingAsFloat(environment, 'screen', 'screenUpdateDelay'))
         if r != []:
