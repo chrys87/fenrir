@@ -31,34 +31,19 @@ class inputManager():
     def proceedInputEvent(self, environment):
         timeout = True    	
         mEvent = environment['runtime']['inputDriver'].getInput(environment)
+        mEvent['EventName'] = self.convertEventName(mEvent['EventName'])
         if mEvent:
             if mEvent['EventValue'] == 0:
                 return True  
             timeout = False
             if mEvent['EventState'] == 0:
-                if self.isFenrirKey(environment, mEvent):
-                    environment['input']['currInput'].remove('KEY_FENRIR')
-                elif mEvent['EventName'] in ['KEY_RIGHTCTRL','KEY_LEFTCTRL'] :
-                    environment['input']['currInput'].remove('KEY_CTRL')
-                elif mEvent['EventName'] in ['KEY_RIGHTSHIFT','KEY_LEFTSHIFT'] :
-                    environment['input']['currInput'].remove('KEY_SHIFT')                
-                else:
+                if mEvent['EventName'] in environment['input']['currInput']:
                     environment['input']['currInput'].remove(mEvent['EventName'])
-                environment['input']['currInput'] = sorted(environment['input']['currInput'])                    
+                    environment['input']['currInput'] = sorted(environment['input']['currInput'])                    
             elif mEvent['EventState'] == 1:
-                if self.isFenrirKey(environment, mEvent):
-                    if not self.isFenrirKeyPressed(environment):                
-                       environment['input']['currInput'].append('KEY_FENRIR')
-                elif mEvent['EventName'] in ['KEY_RIGHTCTRL','KEY_LEFTCTRL'] :
-                    if not 'KEY_CTRL' in environment['input']['currInput']:
-                        environment['input']['currInput'].append('KEY_CTRL')
-                elif mEvent['EventName'] in ['KEY_RIGHTSHIFT','KEY_LEFTSHIFT'] :
-                    if not 'KEY_SHIFT' in environment['input']['currInput']:                
-                        environment['input']['currInput'].append('KEY_SHIFT')                       
-                else:
-                    if not mEvent['EventName'] in environment['input']['currInput']:                                
-                        environment['input']['currInput'].append(mEvent['EventName'])            
-                environment['input']['currInput'] = sorted(environment['input']['currInput'])
+    	        if not mEvent['EventName'] in environment['input']['currInput']:                                
+    	            environment['input']['currInput'].append(mEvent['EventName'])            
+                    environment['input']['currInput'] = sorted(environment['input']['currInput'])
             elif mEvent['EventState'] == 2:
                 pass
             else:
@@ -79,7 +64,24 @@ class inputManager():
 
     def releaseDevices(self, environment):
         environment['runtime']['inputDriver'].releaseDevices(environment)
-        
+
+    def convertEventName(self,  eventName):
+        if eventName == 'KEY_LEFTCTRL':
+            eventName == 'KEY_CTRL'
+        elif eventName == 'KEY_RIGHTCTRL':
+            eventName = 'KEY_CTRL'
+        elif eventName == 'KEY_LEFTSHIFT':
+            eventName = 'KEY_SHIFT'
+        elif eventName == 'KEY_RIGHTSHIFT':
+            eventName = 'KEY_SHIFT'
+        elif eventName == 'KEY_LEFTALT':
+            eventName = 'KEY_ALT'
+        elif eventName == 'KEY_RIGHTALT':
+            eventName = 'KEY_ALT'
+        if self.isFenrirKey(environment, eventName):
+            eventName = 'KEY_FENRIR'    	
+    	return eventName
+    	
     def isConsumeInput(self, environment):
 	    return environment['runtime']['commandManager'].isCommandQueued(environment) and \
 	      not environment['input']['keyForeward']
@@ -119,8 +121,8 @@ class inputManager():
         shortcut.append(sorted(environment['input']['currInput']))
         return str(shortcut)
         
-    def isFenrirKey(self,environment, mEvent):
-        return str(mEvent['EventName']) in environment['input']['fenrirKey']
+    def isFenrirKey(self,environment, eventName):
+        return eventName in environment['input']['fenrirKey']
 
     def getCommandForShortcut(self, environment, shortcut):
         shortcut = shortcut.upper()
