@@ -22,9 +22,6 @@ class command():
         # detect deletion or chilling 
         if self.env['screenData']['newCursor']['x'] <= self.env['screenData']['oldCursor']['x']:
             return 
-        # TTY Change
-        if self.env['screenData']['newTTY'] != self.env['screenData']['oldTTY']:
-            return
         # is there any change?
         if self.env['screenData']['newDelta'] == '':
             return

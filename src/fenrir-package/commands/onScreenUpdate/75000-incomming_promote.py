@@ -22,8 +22,6 @@ class command():
             return
         if self.env['runtime']['settingsManager'].getSetting('promote', 'list').strip(" \t\n") == '':
             return
-        if self.env['screenData']['newTTY'] != self.env['screenData']['oldTTY']:
-            return
         if self.env['screenData']['newDelta'] == '':
             return
         if int(time.time() - self.env['input']['lastInputTime']) < self.env['runtime']['settingsManager'].getSettingAsInt('promote', 'inactiveTimeoutSec'):

@@ -51,10 +51,6 @@ class command():
         if len(self.env['screenData']['newDelta']) > 1:
             return            
             
-        # TTY Change is no new word
-        if self.env['screenData']['newTTY'] != self.env['screenData']['oldTTY']:
-            return
-            
         # first place could not be the end of a word
         if self.env['screenData']['newCursor']['x'] == 0:
             return

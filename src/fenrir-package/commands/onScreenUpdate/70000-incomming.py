@@ -22,9 +22,7 @@ class command():
         # is there something to read?
         if self.env['screenData']['newDelta'] == '':
             return            
-        # dont read TTY change
-        if self.env['screenData']['newTTY'] != self.env['screenData']['oldTTY']:
-            return
+
         # its a cursor movement (experimental) - maybe also check current shortcut string?
         if abs(self.env['screenData']['newCursor']['x'] - self.env['screenData']['oldCursor']['x']) >= 1:
             if len(self.env['screenData']['newDelta']) <= 5:

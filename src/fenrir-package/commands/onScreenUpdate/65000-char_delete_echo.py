@@ -24,10 +24,6 @@ class command():
         if self.env['screenData']['newCursor']['x'] >= self.env['screenData']['oldCursor']['x']:
             return 
 
-        # TTY change
-        if self.env['screenData']['newTTY'] != self.env['screenData']['oldTTY']:
-            return
-
         # More than just a deletion happend
         if self.env['screenData']['newDelta'].strip() != '':
             if self.env['screenData']['newDelta'] != self.env['screenData']['oldDelta']:
