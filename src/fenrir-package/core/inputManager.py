@@ -28,14 +28,14 @@ class inputManager():
         if environment['runtime']['inputDriver']:
             environment['runtime']['inputDriver'].shutdown(environment)
     
-    def proceedInputEvent(self, environment):
-        timeout = True    	
+    def getInputEvent(self, environment):
+        eventReceived = False    	
         mEvent = environment['runtime']['inputDriver'].getInput(environment)
         mEvent['EventName'] = self.convertEventName(mEvent['EventName'])
         if mEvent:
             if mEvent['EventValue'] == 0:
-                return True  
-            timeout = False
+                return False  
+            eventReceived = True
             if mEvent['EventState'] == 0:
                 if mEvent['EventName'] in environment['input']['currInput']:
                     environment['input']['currInput'].remove(mEvent['EventName'])
@@ -56,7 +56,7 @@ class inputManager():
             environment['input']['newScrollLock'] = environment['runtime']['inputDriver'].getScrollLock(environment)                     
             environment['input']['lastInputTime'] = time.time()
             environment['input']['shortcutRepeat'] = 1
-        return timeout
+        return eventReceived
     
     def grabDevices(self, environment):
         if environment['runtime']['settingsManager'].getSettingAsBool(environment, 'keyboard', 'grabDevices'):
