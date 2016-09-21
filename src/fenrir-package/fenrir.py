@@ -101,3 +101,4 @@ class fenrir():
 if __name__ == "__main__":
     app = fenrir()
     app.proceed()
+    del app
