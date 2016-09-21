@@ -20,6 +20,7 @@ class screenManager():
     def shutdown(self, environment):
         if environment['runtime']['screenDriver']:
             environment['runtime']['screenDriver'].shutdown(environment)    
+            del environment['runtime']['screenDriver']
 
     def update(self, environment):
         if not self.isSuspendingScreen(environment):
