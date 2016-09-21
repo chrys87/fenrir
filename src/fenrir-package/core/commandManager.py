@@ -46,7 +46,7 @@ class commandManager():
         for command in sorted(environment['commands'][section]):
             try:
                 environment['commands'][section][command].shutdown(environment)
-                environment['commands'][section][command] = None
+                del environment['commands'][section][command]
             except Exception as e:
                 print(e)
                 environment['runtime']['debug'].writeDebugOut(environment,"Shutdown command:" + section + "." + cmd ,debug.debugLevel.ERROR)
