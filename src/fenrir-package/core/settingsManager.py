@@ -11,6 +11,7 @@ from core import inputManager
 from core import outputManager
 from core import commandManager
 from core import screenManager
+from core import punctuationManager
 from core import environment 
 from core.settings import settings
 from core import debug
@@ -191,6 +192,8 @@ class settingsManager():
         environment['runtime']['outputManager'].initialize(environment)             
         environment['runtime']['commandManager'] = commandManager.commandManager()
         environment['runtime']['commandManager'].initialize(environment)  
+        environment['runtime']['punctuationManager'] = punctuationManager.punctuationManager()
+        environment['runtime']['punctuationManager'].initialize(environment)  
         
         if environment['runtime']['screenManager'] == None:
             environment['runtime']['screenManager'] = screenManager.screenManager()
