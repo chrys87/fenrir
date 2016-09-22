@@ -32,7 +32,7 @@ class punctuationManager():
     def removeUnused(self, text):
         return text.translate(text.maketrans(string.punctuation, ' '*len(string.punctuation)))   
     def useCustomDict(self, text, customDict):
-        resultText = text
+        resultText = str(text)
         if customDict:
             for key,item in customDict.items():
                 resultText = resultText.replace(str(key),str(item))
