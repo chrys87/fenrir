@@ -97,7 +97,10 @@ class fenrir():
         if self.environment['runtime']['outputManager']:
             self.environment['runtime']['outputManager'].shutdown()    
             del self.environment['runtime']['outputManager']
-      
+        if self.environment['runtime']['punctuationManager']:
+            self.environment['runtime']['punctuationManager'].shutdown()    
+            del self.environment['runtime']['punctuationManager']
+
         if self.environment['runtime']['debug']:
             self.environment['runtime']['debug'].shutdown() 
             del self.environment['runtime']['debug']
