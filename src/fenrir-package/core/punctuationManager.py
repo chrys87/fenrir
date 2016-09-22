@@ -30,18 +30,19 @@ class punctuationManager():
     def shutdown(self):
         pass
     def removeUnused(self, text):
-        resultText = text.translate(text.maketrans(string.punctuation, ' '*len(string.punctuation)))   
-        return resultText
+        return text.translate(text.maketrans(string.punctuation, ' '*len(string.punctuation)))   
     def useCustomDict(self, text, customDict):
         resultText = text
-        for key,item in customDict.items():
-            resultText = resultText.replace(str(key),str(item))
+        if customDict:
+            for key,item in customDict.items():
+                resultText = resultText.replace(str(key),str(item))
         return resultText
     def usePunctuationDict(self, text, punctuationDict, punctuation):
         resultText = str(text)
-        for key,item in punctuationDict.items():
-            if key in punctuation:
-                resultText = resultText.replace(str(key),' ' +str(item) +' ')
+        if punctuationDict and punctuation != '':
+            for key,item in punctuationDict.items():
+                if key in punctuation:
+                    resultText = resultText.replace(str(key),' ' +str(item) +' ')
         return resultText
     
     def proceedPunctuation(self, text, ignoreLevel=False):
