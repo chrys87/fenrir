@@ -6,7 +6,7 @@
 
 from core import debug
 
-class reviewManager():
+class punctuationManager():
     def __init__(self):
         pass
     def initialize(self, environment):
