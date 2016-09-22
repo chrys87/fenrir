@@ -42,7 +42,7 @@ ToDos in Priority order:
     last item
 - improve performance  
 
-- implement onScreenChange (new onScreenUpdate) commands
+- implement onScreenUpdate commands
   read highlighted text mode
   window mode (define a area and just read that changes)
 - add the debugging to core  
