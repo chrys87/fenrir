@@ -4,6 +4,7 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
+import string
 from core import debug
 
 class punctuationManager():
@@ -12,7 +13,7 @@ class punctuationManager():
     def initialize(self, environment):
         self.env = environment
         self.punctuation = {
-        'currLevel':'1',
+        'currLevel':'3',
         'levels':{
           '1':',',
           '2':'.',
@@ -39,16 +40,18 @@ class punctuationManager():
         return resultText
     def usePunctuationDict(self, text, punctuationDict, punctuation):
         resultText = str(text)
-        if punctuationDict and punctuation != '':
+
+        if punctuationDict and punctuation and punctuation != '':
             for key,item in punctuationDict.items():
                 if key in punctuation:
                     resultText = resultText.replace(str(key),' ' +str(item) +' ')
+
         return resultText
     
-    def proceedPunctuation(self, text, ignoreLevel=False):
+    def proceedPunctuation(self, text, ignorePunctuation=False):
         resultText = self.useCustomDict(text, self.punctuation['customDict'])
         currPunctLevel = ''
-        if not ignoreLevel:
+        if not ignorePunctuation and self.punctuation['currLevel'] in self.punctuation['levels']:
             currPunctLevel = self.punctuation['levels'][self.punctuation['currLevel']]
         else:
             currPunctLevel = string.punctuation

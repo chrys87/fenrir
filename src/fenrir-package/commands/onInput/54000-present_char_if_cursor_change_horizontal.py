@@ -33,7 +33,7 @@ class command():
             return
         currChar = self.env['screenData']['newContentText'].split('\n')[self.env['screenData']['newCursor']['y']][self.env['screenData']['newCursor']['x']]
         if not currChar.strip(" \t\n") == '':
-            self.env['runtime']['outputManager'].presentText(currChar, interrupt=True)
+            self.env['runtime']['outputManager'].presentText(currChar, interrupt=True, ignorePunctuation=True)
  
     def setCallback(self, callback):
         pass

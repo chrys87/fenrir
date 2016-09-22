@@ -20,7 +20,7 @@ class outputManager():
         self.env['runtime']['settingsManager'].shutdownDriver('soundDriver')
         self.env['runtime']['settingsManager'].shutdownDriver('speechDriver')
 
-    def presentText(self, text, interrupt=True, soundIcon = ''):
+    def presentText(self, text, interrupt=True, soundIcon = '', ignorePunctuation=False):
         self.env['runtime']['debug'].writeDebugOut("presentText:\nsoundIcon:'"+soundIcon+"'\nText:\n" + text ,debug.debugLevel.INFO)
         if self.playSoundIcon(soundIcon, interrupt):
             self.env['runtime']['debug'].writeDebugOut("soundIcon found" ,debug.debugLevel.INFO)            
@@ -28,7 +28,7 @@ class outputManager():
         self.speakText(text, interrupt)
         self.brailleText(text, interrupt)
 
-    def speakText(self, text, interrupt=True):
+    def speakText(self, text, interrupt=True, ignorePunctuation=False):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('speech', 'enabled'):
             self.env['runtime']['debug'].writeDebugOut("Speech disabled in outputManager.speakText",debug.debugLevel.INFO)
             return
@@ -74,8 +74,10 @@ class outputManager():
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)            
         
         try:
+            text = self.env['runtime']['punctuationManager'].proceedPunctuation(text,ignorePunctuation) 
             self.env['runtime']['speechDriver'].speak(text)
         except Exception as e:
+            print(e)
             self.env['runtime']['debug'].writeDebugOut("\"speak\" in outputManager.speakText ",debug.debugLevel.ERROR)
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)            
 
