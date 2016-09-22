@@ -20,8 +20,6 @@ ToDos in Priority order:
   
 - dictonary for special chars and string replacements
 - punctuation
-- New Triggers
-  onAppChange
 
 - add perApplicationTrigger trigger
   per application commands
@@ -216,5 +214,7 @@ ps a -o tty,comm  | grep -e Xorg | grep -v "grep -e Xorg"
 - pass environment instance in init and remove it from function calls
 
 - New Triggers
+  onAppChange
+  onAppProfileChange
   onScreenChange
   rename current onScreenChange to onScreenUpdate  
