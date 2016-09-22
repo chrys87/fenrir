@@ -86,7 +86,7 @@ class fenrir():
             self.environment['runtime']['inputManager'].shutdown()                      
             del self.environment['runtime']['inputManager']
         self.environment['runtime']['outputManager'].presentText("Quit Fenrir", soundIcon='ScreenReaderOff', interrupt=True)   
-        time.sleep(.8) # wait a little for sound
+        time.sleep(.3) # wait a little for sound
         
         if self.environment['runtime']['screenManager']:
             self.environment['runtime']['screenManager'].shutdown()  
