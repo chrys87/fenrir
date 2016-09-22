@@ -52,6 +52,8 @@ class fenrir():
         
         if self.environment['screenData']['newApplication'] != self.environment['screenData']['oldApplication']:
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onApplicationChange')
+            self.environment['runtime']['commandManager'].executeSwitchTrigger(self, 'onSwitchApplicationProfile', \
+              self.environment['screenData']['oldApplication'], self.environment['screenData']['newApplication'])            
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')
         if self.environment['screenData']['newTTY'] == self.environment['screenData']['oldTTY']:                 
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenUpdate')         
