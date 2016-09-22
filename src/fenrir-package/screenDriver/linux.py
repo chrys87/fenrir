@@ -46,7 +46,7 @@ class driver():
                   not "sh" == i[0] and \
                   not "ps" == i[0]:
                     if "tty"+currScreen in i[1]:
-                        appList.append(i[0])
+                        appList.append(i[0].upper())
         return appList
 
     def getIgnoreScreens(self):

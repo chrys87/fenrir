@@ -16,14 +16,15 @@ commandBuffer = {
 'genericListSelection': 0,
 'clipboard':[],
 'currClipboard': 0,
-'Marks':{'1':None, '2':None}
+'Marks':{'1':None, '2':None},
+'bookMarks':{},
 }
 
 # used by the commandManager
 commandInfo = {
 'currCommand': '',
 'lastCommandExecutionTime': time.time(),
-'lastCommandRequestTime': time.time()
+'lastCommandRequestTime': time.time(),
 }
 
 # used by the commandManager

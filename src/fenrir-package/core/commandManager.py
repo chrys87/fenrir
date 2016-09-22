@@ -69,9 +69,9 @@ class commandManager():
             if len(unLoadScript) == 0:
                 oldScript = 'DEFAULT'
             else:
-                oldScript = unLoadScript[0].upper()
+                oldScript = unLoadScript[0]
         elif unLoadScript:
-            oldScript = str(unLoadScript).upper()
+            oldScript = str(unLoadScript)
         if oldScript == '':
             oldScript == 'DEFAULT'        
         if self.commandExists(oldScript, trigger):        
@@ -87,9 +87,9 @@ class commandManager():
             if len(loadScript) == 0:
                 newScript = 'DEFAULT'
             else:
-                newScript = loadScript[0].upper()
+                newScript = loadScript[0]
         elif unLoadScript:
-            newScript = str(loadScript).upper()
+            newScript = str(loadScript)
         if newScript == '':
             newScript == 'DEFAULT'
         if self.commandExists(newScript, trigger):        
