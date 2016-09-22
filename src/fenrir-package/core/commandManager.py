@@ -17,7 +17,8 @@ class commandManager():
         self.env['runtime']['commandManager'].loadCommands('onInput')
         self.env['runtime']['commandManager'].loadCommands('onScreenUpdate')         
         self.env['runtime']['commandManager'].loadCommands('onScreenChanged')
-        self.env['runtime']['commandManager'].loadCommands('onApplicationChange')          
+        self.env['runtime']['commandManager'].loadCommands('onApplicationChange')
+        self.env['runtime']['commandManager'].loadCommands('onSwitchApplicationProfile')        
 
     def shutdown(self):
         self.env['runtime']['commandManager'].shutdownCommands('commands')
@@ -25,6 +26,7 @@ class commandManager():
         self.env['runtime']['commandManager'].shutdownCommands('onScreenUpdate')         
         self.env['runtime']['commandManager'].shutdownCommands('onScreenChanged')    
         self.env['runtime']['commandManager'].shutdownCommands('onApplicationChange') 
+        self.env['runtime']['commandManager'].shutdownCommands('onSwitchApplicationProfile') 
         
     def loadCommands(self, section='commands'):
         commandFolder = "commands/" + section +"/"
@@ -58,7 +60,47 @@ class commandManager():
                 self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR) 
                 continue
 
-    def executeTriggerCommands(self, trigger):
+    def executeSwitchTrigger(self, trigger, unLoadScript, loadScript):
+        if self.env['runtime']['screenManager'].isSuspendingScreen():
+            return
+        #unload
+        oldScript = ''
+        if isinstance(unLoadScript, list):
+            if len(unLoadScript) == 0:
+                oldScript = 'default'
+            else:
+                oldScript = unLoadScript[0]
+        elif unLoadScript:
+            oldScript = str(unLoadScript)
+        if oldScript == '':
+            oldScript == 'default'        
+        if self.commandExists(oldScript, trigger):        
+            try:
+               self.env['commands'][trigger][oldScript].unload()
+            except Exception as e:
+                print(e)
+                self.env['runtime']['debug'].writeDebugOut("Executing trigger:" + trigger + "." + oldScript ,debug.debugLevel.ERROR)
+                self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR) 
+        #load
+        newScript = ''
+        if isinstance(loadScript, list):
+            if len(loadScript) == 0:
+                newScript = 'default'
+            else:
+                newScript = loadScript[0]
+        elif unLoadScript:
+            newScript = str(loadScript)
+        if newScript == '':
+            newScript == 'default'
+        if self.commandExists(newScript, trigger):        
+            try:
+               self.env['commands'][trigger][newScript].load()
+            except Exception as e:
+                print(e)
+                self.env['runtime']['debug'].writeDebugOut("Executing trigger:" + trigger + "." + newScript ,debug.debugLevel.ERROR)
+                self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)                 
+
+    def executeDefaultTrigger(self, trigger):
         if self.env['runtime']['screenManager'].isSuspendingScreen():
             return
         for command in sorted(self.env['commands'][trigger]):
@@ -67,7 +109,7 @@ class commandManager():
                    self.env['commands'][trigger][command].run()
                 except Exception as e:
                     print(e)
-                    self.env['runtime']['debug'].writeDebugOut("Executing trigger:" + trigger + "." + cmd ,debug.debugLevel.ERROR)
+                    self.env['runtime']['debug'].writeDebugOut("Executing trigger:" + trigger + "." + command ,debug.debugLevel.ERROR)
                     self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR) 
 
     def executeCommand(self, command, section = 'commands'):
