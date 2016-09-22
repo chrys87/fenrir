@@ -100,6 +100,9 @@ class fenrir():
         if self.environment['runtime']['punctuationManager']:
             self.environment['runtime']['punctuationManager'].shutdown()    
             del self.environment['runtime']['punctuationManager']
+        if self.environment['runtime']['reviewManager']:
+            self.environment['runtime']['reviewManager'].shutdown()    
+            del self.environment['runtime']['reviewManager']
 
         if self.environment['runtime']['debug']:
             self.environment['runtime']['debug'].shutdown() 
