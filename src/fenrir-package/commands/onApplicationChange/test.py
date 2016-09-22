@@ -16,9 +16,10 @@ class command():
     def getDescription(self):
         return 'No description found'         
     def run(self):
-        print('new %s', self.env['screenData']['newApplication'])
-        print('old %s', self.env['screenData']['oldApplication'])
-        print('-----------')
+        #print('new ', self.env['screenData']['newApplication'])
+        #print('old ', self.env['screenData']['oldApplication'])
+        #print('-----------')
+        pass
         
     def setCallback(self, callback):
         pass

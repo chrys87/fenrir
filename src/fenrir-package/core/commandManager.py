@@ -67,16 +67,16 @@ class commandManager():
         oldScript = ''
         if isinstance(unLoadScript, list):
             if len(unLoadScript) == 0:
-                oldScript = 'default'
+                oldScript = 'DEFAULT'
             else:
-                oldScript = unLoadScript[0]
+                oldScript = unLoadScript[0].upper()
         elif unLoadScript:
-            oldScript = str(unLoadScript)
+            oldScript = str(unLoadScript).upper()
         if oldScript == '':
-            oldScript == 'default'        
+            oldScript == 'DEFAULT'        
         if self.commandExists(oldScript, trigger):        
             try:
-               self.env['commands'][trigger][oldScript].unload()
+               self.env['commands'][trigger][oldScript].unload()         
             except Exception as e:
                 print(e)
                 self.env['runtime']['debug'].writeDebugOut("Executing trigger:" + trigger + "." + oldScript ,debug.debugLevel.ERROR)
@@ -85,16 +85,16 @@ class commandManager():
         newScript = ''
         if isinstance(loadScript, list):
             if len(loadScript) == 0:
-                newScript = 'default'
+                newScript = 'DEFAULT'
             else:
-                newScript = loadScript[0]
+                newScript = loadScript[0].upper()
         elif unLoadScript:
-            newScript = str(loadScript)
+            newScript = str(loadScript).upper()
         if newScript == '':
-            newScript == 'default'
+            newScript == 'DEFAULT'
         if self.commandExists(newScript, trigger):        
             try:
-               self.env['commands'][trigger][newScript].load()
+               self.env['commands'][trigger][newScript].load()                      
             except Exception as e:
                 print(e)
                 self.env['runtime']['debug'].writeDebugOut("Executing trigger:" + trigger + "." + newScript ,debug.debugLevel.ERROR)
