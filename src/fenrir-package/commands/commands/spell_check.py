@@ -37,11 +37,8 @@ class command():
                 self.updateSpellLanguage()
             except:
                 return    
-
-        if self.env['screenData']['newCursorReview']:
-            cursorPos = self.env['screenData']['newCursorReview'].copy()
-        else:
-            cursorPos = self.env['screenData']['newCursor'].copy()
+        
+        cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
             
         # get the word
         newContent = self.env['screenData']['newContentText'].split('\n')[cursorPos['y']]
