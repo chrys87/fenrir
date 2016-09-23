@@ -17,13 +17,11 @@ class command():
         return 'exits review mode'        
     
     def run(self):
-        if not (self.env['screenData']['oldCursorReview']) and \
-          (self.env['screenData']['newCursorReview']):
+        if not self.env['runtime']['cursorManager'].isReviewMode():
             self.env['runtime']['outputManager'].presentText("Not in review mode", interrupt=True)
             return  
 
-        self.env['screenData']['oldCursorReview'] = None
-        self.env['screenData']['newCursorReview'] = None
+        self.env['runtime']['cursorManager'].clearReviewCursor()
         self.env['runtime']['outputManager'].presentText("leve review mode", interrupt=True)
    
     def setCallback(self, callback):
