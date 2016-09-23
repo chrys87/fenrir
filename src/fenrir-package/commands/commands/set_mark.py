@@ -17,15 +17,11 @@ class command():
         return 'places marks to select text to copy to the clipboard'        
     
     def run(self):
-        if not self.env['screenData']['newCursorReview']:
+        if not self.env['runtime']['cursorManager'].isReviewMode():
             self.env['runtime']['outputManager'].presentText('no review cursor', interrupt=True)
             return
 
-        if not self.env['commandBuffer']['Marks']['1']:
-            self.env['commandBuffer']['Marks']['1'] = self.env['screenData']['newCursorReview'].copy()
-        else:
-            self.env['commandBuffer']['Marks']['2'] = self.env['screenData']['newCursorReview'].copy()
-
+        self.env['runtime']['cursorManager'].setMark()
         self.env['runtime']['outputManager'].presentText('set mark', interrupt=True)
  
     def setCallback(self, callback):
