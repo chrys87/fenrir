@@ -30,24 +30,28 @@ class driver():
 
     def getCurrApplication(self, screen):
         apps = []
-        appList = []
         try:
             apps = subprocess.Popen('ps a -o comm,tty,stat', shell=True, stdout=subprocess.PIPE).stdout.read().decode()[:-1].split('\n')
         except Exception as e:
             print(e)
-            return appList
+            return ''
         currScreen = str(screen)
-        for i in apps:
-            i = i.split()
-            i[0] = i[0].lower()
-            i[1] = i[1].lower()
-            if '+' in i[2]:
-                if not "grep" == i[0] and \
-                  not "sh" == i[0] and \
-                  not "ps" == i[0]:
-                    if "tty"+currScreen in i[1]:
-                        appList.append(i[0].upper())
-        return appList
+        try:
+            for i in apps:
+                i = i.upper()
+                i = i.split()
+                i[0] = i[0]
+                i[1] = i[1]
+                if '+' in i[2]:
+                    if i[0] != '':
+                        if not "GREP" == i[0] and \
+                          not "SH" == i[0] and \
+                          not "PS" == i[0]:
+                            if "TTY"+currScreen in i[1]:
+                                return i[0]
+        except:
+            return ''
+        return ''
 
     def getIgnoreScreens(self):
         xlist = []
