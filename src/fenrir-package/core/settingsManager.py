@@ -12,7 +12,7 @@ from core import outputManager
 from core import commandManager
 from core import screenManager
 from core import punctuationManager
-from core import reviewManager
+from core import cursorManager
 from core import applicationManager
 from core import environment 
 from core.settings import settings
@@ -196,8 +196,8 @@ class settingsManager():
         environment['runtime']['commandManager'].initialize(environment)  
         environment['runtime']['punctuationManager'] = punctuationManager.punctuationManager()
         environment['runtime']['punctuationManager'].initialize(environment)  
-        environment['runtime']['reviewManager'] = reviewManager.reviewManager()
-        environment['runtime']['reviewManager'].initialize(environment)  
+        environment['runtime']['cursorManager'] = cursorManager.cursorManager()
+        environment['runtime']['cursorManager'].initialize(environment)  
         environment['runtime']['applicationManager'] = applicationManager.applicationManager()
         environment['runtime']['applicationManager'].initialize(environment)  
         
