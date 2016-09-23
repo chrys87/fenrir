@@ -53,7 +53,8 @@ class fenrir():
         if self.environment['runtime']['applicationManager'].isApplicationChange():
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onApplicationChange')
             self.environment['runtime']['commandManager'].executeSwitchTrigger('onSwitchApplicationProfile', \
-              self.environment['screenData']['oldApplication'], self.environment['screenData']['newApplication'])            
+              self.environment['runtime']['applicationManager'].getPrevApplication(), \
+              self.environment['runtime']['applicationManager'].getCurrentApplication())            
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')
         if self.environment['runtime']['screenManager'].isScreenChange():    
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenUpdate')         
