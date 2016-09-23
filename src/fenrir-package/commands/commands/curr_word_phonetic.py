@@ -19,10 +19,7 @@ class command():
         return 'phonetically spells the current word'        
     
     def run(self):
-        if self.env['screenData']['newCursorReview']:
-            cursorPos = self.env['screenData']['newCursorReview'].copy()
-        else:
-            cursorPos = self.env['screenData']['newCursor'].copy()
+        cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
         x, y, currWord = \
           word_utils.getCurrentWord(cursorPos['x'], cursorPos['y'], self.env['screenData']['newContentText'])
         
