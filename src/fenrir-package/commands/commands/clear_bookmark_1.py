@@ -17,11 +17,8 @@ class command():
         return 'remove Bookmark ' + self.ID        
     
     def run(self):
-        currApp = ''
-        try:
-            currApp = str(self.env['screenData']['newApplication'][0])
-        except:
-            currApp = 'DEFAULT'   
+        currApp = self.environment['runtime']['applicationManager'].getCurrentApplication()
+        
         del self.env['commandBuffer']['bookMarks'][self.ID][currApp]
 
         self.env['runtime']['outputManager'].presentText('Bookmark ' + self.ID + " removed for application " + currApp, interrupt=True)
