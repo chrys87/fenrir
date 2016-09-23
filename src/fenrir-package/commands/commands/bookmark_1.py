@@ -18,11 +18,8 @@ class command():
         return 'read Bookmark ' + self.ID
     
     def run(self):
-        currApp = ''
-        try:
-            currApp = str(self.env['screenData']['newApplication'][0])
-        except:
-            currApp = 'DEFAULT'    
+        currApp = self.environment['runtime']['applicationManager'].getCurrentApplication()
+ 
         if not self.env['commandBuffer']['bookMarks'][self.ID]:
             self.env['runtime']['outputManager'].presentText("Bookmark " + self.ID + "not found.", interrupt=True)
             return
