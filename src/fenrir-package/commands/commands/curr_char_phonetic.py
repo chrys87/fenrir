@@ -18,10 +18,7 @@ class command():
         return 'phonetically presents the current character'    
     
     def run(self):
-        if self.env['screenData']['newCursorReview']:
-            cursorPos = self.env['screenData']['newCursorReview'].copy()
-        else:
-            cursorPos = self.env['screenData']['newCursor'].copy()
+        cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
 
         x, y, currChar = \
           char_utils.getCurrentChar(cursorPos['x'], cursorPos['y'], self.env['screenData']['newContentText'])
