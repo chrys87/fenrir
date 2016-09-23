@@ -17,8 +17,7 @@ class command():
         return 'removes marks from selected text'        
     
     def run(self):
-        self.env['commandBuffer']['Marks']['1'] = None
-        self.env['commandBuffer']['Marks']['2'] = None
+        self.env['runtime']['cursorManager'].clearMarks()
         self.env['runtime']['outputManager'].presentText('Remove marks', interrupt=True)
 
     def setCallback(self, callback):
