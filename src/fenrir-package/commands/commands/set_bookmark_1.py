@@ -21,12 +21,7 @@ class command():
         if not self.env['commandBuffer']['Marks']['1']:
             self.env['runtime']['outputManager'].presentText("No Mark found", interrupt=True)
             return
-        currApp = ''
-        try:
-            currApp = str(self.env['screenData']['newApplication'][0])
-        except Exception as e:
-            print(e)
-            currApp = 'DEFAULT'
+        currApp = self.environment['runtime']['applicationManager'].getCurrentApplication()
         self.env['commandBuffer']['bookMarks'][self.ID][currApp] = {}
         
         self.env['commandBuffer']['bookMarks'][self.ID][currApp]['1'] = self.env['commandBuffer']['Marks']['1'].copy()
