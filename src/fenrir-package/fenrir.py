@@ -50,12 +50,12 @@ class fenrir():
             print(e)
             self.environment['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)         
         
-        if self.environment['screenData']['newApplication'] != self.environment['screenData']['oldApplication']:
+        if self.environment['runtime']['applicationManager'].isApplicationChange():
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onApplicationChange')
             self.environment['runtime']['commandManager'].executeSwitchTrigger('onSwitchApplicationProfile', \
               self.environment['screenData']['oldApplication'], self.environment['screenData']['newApplication'])            
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')
-        if self.environment['screenData']['newTTY'] == self.environment['screenData']['oldTTY']:                 
+        if self.environment['runtime']['screenManager'].isScreenChange():    
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenUpdate')         
         else:
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenChanged')             
@@ -103,7 +103,10 @@ class fenrir():
         if self.environment['runtime']['reviewManager']:
             self.environment['runtime']['reviewManager'].shutdown()    
             del self.environment['runtime']['reviewManager']
-
+        if self.environment['runtime']['applicationManager']:
+            self.environment['runtime']['applicationManager'].shutdown()    
+            del self.environment['runtime']['applicationManager']
+            
         if self.environment['runtime']['debug']:
             self.environment['runtime']['debug'].shutdown() 
             del self.environment['runtime']['debug']
