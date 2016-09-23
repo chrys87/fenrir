@@ -14,8 +14,16 @@ class applicationManager():
     def shutdown(self):
         pass
     def getCurrentApplication(self):
-        pass
+        currApp = self.environment['screenData']['newApplication'].upper()
+        if not currApp:
+            currApp == 'DEFAULT' 
+        if currApp == '':
+            currApp == 'DEFAULT' 
     def getPrevApplication(self):
-        pass
+        prevApp = self.environment['screenData']['oldApplication'].upper()
+        if not prevApp:
+            prevApp == 'DEFAULT' 
+        if prevApp == '':
+            prevApp == 'DEFAULT' 
     def isApplicationChange(self):
-        pass
+        return self.environment['screenData']['oldApplication'] != self.environment['screenData']['newApplication']
