@@ -18,10 +18,7 @@ class command():
 
     def run(self):
         # Prefer review cursor over text cursor
-        if self.env['screenData']['newCursorReview']:
-            cursorPos = self.env['screenData']['newCursorReview'].copy()
-        else:
-            cursorPos = self.env['screenData']['newCursor'].copy()
+        cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
 
         self.env['runtime']['outputManager'].presentText("line "+  str(cursorPos['y']+1) + " column "+  str(cursorPos['x']+1), interrupt=True)
    
