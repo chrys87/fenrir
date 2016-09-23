@@ -31,11 +31,12 @@ class driver():
     def getCurrApplication(self, screen):
         apps = []
         try:
-            apps = subprocess.Popen('ps a -o comm,tty,stat', shell=True, stdout=subprocess.PIPE).stdout.read().decode()[:-1].split('\n')
+            currScreen = str(screen)
+            apps = subprocess.Popen('ps -t tty' + currScreen + ' -o comm,tty,stat', shell=True, stdout=subprocess.PIPE).stdout.read().decode()[:-1].split('\n')
         except Exception as e:
             print(e)
             return ''
-        currScreen = str(screen)
+
         try:
             for i in apps:
                 i = i.upper()
