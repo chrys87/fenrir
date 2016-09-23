@@ -39,4 +39,7 @@ class cursorManager():
         self.env['screenData']['newCursorReview'] = None
     def isReviewMode(self):
         return self.env['screenData']['newCursorReview'] != None
-        
+    def enterReviewModeCurrTextCursor(self):
+        self.env['screenData']['oldCursorReview'] = self.env['screenData']['newCursorReview']
+        if not self.env['screenData']['newCursorReview']:
+            self.env['screenData']['newCursorReview'] = self.env['screenData']['newCursor'].copy()        
