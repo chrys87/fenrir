@@ -13,4 +13,23 @@ class cursorManager():
         self.env = environment
     def shutdown(self):
         pass
+    def clearMarks(self):
+        self.env['commandBuffer']['Marks']['1'] = None
+        self.env['commandBuffer']['Marks']['2'] = None
+    def setMark(self):
+      if not self.env['commandBuffer']['Marks']['1']:
+            self.env['commandBuffer']['Marks']['1'] = self.env['screenData']['newCursorReview'].copy()
+        else:
+            self.env['commandBuffer']['Marks']['2'] = self.env['screenData']['newCursorReview'].copy()
+    def getReviewOrTextCursor(self):
+        if self.env['screenData']['newCursorReview']:
+            cursorPos = self.env['screenData']['newCursorReview'].copy()
+        else:
+            cursorPos = self.env['screenData']['newCursor'].copy()
+        return cursorPos
+    def clearReviewCursor(self):
+        self.env['screenData']['oldCursorReview'] = None
+        self.env['screenData']['newCursorReview'] = None
+    def isReviewMode(self):
+        return self.env['screenData']['newCursorReview'] != None
         
