@@ -18,9 +18,7 @@ class command():
         return 'moves review to the previous line and presents it'        
 
     def run(self):
-        self.env['screenData']['oldCursorReview'] = self.env['screenData']['newCursorReview']
-        if not self.env['screenData']['newCursorReview']:
-            self.env['screenData']['newCursorReview'] = self.env['screenData']['newCursor'].copy()
+        self.env['runtime']['cursorManager'].enterReviewModeCurrTextCursor()
 
         self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], currLine = \
           line_utils.getPrevLine(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
