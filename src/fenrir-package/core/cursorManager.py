@@ -23,10 +23,9 @@ class cursorManager():
             self.env['commandBuffer']['Marks']['2'] = self.env['screenData']['newCursorReview'].copy()
     def getReviewOrTextCursor(self):
         if self.env['screenData']['newCursorReview']:
-            cursorPos = self.env['screenData']['newCursorReview'].copy()
+            return = self.env['screenData']['newCursorReview'].copy()
         else:
-            cursorPos = self.env['screenData']['newCursor'].copy()
-        return cursorPos
+            return = self.env['screenData']['newCursor'].copy()
     def clearReviewCursor(self):
         self.env['screenData']['oldCursorReview'] = None
         self.env['screenData']['newCursorReview'] = None
