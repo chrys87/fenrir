@@ -31,3 +31,5 @@ class screenManager():
         return ((currScreen in \
           self.env['runtime']['settingsManager'].getSetting('screen', 'suspendingScreen').split(',')) or
           (currScreen in self.autoIgnoreScreens))
+    def isScreenChange(self):
+        return self.environment['screenData']['newTTY'] != self.environment['screenData']['oldTTY']
