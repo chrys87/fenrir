@@ -16,6 +16,14 @@ class cursorManager():
     def clearMarks(self):
         self.env['commandBuffer']['Marks']['1'] = None
         self.env['commandBuffer']['Marks']['2'] = None
+    def isMarkSet(self):
+        return self.env['commandBuffer']['Marks']['1'] != None
+    def isSingleMark(self):
+        return self.env['commandBuffer']['Marks']['1'] != None and \
+          self.env['commandBuffer']['Marks']['2'] == None
+    def isMultibleMark(self):
+        return self.env['commandBuffer']['Marks']['1'] != None and \
+          self.env['commandBuffer']['Marks']['2'] != None        
     def setMark(self):
       if not self.env['commandBuffer']['Marks']['1']:
             self.env['commandBuffer']['Marks']['1'] = self.env['screenData']['newCursorReview'].copy()
