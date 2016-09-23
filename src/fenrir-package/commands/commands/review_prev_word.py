@@ -18,9 +18,7 @@ class command():
         return 'moves review focus to the previous word and presents it'        
 
     def run(self):
-        self.env['screenData']['oldCursorReview'] = self.env['screenData']['newCursorReview']
-        if not self.env['screenData']['newCursorReview']:
-            self.env['screenData']['newCursorReview'] = self.env['screenData']['newCursor'].copy()
+        self.env['runtime']['cursorManager'].enterReviewModeCurrTextCursor()
 
         self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], currWord = \
           word_utils.getPrevWord(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
