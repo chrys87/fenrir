@@ -64,16 +64,7 @@ class commandManager():
         if self.env['runtime']['screenManager'].isSuspendingScreen():
             return
         #unload
-        oldScript = ''
-        if isinstance(unLoadScript, list):
-            if len(unLoadScript) == 0:
-                oldScript = 'DEFAULT'
-            else:
-                oldScript = unLoadScript[0]
-        elif unLoadScript:
-            oldScript = str(unLoadScript)
-        if oldScript == '':
-            oldScript == 'DEFAULT'        
+        oldScript = unLoadScript
         if self.commandExists(oldScript, trigger):        
             try:
                self.env['commands'][trigger][oldScript].unload()         
@@ -82,16 +73,7 @@ class commandManager():
                 self.env['runtime']['debug'].writeDebugOut("Executing trigger:" + trigger + "." + oldScript ,debug.debugLevel.ERROR)
                 self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR) 
         #load
-        newScript = ''
-        if isinstance(loadScript, list):
-            if len(loadScript) == 0:
-                newScript = 'DEFAULT'
-            else:
-                newScript = loadScript[0]
-        elif unLoadScript:
-            newScript = str(loadScript)
-        if newScript == '':
-            newScript == 'DEFAULT'
+        newScript = loadScript
         if self.commandExists(newScript, trigger):        
             try:
                self.env['commands'][trigger][newScript].load()                      
