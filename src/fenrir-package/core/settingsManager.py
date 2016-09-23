@@ -13,6 +13,7 @@ from core import commandManager
 from core import screenManager
 from core import punctuationManager
 from core import reviewManager
+from core import applicationManager
 from core import environment 
 from core.settings import settings
 from core import debug
@@ -197,7 +198,9 @@ class settingsManager():
         environment['runtime']['punctuationManager'].initialize(environment)  
         environment['runtime']['reviewManager'] = reviewManager.reviewManager()
         environment['runtime']['reviewManager'].initialize(environment)  
-
+        environment['runtime']['applicationManager'] = applicationManager.applicationManager()
+        environment['runtime']['applicationManager'].initialize(environment)  
+        
         if environment['runtime']['screenManager'] == None:
             environment['runtime']['screenManager'] = screenManager.screenManager()
             environment['runtime']['screenManager'].initialize(environment) 
