@@ -49,7 +49,7 @@ class fenrir():
         except Exception as e:
             print(e)
             self.environment['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)         
-        
+    
         if self.environment['runtime']['applicationManager'].isApplicationChange():
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onApplicationChange')
             self.environment['runtime']['commandManager'].executeSwitchTrigger('onSwitchApplicationProfile', \
@@ -57,9 +57,10 @@ class fenrir():
               self.environment['runtime']['applicationManager'].getCurrentApplication())            
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')
         if self.environment['runtime']['screenManager'].isScreenChange():    
-            self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenUpdate')         
-        else:
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenChanged')             
+        else:
+            self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenUpdate')         
+            
         self.handleCommands()
 
     def prepareCommand(self):
