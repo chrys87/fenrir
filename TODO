@@ -18,7 +18,6 @@ ToDos in Priority order:
   cleanup inputManager
   split input driver out of the handler
 
-- respect window mode in differ (getwindow code is already in place)  
 - dictonary for special chars and string replacements
 - punctuation
 
@@ -156,6 +155,7 @@ except KeyboardInterrupt:
 - implement sounddriver generic (use current sox and make it configurable)
 - add setting for autodetect X
 ps a -o tty,comm  | grep -e Xorg | grep -v "grep -e Xorg"
+- respect window mode in differ (getwindow code is already in place)  
 
 - implement commands
   curr_word
