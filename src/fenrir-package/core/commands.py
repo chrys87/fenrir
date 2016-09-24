@@ -18,6 +18,7 @@ commandBuffer = {
 'currClipboard': 0,
 'Marks':{'1':None, '2':None},
 'bookMarks':{},
+'windowArea':{},
 }
 
 # used by the commandManager
