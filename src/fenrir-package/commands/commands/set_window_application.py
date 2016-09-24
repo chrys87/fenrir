@@ -18,6 +18,7 @@ class command():
     
     def run(self):
         if self.env['runtime']['cursorManager'].setWindowForApplication():
+            currApp = self.env['runtime']['applicationManager'].getCurrentApplication()    
             self.env['runtime']['outputManager'].presentText('Window Mode on for application ' + currApp, interrupt=True)
             self.env['runtime']['cursorManager'].clearMarks()
         else:
