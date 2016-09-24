@@ -29,9 +29,6 @@ ToDos in Priority order:
 - implement commands
   define_window
   remove_window
-  add_bookmark (per application)
-  remove_bookmark
-  present_bookmark
   attributes_curr_char
   toggle_highlighted_mode
   generic list command (convert clipboard management)
@@ -188,6 +185,9 @@ ps a -o tty,comm  | grep -e Xorg | grep -v "grep -e Xorg"
   curr_screen_after_cursor
   cursor_position
   indention
+  add_bookmark (per application)
+  remove_bookmark
+  present_bookmark  
   say_char_phonetic
   spell_word_phonetic
   "alpha", "bravo", "charlie", "delta", "echo",
