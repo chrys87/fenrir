@@ -124,7 +124,6 @@ class driver():
         # changes on the screen
         oldScreenText = self.env['runtime']['screenManager'].getWindowAreaInText(self.env['screenData']['oldContentText'])
         newScreenText = self.env['runtime']['screenManager'].getWindowAreaInText(self.env['screenData']['newContentText'])        
-        print(newScreenText)
         if (self.env['screenData']['oldContentText'] != self.env['screenData']['newContentText']) and \
           (self.env['screenData']['newContentText'] != '' ):
             if oldScreenText == '' and\
@@ -139,10 +138,11 @@ class driver():
                     diff = difflib.ndiff(self.env['screenData']['oldContentText'][diffStart:diffStart  + self.env['screenData']['columns']],\
                       self.env['screenData']['newContentText'][diffStart:diffStart  + self.env['screenData']['columns']])      
                 else:
-                   diff = difflib.ndiff( oldScreenText[diffStart:].split('\n'),\
-                     newScreenText[diffStart:].split('\n'))
-                
-                diffList = list(diff)
+                    diff = difflib.ndiff( oldScreenText[0:].split('\n'),\
+                      newScreenText[0:].split('\n'))
 
+                diffList = list(diff)
+                
                 self.env['screenData']['newDelta'] = ''.join(x[2:] for x in diffList if x.startswith('+ '))             
                 self.env['screenData']['newNegativeDelta'] = ''.join(x[2:] for x in diffList if x.startswith('- '))
+        print(self.env['screenData']['newDelta'])
