@@ -17,7 +17,7 @@ class command():
         return 'remove Bookmark ' + self.ID        
     
     def run(self):
-        currApp = self.environment['runtime']['applicationManager'].getCurrentApplication()
+        currApp = self.env['runtime']['applicationManager'].getCurrentApplication()
         
         del self.env['commandBuffer']['bookMarks'][self.ID][currApp]
 

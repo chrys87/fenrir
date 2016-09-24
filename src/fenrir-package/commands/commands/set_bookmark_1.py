@@ -21,12 +21,14 @@ class command():
         if not self.env['commandBuffer']['Marks']['1']:
             self.env['runtime']['outputManager'].presentText("No Mark found", interrupt=True)
             return
-        currApp = self.environment['runtime']['applicationManager'].getCurrentApplication()
+        currApp = self.env['runtime']['applicationManager'].getCurrentApplication()
         self.env['commandBuffer']['bookMarks'][self.ID][currApp] = {}
         
         self.env['commandBuffer']['bookMarks'][self.ID][currApp]['1'] = self.env['commandBuffer']['Marks']['1'].copy()
         if self.env['commandBuffer']['Marks']['2']:
             self.env['commandBuffer']['bookMarks'][self.ID][currApp]['2'] = self.env['commandBuffer']['Marks']['2'].copy()
+        else:
+            self.env['commandBuffer']['bookMarks'][self.ID][currApp]['2'] = None
         self.env['runtime']['outputManager'].presentText('Bookmark ' + self.ID + " set for application " + currApp, interrupt=True)
         self.env['commandBuffer']['Marks']['1'] = None
         self.env['commandBuffer']['Marks']['2'] = None
