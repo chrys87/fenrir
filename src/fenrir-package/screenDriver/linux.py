@@ -127,9 +127,9 @@ class driver():
         print(newScreenText)
         if (self.env['screenData']['oldContentText'] != self.env['screenData']['newContentText']) and \
           (self.env['screenData']['newContentText'] != '' ):
-            if self.env['screenData']['oldContentText'] == '' and\
-              self.env['screenData']['newContentText'] != '':
-                self.env['screenData']['newDelta'] = self.env['screenData']['newContentText']  
+            if oldScreenText == '' and\
+              newScreenText != '':
+                self.env['screenData']['newDelta'] = newScreenText
             else:
                 diffStart = 0
                 if self.env['screenData']['oldCursor']['x'] != self.env['screenData']['newCursor']['x'] and \
@@ -139,8 +139,8 @@ class driver():
                     diff = difflib.ndiff(self.env['screenData']['oldContentText'][diffStart:diffStart  + self.env['screenData']['columns']],\
                       self.env['screenData']['newContentText'][diffStart:diffStart  + self.env['screenData']['columns']])      
                 else:
-                   diff = difflib.ndiff( self.env['screenData']['oldContentText'][diffStart:].split('\n'),\
-                     self.env['screenData']['newContentText'][diffStart:].split('\n'))
+                   diff = difflib.ndiff( oldScreenText[diffStart:].split('\n'),\
+                     newScreenText[diffStart:].split('\n'))
                 
                 diffList = list(diff)
 
