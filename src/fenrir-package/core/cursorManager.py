@@ -42,4 +42,33 @@ class cursorManager():
     def enterReviewModeCurrTextCursor(self):
         self.env['screenData']['oldCursorReview'] = self.env['screenData']['newCursorReview']
         if not self.env['screenData']['newCursorReview']:
-            self.env['screenData']['newCursorReview'] = self.env['screenData']['newCursor'].copy()        
+            self.env['screenData']['newCursorReview'] = self.env['screenData']['newCursor'].copy()
+    def isApplicationWindowSet(self):
+        try:
+            currApp = self.env['runtime']['applicationManager'].getCurrentApplication()
+            return self.env['commandBuffer']['windowArea'][currApp]['1'] != None
+        except:
+            return False
+    def setWindowForApplication(self):
+        if not self.env['commandBuffer']['Marks']['1']:
+            return False
+        if not self.env['commandBuffer']['Marks']['2']:
+            return False
+        currApp = self.env['runtime']['applicationManager'].getCurrentApplication()
+        self.env['commandBuffer']['windowArea'][currApp] = {}
+        
+        if self.env['commandBuffer']['Marks']['1']['x'] * self.env['commandBuffer']['Marks']['1']['y'] <= \
+          self.env['commandBuffer']['Marks']['2']['x'] * self.env['commandBuffer']['Marks']['2']['y']:
+            self.env['commandBuffer']['windowArea'][currApp]['1'] = self.env['commandBuffer']['Marks']['1'].copy()
+            self.env['commandBuffer']['windowArea'][currApp]['2'] = self.env['commandBuffer']['Marks']['2'].copy()
+        else:
+            self.env['commandBuffer']['windowArea'][currApp]['1'] = self.env['commandBuffer']['Marks']['2'].copy()
+            self.env['commandBuffer']['windowArea'][currApp]['2'] = self.env['commandBuffer']['Marks']['1'].copy()  
+        return True   
+    def clearWindowForApplication(self):
+        currApp = self.env['runtime']['applicationManager'].getCurrentApplication()
+        try:
+            del self.env['commandBuffer']['windowArea'][currApp]
+        except:
+            return False
+        return True                                 

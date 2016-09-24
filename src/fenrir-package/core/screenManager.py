@@ -33,3 +33,14 @@ class screenManager():
           (currScreen in self.autoIgnoreScreens))
     def isScreenChange(self):
         return self.env['screenData']['newTTY'] != self.env['screenData']['oldTTY']
+    def getWindowAreaInText(self, text):
+        if not self.env['runtime']['cursorManager'].isApplicationWindowSet():
+            return text
+        currApp = self.env['runtime']['applicationManager'].getCurrentApplication()
+        windowText = ''
+        windowList = text.split('\n')
+        windowList = windowList[self.env['commandBuffer']['windowArea'][currApp]['1']['y']:self.env['commandBuffer']['windowArea'][currApp]['2']['y'] + 1]
+        for line in windowList:
+            windowText += line[self.env['commandBuffer']['windowArea'][currApp]['1']['x']:self.env['commandBuffer']['windowArea'][currApp]['2']['x'] + 1] + '\n'
+        return windowText
+

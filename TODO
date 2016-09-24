@@ -17,7 +17,8 @@ ToDos in Priority order:
   possiblity to forewart shortcut (or use them as shortcut) [pressing twice while timeout]
   cleanup inputManager
   split input driver out of the handler
-  
+
+- respect window mode in differ (getwindow code is already in place)  
 - dictonary for special chars and string replacements
 - punctuation
 
@@ -27,8 +28,6 @@ ToDos in Priority order:
   per application onInput
 - per application shortcuts
 - implement commands
-  define_window
-  remove_window
   attributes_curr_char
   toggle_highlighted_mode
   generic list command (convert clipboard management)
@@ -175,6 +174,8 @@ ps a -o tty,comm  | grep -e Xorg | grep -v "grep -e Xorg"
   last_clipboard
   curr_clipboard
   paste_clipboard
+  define_window
+  remove_window  
   reset_review_on_screen_change
   remove_clipboard_marks
   copy_marked

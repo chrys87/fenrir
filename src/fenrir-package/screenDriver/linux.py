@@ -122,6 +122,9 @@ class driver():
         self.env['screenData']['newNegativeDelta'] = ''
         self.env['screenData']['newDelta'] = ''                   
         # changes on the screen
+        oldScreenText = self.env['runtime']['screenManager'].getWindowAreaInText(self.env['screenData']['oldContentText'])
+        newScreenText = self.env['runtime']['screenManager'].getWindowAreaInText(self.env['screenData']['newContentText'])        
+        print(newScreenText)
         if (self.env['screenData']['oldContentText'] != self.env['screenData']['newContentText']) and \
           (self.env['screenData']['newContentText'] != '' ):
             if self.env['screenData']['oldContentText'] == '' and\
