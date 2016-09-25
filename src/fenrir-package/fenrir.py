@@ -24,7 +24,7 @@ class fenrir():
         signal.signal(signal.SIGINT, self.captureSignal)
         signal.signal(signal.SIGTERM, self.captureSignal)
         self.wasCommand = False
-        self.currShortcutLenght = 0  
+
     def proceed(self):
         while(self.environment['generalInformation']['running']):
             try:
@@ -42,18 +42,17 @@ class fenrir():
             #if not (self.environment['runtime']['inputManager'].isConsumeInput() or \
             #  self.environment['runtime']['inputManager'].isFenrirKeyPressed()) and \
             #  not self.environment['runtime']['commandManager'].isCommandQueued():
-            print('vor',self.wasCommand,self.currShortcutLenght)
+
             if not (self.wasCommand or self.environment['runtime']['inputManager'].isFenrirKeyPressed()):
-                print('dri')
                 self.environment['runtime']['inputManager'].writeEventBuffer()
             if self.environment['runtime']['inputManager'].noKeyPressed():
                 if self.wasCommand:
                         print('mache falsch')
                         self.wasCommand = False   
                         self.environment['runtime']['inputManager'].clearEventBuffer()            
-                self.currShortcutLenght = 0                           
+                self.environment['input']['prevDeepestInput'] = []                           
                 self.environment['runtime']['screenManager'].update()
-            print('nach',self.wasCommand,self.currShortcutLenght)            
+          
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')                
         else:
             self.environment['runtime']['screenManager'].update()
@@ -78,9 +77,10 @@ class fenrir():
         print(shortcut)
         command = self.environment['runtime']['inputManager'].getCommandForShortcut(shortcut)        
         self.environment['runtime']['commandManager'].queueCommand(command)  
-        if self.currShortcutLenght < len(self.environment['input']['currInput']):
+        if len(self.environment['input']['prevDeepestInput']) < len(self.environment['input']['currInput']):
             self.wasCommand = command != ''
-            self.currShortcutLenght = len(self.environment['input']['currInput'])    
+            self.environment['input']['prevDeepestInput'] = self.environment['input']['currInput'].copy()    
+    
     def handleCommands(self):
         if time.time() - self.environment['commandInfo']['lastCommandExecutionTime'] < 0.2:
             return        
@@ -99,7 +99,7 @@ class fenrir():
             self.environment['runtime']['inputManager'].shutdown()                      
             del self.environment['runtime']['inputManager']
         self.environment['runtime']['outputManager'].presentText("Quit Fenrir", soundIcon='ScreenReaderOff', interrupt=True)   
-        time.sleep(.3) # wait a little for sound
+        time.sleep(0.9) # wait a little for sound
         
         if self.environment['runtime']['screenManager']:
             self.environment['runtime']['screenManager'].shutdown()  
@@ -123,7 +123,7 @@ class fenrir():
         if self.environment['runtime']['debug']:
             self.environment['runtime']['debug'].shutdown() 
             del self.environment['runtime']['debug']
-        time.sleep(0.5) # wait a little before splatter it :)
+        time.sleep(0.2) # wait a little before splatter it :)
         self.environment = None
 
 if __name__ == "__main__":

@@ -17,7 +17,7 @@ class command():
         return 'sends the following keypress to the terminal'        
     
     def run(self):
-        self.env['input']['keyForeward'] = True
+        self.env['input']['keyForeward'] = 2
         self.env['runtime']['outputManager'].presentText('Foreward next keypress', interrupt=True)
 
     def setCallback(self, callback):

@@ -9,13 +9,11 @@ import time
 
 input = {
 'currInput': [],
-'prevInput': [], 
 'prevDeepestInput': [], 
-'currEvent': None, 
 'eventBuffer': [],
 'shortcutRepeat': 0,
-'fenrirKey': ['KEY_FENRIR'],
-'keyForeward': False,
+'fenrirKey': ['KEY_KP0'],
+'keyForeward': 0,
 'lastInputTime':time.time(),
 'oldNumLock': True,
 'newNumLock':True,
