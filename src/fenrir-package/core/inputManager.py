@@ -68,7 +68,6 @@ class inputManager():
     def convertEventName(self, eventName):
         if not eventName:
             return ''
-        print(eventName)
         
         if eventName == 'KEY_LEFTCTRL':
             eventName = 'KEY_CTRL'         

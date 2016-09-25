@@ -24,6 +24,7 @@ class fenrir():
         signal.signal(signal.SIGINT, self.captureSignal)
         signal.signal(signal.SIGTERM, self.captureSignal)
         self.wasCommand = False
+        self.currShortcutLenght = 0  
     def proceed(self):
         while(self.environment['generalInformation']['running']):
             try:
@@ -41,14 +42,18 @@ class fenrir():
             #if not (self.environment['runtime']['inputManager'].isConsumeInput() or \
             #  self.environment['runtime']['inputManager'].isFenrirKeyPressed()) and \
             #  not self.environment['runtime']['commandManager'].isCommandQueued():
+            print('vor',self.wasCommand,self.currShortcutLenght)
             if not self.wasCommand:
+                print('dri')
                 self.environment['runtime']['inputManager'].writeEventBuffer()
-            if self.wasCommand:
-                if 	self.environment['runtime']['inputManager'].noKeyPressed():
-                    self.wasCommand = False                
-                    self.environment['runtime']['inputManager'].clearEventBuffer()
             if self.environment['runtime']['inputManager'].noKeyPressed():
+                if self.wasCommand:
+                        print('mache falsch')
+                        self.wasCommand = False   
+                        self.environment['runtime']['inputManager'].clearEventBuffer()            
+                self.currShortcutLenght = 0                           
                 self.environment['runtime']['screenManager'].update()
+            print('nach',self.wasCommand,self.currShortcutLenght)            
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')                
         else:
             self.environment['runtime']['screenManager'].update()
@@ -73,8 +78,9 @@ class fenrir():
         print(shortcut)
         command = self.environment['runtime']['inputManager'].getCommandForShortcut(shortcut)        
         self.environment['runtime']['commandManager'].queueCommand(command)  
-        self.wasCommand = command != ''        
-    
+        if self.currShortcutLenght < len(self.environment['input']['currInput']):
+            self.wasCommand = command != ''
+            self.currShortcutLenght = len(self.environment['input']['currInput'])    
     def handleCommands(self):
         if time.time() - self.environment['commandInfo']['lastCommandExecutionTime'] < 0.2:
             return        

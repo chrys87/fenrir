@@ -52,8 +52,8 @@ class driver():
         # 1 Keys
         # we try to filter out mices and other stuff here
         self.iDevices = map(evdev.InputDevice, (evdev.list_devices()))
-        #self.iDevices = {dev.fd: dev for dev in self.iDevices if 1 in dev.capabilities() and not 3 in dev.capabilities() and not 2 in dev.capabilities()}
-        self.iDevices = {dev.fd: dev for dev in self.iDevices if 1 in dev.capabilities()}        
+        self.iDevices = {dev.fd: dev for dev in self.iDevices if 1 in dev.capabilities() and not 3 in dev.capabilities() and not 2 in dev.capabilities()}
+        #self.iDevices = {dev.fd: dev for dev in self.iDevices if 1 in dev.capabilities()}        
         self.ledDevices = map(evdev.InputDevice, (evdev.list_devices()))        
         self.ledDevices = {dev.fd: dev for dev in self.ledDevices if 1 in dev.capabilities() and 17 in dev.capabilities() and not 3 in dev.capabilities() and not 2 in dev.capabilities()}     
         
