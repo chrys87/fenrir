@@ -18,6 +18,8 @@ class command():
         return 'No Description found'     
 
     def run(self):
+        if self.env['runtime']['inputManager'].noKeyPressed():
+            return     
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'wordEcho'):
             return
 

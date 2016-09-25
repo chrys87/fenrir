@@ -17,6 +17,8 @@ class command():
         return ''        
     
     def run(self):
+        if self.env['runtime']['inputManager'].noKeyPressed():
+            return     
         if self.env['screenData']['newTTY'] != self.env['screenData']['oldTTY']:
             return
         if self.env['screenData']['newDelta'] != self.env['screenData']['oldDelta']:

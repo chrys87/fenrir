@@ -36,13 +36,9 @@ class fenrir():
 
     def handleProcess(self):
         eventReceived = self.environment['runtime']['inputManager'].getInputEvent()
-
+        startTime = time.time()
         if eventReceived:  
             self.prepareCommand()
-            #if not (self.environment['runtime']['inputManager'].isConsumeInput() or \
-            #  self.environment['runtime']['inputManager'].isFenrirKeyPressed()) and \
-            #  not self.environment['runtime']['commandManager'].isCommandQueued():
-
             if not (self.wasCommand or self.environment['runtime']['inputManager'].isFenrirKeyPressed() or self.environment['generalInformation']['tutorialMode']):
                 self.environment['runtime']['inputManager'].writeEventBuffer()
             if self.environment['runtime']['inputManager'].noKeyPressed():
@@ -55,7 +51,7 @@ class fenrir():
                     self.environment['input']['keyForeward'] -=1
                 self.environment['input']['prevDeepestInput'] = []                           
                 self.environment['runtime']['screenManager'].update()
-          
+                            
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')                
         else:
             self.environment['runtime']['screenManager'].update()
@@ -72,12 +68,13 @@ class fenrir():
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenUpdate')         
             
         self.handleCommands()
+        #print(time.time()-startTime)        
 
     def prepareCommand(self):
         if self.environment['input']['keyForeward'] > 0:
             return
         shortcut = self.environment['runtime']['inputManager'].getCurrShortcut()        
-        print(shortcut)
+        #print(shortcut)
         command = self.environment['runtime']['inputManager'].getCommandForShortcut(shortcut)        
         self.environment['runtime']['commandManager'].queueCommand(command)  
         if len(self.environment['input']['prevDeepestInput']) < len(self.environment['input']['currInput']):

@@ -30,6 +30,8 @@ class command():
         self.language = self.env['runtime']['settingsManager'].getSetting('general', 'spellCheckLanguage')      
       
     def run(self):
+        if self.env['runtime']['inputManager'].noKeyPressed():
+            return     
         if not self.env['runtime']['settingsManager'].getSettingAsBool('general', 'autoSpellCheck'):
             return
 

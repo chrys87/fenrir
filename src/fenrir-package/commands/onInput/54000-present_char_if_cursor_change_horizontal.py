@@ -17,9 +17,10 @@ class command():
         return ''           
     
     def run(self):
-        # TTY Change
+        if self.env['runtime']['inputManager'].noKeyPressed():
+            return   
         if self.env['screenData']['newTTY'] != self.env['screenData']['oldTTY']:
-            return
+            return            
         if self.env['runtime']['inputManager'].noKeyPressed():
             return            
         # detect an change on the screen, we just want to cursor arround, so no change should appear
