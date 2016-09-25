@@ -120,18 +120,18 @@ class inputManager():
     def getPrevDeepestInput(self):
         shortcut = []
         shortcut.append(self.env['input']['shortcutRepeat'])
-        shortcut.append(sorted(self.env['input']['prevDeepestInput']))
+        shortcut.append(self.env['input']['prevDeepestInput'])
 
     def getPrevShortcut(self):
         shortcut = []
         shortcut.append(self.env['input']['shortcutRepeat'])
-        shortcut.append(sorted(self.env['input']['prevInput']))
+        shortcut.append(self.env['input']['prevInput'])
         return str(shortcut)
 
     def getCurrShortcut(self):
         shortcut = []
         shortcut.append(self.env['input']['shortcutRepeat'])
-        shortcut.append(sorted(self.env['input']['currInput']))
+        shortcut.append(self.env['input']['currInput'])
         return str(shortcut)
         
     def isFenrirKey(self, eventName):
