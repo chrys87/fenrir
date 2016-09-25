@@ -84,7 +84,9 @@ class fenrir():
         if len(self.environment['input']['prevDeepestInput']) < len(self.environment['input']['currInput']):
             self.wasCommand = command != ''
     
-    def handleCommands(self):  
+    def handleCommands(self): 
+        if time.time() - self.environment['commandInfo']['lastCommandExecutionTime'] < 0.2:
+            return          
         if not self.environment['runtime']['commandManager'].isCommandQueued():
             return
         self.environment['runtime']['commandManager'].executeCommand( self.environment['commandInfo']['currCommand'], 'commands')
