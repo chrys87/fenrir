@@ -145,4 +145,3 @@ class driver():
                 
                 self.env['screenData']['newDelta'] = ''.join(x[2:] for x in diffList if x.startswith('+ '))             
                 self.env['screenData']['newNegativeDelta'] = ''.join(x[2:] for x in diffList if x.startswith('- '))
-        print(self.env['screenData']['newDelta'])

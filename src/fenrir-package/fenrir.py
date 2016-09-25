@@ -23,7 +23,7 @@ class fenrir():
         self.environment['runtime']['outputManager'].presentText("Start Fenrir", soundIcon='ScreenReaderOn', interrupt=True)          
         signal.signal(signal.SIGINT, self.captureSignal)
         signal.signal(signal.SIGTERM, self.captureSignal)
-
+        self.wasCommand = False
     def proceed(self):
         while(self.environment['generalInformation']['running']):
             try:
@@ -35,27 +35,30 @@ class fenrir():
 
     def handleProcess(self):
         eventReceived = self.environment['runtime']['inputManager'].getInputEvent()
+
         if eventReceived:  
             self.prepareCommand()
-            if not (self.environment['runtime']['inputManager'].isConsumeInput() or \
-              self.environment['runtime']['inputManager'].isFenrirKeyPressed()) and \
-              not self.environment['runtime']['commandManager'].isCommandQueued():
+            #if not (self.environment['runtime']['inputManager'].isConsumeInput() or \
+            #  self.environment['runtime']['inputManager'].isFenrirKeyPressed()) and \
+            #  not self.environment['runtime']['commandManager'].isCommandQueued():
+            if not self.wasCommand:
                 self.environment['runtime']['inputManager'].writeEventBuffer()
-            elif self.environment['runtime']['inputManager'].noKeyPressed():
-                self.environment['runtime']['inputManager'].clearEventBuffer()
-
-        try:
+            if self.wasCommand:
+                if not self.environment['runtime']['inputManager'].noKeyPressed():
+                    self.wasCommand = False                
+                    self.environment['runtime']['inputManager'].clearEventBuffer()
+            if self.environment['runtime']['inputManager'].noKeyPressed():
+                self.environment['runtime']['screenManager'].update()
+            self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')                
+        else:
             self.environment['runtime']['screenManager'].update()
-        except Exception as e:
-            print(e)
-            self.environment['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)         
-    
+
         if self.environment['runtime']['applicationManager'].isApplicationChange():
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onApplicationChange')
             self.environment['runtime']['commandManager'].executeSwitchTrigger('onSwitchApplicationProfile', \
               self.environment['runtime']['applicationManager'].getPrevApplication(), \
               self.environment['runtime']['applicationManager'].getCurrentApplication())            
-        self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')
+        
         if self.environment['runtime']['screenManager'].isScreenChange():    
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenChanged')             
         else:
@@ -68,7 +71,8 @@ class fenrir():
             return
         shortcut = self.environment['runtime']['inputManager'].getCurrShortcut()        
         command = self.environment['runtime']['inputManager'].getCommandForShortcut(shortcut)        
-        self.environment['runtime']['commandManager'].queueCommand(command)           
+        self.environment['runtime']['commandManager'].queueCommand(command)  
+        self.wasCommand = command != ''         
     
     def handleCommands(self):
         if time.time() - self.environment['commandInfo']['lastCommandExecutionTime'] < 0.2:
