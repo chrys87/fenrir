@@ -44,7 +44,7 @@ class fenrir():
             if not self.wasCommand:
                 self.environment['runtime']['inputManager'].writeEventBuffer()
             if self.wasCommand:
-                if not self.environment['runtime']['inputManager'].noKeyPressed():
+                if 	self.environment['runtime']['inputManager'].noKeyPressed():
                     self.wasCommand = False                
                     self.environment['runtime']['inputManager'].clearEventBuffer()
             if self.environment['runtime']['inputManager'].noKeyPressed():
@@ -70,9 +70,10 @@ class fenrir():
         if self.environment['input']['keyForeward']:
             return
         shortcut = self.environment['runtime']['inputManager'].getCurrShortcut()        
+        print(shortcut)
         command = self.environment['runtime']['inputManager'].getCommandForShortcut(shortcut)        
         self.environment['runtime']['commandManager'].queueCommand(command)  
-        self.wasCommand = command != ''         
+        self.wasCommand = command != ''        
     
     def handleCommands(self):
         if time.time() - self.environment['commandInfo']['lastCommandExecutionTime'] < 0.2:

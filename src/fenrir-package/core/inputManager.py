@@ -68,8 +68,10 @@ class inputManager():
     def convertEventName(self, eventName):
         if not eventName:
             return ''
+        print(eventName)
+        
         if eventName == 'KEY_LEFTCTRL':
-            eventName == 'KEY_CTRL'
+            eventName = 'KEY_CTRL'         
         elif eventName == 'KEY_RIGHTCTRL':
             eventName = 'KEY_CTRL'
         elif eventName == 'KEY_LEFTSHIFT':
@@ -80,6 +82,10 @@ class inputManager():
             eventName = 'KEY_ALT'
         elif eventName == 'KEY_RIGHTALT':
             eventName = 'KEY_ALT'
+        elif eventName == 'KEY_LEFTMETA':
+            eventName = 'KEY_META'
+        elif eventName == 'KEY_RIGHTMETA':
+            eventName = 'KEY_META'            
         if self.isFenrirKey(eventName):
             eventName = 'KEY_FENRIR'
         return eventName
@@ -97,6 +103,8 @@ class inputManager():
     def writeEventBuffer(self):
         try:
             self.env['runtime']['inputDriver'].writeEventBuffer()
+            time.sleep(0.005)
+            self.clearEventBuffer()
         except Exception as e:
             print(e)
             self.env['runtime']['debug'].writeDebugOut("Error while writeUInput",debug.debugLevel.ERROR)
