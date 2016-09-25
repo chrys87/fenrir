@@ -51,6 +51,8 @@ class fenrir():
                         self.environment['runtime']['inputManager'].clearEventBuffer()            
                 if self.environment['generalInformation']['tutorialMode']:
                     self.environment['runtime']['inputManager'].clearEventBuffer()
+                if self.environment['input']['keyForeward'] > 0:
+                    self.environment['input']['keyForeward'] -=1
                 self.environment['input']['prevDeepestInput'] = []                           
                 self.environment['runtime']['screenManager'].update()
           
@@ -72,7 +74,7 @@ class fenrir():
         self.handleCommands()
 
     def prepareCommand(self):
-        if self.environment['input']['keyForeward']:
+        if self.environment['input']['keyForeward'] > 0:
             return
         shortcut = self.environment['runtime']['inputManager'].getCurrShortcut()        
         print(shortcut)
