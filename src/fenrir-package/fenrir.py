@@ -35,6 +35,7 @@ class fenrir():
         self.shutdown()
 
     def handleProcess(self):
+        #startTime = time.time()      
         eventReceived = self.environment['runtime']['inputManager'].getInputEvent()
         if eventReceived:  
             self.prepareCommand()
@@ -50,13 +51,12 @@ class fenrir():
                     self.environment['input']['keyForeward'] -=1
                 self.environment['input']['prevDeepestInput'] = []                           
             else:
-                startTime = time.time()                
+              
                 self.environment['runtime']['screenManager'].update()                            
                 self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')                
-                print(time.time()-startTime) 
+
         else:
             self.environment['runtime']['screenManager'].update()
-
         if self.environment['runtime']['applicationManager'].isApplicationChange():
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onApplicationChange')
             self.environment['runtime']['commandManager'].executeSwitchTrigger('onSwitchApplicationProfile', \
