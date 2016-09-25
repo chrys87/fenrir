@@ -40,6 +40,8 @@ class inputManager():
                 if mEvent['EventName'] in self.env['input']['currInput']:
                     self.env['input']['currInput'].remove(mEvent['EventName'])
                     self.env['input']['currInput'] = sorted(self.env['input']['currInput'])
+                if len(self.env['input']['prevDeepestInput']) < len(self.env['input']['currInput']):
+                    self.env['input']['prevDeepestInput'] = self.env['input']['currInput'].copy()                       
             elif mEvent['EventState'] == 1:
                 if not mEvent['EventName'] in self.env['input']['currInput']:
                     self.env['input']['currInput'].append(mEvent['EventName'])
@@ -102,7 +104,7 @@ class inputManager():
     def writeEventBuffer(self):
         try:
             self.env['runtime']['inputDriver'].writeEventBuffer()
-            time.sleep(0.005)
+            time.sleep(0.0005)
             self.clearEventBuffer()
         except Exception as e:
             print(e)
