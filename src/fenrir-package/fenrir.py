@@ -43,7 +43,7 @@ class fenrir():
             #  self.environment['runtime']['inputManager'].isFenrirKeyPressed()) and \
             #  not self.environment['runtime']['commandManager'].isCommandQueued():
             print('vor',self.wasCommand,self.currShortcutLenght)
-            if not (self.wasCommand and self.environment['runtime']['inputManager'].isFenrirKeyPressed()):
+            if not (self.wasCommand or self.environment['runtime']['inputManager'].isFenrirKeyPressed()):
                 print('dri')
                 self.environment['runtime']['inputManager'].writeEventBuffer()
             if self.environment['runtime']['inputManager'].noKeyPressed():
