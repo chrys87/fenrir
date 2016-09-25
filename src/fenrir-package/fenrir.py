@@ -41,6 +41,7 @@ class fenrir():
             self.prepareCommand()
             if not (self.wasCommand or self.environment['runtime']['inputManager'].isFenrirKeyPressed() or self.environment['generalInformation']['tutorialMode']):
                 self.environment['runtime']['inputManager'].writeEventBuffer()
+
             if self.environment['runtime']['inputManager'].noKeyPressed():
                 if self.wasCommand:
                         self.wasCommand = False   
@@ -51,7 +52,6 @@ class fenrir():
                     self.environment['input']['keyForeward'] -=1
                 self.environment['input']['prevDeepestInput'] = []                           
             else:
-              
                 self.environment['runtime']['screenManager'].update()                            
                 self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')                
 
@@ -73,6 +73,8 @@ class fenrir():
         #print(time.time()-startTime)        
 
     def prepareCommand(self):
+        if time.time() - self.environment['commandInfo']['lastCommandExecutionTime'] < 0.2:
+            return         
         if self.environment['runtime']['inputManager'].noKeyPressed():
             return
         if self.environment['input']['keyForeward'] > 0:
@@ -84,9 +86,7 @@ class fenrir():
         if len(self.environment['input']['prevDeepestInput']) < len(self.environment['input']['currInput']):
             self.wasCommand = command != ''
     
-    def handleCommands(self):
-        if time.time() - self.environment['commandInfo']['lastCommandExecutionTime'] < 0.2:
-            return        
+    def handleCommands(self):  
         if not self.environment['runtime']['commandManager'].isCommandQueued():
             return
         self.environment['runtime']['commandManager'].executeCommand( self.environment['commandInfo']['currCommand'], 'commands')
