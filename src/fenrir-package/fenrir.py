@@ -43,13 +43,14 @@ class fenrir():
             #  self.environment['runtime']['inputManager'].isFenrirKeyPressed()) and \
             #  not self.environment['runtime']['commandManager'].isCommandQueued():
 
-            if not (self.wasCommand or self.environment['runtime']['inputManager'].isFenrirKeyPressed()):
+            if not (self.wasCommand or self.environment['runtime']['inputManager'].isFenrirKeyPressed() or self.environment['generalInformation']['tutorialMode']):
                 self.environment['runtime']['inputManager'].writeEventBuffer()
             if self.environment['runtime']['inputManager'].noKeyPressed():
                 if self.wasCommand:
-                        print('mache falsch')
                         self.wasCommand = False   
                         self.environment['runtime']['inputManager'].clearEventBuffer()            
+                if self.environment['generalInformation']['tutorialMode']:
+                    self.environment['runtime']['inputManager'].clearEventBuffer()
                 self.environment['input']['prevDeepestInput'] = []                           
                 self.environment['runtime']['screenManager'].update()
           
