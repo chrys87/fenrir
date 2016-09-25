@@ -73,8 +73,6 @@ class fenrir():
         #print(time.time()-startTime)        
 
     def prepareCommand(self):
-        if time.time() - self.environment['commandInfo']['lastCommandExecutionTime'] < 0.2:
-            return         
         if self.environment['runtime']['inputManager'].noKeyPressed():
             return
         if self.environment['input']['keyForeward'] > 0:
