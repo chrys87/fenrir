@@ -82,7 +82,7 @@ class fenrir():
         command = self.environment['runtime']['inputManager'].getCommandForShortcut(shortcut)        
         if len(self.environment['input']['prevDeepestInput']) < len(self.environment['input']['currInput']):
             self.wasCommand = command != ''        
-        if command == ''
+        if command == '':
             return
         self.environment['runtime']['commandManager'].queueCommand(command)  
 

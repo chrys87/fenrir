@@ -70,8 +70,8 @@ class inputManager():
     def convertEventName(self, eventName):
         if not eventName:
             return ''
-	if eventName == '':
-	    return ''
+        if eventName == '':
+            return ''
         eventName = eventName.upper()
         if eventName == 'KEY_LEFTCTRL':
             eventName = 'KEY_CTRL'         
