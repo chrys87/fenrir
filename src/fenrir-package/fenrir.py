@@ -65,8 +65,7 @@ class fenrir():
         if self.environment['runtime']['screenManager'].isScreenChange():    
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenChanged')             
         else:
-            if self.environment['runtime']['inputManager'].noKeyPressed():
-                self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenUpdate')         
+            self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenUpdate')         
             
         self.handleCommands()
         #print(time.time()-startTime)        
