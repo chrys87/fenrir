@@ -138,10 +138,9 @@ class inputManager():
         return eventName in self.env['input']['fenrirKey']
 
     def getCommandForShortcut(self, shortcut):
-        shortcut = shortcut.upper()
         if not self.shortcutExists(shortcut):
             return '' 
-        return self.env['bindings'][shortcut].upper()
+        return self.env['bindings'][shortcut]
 
     def shortcutExists(self, shortcut):
-        return( str(shortcut).upper() in self.env['bindings'])
+        return(shortcut in self.env['bindings'])
