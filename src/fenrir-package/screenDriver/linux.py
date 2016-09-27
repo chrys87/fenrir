@@ -19,7 +19,7 @@ class driver():
         return '\n'.join(string[i:i+every] for i in range(0, len(string), every))
     
     def getCurrScreen(self):
-        currScreen = -1
+        currScreen = ''
         try:    
             currScreenFile = open('/sys/devices/virtual/tty/tty0/active','r')
             currScreen = currScreenFile.read()[3:-1]
@@ -28,10 +28,10 @@ class driver():
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)   
         return currScreen
 
-    def getCurrApplication(self, screen):
+    def getCurrApplication(self):
         apps = []
         try:
-            currScreen = str(screen)
+            currScreen = str(self.env['screenData']['newTTY'])
             apps = subprocess.Popen('ps -t tty' + currScreen + ' -o comm,tty,stat', shell=True, stdout=subprocess.PIPE).stdout.read().decode()[:-1].split('\n')
         except Exception as e:
             print(e)
@@ -49,7 +49,10 @@ class driver():
                           not "SH" == i[0] and \
                           not "PS" == i[0]:
                             if "TTY"+currScreen in i[1]:
-                                return i[0]
+                                if self.env['runtime']['applicationManager'].isApplicationChange():
+                                    self.env['screenData']['oldApplication'] = self.env['screenData']['newApplication']
+                                    self.env['screenData']['newApplication'] = i[0]                                 
+                                return
         except:
             return ''
         return ''
@@ -74,7 +77,6 @@ class driver():
         newContentBytes = b''       
         try:
             # read screen
-            newTTY = self.getCurrScreen()
             vcsa = open(self.vcsaDevicePath + newTTY,'rb',0)
             newContentBytes = vcsa.read()
             vcsa.close()
@@ -91,20 +93,17 @@ class driver():
         self.env['screenData']['oldCursor']['x'] = self.env['screenData']['newCursor']['x']
         self.env['screenData']['oldCursor']['y'] = self.env['screenData']['newCursor']['y']
         if self.env['screenData']['oldTTY'] == '-1':
-            self.env['screenData']['oldTTY'] = newTTY # dont recognice starting fenrir as change
+            self.env['screenData']['oldTTY'] = self.env['screenData']['newTTY']
         else:    
             self.env['screenData']['oldTTY'] = self.env['screenData']['newTTY']
         self.env['screenData']['oldDelta'] = self.env['screenData']['newDelta']
         self.env['screenData']['oldNegativeDelta'] = self.env['screenData']['newNegativeDelta']
-        self.env['screenData']['oldApplication'] = self.env['screenData']['newApplication'] 
-        self.env['screenData']['newTTY'] = newTTY
         self.env['screenData']['newContentBytes'] = newContentBytes
         # get metadata like cursor or screensize
         self.env['screenData']['lines'] = int( self.env['screenData']['newContentBytes'][0])
         self.env['screenData']['columns'] = int( self.env['screenData']['newContentBytes'][1])
         self.env['screenData']['newCursor']['x'] = int( self.env['screenData']['newContentBytes'][2])
         self.env['screenData']['newCursor']['y'] = int( self.env['screenData']['newContentBytes'][3])
-        self.env['screenData']['newApplication'] = self.getCurrApplication(newTTY)
         # analyze content
         self.env['screenData']['newContentText'] = self.env['screenData']['newContentBytes'][4:][::2].decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
         self.env['screenData']['newContentAttrib'] = self.env['screenData']['newContentBytes'][5:][::2]

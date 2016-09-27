@@ -30,8 +30,6 @@ class command():
         self.language = self.env['runtime']['settingsManager'].getSetting('general', 'spellCheckLanguage')      
       
     def run(self):
-        if self.env['runtime']['inputManager'].noKeyPressed():
-            return     
         if not self.env['runtime']['settingsManager'].getSettingAsBool('general', 'autoSpellCheck'):
             return
 
@@ -71,7 +69,7 @@ class command():
 
         if currWord != '':
             if not self.spellChecker.check(currWord):
-                self.env['runtime']['outputManager'].presentText('misspelled',soundIcon='mispell', interrupt=True)
+                self.env['runtime']['outputManager'].presentText('misspelled',soundIcon='mispell', interrupt=False)
 
     def setCallback(self, callback):
         pass

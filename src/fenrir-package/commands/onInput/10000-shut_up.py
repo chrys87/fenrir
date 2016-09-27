@@ -17,11 +17,13 @@ class command():
         return ''               
     
     def run(self):
+        if self.env['runtime']['inputManager'].noKeyPressed():
+            return        
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'interruptOnKeyPress'):
             return 
         if self.env['screenData']['newTTY'] != self.env['screenData']['oldTTY']:
             return               
-
+        print(self.environment['input']['currInput'])
         self.env['runtime']['outputManager'].interruptOutput()
 
     def setCallback(self, callback):
