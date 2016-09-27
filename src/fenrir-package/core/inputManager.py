@@ -38,14 +38,14 @@ class inputManager():
                 if mEvent['EventName'] in self.env['input']['currInput']:
                     self.env['input']['currInput'].remove(mEvent['EventName'])
                     if len(self.env['input']['currInput']) > 1:
-		                  self.env['input']['currInput'] = sorted(self.env['input']['currInput'])
+                        self.env['input']['currInput'] = sorted(self.env['input']['currInput'])
                     if len(self.env['input']['currInput']) == 0:
                         self.env['input']['prevDeepestInput'] = []    
             elif mEvent['EventState'] == 1:
                 if not mEvent['EventName'] in self.env['input']['currInput']:
                     self.env['input']['currInput'].append(mEvent['EventName'])
                     if len(self.env['input']['currInput']) > 1:
-		                  self.env['input']['currInput'] = sorted(self.env['input']['currInput'])
+                        self.env['input']['currInput'] = sorted(self.env['input']['currInput'])
                     if len(self.env['input']['prevDeepestInput']) < len(self.env['input']['currInput']):
                         self.env['input']['prevDeepestInput'] = self.env['input']['currInput'].copy()                            
             elif mEvent['EventState'] == 2:
