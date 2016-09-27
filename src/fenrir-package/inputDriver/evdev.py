@@ -31,19 +31,20 @@ class driver():
             for fd in r:
                 event = self.iDevices[fd].read_one()
                 self.env['input']['eventBuffer'].append( [self.iDevices[fd], self.uDevices[fd], event])
-                return self.env['runtime']['inputDriver'].mapEvent(event)
+                if event.code != 0:
+                    return self.env['runtime']['inputDriver'].mapEvent(event)
         return None
 
     def writeEventBuffer(self):
         for iDevice, uDevice, event in self.env['input']['eventBuffer']:
             self.writeUInput(uDevice, event)
+            uDevice.syn()
 
     def clearEventBuffer(self):
         del self.env['input']['eventBuffer'][:]
                         
     def writeUInput(self, uDevice, event):
         uDevice.write_event(event)
-        uDevice.syn()
   
     def getInputDevices(self):
         # 3 pos absolute
@@ -62,7 +63,7 @@ class driver():
             return None
         mEvent = inputEvent.inputEvent
         try:
-            mEvent['EventName'] = evdev.ecodes.keys[event.code].upper()
+            mEvent['EventName'] = evdev.ecodes.keys[event.code]
             mEvent['EventValue'] = event.code
             mEvent['EventSec'] = event.sec
             mEvent['EventUsec'] = event.usec                
