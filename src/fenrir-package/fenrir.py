@@ -50,7 +50,6 @@ class fenrir():
                     self.environment['runtime']['inputManager'].clearEventBuffer()
                 if self.environment['input']['keyForeward'] > 0:
                     self.environment['input']['keyForeward'] -=1
-                self.environment['input']['prevDeepestInput'] = []                           
             else:
                 self.environment['runtime']['screenManager'].update()                            
                 self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')                
