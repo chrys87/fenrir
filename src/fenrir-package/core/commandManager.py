@@ -119,7 +119,9 @@ class commandManager():
         self.env['commandInfo']['currCommand'] = ''
         
     def queueCommand(self, command):
+        if command == '':
+            return
         self.env['commandInfo']['currCommand'] = command
         
     def commandExists(self, command, section = 'commands'):
-        return( command.upper() in self.env['commands'][section]) 
+        return( command in self.env['commands'][section]) 
