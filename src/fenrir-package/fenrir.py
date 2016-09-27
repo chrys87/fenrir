@@ -82,12 +82,12 @@ class fenrir():
             self.wasCommand = command != ''        
         if command == '':
             return
+        if time.time() - self.environment['commandInfo']['lastCommandExecutionTime'] < 0.3:
+            return               
         self.environment['runtime']['commandManager'].queueCommand(command)  
 
     
     def handleCommands(self): 
-        if time.time() - self.environment['commandInfo']['lastCommandExecutionTime'] < 0.2:
-            return          
         if not self.environment['runtime']['commandManager'].isCommandQueued():
             return
         self.environment['runtime']['commandManager'].executeCommand( self.environment['commandInfo']['currCommand'], 'commands')
