@@ -18,7 +18,7 @@ class command():
 
     def run(self):
         self.env['runtime']['outputManager'].presentText("screen " + str(self.env['screenData']['newTTY']),soundIcon='ChangeTTY', interrupt=True)         
-        self.env['runtime']['outputManager'].presentText(self.env['screenData']['newDelta'], interrupt=False)
+        self.env['runtime']['outputManager'].presentText(self.env['screenData']['newContentText'], interrupt=False)
 
     def setCallback(self, callback):
         pass
