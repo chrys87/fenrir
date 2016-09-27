@@ -80,9 +80,12 @@ class fenrir():
         shortcut = self.environment['runtime']['inputManager'].getCurrShortcut()        
         #print(shortcut)
         command = self.environment['runtime']['inputManager'].getCommandForShortcut(shortcut)        
-        self.environment['runtime']['commandManager'].queueCommand(command)  
         if len(self.environment['input']['prevDeepestInput']) < len(self.environment['input']['currInput']):
-            self.wasCommand = command != ''
+            self.wasCommand = command != ''        
+        if command == ''
+            return
+        self.environment['runtime']['commandManager'].queueCommand(command)  
+
     
     def handleCommands(self): 
         if time.time() - self.environment['commandInfo']['lastCommandExecutionTime'] < 0.2:
