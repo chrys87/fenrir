@@ -24,7 +24,7 @@ settings = {
     'module': '',
     'voice': 'de',
     'language': 'de',
-    'autoReadIncomming': True,
+    'autoReadIncoming': True,
 },
 'braille':{
     'enabled': False, 
