@@ -51,6 +51,7 @@ class punctuationManager():
           '*':'star',
           '~':'tilde',
           '_':'line',
+          '=':'equals',
           },
         'customDict':{
           'chrys':'awsome',
