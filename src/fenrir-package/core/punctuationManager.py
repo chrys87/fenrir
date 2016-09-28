@@ -46,7 +46,7 @@ class punctuationManager():
           ')':'right paren',
           '}':'right brace',
           ']':'right bracket',
-          ';':'simi colon',
+          ';':'semi colon',
           '/':'slash',
           '*':'star',
           '~':'tilde',
