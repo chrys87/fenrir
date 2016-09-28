@@ -71,6 +71,8 @@ class fenrir():
         #print(time.time()-startTime)        
 
     def prepareCommand(self):
+        if self.env['runtime']['screenManager'].isSuspendingScreen():
+            return        
         if self.environment['runtime']['inputManager'].noKeyPressed():
             return
         if self.environment['input']['keyForeward'] > 0:
