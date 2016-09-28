@@ -25,7 +25,9 @@ arrow keys are not speaking letters/punctuation as you move over them
 
 - dictonary for special chars and string replacements
 - punctuation
-
+- announce capslock
+- anounce numlock
+- anounce scroll
 - add perApplicationTrigger trigger
   per application commands
   per application onScreenChange
