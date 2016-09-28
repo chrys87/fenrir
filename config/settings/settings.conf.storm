@@ -34,11 +34,11 @@ driver=evdev
 device=all
 grabDevices=True
 ignoreShortcuts=False
-keyboardLayout=test
+keyboardLayout=desktop
 charEcho=False
 charDeleteEcho=True
 wordEcho=False
-interruptOnKeyPress=False
+interruptOnKeyPress=True
 # timeout for double tap in sec
 doubleTapDelay=0.2
 
