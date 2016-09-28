@@ -25,7 +25,7 @@ class outputManager():
         if self.playSoundIcon(soundIcon, interrupt):
             self.env['runtime']['debug'].writeDebugOut("soundIcon found" ,debug.debugLevel.INFO)            
             return
-        self.speakText(text, interrupt)
+        self.speakText(text, interrupt, ignorePunctuation)
         self.brailleText(text, interrupt)
 
     def speakText(self, text, interrupt=True, ignorePunctuation=False):
@@ -75,6 +75,7 @@ class outputManager():
         
         try:
             text = self.env['runtime']['punctuationManager'].proceedPunctuation(text,ignorePunctuation) 
+
             self.env['runtime']['speechDriver'].speak(text)
         except Exception as e:
             print(e)
