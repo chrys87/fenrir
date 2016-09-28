@@ -1,30 +1,13 @@
 ToDos in Priority order:
 
 - Known Bugs  
-  copy to clipboard does not work
   Fenrir is not suspending on suspended TTYs
   sometimes text is presented twice (easiest to reproduce, type something while in irssi)
   mutt is not always announcing current message when you arrow to it. usually if there are more than 18 messages
-arrow keys are not speaking letters/punctuation as you move over them
   gstreamer sounddriver doesnt work (i think it needs a Glib 
   next word wrapping sometimes skips a word on beginn of line
-  input handling does not work propperly
-  
-- rework inputManager
-  try to consume shortcuts
-  grab keyboard exclusive 
-  release keyboard on error or quit
-  grab shortcuts with fenrir key
-  grab "singel key shortcuts" like numpad navigation for review 
-  forwart nonshortcuts to system
-  make grabbing configuarble
-  possiblity to forewart shortcut [proxyshortcut]
-  possiblity to forewart shortcut (or use them as shortcut) [pressing twice while timeout]
-  cleanup inputManager
-  split input driver out of the handler
 
-- dictonary for special chars and string replacements
-- punctuation
+- parse punctuation setting file in conf/substitution
 - announce capslock
 - anounce numlock
 - anounce scroll
@@ -46,7 +29,6 @@ arrow keys are not speaking letters/punctuation as you move over them
 
 - implement onScreenUpdate commands
   read highlighted text mode
-  window mode (define a area and just read that changes)
 - add the debugging to core  
 - autostart systemd
 https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/sect-Managing_Services_with_systemd-Unit_Files.html
@@ -216,6 +198,7 @@ ps a -o tty,comm  | grep -e Xorg | grep -v "grep -e Xorg"
   promoted text
   clear_marks_on_screen_change
   leve_review_mode_on_screen_change
+  window mode (define a area and just read that changes)  
   
 - add screenManager
   abstract screen driver
@@ -226,3 +209,19 @@ ps a -o tty,comm  | grep -e Xorg | grep -v "grep -e Xorg"
   onAppProfileChange
   onScreenChange
   rename current onScreenChange to onScreenUpdate  
+  
+- rework inputManager
+  try to consume shortcuts
+  grab keyboard exclusive 
+  release keyboard on error or quit
+  grab shortcuts with fenrir key
+  grab "singel key shortcuts" like numpad navigation for review 
+  forwart nonshortcuts to system
+  make grabbing configuarble
+  possiblity to forewart shortcut [proxyshortcut]
+  possiblity to forewart shortcut (or use them as shortcut) [pressing twice while timeout]
+  cleanup inputManager
+  split input driver out of the handler
+
+- dictonary for special chars and string replacements
+- punctuation  
