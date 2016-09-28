@@ -16,7 +16,7 @@ module=espeak
 voice=
 language=english-us
 volume=1.0
-autoReadIncomming=True
+autoReadIncoming=True
 
 [braille]
 enabled=False

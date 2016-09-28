@@ -17,7 +17,7 @@ class command():
         return 'No Description found'      
 
     def run(self):
-        if not self.env['runtime']['settingsManager'].getSettingAsBool('speech', 'autoReadIncomming'):
+        if not self.env['runtime']['settingsManager'].getSettingAsBool('speech', 'autoReadIncoming'):
             return
         # is there something to read?
         if self.env['screenData']['newDelta'] == '':
