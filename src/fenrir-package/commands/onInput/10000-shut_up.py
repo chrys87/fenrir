@@ -23,7 +23,6 @@ class command():
             return 
         if self.env['screenData']['newTTY'] != self.env['screenData']['oldTTY']:
             return               
-        print(self.environment['input']['currInput'])
         self.env['runtime']['outputManager'].interruptOutput()
 
     def setCallback(self, callback):
