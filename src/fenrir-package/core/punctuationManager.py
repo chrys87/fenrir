@@ -18,7 +18,7 @@ class punctuationManager():
         'levels':{
           '1':',',
           '2':'.',
-          '3':'.,:-',
+          '3':'.,:-$~+*-/\\@',
           },
         'punctuationDict':{
           '&':'and',
