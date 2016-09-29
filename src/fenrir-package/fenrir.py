@@ -83,8 +83,7 @@ class fenrir():
             self.wasCommand = command != ''        
         if command == '':
             return
-        if time.time() - self.environment['commandInfo']['lastCommandExecutionTime'] < 0.3:
-            return               
+            
         self.environment['runtime']['commandManager'].queueCommand(command)  
 
     
