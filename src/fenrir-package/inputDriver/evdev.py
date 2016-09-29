@@ -32,7 +32,11 @@ class driver():
                 event = self.iDevices[fd].read_one()
                 self.env['input']['eventBuffer'].append( [self.iDevices[fd], self.uDevices[fd], event])
                 if event.code != 0:
-                    return self.env['runtime']['inputDriver'].mapEvent(event)
+                    currMapEvent = self.env['runtime']['inputDriver'].mapEvent(event)
+                    if not currMapEvent:
+                        return currMapEvent
+                    if currMapEvent['EventState'] in [0,1,2]:
+                        return currMapEvent
         return None
 
     def writeEventBuffer(self):
@@ -53,8 +57,8 @@ class driver():
         # 1 Keys
         # we try to filter out mices and other stuff here
         self.iDevices = map(evdev.InputDevice, (evdev.list_devices()))
-        self.iDevices = {dev.fd: dev for dev in self.iDevices if 1 in dev.capabilities() and not 3 in dev.capabilities() and not 2 in dev.capabilities()}
-        #self.iDevices = {dev.fd: dev for dev in self.iDevices if 1 in dev.capabilities()}        
+        #self.iDevices = {dev.fd: dev for dev in self.iDevices if 1 in dev.capabilities() and not 3 in dev.capabilities() and not 2 in dev.capabilities()}
+        self.iDevices = {dev.fd: dev for dev in self.iDevices if 1 in dev.capabilities()}        
         self.ledDevices = map(evdev.InputDevice, (evdev.list_devices()))        
         self.ledDevices = {dev.fd: dev for dev in self.ledDevices if 1 in dev.capabilities() and 17 in dev.capabilities() and not 3 in dev.capabilities() and not 2 in dev.capabilities()}     
         

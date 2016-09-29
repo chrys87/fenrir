@@ -16,6 +16,8 @@ class command():
     def getDescription(self):
         return 'interrupts the current presentation'        
     def run(self):
+        if len(self.env['input']['prevDeepestInput']) > len(self.env['input']['currInput']):
+            return          
         self.env['runtime']['outputManager'].interruptOutput()
     def setCallback(self, callback):
         pass

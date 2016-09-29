@@ -19,6 +19,8 @@ class command():
     def run(self):
         if self.env['runtime']['inputManager'].noKeyPressed():
             return        
+        if len(self.env['input']['prevDeepestInput']) > len(self.env['input']['currInput']):
+            return            
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'interruptOnKeyPress'):
             return 
         if self.env['screenData']['newTTY'] != self.env['screenData']['oldTTY']:
