@@ -39,7 +39,7 @@ class fenrir():
         eventReceived = self.environment['runtime']['inputManager'].getInputEvent()
         if eventReceived:  
             self.prepareCommand()
-            if not (self.wasCommand or self.environment['runtime']['inputManager'].isFenrirKeyPressed() or self.environment['generalInformation']['tutorialMode']):
+            if not (self.wasCommand or self.environment['runtime']['inputManager'].isFenrirKeyPressed() or self.environment['generalInformation']['tutorialMode']) or  self.environment['runtime']['screenManager'].isSuspendingScreen():
                 self.environment['runtime']['inputManager'].writeEventBuffer()
 
             if self.environment['runtime']['inputManager'].noKeyPressed():

@@ -19,19 +19,18 @@ class driver():
         return '\n'.join(string[i:i+every] for i in range(0, len(string), every))
     
     def getCurrScreen(self):
-        currScreen = ''
+        self.env['screenData']['oldTTY'] = self.env['screenData']['newTTY']
         try:    
             currScreenFile = open('/sys/devices/virtual/tty/tty0/active','r')
-            currScreen = currScreenFile.read()[3:-1]
+            self.env['screenData']['newTTY'] = str(currScreenFile.read()[3:-1])
             currScreenFile.close()
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)   
-        return currScreen
 
     def getCurrApplication(self):
         apps = []
         try:
-            currScreen = str(self.env['screenData']['newTTY'])
+            currScreen = self.env['screenData']['newTTY']
             apps = subprocess.Popen('ps -t tty' + currScreen + ' -o comm,tty,stat', shell=True, stdout=subprocess.PIPE).stdout.read().decode()[:-1].split('\n')
         except Exception as e:
             print(e)
@@ -73,11 +72,10 @@ class driver():
 
 
     def update(self, trigger='updateScreen'):
-        newTTY = ''
         newContentBytes = b''       
         try:
             # read screen
-            vcsa = open(self.vcsaDevicePath + newTTY,'rb',0)
+            vcsa = open(self.vcsaDevicePath + self.env['screenData']['newTTY'],'rb',0)
             newContentBytes = vcsa.read()
             vcsa.close()
             if len(newContentBytes) < 5:
@@ -92,10 +90,6 @@ class driver():
         self.env['screenData']['oldContentTextAttrib'] = self.env['screenData']['newContentAttrib']
         self.env['screenData']['oldCursor']['x'] = self.env['screenData']['newCursor']['x']
         self.env['screenData']['oldCursor']['y'] = self.env['screenData']['newCursor']['y']
-        if self.env['screenData']['oldTTY'] == '-1':
-            self.env['screenData']['oldTTY'] = self.env['screenData']['newTTY']
-        else:    
-            self.env['screenData']['oldTTY'] = self.env['screenData']['newTTY']
         self.env['screenData']['oldDelta'] = self.env['screenData']['newDelta']
         self.env['screenData']['oldNegativeDelta'] = self.env['screenData']['newNegativeDelta']
         self.env['screenData']['newContentBytes'] = newContentBytes

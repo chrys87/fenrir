@@ -22,10 +22,11 @@ class screenManager():
         self.env['runtime']['settingsManager'].shutdownDriver('screenDriver')
 
     def update(self, trigger = 'onUpdate'):
-        self.env['screenData']['newTTY'] = self.env['runtime']['screenDriver'].getCurrScreen()    
-        if trigger == 'onUpdate':
-            self.env['runtime']['applicationManager'].getCurrentApplication()
+        self.env['runtime']['screenDriver'].getCurrScreen()    
+
         if not self.isSuspendingScreen():
+            if trigger == 'onUpdate':
+                self.env['runtime']['applicationManager'].getCurrentApplication()        
             self.env['runtime']['screenDriver'].update(trigger)
             self.env['screenData']['lastScreenUpdate'] = time.time()
 
