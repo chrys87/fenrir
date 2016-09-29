@@ -12,6 +12,7 @@ class punctuationManager():
         pass
     def initialize(self, environment):
         self.env = environment
+        self.allPunctNone = dict.fromkeys(map(ord, string.punctuation), None)
         self.punctuation = {
         'currLevel':'3',
         'levels':{
@@ -60,7 +61,8 @@ class punctuationManager():
     def shutdown(self):
         pass
     def removeUnused(self, text):
-        return text.translate(text.maketrans(string.punctuation, ' '*len(string.punctuation)))   
+        return text.translate(self.allPunctNone)   
+    
     def useCustomDict(self, text, customDict):
         resultText = str(text)
         if customDict:
