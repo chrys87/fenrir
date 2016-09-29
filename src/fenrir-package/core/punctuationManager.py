@@ -18,7 +18,7 @@ class punctuationManager():
         'levels':{
           '1':',',
           '2':'.',
-          '3':'.,:-$~+*-/\\@',
+          '3':'.,:-$~+*-/\\@;',
           },
         'punctuationDict':{
           '&':'and',
@@ -55,8 +55,10 @@ class punctuationManager():
           '=':'equals',
           },
         'customDict':{
-          'chrys':'awsome',
-          'cool':'mr chrys'
+          ':)':'smile',
+          ';)':'twinker',
+          'XD':'loool',
+          ':D':'lought'
           }          
         }
     def shutdown(self):
