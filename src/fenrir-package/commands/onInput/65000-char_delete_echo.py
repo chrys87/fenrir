@@ -28,7 +28,8 @@ class command():
         if self.env['screenData']['newDelta'].strip() != '':
             if self.env['screenData']['newDelta'] != self.env['screenData']['oldDelta']:
     	        return
-            
+        if self.env['runtime']['inputManager'].noKeyPressed():
+            return              
         # No deletion 
         if self.env['screenData']['newNegativeDelta'] == '':
             return

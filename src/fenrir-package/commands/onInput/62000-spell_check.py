@@ -32,7 +32,8 @@ class command():
     def run(self):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('general', 'autoSpellCheck'):
             return
-
+        if self.env['runtime']['inputManager'].noKeyPressed():
+            return  
         if not initialized:
            return
         if self.env['runtime']['settingsManager'].getSetting('general', 'spellCheckLanguage') != self.language:
@@ -50,7 +51,8 @@ class command():
             return 
         if len(self.env['screenData']['newDelta']) > 1:
             return            
-            
+        if self.env['screenData']['newNegativeDelta'] != '':
+            return                
         # first place could not be the end of a word
         if self.env['screenData']['newCursor']['x'] == 0:
             return

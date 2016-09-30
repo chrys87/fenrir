@@ -24,7 +24,8 @@ class command():
         # just when cursor move worddetection is needed
         if self.env['screenData']['newCursor']['x'] == self.env['screenData']['oldCursor']['x']:
             return 
-
+        if self.env['runtime']['inputManager'].noKeyPressed():
+            return  
         # for now no new line
         if self.env['screenData']['newCursor']['y'] != self.env['screenData']['oldCursor']['y']:
             return 

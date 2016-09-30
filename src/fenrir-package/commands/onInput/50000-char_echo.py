@@ -21,7 +21,9 @@ class command():
             return
         # detect deletion or chilling 
         if self.env['screenData']['newCursor']['x'] <= self.env['screenData']['oldCursor']['x']:
-            return 
+            return
+        if self.env['runtime']['inputManager'].noKeyPressed():
+            return              
         # is there any change?
         if self.env['screenData']['newDelta'] == '':
             return
