@@ -91,7 +91,6 @@ class outputManager():
 
     def interruptOutput(self):
         self.env['runtime']['speechDriver'].cancel()
-        self.env['runtime']['soundDriver'].cancel()
 
     def playSoundIcon(self, soundIcon = '', interrupt=True):
         if soundIcon == '':
