@@ -3,7 +3,6 @@ ToDos in Priority order:
 - Known Bugs  
   Fenrir key sometimes wents crazy?
   sometimes text is presented twice (easiest to reproduce, type something while in irssi)
-  mutt is not always announcing current message when you arrow to it. usually if there are more than 18 messages
   gstreamer sounddriver doesnt work (i think it needs a Glib 
   next word wrapping sometimes skips a word on beginn of line
 
