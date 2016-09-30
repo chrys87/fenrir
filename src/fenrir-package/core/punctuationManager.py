@@ -14,11 +14,11 @@ class punctuationManager():
         self.env = environment
         self.allPunctNone = dict.fromkeys(map(ord, string.punctuation), None)
         self.punctuation = {
-        'currLevel':'3',
+        'currLevel':'Some',
         'levels':{
-          '1':',',
-          '2':'.',
-          '3':'.,:-$~+*-/\\@;',
+          'None': '',
+          'Some': '.,:-$~+*-/\\@;',
+          'All': string.punctuation,
           },
         'punctuationDict':{
           '&':'and',
@@ -79,7 +79,6 @@ class punctuationManager():
             for key,item in punctuationDict.items():
                 if key in punctuation:
                     resultText = resultText.replace(str(key),' ' +str(item) +' ')
-
         return resultText
     
     def proceedPunctuation(self, text, ignorePunctuation=False):
