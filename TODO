@@ -24,7 +24,6 @@ ToDos in Priority order:
     curr item
     first item
     last item
-- improve performance  
 
 - implement onScreenUpdate commands
   read highlighted text mode
