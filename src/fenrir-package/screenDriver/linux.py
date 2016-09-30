@@ -129,13 +129,15 @@ class driver():
                   self.env['screenData']['newContentText'][:self.env['screenData']['newCursor']['y']] == self.env['screenData']['oldContentText'][:self.env['screenData']['newCursor']['y']]:
                     diffStart = self.env['screenData']['newCursor']['y'] * self.env['screenData']['columns'] + self.env['screenData']['newCursor']['y']
                     oldScreenText = self.env['screenData']['oldContentText'][diffStart:diffStart  + self.env['screenData']['columns']] 
-                    oldScreenText = ' '.join(oldScreenText.split())
+                    oldScreenText = ' '.join(oldScreenText.split(' '))
+                    print(newScreenText)
                     newScreenText = self.env['screenData']['newContentText'][diffStart:diffStart  + self.env['screenData']['columns']]
-                    newScreenText = ' '.join(newScreenText.split())
+                    newScreenText = ' '.join(newScreenText.split(' '))
+                    print(newScreenText)
                     diff = difflib.ndiff(oldScreenText, newScreenText)      
                 else:
-                    #oldScreenText = ' '.join(oldScreenText.split())
-                    #newScreenText = ' '.join(newScreenText.split())
+                    oldScreenText = ' '.join(oldScreenText.split(' '))
+                    newScreenText = ' '.join(newScreenText.split(' '))
                     diff = difflib.ndiff(oldScreenText, newScreenText)                   
                     diff = difflib.ndiff( oldScreenText.split('\n'),\
                       newScreenText.split('\n'))
