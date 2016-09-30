@@ -14,11 +14,10 @@ class punctuationManager():
         self.env = environment
         self.allPunctNone = dict.fromkeys(map(ord, string.punctuation), None)
         self.punctuation = {
-        'currLevel':'Some',
         'levels':{
-          'None': '',
-          'Some': '.,:-$~+*-/\\@;',
-          'All': string.punctuation,
+          'NONE': '',
+          'SOME': '.,:-$~+*-/\\@;',
+          'ALL': string.punctuation,
           },
         'punctuationDict':{
           '&':'and',
@@ -84,8 +83,8 @@ class punctuationManager():
     def proceedPunctuation(self, text, ignorePunctuation=False):
         resultText = self.useCustomDict(text, self.punctuation['customDict'])
         currPunctLevel = ''
-        if not ignorePunctuation and self.punctuation['currLevel'] in self.punctuation['levels']:
-            currPunctLevel = self.punctuation['levels'][self.punctuation['currLevel']]
+        if not ignorePunctuation and self.env['runtime']['settingsManager'].getSetting('general', 'punctuationLevel').upper() in self.punctuation['levels']:
+            currPunctLevel = self.punctuation['levels'][self.env['runtime']['settingsManager'].getSetting('general', 'punctuationLevel').upper()]
         else:
             currPunctLevel = string.punctuation
         resultText = self.usePunctuationDict(resultText, self.punctuation['punctuationDict'], currPunctLevel)
