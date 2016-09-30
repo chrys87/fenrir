@@ -67,8 +67,8 @@ layout=en
 driver=linux
 encoding=cp850
 screenUpdateDelay=0.4
-suspendingScreen=1,2
-autodetectSuspendingScreen=False
+suspendingScreen=
+autodetectSuspendingScreen=True
 
 [keyboard]
 driver=evdev
@@ -91,7 +91,7 @@ doubleTapDelay=0.2
 
 [general]
 debugLevel=0
-punctuationLevel=1
+punctuationLevel=Some
 numberOfClipboards=10
 # define the current fenrir key
 fenrirKeys=KEY_KP0,KEY_META
