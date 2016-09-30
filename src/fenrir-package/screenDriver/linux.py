@@ -134,8 +134,8 @@ class driver():
                     newScreenText = ' '.join(newScreenText.split())
                     diff = difflib.ndiff(oldScreenText, newScreenText)      
                 else:
-                    oldScreenText = ' '.join(oldScreenText.split())
-                    newScreenText = ' '.join(newScreenText.split())
+                    #oldScreenText = ' '.join(oldScreenText.split())
+                    #newScreenText = ' '.join(newScreenText.split())
                     diff = difflib.ndiff(oldScreenText, newScreenText)                   
                     diff = difflib.ndiff( oldScreenText.split('\n'),\
                       newScreenText.split('\n'))
