@@ -37,11 +37,12 @@ class fenrir():
     def handleProcess(self):
         #startTime = time.time()      
         eventReceived = self.environment['runtime']['inputManager'].getInputEvent()
+        print(eventReceived)
         if eventReceived:  
             self.prepareCommand()
             if not (self.wasCommand or self.environment['runtime']['inputManager'].isFenrirKeyPressed() or self.environment['generalInformation']['tutorialMode']) or  self.environment['runtime']['screenManager'].isSuspendingScreen():
                 self.environment['runtime']['inputManager'].writeEventBuffer()
-
+                time.sleep(0.005)
             if self.environment['runtime']['inputManager'].noKeyPressed():
                 if self.wasCommand:
                         self.wasCommand = False   
@@ -50,9 +51,8 @@ class fenrir():
                     self.environment['runtime']['inputManager'].clearEventBuffer()
                 if self.environment['input']['keyForeward'] > 0:
                     self.environment['input']['keyForeward'] -=1
-            else:
-                self.environment['runtime']['screenManager'].update('onInput')                            
-            self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')    
+            self.environment['runtime']['screenManager'].update('onInput')                            
+            self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')
         else:
             self.environment['runtime']['screenManager'].update('onUpdate')
         if self.environment['runtime']['applicationManager'].isApplicationChange():

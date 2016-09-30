@@ -23,7 +23,6 @@ class screenManager():
 
     def update(self, trigger = 'onUpdate'):
         self.env['runtime']['screenDriver'].getCurrScreen()    
-
         if not self.isSuspendingScreen():
             if trigger == 'onUpdate':
                 self.env['runtime']['applicationManager'].getCurrentApplication()        
