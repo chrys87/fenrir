@@ -5,6 +5,7 @@
 # By Chrys, Storm Dragon, and contributers.
 
 import difflib
+import re
 import subprocess
 from core import debug
 
@@ -115,8 +116,8 @@ class driver():
         self.env['screenData']['newNegativeDelta'] = ''
         self.env['screenData']['newDelta'] = ''                   
         # changes on the screen
-        oldScreenText = self.env['runtime']['screenManager'].getWindowAreaInText(self.env['screenData']['oldContentText'])
-        newScreenText = self.env['runtime']['screenManager'].getWindowAreaInText(self.env['screenData']['newContentText'])        
+        oldScreenText = re.sub(' +',' ',self.env['runtime']['screenManager'].getWindowAreaInText(self.env['screenData']['oldContentText']))
+        newScreenText = re.sub(' +',' ',self.env['runtime']['screenManager'].getWindowAreaInText(self.env['screenData']['newContentText']))        
         if (self.env['screenData']['oldContentText'] != self.env['screenData']['newContentText']) and \
           (self.env['screenData']['newContentText'] != '' ):
             if oldScreenText == '' and\
@@ -129,15 +130,11 @@ class driver():
                   self.env['screenData']['newContentText'][:self.env['screenData']['newCursor']['y']] == self.env['screenData']['oldContentText'][:self.env['screenData']['newCursor']['y']]:
                     diffStart = self.env['screenData']['newCursor']['y'] * self.env['screenData']['columns'] + self.env['screenData']['newCursor']['y']
                     oldScreenText = self.env['screenData']['oldContentText'][diffStart:diffStart  + self.env['screenData']['columns']] 
-                    oldScreenText = ' '.join(oldScreenText.split(' '))
-                    print(newScreenText)
+                    oldScreenText = re.sub(' +',' ',oldScreenText)
                     newScreenText = self.env['screenData']['newContentText'][diffStart:diffStart  + self.env['screenData']['columns']]
-                    newScreenText = ' '.join(newScreenText.split(' '))
-                    print(newScreenText)
+                    newScreenText = re.sub(' +',' ',newScreenText)
                     diff = difflib.ndiff(oldScreenText, newScreenText)      
                 else:
-                    oldScreenText = ' '.join(oldScreenText.split(' '))
-                    newScreenText = ' '.join(newScreenText.split(' '))
                     diff = difflib.ndiff(oldScreenText, newScreenText)                   
                     diff = difflib.ndiff( oldScreenText.split('\n'),\
                       newScreenText.split('\n'))
