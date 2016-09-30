@@ -134,13 +134,11 @@ class driver():
                     newScreenText = ' '.join(newScreenText.split())
                     diff = difflib.ndiff(oldScreenText, newScreenText)      
                 else:
-                    oldScreenText = self.env['screenData']['oldContentText'][diffStart:diffStart  + self.env['screenData']['columns']] 
                     oldScreenText = ' '.join(oldScreenText.split())
-                    newScreenText = self.env['screenData']['newContentText'][diffStart:diffStart  + self.env['screenData']['columns']]
                     newScreenText = ' '.join(newScreenText.split())
                     diff = difflib.ndiff(oldScreenText, newScreenText)                   
-                    diff = difflib.ndiff( oldScreenText[0:].split('\n'),\
-                      newScreenText[0:].split('\n'))
+                    diff = difflib.ndiff( oldScreenText.split('\n'),\
+                      newScreenText.split('\n'))
 
                 diffList = list(diff)
                 
