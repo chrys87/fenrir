@@ -45,8 +45,11 @@ class debug():
         else:
             if not self._fileOpened:
                 self.openDebugFile()
-            self._file.write(str(level) +' ' + str(datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')
-) + ': ' + text + '\n')
+            msg = str(level) +' ' + str(datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')
+) + ': ' + text + '\n'
+            print(msg)
+            self._file.write(msg)
+            
 
     def closeDebugFile(self):
         if not self._fileOpened:

@@ -87,7 +87,6 @@ class outputManager():
             self.env['runtime']['speechDriver'].speak(text)
             self.env['runtime']['debug'].writeDebugOut("Speak: "+ text,debug.debugLevel.INFO)                
         except Exception as e:
-            print(e)
             self.env['runtime']['debug'].writeDebugOut("\"speak\" in outputManager.speakText ",debug.debugLevel.ERROR)
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)            
 

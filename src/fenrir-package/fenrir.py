@@ -30,7 +30,6 @@ class fenrir():
             try:
                 self.handleProcess()
             except Exception as e:
-                print(e)
                 self.environment['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR) 
         self.shutdown()
 
@@ -75,7 +74,6 @@ class fenrir():
         if self.environment['input']['keyForeward'] > 0:
             return
         shortcut = self.environment['runtime']['inputManager'].getCurrShortcut()        
-        #print(shortcut)
         command = self.environment['runtime']['inputManager'].getCommandForShortcut(shortcut)        
         if len(self.environment['input']['prevDeepestInput']) <= len(self.environment['input']['currInput']):
             self.wasCommand = command != ''        

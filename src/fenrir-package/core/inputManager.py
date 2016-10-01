@@ -118,7 +118,6 @@ class inputManager():
             time.sleep(0.005)
             self.clearEventBuffer()
         except Exception as e:
-            print(e)
             self.env['runtime']['debug'].writeDebugOut("Error while writeUInput",debug.debugLevel.ERROR)
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)
 

@@ -83,7 +83,6 @@ class driver():
             mEvent['EventState'] = event.value
             return mEvent
         except Exception as e:
-            print(e)
             return None
 
     def getNumlock(self):

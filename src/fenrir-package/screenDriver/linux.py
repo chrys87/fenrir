@@ -34,7 +34,6 @@ class driver():
             currScreen = self.env['screenData']['newTTY']
             apps = subprocess.Popen('ps -t tty' + currScreen + ' -o comm,tty,stat', shell=True, stdout=subprocess.PIPE).stdout.read().decode()[:-1].split('\n')
         except Exception as e:
-            print(e)
             return ''
 
         try:
@@ -62,7 +61,6 @@ class driver():
         try:
             x = subprocess.Popen('ps a -o tty,comm | grep Xorg', shell=True, stdout=subprocess.PIPE).stdout.read().decode()[:-1].split('\n')
         except Exception as e:
-            print(e)
             return xlist
         for i in x:
             if not "grep" in i and \
