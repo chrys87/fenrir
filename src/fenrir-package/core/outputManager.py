@@ -84,8 +84,8 @@ class outputManager():
         
         try:
             text = self.env['runtime']['punctuationManager'].proceedPunctuation(text,ignorePunctuation) 
-
             self.env['runtime']['speechDriver'].speak(text)
+            self.env['runtime']['debug'].writeDebugOut("Speak: "+ text,debug.debugLevel.INFO)                
         except Exception as e:
             print(e)
             self.env['runtime']['debug'].writeDebugOut("\"speak\" in outputManager.speakText ",debug.debugLevel.ERROR)
@@ -100,6 +100,8 @@ class outputManager():
 
     def interruptOutput(self):
         self.env['runtime']['speechDriver'].cancel()
+        self.env['runtime']['debug'].writeDebugOut("Interrupt speech",debug.debugLevel.INFO)       
+        
 
     def playSoundIcon(self, soundIcon = '', interrupt=True):
         if soundIcon == '':

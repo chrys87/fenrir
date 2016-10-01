@@ -52,7 +52,7 @@ class settingsManager():
                     shortcutKeys.append(key.upper()) 
             shortcut.append(shortcutRepeat)
             shortcut.append(sorted(shortcutKeys))
-            print(str(shortcut), commandName)
+            self.env['runtime']['debug'].writeDebugOut("Shortcut: "+ str(shortcut) + ' command:' +commandName ,debug.debugLevel.INFO)    
             self.env['bindings'][str(shortcut)] = commandName     
         kbConfig.close()
 

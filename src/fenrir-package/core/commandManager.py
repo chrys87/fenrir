@@ -68,6 +68,7 @@ class commandManager():
         if self.commandExists(oldScript, trigger):        
             try:
                self.env['commands'][trigger][oldScript].unload()         
+               self.env['runtime']['debug'].writeDebugOut("Executing switchtrigger.unload:" + trigger + "." + oldScript ,debug.debugLevel.INFO)                 
             except Exception as e:
                 print(e)
                 self.env['runtime']['debug'].writeDebugOut("Executing trigger:" + trigger + "." + oldScript ,debug.debugLevel.ERROR)
@@ -76,7 +77,8 @@ class commandManager():
         newScript = loadScript
         if self.commandExists(newScript, trigger):        
             try:
-               self.env['commands'][trigger][newScript].load()                      
+               self.env['commands'][trigger][newScript].load() 
+               self.env['runtime']['debug'].writeDebugOut("Executing switchtrigger.load:" + trigger + "." + newScript ,debug.debugLevel.INFO)                                        
             except Exception as e:
                 print(e)
                 self.env['runtime']['debug'].writeDebugOut("Executing trigger:" + trigger + "." + newScript ,debug.debugLevel.ERROR)
@@ -89,6 +91,7 @@ class commandManager():
             if self.commandExists(command, trigger):        
                 try:
                    self.env['commands'][trigger][command].run()
+                   self.env['runtime']['debug'].writeDebugOut("Executing trigger.command:" + trigger + "." + command ,debug.debugLevel.INFO)                        
                 except Exception as e:
                     print(e)
                     self.env['runtime']['debug'].writeDebugOut("Executing trigger:" + trigger + "." + command ,debug.debugLevel.ERROR)
@@ -101,9 +104,11 @@ class commandManager():
             try:
                 if self.env['generalInformation']['tutorialMode']:
                     description = self.env['commands'][section][command].getDescription()
-                    self.env['runtime']['outputManager'].presentText(description, interrupt=True)                
+                    self.env['runtime']['outputManager'].presentText(description, interrupt=True)  
+                    self.env['runtime']['debug'].writeDebugOut("Tutorial for command:" + section + "." + command ,debug.debugLevel.INFO)                                        
                 else:    
                     self.env['commands'][section][command].run()
+                    self.env['runtime']['debug'].writeDebugOut("Executing command:" + section + "." + command ,debug.debugLevel.INFO)                    
             except Exception as e:
                 print(e)
                 
