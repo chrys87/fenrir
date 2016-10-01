@@ -25,6 +25,10 @@ class driver():
     def shutdown(self):
         pass
     def getInputEvent(self):
+        if not self.iDevices:
+            return None
+        if self.iDevices == {}:
+            return None
         event = None
         r, w, x = select(self.iDevices, [], [], self.env['runtime']['settingsManager'].getSettingAsFloat('screen', 'screenUpdateDelay'))
         if r != []:
@@ -42,14 +46,13 @@ class driver():
     def writeEventBuffer(self):
         for iDevice, uDevice, event in self.env['input']['eventBuffer']:
             self.writeUInput(uDevice, event)
-            uDevice.syn()
 
     def clearEventBuffer(self):
         del self.env['input']['eventBuffer'][:]
                         
     def writeUInput(self, uDevice, event):
         uDevice.write_event(event)
-  
+        uDevice.syn()  
     def getInputDevices(self):
         # 3 pos absolute
         # 2 pos relative

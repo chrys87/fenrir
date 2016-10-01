@@ -41,7 +41,6 @@ class fenrir():
             self.prepareCommand()
             if not (self.wasCommand or self.environment['runtime']['inputManager'].isFenrirKeyPressed() or self.environment['generalInformation']['tutorialMode']) or  self.environment['runtime']['screenManager'].isSuspendingScreen():
                 self.environment['runtime']['inputManager'].writeEventBuffer()
-                time.sleep(0.005)
             if self.environment['runtime']['inputManager'].noKeyPressed():
                 if self.wasCommand:
                         self.wasCommand = False   

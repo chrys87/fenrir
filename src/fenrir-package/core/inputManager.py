@@ -70,7 +70,10 @@ class inputManager():
             self.env['runtime']['inputDriver'].grabDevices()
 
     def releaseDevices(self):
-        self.env['runtime']['inputDriver'].releaseDevices()
+        try:
+            self.env['runtime']['inputDriver'].releaseDevices()
+        except:
+            pass
 
     def convertEventName(self, eventName):
         if not eventName:
@@ -110,8 +113,9 @@ class inputManager():
           
     def writeEventBuffer(self):
         try:
-            self.env['runtime']['inputDriver'].writeEventBuffer()
-            time.sleep(0.0005)
+            if self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
+                self.env['runtime']['inputDriver'].writeEventBuffer()
+            time.sleep(0.005)
             self.clearEventBuffer()
         except Exception as e:
             print(e)
