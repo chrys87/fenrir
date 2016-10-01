@@ -17,8 +17,7 @@ class command():
         return 'No Description found'  
 
     def run(self):
-        self.env['screenData']['oldCursorReview'] = None
-        self.env['screenData']['newCursorReview'] = None
+        self.env['runtime']['cursorManager'].clearMarks()
 
     def setCallback(self, callback):
         pass
