@@ -72,7 +72,8 @@ autodetectSuspendingScreen=True
 
 [keyboard]
 driver=evdev
-device=all
+# filter input devices AUTO, ALL or a DEVICE NAME
+device=AUTO
 # gives fenrir exclusive access to the keyboard and let consume keystrokes. just disable on problems.
 grabDevices=True
 ignoreShortcuts=False

@@ -31,7 +31,8 @@ autodetectSuspendingScreen=False
 
 [keyboard]
 driver=evdev
-device=all
+# filter input devices AUTO, ALL or a DEVICE NAME
+device=AUTO
 grabDevices=True
 ignoreShortcuts=False
 keyboardLayout=desktop
