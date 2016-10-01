@@ -135,7 +135,6 @@ class driver():
                     newScreenText = re.sub(' +',' ',newScreenText)
                     diff = difflib.ndiff(oldScreenText, newScreenText)      
                 else:
-                    diff = difflib.ndiff(oldScreenText, newScreenText)                   
                     diff = difflib.ndiff( oldScreenText.split('\n'),\
                       newScreenText.split('\n'))
 
