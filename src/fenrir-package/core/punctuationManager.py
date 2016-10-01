@@ -16,7 +16,8 @@ class punctuationManager():
         self.punctuation = {
         'levels':{
           'NONE': '',
-          'SOME': '.,:-$~+*-/\\@;',
+          'SOME': '.-$~+*-/\\@',
+          'MOST': '.,:-$~+*-/\\@!#%^&*()[]}{<>;',
           'ALL': string.punctuation,
           },
         'punctuationDict':{
