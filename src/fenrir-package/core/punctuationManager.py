@@ -13,6 +13,7 @@ class punctuationManager():
     def initialize(self, environment):
         self.env = environment
         self.allPunctNone = dict.fromkeys(map(ord, string.punctuation), None)
+        self.allPunctNone[':'] = ' '
         self.punctuation = {
         'levels':{
           'NONE': '',
