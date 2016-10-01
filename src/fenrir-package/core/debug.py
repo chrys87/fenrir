@@ -46,9 +46,9 @@ class debug():
             if not self._fileOpened:
                 self.openDebugFile()
             msg = str(level) +' ' + str(datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')
-) + ': ' + text + '\n'
+) + ': ' + text
             print(msg)
-            self._file.write(msg)
+            self._file.write(msg + '\n')
             
 
     def closeDebugFile(self):
