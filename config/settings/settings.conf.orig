@@ -39,6 +39,8 @@ rate=0.45
 
 # Pitch controls the pitch of the voice, select from 0, lowest, to 1.0, highest.
 pitch=0.5
+# Pitch for capital letters
+capitalPitch=0.9
 
 # Volume controls the loudness of the voice, select from 0, quietest, to 1.0, loudest.
 volume=1.0

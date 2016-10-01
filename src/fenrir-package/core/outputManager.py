@@ -5,6 +5,7 @@
 # By Chrys, Storm Dragon, and contributers.
 
 from core import debug
+import string
 
 class outputManager():
     def __init__(self):
@@ -20,15 +21,20 @@ class outputManager():
         self.env['runtime']['settingsManager'].shutdownDriver('soundDriver')
         self.env['runtime']['settingsManager'].shutdownDriver('speechDriver')
 
-    def presentText(self, text, interrupt=True, soundIcon = '', ignorePunctuation=False):
+    def presentText(self, text, interrupt=True, soundIcon = '', ignorePunctuation=False, announceCapital=False):
         self.env['runtime']['debug'].writeDebugOut("presentText:\nsoundIcon:'"+soundIcon+"'\nText:\n" + text ,debug.debugLevel.INFO)
         if self.playSoundIcon(soundIcon, interrupt):
             self.env['runtime']['debug'].writeDebugOut("soundIcon found" ,debug.debugLevel.INFO)            
             return
-        self.speakText(text, interrupt, ignorePunctuation)
+        toAnnounceCapital = announceCapital and len(text.strip(' \n\t')) == 1 and text.strip(' \n\t').isupper()
+        if toAnnounceCapital:
+            if self.playSoundIcon('capital', False):
+                toAnnounceCapital = False         
+
+        self.speakText(text, interrupt, ignorePunctuation,toAnnounceCapital)
         self.brailleText(text, interrupt)
 
-    def speakText(self, text, interrupt=True, ignorePunctuation=False):
+    def speakText(self, text, interrupt=True, ignorePunctuation=False, announceCapital=False):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('speech', 'enabled'):
             self.env['runtime']['debug'].writeDebugOut("Speech disabled in outputManager.speakText",debug.debugLevel.INFO)
             return
@@ -50,7 +56,10 @@ class outputManager():
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)        
         
         try:
-            self.env['runtime']['speechDriver'].setPitch(self.env['runtime']['settingsManager'].getSettingAsFloat('speech', 'pitch'))
+            if announceCapital:
+                self.env['runtime']['speechDriver'].setPitch(self.env['runtime']['settingsManager'].getSettingAsFloat('speech', 'capitalPitch'))            
+            else:
+                self.env['runtime']['speechDriver'].setPitch(self.env['runtime']['settingsManager'].getSettingAsFloat('speech', 'pitch'))
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut("setting speech pitch in outputManager.speakText",debug.debugLevel.ERROR)
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)            

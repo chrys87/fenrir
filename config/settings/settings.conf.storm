@@ -12,6 +12,8 @@ enabled=True
 driver=speechd
 rate=0.85
 pitch=0.5
+# Pitch for capital letters
+capitalPitch=0.9
 module=espeak
 voice=
 language=english-us

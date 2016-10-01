@@ -26,7 +26,7 @@ class command():
         if currChar.strip(" \t\n") == '':
             self.env['runtime']['outputManager'].presentText("blank" ,interrupt=True)
         else:
-            self.env['runtime']['outputManager'].presentText(currChar ,interrupt=True, ignorePunctuation=True)
+            self.env['runtime']['outputManager'].presentText(currChar ,interrupt=True, ignorePunctuation=True, announceCapital=True)
   
     def setCallback(self, callback):
         pass

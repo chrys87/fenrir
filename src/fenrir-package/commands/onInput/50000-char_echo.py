@@ -30,7 +30,7 @@ class command():
         # big changes are no char (but the value is bigger than one maybe the differ needs longer than you can type, so a little strange random buffer for now)
         if len(self.env['screenData']['newDelta']) > 3:
             return        
-        self.env['runtime']['outputManager'].presentText(self.env['screenData']['newDelta'], interrupt=True, ignorePunctuation=True)
+        self.env['runtime']['outputManager'].presentText(self.env['screenData']['newDelta'], interrupt=True, ignorePunctuation=True, announceCapital=True)
 
     def setCallback(self, callback):
         pass

@@ -36,7 +36,8 @@ class command():
         # too much for a single backspace...
         if len(self.env['screenData']['newNegativeDelta']) >= 5:
             return           
-        self.env['runtime']['outputManager'].presentText(self.env['screenData']['newNegativeDelta'], interrupt=True, ignorePunctuation=True)
+
+        self.env['runtime']['outputManager'].presentText(self.env['screenData']['newNegativeDelta'], interrupt=True, ignorePunctuation=True, announceCapital=True)
 
     def setCallback(self, callback):
         pass

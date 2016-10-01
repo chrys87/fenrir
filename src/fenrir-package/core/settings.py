@@ -20,6 +20,7 @@ settings = {
     'driver': 'speechd',
     'rate': 0.75,
     'pitch': 0.5,
+    'capitalPitch':0.8,
     'volume': 1.0,    
     'module': '',
     'voice': 'de',
