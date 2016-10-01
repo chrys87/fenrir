@@ -124,14 +124,15 @@ class driver():
               newScreenText != '':
                 self.env['screenData']['newDelta'] = newScreenText
             else:
-                diffStart = 0
+                cursorLineStart = self.env['screenData']['newCursor']['y'] * self.env['screenData']['columns'] + self.env['screenData']['newCursor']['y']
+                cursorLineEnd = cursorLineStart  + self.env['screenData']['columns']            
                 if self.env['screenData']['oldCursor']['x'] != self.env['screenData']['newCursor']['x'] and \
                   self.env['screenData']['oldCursor']['y'] == self.env['screenData']['newCursor']['y'] and \
-                  self.env['screenData']['newContentText'][:self.env['screenData']['newCursor']['y']] == self.env['screenData']['oldContentText'][:self.env['screenData']['newCursor']['y']]:
-                    diffStart = self.env['screenData']['newCursor']['y'] * self.env['screenData']['columns'] + self.env['screenData']['newCursor']['y']
-                    oldScreenText = self.env['screenData']['oldContentText'][diffStart:diffStart  + self.env['screenData']['columns']] 
+                  self.env['screenData']['newContentText'][:cursorLineStart] == self.env['screenData']['oldContentText'][:cursorLineStart]:
+
+                    oldScreenText = self.env['screenData']['oldContentText'][cursorLineStart:cursorLineEnd] 
                     oldScreenText = re.sub(' +',' ',oldScreenText)
-                    newScreenText = self.env['screenData']['newContentText'][diffStart:diffStart  + self.env['screenData']['columns']]
+                    newScreenText = self.env['screenData']['newContentText'][cursorLineStart:cursorLineEnd]
                     newScreenText = re.sub(' +',' ',newScreenText)
                     diff = difflib.ndiff(oldScreenText, newScreenText)      
                 else:
