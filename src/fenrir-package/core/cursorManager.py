@@ -57,9 +57,11 @@ class cursorManager():
     def isApplicationWindowSet(self):
         try:
             currApp = self.env['runtime']['applicationManager'].getCurrentApplication()
-            return self.env['commandBuffer']['windowArea'][currApp]['1'] != None
+            if self.env['commandBuffer']['windowArea'][currApp]['1'] != None:
+                return True
         except:
-            return False
+            pass
+        return False
     def setWindowForApplication(self):
         if not self.env['commandBuffer']['Marks']['1']:
             return False

@@ -64,8 +64,7 @@ class fenrir():
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenUpdate')         
             
         self.handleCommands()
-        #print(time.time()-startTime)   
-        self.env['screenData']['oldApplication'] = self.env['screenData']['newApplication']             
+        #print(time.time()-startTime)       
 
     def prepareCommand(self):
         if self.environment['runtime']['screenManager'].isSuspendingScreen():
