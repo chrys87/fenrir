@@ -1,5 +1,6 @@
-# fenrir
-An TTY screenreader for Linux. Its an early alpha version. you can test it. it is not recommented for productive use. if you want to help just let me know. 
+# fenrir (Alfa)
+An TTY screenreader for Linux.
+Its an early alpha version. You can test it. It is not recommended for production use. If you want to help just let me know.
 
 # requirements
 - linux
@@ -25,5 +26,4 @@ ReadWrite permission
 Currently there is no setupscript (sorry). But you can just run as root or setup needed permission
 cd src/fenrir-package/
 sudo ./fenrir.py
-
-
+Settings are located in the config directory.
