@@ -19,10 +19,7 @@ class command():
 
     def run(self):
         # Prefer review cursor over text cursor
-        if self.env['screenData']['newCursorReview']:
-            cursorPos = self.env['screenData']['newCursorReview'].copy()
-        else:
-            cursorPos = self.env['screenData']['newCursor'].copy()
+        cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
 
         textAfterCursor = mark_utils.getTextAfterMark(cursorPos, self.env['screenData']['newContentText'])
 
