@@ -57,6 +57,7 @@ class settingsManager():
         kbConfig.close()
 
     def loadSoundIcons(self, soundIconPath):
+        print(soundIconPath + '/soundicons.conf')
         siConfig = open(soundIconPath + '/soundicons.conf',"r")
         while(True):
             line = siConfig.readline()
@@ -183,8 +184,8 @@ class settingsManager():
         if not os.path.exists(self.getSetting('sound','theme') + '/soundicons.conf'):
             if os.path.exists(settingsRoot + 'sound/'+ self.getSetting('sound','theme')):  
                 self.setSetting('sound', 'theme', settingsRoot + 'sound/'+ self.getSetting('sound','theme'))
-                if os.path.exists(settingsRoot + 'sound/'+ self.getSetting('sound','theme') + '/soundicons.conf'):  
-                     environment['runtime']['settingsManager'].loadSoundIcons(self.getSetting('sound','theme'))
+                if os.path.exists(self.getSetting('sound','theme') + '/soundicons.conf'):  
+                    environment['runtime']['settingsManager'].loadSoundIcons(self.getSetting('sound','theme'))
         else:
             environment['runtime']['settingsManager'].loadSoundIcons(self.getSetting('sound','theme'))
 
