@@ -4,14 +4,14 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-import os, sys, signal, time
+import os, sys, signal, time, inspect
 
 if not os.getcwd() in sys.path:
     sys.path.append(os.getcwd())
 
 from core import settingsManager
 from core import debug
-
+print(inspect.stack())
 class fenrir():
     def __init__(self):
         try:

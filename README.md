@@ -22,6 +22,8 @@ ReadWrite permission
 - python-pyenchant for spell check functionality
 
 # installation
-Currently there is no setupscript (sorry). But you can just run src/fenrir-package/fenrir.py as root or setup the needed permissions
+Currently there is no setupscript (sorry). But you can just run as root or setup needed permission
+cd src/fenrir-package/
+sudo ./fenrir.py
 
 
