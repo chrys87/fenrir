@@ -1,0 +1,41 @@
+# Maintainer: Storm Dragon <stormdragon2976@gmail.com>
+# Maintainer: Chrys <mail@chrys.de>
+
+_gitname='fenrir'
+pkgname="${_gitname}-git"
+pkgver=v0.71.117.g4d87b22
+pkgrel=1
+pkgdesc='A user space console screen reader written in python3'
+arch=('armv7' 'i686' 'x86_64')
+url='https://github.com/chrys87/${_pkgname}'
+license=('MIT')
+depends=('python' 'python-espeak' 'python-evdev')
+optdepends=('brltty: For Braille support'
+  'gstreamer: for soundicons via gstreamer'
+  'sox: The default sound driver'
+  'python-enchant: for spell check functionality')
+makedepends=('git')
+provides=('fenrir')
+conflicts=('fenrir')
+install="$pkgname".install
+source=("git+https://github.com/chrys87/${_gitname}.git"
+  'fenrir.service'
+  'fenrir.sh'
+  'fenrir-git.install')
+
+pkgver()
+{
+  cd "$srcdir/$_gitname"
+  local ver="$(git describe --tags)"
+  echo "${ver//-/.}"
+}
+
+package()
+{
+  cd "$srcdir/$_gitname"
+  install -d "$pkgdir/usr/bin"
+ install -d "$pkgdir/etc/fenrir"
+
+}
+
+# vim: set ts=2 sw=2 et:
