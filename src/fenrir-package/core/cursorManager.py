@@ -35,14 +35,29 @@ class cursorManager():
         else:
             return self.env['screenData']['newCursor'].copy()
     def clearReviewCursor(self):
+        if not self.isReviewMode():
+            return
         self.env['screenData']['oldCursorReview'] = None
         self.env['screenData']['newCursorReview'] = None
+        
     def isReviewMode(self):
         return self.env['screenData']['newCursorReview'] != None
-    def enterReviewModeCurrTextCursor(self):
+    def enterReviewModeCurrTextCursor(self, overwrite=False):
+        if self.isReviewMode() and not overwrite:
+            return
         self.env['screenData']['oldCursorReview'] = self.env['screenData']['newCursorReview']
         if not self.env['screenData']['newCursorReview']:
             self.env['screenData']['newCursorReview'] = self.env['screenData']['newCursor'].copy()
+    def setReviewCursorPosition(self, x, y):
+        if not x:
+            return
+        if not y:
+            return
+        if not self.isReviewMode():
+            self.enterReviewModeCurrTextCursor()
+        self.env['screenData']['oldCursorReview'] = self.env['screenData']['newCursorReview']
+        self.env['screenData']['newCursorReview']['x'] = x
+        self.env['screenData']['newCursorReview']['y'] = y
     def isApplicationWindowSet(self):
         try:
             currApp = self.env['runtime']['applicationManager'].getCurrentApplication()
