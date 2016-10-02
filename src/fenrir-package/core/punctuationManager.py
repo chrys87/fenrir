@@ -12,13 +12,11 @@ class punctuationManager():
         pass
     def initialize(self, environment):
         self.env = environment
-        self.allPunctNone = dict.fromkeys(map(ord, string.punctuation), None)
-        # replace colon with space
-        self.allPunctNone[58] = ' '
-        # replace minus with space
-        self.allPunctNone[45] = ' '
-        # replace underscore with space
-        self.allPunctNone[95] = ' '                
+        self.allPunctNone = dict.fromkeys(map(ord, string.punctuation), ' ')
+        # replace with space: 
+        # dot, comma, grave, apostrophe
+        for char in [ord('.'),ord(','),ord('`'),ord("'")]:
+            self.allPunctNone[char] = None
         self.punctuation = {
         'levels':{
           'NONE': '',
