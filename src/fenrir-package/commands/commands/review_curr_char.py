@@ -1,11 +1,11 @@
 #!/bin/python
-from utils import char_utils
 # -*- coding: utf-8 -*-
 
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
 from core import debug
+from utils import char_utils
 
 class command():
     def __init__(self):

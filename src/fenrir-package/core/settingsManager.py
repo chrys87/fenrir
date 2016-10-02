@@ -57,7 +57,6 @@ class settingsManager():
         kbConfig.close()
 
     def loadSoundIcons(self, soundIconPath):
-        print(soundIconPath + '/soundicons.conf')
         siConfig = open(soundIconPath + '/soundicons.conf',"r")
         while(True):
             line = siConfig.readline()
