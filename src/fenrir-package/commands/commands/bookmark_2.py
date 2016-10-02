@@ -29,7 +29,7 @@ class command():
         if not self.env['commandBuffer']['bookMarks'][self.ID][currApp]['1']:
             self.env['runtime']['outputManager'].presentText("Bookmark for application " + currApp + " not set", interrupt=True)
             return
-        print('i',self.env['commandBuffer']['bookMarks'][self.ID][currApp]['1'])
+
         # set marks
         marked = ''
         startMark = self.env['commandBuffer']['bookMarks'][self.ID][currApp]['1'].copy()

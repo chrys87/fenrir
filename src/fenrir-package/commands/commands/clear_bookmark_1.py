@@ -18,7 +18,7 @@ class command():
     
     def run(self):
         currApp = self.env['runtime']['applicationManager'].getCurrentApplication()
-        
+
         del self.env['commandBuffer']['bookMarks'][self.ID][currApp]
 
         self.env['runtime']['outputManager'].presentText('Bookmark ' + self.ID + " removed for application " + currApp, interrupt=True)

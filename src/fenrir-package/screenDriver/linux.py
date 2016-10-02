@@ -34,8 +34,8 @@ class driver():
             currScreen = self.env['screenData']['newTTY']
             apps = subprocess.Popen('ps -t tty' + currScreen + ' -o comm,tty,stat', shell=True, stdout=subprocess.PIPE).stdout.read().decode()[:-1].split('\n')
         except Exception as e:
-            return ''
-
+            print(e) 
+            return
         try:
             for i in apps:
                 i = i.upper()
@@ -48,13 +48,14 @@ class driver():
                           not "SH" == i[0] and \
                           not "PS" == i[0]:
                             if "TTY"+currScreen in i[1]:
-                                if self.env['runtime']['applicationManager'].isApplicationChange():
+                                if self.env['screenData']['newApplication'] != i[0]:
                                     self.env['screenData']['oldApplication'] = self.env['screenData']['newApplication']
                                     self.env['screenData']['newApplication'] = i[0]                                 
-                                return
-        except:
-            return ''
-        return ''
+                                    return
+        except Exception as e:
+            print(e)
+            return
+        return
 
     def getIgnoreScreens(self):
         xlist = []
