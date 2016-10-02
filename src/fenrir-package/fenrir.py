@@ -49,7 +49,7 @@ class fenrir():
                 if self.environment['input']['keyForeward'] > 0:
                     self.environment['input']['keyForeward'] -=1
             self.environment['runtime']['screenManager'].update('onInput')                            
-            self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')
+            self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')      
         else:
             self.environment['runtime']['screenManager'].update('onUpdate')
         if self.environment['runtime']['applicationManager'].isApplicationChange():

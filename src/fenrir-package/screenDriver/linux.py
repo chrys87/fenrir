@@ -71,7 +71,7 @@ class driver():
         return xlist
 
 
-    def update(self, trigger='updateScreen'):
+    def update(self, trigger='onUpdate'):
         newContentBytes = b''       
         try:
             # read screen

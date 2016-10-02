@@ -21,12 +21,12 @@ class screenManager():
     def shutdown(self):
         self.env['runtime']['settingsManager'].shutdownDriver('screenDriver')
 
-    def update(self, trigger = 'onUpdate'):
+    def update(self, trigger='onUpdate'):
         self.env['runtime']['screenDriver'].getCurrScreen()    
-        if not self.isSuspendingScreen():
-            if trigger == 'onUpdate' or self.isScreenChange():
-                self.env['runtime']['screenDriver'].getCurrApplication()        
+        if not self.isSuspendingScreen():       
             self.env['runtime']['screenDriver'].update(trigger)
+            if trigger == 'onUpdate' or self.isScreenChange() or len(self.env['screenData']['newDelta']) > 6:
+                self.env['runtime']['screenDriver'].getCurrApplication() 
             self.env['screenData']['lastScreenUpdate'] = time.time()
 
     def isSuspendingScreen(self):

@@ -33,14 +33,17 @@ class driver():
         r, w, x = select(self.iDevices, [], [], self.env['runtime']['settingsManager'].getSettingAsFloat('screen', 'screenUpdateDelay'))
         if r != []:
             for fd in r:
-                event = self.iDevices[fd].read_one()
-                self.env['input']['eventBuffer'].append( [self.iDevices[fd], self.uDevices[fd], event])
-                if event.code != 0:
-                    currMapEvent = self.env['runtime']['inputDriver'].mapEvent(event)
-                    if not currMapEvent:
-                        return currMapEvent
-                    if currMapEvent['EventState'] in [0,1,2]:
-                        return currMapEvent
+                while(True):
+                    event = self.iDevices[fd].read_one()
+                    if not event:
+                        return None
+                    self.env['input']['eventBuffer'].append( [self.iDevices[fd], self.uDevices[fd], event])
+                    if event.code != 0:
+                        currMapEvent = self.env['runtime']['inputDriver'].mapEvent(event)
+                        if not currMapEvent:
+                            return currMapEvent
+                        if currMapEvent['EventState'] in [0,1,2]:
+                            return currMapEvent
         return None
 
     def writeEventBuffer(self):
