@@ -28,6 +28,26 @@ def getCurrentChar(currX,currY, currText):
     currChar = wrappedLines[currY][currX]
     return currX, currY, currChar
 
+def getUpChar(currX,currY, currText):
+    if currText == '':
+        return -1, -1, ''
+    wrappedLines = currText.split('\n')   
+    currY -= 1
+    if currY < 0:
+        currY = 0      
+    currChar = wrappedLines[currY][currX]
+    return currX, currY, currChar
+
+def getDownChar(currX,currY, currText):
+    if currText == '':
+        return -1, -1, ''
+    wrappedLines = currText.split('\n')   
+    currY += 1
+    if currY >= len(wrappedLines):
+        currY = len(wrappedLines) -1      
+    currChar = wrappedLines[currY][currX]
+    return currX, currY, currChar
+
 def getLastCharInLine(currY, currText):
     if currText == '':
         return -1, -1, ''
