@@ -56,4 +56,5 @@ def getTextAfterMark(mark, inText):
         return ''
     if mark == None:
         return ''
-    return getTextBetweenMarks(mark, {'x':len(inText[0]),'y':len(inText)}, inText)    
+    inText = inText.split('\n')
+    return getTextBetweenMarks(mark, {'x':len(inText[0])-1,'y':len(inText)-1}, inText)    
