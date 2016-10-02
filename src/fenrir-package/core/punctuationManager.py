@@ -15,6 +15,10 @@ class punctuationManager():
         self.allPunctNone = dict.fromkeys(map(ord, string.punctuation), None)
         # replace colon with space
         self.allPunctNone[58] = ' '
+        # replace minus with space
+        self.allPunctNone[45] = ' '
+        # replace underscore with space
+        self.allPunctNone[95] = ' '                
         self.punctuation = {
         'levels':{
           'NONE': '',
