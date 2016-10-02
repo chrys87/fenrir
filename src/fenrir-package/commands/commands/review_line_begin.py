@@ -27,7 +27,7 @@ class command():
             self.env['runtime']['outputManager'].presentText("blank" ,interrupt=True)
         else:
             self.env['runtime']['outputManager'].presentText(currChar ,interrupt=True, ignorePunctuation=True, announceCapital=True)        
-        self.env['runtime']['outputManager'].presentText("begin of line", interrupt=False)
+        self.env['runtime']['outputManager'].presentText("beginning of line", interrupt=False)
    
     def setCallback(self, callback):
         pass

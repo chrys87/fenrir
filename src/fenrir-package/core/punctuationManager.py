@@ -22,7 +22,7 @@ class punctuationManager():
         self.punctuation = {
         'levels':{
           'NONE': '',
-          'SOME': '.-$~+*-/\\@',
+          'SOME': '#-$~+*-/\\@',
           'MOST': '.,:-$~+*-/\\@!#%^&*()[]}{<>;',
           'ALL': string.punctuation,
           },
@@ -61,9 +61,10 @@ class punctuationManager():
           '=':'equals',
           },
         'customDict':{
-          ':)':'smile',
-          ';)':'twinker',
+          ':)':'smiley',
+          ';)':'winking face',
           'XD':'loool',
+          ':@':'angry face',
           ':D':'lought'
           }          
         }
