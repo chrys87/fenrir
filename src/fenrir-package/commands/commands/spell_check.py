@@ -44,9 +44,10 @@ class command():
         newContent = self.env['screenData']['newContentText'].split('\n')[cursorPos['y']]
         x, y, currWord =  word_utils.getCurrentWord(cursorPos['x'], 0, newContent)                  
 
-        if currWord != '':
+        if not currWord.isspace():
             if not self.spellChecker.check(currWord):
                 self.env['runtime']['outputManager'].presentText('misspelled',soundIcon='mispell', interrupt=True)
-
+            elif not ignore:
+                self.env['runtime']['outputManager'].presentText('correct',soundIcon='', interrupt=True)            
     def setCallback(self, callback):
         pass

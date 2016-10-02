@@ -23,7 +23,7 @@ class command():
         self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], lastChar = \
           char_utils.getLastCharInLine(self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
         
-        if lastChar.strip(" \t\n") == '':
+        if lastChar.isspace():
             self.env['runtime']['outputManager'].presentText("line is empty" ,interrupt=True)
         else:
             self.env['runtime']['outputManager'].presentText(lastChar ,interrupt=True, ignorePunctuation=True, announceCapital=True)        

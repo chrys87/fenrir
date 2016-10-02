@@ -23,7 +23,7 @@ class command():
         x, y, currChar = \
           char_utils.getCurrentChar(cursorPos['x'], cursorPos['y'], self.env['screenData']['newContentText'])
         
-        if currChar.strip(" \t\n") == '':
+        if currChar.isspace():
             self.env['runtime']['outputManager'].presentText("blank" ,interrupt=True)
         else:
             currChar = char_utils.getPhonetic(currChar)

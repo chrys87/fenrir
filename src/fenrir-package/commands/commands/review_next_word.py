@@ -25,7 +25,7 @@ class command():
         self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], currWord = \
           word_utils.getNextWord(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
         
-        if currWord.strip(" \t\n") == '':
+        if currWord.isspace():
             self.env['runtime']['outputManager'].presentText("blank", interrupt=True)
         else:
             self.env['runtime']['outputManager'].presentText(currWord, interrupt=True)

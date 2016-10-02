@@ -44,7 +44,7 @@ class command():
         newContent = self.env['screenData']['newContentText'].split('\n')[cursorPos['y']]
         x, y, currWord =  word_utils.getCurrentWord(cursorPos['x'], 0, newContent)                  
 
-        if currWord != '':
+        if not currWord.isspace():
             if self.spellChecker.is_removed(currWord):
                 self.env['runtime']['outputManager'].presentText(currWord + ' is already removed from dict',soundIcon='Cancel', interrupt=True)                
             else:

@@ -27,7 +27,7 @@ class command():
         x, y, currLine = \
           line_utils.getCurrentLine(cursorPos['x'], cursorPos['y'], self.env['screenData']['newContentText'])
         
-        if currLine.strip(" \t\n") == '':
+        if currLine.isspace():
             self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True)
         else:        
             self.env['runtime']['outputManager'].presentText("indent "+  str(len(currLine) - len(currLine.lstrip())), interrupt=True)

@@ -39,7 +39,7 @@ class command():
         else:
             x, y, marked = \
               line_utils.getCurrentLine(startMark['x'], startMark['y'], self.env['screenData']['newContentText'])
-        if marked.strip(" \t\n") == '':
+        if marked.isspace():
             self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True)
         else:
             self.env['runtime']['outputManager'].presentText(marked, interrupt=True)

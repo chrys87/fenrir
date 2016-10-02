@@ -23,7 +23,7 @@ class command():
         self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], currLine = \
           line_utils.getPrevLine(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
         
-        if currLine.strip(" \t\n") == '':
+        if currLine.isspace():
             self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True)
         else:
             self.env['runtime']['outputManager'].presentText(currLine, interrupt=True)

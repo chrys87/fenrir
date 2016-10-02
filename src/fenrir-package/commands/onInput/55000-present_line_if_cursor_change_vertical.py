@@ -28,7 +28,7 @@ class command():
         if self.env['runtime']['inputManager'].noKeyPressed():
             return              
         currLine = self.env['screenData']['newContentText'].split('\n')[self.env['screenData']['newCursor']['y']]
-        if currLine.strip(" \t\n") == '':
+        if currLine.isspace():
             self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True)
         else:
             self.env['runtime']['outputManager'].presentText(currLine, interrupt=True)

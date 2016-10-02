@@ -21,7 +21,7 @@ class command():
         x, y, firstLine = \
           line_utils.getCurrentLine(0, 0, self.env['screenData']['newContentText'])
         
-        if firstLine.strip(" \t\n") == '':
+        if firstLine.isspace():
             self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True)
         else:
             self.env['runtime']['outputManager'].presentText(firstLine, interrupt=True) 

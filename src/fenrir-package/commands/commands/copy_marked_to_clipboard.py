@@ -34,7 +34,7 @@ class command():
         self.env['commandBuffer']['Marks']['1'] = None
         self.env['commandBuffer']['Marks']['2'] = None
         
-        if marked.strip(" \t\n") == '':
+        if marked.isspace():
             self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True)
         else:
             self.env['runtime']['outputManager'].presentText(marked, interrupt=True)

@@ -23,7 +23,7 @@ class command():
 
         textAfterCursor = mark_utils.getTextAfterMark(cursorPos, self.env['screenData']['newContentText'])
 
-        if textAfterCursor.strip(" \t\n") == '':
+        if textAfterCursor.isspace():
             self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True)
         else:
             self.env['runtime']['outputManager'].presentText(textAfterCursor, interrupt=True)

@@ -69,9 +69,26 @@ class command():
             if not(newContent[self.env['screenData']['newCursor']['x']].strip(" \t\n") == '' and x != self.env['screenData']['newCursor']['x']):
                 return            
 
-        if currWord != '':
-            if not self.spellChecker.check(currWord):
-                self.env['runtime']['outputManager'].presentText('misspelled',soundIcon='mispell', interrupt=False)
+        if currWord == '':
+            return
+        if currWord.startswith('-'):
+            return
+        if currWord.startswith('/'):
+            return
+        if currWord.startswith('#'):
+            return
+        if currWord.startswith('./'):
+            return               
+        if currWord.startswith('@'):
+            return            
+        if currWord.isnumeric():
+            return            
+        if currWord.isdecimal():
+            return
+        if currWord.isspace():
+            return            
+        if not self.spellChecker.check(currWord):
+            self.env['runtime']['outputManager'].presentText('misspelled',soundIcon='mispell', interrupt=False)
 
     def setCallback(self, callback):
         pass

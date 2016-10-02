@@ -26,7 +26,7 @@ class command():
 
         textBeforeCursor = mark_utils.getTextBeforeMark(cursorPos, self.env['screenData']['newContentText'])
 
-        if textBeforeCursor.strip(" \t\n") == '':
+        if textBeforeCursor.isspace():
             self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True)
         else:
             self.env['runtime']['outputManager'].presentText(textBeforeCursor, interrupt=True)

@@ -17,7 +17,7 @@ class command():
         return 'reads the contents of the current screen'        
 
     def run(self):
-        if self.env['screenData']['newContentText'].strip(" \t\n") == '':
+        if self.env['screenData']['newContentText'].isspace():
             self.env['runtime']['outputManager'].presentText("screen is empty", soundIcon='EmptyLine', interrupt=True)
         else:    
            self.env['runtime']['outputManager'].presentText(self.env['screenData']['newContentText'],interrupt=True)

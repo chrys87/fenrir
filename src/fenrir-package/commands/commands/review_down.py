@@ -21,7 +21,7 @@ class command():
         cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
         self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], downChar = \
           char_utils.getDownChar(self.env['screenData']['newCursorReview']['x'],self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
-        if downChar.strip(" \t\n") == '':
+        if downChar.isspace():
             self.env['runtime']['outputManager'].presentText("line is empty" ,interrupt=True)
         else:
             self.env['runtime']['outputManager'].presentText(downChar ,interrupt=True, ignorePunctuation=True, announceCapital=True)        
