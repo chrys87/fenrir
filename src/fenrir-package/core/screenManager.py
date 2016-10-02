@@ -22,7 +22,8 @@ class screenManager():
         self.env['runtime']['settingsManager'].shutdownDriver('screenDriver')
 
     def update(self, trigger='onUpdate'):
-        self.env['runtime']['screenDriver'].getCurrScreen()    
+        self.env['runtime']['screenDriver'].getCurrScreen()
+        self.env['screenData']['oldApplication'] = self.env['screenData']['newApplication']            
         if not self.isSuspendingScreen():       
             self.env['runtime']['screenDriver'].update(trigger)
             if trigger == 'onUpdate' or self.isScreenChange() or len(self.env['screenData']['newDelta']) > 6:

@@ -49,9 +49,8 @@ class driver():
                           not "PS" == i[0]:
                             if "TTY"+currScreen in i[1]:
                                 if self.env['screenData']['newApplication'] != i[0]:
-                                    self.env['screenData']['oldApplication'] = self.env['screenData']['newApplication']
-                                    self.env['screenData']['newApplication'] = i[0]                                 
-                                    return
+                                    self.env['screenData']['newApplication'] = i[0]                        
+                                return
         except Exception as e:
             print(e)
             return
