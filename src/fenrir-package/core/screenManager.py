@@ -24,7 +24,7 @@ class screenManager():
     def update(self, trigger = 'onUpdate'):
         self.env['runtime']['screenDriver'].getCurrScreen()    
         if not self.isSuspendingScreen():
-            if trigger == 'onUpdate':
+            if trigger == 'onUpdate' or self.isScreenChange():
                 self.env['runtime']['screenDriver'].getCurrApplication()        
             self.env['runtime']['screenDriver'].update(trigger)
             self.env['screenData']['lastScreenUpdate'] = time.time()
