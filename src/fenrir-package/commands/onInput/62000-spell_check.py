@@ -6,6 +6,8 @@
 
 from core import debug
 from utils import word_utils
+import os
+
 initialized = False
 try:
     import enchant
@@ -66,11 +68,17 @@ class command():
                 return
         else:
         # or just arrow arround?
-            if not(newContent[self.env['screenData']['newCursor']['x']].strip(" \t\n") == '' and x != self.env['screenData']['newCursor']['x']):
+            if not(newContent[self.env['screenData']['newCursor']['x']].isspace() and x != self.env['screenData']['newCursor']['x']):
                 return            
 
         if currWord == '':
             return
+        if currWord == 'cd':
+            return        
+        if currWord == 'fg':
+            return        
+        if currWord == 'bg':
+            return                    
         if currWord.startswith('-'):
             return
         if currWord.startswith('/'):
@@ -86,7 +94,22 @@ class command():
         if currWord.isdecimal():
             return
         if currWord.isspace():
-            return            
+            return
+        try:
+            if os.path.exists("/bin/"+currWord):
+                return
+        except:
+            pass
+        try:
+            if os.path.exists("/usr/bin/"+currWord):
+                return            
+        except:
+            pass
+        try:
+            if os.path.exists("/sbin/"+currWord):
+                return            
+        except:
+            pass
         if not self.spellChecker.check(currWord):
             self.env['runtime']['outputManager'].presentText('misspelled',soundIcon='mispell', interrupt=False)
 
