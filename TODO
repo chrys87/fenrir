@@ -3,7 +3,6 @@ ToDos in Priority order:
 - Known Bugs  
   Fenrir key sometimes wents crazy?
   gstreamer sounddriver doesnt work (i think it needs a Glib 
-  next word wrapping sometimes skips a word on beginn of line
 
 - parse punctuation setting file in conf/substitution
 - announce capslock
