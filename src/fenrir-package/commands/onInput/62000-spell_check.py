@@ -71,12 +71,16 @@ class command():
             if not(newContent[self.env['screenData']['newCursor']['x']].isspace() and x != self.env['screenData']['newCursor']['x']):
                 return            
 
-        # ignore bash buildins and empty
+        # ignore empty
         if currWord[0] =='':
             return
+        # ignore bash buildins
         if currWord in ['cd','fg','bg','alias','bind','dir','caller','buildin','command','declare','echo','enable','help','let','local','logout',\
           'mapfile','printf','read','readarray','source','type','typeset','ulimit','unalias']:
             return
+        # ignore the application name
+         if currWord.upper() == 'FENRIR':
+            return       
         if currWord[0] =='-':
             return
         if currWord[0] == '/':
