@@ -72,20 +72,22 @@ class command():
                 return            
 
         # ignore bash buildins and empty
-        if currWord in ['','cd','fg','bg','alias','bind','dir','caller','buildin','command','declare','echo','enable','help','let','local','logout',\
+        if currWord[0] =='':
+            return
+        if currWord in ['cd','fg','bg','alias','bind','dir','caller','buildin','command','declare','echo','enable','help','let','local','logout',\
           'mapfile','printf','read','readarray','source','type','typeset','ulimit','unalias']:
             return
-        if currWord.startswith('-'):
+        if currWord[0] =='-':
             return
-        if currWord.startswith('/'):
+        if currWord[0] == '/':
             return
-        if currWord.startswith('#'):
+        if currWord[0] == '#':
             return
         if currWord.startswith('./'):
             return               
         if '@' in currWord and '.' in currWord:
             return            
-        if currWord.startswith('@'):
+        if currWord[0] == '@':
             return            
         if currWord.isnumeric():
             return            
