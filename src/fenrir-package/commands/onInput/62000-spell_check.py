@@ -79,7 +79,7 @@ class command():
           'mapfile','printf','read','readarray','source','type','typeset','ulimit','unalias']:
             return
         # ignore the application name
-         if currWord.upper() == 'FENRIR':
+        if currWord.upper() == 'FENRIR':
             return       
         if currWord[0] =='-':
             return
