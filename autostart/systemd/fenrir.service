@@ -10,4 +10,4 @@ Restart=on-abort
 #User=fenrir
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=sound.target
