@@ -71,14 +71,10 @@ class command():
             if not(newContent[self.env['screenData']['newCursor']['x']].isspace() and x != self.env['screenData']['newCursor']['x']):
                 return            
 
-        if currWord == '':
+        # ignore bash buildins and empty
+        if currWord in ['','cd','fg','bg','alias','bind','dir','caller','buildin','command','declare','echo','enable','help','let','local','logout',\
+          'mapfile','printf','read','readarray','source','type','typeset','ulimit','unalias']:
             return
-        if currWord == 'cd':
-            return        
-        if currWord == 'fg':
-            return        
-        if currWord == 'bg':
-            return                    
         if currWord.startswith('-'):
             return
         if currWord.startswith('/'):
@@ -87,6 +83,8 @@ class command():
             return
         if currWord.startswith('./'):
             return               
+        if '@' in currWord and '.' in currWord:
+            return            
         if currWord.startswith('@'):
             return            
         if currWord.isnumeric():
@@ -95,6 +93,7 @@ class command():
             return
         if currWord.isspace():
             return
+  
         try:
             if os.path.exists("/bin/"+currWord):
                 return
