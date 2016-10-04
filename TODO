@@ -22,7 +22,9 @@ ToDos in Priority order:
     curr item
     first item
     last item
-
+- implement onInput commands
+  arrow up/down read all not only diff (check for prompt and read after prompt)
+  
 - implement onScreenUpdate commands
   read highlighted text mode
 - add the debugging to core  
