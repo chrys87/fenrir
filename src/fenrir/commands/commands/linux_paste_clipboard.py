@@ -19,12 +19,22 @@ class command():
     def getDescription(self):
         return 'pastes the text from the currently selected clipboard'        
     
-    def run(self):
+    def run(self):    
         currClipboard = self.env['commandBuffer']['currClipboard']
         if currClipboard < 0:
             self.env['runtime']['outputManager'].presentText('clipboard empty', interrupt=True)
             return
-        self.env['runtime']['outputManager'].presentText('paste clipboard', soundIcon='PasedClipboardOnScreen', interrupt=True)
+        if not self.env['commandBuffer']['clipboard']:
+            self.env['runtime']['outputManager'].presentText('clipboard empty', interrupt=True)
+            return
+        if self.env['commandBuffer']['clipboard'][currClipboard]:
+            self.env['runtime']['outputManager'].presentText('clipboard empty', interrupt=True)
+            return 
+        if self.env['commandBuffer']['clipboard'][currClipboard] == '':
+            self.env['runtime']['outputManager'].presentText('clipboard empty', interrupt=True)
+            return                                         
+        self.env['runtime']['outputManager'].presentText('paste clipboard', soundIcon='PasteClipboardOnScreen', interrupt=True)
+        time.sleep(0.02)
         with open("/dev/tty" + self.env['screenData']['newTTY'], 'w') as fd:
             for c in self.env['commandBuffer']['clipboard'][currClipboard]:
                 fcntl.ioctl(fd, termios.TIOCSTI, c)
