@@ -19,10 +19,10 @@ class punctuationManager():
             self.allPunctNone[char] = None
         self.punctuation = {
         'levels':{
-          'NONE': '',
-          'SOME': '#-$~+*-/\\@',
-          'MOST': '.,:-$~+*-/\\@!#%^&*()[]}{<>;',
-          'ALL': string.punctuation,
+          'none': '',
+          'some': '#-$~+*-/\\@',
+          'most': '.,:-$~+*-/\\@!#%^&*()[]}{<>;',
+          'all': string.punctuation,
           },
         'punctuationDict':{
           '&':'and',
@@ -89,10 +89,19 @@ class punctuationManager():
     def proceedPunctuation(self, text, ignorePunctuation=False):
         resultText = self.useCustomDict(text, self.punctuation['customDict'])
         currPunctLevel = ''
-        if not ignorePunctuation and self.env['runtime']['settingsManager'].getSetting('general', 'punctuationLevel').upper() in self.punctuation['levels']:
-            currPunctLevel = self.punctuation['levels'][self.env['runtime']['settingsManager'].getSetting('general', 'punctuationLevel').upper()]
+        if not ignorePunctuation and self.env['runtime']['settingsManager'].getSetting('general', 'punctuationLevel').lower() in self.punctuation['levels']:
+            currPunctLevel = self.punctuation['levels'][self.env['runtime']['settingsManager'].getSetting('general', 'punctuationLevel').lower()]
         else:
             currPunctLevel = string.punctuation
         resultText = self.usePunctuationDict(resultText, self.punctuation['punctuationDict'], currPunctLevel)
         resultText = self.removeUnused(resultText)
         return resultText
+
+    def cyclePunctuation(self):
+        punctList =  list(self.punctuation['levels'].keys())
+        currIndex = punctList.index(self.env['runtime']['settingsManager'].getSetting('general', 'punctuationLevel').lower()) # curr punctuation
+        currIndex += 1
+        if currIndex >= len(punctList):
+            currIndex = 0
+        currLevel = punctList[currIndex]
+        self.env['runtime']['settingsManager'].setSetting('general', currLevel).lower()
