@@ -98,8 +98,11 @@ class punctuationManager():
         return resultText
 
     def cyclePunctuation(self):
-        punctList =  list(self.punctuation['levels'].keys())
-        currIndex = punctList.index(self.env['runtime']['settingsManager'].getSetting('general', 'punctuationLevel').lower()) # curr punctuation
+        punctList = list(self.punctuation['levels'].keys())
+        try:
+            currIndex = punctList.index(self.env['runtime']['settingsManager'].getSetting('general', 'punctuationLevel').lower()) # curr punctuation
+        except:
+            return
         currIndex += 1
         if currIndex >= len(punctList):
             currIndex = 0
