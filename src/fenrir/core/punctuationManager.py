@@ -102,9 +102,10 @@ class punctuationManager():
         try:
             currIndex = punctList.index(self.env['runtime']['settingsManager'].getSetting('general', 'punctuationLevel').lower()) # curr punctuation
         except:
-            return
+            return False
         currIndex += 1
         if currIndex >= len(punctList):
             currIndex = 0
         currLevel = punctList[currIndex]
-        self.env['runtime']['settingsManager'].setSetting('general', currLevel.lower())
+        self.env['runtime']['settingsManager'].setSetting('general', 'punctuationLevel', currLevel.lower())
+        return True
