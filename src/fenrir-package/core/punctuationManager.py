@@ -104,4 +104,4 @@ class punctuationManager():
         if currIndex >= len(punctList):
             currIndex = 0
         currLevel = punctList[currIndex]
-        self.env['runtime']['settingsManager'].setSetting('general', currLevel).lower()
+        self.env['runtime']['settingsManager'].setSetting('general', currLevel.lower())
