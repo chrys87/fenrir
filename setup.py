@@ -15,7 +15,7 @@ setup(
 
     # Application author details:
     author="Chrys and others",
-    author_email="chrys@web.de",
+    author_email="chrys87@web.de",
 
     # Packages
     packages=find_packages('src'),
@@ -32,7 +32,7 @@ setup(
     zip_safe=False,
     #
     # license="MIT",
-     description="An TTy  Screen Reader For Linux.",
+     description="An TTY  Screen Reader For Linux.",
     long_description=read('README.md'),
     classifiers=[
         "Development Status :: 3 - Alpha",
@@ -41,7 +41,7 @@ setup(
     install_requires=[
         "evdev",
         "sox",
-    	  	"python-espeak"
+    	"python-espeak"
     ],
     
 )
