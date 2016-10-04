@@ -24,6 +24,7 @@ class command():
         if currClipboard < 0:
             self.env['runtime']['outputManager'].presentText('clipboard empty', interrupt=True)
             return
+        self.env['runtime']['outputManager'].presentText('paste clipboard', soundIcon='PasedClipboardOnScreen', interrupt=True)
         with open("/dev/tty" + self.env['screenData']['newTTY'], 'w') as fd:
             for c in self.env['commandBuffer']['clipboard'][currClipboard]:
                 fcntl.ioctl(fd, termios.TIOCSTI, c)

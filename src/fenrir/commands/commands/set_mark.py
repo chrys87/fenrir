@@ -21,8 +21,10 @@ class command():
             self.env['runtime']['outputManager'].presentText('no review cursor', interrupt=True)
             return
 
-        self.env['runtime']['cursorManager'].setMark()
-        self.env['runtime']['outputManager'].presentText('set mark', interrupt=True)
- 
+        currMark = self.env['runtime']['cursorManager'].setMark()
+        if currMark == 1:
+            self.env['runtime']['outputManager'].presentText('set mark',soundIcon='PlaceStartMark', interrupt=True)
+        elif currMark == 2:
+            self.env['runtime']['outputManager'].presentText('set mark',soundIcon='PlaceEndMark', interrupt=True)
     def setCallback(self, callback):
         pass

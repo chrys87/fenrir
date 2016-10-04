@@ -31,13 +31,9 @@ class command():
         self.env['commandBuffer']['clipboard'] = [marked] + self.env['commandBuffer']['clipboard'][:self.env['runtime']['settingsManager'].getSettingAsInt('general', 'numberOfClipboards') -1]
         self.env['commandBuffer']['currClipboard'] = 0
         # reset marks
-        self.env['commandBuffer']['Marks']['1'] = None
-        self.env['commandBuffer']['Marks']['2'] = None
+        self.env['runtime']['cursorManager'].clearMarks()
         
-        if marked.isspace():
-            self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True)
-        else:
-            self.env['runtime']['outputManager'].presentText(marked, interrupt=True)
+        self.env['runtime']['outputManager'].presentText(marked, soundIcon='CopyToClipboard', interrupt=True)
 
     def setCallback(self, callback):
         pass
