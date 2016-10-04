@@ -17,7 +17,10 @@ class command():
         return ''           
     
     def run(self):
-        self.env['runtime']['punctuationManager'].cyclePunctuation()
-        self.env['runtime']['outputManager'].presentText(self.env['runtime']['settingsManager'].getSetting('general', 'punctuationLevel'), interrupt=True, ignorePunctuation=True)
+        if self.env['runtime']['punctuationManager'].cyclePunctuation():
+            self.env['runtime']['outputManager'].presentText(self.env['runtime']['settingsManager'].getSetting('general', 'punctuationLevel'), interrupt=True, ignorePunctuation=True)
+        else:
+            self.env['runtime']['outputManager'].presentText('No punctuation found.', interrupt=True, ignorePunctuation=True)
+            
     def setCallback(self, callback):
         pass
