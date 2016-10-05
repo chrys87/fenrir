@@ -26,7 +26,7 @@ class settingsManager():
         self.env = environment
     def shutdown(self):
         pass
-    def loadShortcuts(self, kbConfigPath='../../config/keyboard/desktop.conf'):
+    def loadShortcuts(self, kbConfigPath=os.path.dirname(os.path.realpath(__main__.__file__)) + '/../../config/keyboard/desktop.conf'):
         kbConfig = open(kbConfigPath,"r")
         while(True):
             line = kbConfig.readline()
@@ -159,8 +159,8 @@ class settingsManager():
         environment['runtime']['debug'] = debug.debug()
         environment['runtime']['debug'].initialize(environment)
         if not os.path.exists(settingsRoot):
-            if os.path.exists('../../config/'):
-                settingsRoot = '../../config/'
+            if os.path.exists(os.path.dirname(os.path.realpath(__main__.__file__)) +'/../../config/'):
+                settingsRoot = os.path.dirname(os.path.realpath(__main__.__file__)) +'/../../config/'
             else:
                 return None
                
