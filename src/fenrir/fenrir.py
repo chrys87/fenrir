@@ -5,9 +5,10 @@
 # By Chrys, Storm Dragon, and contributers.
 
 import os, sys, signal, time
+import __main__
 
-if not os.getcwd() in sys.path:
-    sys.path.append(os.getcwd())
+if not os.path.dirname(os.path.realpath(__main__.__file__)) in sys.path:
+    sys.path.append(os.path.dirname(os.path.realpath(__main__.__file__)))
 
 from core import settingsManager
 from core import debug
