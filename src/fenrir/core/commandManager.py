@@ -29,7 +29,7 @@ class commandManager():
         self.env['runtime']['commandManager'].shutdownCommands('onSwitchApplicationProfile') 
         
     def loadCommands(self, section='commands'):
-        commandFolder = "commands/" + section +"/"
+        commandFolder = os.path.dirname(os.path.realpath(__main__.__file__)) + "/commands/" + section +"/"
         commandList = glob.glob(commandFolder+'*')
         for command in commandList:
             try:
