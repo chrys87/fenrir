@@ -29,8 +29,6 @@ class command():
             return            
         prevLine = self.env['screenData']['oldContentText'].split('\n')[self.env['screenData']['newCursor']['y']]
         currLine = self.env['screenData']['newContentText'].split('\n')[self.env['screenData']['newCursor']['y']]
-        #if prevLine == currLine:
-        #    return
         if currLine.isspace():
             self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True)
         else:
@@ -47,7 +45,7 @@ class command():
                     announce = currLine[currPrompt+1:]
                 else:
                     announce = currLine                      
-            print(announce)
+
         if currLine.isspace():
             self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True)
         else:            

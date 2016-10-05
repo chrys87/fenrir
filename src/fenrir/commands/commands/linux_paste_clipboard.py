@@ -27,7 +27,7 @@ class command():
         if not self.env['commandBuffer']['clipboard']:
             self.env['runtime']['outputManager'].presentText('clipboard empty', interrupt=True)
             return
-        if self.env['commandBuffer']['clipboard'][currClipboard]:
+        if not self.env['commandBuffer']['clipboard'][currClipboard]:
             self.env['runtime']['outputManager'].presentText('clipboard empty', interrupt=True)
             return 
         if self.env['commandBuffer']['clipboard'][currClipboard] == '':
