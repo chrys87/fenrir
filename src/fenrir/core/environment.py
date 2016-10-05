@@ -18,6 +18,7 @@ environment = {
 'generalInformation': generalInformation.generalInformation,
 'settings': settings.settings,
 'commands': commands.commands,
+'commandsIgnore': commands.commandsIgnore,
 'commandInfo': commands.commandInfo,
 'commandBuffer': commands.commandBuffer,
 'input': inputEvent.input,

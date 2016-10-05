@@ -43,6 +43,7 @@ class commandManager():
                     command_mod = importlib.util.module_from_spec(spec)
                     spec.loader.exec_module(command_mod)
                     self.env['commands'][section][fileName.upper()] = command_mod.command()
+                    self.env['commandsIgnore'][section][fileName.upper()[fileName.upper().find('-')+1:]+'_IGNORE'] = False
                     self.env['commands'][section][fileName.upper()].initialize(self.env)
                     self.env['runtime']['debug'].writeDebugOut("Load command:" + section + "." + fileName.upper() ,debug.debugLevel.INFO)                    
                     
@@ -89,8 +90,12 @@ class commandManager():
         for command in sorted(self.env['commands'][trigger]):
             if self.commandExists(command, trigger):        
                 try:
-                   self.env['runtime']['debug'].writeDebugOut("Executing trigger.command:" + trigger + "." + command ,debug.debugLevel.INFO)                    
-                   self.env['commands'][trigger][command].run()                    
+                    if self.env['commandsIgnore'][trigger][command[command.find('-')+1:]+'_IGNORE']:
+                        self.env['commandsIgnore'][trigger][command[command.find('-')+1:]+'_IGNORE'] = False
+                        self.env['runtime']['debug'].writeDebugOut("Ignore trigger.command:" + trigger + "." + command ,debug.debugLevel.INFO)                                
+                    else:
+                        self.env['runtime']['debug'].writeDebugOut("Executing trigger.command:" + trigger + "." + command ,debug.debugLevel.INFO)                    
+                        self.env['commands'][trigger][command].run()                    
                 except Exception as e:
                     self.env['runtime']['debug'].writeDebugOut("Executing trigger:" + trigger + "." + command ,debug.debugLevel.ERROR)
                     self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR) 

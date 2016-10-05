@@ -43,3 +43,19 @@ commands = {
 'onSwitchApplicationProfile':{
     },
 }
+
+# used by the commandManager
+commandsIgnore = {
+'onInput':{
+    },
+'onScreenChanged':{
+    },
+'onScreenUpdate':{
+    },
+'onApplicationChange':{
+    },   
+'commands':{
+    },
+'onSwitchApplicationProfile':{
+    },
+}
