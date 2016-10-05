@@ -6,6 +6,7 @@
 
 import importlib.util
 import os
+import __main__
 from configparser import ConfigParser
 from core import inputManager
 from core import outputManager
@@ -128,7 +129,7 @@ class settingsManager():
         if self.env['runtime'][driverType] != None:
             print('shutdown %s',driverType)
             self.env['runtime'][driverType].shutdown(self.env)    
-        spec = importlib.util.spec_from_file_location(driverName, driverType + '/' + driverName + '.py')
+        spec = importlib.util.spec_from_file_location(driverName, os.path.dirname(os.path.realpath(__main__.__file__)) + "/" + driverType + '/' + driverName + '.py')
         driver_mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(driver_mod)
         self.env['runtime'][driverType] = driver_mod.driver()
