@@ -34,7 +34,7 @@ class command():
         if self.env['screenData']['newNegativeDelta'] == '':
             return
         # too much for a single backspace...
-        if len(self.env['screenData']['newNegativeDelta']) >= 5:
+        if len(self.env['screenData']['newNegativeDelta']) >= 2:
             return           
 
         self.env['runtime']['outputManager'].presentText(self.env['screenData']['newNegativeDelta'], interrupt=True, ignorePunctuation=True, announceCapital=True)

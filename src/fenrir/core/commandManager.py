@@ -34,6 +34,7 @@ class commandManager():
         commandList = glob.glob(commandFolder+'*')
         for command in commandList:
             try:
+                print(command)
                 fileName, fileExtension = os.path.splitext(command)
                 fileName = fileName.split('/')[-1]
                 if fileName in ['__init__','__pycache__']:
@@ -46,8 +47,8 @@ class commandManager():
                     self.env['commandsIgnore'][section][fileName.upper()[fileName.upper().find('-')+1:]+'_IGNORE'] = False
                     self.env['commands'][section][fileName.upper()].initialize(self.env)
                     self.env['runtime']['debug'].writeDebugOut("Load command:" + section + "." + fileName.upper() ,debug.debugLevel.INFO)                    
-                    
             except Exception as e:
+                print(e)
                 self.env['runtime']['debug'].writeDebugOut("Loading command:" + command ,debug.debugLevel.ERROR)
                 self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)                
                 continue
