@@ -127,7 +127,11 @@ class fenrir():
         time.sleep(0.2) # wait a little before splatter it :)
         self.environment = None
 
-if __name__ == "__main__":
+def main():
+    #if __name__ == "__main__":
     app = fenrir()
     app.proceed()
     del app
+
+if __name__ == "__main__":
+    main()        

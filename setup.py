@@ -18,11 +18,12 @@ setup(
     author_email="chrys87@web.de",
 
     # Packages
-    packages=find_packages('src/fenrir'),
+    packages=find_packages('fenrir'),
     package_dir={'': 'src/fenrir'},
-    entry_points = {
-        "console_scripts": ['fenrir = fenrir:fenrir']
-        },
+    scripts=['src/fenrir/fenrir'],
+    #entry_points = {
+    #    "console_scripts": ['fenrir = fenrir:main']
+    #    },
 
     # Include additional files into the package
     include_package_data=True,
@@ -46,4 +47,5 @@ setup(
     
 )
 
+print(find_packages())
 
