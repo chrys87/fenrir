@@ -6,6 +6,7 @@
 
 import importlib.util
 import glob, os, time
+import __main__
 from core import debug
 
 class commandManager():
