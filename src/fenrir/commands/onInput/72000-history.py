@@ -34,12 +34,12 @@ class command():
         else:
             currPrompt = currLine.find('$')
             rootPrompt = currLine.find('#')
-            if currPrompt == 0:
-                if rootPrompt != 0:
+            if currPrompt <= 0:
+                if rootPrompt > 0:
                     currPrompt = rootPrompt
                 else:
                     announce = currLine            
-            if currPrompt != 0:
+            if currPrompt > 0:
                 remove_digits = str.maketrans('0123456789', '          ')
                 if prevLine[:currPrompt].translate(remove_digits) == currLine[:currPrompt].translate(remove_digits):
                     announce = currLine[currPrompt+1:]
