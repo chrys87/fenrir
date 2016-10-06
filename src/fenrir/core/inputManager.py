@@ -115,8 +115,7 @@ class inputManager():
         try:
             if self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
                 self.env['runtime']['inputDriver'].writeEventBuffer()
-            
-            time.sleep(0.008)
+                time.sleep(0.008)
             self.clearEventBuffer()
             if len(self.env['input']['currInput']) == 1:              
                 if self.env['input']['currInput'][0] in ['KEY_UP','KEY_DOWN']:              
