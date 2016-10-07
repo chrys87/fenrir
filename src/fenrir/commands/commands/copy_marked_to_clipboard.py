@@ -18,10 +18,12 @@ class command():
         return 'copies marked text to the currently selected clipboard'    
     
     def run(self):
-        if not (self.env['commandBuffer']['Marks']['1'] and \
-          self.env['commandBuffer']['Marks']['2']):
-            self.env['runtime']['outputManager'].presentText("two marks needed", interrupt=True)
+        if not self.env['commandBuffer']['Marks']['1']:
+            self.env['runtime']['outputManager'].presentText("one or two marks needed", interrupt=True)
             return
+        if not self.env['commandBuffer']['Marks']['2']:
+            self.env['runtime']['cursorManager'].setMark()
+
         # use the last first and the last setted mark as range
         startMark = self.env['commandBuffer']['Marks']['1'].copy()
         endMark = self.env['commandBuffer']['Marks']['2'].copy()         

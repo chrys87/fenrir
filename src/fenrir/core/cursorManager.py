@@ -25,11 +25,16 @@ class cursorManager():
         return self.env['commandBuffer']['Marks']['1'] != None and \
           self.env['commandBuffer']['Marks']['2'] != None        
     def setMark(self):
+        currCursor = None
+        if self.env['screenData']['newCursorReview']:
+            currCursor = self.env['screenData']['newCursorReview'].copy()
+        else:
+            currCursor = self.env['screenData']['newCursor'].copy()
         if not self.env['commandBuffer']['Marks']['1']:
-            self.env['commandBuffer']['Marks']['1'] = self.env['screenData']['newCursorReview'].copy()
+            self.env['commandBuffer']['Marks']['1'] = currCursor.copy()
             return 1
         else:
-            self.env['commandBuffer']['Marks']['2'] = self.env['screenData']['newCursorReview'].copy()
+            self.env['commandBuffer']['Marks']['2'] = currCursor.copy()
             return 2
         return 0
     def getReviewOrTextCursor(self):
