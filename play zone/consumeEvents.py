@@ -31,6 +31,7 @@ while  i < 100:
         for fd in r:
             for event in iDevices[fd].read():
                 if event.code != 30:  # a
+                    print(event)
                     uDevices[fd].write_event(event)
                     uDevices[fd].syn()
                        #print('Devicename:'+ devices[fd].name + '  Devicepath:' + devices[fd].fn + '  Events:' + str(devices[fd].active_keys(verbose=True)) + '  Value:' + str(event.value))
