@@ -63,6 +63,7 @@ autoReadIncoming=True
 [braille]
 #braille is not implemented yet
 enabled=False
+driver=brlapi
 layout=en
 
 [screen]

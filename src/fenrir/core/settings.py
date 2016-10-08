@@ -29,6 +29,7 @@ settings = {
 },
 'braille':{
     'enabled': False, 
+    'driver':'brlapi',
     'layout': 'en',
 },
 'screen':{

@@ -16,11 +16,13 @@ class outputManager():
           self.env['runtime']['settingsManager'].getSetting('speech', 'driver'), 'speechDriver')    
         self.env['runtime']['settingsManager'].loadDriver(\
           self.env['runtime']['settingsManager'].getSetting('sound', 'driver'), 'soundDriver')    
-    
+        self.env['runtime']['settingsManager'].loadDriver(\
+          self.env['runtime']['settingsManager'].getSetting('braille', 'driver'), 'brailleDriver')      
     def shutdown(self):
         self.env['runtime']['settingsManager'].shutdownDriver('soundDriver')
         self.env['runtime']['settingsManager'].shutdownDriver('speechDriver')
-
+        self.env['runtime']['settingsManager'].shutdownDriver('brailleDriver')
+        
     def presentText(self, text, interrupt=True, soundIcon = '', ignorePunctuation=False, announceCapital=False):
         self.env['runtime']['debug'].writeDebugOut("presentText:\nsoundIcon:'"+soundIcon+"'\nText:\n" + text ,debug.debugLevel.INFO)
         if self.playSoundIcon(soundIcon, interrupt):
@@ -95,7 +97,7 @@ class outputManager():
             return
         if self.env['runtime']['brailleDriver'] == None:
             return        
-        print('braille:'+text)
+        self.env['runtime']['brailleDriver'].writeText(text)
 
     def interruptOutput(self):
         self.env['runtime']['speechDriver'].cancel()
