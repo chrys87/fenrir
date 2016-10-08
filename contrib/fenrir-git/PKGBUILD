@@ -3,10 +3,10 @@
 
 _gitname='fenrir'
 pkgname="${_gitname}-git"
-pkgver=v0.71.117.g4d87b22
+pkgver=v0.1.2.gb72614a
 pkgrel=1
 pkgdesc='A user space console screen reader written in python3'
-arch=('armv7' 'i686' 'x86_64')
+arch=('armv7h' 'i686' 'x86_64')
 url='https://github.com/chrys87/${_pkgname}'
 license=('MIT')
 depends=('python' 'python-espeak' 'python-evdev')
@@ -19,9 +19,9 @@ provides=('fenrir')
 conflicts=('fenrir')
 install="$pkgname".install
 source=("git+https://github.com/chrys87/${_gitname}.git"
-  'fenrir.service'
-  'fenrir.sh'
   'fenrir-git.install')
+md5sums=('SKIP'
+         '9d1e82fce2e02ae2a1216a18ca576bfb')
 
 pkgver()
 {
@@ -34,8 +34,16 @@ package()
 {
   cd "$srcdir/$_gitname"
   install -d "$pkgdir/usr/bin"
- install -d "$pkgdir/etc/fenrir"
-
+ install -d "$pkgdir/etc/fenrir/keyboard"
+ install -d "$pkgdir/etc/fenrir/settings"
+ install -d "$pkgdir/etc/fenrir/substitution"
+ install -d "$pkgdir/usr/share/sounds/fenrir"
+  install -m644 -D "autostart/systemd/fenrir.service" "$pkgdir/usr/lib/systemd/system/fenrir.service"
+  python setup.py install --root="${pkgdir}/" --optimize=1
+  cp -a config/keyboard/* "$pkgdir/etc/fenrir/keyboard"
+  cp -a config/settings/* "$pkgdir/etc/fenrir/settings"
+  cp -a config/sounds/* "$pkgdir/usr/share/sounds/fenrir"
+  cp -a config/substitution/* "$pkgdir/etc/fenrir/substitution"
 }
 
 # vim: set ts=2 sw=2 et:
