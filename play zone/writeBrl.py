@@ -2,7 +2,7 @@
 
 import brlapi
 
-brl =  = brlapi.Connection()
+brl = brlapi.Connection()
 print(brl.displaySize)
 print(brl.driverName)
 try:
