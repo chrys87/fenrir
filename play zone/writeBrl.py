@@ -4,7 +4,7 @@ import brlapi
 import time
 
 brl = brlapi.Connection()
-brl.enterTtyMode()
+brl.enterTtyModeWithPath()
 print('display size' + str(brl.displaySize))
 print('driver name'+str(brl.driverName))
 
