@@ -21,9 +21,9 @@ setup(
     packages=find_packages('src/fenrir'),
     package_dir={'': 'src/fenrir'},
     scripts=['src/fenrir/fenrir'],
-#    #entry_points = {
-#    #    "console_scripts": ['fenrir = fenrir:main']
-#    #    },
+    #entry_points = {
+    #    "console_scripts": ['fenrir = fenrir:main']
+    #    },
 
     # Include additional files into the package
     include_package_data=True,
