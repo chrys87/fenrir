@@ -97,7 +97,7 @@ class outputManager():
             return
         if self.env['runtime']['brailleDriver'] == None:
             return        
-        self.env['runtime']['brailleDriver'].writeText(text)
+        self.env['runtime']['brailleDriver'].writeText(text[:35])
 
     def interruptOutput(self):
         self.env['runtime']['speechDriver'].cancel()
