@@ -41,6 +41,8 @@ class screenManager():
           (screen in self.autoIgnoreScreens))
     
     def isScreenChange(self):
+        if not self.env['screenData']['oldTTY']:
+            return False
         return self.env['screenData']['newTTY'] != self.env['screenData']['oldTTY']
     
     def getWindowAreaInText(self, text):
@@ -57,13 +59,14 @@ class screenManager():
     def changeBrailleScreen(self):
         if not self.env['runtime']['brailleDriver']:
             return
-        if not self.isSuspendingScreen(self.env['screenData']['oldTTY']):
-            try:
-                self.env['runtime']['brailleDriver'].leveScreen() 
-            except Exception as e:
-                print(e)
+        if self.env['screenData']['oldTTY']:
+            if not self.isSuspendingScreen(self.env['screenData']['oldTTY']):
+                try:
+                    self.env['runtime']['brailleDriver'].leveScreen() 
+                except Exception as e:
+                    pass
         if not self.isSuspendingScreen():
             try:
                 self.env['runtime']['brailleDriver'].enterScreen(self.env['screenData']['newTTY'])      
             except Exception as e:                
-                print(e)
+                pass

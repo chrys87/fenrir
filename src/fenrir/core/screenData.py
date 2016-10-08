@@ -18,7 +18,7 @@ screenData = {
 'oldContentText': '',
 'oldContentAttrib': b'',
 'oldApplication': '',
-'oldTTY':'-1',
+'oldTTY':None,
 'newDelta': '',
 'newNegativeDelta': '',
 'newCursorReview':None,
