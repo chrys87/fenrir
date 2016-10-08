@@ -20,34 +20,42 @@ class driver():
             return
             
         try:
-            self.connectDevice()            
+            self.connectDevice()   
         except Exception as e:
-            self.env['runtime']['debug'].writeDebugOut('BRAILLE.connectDevice '+str(e),debug.debugLevel.ERROR)         
+            self.env['runtime']['debug'].writeDebugOut('BRAILLE.connectDevice '+str(e),debug.debugLevel.ERROR)
             return
         self._isInitialized = True
-        
+
     def flush(self):
         if not self._isInitialized:
             return
         try:
             self._brl.writeText('',0)
         except Exception as e:
-            self.env['runtime']['debug'].writeDebugOut('BRAILLE.flush '+str(e),debug.debugLevel.ERROR) 
-                    
+            self.env['runtime']['debug'].writeDebugOut('BRAILLE.flush '+str(e),debug.debugLevel.ERROR)
+    
     def writeText(self,text):
         if not self._isInitialized:
             return
         try:
             self._brl.writeText(text)
         except Exception as e:
-            self.env['runtime']['debug'].writeDebugOut('BRAILLE.writeText '+str(e),debug.debugLevel.ERROR) 
-            
+            self.env['runtime']['debug'].writeDebugOut('BRAILLE.writeText '+str(e),debug.debugLevel.ERROR)
+
     def connectDevice(self):
         self._brl = brlapi.Connection()
-        self._brl.enterTtyModeWithPath()    
-    
+
+    def enterTTY(self):
+        if not self._isInitialized:
+            return
+        self._brl.enterTtyModeWithPath()
+
+    def leveTTY(self):
+        if not self._isInitialized:
+            return
+        self._brl.leaveTtyMode()
+
     def shutdown(self):
         if not self._isInitialized:
             return
-        self._brl.leaveTtyMode()       
-             
+        self.leveTTY()
