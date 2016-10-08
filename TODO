@@ -5,6 +5,23 @@ ToDos in Priority order:
   gstreamer sounddriver doesnt work (i think it needs a Glib 
 
 - parse punctuation setting file in conf/substitution
+
+- implement braille
+  output to braille device
+  virtual buffer area for scroll left/right if the line is to long for device
+  commands for scroll left/right
+  print cursor in review
+  print cursor in textmode
+  flush message after X seconds and show current line (review over text)
+  make flush configurable
+  leve review mode on typing (show current textline)
+  capture input from braile
+  make routing keys assignable in keyboard
+  tweak current commands and output
+http://mielke.cc/brltty/doc/Manual-BrlAPI/English/BrlAPI.html
+https://git.gnome.org/browse/orca/tree/src/orca/braille.py
+https://wiki.gnome.org/Attic/LSR/ScratchPad/Braille/BrlAPI
+
 - announce capslock
 - anounce numlock
 - anounce scroll
@@ -31,11 +48,6 @@ https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Sy
 
 - implement autodetection of plugged and removed input devices (python-pyudev)
 http://askubuntu.com/questions/508236/how-can-i-run-code-whenever-a-usb-device-is-unplugged-without-requiring-root
-
-- implement braille
-httstormp://mielke.cc/brltty/doc/Manual-BrlAPI/English/BrlAPI.html
-https://git.gnome.org/browse/orca/tree/src/orca/braille.py
-https://wiki.gnome.org/Attic/LSR/ScratchPad/Braille/BrlAPI
 
 - configuration should be overwriteable with parameter and alternative paths
 - write settings
