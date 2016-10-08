@@ -32,6 +32,7 @@ https://wiki.gnome.org/Attic/LSR/ScratchPad/Braille/BrlAPI
 - per application shortcuts
 - implement commands
   attributes_curr_char
+  command for run configurable scripts as subprocess/ pass environment[screenData]
   toggle_highlighted_mode
   generic list command (convert clipboard management)
     next item
