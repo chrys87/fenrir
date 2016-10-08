@@ -9,7 +9,7 @@ from core import debug
 class driver():
     def __init__(self):
         self._isInitialized = False
-        self.brl = None
+        self._brl = None
 
     def initialize(self, environment):
         self.env = environment
@@ -30,7 +30,7 @@ class driver():
         if not self._isInitialized:
             return
         try:
-            self.brl.writeText('',0)
+            self._brl.writeText('',0)
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('BRAILLE.flush '+str(e),debug.debugLevel.ERROR) 
                     
@@ -38,16 +38,16 @@ class driver():
         if not self._isInitialized:
             return
         try:
-            self.brl.writeText(text)
+            self._brl.writeText(text)
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('BRAILLE.writeText '+str(e),debug.debugLevel.ERROR) 
             
     def connectDevice(self):
-        self.brl = brlapi.Connection()
-        self.brl.enterTtyModeWithPath()    
+        self._brl = brlapi.Connection()
+        self._brl.enterTtyModeWithPath()    
     
     def shutdown(self):
         if not self._isInitialized:
             return
-        self.brl.leaveTtyMode()       
+        self._brl.leaveTtyMode()       
              
