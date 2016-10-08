@@ -42,7 +42,7 @@ package()
   python setup.py install --root="${pkgdir}/" --optimize=1
   cp -a config/keyboard/* "$pkgdir/etc/fenrir/keyboard"
   cp -a config/settings/* "$pkgdir/etc/fenrir/settings"
-  cp -a config/sounds/* "$pkgdir/usr/share/sounds/fenrir"
+  cp -a config/sound/* "$pkgdir/usr/share/sounds/fenrir"
   cp -a config/substitution/* "$pkgdir/etc/fenrir/substitution"
 }
 
