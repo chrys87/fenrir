@@ -16,12 +16,14 @@ class driver():
         try:
             import brlapi
         except Exception as e:
+            print(e)
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)                 
             return
             
         try:
-            self.connectDevice()   
+            self._brl = brlapi.Connection()  
         except Exception as e:
+            print(e)
             self.env['runtime']['debug'].writeDebugOut('BRAILLE.connectDevice '+str(e),debug.debugLevel.ERROR)
             return
         self._isInitialized = True
@@ -48,7 +50,7 @@ class driver():
     def enterScreen(self, screen):
         if not self._isInitialized:
             return
-        self._brl.enterTtyMode(screen)
+        self._brl.enterTtyMode(int(screen))
 
     def leveScreen(self):
         if not self._isInitialized:

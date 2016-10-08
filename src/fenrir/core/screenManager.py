@@ -58,6 +58,12 @@ class screenManager():
         if not self.env['runtime']['brailleDriver']:
             return
         if not self.isSuspendingScreen(self.env['screenData']['oldTTY']):
-            self.env['runtime']['brailleDriver'].leveScreen() 
+            try:
+                self.env['runtime']['brailleDriver'].leveScreen() 
+            except Exception as e:
+                print(e)
         if not self.isSuspendingScreen():
-            self.env['runtime']['brailleDriver'].enterScreen(self.env['screenData']['newTTY'])      
+            try:
+                self.env['runtime']['brailleDriver'].enterScreen(self.env['screenData']['newTTY'])      
+            except Exception as e:                
+                print(e)
