@@ -14,5 +14,6 @@ try:
     brl.writeText(  'this is a 5 second test')
 except Exception as e:
     print(e)
-brl.leaveTtyMode()    
 time.sleep(5)
+brl.leaveTtyMode()    
+
