@@ -45,12 +45,12 @@ class driver():
     def connectDevice(self):
         self._brl = brlapi.Connection()
 
-    def enterTTY(self):
+    def enterScreen(self, screen):
         if not self._isInitialized:
             return
-        self._brl.enterTtyModeWithPath()
+        self._brl.enterTtyMode(screen)
 
-    def leveTTY(self):
+    def leveScreen(self):
         if not self._isInitialized:
             return
         self._brl.leaveTtyMode()
@@ -58,4 +58,4 @@ class driver():
     def shutdown(self):
         if not self._isInitialized:
             return
-        self.leveTTY()
+        self.leveScreen()

@@ -24,16 +24,21 @@ class screenManager():
     def update(self, trigger='onUpdate'):
         self.env['runtime']['screenDriver'].getCurrScreen()
         self.env['screenData']['oldApplication'] = self.env['screenData']['newApplication']            
-        if not self.isSuspendingScreen():       
+        if self.isScreenChange():
+            self.changeBrailleScreen()                                          
+        if not self.isSuspendingScreen(self.env['screenData']['newTTY']):       
             self.env['runtime']['screenDriver'].update(trigger)
-            if trigger == 'onUpdate' or self.isScreenChange() or len(self.env['screenData']['newDelta']) > 6:
+            if trigger == 'onUpdate' or self.isScreenChange() \
+              or len(self.env['screenData']['newDelta']) > 6:
                 self.env['runtime']['screenDriver'].getCurrApplication() 
             self.env['screenData']['lastScreenUpdate'] = time.time()
 
-    def isSuspendingScreen(self):
-        return ((self.env['screenData']['newTTY'] in \
+    def isSuspendingScreen(self, screen = None):
+        if screen == None:
+            screen = self.env['screenData']['newTTY']
+        return ((screen in \
           self.env['runtime']['settingsManager'].getSetting('screen', 'suspendingScreen').split(',')) or
-          (self.env['screenData']['newTTY'] in self.autoIgnoreScreens))
+          (screen in self.autoIgnoreScreens))
     
     def isScreenChange(self):
         return self.env['screenData']['newTTY'] != self.env['screenData']['oldTTY']
@@ -48,4 +53,11 @@ class screenManager():
         for line in windowList:
             windowText += line[self.env['commandBuffer']['windowArea'][currApp]['1']['x']:self.env['commandBuffer']['windowArea'][currApp]['2']['x'] + 1] + '\n'
         return windowText
-
+  
+    def changeBrailleScreen(self):
+        if not self.env['runtime']['brailleDriver']:
+            return
+        if not self.isSuspendingScreen(self.env['screenData']['oldTTY']):
+            self.env['runtime']['brailleDriver'].leveScreen() 
+        if not self.isSuspendingScreen():
+            self.env['runtime']['brailleDriver'].enterScreen(self.env['screenData']['newTTY'])      
