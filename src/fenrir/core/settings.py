@@ -41,6 +41,7 @@ settings = {
 },
 'general':{
   'debugLevel': debug.debugLevel.DEACTIVE,
+  'punctuationProfile':'default',
   'punctuationLevel': 1,
   'numberOfClipboards': 10,
   'fenrirKeys': ['KEY_KP0'],

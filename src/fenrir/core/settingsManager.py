@@ -33,6 +33,8 @@ class settingsManager():
             if not line:
                 break
             line = line.replace('\n','')
+            if line.replace(" ","") == '':
+                continue            
             if line.replace(" ","").startswith("#"):
                 continue
             if line.count("=") != 1:
@@ -64,6 +66,8 @@ class settingsManager():
             if not line:
                 break
             line = line.replace('\n','')
+            if line.replace(" ","") == '':
+                continue            
             if line.replace(" ","").startswith("#"):
                 continue
             if line.count("=") != 1:
@@ -82,6 +86,33 @@ class settingsManager():
                     soundIconFile = soundIconPath + Values[1]
             self.env['soundIcons'][soundIcon] = soundIconFile
         siConfig.close()
+
+    def loadDicts(self, dictConfigPath=os.path.dirname(os.path.realpath(__main__.__file__)) + '/../../config/punctuation/default.conf'):
+        dictConfig = open(dictConfigPath,"r")
+        currDictName = ''
+        while(True):
+            line = dictConfig.readline()
+            if not line:
+                break
+            line = line.replace('\n','')
+            if line.replace(" ","") == '':
+                continue
+            if line.replace(" ","").startswith("#"):
+                continue
+            if line.replace(" ","").upper().startswith("[") and \
+              line.replace(" ","").upper().endswith("DICT]"):
+                currDictName = line[line.find('[') + 1 :line.upper().find('DICT]') + 4].upper()
+            else:
+                if currDictName == '':
+                    continue
+                if not ":===:" in line:
+                    continue
+                sepLine = line.split(':===:')
+                if len(sepLine) != 2:
+                    sepLine.append('')
+                self.env['punctuation'][currDictName][sepLine[0]] = sepLine[1]
+                self.env['runtime']['debug'].writeDebugOut("Punctuation: " + currDictName + '.' + str(sepLine[0]) + ' :' + sepLine[1] ,debug.debugLevel.INFO)    
+        dictConfig.close()
 
     def loadSettings(self, settingConfigPath):
         if not os.path.exists(settingConfigPath):
@@ -188,6 +219,16 @@ class settingsManager():
                     environment['runtime']['settingsManager'].loadSoundIcons(self.getSetting('sound','theme'))
         else:
             environment['runtime']['settingsManager'].loadSoundIcons(self.getSetting('sound','theme'))
+
+        if not os.path.exists(self.getSetting('general','punctuationProfile')):
+            if os.path.exists(settingsRoot + 'punctuation/' + self.getSetting('general','punctuationProfile')):  
+                self.setSetting('general', 'punctuationProfile', settingsRoot + 'punctuation/' + self.getSetting('general','punctuationProfile'))
+                environment['runtime']['settingsManager'].loadDicts(self.getSetting('general','punctuationProfile'))
+            if os.path.exists(settingsRoot + 'punctuation/' + self.getSetting('general','punctuationProfile') + '.conf'):  
+                self.setSetting('general', 'punctuationProfile', settingsRoot + 'punctuation/' + self.getSetting('general','punctuationProfile') + '.conf')
+                environment['runtime']['settingsManager'].loadDicts(self.getSetting('general','punctuationProfile'))
+        else:
+            environment['runtime']['settingsManager'].loadDicts(self.getSetting('general','punctuationProfile'))
 
         environment['runtime']['inputManager'] = inputManager.inputManager()
         environment['runtime']['inputManager'].initialize(environment)             

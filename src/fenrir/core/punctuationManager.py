@@ -17,55 +17,6 @@ class punctuationManager():
         # dot, comma, grave, apostrophe
         for char in [ord('.'),ord(','),ord('`'),ord("'")]:
             self.allPunctNone[char] = None
-        self.punctuation = {
-        'levels':{
-          'none': '',
-          'some': '#-$~+*-/\\@',
-          'most': '.,:-$~+*-/\\@!#%^&*()[]}{<>;',
-          'all': string.punctuation,
-          },
-        'punctuationDict':{
-          '&':'and',
-          "'":"apostrophe",
-          '@':'at',
-          '\\':'backslash',
-          '|':'bar',
-          '!':'bang',
-          '^':'carrot',
-          ':':'colon',
-          ',':'comma',
-          '-':'dash',
-          '$':'dollar',
-          '.':'dot',
-          '>':'greater',
-          '`':'grave',
-          '#':'hash',
-          '{':'left brace',
-          '[':'left bracket',
-          '(':'left paren',
-          '<':'less',
-          '%':'percent',
-          '+':'plus',
-          '?':'question',
-          '"':'quote',
-          ')':'right paren',
-          '}':'right brace',
-          ']':'right bracket',
-          ';':'semicolon',
-          '/':'slash',
-          '*':'star',
-          '~':'tilde',
-          '_':'line',
-          '=':'equals',
-          },
-        'customDict':{
-          ':)':'smiley',
-          ';)':'winking face',
-          'XD':'loool',
-          ':@':'angry face',
-          ':D':'lought'
-          }          
-        }
     def shutdown(self):
         pass
     def removeUnused(self, text):
@@ -87,18 +38,19 @@ class punctuationManager():
         return resultText
     
     def proceedPunctuation(self, text, ignorePunctuation=False):
-        resultText = self.useCustomDict(text, self.punctuation['customDict'])
+        resultText = self.useCustomDict(text, self.env['punctuation']['CUSTOMDICT'])
+        resultText = self.useCustomDict(text, self.env['punctuation']['EMOJDICT'])
         currPunctLevel = ''
-        if not ignorePunctuation and self.env['runtime']['settingsManager'].getSetting('general', 'punctuationLevel').lower() in self.punctuation['levels']:
-            currPunctLevel = self.punctuation['levels'][self.env['runtime']['settingsManager'].getSetting('general', 'punctuationLevel').lower()]
+        if not ignorePunctuation and self.env['runtime']['settingsManager'].getSetting('general', 'punctuationLevel').lower() in self.env['punctuation']['LEVELDICT']:
+            currPunctLevel = self.env['punctuation']['LEVELDICT'][self.env['runtime']['settingsManager'].getSetting('general', 'punctuationLevel').lower()]
         else:
             currPunctLevel = string.punctuation
-        resultText = self.usePunctuationDict(resultText, self.punctuation['punctuationDict'], currPunctLevel)
+        resultText = self.usePunctuationDict(resultText, self.env['punctuation']['PUNCTDICT'], currPunctLevel)
         resultText = self.removeUnused(resultText)
         return resultText
 
     def cyclePunctuation(self):
-        punctList = list(self.punctuation['levels'].keys())
+        punctList = list(self.env['punctuation']['LEVELDICT'].keys())
         try:
             currIndex = punctList.index(self.env['runtime']['settingsManager'].getSetting('general', 'punctuationLevel').lower()) # curr punctuation
         except:

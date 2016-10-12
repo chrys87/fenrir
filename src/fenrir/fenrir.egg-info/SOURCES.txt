@@ -1,7 +1,5 @@
 setup.py
 src/fenrir/fenrir
-src/fenrir/braille/__init__.py
-src/fenrir/braille/braille.py
 src/fenrir/commands/__init__.py
 src/fenrir/commands/command_template.py
 src/fenrir/commands/switchTrigger_template.py
