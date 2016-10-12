@@ -51,6 +51,7 @@ debugLevel=0
 punctuationProfile=default
 punctuationLevel=some
 numberOfClipboards=10
+emoticons=True
 fenrirKeys=KEY_KP0
 timeFormat=%H:%M:%P
 dateFormat="%A, %B %d, %Y"

@@ -44,6 +44,7 @@ settings = {
   'punctuationProfile':'default',
   'punctuationLevel': 1,
   'numberOfClipboards': 10,
+  'emoticons': True,
   'fenrirKeys': ['KEY_KP0'],
   'timeFormat': '%I:%M%P',
   'dateFormat': '%A, %B %d, %Y',
