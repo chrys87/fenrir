@@ -118,19 +118,8 @@ class driver():
         
     def grabDevices(self):
         for fd in self.iDevices:
-            dev = self.iDevices[fd]
-            cap = dev.capabilities()
-            del cap[0]
-            self.uDevices[fd] = UInput(
-              cap,
-              dev.name,
-              #dev.info.vendor,
-              #dev.info.product,
-              #dev.version,
-              #dev.info.bustype,
-              #'/dev/uinput'
-              )
-            dev.grab()
+            self.uDevices[fd] = UInput.from_device(self.iDevices[fd].fn)
+            self.iDevices[fd].grab()
 
     def releaseDevices(self):
         for fd in self.iDevices:
