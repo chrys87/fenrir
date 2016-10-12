@@ -108,8 +108,12 @@ class settingsManager():
                 if not ":===:" in line:
                     continue
                 sepLine = line.split(':===:')
-                if len(sepLine) != 2:
+                if len(sepLine) == 1:
                     sepLine.append('')
+                elif len(sepLine) < 1:
+                    continue
+                elif len(sepLine) > 2:
+                    sepLine[1] = ':===:'
                 self.env['punctuation'][currDictName][sepLine[0]] = sepLine[1]
                 self.env['runtime']['debug'].writeDebugOut("Punctuation: " + currDictName + '.' + str(sepLine[0]) + ' :' + sepLine[1] ,debug.debugLevel.INFO)    
         dictConfig.close()
