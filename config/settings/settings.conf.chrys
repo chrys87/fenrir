@@ -97,6 +97,7 @@ doubleTapDelay=0.2
 
 [general]
 debugLevel=1
+punctuationProfile=default
 punctuationLevel=Some
 numberOfClipboards=10
 # define the current fenrir key
