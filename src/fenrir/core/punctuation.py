@@ -51,7 +51,7 @@ punctuation = {
 'CUSTOMDICT':{
   'chrys': 'nice chrys'
   }, 
-'EMOJDICT':{
+'EMOTICONDICT':{
   ':)':'smiley',
   ';)':'winking face',
   'XD':'loool',
