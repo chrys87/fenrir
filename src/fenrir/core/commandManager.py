@@ -34,10 +34,9 @@ class commandManager():
         commandList = glob.glob(commandFolder+'*')
         for command in commandList:
             try:
-                print(command)
                 fileName, fileExtension = os.path.splitext(command)
                 fileName = fileName.split('/')[-1]
-                if fileName in ['__init__','__pycache__']:
+                if fileName.startswith('__'):
                     continue
                 if fileExtension.lower() == '.py':
                     spec = importlib.util.spec_from_file_location(fileName, command)
@@ -46,7 +45,7 @@ class commandManager():
                     self.env['commands'][section][fileName.upper()] = command_mod.command()
                     self.env['commandsIgnore'][section][fileName.upper()[fileName.upper().find('-')+1:]+'_IGNORE'] = False
                     self.env['commands'][section][fileName.upper()].initialize(self.env)
-                    self.env['runtime']['debug'].writeDebugOut("Load command:" + section + "." + fileName.upper() ,debug.debugLevel.INFO)                    
+                    self.env['runtime']['debug'].writeDebugOut("Load command:" + section + "." + fileName.upper() ,debug.debugLevel.INFO, onAnyLevel=True)                    
             except Exception as e:
                 print(e)
                 self.env['runtime']['debug'].writeDebugOut("Loading command:" + command ,debug.debugLevel.ERROR)

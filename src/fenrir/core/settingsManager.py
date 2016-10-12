@@ -55,7 +55,7 @@ class settingsManager():
                     shortcutKeys.append(key.upper()) 
             shortcut.append(shortcutRepeat)
             shortcut.append(sorted(shortcutKeys))
-            self.env['runtime']['debug'].writeDebugOut("Shortcut: "+ str(shortcut) + ' command:' +commandName ,debug.debugLevel.INFO)    
+            self.env['runtime']['debug'].writeDebugOut("Shortcut: "+ str(shortcut) + ' command:' +commandName ,debug.debugLevel.INFO, onAnyLevel=True)    
             self.env['bindings'][str(shortcut)] = commandName     
         kbConfig.close()
 
@@ -85,6 +85,7 @@ class settingsManager():
                 if os.path.exists(soundIconPath + Values[1]):
                     soundIconFile = soundIconPath + Values[1]
             self.env['soundIcons'][soundIcon] = soundIconFile
+            self.env['runtime']['debug'].writeDebugOut("SoundIcon: " + soundIcon + '.' + soundIconFile, debug.debugLevel.INFO, onAnyLevel=True)               
         siConfig.close()
 
     def loadDicts(self, dictConfigPath=os.path.dirname(os.path.realpath(__main__.__file__)) + '/../../config/punctuation/default.conf'):
@@ -115,7 +116,7 @@ class settingsManager():
                 elif len(sepLine) > 2:
                     sepLine[1] = ':===:'
                 self.env['punctuation'][currDictName][sepLine[0]] = sepLine[1]
-                self.env['runtime']['debug'].writeDebugOut("Punctuation: " + currDictName + '.' + str(sepLine[0]) + ' :' + sepLine[1] ,debug.debugLevel.INFO)    
+                self.env['runtime']['debug'].writeDebugOut("Punctuation: " + currDictName + '.' + str(sepLine[0]) + ' :' + sepLine[1] ,debug.debugLevel.INFO, onAnyLevel=True)    
         dictConfig.close()
 
     def loadSettings(self, settingConfigPath):
@@ -251,10 +252,10 @@ class settingsManager():
             environment['runtime']['screenManager'] = screenManager.screenManager()
             environment['runtime']['screenManager'].initialize(environment) 
             
-        environment['runtime']['debug'].writeDebugOut('\/-------environment-------\/',debug.debugLevel.ERROR)        
-        environment['runtime']['debug'].writeDebugOut(str(environment),debug.debugLevel.ERROR)
-        environment['runtime']['debug'].writeDebugOut('\/-------settings.conf-------\/',debug.debugLevel.ERROR)        
+        environment['runtime']['debug'].writeDebugOut('\/-------environment-------\/',debug.debugLevel.INFO, onAnyLevel=True)        
+        environment['runtime']['debug'].writeDebugOut(str(environment),debug.debugLevel.INFO, onAnyLevel=True)
+        environment['runtime']['debug'].writeDebugOut('\/-------settings.conf-------\/',debug.debugLevel.INFO, onAnyLevel=True)        
         environment['runtime']['debug'].writeDebugOut(str(environment['settings']._sections
-),debug.debugLevel.ERROR)        
+),debug.debugLevel.INFO, onAnyLevel=True)        
         return environment
      
