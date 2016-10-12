@@ -49,7 +49,7 @@ punctuation = {
   '=':'equals',
   },
 'CUSTOMDICT':{
-  'chrys': 'king chrys'
+  'chrys': 'nice chrys'
   }, 
 'EMOJDICT':{
   ':)':'smiley',

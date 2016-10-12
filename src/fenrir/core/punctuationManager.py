@@ -38,8 +38,9 @@ class punctuationManager():
         return resultText
     
     def proceedPunctuation(self, text, ignorePunctuation=False):
-        resultText = self.useCustomDict(text, self.env['punctuation']['CUSTOMDICT'])
-        resultText = self.useCustomDict(text, self.env['punctuation']['EMOJDICT'])
+        resultText = text
+        resultText = self.useCustomDict(resultText, self.env['punctuation']['CUSTOMDICT'])
+        resultText = self.useCustomDict(resultText, self.env['punctuation']['EMOJDICT'])
         currPunctLevel = ''
         if not ignorePunctuation and self.env['runtime']['settingsManager'].getSetting('general', 'punctuationLevel').lower() in self.env['punctuation']['LEVELDICT']:
             currPunctLevel = self.env['punctuation']['LEVELDICT'][self.env['runtime']['settingsManager'].getSetting('general', 'punctuationLevel').lower()]
