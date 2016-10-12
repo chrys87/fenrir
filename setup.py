@@ -18,7 +18,7 @@ setup(
     author_email="chrys87@web.de",
 
     # Packages
-    packages=find_packages('fenrir'),
+    packages=find_packages('src/fenrir'),
     package_dir={'': 'src/fenrir'},
     scripts=['src/fenrir/fenrir'],
     #entry_points = {
