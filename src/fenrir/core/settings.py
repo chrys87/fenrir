@@ -66,6 +66,6 @@ settings = {
   'charDeleteEcho': True,
   'wordEcho': True,
   'interruptOnKeyPress': True,
-  'doubleTapDelay': 0.2,
+  'doubleTapTimeout': 0.2,
 }
 }

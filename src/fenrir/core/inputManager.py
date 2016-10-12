@@ -51,7 +51,7 @@ class inputManager():
                     if len(self.env['input']['prevDeepestInput']) < len(self.env['input']['currInput']):
                         self.env['input']['prevDeepestInput'] = self.env['input']['currInput'].copy()
                     elif self.env['input']['prevDeepestInput'] == self.env['input']['currInput']:
-                        if time.time() - self.env['input']['lastInputTime']  <= self.env['runtime']['settingsManager'].getSettingAsFloat('keyboard','doubleTapDelay'):
+                        if time.time() - self.env['input']['lastInputTime']  <= self.env['runtime']['settingsManager'].getSettingAsFloat('keyboard','doubleTapTimeout'):
                             self.env['input']['shortcutRepeat'] += 1
                         else:
                             self.env['input']['shortcutRepeat'] = 1

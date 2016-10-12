@@ -93,7 +93,7 @@ wordEcho=False
 # interrupt speech on any keypress
 interruptOnKeyPress=False
 # timeout for double tap in sec
-doubleTapDelay=0.2
+doubleTapTimeout=0.2
 
 [general]
 debugLevel=1
