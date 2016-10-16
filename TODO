@@ -4,6 +4,11 @@ ToDos in Priority order:
   Fenrir key sometimes wents crazy?
   gstreamer sounddriver doesnt work (i think it needs a Glib 
 
+- add pause handling
+  create pause
+  make duration of pause configurable
+  make it configurable when the pause the pause happens
+
 - implement braille
   output to braille device
   virtual buffer area for scroll left/right if the line is to long for device
