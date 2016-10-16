@@ -34,6 +34,7 @@ class inputManager():
         if mEvent:
             mEvent['EventName'] = self.convertEventName(mEvent['EventName'])        
             eventReceived = True
+            self.env['input']['prevInput'] = self.env['input']['currInput'].copy()
             if mEvent['EventState'] == 0:
                 if mEvent['EventName'] in self.env['input']['currInput']:
                     self.env['input']['currInput'].remove(mEvent['EventName'])
@@ -66,7 +67,8 @@ class inputManager():
             self.env['input']['newCapsLock'] = self.env['runtime']['inputDriver'].getCapslock()
             self.env['input']['oldScrollLock'] = self.env['input']['newScrollLock'] 
             self.env['input']['newScrollLock'] = self.env['runtime']['inputDriver'].getScrollLock()
-
+            if self.noKeyPressed():
+                self.env['input']['prevInput'] = []
         return eventReceived
     
     def grabDevices(self):
@@ -138,7 +140,8 @@ class inputManager():
         shortcut = []
         shortcut.append(self.env['input']['shortcutRepeat'])
         shortcut.append(self.env['input']['prevDeepestInput'])
-
+        return str(shortcut)
+        
     def getPrevShortcut(self):
         shortcut = []
         shortcut.append(self.env['input']['shortcutRepeat'])
@@ -149,6 +152,12 @@ class inputManager():
         shortcut = []
         shortcut.append(self.env['input']['shortcutRepeat'])
         shortcut.append(self.env['input']['currInput'])
+        if len(self.env['input']['prevInput']) < len(self.env['input']['currInput']):
+            if self.env['input']['shortcutRepeat'] > 1  and not self.shortcutExists(str(shortcut)):
+                shortcut = []
+                self.env['input']['shortcutRepeat'] = 1
+                shortcut.append(self.env['input']['shortcutRepeat'])
+                shortcut.append(self.env['input']['currInput'])     
         return str(shortcut)
         
     def isFenrirKey(self, eventName):

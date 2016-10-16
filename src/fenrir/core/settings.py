@@ -22,9 +22,9 @@ settings = {
     'pitch': 0.5,
     'capitalPitch':0.8,
     'volume': 1.0,    
-    'module': '',
-    'voice': 'de',
-    'language': 'de',
+    'module': 'espeak',
+    'voice': 'en',
+    'language': 'en',
     'autoReadIncoming': True,
 },
 'braille':{
