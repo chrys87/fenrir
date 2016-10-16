@@ -41,7 +41,8 @@ class inputManager():
                         self.env['input']['currInput'] = sorted(self.env['input']['currInput'])
                     if len(self.env['input']['currInput']) == 0:
                         self.env['input']['prevDeepestInput'] = []
-                        self.env['input']['shortcutRepeat'] = 1                            
+                        self.env['input']['shortcutRepeat'] = 1 
+                    self.env['input']['lastInputTime'] = time.time()                                                   
             elif mEvent['EventState'] == 1:
                 if not mEvent['EventName'] in self.env['input']['currInput']:
                     self.env['input']['currInput'].append(mEvent['EventName'])
@@ -50,8 +51,11 @@ class inputManager():
                     if len(self.env['input']['prevDeepestInput']) < len(self.env['input']['currInput']):
                         self.env['input']['prevDeepestInput'] = self.env['input']['currInput'].copy()
                     elif self.env['input']['prevDeepestInput'] == self.env['input']['currInput']:
-                        self.env['input']['shortcutRepeat'] += 1
-                                               
+                        if time.time() - self.env['input']['lastInputTime']  <= self.env['runtime']['settingsManager'].getSettingAsFloat('keyboard','doubleTapTimeout'):
+                            self.env['input']['shortcutRepeat'] += 1
+                        else:
+                            self.env['input']['shortcutRepeat'] = 1
+                    self.env['input']['lastInputTime'] = time.time()                                               
             elif mEvent['EventState'] == 2:
                 pass
             else:
@@ -62,7 +66,7 @@ class inputManager():
             self.env['input']['newCapsLock'] = self.env['runtime']['inputDriver'].getCapslock()
             self.env['input']['oldScrollLock'] = self.env['input']['newScrollLock'] 
             self.env['input']['newScrollLock'] = self.env['runtime']['inputDriver'].getScrollLock()
-            self.env['input']['lastInputTime'] = time.time()
+
         return eventReceived
     
     def grabDevices(self):

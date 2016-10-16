@@ -1,0 +1,11 @@
+# pack-refs with: peeled fully-peeled 
+ececc5ffb8e4b757948606b5df37873fad345735 refs/heads/inputHandlingRework
+6ec714e494427833f92360eef428fb4cede32993 refs/heads/master
+00af1314938d46457b57346b28463404918ffdfb refs/heads/path-rework
+5fda1b3573a171de7dc53a1d77cbc340b999d2c6 refs/heads/preRewrite
+f282593b814141f9b0cc25fcb8a02dfffa97eb70 refs/heads/useFileMagic
+0275cd421b9905d0e316c4dd077f6b2113eaccbb refs/pull/1/head
+4b4fcb56dbed20801cb47fd82961b1d496f98faf refs/pull/2/head
+5fda1b3573a171de7dc53a1d77cbc340b999d2c6 refs/pull/3/head
+db6990b719bd2e14c1adb2b47dbe40030f8169a0 refs/pull/4/head
+adec95c8c26ca902ec682fd040c11386c85b937f refs/tags/v0.1

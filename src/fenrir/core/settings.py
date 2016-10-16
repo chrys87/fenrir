@@ -41,8 +41,10 @@ settings = {
 },
 'general':{
   'debugLevel': debug.debugLevel.DEACTIVE,
+  'punctuationProfile':'default',
   'punctuationLevel': 1,
   'numberOfClipboards': 10,
+  'emoticons': True,
   'fenrirKeys': ['KEY_KP0'],
   'timeFormat': '%I:%M%P',
   'dateFormat': '%A, %B %d, %Y',
@@ -64,6 +66,6 @@ settings = {
   'charDeleteEcho': True,
   'wordEcho': True,
   'interruptOnKeyPress': True,
-  'doubleTapDelay': 0.2,
+  'doubleTapTimeout': 0.2,
 }
 }

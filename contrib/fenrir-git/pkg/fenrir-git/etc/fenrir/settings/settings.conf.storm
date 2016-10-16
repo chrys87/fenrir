@@ -1,0 +1,62 @@
+[sound]
+enabled=True
+driver=generic
+theme=default
+volume=1.0
+# shell commands for generic sound driver
+genericPlayFileCommand=play -q -v fenrirVolume fenrirSoundFile
+genericFrequencyCommand=play -q -v fenrirVolume -n -c1 synth fenrirDuration sine fenrirFrequence
+
+[speech]
+enabled=True
+driver=speechd
+rate=0.85
+pitch=0.5
+# Pitch for capital letters
+capitalPitch=0.9
+module=espeak
+voice=
+language=english-us
+volume=1.0
+autoReadIncoming=True
+
+[braille]
+enabled=False
+driver=brlapi
+layout=en
+
+[screen]
+driver=linux
+encoding=cp850
+screenUpdateDelay=0.4
+suspendingScreen=7
+autodetectSuspendingScreen=False
+
+[keyboard]
+driver=evdev
+# filter input devices AUTO, ALL or a DEVICE NAME
+device=AUTO
+grabDevices=True
+ignoreShortcuts=False
+keyboardLayout=desktop
+charEcho=False
+charDeleteEcho=True
+wordEcho=False
+interruptOnKeyPress=True
+# timeout for double tap in sec
+doubleTapDelay=0.2
+
+[general]
+debugLevel=0
+punctuationLevel=some
+numberOfClipboards=10
+fenrirKeys=KEY_KP0
+timeFormat=%H:%M:%P
+dateFormat="%A, %B %d, %Y"
+autoSpellCheck=True
+spellCheckLanguage=en_US
+
+[promote]
+enabled=True
+inactiveTimeoutSec=120
+list=

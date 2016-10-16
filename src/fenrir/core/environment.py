@@ -11,6 +11,7 @@ from core import screenData
 from core import generalInformation
 from core import commands
 from core import inputEvent
+from core import punctuation
 
 environment = {
 'screenData': screenData.screenData,
@@ -22,6 +23,7 @@ environment = {
 'commandInfo': commands.commandInfo,
 'commandBuffer': commands.commandBuffer,
 'input': inputEvent.input,
+'punctuation': punctuation.punctuation,
 'soundIcons': {},
 'bindings': {},
 }

@@ -1,0 +1,13 @@
+[Unit]
+Description=Fenrir screenreader
+
+[Service]
+Type=forking
+PIDFile=/var/run/fenrir.pid
+ExecStart=/usr/bin/fenrir
+Restart=on-abort
+#Group=fenrir
+#User=fenrir
+
+[Install]
+WantedBy=sound.target
