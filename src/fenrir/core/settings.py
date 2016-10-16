@@ -42,10 +42,10 @@ settings = {
 'general':{
   'debugLevel': debug.debugLevel.DEACTIVE,
   'punctuationProfile':'default',
-  'punctuationLevel': 1,
+  'punctuationLevel': 'some',
   'numberOfClipboards': 10,
   'emoticons': True,
-  'fenrirKeys': ['KEY_KP0'],
+  'fenrirKeys': ['KEY_KP0','KEY_META'],
   'timeFormat': '%I:%M%P',
   'dateFormat': '%A, %B %d, %Y',
   'autoSpellCheck': False,
