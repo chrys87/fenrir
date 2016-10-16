@@ -6,7 +6,7 @@
 
 from core import debug
 from utils import word_utils
-import os
+import os, string
 
 initialized = False
 try:
@@ -64,8 +64,10 @@ class command():
         x, y, currWord =  word_utils.getCurrentWord(self.env['screenData']['newCursor']['x'], 0, newContent)                  
         # was this a typed word?
         if self.env['screenData']['newDelta'] != '':
-            if not(newContent[self.env['screenData']['oldCursor']['x']].strip(" \t\n") == '' and x != self.env['screenData']['oldCursor']['x']):
+            if not(newContent[self.env['screenData']['oldCursor']['x']] in string.whitespace + string.punctuation and x != self.env['screenData']['oldCursor']['x']):
                 return
+            else:
+                currWord = currWord.strip(string.whitespace + string.punctuation)
         else:
         # or just arrow arround?
             if not(newContent[self.env['screenData']['newCursor']['x']].isspace() and x != self.env['screenData']['newCursor']['x']):
@@ -74,6 +76,11 @@ class command():
         # ignore empty
         if currWord[0] =='':
             return
+        # just on end of word
+        if self.env['screenData']['newCursor']['x'] > 0:
+            if not newContent[self.env['screenData']['oldCursor']['x'] - 1].lower() in string.ascii_lowercase:
+                return
+        
         # ignore bash buildins
         if currWord in ['cd','fg','bg','alias','bind','dir','caller','buildin','command','declare','echo','enable','help','let','local','logout',\
           'mapfile','printf','read','readarray','source','type','typeset','ulimit','unalias']:
