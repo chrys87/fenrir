@@ -4,8 +4,6 @@ ToDos in Priority order:
   Fenrir key sometimes wents crazy?
   gstreamer sounddriver doesnt work (i think it needs a Glib 
 
-- parse punctuation setting file in conf/substitution
-
 - implement braille
   output to braille device
   virtual buffer area for scroll left/right if the line is to long for device
@@ -154,6 +152,7 @@ except KeyboardInterrupt:
 - add setting for autodetect X
 ps a -o tty,comm  | grep -e Xorg | grep -v "grep -e Xorg"
 - respect window mode in differ (getwindow code is already in place)  
+- parse punctuation setting file in conf/substitution
 
 - implement commands
   curr_word
