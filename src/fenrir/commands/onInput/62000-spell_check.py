@@ -127,3 +127,4 @@ class command():
 
     def setCallback(self, callback):
         pass
+

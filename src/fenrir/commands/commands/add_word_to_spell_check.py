@@ -6,6 +6,7 @@
 
 from core import debug
 from utils import word_utils
+import string
 initialized = False
 try:
     import enchant
@@ -35,14 +36,13 @@ class command():
         if self.env['runtime']['settingsManager'].getSetting('general', 'spellCheckLanguage') != self.language:
             try:
                 self.updateSpellLanguage()
-            except:
+            except Exception as e:
                 return    
-
         cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
-            
         # get the word
         newContent = self.env['screenData']['newContentText'].split('\n')[cursorPos['y']]
-        x, y, currWord =  word_utils.getCurrentWord(cursorPos['x'], 0, newContent)                  
+        x, y, currWord =  word_utils.getCurrentWord(cursorPos['x'], 0, newContent)
+        currWord = currWord.strip(string.whitespace + '!"#$%&\()*+,-./:;<=§>?@[\\]^_{|}~')
 
         if currWord != '':
             if self.spellChecker.is_added(currWord):

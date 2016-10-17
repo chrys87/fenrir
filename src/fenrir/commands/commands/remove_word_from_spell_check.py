@@ -6,6 +6,7 @@
 
 from core import debug
 from utils import word_utils
+import string
 initialized = False
 try:
     import enchant
@@ -43,13 +44,12 @@ class command():
         # get the word
         newContent = self.env['screenData']['newContentText'].split('\n')[cursorPos['y']]
         x, y, currWord =  word_utils.getCurrentWord(cursorPos['x'], 0, newContent)                  
-
+        currWord = currWord.strip(string.whitespace + '!"#$%&\()*+,-./:;<=§>?@[\\]^_{|}~')
         if not currWord.isspace():
             if self.spellChecker.is_removed(currWord):
                 self.env['runtime']['outputManager'].presentText(currWord + ' is already removed from dict',soundIcon='Cancel', interrupt=True)                
             else:
                 self.spellChecker.remove(currWord)             
                 self.env['runtime']['outputManager'].presentText(currWord + ' removed',soundIcon='Accept', interrupt=True)                    
-
     def setCallback(self, callback):
         pass

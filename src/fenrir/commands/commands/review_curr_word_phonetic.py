@@ -16,11 +16,11 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'phonetically spells the current word'        
+        return 'phonetically spells the current word and set review to it'        
     
     def run(self):
         self.env['runtime']['cursorManager'].enterReviewModeCurrTextCursor()
-        x, y, currWord = \
+        self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], currWord = \
           word_utils.getCurrentWord(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
         
         if currWord.isspace():
@@ -29,7 +29,7 @@ class command():
             firstSequence = True
             for c in currWord:
                 currChar = char_utils.getPhonetic(c) 
-                self.env['runtime']['outputManager'].presentText(currChar, interrupt=firstSequence)
+                self.env['runtime']['outputManager'].presentText(currChar, interrupt=firstSequence, announceCapital=True)
                 firstSequence = False
    
     def setCallback(self, callback):

@@ -12,7 +12,7 @@ class punctuationManager():
         pass
     def initialize(self, environment):
         self.env = environment
-        self.allPunctNone = dict.fromkeys(map(ord, string.punctuation), ' ')
+        self.allPunctNone = dict.fromkeys(map(ord, string.punctuation +"§"), ' ')
         # replace with space: 
         # dot, comma, grave, apostrophe
         for char in [ord('.'),ord(','),ord('`'),ord("'")]:
