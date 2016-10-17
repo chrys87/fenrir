@@ -34,6 +34,10 @@ https://wiki.gnome.org/Attic/LSR/ScratchPad/Braille/BrlAPI
   per application onInput
 - per application shortcuts
 - implement commands
+  next_char_phonetic
+  prev_char_phonetic
+  next_word_phonetic
+  prev_word_phonetic
   attributes_curr_char
   command for run configurable scripts as subprocess/ pass environment[screenData]
   toggle_highlighted_mode

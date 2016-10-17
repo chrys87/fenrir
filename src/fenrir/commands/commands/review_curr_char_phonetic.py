@@ -15,19 +15,19 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'phonetically presents the current character'    
+        return 'set review and phonetically presents the current character'    
     
     def run(self):
-        cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
+        self.env['runtime']['cursorManager'].enterReviewModeCurrTextCursor()
 
-        x, y, currChar = \
-          char_utils.getCurrentChar(cursorPos['x'], cursorPos['y'], self.env['screenData']['newContentText'])
+        self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], currChar = \
+          char_utils.getCurrentChar(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
         
         if currChar.isspace():
             self.env['runtime']['outputManager'].presentText("blank" ,interrupt=True)
         else:
             currChar = char_utils.getPhonetic(currChar)
-            self.env['runtime']['outputManager'].presentText(currChar ,interrupt=True)
+            self.env['runtime']['outputManager'].presentText(currChar ,interrupt=True, announceCapital=True)
   
     def setCallback(self, callback):
         pass

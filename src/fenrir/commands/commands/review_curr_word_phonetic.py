@@ -19,9 +19,9 @@ class command():
         return 'phonetically spells the current word'        
     
     def run(self):
-        cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
+        self.env['runtime']['cursorManager'].enterReviewModeCurrTextCursor()
         x, y, currWord = \
-          word_utils.getCurrentWord(cursorPos['x'], cursorPos['y'], self.env['screenData']['newContentText'])
+          word_utils.getCurrentWord(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
         
         if currWord.isspace():
             self.env['runtime']['outputManager'].presentText("blank", interrupt=True)
