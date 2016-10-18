@@ -1,0 +1,33 @@
+Traceback (most recent call last):
+  File "./fenrir", line 137, in <module>
+    main()
+  File "./fenrir", line 132, in main
+    app = fenrir()
+  File "./fenrir", line 19, in __init__
+    self.environment = settingsManager.settingsManager().initFenrirConfig()
+  File "/home/portia/fenrir/src/fenrir/core/settingsManager.py", line
+239, in initFenrirConfig
+    environment['runtime']['inputManager'].initialize(environment)
+  File "/home/portia/fenrir/src/fenrir/core/inputManager.py", line 17,
+in initialize
+    self.env['runtime']['settingsManager'].getSetting('keyboard',
+'driver'), 'inputDriver')
+  File "/home/portia/fenrir/src/fenrir/core/settingsManager.py", line
+172, in loadDriver
+    self.env['runtime'][driverType].initialize(self.env)
+  File "/home/portia/fenrir/src/fenrir/inputDriver/evdev.py", line 23,
+in initialize
+    self.getInputDevices()
+  File "/home/portia/fenrir/src/fenrir/inputDriver/evdev.py", line 72,
+in getInputDevices
+    self.iDevices = {dev.fd: dev for dev in self.iDevices if 1 in
+dev.capabilities() and not 3 in dev.capabilities() and not 2 in
+dev.capabilities()}
+  File "/home/portia/fenrir/src/fenrir/inputDriver/evdev.py", line 72,
+in <dictcomp>
+    self.iDevices = {dev.fd: dev for dev in self.iDevices if 1 in
+dev.capabilities() and not 3 in dev.capabilities() and not 2 in
+dev.capabilities()}
+  File "/usr/lib/python3.5/site-packages/evdev/device.py", line 129, in __init__
+    fd = os.open(dev, os.O_RDONLY | os.O_NONBLOCK)
+PermissionError: [Errno 1] Operation not permitted: '/dev/input/event15'
