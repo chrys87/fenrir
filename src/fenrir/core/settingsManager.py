@@ -186,14 +186,12 @@ class settingsManager():
         for key in keyList:
             if not key in  self.env['input']['fenrirKey']:
                 self.env['input']['fenrirKey'].append(key)
-
-    def keyIDasString(self, key):
-        try:
-            KeyID = self.getCodeForKeyID(key)
-            return str(KeyID)
-        except:
-            return ''
-
+    def setScriptKeys(self, keys):
+        keys = keys.upper()
+        keyList = keys.split(',')
+        for key in keyList:
+            if not key in  self.env['input']['scriptKey']:
+                self.env['input']['scriptKey'].append(key)
     def initFenrirConfig(self, environment = environment.environment, settingsRoot = '/etc/fenrir/', settingsFile='settings.conf'):
         environment['runtime']['debug'] = debug.debug()
         environment['runtime']['debug'].initialize(environment)
@@ -210,6 +208,7 @@ class settingsManager():
         if not validConfig:
             return None
         self.setFenrirKeys(self.getSetting('general','fenrirKeys'))
+        self.setScriptKeys(self.getSetting('general','scriptKeys'))        
         if not os.path.exists(self.getSetting('keyboard','keyboardLayout')):
             if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout')):  
                 self.setSetting('keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout'))

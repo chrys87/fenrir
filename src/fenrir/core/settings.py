@@ -48,6 +48,7 @@ settings = {
   'numberOfClipboards': 10,
   'emoticons': True,
   'fenrirKeys': ['KEY_KP0','KEY_META'],
+  'scriptKeys': ['KEY_COMPOSE'],  
   'timeFormat': '%I:%M%P',
   'dateFormat': '%A, %B %d, %Y',
   'autoSpellCheck': False,

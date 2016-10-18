@@ -105,6 +105,8 @@ class inputManager():
             eventName = 'KEY_META'            
         if self.isFenrirKey(eventName):
             eventName = 'KEY_FENRIR'
+        if self.isScriptKey(eventName):
+            eventName = 'KEY_SCRIPT'            
         return eventName
 	
     def isConsumeInput(self):
@@ -132,6 +134,9 @@ class inputManager():
 
     def isFenrirKeyPressed(self):
         return 'KEY_FENRIR' in self.env['input']['currInput']
+    
+    def isScriptKeyPressed(self):
+        return 'KEY_SCRIPT' in self.env['input']['currInput']
 
     def noKeyPressed(self):
         return self.env['input']['currInput'] == []
@@ -162,7 +167,8 @@ class inputManager():
         
     def isFenrirKey(self, eventName):
         return eventName in self.env['input']['fenrirKey']
-
+    def isScriptKey(self, eventName):
+        return eventName in self.env['input']['scriptKey']
     def getCommandForShortcut(self, shortcut):
         if not self.shortcutExists(shortcut):
             return '' 

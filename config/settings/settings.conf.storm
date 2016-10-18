@@ -55,6 +55,7 @@ newLinePause=True
 numberOfClipboards=10
 emoticons=True
 fenrirKeys=KEY_KP0
+scriptKey=KEY_COMPOSE
 timeFormat=%H:%M:%P
 dateFormat="%A, %B %d, %Y"
 autoSpellCheck=True
