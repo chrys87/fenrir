@@ -50,6 +50,7 @@ doubleTapTimeout=0.2
 debugLevel=0
 punctuationProfile=default
 punctuationLevel=some
+respectPunctuationPause=True
 numberOfClipboards=10
 emoticons=True
 fenrirKeys=KEY_KP0

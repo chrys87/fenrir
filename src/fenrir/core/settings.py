@@ -43,6 +43,7 @@ settings = {
   'debugLevel': debug.debugLevel.DEACTIVE,
   'punctuationProfile':'default',
   'punctuationLevel': 'some',
+  'respectPunctuationPause':True,
   'numberOfClipboards': 10,
   'emoticons': True,
   'fenrirKeys': ['KEY_KP0','KEY_META'],

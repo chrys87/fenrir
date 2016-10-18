@@ -43,7 +43,12 @@ class punctuationManager():
         if punctuationDict and punctuation and punctuation != '':
             for key,item in punctuationDict.items():
                 if key in punctuation:
-                    resultText = resultText.replace(str(key),' ' +str(item) +' ')
+                    if self.env['runtime']['settingsManager'].getSetting('general', 'respectPunctuationPause') and \
+                      len(key) == 1 and \
+                      key in string.punctuation:
+                        resultText = resultText.replace(str(key),' ' +str(item) + str(key) + ' ')                    
+                    else:
+                        resultText = resultText.replace(str(key),' ' +str(item) + ' ')
         return resultText
     
     def proceedPunctuation(self, text, ignorePunctuation=False):
