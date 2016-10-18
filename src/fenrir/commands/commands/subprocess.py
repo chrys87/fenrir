@@ -10,20 +10,29 @@ import subprocess, os
 class command():
     def __init__(self):
         pass
-    def initialize(self, environment, scriptPaht=''):
+    def initialize(self, environment, scriptPath=''):
         self.env = environment
         self.scriptPath = scriptPath
     def shutdown(self):
         pass
     def getDescription(self):
-        return 'script: '+ self.scriptPath         
+        return 'script: ' + os.path.basename(self.scriptPath) + ' fullpath: '+ self.scriptPath
     def run(self):
+        if not os.path.exists(self.scriptPath):
+            self.env['runtime']['outputManager'].presentText('scriptfile does not exist' , soundIcon='', interrupt=False)
+            return   
+        if not os.path.isfile(self.scriptPath):
+            self.env['runtime']['outputManager'].presentText('scriptfile is not a file' , soundIcon='', interrupt=False)
+            return      
+        if not os.access(self.scriptPath, os.X_OK):
+            self.env['runtime']['outputManager'].presentText('scriptfile is not executable' , soundIcon='', interrupt=False)
+            return                            
         p = Popen(self.scriptPath , stdout=PIPE, stderr=PIPE, shell=True)
         stdout, stderr = p.communicate()
         self.env['runtime']['outputManager'].interruptOutput()
         if stderr != '':
             self.env['runtime']['outputManager'].presentText(stdout , soundIcon='', interrupt=False)
-        if stdout != ''
+        if stdout != '':
             self.env['runtime']['outputManager'].presentText(stdout , soundIcon='', interrupt=False)
     def setCallback(self, callback):
         pass
