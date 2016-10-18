@@ -28,14 +28,19 @@ class command():
         if not os.access(self.scriptPath, os.X_OK):
             self.env['runtime']['outputManager'].presentText('scriptfile is not executable' , soundIcon='', interrupt=False)
             return                            
-        p = Popen(self.scriptPath , stdout=PIPE, stderr=PIPE, shell=True)
-        stdout, stderr = p.communicate()
-        self.env['runtime']['outputManager'].interruptOutput()
-        stderr = str(stderr)
-        stdout = str(stdout)
-        if stderr != '':
-            self.env['runtime']['outputManager'].presentText(stdout , soundIcon='', interrupt=False)
-        if stdout != '':
-            self.env['runtime']['outputManager'].presentText(stdout , soundIcon='', interrupt=False)
+        try:
+            p = Popen(self.scriptPath , stdout=PIPE, stderr=PIPE, shell=True)
+            stdout, stderr = p.communicate()
+            self.env['runtime']['outputManager'].interruptOutput()
+            screenEncoding = self.env['runtime']['settingsManager'].getSetting('screen', 'encoding')
+            stderr = stderr.decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
+            stdout = stdout.decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
+            if stderr != '':
+                self.env['runtime']['outputManager'].presentText(stdout , soundIcon='', interrupt=False)
+            if stdout != '':
+                self.env['runtime']['outputManager'].presentText(stdout , soundIcon='', interrupt=False)
+        except Exception as e:
+                self.env['runtime']['outputManager'].presentText(e , soundIcon='', interrupt=False)
+        
     def setCallback(self, callback):
         pass
