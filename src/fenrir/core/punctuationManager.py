@@ -54,7 +54,7 @@ class punctuationManager():
     def proceedPunctuation(self, text, ignorePunctuation=False):
         resultText = text
         resultText = self.useCustomDict(resultText, self.env['punctuation']['CUSTOMDICT'])
-        if self.env['runtime']['settingsManager'].getSetting('general', 'emoticons'):
+        if self.env['runtime']['settingsManager'].getSettingAsBool('general', 'emoticons'):
             resultText = self.useCustomDict(resultText, self.env['punctuation']['EMOTICONDICT'])
         currPunctLevel = ''
         if not ignorePunctuation and self.env['runtime']['settingsManager'].getSetting('general', 'punctuationLevel').lower() in self.env['punctuation']['LEVELDICT']:
