@@ -3,7 +3,11 @@ ToDos in Priority order:
 - Known Bugs  
   Fenrir key sometimes wents crazy?
   gstreamer sounddriver doesnt work (i think it needs a Glib 
-
+  alpine seems to have problems (southernprince)
+  For example, in screen, it just tells me bell in window, but doesn't tell me which one. (southernprince)
+  punctuation none currently not working (southernprince)
+  in special cases next word skipps a word, this seems to happen with some whitespaces before the first word (storm_dragon)
+  /usr/share/fenrir/sound stuff is not detected correctly
 
 - implement braille
   output to braille device
