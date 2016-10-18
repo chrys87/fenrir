@@ -64,17 +64,17 @@ class command():
         x, y, currWord =  word_utils.getCurrentWord(self.env['screenData']['newCursor']['x'], 0, newContent)                  
         # was this a typed word?
         if self.env['screenData']['newDelta'] != '':
-            if not(newContent[self.env['screenData']['oldCursor']['x']] in string.whitespace + string.punctuation and x != self.env['screenData']['oldCursor']['x']):
+            if not(newContent[self.env['screenData']['oldCursor']['x']] in string.whitespace + '!"#$%&()*+,-./:;<=>?@[\\]^_{|}~' and x != self.env['screenData']['oldCursor']['x']):
                 return
             else:
-                currWord = currWord.strip(string.whitespace + string.punctuation)
+                currWord = currWord.strip(string.whitespace + '!"#$%&()*+,-./:;<=>?@[\\]^_{|}~')
         else:
         # or just arrow arround?
             if not(newContent[self.env['screenData']['newCursor']['x']].isspace() and x != self.env['screenData']['newCursor']['x']):
                 return            
 
         # ignore empty
-        if currWord[0] =='':
+        if currWord.strip(string.whitespace) =='':
             return
         # just on end of word
         if self.env['screenData']['newCursor']['x'] > 0:
@@ -122,6 +122,7 @@ class command():
                 return            
         except:
             pass
+
         if not self.spellChecker.check(currWord):
             self.env['runtime']['outputManager'].presentText('misspelled',soundIcon='mispell', interrupt=False)
 
