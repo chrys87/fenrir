@@ -85,6 +85,10 @@ def getPhonetic(currChar):
     "Y":"yankee", "Z":"zulu"
     }
     try:
-        return phoneticsDict[currChar.upper()]
+        phonChar = phoneticsDict[currChar.upper()]
+        if currChar.isupper():
+            phonChar = phonChar[0].upper() + phonChar[1:]
+        return phonChar
     except:
         return currChar
+        
