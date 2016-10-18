@@ -14,10 +14,11 @@ class command():
     def shutdown(self):
         pass
     def getDescription(self):
-        return 'No Description found'  
+        return 'No Description found'   
 
     def run(self):
-        self.env['runtime']['cursorManager'].clearMarks()
+        self.env['runtime']['cursorManager'].clearReviewCursor()
 
     def setCallback(self, callback):
         pass
+

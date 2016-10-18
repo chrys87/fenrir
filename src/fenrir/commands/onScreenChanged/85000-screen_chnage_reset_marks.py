@@ -17,8 +17,7 @@ class command():
         return 'No Description found'   
 
     def run(self):
-        self.env['commandBuffer']['Marks']['1']  = None
-        self.env['commandBuffer']['Marks']['2']  = None
+        self.env['runtime']['cursorManager'].clearMarks()
 
     def setCallback(self, callback):
         pass
