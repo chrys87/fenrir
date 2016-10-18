@@ -193,7 +193,7 @@ class settingsManager():
             if not key in  self.env['input']['scriptKey']:
                 self.env['input']['scriptKey'].append(key)
        
-    def initFenrirConfig(self, environment = environment.environment, settingsRoot = '/etc/fenrir/', settingsFile='settings.conf', soundRoot = '/usr/share/sounds/fenrir'):
+    def initFenrirConfig(self, environment = environment.environment, settingsRoot = '/etc/fenrir/', settingsFile='settings.conf', soundRoot = '/usr/share/sounds/fenrir/'):
         environment['runtime']['debug'] = debug.debug()
         environment['runtime']['debug'].initialize(environment)
         if not os.path.exists(settingsRoot):
