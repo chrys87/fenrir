@@ -64,18 +64,39 @@ class commandManager():
             self.env['runtime']['debug'].writeDebugOut("scriptpath not readable:" + scriptPath ,debug.debugLevel.ERROR)                                    
             return         
         commandList = glob.glob(self.env['runtime']['settingsManager'].getSetting('general', 'scriptPath')+'/*')
+        subCommand = os.path.dirname(os.path.realpath(__main__.__file__)) + '/commands/commands/subprocess.py'
         for command in commandList:
             try:
                 fileName, fileExtension = os.path.splitext(command)
                 fileName = fileName.split('/')[-1]
                 if fileName.startswith('__'):
                     continue
-                spec = importlib.util.spec_from_file_location(__main__.__file__+'/commands/commands/subprocess.py', command)
+                spec = importlib.util.spec_from_file_location(fileName ,subCommand)
                 command_mod = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(command_mod)
                 self.env['commands'][section][fileName.upper()] = command_mod.command()
                 self.env['commands'][section][fileName.upper()].initialize(self.env,command)
+                self.env['commands'][section][fileName.upper()].run()
                 self.env['runtime']['debug'].writeDebugOut("Load script:" + section + "." + fileName.upper() ,debug.debugLevel.INFO, onAnyLevel=True)                    
+                commSettings = fileName.upper().split('__-__')
+                if len(commSettings) == 1:
+                    keys = commSettings[0]
+                elif len(commSettings) == 2:
+                    keys = commSettings[1]
+                elif len(commSettings) > 2:
+                    continue
+                
+                keys = keys.split('__+__')
+                shortcutKeys = []
+                shortcut = []
+                for key in keys:
+                    shortcutKeys.append(key.upper())
+                if not 'KEY_SCRIPT' in shortcutKeys:
+                    shortcutKeys.append('KEY_SCRIPT')                
+                shortcut.append(1)
+                shortcut.append(sorted(shortcutKeys)) 
+                print(shortcut,command)
+                self.env['bindings'][str(shortcut)] = fileName.upper()                     
             except Exception as e:
                 print(e)
                 self.env['runtime']['debug'].writeDebugOut("Loading script:" + command ,debug.debugLevel.ERROR)

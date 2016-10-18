@@ -6,6 +6,7 @@
 
 from core import debug
 import subprocess, os
+from subprocess import Popen, PIPE
 
 class command():
     def __init__(self):
@@ -30,6 +31,8 @@ class command():
         p = Popen(self.scriptPath , stdout=PIPE, stderr=PIPE, shell=True)
         stdout, stderr = p.communicate()
         self.env['runtime']['outputManager'].interruptOutput()
+        stderr = str(stderr)
+        stdout = str(stdout)
         if stderr != '':
             self.env['runtime']['outputManager'].presentText(stdout , soundIcon='', interrupt=False)
         if stdout != '':
