@@ -88,6 +88,8 @@ class outputManager():
         
         try:
             text = self.env['runtime']['punctuationManager'].proceedPunctuation(text,ignorePunctuation) 
+            text = text.replace('\n',' , ')
+
             self.env['runtime']['speechDriver'].speak(text)
             self.env['runtime']['debug'].writeDebugOut("Speak: "+ text,debug.debugLevel.INFO)                
         except Exception as e:

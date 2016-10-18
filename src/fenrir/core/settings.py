@@ -44,6 +44,7 @@ settings = {
   'punctuationProfile':'default',
   'punctuationLevel': 'some',
   'respectPunctuationPause':True,
+  'newLinePause':True,
   'numberOfClipboards': 10,
   'emoticons': True,
   'fenrirKeys': ['KEY_KP0','KEY_META'],

@@ -116,6 +116,7 @@ class driver():
         # changes on the screen
         oldScreenText = re.sub(' +',' ',self.env['runtime']['screenManager'].getWindowAreaInText(self.env['screenData']['oldContentText']))
         newScreenText = re.sub(' +',' ',self.env['runtime']['screenManager'].getWindowAreaInText(self.env['screenData']['newContentText']))        
+        typing = False
         if (self.env['screenData']['oldContentText'] != self.env['screenData']['newContentText']) and \
           (self.env['screenData']['newContentText'] != '' ):
             if oldScreenText == '' and\
@@ -132,12 +133,17 @@ class driver():
                     oldScreenText = re.sub(' +',' ',oldScreenText)
                     newScreenText = self.env['screenData']['newContentText'][cursorLineStart:cursorLineEnd]
                     newScreenText = re.sub(' +',' ',newScreenText)
-                    diff = difflib.ndiff(oldScreenText, newScreenText)      
+                    diff = difflib.ndiff(oldScreenText, newScreenText) 
+                    typing = True                      
                 else:
                     diff = difflib.ndiff( oldScreenText.split('\n'),\
                       newScreenText.split('\n'))
 
                 diffList = list(diff)
                 
-                self.env['screenData']['newDelta'] = ''.join(x[2:] for x in diffList if x[0] == '+')             
+                if self.env['runtime']['settingsManager'].getSetting('general', 'newLinePause') and not typing:
+                    self.env['screenData']['newDelta'] = '\n'.join(x[2:] for x in diffList if x[0] == '+')
+                else:
+                    self.env['screenData']['newDelta'] = ''.join(x[2:] for x in diffList if x[0] == '+')             
                 self.env['screenData']['newNegativeDelta'] = ''.join(x[2:] for x in diffList if x[0] == '-')
+                

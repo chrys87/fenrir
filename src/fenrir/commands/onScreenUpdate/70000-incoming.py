@@ -27,7 +27,7 @@ class command():
         if abs(self.env['screenData']['newCursor']['x'] - self.env['screenData']['oldCursor']['x']) >= 1:
             if len(self.env['screenData']['newDelta']) <= 2:
                 return          
-    
+
         self.env['runtime']['outputManager'].presentText(self.env['screenData']['newDelta'], interrupt=False)
 
     def setCallback(self, callback):
