@@ -4,10 +4,10 @@ ToDos in Priority order:
   Fenrir key sometimes wents crazy?
   gstreamer sounddriver doesnt work (i think it needs a Glib 
 
-- add pause handling
-  create pause
-  make duration of pause configurable
-  make it configurable when the pause the pause happens
+- external scripting
+  load scripts from a folder as subprocess
+  create thread
+  load key definition of keybindings like SOPS did
 
 - implement braille
   output to braille device
@@ -39,7 +39,7 @@ https://wiki.gnome.org/Attic/LSR/ScratchPad/Braille/BrlAPI
   next_word_phonetic
   prev_word_phonetic
   attributes_curr_char
-  command for run configurable scripts as subprocess/ pass environment[screenData]
+
   toggle_highlighted_mode
   generic list command (convert clipboard management)
     next item
@@ -243,3 +243,7 @@ ps a -o tty,comm  | grep -e Xorg | grep -v "grep -e Xorg"
 - dictonary for special chars and string replacements
 - punctuation  
 - beep on cursor to capital letters in cursor and review
+- add pause handling
+  create pause
+  make it configurable when the pause the pause happens
+
