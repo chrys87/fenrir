@@ -14,17 +14,21 @@ class punctuationManager():
         self.env = environment
         self.allPunctNone = dict.fromkeys(map(ord, string.punctuation +"§"), ' ')
         # replace with None: 
-        # grave, apostrophe
-        for char in [ord('`'),ord("'")]:
+        # dot, comma, grave, apostrophe
+        for char in [ord('.'),ord(','),ord('`'),ord("'")]:
             self.allPunctNone[char] = None
-        # dont translate dot and comma because they create a pause
-        for char in [ord('.'),ord(',')]:
-            del self.allPunctNone[char]
 
     def shutdown(self):
         pass
-    def removeUnused(self, text):
-        return text.translate(self.allPunctNone)   
+    def removeUnused(self, text, currLevel = ''):
+        # dont translate dot and comma because they create a pause
+        currAllPunctNone = self.allPunctNone.copy()
+        for char in currLevel:
+            try:
+                del currAllPunctNone[ord(char)]
+            except:
+                pass
+        return text.translate(currAllPunctNone)   
     
     def useCustomDict(self, text, customDict):
         resultText = str(text)
@@ -32,6 +36,7 @@ class punctuationManager():
             for key,item in customDict.items():
                 resultText = resultText.replace(str(key),str(item))
         return resultText
+    
     def usePunctuationDict(self, text, punctuationDict, punctuation):
         resultText = str(text)
 
@@ -52,7 +57,7 @@ class punctuationManager():
         else:
             currPunctLevel = string.punctuation
         resultText = self.usePunctuationDict(resultText, self.env['punctuation']['PUNCTDICT'], currPunctLevel)
-        resultText = self.removeUnused(resultText)
+        resultText = self.removeUnused(resultText, currPunctLevel)
         return resultText
 
     def cyclePunctuation(self):
