@@ -45,7 +45,7 @@ class punctuationManager():
                 if key in punctuation:
                     if self.env['runtime']['settingsManager'].getSetting('general', 'respectPunctuationPause') and \
                       len(key) == 1 and \
-                      key in string.punctuation:
+                      key in ",.;:?!-":
                         resultText = resultText.replace(str(key),' ' +str(item) + str(key) + ' ')                    
                     else:
                         resultText = resultText.replace(str(key),' ' +str(item) + ' ')
