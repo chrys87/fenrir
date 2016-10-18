@@ -192,7 +192,7 @@ class settingsManager():
         for key in keyList:
             if not key in  self.env['input']['scriptKey']:
                 self.env['input']['scriptKey'].append(key)
-    def initFenrirConfig(self, environment = environment.environment, settingsRoot = '/etc/fenrir/', settingsFile='settings.conf'):
+    def initFenrirConfig(self, environment = environment.environment, settingsRoot = '/etc/fenrir/', settingsFile='settings.conf', soundRoot = '/usr/share/sounds/fenrir'):
         environment['runtime']['debug'] = debug.debug()
         environment['runtime']['debug'].initialize(environment)
         if not os.path.exists(settingsRoot):
@@ -200,7 +200,10 @@ class settingsManager():
                 settingsRoot = os.path.dirname(os.path.realpath(__main__.__file__)) +'/../../config/'
             else:
                 return None
-               
+        if not os.path.exists(soundRoot):
+            if os.path.exists(os.path.dirname(os.path.realpath(__main__.__file__)) +'/../../config/'):
+                soundRoot = os.path.dirname(os.path.realpath(__main__.__file__)) +'/../../config/'
+                               
         environment['runtime']['settingsManager'] = self 
         environment['runtime']['settingsManager'].initialize(environment)
 
@@ -220,8 +223,8 @@ class settingsManager():
             environment['runtime']['settingsManager'].loadShortcuts(self.getSetting('keyboard','keyboardLayout'))
         
         if not os.path.exists(self.getSetting('sound','theme') + '/soundicons.conf'):
-            if os.path.exists(settingsRoot + 'sound/'+ self.getSetting('sound','theme')):  
-                self.setSetting('sound', 'theme', settingsRoot + 'sound/'+ self.getSetting('sound','theme'))
+            if os.path.exists(soundRoot + 'sound/'+ self.getSetting('sound','theme')):  
+                self.setSetting('sound', 'theme', soundRoot + 'sound/'+ self.getSetting('sound','theme'))
                 if os.path.exists(self.getSetting('sound','theme') + '/soundicons.conf'):  
                     environment['runtime']['settingsManager'].loadSoundIcons(self.getSetting('sound','theme'))
         else:

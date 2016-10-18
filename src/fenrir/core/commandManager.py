@@ -20,7 +20,7 @@ class commandManager():
         self.env['runtime']['commandManager'].loadCommands('onScreenChanged')
         self.env['runtime']['commandManager'].loadCommands('onApplicationChange')
         self.env['runtime']['commandManager'].loadCommands('onSwitchApplicationProfile')        
-
+        self.env['runtime']['commandManager'].loadScriptCommands()
     def shutdown(self):
         self.env['runtime']['commandManager'].shutdownCommands('commands')
         self.env['runtime']['commandManager'].shutdownCommands('onInput')
@@ -51,7 +51,36 @@ class commandManager():
                 self.env['runtime']['debug'].writeDebugOut("Loading command:" + command ,debug.debugLevel.ERROR)
                 self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)                
                 continue
-
+    
+    def loadScriptCommands(self, section='commands'):
+        scriptPath = self.env['runtime']['settingsManager'].getSetting('general', 'scriptPath')
+        if not os.path.exists(scriptPath):
+            self.env['runtime']['debug'].writeDebugOut("scriptpath not exists:" + scriptPath ,debug.debugLevel.ERROR)                            
+            return   
+        if not os.path.isdir(scriptPath):
+            self.env['runtime']['debug'].writeDebugOut("scriptpath not a directory:" + scriptPath ,debug.debugLevel.ERROR)                                    
+            return      
+        if not os.access(scriptPath, os.R_OK):
+            self.env['runtime']['debug'].writeDebugOut("scriptpath not readable:" + scriptPath ,debug.debugLevel.ERROR)                                    
+            return         
+        commandList = glob.glob(self.env['runtime']['settingsManager'].getSetting('general', 'scriptPath')+'/*')
+        for command in commandList:
+            try:
+                fileName, fileExtension = os.path.splitext(command)
+                fileName = fileName.split('/')[-1]
+                if fileName.startswith('__'):
+                    continue
+                spec = importlib.util.spec_from_file_location(__main__.__file__+'/commands/commands/subprocess.py', command)
+                command_mod = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(command_mod)
+                self.env['commands'][section][fileName.upper()] = command_mod.command()
+                self.env['commands'][section][fileName.upper()].initialize(self.env,command)
+                self.env['runtime']['debug'].writeDebugOut("Load script:" + section + "." + fileName.upper() ,debug.debugLevel.INFO, onAnyLevel=True)                    
+            except Exception as e:
+                print(e)
+                self.env['runtime']['debug'].writeDebugOut("Loading script:" + command ,debug.debugLevel.ERROR)
+                self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)                
+                continue
     def shutdownCommands(self, section):
         for command in sorted(self.env['commands'][section]):
             try:
