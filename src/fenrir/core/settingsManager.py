@@ -202,9 +202,9 @@ class settingsManager():
             else:
                 return None
         if not os.path.exists(soundRoot):
-            if os.path.exists(os.path.dirname(os.path.realpath(__main__.__file__)) +'/../../config/'):
-                soundRoot = os.path.dirname(os.path.realpath(__main__.__file__)) +'/../../config/'
-                               
+            if os.path.exists(os.path.dirname(os.path.realpath(__main__.__file__)) +'/../../config/sound/'):
+                soundRoot = os.path.dirname(os.path.realpath(__main__.__file__)) +'/../../config/sound/'
+
         environment['runtime']['settingsManager'] = self 
         environment['runtime']['settingsManager'].initialize(environment)
 
@@ -226,8 +226,8 @@ class settingsManager():
             environment['runtime']['settingsManager'].loadShortcuts(self.getSetting('keyboard','keyboardLayout'))
         
         if not os.path.exists(self.getSetting('sound','theme') + '/soundicons.conf'):
-            if os.path.exists(soundRoot + 'sound/'+ self.getSetting('sound','theme')):  
-                self.setSetting('sound', 'theme', soundRoot + 'sound/'+ self.getSetting('sound','theme'))
+            if os.path.exists(soundRoot + self.getSetting('sound','theme')):  
+                self.setSetting('sound', 'theme', soundRoot + self.getSetting('sound','theme'))
                 if os.path.exists(self.getSetting('sound','theme') + '/soundicons.conf'):  
                     environment['runtime']['settingsManager'].loadSoundIcons(self.getSetting('sound','theme'))
         else:
