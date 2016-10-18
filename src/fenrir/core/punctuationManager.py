@@ -57,7 +57,7 @@ class punctuationManager():
         else:
             currPunctLevel = string.punctuation
         resultText = self.usePunctuationDict(resultText, self.env['punctuation']['PUNCTDICT'], currPunctLevel)
-        resultText = self.removeUnused(resultText, currPunctLevel)
+        #resultText = self.removeUnused(resultText, currPunctLevel)
         return resultText
 
     def cyclePunctuation(self):
