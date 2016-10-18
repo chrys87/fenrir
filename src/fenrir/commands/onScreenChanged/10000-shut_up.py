@@ -17,7 +17,6 @@ class command():
         return ''               
     
     def run(self):
-            
         self.env['runtime']['outputManager'].interruptOutput()
 
     def setCallback(self, callback):
