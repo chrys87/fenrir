@@ -85,7 +85,6 @@ class commandManager():
                     keys = commSettings[1]
                 elif len(commSettings) > 2:
                     continue
-                
                 keys = keys.split('__+__')
                 shortcutKeys = []
                 shortcut = []
@@ -95,7 +94,6 @@ class commandManager():
                     shortcutKeys.append('KEY_SCRIPT')                
                 shortcut.append(1)
                 shortcut.append(sorted(shortcutKeys)) 
-                print(shortcut,command)
                 self.env['bindings'][str(shortcut)] = fileName.upper()                     
             except Exception as e:
                 print(e)
