@@ -13,10 +13,13 @@ class punctuationManager():
     def initialize(self, environment):
         self.env = environment
         self.allPunctNone = dict.fromkeys(map(ord, string.punctuation +"§"), ' ')
-        # replace with space: 
-        # dot, comma, grave, apostrophe
-        for char in [ord('.'),ord(','),ord('`'),ord("'")]:
+        # replace with None: 
+        # grave, apostrophe
+        for char in [ord('`'),ord("'")]:
             self.allPunctNone[char] = None
+        # dont translate dot and comma because they create a pause
+        for char in [ord('.'),ord(',')]:
+            del self.allPunctNone[char]
 
     def shutdown(self):
         pass

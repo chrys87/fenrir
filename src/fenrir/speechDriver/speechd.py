@@ -15,6 +15,7 @@ class driver():
         try:
             import speechd 
             self._sd =  speechd.SSIPClient('fenrir')
+            self._punct = speechd.PunctuationMode()
             self._isInitialized = True
         except:
             self._initialized = False
@@ -34,6 +35,7 @@ class driver():
         if queueable == False: self.cancel()
         try:
             self._sd.set_synthesis_voice(self._language)        
+            self._sd.set_punctuation(self._punct.NONE)
         except:
             pass
         self._sd.speak(text)
