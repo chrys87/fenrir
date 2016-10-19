@@ -5,9 +5,16 @@ from select import select
 import time
 
 devices = map(evdev.InputDevice, (evdev.list_devices()))
-devices = {dev.fd: dev for dev in devices}
-for fd in devices:
-    print('Devicename:'+ devices[fd].name + '  Devicepath:' + devices[fd].fn )
+devicesNew = {}
+for dev in devices:
+    try:
+        devicesNew[dev.fd] = dev
+        print('DONE: Devicename:'+ devicesNew[dev.fd].name + '  Devicepath:' + devicesNew[dev.fd].fn )
+    except Exception as e:
+        print('ERROR:'+ ' ' + str(e) )
+    
+for fd in devicesNew:
+    print('Devicename:'+ devicesNew[fd].name + '  Devicepath:' + devicesNew[fd].fn )
 
 #--- log events---
 #while True:
