@@ -1,3 +1,0 @@
-evdev
-sox
-python-espeak
