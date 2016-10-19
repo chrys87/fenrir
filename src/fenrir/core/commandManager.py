@@ -54,16 +54,21 @@ class commandManager():
     
     def loadScriptCommands(self, section='commands'):
         scriptPath = self.env['runtime']['settingsManager'].getSetting('general', 'scriptPath')
-        if not os.path.exists(scriptPath):
-            self.env['runtime']['debug'].writeDebugOut("scriptpath not exists:" + scriptPath ,debug.debugLevel.ERROR)                            
-            return   
+        if not scriptPath.endswith('/'):
+            scriptPath += '/'
+        if not os.path.exists(scriptPath) or scriptPath == '/':
+            if os.path.exists(os.path.dirname(os.path.realpath(__main__.__file__)) +'/../../config/scripts/'):
+                scriptPath = os.path.dirname(os.path.realpath(__main__.__file__)) +'/../../config/scripts/'            
+            else:
+                self.env['runtime']['debug'].writeDebugOut("scriptpath not exists:" + scriptPath ,debug.debugLevel.WARNING)                            
+                return   
         if not os.path.isdir(scriptPath):
             self.env['runtime']['debug'].writeDebugOut("scriptpath not a directory:" + scriptPath ,debug.debugLevel.ERROR)                                    
             return      
         if not os.access(scriptPath, os.R_OK):
             self.env['runtime']['debug'].writeDebugOut("scriptpath not readable:" + scriptPath ,debug.debugLevel.ERROR)                                    
             return         
-        commandList = glob.glob(self.env['runtime']['settingsManager'].getSetting('general', 'scriptPath')+'/*')
+        commandList = glob.glob(scriptPath+'*')
         subCommand = os.path.dirname(os.path.realpath(__main__.__file__)) + '/commands/commands/subprocess.py'
         for command in commandList:
             invalid = False
@@ -77,7 +82,6 @@ class commandManager():
                 spec.loader.exec_module(command_mod)
                 self.env['commands'][section][fileName.upper()] = command_mod.command()
                 self.env['commands'][section][fileName.upper()].initialize(self.env,command)
-                self.env['commands'][section][fileName.upper()].run()
                 self.env['runtime']['debug'].writeDebugOut("Load script:" + section + "." + fileName.upper() ,debug.debugLevel.INFO, onAnyLevel=True)                    
                 commSettings = fileName.upper().split('__-__')
                 if len(commSettings) == 1:
