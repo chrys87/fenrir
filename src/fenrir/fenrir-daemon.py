@@ -11,6 +11,9 @@ if not os.path.dirname(os.path.realpath(__main__.__file__)) in sys.path:
     sys.path.append(os.path.dirname(os.path.realpath(__main__.__file__)))
 
 import fenrir
+from daemonize import Daemonize
+
+pid = "/tmp/fenrir.pid"
 
 def main():
     app = fenrir.fenrir()
@@ -18,4 +21,6 @@ def main():
     del app
 
 if __name__ == "__main__":
-    main()     
+    daemon = Daemonize(app="fenrir-daemon", pid=pid, action=main)
+    daemon.start()
+

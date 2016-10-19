@@ -18,9 +18,10 @@ ReadWrite permission
 # optional 
 - sox [its used by default in the generic sound driver for playing sound-icons]
 - speech-dispatcher, python3-speechd [to use the speech-dispatcher driver]
-- brltty, python-brlapi [for using braille] # (not implemented yet)
-- gstreamer [for soundicons via gstreamer] # not working yet
-- python-pyenchant for spell check functionality
+- brltty, python-brlapi [using braille] # (not implemented yet)
+- gstreamer [soundicons via gstreamer] # not working yet
+- python-pyenchant [spell check functionality]
+- python-daemonize [use fenrir as background service on Unix like systems]
 
 # installation
 Currently there is no setupscript (sorry). But you can just run as root or setup needed permission
