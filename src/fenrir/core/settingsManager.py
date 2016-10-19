@@ -16,6 +16,7 @@ from core import punctuationManager
 from core import cursorManager
 from core import applicationManager
 from core import environment 
+from core import inputEvent 
 from core.settings import settings
 from core import debug
 
@@ -29,6 +30,7 @@ class settingsManager():
     def loadShortcuts(self, kbConfigPath=os.path.dirname(os.path.realpath(__main__.__file__)) + '/../../config/keyboard/desktop.conf'):
         kbConfig = open(kbConfigPath,"r")
         while(True):
+            invalid = False
             line = kbConfig.readline()
             if not line:
                 break
@@ -52,7 +54,13 @@ class settingsManager():
                 try:
                     shortcutRepeat = int(key)
                 except:
+                    if not self.isValidKey(key.upper()):
+                        self.env['runtime']['debug'].writeDebugOut("invalid key : "+ key.upper() + ' command:' +commandName ,debug.debugLevel.WARNING)                    
+                        invalid = True
+                        break
                     shortcutKeys.append(key.upper()) 
+            if invalid:
+                continue
             shortcut.append(shortcutRepeat)
             shortcut.append(sorted(shortcutKeys))
             if len(shortcutKeys) != 1 and not 'KEY_FENRIR' in shortcutKeys:
@@ -90,7 +98,9 @@ class settingsManager():
             self.env['soundIcons'][soundIcon] = soundIconFile
             self.env['runtime']['debug'].writeDebugOut("SoundIcon: " + soundIcon + '.' + soundIconFile, debug.debugLevel.INFO, onAnyLevel=True)               
         siConfig.close()
-
+    def isValidKey(self, key):
+        return key in inputEvent.keyNames
+    
     def loadDicts(self, dictConfigPath=os.path.dirname(os.path.realpath(__main__.__file__)) + '/../../config/punctuation/default.conf'):
         dictConfig = open(dictConfigPath,"r")
         currDictName = ''

@@ -66,6 +66,7 @@ class commandManager():
         commandList = glob.glob(self.env['runtime']['settingsManager'].getSetting('general', 'scriptPath')+'/*')
         subCommand = os.path.dirname(os.path.realpath(__main__.__file__)) + '/commands/commands/subprocess.py'
         for command in commandList:
+            invalid = False
             try:
                 fileName, fileExtension = os.path.splitext(command)
                 fileName = fileName.split('/')[-1]
@@ -89,7 +90,13 @@ class commandManager():
                 shortcutKeys = []
                 shortcut = []
                 for key in keys:
+                    if not self.env['runtime']['settingsManager'].isValidKey(key.upper()):
+                        self.env['runtime']['debug'].writeDebugOut("invalid key : "+ key.upper() + ' command:' +commandName ,debug.debugLevel.WARNING)                    
+                        invalid = True
+                        break                
                     shortcutKeys.append(key.upper())
+                if invalid:
+                    continue                    
                 if not 'KEY_SCRIPT' in shortcutKeys:
                     shortcutKeys.append('KEY_SCRIPT')                
                 shortcut.append(1)

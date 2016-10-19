@@ -108,7 +108,7 @@ class inputManager():
         if self.isScriptKey(eventName):
             eventName = 'KEY_SCRIPT'            
         return eventName
-	
+
     def isConsumeInput(self):
         return self.env['runtime']['commandManager'].isCommandQueued() and \
           not self.env['input']['keyForeward']

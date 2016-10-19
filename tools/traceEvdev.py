@@ -6,11 +6,14 @@ import time
 
 devices = map(evdev.InputDevice, (evdev.list_devices()))
 devices = {dev.fd: dev for dev in devices}
+for fd in devices:
+    print('Devicename:'+ devices[fd].name + '  Devicepath:' + devices[fd].fn )
 
-while True:
-    r, w, x = select(devices, [], [])
-    if r != []:
-        for fd in r:
-            for event in devices[fd].read():
-                   print('Devicename:'+ devices[fd].name + '  Devicepath:' + devices[fd].fn + '  Events:' + str(devices[fd].active_keys(verbose=True)) + '  Value:' + str(event.value))
+#--- log events---
+#while True:
+#    r, w, x = select(devices, [], [])
+#    if r != []:
+#        for fd in r:
+#            for event in devices[fd].read():
+#                   print('Devicename:'+ devices[fd].name + '  Devicepath:' + devices[fd].fn + '  Events:' + str(devices[fd].active_keys(verbose=True)) + '  Value:' + str(event.value))
 
