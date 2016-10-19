@@ -58,13 +58,21 @@ class driver():
         uDevice.write_event(event)
         uDevice.syn()  
     def getInputDevices(self):
+        deviceList = evdev.list_devices()
+        readableDevices = []
+        for dev in deviceList:
+            try:
+                open(dev)
+                readableDevices.append(dev)
+            except Exception as e:
+                self.env['runtime']['debug'].writeDebugOut("Skip Inputdevice : " + dev +' ' + str(e),debug.debugLevel.ERROR)                     
+        self.iDevices = map(evdev.InputDevice, (readableDevices))
+        self.ledDevices = map(evdev.InputDevice, (readableDevices))          
         # 3 pos absolute
         # 2 pos relative
         # 17 LEDs
         # 1 Keys
-        # we try to filter out mices and other stuff here
-        self.iDevices = map(evdev.InputDevice, (evdev.list_devices()))
-        self.ledDevices = map(evdev.InputDevice, (evdev.list_devices()))          
+        # we try to filter out mices and other stuff here        
         if self.env['runtime']['settingsManager'].getSetting('keyboard', 'device').upper() == 'ALL':
             self.iDevices = {dev.fd: dev for dev in self.iDevices if 1 in dev.capabilities()}
             self.ledDevices = {dev.fd: dev for dev in self.ledDevices if 1 in dev.capabilities() and 17 in dev.capabilities()}     
