@@ -10,6 +10,10 @@ ToDos in Priority order:
   spellcheck triggers twice if there are two spaces after an word and you arrow over them
   fix portia's trace (file portiatrace.txt)
   
+- add an daemonize mode
+https://github.com/thesharp/daemonize
+https://web.archive.org/web/20131017130434/http://www.jejik.com/articles/2007/02/a_simple_unix_linux_daemon_in_python/
+
 - implement braille
   output to braille device
   virtual buffer area for scroll left/right if the line is to long for device
