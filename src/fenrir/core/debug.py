@@ -20,7 +20,12 @@ class debug():
         self._file = None
         self._fileOpened = False
     def initialize(self, environment):
-        self.env = environment    
+        self.env = environment
+        if os.path.exists(self._fileName):
+	        try:
+		        os.remove(self._fileName)
+	        except OSError, e:
+		        print ("Error: %s - %s." % (e.filename,e.strerror))            
     def shutdown(self):
         self.closeDebugFile()
     def __del__(self):
