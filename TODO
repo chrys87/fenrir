@@ -8,10 +8,6 @@ ToDos in Priority order:
   punctuation none currently not working (southernprince)
   in special cases next word skipps a word, this seems to happen with some whitespaces before the first word (storm_dragon)
   spellcheck triggers twice if there are two spaces after an word and you arrow over them
-  
-- add an daemonize mode
-https://github.com/thesharp/daemonize
-https://web.archive.org/web/20131017130434/http://www.jejik.com/articles/2007/02/a_simple_unix_linux_daemon_in_python/
 
 - implement braille
   output to braille device
@@ -254,3 +250,7 @@ ps a -o tty,comm  | grep -e Xorg | grep -v "grep -e Xorg"
   load scripts from a folder as subprocess
   create thread
   load key definition of keybindings like SOPS did
+
+- add an daemonize mode
+https://github.com/thesharp/daemonize
+https://web.archive.org/web/20131017130434/http://www.jejik.com/articles/2007/02/a_simple_unix_linux_daemon_in_python/  
