@@ -47,7 +47,7 @@ class debug():
             if not self._fileOpened:
                 self.openDebugFile()
             if onAnyLevel:
-                msg = 'INFO ' + str(datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f'))
+                msg = 'ANY_LEVEL '+ str(level) +  str(datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f'))
             else:            
                 msg = str(level) +' ' + str(datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')
 )

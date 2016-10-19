@@ -64,7 +64,7 @@ class settingsManager():
             shortcut.append(shortcutRepeat)
             shortcut.append(sorted(shortcutKeys))
             if len(shortcutKeys) != 1 and not 'KEY_FENRIR' in shortcutKeys:
-                self.env['runtime']['debug'].writeDebugOut("invalid shortcut (missing KEY_FENRIR): "+ str(shortcut) + ' command:' +commandName ,debug.debugLevel.ERROR, onAnyLevel=True)                    
+                self.env['runtime']['debug'].writeDebugOut("invalid shortcut (missing KEY_FENRIR): "+ str(shortcut) + ' command:' +commandName ,debug.debugLevel.ERROR)                    
                 continue            
             self.env['runtime']['debug'].writeDebugOut("Shortcut: "+ str(shortcut) + ' command:' +commandName ,debug.debugLevel.INFO, onAnyLevel=True)    
             self.env['bindings'][str(shortcut)] = commandName     
