@@ -42,7 +42,6 @@ setup(
     install_requires=[
         "evdev",
         "sox",
-    	"python-espeak"
     ],
     
 )
