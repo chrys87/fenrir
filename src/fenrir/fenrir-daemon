@@ -21,6 +21,8 @@ def main():
     del app
 
 if __name__ == "__main__":
-    daemon = Daemonize(app="fenrir-daemon", pid=pidFile, action=main)
+    # for debug in foreground
+    #daemon = Daemonize(app="fenrir-daemon", pid=pidFile, action=main, foreground=True,chdir=os.path.dirname(os.path.realpath(__main__.__file__)))
+    daemon = Daemonize(app="fenrir-daemon", pid=pidFile, action=main, chdir=os.path.dirname(os.path.realpath(__main__.__file__)))
     daemon.start()
 
