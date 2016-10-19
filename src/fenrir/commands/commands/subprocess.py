@@ -7,6 +7,7 @@
 from core import debug
 import subprocess, os
 from subprocess import Popen, PIPE
+import _thread
 
 class command():
     def __init__(self):
@@ -28,6 +29,9 @@ class command():
         if not os.access(self.scriptPath, os.X_OK):
             self.env['runtime']['outputManager'].presentText('scriptfile is not executable' , soundIcon='', interrupt=False)
             return                            
+        _thread.start_new_thread(self._threadRun , ())
+
+    def _threadRun(self):
         try:
             p = Popen(self.scriptPath , stdout=PIPE, stderr=PIPE, shell=True)
             stdout, stderr = p.communicate()
