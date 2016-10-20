@@ -127,3 +127,9 @@ class outputManager():
             self.env['runtime']['debug'].writeDebugOut("\"playSoundIcon\" in outputManager.speakText ",debug.debugLevel.ERROR)
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)            
         return False
+    def announceActiveCursor(self, interrupt_p=False):        
+        if self.env['runtime']['cursorManager'].isReviewMode():
+            self.presentText(' review cursor ', interrupt=interrupt_p)                                
+        else:
+            self.presentText(' text cursor ', interrupt=interrupt_p)       
+            
