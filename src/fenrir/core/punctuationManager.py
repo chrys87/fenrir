@@ -15,9 +15,11 @@ class punctuationManager():
         self.allPunctNone = dict.fromkeys(map(ord, string.punctuation +"§"), ' ')
         # replace with None: 
         # dot, comma, grave, apostrophe
-        for char in [ord('.'),ord(','),ord('`'),ord("'")]:
-            self.allPunctNone[char] = None
-
+        #for char in [ord('`'),ord("'")]:
+        #    self.allPunctNone[char] = None
+        # dont restore the following (for announce correct pause)
+        for char in [ord('.'), ord(','), ord(';'), ord(':'), ord('?'), ord('!'), ord('-')]:
+            self.allPunctNone[char] = chr(char)
     def shutdown(self):
         pass
     def removeUnused(self, text, currLevel = ''):
@@ -60,9 +62,9 @@ class punctuationManager():
         if not ignorePunctuation and self.env['runtime']['settingsManager'].getSetting('general', 'punctuationLevel').lower() in self.env['punctuation']['LEVELDICT']:
             currPunctLevel = self.env['punctuation']['LEVELDICT'][self.env['runtime']['settingsManager'].getSetting('general', 'punctuationLevel').lower()]
         else:
-            currPunctLevel = string.punctuation
+            currPunctLevel = string.punctuation +'§'
         resultText = self.usePunctuationDict(resultText, self.env['punctuation']['PUNCTDICT'], currPunctLevel)
-        #resultText = self.removeUnused(resultText, currPunctLevel)
+        resultText = self.removeUnused(resultText, currPunctLevel)
         return resultText
 
     def cyclePunctuation(self):
