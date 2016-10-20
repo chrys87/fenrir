@@ -12,7 +12,7 @@ punctuation = {
   'none': '',
   'some': '#-$~+*-/\\@',
   'most': '.,:-$~+*-/\\@!#%^&*()[]}{<>;',
-  'all': string.punctuation,
+  'all': string.punctuation + '§',
   },
 'PUNCTDICT':{
   '&':'and',
@@ -49,7 +49,6 @@ punctuation = {
   '=':'equals',
   },
 'CUSTOMDICT':{
-  'chrys': 'nice chrys'
   }, 
 'EMOTICONDICT':{
   ':)':'smiley',
