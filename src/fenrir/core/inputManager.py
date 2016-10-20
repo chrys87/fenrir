@@ -67,6 +67,7 @@ class inputManager():
             self.env['input']['newCapsLock'] = self.env['runtime']['inputDriver'].getCapslock()
             self.env['input']['oldScrollLock'] = self.env['input']['newScrollLock'] 
             self.env['input']['newScrollLock'] = self.env['runtime']['inputDriver'].getScrollLock()
+            self.env['runtime']['debug'].writeDebugOut("currInput " + str(self.env['input']['currInput'] ) ,debug.debugLevel.INFO)              
             if self.noKeyPressed():
                 self.env['input']['prevInput'] = []
         return eventReceived
