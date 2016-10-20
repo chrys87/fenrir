@@ -50,7 +50,7 @@ class punctuationManager():
                       key in ",.;:?!-":
                         resultText = resultText.replace(str(key),' ' +str(item) + str(key) + ' ')                    
                     else:
-                        #resultText = resultText.replace(str(key),' ' +str(item) + ' ')
+                        resultText = resultText.replace(str(key),' ' +str(item) + ' ')
         return resultText
     
     def proceedPunctuation(self, text, ignorePunctuation=False):
@@ -64,7 +64,7 @@ class punctuationManager():
         else:
             currPunctLevel = string.punctuation +'§'
         resultText = self.usePunctuationDict(resultText, self.env['punctuation']['PUNCTDICT'], currPunctLevel)
-        resultText = self.removeUnused(resultText, currPunctLevel)
+        #resultText = self.removeUnused(resultText, currPunctLevel)
         return resultText
 
     def cyclePunctuation(self):
