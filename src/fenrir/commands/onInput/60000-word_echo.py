@@ -18,27 +18,29 @@ class command():
         return 'No Description found'     
 
     def run(self):
+        # first place could not be the end of a word
+        if self.env['screenData']['newCursor']['x'] == 0:
+            return
+        # is it enabled?    
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'wordEcho'):
             return
 
         # just when cursor move worddetection is needed
-        if self.env['screenData']['newCursor']['x'] == self.env['screenData']['oldCursor']['x']:
-            return 
+        if not self.environment['runtime']['cursorManager'].isCursorHorizontalMove():
+            return
         if self.env['runtime']['inputManager'].noKeyPressed():
             return  
         # for now no new line
-        if self.env['screenData']['newCursor']['y'] != self.env['screenData']['oldCursor']['y']:
-            return 
+        if self.environment['runtime']['cursorManager'].isCursorVerticalMove():
+            return
+        # is there a delta bigger than keyecho?
         if len(self.env['screenData']['newDelta']) > 1:
             return          
- 
-        # first place could not be the end of a word
-        if self.env['screenData']['newCursor']['x'] == 0:
-            return
+
 
         # get the word
         newContent = self.env['screenData']['newContentText'].split('\n')[self.env['screenData']['newCursor']['y']]
-        x, y, currWord =  word_utils.getCurrentWord(self.env['screenData']['newCursor']['x'], 0, newContent)                  
+        x, y, currWord, endOfScreen =  word_utils.getCurrentWord(self.env['screenData']['newCursor']['x'], 0, newContent)                  
         # was this a typed word?
         if self.env['screenData']['newDelta'] != '':
             if not(newContent[self.env['screenData']['oldCursor']['x']].strip(" \t\n") == '' and x != self.env['screenData']['oldCursor']['x']):

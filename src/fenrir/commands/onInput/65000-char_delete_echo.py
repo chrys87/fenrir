@@ -25,14 +25,13 @@ class command():
             return 
 
         # More than just a deletion happend
-        if self.env['screenData']['newDelta'].strip() != '':
-            if self.env['screenData']['newDelta'] != self.env['screenData']['oldDelta']:
-    	        return
+        if self.environment['runtime']['screenManager'].isDelta():
+            return
+        # no deletion
+        if not self.environment['runtime']['screenManager'].isNegativeDelta():
+            return
         if self.env['runtime']['inputManager'].noKeyPressed():
             return              
-        # No deletion 
-        if self.env['screenData']['newNegativeDelta'] == '':
-            return
         # too much for a single backspace...
         if len(self.env['screenData']['newNegativeDelta']) >= 2:
             return           

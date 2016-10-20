@@ -45,23 +45,25 @@ class command():
                return
 
         # just when cursor move worddetection is needed
-        if self.env['screenData']['newCursor']['x'] == self.env['screenData']['oldCursor']['x']:
-            return 
+        if not self.environment['runtime']['cursorManager'].isCursorHorizontalMove():
+            return
             
         # for now no new line
-        if self.env['screenData']['newCursor']['y'] != self.env['screenData']['oldCursor']['y']:
-            return 
+        if self.environment['runtime']['cursorManager'].isCursorVerticalMove():
+            return
+        # more than a keyecho?
         if len(self.env['screenData']['newDelta']) > 1:
             return            
-        if self.env['screenData']['newNegativeDelta'] != '':
-            return                
+        # deletion
+        if self.environment['runtime']['screenManager'].isNegativeDelta():
+            return             
         # first place could not be the end of a word
         if self.env['screenData']['newCursor']['x'] == 0:
             return
             
-        # get the word
+        # get the word (just for speedup only look at current line
         newContent = self.env['screenData']['newContentText'].split('\n')[self.env['screenData']['newCursor']['y']]
-        x, y, currWord =  word_utils.getCurrentWord(self.env['screenData']['newCursor']['x'], 0, newContent)                  
+        x, y, currWord, endOfScreen =  word_utils.getCurrentWord(self.env['screenData']['newCursor']['x'], 0, newContent)                  
         # was this a typed word?
         if self.env['screenData']['newDelta'] != '':
             if not(newContent[self.env['screenData']['oldCursor']['x']] in string.whitespace + '!"#$%&()*+,-./:;<=>?@[\\]^_{|}~' and x != self.env['screenData']['oldCursor']['x']):

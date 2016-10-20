@@ -47,7 +47,13 @@ class cursorManager():
             return
         self.env['screenData']['oldCursorReview'] = None
         self.env['screenData']['newCursorReview'] = None
-        
+    def isCursorHorizontalMove(self):
+        return self.env['screenData']['newCursor']['x'] != self.env['screenData']['oldCursor']['x']
+
+    def isCursorVerticalMove(self):
+        return self.env['screenData']['newCursor']['y'] != self.env['screenData']['oldCursor']['y']
+
+          
     def isReviewMode(self):
         return self.env['screenData']['newCursorReview'] != None
     def enterReviewModeCurrTextCursor(self, overwrite=False):

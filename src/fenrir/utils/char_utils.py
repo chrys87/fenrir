@@ -27,7 +27,7 @@ def getPrevChar(currX,currY, currText):
 def getCurrentChar(currX,currY, currText):
     endOfScreen = False
     if currText == '':
-        return -1, -1, ''
+        return -1, -1, '', endOfScreen
     wrappedLines = currText.split('\n')         
     currChar = wrappedLines[currY][currX]
     return currX, currY, currChar, endOfScreen
@@ -39,7 +39,9 @@ def getUpChar(currX,currY, currText):
     wrappedLines = currText.split('\n')   
     currY -= 1
     if currY < 0:
-        currY = 0      
+        currY = 0 
+    else:
+        endOfScreen = True                
     currChar = wrappedLines[currY][currX]
     return currX, currY, currChar, endOfScreen
 

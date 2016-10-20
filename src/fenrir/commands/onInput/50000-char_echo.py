@@ -25,7 +25,7 @@ class command():
         if self.env['runtime']['inputManager'].noKeyPressed():
             return              
         # is there any change?
-        if self.env['screenData']['newDelta'] == '':
+        if not self.environment['runtime']['screenManager'].isDelta():
             return
         # big changes are no char (but the value is bigger than one maybe the differ needs longer than you can type, so a little strange random buffer for now)
         if len(self.env['screenData']['newDelta']) > 3:

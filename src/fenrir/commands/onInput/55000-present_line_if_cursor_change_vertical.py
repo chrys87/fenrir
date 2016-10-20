@@ -5,6 +5,7 @@
 # By Chrys, Storm Dragon, and contributers.
 
 from core import debug
+from utils import line_utils
 
 class command():
     def __init__(self):
@@ -19,15 +20,16 @@ class command():
     def run(self):
         if self.env['runtime']['inputManager'].noKeyPressed():
             return     
-        if self.env['screenData']['newTTY'] != self.env['screenData']['oldTTY']:
+        if self.environment['runtime']['screenManager'].isScreenChange():
             return
-        if self.env['screenData']['newDelta'] != self.env['screenData']['oldDelta']:
+        if self.environment['runtime']['screenManager'].isDelta():
             return    
-        if self.env['screenData']['newCursor']['y'] == self.env['screenData']['oldCursor']['y']:
-            return
-        if self.env['runtime']['inputManager'].noKeyPressed():
-            return              
-        currLine = self.env['screenData']['newContentText'].split('\n')[self.env['screenData']['newCursor']['y']]
+        # is a vertical change?
+        if not self.environment['runtime']['cursorManager'].isCursorVerticalMove():
+            return   
+       
+        x, y, currLine, endOfScreen = line_utils.getCurrentLine(self.env['screenData']['newCursor']['x'], self.env['screenData']['newCursor']['y'], self.env['screenData']['newContentText'])
+
         if currLine.isspace():
             self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True)
         else:

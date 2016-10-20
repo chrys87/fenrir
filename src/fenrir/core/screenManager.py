@@ -44,7 +44,10 @@ class screenManager():
         if not self.env['screenData']['oldTTY']:
             return False
         return self.env['screenData']['newTTY'] != self.env['screenData']['oldTTY']
-    
+    def isDelta(self):    
+        return self.env['screenData']['newDelta'] != ''
+    def isNegativeDelta(self):    
+        return self.env['screenData']['newNegativeDelta'] != ''
     def getWindowAreaInText(self, text):
         if not self.env['runtime']['cursorManager'].isApplicationWindowSet():
             return text

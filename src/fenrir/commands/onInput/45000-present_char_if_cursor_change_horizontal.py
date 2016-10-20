@@ -5,6 +5,7 @@
 # By Chrys, Storm Dragon, and contributers.
 
 from core import debug
+from utils import char_utils
 
 class command():
     def __init__(self):
@@ -17,20 +18,22 @@ class command():
         return ''           
     
     def run(self):
-        if self.env['screenData']['newTTY'] != self.env['screenData']['oldTTY']:
+        if self.environment['runtime']['screenManager'].isScreenChange():
             return            
         if self.env['runtime']['inputManager'].noKeyPressed():
             return            
         # detect an change on the screen, we just want to cursor arround, so no change should appear
-        if self.env['screenData']['newDelta'] != '':
+        if self.environment['runtime']['screenManager'].isDelta():
             return
-        if self.env['screenData']['newNegativeDelta'] != '':
-            return            
+        if self.environment['runtime']['screenManager'].isNegativeDelta():
+            return
+        # is a vertical change?
+        if self.environment['runtime']['cursorManager'].isCursorVerticalMove():
+            return                        
         # is it a horizontal change?
-        if self.env['screenData']['newCursor']['y'] != self.env['screenData']['oldCursor']['y'] or\
-          self.env['screenData']['newCursor']['x'] == self.env['screenData']['oldCursor']['x']:
+        if not self.environment['runtime']['cursorManager'].isCursorHorizontalMove():
             return
-        currChar = self.env['screenData']['newContentText'].split('\n')[self.env['screenData']['newCursor']['y']][self.env['screenData']['newCursor']['x']]
+        x, y, currChar, endOfScreen = char_utils.getCurrentChar(self.env['screenData']['newCursor']['x'], self.env['screenData']['newCursor']['y'], self.env['screenData']['newContentText'])
         if not currChar.isspace():
             self.env['runtime']['outputManager'].presentText(currChar, interrupt=True, ignorePunctuation=True, announceCapital=True)
     def setCallback(self, callback):
