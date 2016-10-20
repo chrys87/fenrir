@@ -38,7 +38,6 @@ class driver():
             self._sd.set_punctuation(self._punct.NONE)              
         except Exception as e:
             pass
-
         self._sd.speak(text)
         return True
 
