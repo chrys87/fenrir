@@ -50,7 +50,7 @@ class punctuationManager():
                       key in ",.;:?!-":
                         resultText = resultText.replace(str(key),' ' +str(item) + str(key) + ' ')                    
                     else:
-                        resultText = resultText.replace(str(key),' ' +str(item) + ' ')
+                        #resultText = resultText.replace(str(key),' ' +str(item) + ' ')
         return resultText
     
     def proceedPunctuation(self, text, ignorePunctuation=False):
