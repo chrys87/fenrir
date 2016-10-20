@@ -38,7 +38,7 @@ class debug():
             self._fileOpened = True
 
     def writeDebugOut(self, text, level = debugLevel.DEACTIVE, onAnyLevel=False):
-        if (self.env['runtime']['settingsManager'].getSettingAsInt('general','debugLevel') < int(level)) or \
+        if (self.env['runtime']['settingsManager'].getSettingAsInt('general','debugLevel') < int(level)) and \
         not (onAnyLevel and self.env['runtime']['settingsManager'].getSettingAsInt('general','debugLevel') > int(debugLevel.DEACTIVE)) :
             if self._fileOpened:
                 self.closeDebugFile()
@@ -47,7 +47,7 @@ class debug():
             if not self._fileOpened:
                 self.openDebugFile()
             if onAnyLevel:
-                msg = 'ANY_LEVEL '+ str(level) +  str(datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f'))
+                msg = 'ANY '+ str(level) +  str(datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f'))
             else:            
                 msg = str(level) +' ' + str(datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')
 )
