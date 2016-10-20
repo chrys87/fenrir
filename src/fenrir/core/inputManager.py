@@ -164,6 +164,7 @@ class inputManager():
                 self.env['input']['shortcutRepeat'] = 1
                 shortcut.append(self.env['input']['shortcutRepeat'])
                 shortcut.append(self.env['input']['currInput'])     
+        self.env['runtime']['debug'].writeDebugOut("currShortcut " + str(shortcut) ,debug.debugLevel.INFO)                      
         return str(shortcut)
         
     def isFenrirKey(self, eventName):
