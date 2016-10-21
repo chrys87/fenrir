@@ -20,15 +20,15 @@ class command():
     def run(self):
         if self.env['runtime']['inputManager'].noKeyPressed():
             return     
-        if self.environment['runtime']['screenManager'].isScreenChange():
+        if self.env['runtime']['screenManager'].isScreenChange():
             return
-        if self.environment['runtime']['screenManager'].isDelta():
+        if self.env['runtime']['screenManager'].isDelta():
             return    
         # is a vertical change?
-        if not self.environment['runtime']['cursorManager'].isCursorVerticalMove():
+        if not self.env['runtime']['cursorManager'].isCursorVerticalMove():
             return   
        
-        x, y, currLine, endOfScreen = line_utils.getCurrentLine(self.env['screenData']['newCursor']['x'], self.env['screenData']['newCursor']['y'], self.env['screenData']['newContentText'])
+        x, y, currLine = line_utils.getCurrentLine(self.env['screenData']['newCursor']['x'], self.env['screenData']['newCursor']['y'], self.env['screenData']['newContentText'])
 
         if currLine.isspace():
             self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True)

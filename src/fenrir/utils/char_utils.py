@@ -7,6 +7,7 @@
 from core import debug
 
 def getPrevChar(currX,currY, currText):
+    lineBreak = False       
     endOfScreen = False
     if currText == '':
         return -1, -1, '', endOfScreen
@@ -17,20 +18,20 @@ def getPrevChar(currX,currY, currText):
         if y - 1 > 0:
             y -= 1
             x = len(wrappedLines[y]) - 1
+            lineBreak = True
         else:
             endOfScreen = True
     else:
         x -= 1
     currChar = wrappedLines[y][x]        
-    return x, y, currChar, endOfScreen
+    return x, y, currChar, endOfScreen, lineBreak
 
 def getCurrentChar(currX,currY, currText):
-    endOfScreen = False
     if currText == '':
         return -1, -1, '', endOfScreen
     wrappedLines = currText.split('\n')         
     currChar = wrappedLines[currY][currX]
-    return currX, currY, currChar, endOfScreen
+    return currX, currY, currChar
 
 def getUpChar(currX,currY, currText):
     endOfScreen = False
@@ -70,6 +71,7 @@ def getLastCharInLine(currY, currText):
     return currX, currY, currChar, endOfScreen
 
 def getNextChar(currX,currY, currText):
+    lineBreak = False        
     endOfScreen = False    
     if currText == '':
         return -1, -1, '', endOfScreen
@@ -80,6 +82,7 @@ def getNextChar(currX,currY, currText):
         if y + 1 < len(wrappedLines) - 1:
             y += 1
             x = 0
+            lineBreak = True
         else:
             endOfScreen = True
     else:

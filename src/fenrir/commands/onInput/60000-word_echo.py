@@ -6,6 +6,7 @@
 
 from core import debug
 from utils import word_utils
+import string
 
 class command():
     def __init__(self):
@@ -26,29 +27,27 @@ class command():
             return
 
         # just when cursor move worddetection is needed
-        if not self.environment['runtime']['cursorManager'].isCursorHorizontalMove():
+        if not self.env['runtime']['cursorManager'].isCursorHorizontalMove():
             return
         if self.env['runtime']['inputManager'].noKeyPressed():
             return  
         # for now no new line
-        if self.environment['runtime']['cursorManager'].isCursorVerticalMove():
+        if self.env['runtime']['cursorManager'].isCursorVerticalMove():
             return
-        # is there a delta bigger than keyecho?
-        if len(self.env['screenData']['newDelta']) > 1:
-            return          
-
-
-        # get the word
+        # get the word            
         newContent = self.env['screenData']['newContentText'].split('\n')[self.env['screenData']['newCursor']['y']]
-        x, y, currWord, endOfScreen =  word_utils.getCurrentWord(self.env['screenData']['newCursor']['x'], 0, newContent)                  
+        x, y, currWord =  word_utils.getCurrentWord(self.env['screenData']['newCursor']['x'], 0, newContent)                          
         # was this a typed word?
-        if self.env['screenData']['newDelta'] != '':
-            if not(newContent[self.env['screenData']['oldCursor']['x']].strip(" \t\n") == '' and x != self.env['screenData']['oldCursor']['x']):
+        if self.env['runtime']['screenManager'].isDelta():
+            # is there a delta bigger than keyecho?
+            if len(self.env['screenData']['newDelta']) > 1:
+                return          
+            if not(newContent[self.env['screenData']['oldCursor']['x']].isspace() and x != self.env['screenData']['oldCursor']['x']):
                 return
         else:
         # or just arrow arround?
-            if not(newContent[self.env['screenData']['newCursor']['x']].strip(" \t\n") == '' and x != self.env['screenData']['newCursor']['x']):
-                return            
+            if not(newContent[self.env['screenData']['newCursor']['x']].isspace() and x != self.env['screenData']['newCursor']['x']):
+                return    
 
         if currWord != '':
             self.env['runtime']['outputManager'].presentText(currWord, interrupt=True)

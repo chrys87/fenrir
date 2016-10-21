@@ -8,6 +8,7 @@ from core import debug
 #  X   Y Word  END
 # -1, -1, '', True
 def getPrevWord(currX,currY, currText):
+    lineBreak = False        
     endOfScreen = False
     if currText == '':
         return -1, -1, '', endOfScreen
@@ -15,10 +16,10 @@ def getPrevWord(currX,currY, currText):
     if endOfScreen:
         return x, y, currWord, endOfScreen
     wrappedLines = currText.split('\n') 
-
-    return x, y, currWord, endOfScreen
+    return x, y, currWord, endOfScreen, lineBreak
 
 def getCurrentWord(currX,currY, currText):
+    lineBreak = False    
     endOfScreen = False
     if currText == '':
         return -1, -1, '', endOfScreen
@@ -27,9 +28,10 @@ def getCurrentWord(currX,currY, currText):
     wrappedLines = currText.split('\n')
     currWord = ''
     currLine = wrappedLines[y].replace("\t"," ")
-    return x, y, currWord, endOfScreen
+    return x, y, currWord, endOfScreen, lineBreak
 
 def getNextWord(currX,currY, currText):
+    lineBreak = False        
     endOfScreen = False
     if currText == '':
         return -1, -1, '', endOfScreen
@@ -38,4 +40,4 @@ def getNextWord(currX,currY, currText):
     wrappedLines = currText.split('\n')
     currWord = ''
     currLine = wrappedLines[y].replace("\t"," ")
-    return x, y, currWord, endOfScreen
+    return x, y, currWord, endOfScreen, lineBreak

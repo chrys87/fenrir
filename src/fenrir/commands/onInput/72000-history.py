@@ -19,9 +19,9 @@ class command():
     def run(self):
         if self.env['runtime']['inputManager'].noKeyPressed():
             return     
-        if self.env['screenData']['newTTY'] != self.env['screenData']['oldTTY']:
+        if self.env['runtime']['screenManager'].isScreenChange():
             return
-        if self.env['screenData']['newCursor']['y'] != self.env['screenData']['oldCursor']['y']:
+        if self.env['runtime']['cursorManager'].isCursorVerticalMove():
             return
         if len(self.env['input']['currInput']) != 1:              
             return
