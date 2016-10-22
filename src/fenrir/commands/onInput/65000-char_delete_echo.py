@@ -19,20 +19,21 @@ class command():
     def run(self):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'charDeleteEcho'):
             return
-   
+
         # detect typing or chilling
         if self.env['screenData']['newCursor']['x'] >= self.env['screenData']['oldCursor']['x']:
             return 
 
         # More than just a deletion happend
         if self.env['screenData']['newDelta'].strip() != '':
-            if self.env['screenData']['newDelta'] != self.env['screenData']['oldDelta']:
-    	        return          
+    	    return
+    	    
         # No deletion 
         if self.env['screenData']['newNegativeDelta'] == '':
             return
         # too much for a single backspace...
-        if len(self.env['screenData']['newNegativeDelta']) >= 2:
+        # word begin produce a diff wiht len == 2 |a | others with 1 |a|
+        if len(self.env['screenData']['newNegativeDelta']) > 2:
             return           
 
         self.env['runtime']['outputManager'].presentText(self.env['screenData']['newNegativeDelta'], interrupt=True, ignorePunctuation=True, announceCapital=True)
