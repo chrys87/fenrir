@@ -35,15 +35,16 @@ class driver():
             for fd in r:
                 event = self.iDevices[fd].read_one()            
                 while(event):
-                    if not event:
-                        return None
                     self.env['input']['eventBuffer'].append( [self.iDevices[fd], self.uDevices[fd], event])
-                    if event.code != 0:
-                        currMapEvent = self.env['runtime']['inputDriver'].mapEvent(event)
-                        if not currMapEvent:
-                            return currMapEvent
-                        if currMapEvent['EventState'] in [0,1,2]:
-                            return currMapEvent
+                    if event.type == evdev.events.EV_KEY:
+                        if event.code != 0:
+                            currMapEvent = self.env['runtime']['inputDriver'].mapEvent(event)
+                            if not currMapEvent:
+                                return currMapEvent
+                            if currMapEvent['EventState'] in [0,1,2]:
+                                return currMapEvent
+                                
+                            
                     event = self.iDevices[fd].read_one()                            
         return None
 
@@ -96,34 +97,25 @@ class driver():
             return mEvent
         except Exception as e:
             return None
-
-    def getNumlock(self):
-        if self.ledDevices == {}:
-            return True
-        if self.ledDevices == None:
-            return True                      
-        for fd, dev in self.ledDevices.items():
-            return 0 in dev.leds()
-        return True
-
-    def getCapslock(self):
+       
+    def getLedState(self, led = 0):
+        # 0 = Numlock
+        # 1 = Capslock
+        # 2 = Rollen
         if self.ledDevices == {}:
             return False
         if self.ledDevices == None:
             return False                      
         for fd, dev in self.ledDevices.items():
-            return 1 in dev.leds()
-        return False   
-        
-    def getScrollLock(self):
-        if self.ledDevices == {}:
-            return False
-        if self.ledDevices == None:
-            return False                      
-        for fd, dev in self.ledDevices.items():
-            return 2 in dev.leds()
+            return led in dev.leds()
         return False          
-        
+    def toggleLedState(self, led = 0):
+        ledState = self.getLedState(led)
+        for i in self.ledDevices:
+            if ledState == 1:
+                self.ledDevices[i].set_led(led , 0)
+            else:
+                self.ledDevices[i].set_led(led , 1)
     def grabDevices(self):
 #        leve the old code until the new one is better tested    
 #        for fd in self.iDevices:

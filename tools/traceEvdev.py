@@ -7,6 +7,9 @@ import time
 devices = map(evdev.InputDevice, (evdev.list_devices()))
 devices = {dev.fd: dev for dev in devices}
 
+for fd in devices:
+    for i in devices[fd].capabilities(True):
+        print(devices[fd].fn,devices[fd].name,i)
 while True:
     r, w, x = select(devices, [], [])
     if r != []:

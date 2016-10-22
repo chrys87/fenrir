@@ -50,6 +50,8 @@ class command():
             self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True)
         else:            
             self.env['runtime']['outputManager'].presentText(announce, interrupt=True)
+        self.env['commandsIgnore']['onScreenUpdate']['CHAR_DELETE_ECHO'] = True
+        self.env['commandsIgnore']['onScreenUpdate']['CHAR_ECHO'] = True
         self.env['commandsIgnore']['onScreenUpdate']['INCOMING_IGNORE'] = True
     def setCallback(self, callback):
         pass

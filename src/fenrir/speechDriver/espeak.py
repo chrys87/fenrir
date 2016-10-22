@@ -11,14 +11,17 @@ class driver():
     def __init__(self ):
         self._es = None
         self._isInitialized = False
+
+    def initialize(self, environment):
+        self.env = environment          
         try:
             from espeak import espeak 
             self._es = espeak
             self._isInitialized = True
-        except:
+        except Exception as e:
+            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)         
             self._initialized = False
-    def initialize(self, environment):
-        self.env = environment          
+                    
     def shutdown(self):
         pass
 
