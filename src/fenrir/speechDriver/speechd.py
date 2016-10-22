@@ -12,15 +12,18 @@ class driver():
         self._sd = None
         self._isInitialized = False
         self._language = ''
+
+    def initialize(self, environment):
+        self.env = environment
         try:
             import speechd 
             self._sd =  speechd.SSIPClient('fenrir')
             self._punct = speechd.PunctuationMode()
             self._isInitialized = True
-        except:
+        except Exception as e:
+            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)         
             self._initialized = False
-    def initialize(self, environment):
-        self.env = environment
+                    
     def shutdown(self):
         if not self._isInitialized:
             return
