@@ -26,9 +26,6 @@ http://mielke.cc/brltty/doc/Manual-BrlAPI/English/BrlAPI.html
 https://git.gnome.org/browse/orca/tree/src/orca/braille.py
 https://wiki.gnome.org/Attic/LSR/ScratchPad/Braille/BrlAPI
 
-- announce capslock
-- anounce numlock
-- anounce scroll
 - add perApplicationTrigger trigger
   per application commands
   per application onScreenChange
@@ -255,3 +252,7 @@ ps a -o tty,comm  | grep -e Xorg | grep -v "grep -e Xorg"
 - add an daemonize mode
 https://github.com/thesharp/daemonize
 https://web.archive.org/web/20131017130434/http://www.jejik.com/articles/2007/02/a_simple_unix_linux_daemon_in_python/
+
+- announce capslock
+- anounce numlock
+- anounce scroll
