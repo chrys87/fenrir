@@ -52,8 +52,7 @@ class driver():
                                     self.env['screenData']['newApplication'] = i[0]                        
                                 return
         except Exception as e:
-            print(e)
-            return
+            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)    
         return
 
     def getIgnoreScreens(self):
