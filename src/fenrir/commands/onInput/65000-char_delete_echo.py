@@ -27,9 +27,7 @@ class command():
         # More than just a deletion happend
         if self.env['screenData']['newDelta'].strip() != '':
             if self.env['screenData']['newDelta'] != self.env['screenData']['oldDelta']:
-    	        return
-        if self.env['runtime']['inputManager'].noKeyPressed():
-            return              
+    	        return          
         # No deletion 
         if self.env['screenData']['newNegativeDelta'] == '':
             return
