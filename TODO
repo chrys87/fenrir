@@ -8,6 +8,8 @@ ToDos in Priority order:
   in special cases next word skipps a word, "word<12 spaces>word2<12 spaces>word3 (storm_dragon)
   spellcheck triggers twice if there are two spaces after an word and you arrow over them
 
+- replace beep with a digital equivalent
+
 - implement braille
   output to braille device
   virtual buffer area for scroll left/right if the line is to long for device
