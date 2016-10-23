@@ -35,16 +35,16 @@ class driver():
             for fd in r:
                 event = self.iDevices[fd].read_one()            
                 while(event):
-                    self.env['input']['eventBuffer'].append( [self.iDevices[fd], self.uDevices[fd], event])
                     if event.type == evdev.events.EV_KEY:
+                        self.env['input']['eventBuffer'].append( [self.iDevices[fd], self.uDevices[fd], event])
                         if event.code != 0:
                             currMapEvent = self.env['runtime']['inputDriver'].mapEvent(event)
                             if not currMapEvent:
                                 return currMapEvent
                             if currMapEvent['EventState'] in [0,1,2]:
                                 return currMapEvent
-                                
-                            
+                    else:
+                        self.writeUInput(self.uDevices[fd], event)                            
                     event = self.iDevices[fd].read_one()                            
         return None
 
@@ -102,10 +102,10 @@ class driver():
         # 0 = Numlock
         # 1 = Capslock
         # 2 = Rollen
-        if self.ledDevices == {}:
-            return False
         if self.ledDevices == None:
-            return False                      
+            return False
+        if self.ledDevices == {}:
+            return False                   
         for fd, dev in self.ledDevices.items():
             return led in dev.leds()
         return False          
