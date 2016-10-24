@@ -118,19 +118,19 @@ class driver():
         typing = False
         if (self.env['screenData']['oldContentText'] != self.env['screenData']['newContentText']) and \
           (self.env['screenData']['newContentText'] != '' ):
-            if self.env['screenData']['oldContentText'] == '' and\
+            if oldScreenText == '' and\
               newScreenText != '':
                 self.env['screenData']['newDelta'] = newScreenText
             else:
-                cursorLineStart = self.env['screenData']['lines'] * self.env['screenData']['columns'] + self.env['screenData']['lines']
+                cursorLineStart = self.env['screenData']['newCursor']['y'] * self.env['screenData']['columns'] + self.env['screenData']['newCursor']['y']
                 cursorLineEnd = cursorLineStart  + self.env['screenData']['columns']            
                 if self.env['screenData']['oldCursor']['x'] != self.env['screenData']['newCursor']['x'] and \
                   self.env['screenData']['oldCursor']['y'] == self.env['screenData']['newCursor']['y'] and \
-                  self.env['screenData']['newContentText'][:cursorLineStart] == self.env['screenData']['oldContentText'][:cursorLineStart] and \
-                  self.env['screenData']['newContentText'][cursorLineEnd:] == self.env['screenData']['oldContentText'][cursorLineEnd:]:
-                    oldScreenText = self.env['screenData']['oldContentText'][cursorLineStart:cursorLineEnd + 1] 
+                  self.env['screenData']['newContentText'][:cursorLineStart] == self.env['screenData']['oldContentText'][:cursorLineStart]:
+
+                    oldScreenText = self.env['screenData']['oldContentText'][cursorLineStart:cursorLineEnd] 
                     oldScreenText = re.sub(' +',' ',oldScreenText)
-                    newScreenText = self.env['screenData']['newContentText'][cursorLineStart:cursorLineEnd + 1]
+                    newScreenText = self.env['screenData']['newContentText'][cursorLineStart:cursorLineEnd]
                     newScreenText = re.sub(' +',' ',newScreenText)
                     diff = difflib.ndiff(oldScreenText, newScreenText) 
                     typing = True                      
