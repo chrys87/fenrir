@@ -168,10 +168,10 @@ class inputManager():
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)
 
     def isFenrirKeyPressed(self):
-        return 'KEY_FENRIR' in self.env['input']['currInput']
+        return 'KEY_FENRIR' in self.env['input']['prevDeepestInput']
     
     def isScriptKeyPressed(self):
-        return 'KEY_SCRIPT' in self.env['input']['currInput']
+        return 'KEY_SCRIPT' in self.env['input']['prevDeepestInput']
 
     def noKeyPressed(self):
         return self.env['input']['currInput'] == []
