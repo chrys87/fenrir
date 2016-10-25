@@ -43,7 +43,7 @@ class inputManager():
                     if len(self.env['input']['currInput']) == 0:
                         self.env['input']['prevDeepestInput'] = []
                         self.env['input']['shortcutRepeat'] = 1 
-                    self.handleLedStates(mEvent)                                             
+                    self.setLedState = self.handleLedStates(mEvent)                                             
                     self.env['input']['lastInputTime'] = time.time()                                                   
             elif mEvent['EventState'] == 1:
                 if not mEvent['EventName'] in self.env['input']['currInput']:
@@ -57,7 +57,7 @@ class inputManager():
                             self.env['input']['shortcutRepeat'] += 1
                         else:
                             self.env['input']['shortcutRepeat'] = 1
-                    self.handleLedStates(mEvent)                                             
+                    self.setLedState = self.handleLedStates(mEvent)                                             
                     self.env['input']['lastInputTime'] = time.time()                                               
             elif mEvent['EventState'] == 2:
                 self.env['input']['lastInputTime'] = time.time()                                                   
@@ -77,34 +77,29 @@ class inputManager():
 
     def handleLedStates(self, mEvent):
         if not self.setLedState:
-            return
+            return self.setLedState
         if mEvent['EventName'] == 'KEY_NUMLOCK':
             if mEvent['EventState'] == 1 and not self.env['input']['newNumLock'] == 1:
                 self.env['runtime']['inputDriver'].toggleLedState() 
-                self.setLedState = False                
-                return  
+                return False
             if mEvent['EventState'] == 0 and not self.env['input']['newNumLock'] == 0:
-                self.env['runtime']['inputDriver'].toggleLedState()                                                          
-                self.setLedState = False                
-                return
+                self.env['runtime']['inputDriver'].toggleLedState()                                                                        
+                return False
         if mEvent['EventName'] == 'KEY_CAPSLOCK':   
             if mEvent['EventState'] == 1 and not self.env['input']['newCapsLock'] == 1:
-                self.env['runtime']['inputDriver'].toggleLedState(1) 
-                self.setLedState = False                
-                return  
+                self.env['runtime']['inputDriver'].toggleLedState(1)              
+                return False
             if mEvent['EventState'] == 0 and not self.env['input']['newCapsLock'] == 0:
-                self.env['runtime']['inputDriver'].toggleLedState(1)                                                          
-                self.setLedState = False                
-                return                                              
+                self.env['runtime']['inputDriver'].toggleLedState(1)                                                                         
+                return False                                      
         if mEvent['EventName'] == 'KEY_SCROLLLOCK':  
             if mEvent['EventState'] == 1 and not self.env['input']['newScrollLock'] == 1:
-                self.env['runtime']['inputDriver'].toggleLedState(2) 
-                self.setLedState = False                
-                return  
+                self.env['runtime']['inputDriver'].toggleLedState(2)              
+                return False
             if mEvent['EventState'] == 0 and not self.env['input']['newScrollLock'] == 0:
-                self.env['runtime']['inputDriver'].toggleLedState(2)                                                          
-                self.setLedState = False                
-                return    
+                self.env['runtime']['inputDriver'].toggleLedState(2)                                                                       
+                return False
+        return self.setLedState
 
     def grabDevices(self):
         if self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
