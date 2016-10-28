@@ -39,3 +39,9 @@ def getNextLine(currX,currY, currText):
     x = 0
     currLine = wrappedLines[y]    
     return x, y, currLine
+
+def insertNewlines(string, every=64):
+    return b'\n'.join(string[i:i+every] for i in range(0, len(string), every))
+
+def splitAtrrLines(string, every=64):
+    return list(string[i:i+every] for i in range(0, len(string), every))
