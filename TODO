@@ -7,7 +7,25 @@ ToDos in Priority order:
   For example, in screen, it just tells me bell in window, but doesn't tell me which one. (southernprince)
   in special cases next word skipps a word, "word<12 spaces>word2<12 spaces>word3 (storm_dragon)
   spellcheck triggers twice if there are two spaces after an word and you arrow over them
+  fenrir is not able to detect the current application inside of screen.
+  
+- implement onScreenUpdate commands
+  read highlighted text mode
 
+- implement onInput commands
+  read highlighted vertiacl
+  read highlighted horizontal
+  
+- implement commands
+  attributes_curr_char
+  toggle_highlighted_mode
+  generic list command (convert clipboard management)
+    next item
+    pref item
+    curr item
+    first item
+    last item
+  
 - implement braille
   output to braille device
   virtual buffer area for scroll left/right if the line is to long for device
@@ -22,37 +40,16 @@ ToDos in Priority order:
   tweak current commands and output
 http://mielke.cc/brltty/doc/Manual-BrlAPI/English/BrlAPI.html
 https://git.gnome.org/browse/orca/tree/src/orca/braille.py
-https://wiki.gnome.org/Attic/LSR/ScratchPad/Braille/BrlAPI
+https://wiki.gnome.org/Attic/LSR/ScratchPad/Braille/BrlAPI  
+  
+- implement autodetection of plugged and removed input devices (python-pyudev)
+http://askubuntu.com/questions/508236/how-can-i-run-code-whenever-a-usb-device-is-unplugged-without-requiring-root
 
 - add perApplicationTrigger trigger
   per application commands
   per application onScreenChange
   per application onInput
 - per application shortcuts
-- implement commands
-  next_char_phonetic
-  prev_char_phonetic
-  next_word_phonetic
-  prev_word_phonetic
-  attributes_curr_char
-
-  toggle_highlighted_mode
-  generic list command (convert clipboard management)
-    next item
-    pref item
-    curr item
-    first item
-    last item
-  
-- implement onScreenUpdate commands
-  read highlighted text mode
-- add the debugging to core  
-- autostart systemd
-https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/sect-Managing_Services_with_systemd-Unit_Files.html
-
-- implement autodetection of plugged and removed input devices (python-pyudev)
-http://askubuntu.com/questions/508236/how-can-i-run-code-whenever-a-usb-device-is-unplugged-without-requiring-root
-
 - configuration should be overwriteable with parameter and alternative paths
 - write settings
 - menue for settings configuration #storm
@@ -199,7 +196,11 @@ ps a -o tty,comm  | grep -e Xorg | grep -v "grep -e Xorg"
   "papa", "quebec", "romeo", "sierra", "tango",
   "uniform", "victor", "whisky", "x ray",
   "yankee", "zulu"
-
+  next_char_phonetic
+  prev_char_phonetic
+  next_word_phonetic
+  prev_word_phonetic
+  
 - implement onInput commands 
   read_line_if_cursor_change_vertical (needed if you arrow up and down, we want to announce the line)
   read_char_if_cursur_change_horizontal (needed if you arrow left and right, we want to announce the char under the cursor)
@@ -254,3 +255,7 @@ https://web.archive.org/web/20131017130434/http://www.jejik.com/articles/2007/02
 - announce capslock
 - anounce numlock
 - anounce scroll
+- add the debugging to core  
+
+- autostart systemd
+https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/sect-Managing_Services_with_systemd-Unit_Files.html
