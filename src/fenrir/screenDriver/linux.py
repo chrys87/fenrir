@@ -8,6 +8,7 @@ import difflib
 import re
 import subprocess
 from core import debug
+from utils import screen_utils
 
 class driver():
     def __init__(self):
@@ -86,9 +87,9 @@ class driver():
         self.env['screenData']['oldContentBytes'] = self.env['screenData']['newContentBytes']
         self.env['screenData']['oldContentText'] = self.env['screenData']['newContentText']
         self.env['screenData']['oldContentTextAttrib'] = self.env['screenData']['newContentAttrib']
-        self.env['screenData']['oldCursor']['x'] = self.env['screenData']['newCursor']['x']
-        self.env['screenData']['oldCursor']['y'] = self.env['screenData']['newCursor']['y']
+        self.env['screenData']['oldCursor'] = self.env['screenData']['newCursor'].copy()
         self.env['screenData']['oldDelta'] = self.env['screenData']['newDelta']
+        self.env['screenData']['oldAttribDelta'] = self.env['screenData']['newAttribDelta']
         self.env['screenData']['oldNegativeDelta'] = self.env['screenData']['newNegativeDelta']
         self.env['screenData']['newContentBytes'] = newContentBytes
         # get metadata like cursor or screensize
@@ -108,10 +109,13 @@ class driver():
             self.env['screenData']['oldCursor']['x'] = 0
             self.env['screenData']['oldCursor']['y'] = 0
             self.env['screenData']['oldDelta'] = ''
+            self.env['screenData']['oldAttribDelta'] = ''            
+            self.env['screenData']['oldCursorAttrib'] = None
             self.env['screenData']['oldNegativeDelta'] = ''
-        # always clear current deltas
+        # initialize current deltas
         self.env['screenData']['newNegativeDelta'] = ''
-        self.env['screenData']['newDelta'] = ''                   
+        self.env['screenData']['newDelta'] = ''
+        self.env['screenData']['newAttribDelta'] = ''                           
         # changes on the screen
         oldScreenText = re.sub(' +',' ',self.env['runtime']['screenManager'].getWindowAreaInText(self.env['screenData']['oldContentText']))
         newScreenText = re.sub(' +',' ',self.env['runtime']['screenManager'].getWindowAreaInText(self.env['screenData']['newContentText']))        
