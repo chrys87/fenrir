@@ -10,7 +10,7 @@ from collections import Counter
 def insertNewlines(string, every=64):
     return '\n'.join(string[i:i+every] for i in range(0, len(string), every))
 
-def splitOnPos(string, every=64):
+def splitEvery(string, every=64):
     return list(string[i:i+every] for i in range(0, len(string), every))
 
 old = b'eeeemmmeeeeeeeee'
@@ -26,8 +26,8 @@ def trackHighlights(oldAttr, newAttr, text, lenght):
         return result,  currCursor
     textLines = insertNewlines(text,lenght)
     textLines = textLines.split('\n')    
-    old = splitOnPos(oldAttr,lenght)
-    new = splitOnPos(newAttr,lenght)    
+    old = splitEvery(oldAttr,lenght)
+    new = splitEvery(newAttr,lenght)    
     if len(old) != len(new):
         return result,  currCursor
     if len(text) != len(new):

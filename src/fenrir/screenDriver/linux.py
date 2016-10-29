@@ -17,9 +17,6 @@ class driver():
         self.env = environment
     def shutdown(self):
         pass
-    def insert_newlines(self, string, every=64):
-        return '\n'.join(string[i:i+every] for i in range(0, len(string), every))
-    
     def getCurrScreen(self):
         self.env['screenData']['oldTTY'] = self.env['screenData']['newTTY']
         try:    
@@ -86,7 +83,7 @@ class driver():
         # set new "old" values
         self.env['screenData']['oldContentBytes'] = self.env['screenData']['newContentBytes']
         self.env['screenData']['oldContentText'] = self.env['screenData']['newContentText']
-        self.env['screenData']['oldContentTextAttrib'] = self.env['screenData']['newContentAttrib']
+        self.env['screenData']['oldContentAttrib'] = self.env['screenData']['newContentAttrib']
         self.env['screenData']['oldCursor'] = self.env['screenData']['newCursor'].copy()
         self.env['screenData']['oldDelta'] = self.env['screenData']['newDelta']
         self.env['screenData']['oldAttribDelta'] = self.env['screenData']['newAttribDelta']
@@ -100,7 +97,7 @@ class driver():
         # analyze content
         self.env['screenData']['newContentText'] = self.env['screenData']['newContentBytes'][4:][::2].decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
         self.env['screenData']['newContentAttrib'] = self.env['screenData']['newContentBytes'][5:][::2]
-        self.env['screenData']['newContentText'] = self.insert_newlines(self.env['screenData']['newContentText'], self.env['screenData']['columns'])
+        self.env['screenData']['newContentText'] = screen_utils.insertNewlines(self.env['screenData']['newContentText'], self.env['screenData']['columns'])
 
         if self.env['screenData']['newTTY'] != self.env['screenData']['oldTTY']:
             self.env['screenData']['oldContentBytes'] = b''
@@ -152,6 +149,8 @@ class driver():
                 self.env['screenData']['newNegativeDelta'] = ''.join(x[2:] for x in diffList if x[0] == '-')
         
         # track highlighted
+        #print(self.env['screenData']['oldContentAttrib'] , self.env['screenData']['newContentAttrib'])
         if self.env['screenData']['oldContentAttrib'] != self.env['screenData']['newContentAttrib']:
-            pass                
+            self.env['screenData']['newAttribDelta'], currCursor = screen_utils.trackHighlights(self.env['screenData']['oldContentAttrib'], self.env['screenData']['newContentAttrib'], self.env['screenData']['newContentText'], self.env['screenData']['columns'])
+            #print('drin',self.env['screenData']['newAttribDelta'])
                 
