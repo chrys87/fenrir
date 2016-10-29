@@ -47,6 +47,4 @@ def trackHighlights(oldAttr, newAttr, text, lenght):
                             currCursor['y'] = line
                         result += textLines[line][column]
             result += ' '
-    return result, currCursor
-
-print(trackHighlights(alts,neus,text))    
+    return result, currCursor 
