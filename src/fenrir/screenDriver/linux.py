@@ -116,6 +116,7 @@ class driver():
         self.env['screenData']['newNegativeDelta'] = ''
         self.env['screenData']['newDelta'] = ''
         self.env['screenData']['newAttribDelta'] = ''                           
+
         # changes on the screen
         oldScreenText = re.sub(' +',' ',self.env['runtime']['screenManager'].getWindowAreaInText(self.env['screenData']['oldContentText']))
         newScreenText = re.sub(' +',' ',self.env['runtime']['screenManager'].getWindowAreaInText(self.env['screenData']['newContentText']))        
@@ -149,4 +150,8 @@ class driver():
                 else:
                     self.env['screenData']['newDelta'] = ''.join(x[2:] for x in diffList if x[0] == '+')             
                 self.env['screenData']['newNegativeDelta'] = ''.join(x[2:] for x in diffList if x[0] == '-')
+        
+        # track highlighted
+        if self.env['screenData']['oldContentAttrib'] != self.env['screenData']['newContentAttrib']:
+            pass                
                 

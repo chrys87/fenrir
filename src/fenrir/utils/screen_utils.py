@@ -10,24 +10,24 @@ from collections import Counter
 def insertNewlines(string, every=64):
     return '\n'.join(string[i:i+every] for i in range(0, len(string), every))
 
-def splitAtrrLines(string, every=64):
+def splitOnPos(string, every=64):
     return list(string[i:i+every] for i in range(0, len(string), every))
 
 old = b'eeeemmmeeeeeeeee'
 new = b'eeeeeueeeeeeeeee'
 text = 'das ist ein test'
 
-def trackHighlights(oldAttr, newAttr, text):
+def trackHighlights(oldAttr, newAttr, text, lenght):
     result = ''
     currCursor = None
     if oldAttr == newAttr:
         return result,  currCursor
     if len(newAttr) == 0:
         return result,  currCursor
-    textLines = insertNewlines(text,4)
+    textLines = insertNewlines(text,lenght)
     textLines = textLines.split('\n')    
-    old = splitAtrrLines(oldAttr,4)
-    new = splitAtrrLines(newAttr,4)    
+    old = splitOnPos(oldAttr,lenght)
+    new = splitOnPos(newAttr,lenght)    
     if len(old) != len(new):
         return result,  currCursor
     if len(text) != len(new):
