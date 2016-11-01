@@ -5,7 +5,7 @@
 # By Chrys, Storm Dragon, and contributers.
 
 import difflib
-import re, time
+import re
 import subprocess
 from core import debug
 from utils import screen_utils
@@ -20,7 +20,6 @@ class driver():
     def getCurrScreen(self):
         self.env['screenData']['oldTTY'] = self.env['screenData']['newTTY']
         try:    
-            time.sleep(0.1)
             currScreenFile = open('/sys/devices/virtual/tty/tty0/active','r')
             self.env['screenData']['newTTY'] = str(currScreenFile.read()[3:-1])
             currScreenFile.close()
