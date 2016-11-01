@@ -75,7 +75,7 @@ class driver():
         if self.env['runtime']['settingsManager'].getSetting('keyboard', 'device').upper() == 'ALL':
             self.iDevices = {dev.fd: dev for dev in self.iDevices if 1 in dev.capabilities()}
             self.ledDevices = {dev.fd: dev for dev in self.ledDevices if 1 in dev.capabilities() and 17 in dev.capabilities()}     
-        elif self.env['runtime']['settingsManager'].getSetting('keyboard', 'device').upper() == 'AUTO':       
+        elif self.env['runtime']['settingsManager'].getSetting('keyboard', 'device').upper() == 'NOMICE':       
             self.iDevices = {dev.fd: dev for dev in self.iDevices if 1 in dev.capabilities() and not 3 in dev.capabilities() and not 2 in dev.capabilities()}
             self.ledDevices = {dev.fd: dev for dev in self.ledDevices if 1 in dev.capabilities() and 17 in dev.capabilities() and not 3 in dev.capabilities() and not 2 in dev.capabilities()}
         else:             

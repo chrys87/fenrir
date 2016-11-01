@@ -21,6 +21,7 @@ ReadWrite permission
 - brltty, python-brlapi [using braille] # (not implemented yet)
 - gstreamer [soundicons via gstreamer] # not working yet
 - python-pyenchant [spell check functionality]
+- aspell-<language> [your languagedata for spellchecker, english support "aspell-en"]
 - python-daemonize [use fenrir as background service on Unix like systems]
 
 # installation

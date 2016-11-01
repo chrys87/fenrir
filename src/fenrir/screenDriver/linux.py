@@ -5,7 +5,7 @@
 # By Chrys, Storm Dragon, and contributers.
 
 import difflib
-import re
+import re, time
 import subprocess
 from core import debug
 from utils import screen_utils
@@ -20,6 +20,7 @@ class driver():
     def getCurrScreen(self):
         self.env['screenData']['oldTTY'] = self.env['screenData']['newTTY']
         try:    
+            time.sleep(0.1)
             currScreenFile = open('/sys/devices/virtual/tty/tty0/active','r')
             self.env['screenData']['newTTY'] = str(currScreenFile.read()[3:-1])
             currScreenFile.close()
@@ -149,8 +150,7 @@ class driver():
                 self.env['screenData']['newNegativeDelta'] = ''.join(x[2:] for x in diffList if x[0] == '-')
         
         # track highlighted
-        #print(self.env['screenData']['oldContentAttrib'] , self.env['screenData']['newContentAttrib'])
         if self.env['screenData']['oldContentAttrib'] != self.env['screenData']['newContentAttrib']:
             self.env['screenData']['newAttribDelta'], currCursor = screen_utils.trackHighlights(self.env['screenData']['oldContentAttrib'], self.env['screenData']['newContentAttrib'], self.env['screenData']['newContentText'], self.env['screenData']['columns'])
-            #print('drin',self.env['screenData']['newAttribDelta'])
+            print('drin',self.env['screenData']['newAttribDelta'])
                 
