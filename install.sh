@@ -3,7 +3,7 @@
 read -p "This will install fenrir. Press ctrl+c to cancil, or enter to continue." continue
 install -m755 -d /opt/fenrir
  install -m755 -d /usr/share/fenrir/scripts
- install -m644 -D "config/keyboard/desktop.conf" /etc/fenrir/keyboard/desktop.conf"
+ install -m644 -D "config/keyboard/desktop.conf" /etc/fenrir/keyboard/desktop.conf
  install -m644 -D "config/keyboard/desktop.conf" /etc/fenrir/keyboard/desktop.conf
  install -m644 -D "config/punctuation/default.conf" /etc/fenrir/punctuation/default.conf
  install -m644 -D "config/settings/settings.conf" /etc/fenrir/settings/settings.conf
