@@ -17,6 +17,8 @@ class command():
         return ''           
     
     def run(self):
+        if not self.env['runtime']['settingsManager'].getSettingAsBool('focus', 'cursor'):
+            return        
         if self.env['screenData']['newTTY'] != self.env['screenData']['oldTTY']:
             return            
         if self.env['runtime']['inputManager'].noKeyPressed():
