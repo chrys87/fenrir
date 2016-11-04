@@ -11,14 +11,9 @@ ToDos in Priority order:
   
 - implement onScreenUpdate commands
   read highlighted text mode
-
-- implement onInput commands
-  read highlighted vertiacl
-  read highlighted horizontal
-  
+ 
 - implement commands
   attributes_curr_char
-  toggle_highlighted_mode
   generic list command (convert clipboard management)
     next item
     pref item
@@ -200,14 +195,16 @@ ps a -o tty,comm  | grep -e Xorg | grep -v "grep -e Xorg"
   prev_char_phonetic
   next_word_phonetic
   prev_word_phonetic
-  
+  toggle_highlighted_mode
+
 - implement onInput commands 
   read_line_if_cursor_change_vertical (needed if you arrow up and down, we want to announce the line)
   read_char_if_cursur_change_horizontal (needed if you arrow left and right, we want to announce the char under the cursor)
   echo_char (echos the last char on pressing space or return)     
   echo_word (echos the last word)
   echo_deleted_char (echos deleted char on screen
-  
+  read highlighted
+
 - implement onScreenChange commands
   promoted text
   clear_marks_on_screen_change
