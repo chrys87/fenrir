@@ -60,7 +60,7 @@ timeFormat=%H:%M:%P
 dateFormat="%A, %B %d, %Y"
 autoSpellCheck=True
 spellCheckLanguage=en_US
-scriptPath=/etc/fenrir/scripts
+scriptPath=/usr/share/fenrir/scripts
 
 [promote]
 enabled=True
