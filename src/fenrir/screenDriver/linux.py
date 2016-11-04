@@ -96,6 +96,7 @@ class driver():
         self.env['screenData']['newCursor']['y'] = int( self.env['screenData']['newContentBytes'][3])
         # analyze content
         self.env['screenData']['newContentText'] = self.env['screenData']['newContentBytes'][4:][::2].decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
+        self.env['screenData']['newContentText'] = screen_utils.removeNonprintable(self.env['screenData']['newContentText'])
         self.env['screenData']['newContentAttrib'] = self.env['screenData']['newContentBytes'][5:][::2]
         self.env['screenData']['newContentText'] = screen_utils.insertNewlines(self.env['screenData']['newContentText'], self.env['screenData']['columns'])
 

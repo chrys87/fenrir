@@ -6,6 +6,13 @@
 
 from core import debug
 from collections import Counter
+import string
+    
+def removeNonprintable(text):
+    # Get the difference of all ASCII characters from the set of printable characters
+    nonprintable = set([chr(i) for i in range(128)]).difference(string.printable)
+    # Use translate to remove all non-printable characters
+    return text.translate({ord(character):None for character in nonprintable})
 
 def insertNewlines(string, every=64):
     return '\n'.join(string[i:i+every] for i in range(0, len(string), every))
