@@ -20,10 +20,6 @@ def insertNewlines(string, every=64):
 def splitEvery(string, every=64):
     return list(string[i:i+every] for i in range(0, len(string), every))
 
-old = b'eeeemmmeeeeeeeee'
-new = b'eeeeeueeeeeeeeee'
-text = 'das ist ein test'
-
 def trackHighlights(oldAttr, newAttr, text, lenght):
     result = ''
     currCursor = None

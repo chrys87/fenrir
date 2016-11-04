@@ -85,6 +85,8 @@ class driver():
         self.env['screenData']['oldContentText'] = self.env['screenData']['newContentText']
         self.env['screenData']['oldContentAttrib'] = self.env['screenData']['newContentAttrib']
         self.env['screenData']['oldCursor'] = self.env['screenData']['newCursor'].copy()
+        if self.env['screenData']['newCursorAttrib']:
+            self.env['screenData']['oldCursorAttrib'] = self.env['screenData']['newCursorAttrib'].copy()        
         self.env['screenData']['oldDelta'] = self.env['screenData']['newDelta']
         self.env['screenData']['oldAttribDelta'] = self.env['screenData']['newAttribDelta']
         self.env['screenData']['oldNegativeDelta'] = self.env['screenData']['newNegativeDelta']
@@ -109,6 +111,7 @@ class driver():
             self.env['screenData']['oldDelta'] = ''
             self.env['screenData']['oldAttribDelta'] = ''            
             self.env['screenData']['oldCursorAttrib'] = None
+            self.env['screenData']['newCursorAttrib'] = None            
             self.env['screenData']['oldNegativeDelta'] = ''
         # initialize current deltas
         self.env['screenData']['newNegativeDelta'] = ''
@@ -151,6 +154,6 @@ class driver():
         
         # track highlighted
         if self.env['screenData']['oldContentAttrib'] != self.env['screenData']['newContentAttrib']:
-            if not self.env['runtime']['settingsManager'].getSettingAsBool('focus', 'highlight'):
-                self.env['screenData']['newAttribDelta'], currCursor = screen_utils.trackHighlights(self.env['screenData']['oldContentAttrib'], self.env['screenData']['newContentAttrib'], self.env['screenData']['newContentText'], self.env['screenData']['columns'])
+            if self.env['runtime']['settingsManager'].getSettingAsBool('focus', 'highlight'):
+                self.env['screenData']['newAttribDelta'], self.env['screenData']['newCursorAttrib'] = screen_utils.trackHighlights(self.env['screenData']['oldContentAttrib'], self.env['screenData']['newContentAttrib'], self.env['screenData']['newContentText'], self.env['screenData']['columns'])
                 
