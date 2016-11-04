@@ -151,6 +151,6 @@ class driver():
         
         # track highlighted
         if self.env['screenData']['oldContentAttrib'] != self.env['screenData']['newContentAttrib']:
-            self.env['screenData']['newAttribDelta'], currCursor = screen_utils.trackHighlights(self.env['screenData']['oldContentAttrib'], self.env['screenData']['newContentAttrib'], self.env['screenData']['newContentText'], self.env['screenData']['columns'])
-            print('drin',self.env['screenData']['newAttribDelta'])
+            if not self.env['runtime']['settingsManager'].getSettingAsBool('focus', 'highlight'):
+                self.env['screenData']['newAttribDelta'], currCursor = screen_utils.trackHighlights(self.env['screenData']['oldContentAttrib'], self.env['screenData']['newContentAttrib'], self.env['screenData']['newContentText'], self.env['screenData']['columns'])
                 
