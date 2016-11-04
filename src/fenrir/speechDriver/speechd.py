@@ -34,13 +34,15 @@ class driver():
         
     def speak(self,text, queueable=True):
         if not self._isInitialized:
-            return False
+            self.initialize(self.env)
+            if not self._isInitialized:
+                return False
         if queueable == False: self.cancel()
         try:
             self._sd.set_synthesis_voice(self._language)        
             self._sd.set_punctuation(self._punct.NONE)              
         except Exception as e:
-            pass
+            self._isInitialized = False
         self._sd.speak(text)
         return True
 
