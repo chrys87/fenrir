@@ -23,8 +23,8 @@ settings = {
     'capitalPitch':0.8,
     'volume': 1.0,    
     'module': 'espeak',
-    'voice': 'en',
-    'language': 'en',
+    'voice': '',
+    'language': 'english-us',
     'autoReadIncoming': True,
 },
 'braille':{

@@ -50,24 +50,28 @@ class driver():
     def setVoice(self, voice):
         if not self._isInitialized:
             return False
+        if voice =='':
+            return False            
         return self._es.set_voice(voice)
 
     def setPitch(self, pitch):
         if not self._isInitialized:
             return False
-
+        return self._es.set_parameter(self._es.Parameter().Pitch, int(pitch * 99)) 
+        
     def setRate(self, rate):
         if not self._isInitialized:
             return False
         return self._es.set_parameter(self._es.Parameter().Rate, int(rate*450 + 80))
 
-        return self._es.set_parameter(self._es.Parameter().Pitch, int(pitch * 99)) 
     def setModule(self, module):
         if not self._isInitialized:
             return False
 
     def setLanguage(self, language):
         if not self._isInitialized:
+            return False
+        if language =='':
             return False
         return self._es.set_voice(language)
 
