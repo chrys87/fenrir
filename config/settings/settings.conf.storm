@@ -63,8 +63,11 @@ spellCheckLanguage=en_US
 scriptPath=/usr/share/fenrir/scripts
 
 [focus]
+#follow the text cursor
 cursor=True
+#follow highlighted text changes
 highlight=False
+
 
 [promote]
 enabled=True
