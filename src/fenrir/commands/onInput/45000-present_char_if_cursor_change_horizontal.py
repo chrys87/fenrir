@@ -18,6 +18,8 @@ class command():
         return ''           
     
     def run(self):
+        if not self.env['runtime']['settingsManager'].getSettingAsBool('focus', 'cursor'):
+            return        
         if self.env['runtime']['screenManager'].isScreenChange():
             return            
         if self.env['runtime']['inputManager'].noKeyPressed():

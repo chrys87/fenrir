@@ -8,6 +8,7 @@ import difflib
 import re
 import subprocess
 from core import debug
+from utils import screen_utils
 
 class driver():
     def __init__(self):
@@ -16,9 +17,6 @@ class driver():
         self.env = environment
     def shutdown(self):
         pass
-    def insert_newlines(self, string, every=64):
-        return '\n'.join(string[i:i+every] for i in range(0, len(string), every))
-    
     def getCurrScreen(self):
         self.env['screenData']['oldTTY'] = self.env['screenData']['newTTY']
         try:    
@@ -85,10 +83,12 @@ class driver():
         # set new "old" values
         self.env['screenData']['oldContentBytes'] = self.env['screenData']['newContentBytes']
         self.env['screenData']['oldContentText'] = self.env['screenData']['newContentText']
-        self.env['screenData']['oldContentTextAttrib'] = self.env['screenData']['newContentAttrib']
-        self.env['screenData']['oldCursor']['x'] = self.env['screenData']['newCursor']['x']
-        self.env['screenData']['oldCursor']['y'] = self.env['screenData']['newCursor']['y']
+        self.env['screenData']['oldContentAttrib'] = self.env['screenData']['newContentAttrib']
+        self.env['screenData']['oldCursor'] = self.env['screenData']['newCursor'].copy()
+        if self.env['screenData']['newCursorAttrib']:
+            self.env['screenData']['oldCursorAttrib'] = self.env['screenData']['newCursorAttrib'].copy()        
         self.env['screenData']['oldDelta'] = self.env['screenData']['newDelta']
+        self.env['screenData']['oldAttribDelta'] = self.env['screenData']['newAttribDelta']
         self.env['screenData']['oldNegativeDelta'] = self.env['screenData']['newNegativeDelta']
         self.env['screenData']['newContentBytes'] = newContentBytes
         # get metadata like cursor or screensize
@@ -98,8 +98,9 @@ class driver():
         self.env['screenData']['newCursor']['y'] = int( self.env['screenData']['newContentBytes'][3])
         # analyze content
         self.env['screenData']['newContentText'] = self.env['screenData']['newContentBytes'][4:][::2].decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
+        self.env['screenData']['newContentText'] = screen_utils.removeNonprintable(self.env['screenData']['newContentText'])
         self.env['screenData']['newContentAttrib'] = self.env['screenData']['newContentBytes'][5:][::2]
-        self.env['screenData']['newContentText'] = self.insert_newlines(self.env['screenData']['newContentText'], self.env['screenData']['columns'])
+        self.env['screenData']['newContentText'] = screen_utils.insertNewlines(self.env['screenData']['newContentText'], self.env['screenData']['columns'])
 
         if self.env['screenData']['newTTY'] != self.env['screenData']['oldTTY']:
             self.env['screenData']['oldContentBytes'] = b''
@@ -108,10 +109,15 @@ class driver():
             self.env['screenData']['oldCursor']['x'] = 0
             self.env['screenData']['oldCursor']['y'] = 0
             self.env['screenData']['oldDelta'] = ''
+            self.env['screenData']['oldAttribDelta'] = ''            
+            self.env['screenData']['oldCursorAttrib'] = None
+            self.env['screenData']['newCursorAttrib'] = None            
             self.env['screenData']['oldNegativeDelta'] = ''
-        # always clear current deltas
+        # initialize current deltas
         self.env['screenData']['newNegativeDelta'] = ''
-        self.env['screenData']['newDelta'] = ''                   
+        self.env['screenData']['newDelta'] = ''
+        self.env['screenData']['newAttribDelta'] = ''                           
+
         # changes on the screen
         oldScreenText = re.sub(' +',' ',self.env['runtime']['screenManager'].getWindowAreaInText(self.env['screenData']['oldContentText']))
         newScreenText = re.sub(' +',' ',self.env['runtime']['screenManager'].getWindowAreaInText(self.env['screenData']['newContentText']))        
@@ -145,4 +151,9 @@ class driver():
                 else:
                     self.env['screenData']['newDelta'] = ''.join(x[2:] for x in diffList if x[0] == '+')             
                 self.env['screenData']['newNegativeDelta'] = ''.join(x[2:] for x in diffList if x[0] == '-')
+        
+        # track highlighted
+        if self.env['screenData']['oldContentAttrib'] != self.env['screenData']['newContentAttrib']:
+            if self.env['runtime']['settingsManager'].getSettingAsBool('focus', 'highlight'):
+                self.env['screenData']['newAttribDelta'], self.env['screenData']['newCursorAttrib'] = screen_utils.trackHighlights(self.env['screenData']['oldContentAttrib'], self.env['screenData']['newContentAttrib'], self.env['screenData']['newContentText'], self.env['screenData']['columns'])
                 

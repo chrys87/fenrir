@@ -18,7 +18,9 @@ class command():
     
     def run(self):
         if self.env['runtime']['inputManager'].noKeyPressed():
-            return     
+            return   
+        if self.env['screenData']['newAttribDelta'] != '':
+            return  
         if self.env['runtime']['screenManager'].isScreenChange():
             return
         if self.env['runtime']['cursorManager'].isCursorVerticalMove():
@@ -29,9 +31,7 @@ class command():
             return            
         prevLine = self.env['screenData']['oldContentText'].split('\n')[self.env['screenData']['newCursor']['y']]
         currLine = self.env['screenData']['newContentText'].split('\n')[self.env['screenData']['newCursor']['y']]
-        if currLine.isspace():
-            self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True)
-        else:
+        if not currLine.isspace():
             currPrompt = currLine.find('$')
             rootPrompt = currLine.find('#')
             if currPrompt <= 0:

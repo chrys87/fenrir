@@ -55,6 +55,10 @@ settings = {
   'spellCheckLanguage': 'en_US',
   'scriptPath':'/etc/fenrir/scripts',
 },
+'focus':{
+  'cursor': True,
+  'highlight': False,
+},
 'promote':{
   'enabled': True,
   'inactiveTimeoutSec': 120,

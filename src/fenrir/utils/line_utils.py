@@ -5,6 +5,7 @@
 # By Chrys, Storm Dragon, and contributers.
 
 from core import debug
+from collections import Counter
 
 def getPrevLine(currX,currY, currText):
     endOfScreen = False

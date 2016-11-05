@@ -43,8 +43,6 @@ class driver():
                                 return currMapEvent
                             if currMapEvent['EventState'] in [0,1,2]:
                                 return currMapEvent
-                                
-                            
                     event = self.iDevices[fd].read_one()                            
         return None
 
@@ -77,7 +75,7 @@ class driver():
         if self.env['runtime']['settingsManager'].getSetting('keyboard', 'device').upper() == 'ALL':
             self.iDevices = {dev.fd: dev for dev in self.iDevices if 1 in dev.capabilities()}
             self.ledDevices = {dev.fd: dev for dev in self.ledDevices if 1 in dev.capabilities() and 17 in dev.capabilities()}     
-        elif self.env['runtime']['settingsManager'].getSetting('keyboard', 'device').upper() == 'AUTO':       
+        elif self.env['runtime']['settingsManager'].getSetting('keyboard', 'device').upper() == 'NOMICE':       
             self.iDevices = {dev.fd: dev for dev in self.iDevices if 1 in dev.capabilities() and not 3 in dev.capabilities() and not 2 in dev.capabilities()}
             self.ledDevices = {dev.fd: dev for dev in self.ledDevices if 1 in dev.capabilities() and 17 in dev.capabilities() and not 3 in dev.capabilities() and not 2 in dev.capabilities()}
         else:             
@@ -102,10 +100,10 @@ class driver():
         # 0 = Numlock
         # 1 = Capslock
         # 2 = Rollen
-        if self.ledDevices == {}:
-            return False
         if self.ledDevices == None:
-            return False                      
+            return False
+        if self.ledDevices == {}:
+            return False                   
         for fd, dev in self.ledDevices.items():
             return led in dev.leds()
         return False          

@@ -34,8 +34,8 @@ autodetectSuspendingScreen=False
 
 [keyboard]
 driver=evdev
-# filter input devices AUTO, ALL or a DEVICE NAME
-device=AUTO
+# filter input devices NOMICE, ALL or a DEVICE NAME
+device=ALL
 grabDevices=True
 ignoreShortcuts=False
 keyboardLayout=desktop
@@ -60,7 +60,14 @@ timeFormat=%H:%M:%P
 dateFormat="%A, %B %d, %Y"
 autoSpellCheck=True
 spellCheckLanguage=en_US
-scriptPath=/etc/fenrir/scripts
+scriptPath=/usr/share/fenrir/scripts
+
+[focus]
+#follow the text cursor
+cursor=True
+#follow highlighted text changes
+highlight=False
+
 
 [promote]
 enabled=True
