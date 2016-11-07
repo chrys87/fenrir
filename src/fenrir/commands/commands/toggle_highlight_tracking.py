@@ -16,7 +16,7 @@ class command():
         return 'enables or disables tracking of highlighted'        
     
     def run(self):
-        currMode=self.env['runtime']['settingsManager'].getSettingAsBool('focus', 'highlight')
+        currMode = self.env['runtime']['settingsManager'].getSettingAsBool('focus', 'highlight')
 
         self.env['runtime']['settingsManager'].setSetting('focus', 'highlight', str(not currMode))
         self.env['runtime']['settingsManager'].setSetting('focus', 'cursor', str(currMode))           

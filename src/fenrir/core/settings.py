@@ -53,7 +53,7 @@ settings = {
   'dateFormat': '%A, %B %d, %Y',
   'autoSpellCheck': False,
   'spellCheckLanguage': 'en_US',
-  'scriptPath':'/etc/fenrir/scripts',
+  'scriptPath':'/usr/share/fenrir/scripts',
 },
 'focus':{
   'cursor': True,
