@@ -32,19 +32,23 @@ def trackHighlights(oldAttr, newAttr, text, lenght):
     old = splitEvery(oldAttr,lenght)
     new = splitEvery(newAttr,lenght)      
     textLines = text.split('\n')
+    background = []
     if len(textLines) != len(new):
         return result,  currCursor        
-  
     try:
-        background = Counter(newAttr).most_common(1)
-        background = background[0][0]
+        bgStat = Counter(newAttr).most_common(3)
+        background.append(bgStat[0][0])
+        # if there is a third color add a secondary background (for dialogs for example)
+        if len(bgStat) > 2:
+            if bgStat[1][1] > 20:
+                background.append(bgStat[1][0])
     except Exception as e:
-        background = chr(7)
+        background.append(chr(7))
     for line in range(len(new)):
         if old[line] != new[line]:
             for column in range(len(new[line])):
                 if old[line][column] != new[line][column]:
-                    if new[line][column] != background:
+                    if not new[line][column] in background:
                         if not currCursor:
                             currCursor = {}
                             currCursor['x'] = column
