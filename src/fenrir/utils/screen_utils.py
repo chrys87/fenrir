@@ -40,7 +40,7 @@ def trackHighlights(oldAttr, newAttr, text, lenght):
         background.append(bgStat[0][0])
         # if there is a third color add a secondary background (for dialogs for example)
         if len(bgStat) > 2:
-            if bgStat[1][1] > 20:
+            if bgStat[1][1] > 40:
                 background.append(bgStat[1][0])
     except Exception as e:
         background.append(chr(7))
