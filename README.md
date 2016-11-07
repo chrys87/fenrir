@@ -25,7 +25,11 @@ ReadWrite permission
 - python-daemonize [use fenrir as background service on Unix like systems]
 
 # installation
-Currently there is no setupscript (sorry). But you can just run as root or setup needed permission
+- Archlinux: PKGBUILD in AUR
+- install.sh (there is currently no uninstall)
+- run from git:
+You can just run the following as root:
 cd src/fenrir-package/
-sudo ./fenrir.py
-Settings are located in the config directory.
+sudo ./fenrir
+Settings are located in the "config" directory.
+
