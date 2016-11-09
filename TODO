@@ -9,6 +9,9 @@ ToDos in Priority order:
   spellcheck triggers twice if there are two spaces after an word and you arrow over them
   fenrir is not able to detect the current application inside of screen.
     ps -e  -H -o pid,pgrp,pid,ppid,cmd
+    http://stackoverflow.com/questions/24861351/how-to-detect-if-python-script-is-being-run-as-a-background-process/24862213
+    fd = open("/dev/tty")
+    os.tcgetpgrp(fd)
   
 - implement onScreenUpdate commands
   read highlighted text mode
