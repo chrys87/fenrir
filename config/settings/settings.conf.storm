@@ -68,8 +68,11 @@ cursor=True
 #follow highlighted text changes
 highlight=False
 
-
 [promote]
 enabled=True
 inactiveTimeoutSec=120
 list=
+
+[time]
+enabled=False
+delaySec=3600
