@@ -66,6 +66,8 @@ settings = {
 },
 'time':{
   'enabled': False,
+  'presentTime': True,
+  'presentDate': True,  
   'delaySec': 3600,
 },
 'keyboard':{
