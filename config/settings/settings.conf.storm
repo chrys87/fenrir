@@ -68,8 +68,17 @@ cursor=True
 #follow highlighted text changes
 highlight=False
 
-
 [promote]
 enabled=True
 inactiveTimeoutSec=120
 list=
+
+[time]
+# automatic time anouncement
+enabled=False
+# present time
+presentTime=True
+# present date (on change)
+presentDate=True
+# present time after x seconds
+delaySec=3600
