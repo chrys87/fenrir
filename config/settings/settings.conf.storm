@@ -81,4 +81,7 @@ presentTime=True
 # present date (on change)
 presentDate=True
 # present time after x seconds
-delaySec=3600
+delaySec=0
+# present time after to given minutes example every 15 minutes: 00,15,30,45
+# if delaySec is >0 onMinutes is ignored
+onMinutes=00,30

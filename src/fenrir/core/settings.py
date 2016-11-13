@@ -68,7 +68,8 @@ settings = {
   'enabled': False,
   'presentTime': True,
   'presentDate': True,  
-  'delaySec': 3600,
+  'delaySec': 0,
+  'onMinutes': '00,30',
 },
 'keyboard':{
   'driver': 'evdev',

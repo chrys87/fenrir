@@ -14,7 +14,7 @@ class command():
         pass
     def initialize(self, environment):
         self.env = environment
-        self.lastTime = time.time()
+        self.lastTime = datetime.datetime.now()
         self.lastDateString = ''
         self.lastTimeString = ''        
     def shutdown(self):
@@ -25,13 +25,31 @@ class command():
     def run(self):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('time', 'enabled'):
             return
-        if int(time.time() - self.lastTime) < self.env['runtime']['settingsManager'].getSettingAsInt('time', 'delaySec'):
+        onMinutes = self.env['runtime']['settingsManager'].getSetting('time', 'onMinutes')            
+        delaySec = self.env['runtime']['settingsManager'].getSettingAsInt('time', 'delaySec')
+        # no need
+        if onMinutes == '' and delaySec <= 0:
             return
+        onMinutes = onMinutes.split(',')
+        now = datetime.datetime.now()
+        # ignore onMinutes if there is a delaySec
+        if delaySec > 0:
+            if int((now-self.lastTime).total_seconds()) < delaySec:
+                    return
+        else:
+            # shoul announce?
+            if not str(now.minute) in onMinutes:
+                return
+            # already announced?
+            if now.hour == self.lastTime.hour:
+                if now.minute == self.lastTime.minute:
+                    return
+              
         timeFormat = self.env['runtime']['settingsManager'].getSetting('general', 'timeFormat')
-        timeString = datetime.datetime.strftime(datetime.datetime.now(), timeFormat)
+        timeString = datetime.datetime.strftime(now, timeFormat)
         
         dateFormat = self.env['runtime']['settingsManager'].getSetting('general', 'dateFormat')
-        dateString = datetime.datetime.strftime(datetime.datetime.now(), dateFormat)
+        dateString = datetime.datetime.strftime(now, dateFormat)
         if self.env['runtime']['settingsManager'].getSettingAsBool('time', 'presentTime'):
             # present the time
             self.env['runtime']['outputManager'].presentText('Autotime: ' + timeString , soundIcon='', interrupt=False)
@@ -40,7 +58,7 @@ class command():
             if self.lastDateString != dateString:
                 self.env['runtime']['outputManager'].presentText(dateString , soundIcon='', interrupt=False)        
                 self.lastDateString = dateString
-        self.lastTime = time.time() 
+        self.lastTime = datetime.datetime.now()
         self.lastTimeString = timeString                         
     def setCallback(self, callback):
         pass
