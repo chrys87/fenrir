@@ -1,11 +1,11 @@
 ToDos in Priority order:
 
 - Known Bugs  
-  Fenrir key sometimes wents crazy? (maybe this is if fenrir key is released before other keys)
-  alpine seems to have problems (just small glitches) (southernprince)
-  For example, in screen, it just tells me bell in window, but doesn't tell me which one. (southernprince)
   in special cases next word skipps a word, "word<12 spaces>word2<12 spaces>word3 (storm_dragon)
+  Fenrir key sometimes wents crazy? (maybe this is if fenrir key is released before other keys)
+  For example, in screen, it just tells me bell in window, but doesn't tell me which one. (southernprince)
   spellcheck triggers twice if there are two spaces after an word and you arrow over them
+  alpine seems to have problems (just small glitches) (southernprince)
   fenrir is not able to detect the current application inside of screen.
     ps -e  -H -o pid,pgrp,ppid,tty,cmd
     http://stackoverflow.com/questions/24861351/how-to-detect-if-python-script-is-being-run-as-a-background-process/24862213
