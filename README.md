@@ -19,7 +19,8 @@ ReadWrite permission
 - sox [its used by default in the generic sound driver for playing sound-icons]
 - speech-dispatcher, python3-speechd [to use the speech-dispatcher driver]
 - brltty, python-brlapi [using braille] # (not implemented yet)
-- gstreamer [soundicons via gstreamer] # not working yet
+- gstreamer [soundicons via gstreamer]
+- GLib [soundicons via gstreamer]
 - python-pyenchant [spell check functionality]
 - aspell-<language> [your languagedata for spellchecker, english support "aspell-en"]
 - python-daemonize [use fenrir as background service on Unix like systems]

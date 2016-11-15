@@ -7,8 +7,7 @@
 from core import debug
 import gi
 import time, threading
-gi.require_version('Gtk', '3.0')
-from gi.repository import GLib, Gtk
+from gi.repository import GLib
 
 try:
     gi.require_version('Gst', '1.0')
@@ -49,14 +48,15 @@ class driver:
         self._source.link(self._sink)
 
         self._initialized = True
-        self.thread = threading.Thread(target=self.main)
+        self.mainloop = GLib.MainLoop()        
+        self.thread = threading.Thread(target=self.mainloop.run)
         self.thread.start()
     def shutdown(self):
         global _gstreamerAvailable    
         if not _gstreamerAvailable:
             return
         self.cancel()
-        Gtk.main_quit()
+        self.mainloop.quit()
         self._initialized = False
         _gstreamerAvailable = False
 
@@ -94,8 +94,7 @@ class driver:
         self._pipeline.set_state(Gst.State.PLAYING)
         duration = int(1000 * tone.duration)
         GLib.timeout_add(duration, self._onTimeout, self._pipeline)
-    def main(self):
-        Gtk.main()
+
     def cancel(self, element=None):
         global _gstreamerAvailable    
         if not _gstreamerAvailable:
