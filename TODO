@@ -2,7 +2,6 @@ ToDos in Priority order:
 
 - Known Bugs  
   Fenrir key sometimes wents crazy? (maybe this is if fenrir key is released before other keys)
-  gstreamer sounddriver doesnt work (i think it needs a Glib 
   alpine seems to have problems (just small glitches) (southernprince)
   For example, in screen, it just tells me bell in window, but doesn't tell me which one. (southernprince)
   in special cases next word skipps a word, "word<12 spaces>word2<12 spaces>word3 (storm_dragon)
