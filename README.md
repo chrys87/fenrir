@@ -2,7 +2,7 @@
 An TTY screenreader for Linux.
 Its an early alpha version. You can test it. It is not recommended for production use. If you want to help just let me know.
 
-# requirements
+# requirements (core)
 - linux
 - python3
 - python-evdev
@@ -13,9 +13,9 @@ Its an early alpha version. You can test it. It is not recommended for productio
 - ReadWrite permission 
   - /dev/input
   - /dev/uinput
-- speech, sound or braille drivers see optional featrues.
+- speech, sound or braille drivers see "optional (features, drivers)".
 
-# optional by feature
+# optional (features, drivers)
 - "espeak" speech driver:
   - python-espeak
 - "speechd" speech driver:
