@@ -5,7 +5,6 @@ Its an early alpha version. You can test it. It is not recommended for productio
 # requirements
 - linux
 - python3
-- python-espeak
 - python-evdev
 - loaded uinput kernel module
 - Read permission to the following files:
@@ -14,16 +13,27 @@ Its an early alpha version. You can test it. It is not recommended for productio
 - ReadWrite permission 
   - /dev/input
   - /dev/uinput
+- speech, sound or braille drivers see optional featrues.
 
-# optional 
-- sox [its used by default in the generic sound driver for playing sound-icons]
-- speech-dispatcher, python3-speechd [to use the speech-dispatcher driver]
-- brltty, python-brlapi [using braille] # (not implemented yet)
-- gstreamer [soundicons via gstreamer]
-- GLib [soundicons via gstreamer]
-- python-pyenchant [spell check functionality]
-- aspell-<language> [your languagedata for spellchecker, english support "aspell-en"]
-- python-daemonize [use fenrir as background service on Unix like systems]
+# optional by feature
+- "espeak" speech driver:
+  - python-espeak
+- "speechd" speech driver:
+  - speech-dispatcher
+  - python-speechd
+- brltty braille driver (not implemented yet, WIP):
+  - brltty (configured and running)
+  - python-brlapi
+- "generic" sound driver:
+  - sox
+- "gstreamer" sound driver
+  - gstreamer 1.x
+  - GLib
+- spellchecker
+  - python-pyenchant
+  - aspell-YourLanguageCode (example aspell-en for us english)
+- unix daemon:
+  - python-daemonize
 
 # installation
 - Archlinux: PKGBUILD in AUR
@@ -32,5 +42,9 @@ Its an early alpha version. You can test it. It is not recommended for productio
 You can just run the following as root:
 cd src/fenrir-package/
 sudo ./fenrir
-Settings are located in the "config" directory.
-
+Settings "settings.conf" is located in the "config" directory.
+Take care that the used drivers in the config matching your installed drivers. 
+By default it uses:
+- sound driver: generic (via sox, could configured in settings.conf)
+- speech driver: speechd
+- braille driver: brltty (WIP)
