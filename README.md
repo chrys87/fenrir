@@ -8,12 +8,12 @@ Its an early alpha version. You can test it. It is not recommended for productio
 - python-espeak
 - python-evdev
 - loaded uinput kernel module
-Read permission to the following files:
-/sys/devices/virtual/tty/tty0/active
-/dev/vcsa[1-64]
-ReadWrite permission 
-/dev/input
-/dev/uinput
+- Read permission to the following files:
+  - /sys/devices/virtual/tty/tty0/active
+  - /dev/vcsa[1-64]
+- ReadWrite permission 
+  - /dev/input
+  - /dev/uinput
 
 # optional 
 - sox [its used by default in the generic sound driver for playing sound-icons]
