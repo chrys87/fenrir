@@ -70,6 +70,8 @@ settings = {
   'presentDate': True,  
   'delaySec': 0,
   'onMinutes': '00,30',
+  'announce': True,
+  'interrupt': False,
 },
 'keyboard':{
   'driver': 'evdev',

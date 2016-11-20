@@ -44,18 +44,28 @@ class command():
             if now.hour == self.lastTime.hour:
                 if now.minute == self.lastTime.minute:
                     return
-              
+        dateFormat = self.env['runtime']['settingsManager'].getSetting('general', 'dateFormat')
+        dateString = datetime.datetime.strftime(now, dateFormat)
+        
+        presentDate = self.env['runtime']['settingsManager'].getSettingAsBool('time', 'presentDate') and \
+          self.lastDateString != dateString
+        presentTime = self.env['runtime']['settingsManager'].getSettingAsBool('time', 'presentTime')              
+        # no changed value to announce
+        if not (presentDate or presentTime):
+            return  
         timeFormat = self.env['runtime']['settingsManager'].getSetting('general', 'timeFormat')
         timeString = datetime.datetime.strftime(now, timeFormat)
         
-        dateFormat = self.env['runtime']['settingsManager'].getSetting('general', 'dateFormat')
-        dateString = datetime.datetime.strftime(now, dateFormat)
-        if self.env['runtime']['settingsManager'].getSettingAsBool('time', 'presentTime'):
+        if self.env['runtime']['settingsManager'].getSettingAsBool('time', 'interrupt'):                               
+            self.env['runtime']['outputManager'].interruptOutput()
+        if self.env['runtime']['settingsManager'].getSettingAsBool('time', 'announce'):                               
+            self.env['runtime']['outputManager'].playSoundIcon('announce')        
+        
+        if presentTime:
             # present the time
             self.env['runtime']['outputManager'].presentText('Autotime: ' + timeString , soundIcon='', interrupt=False)
         # and date if changes
-        if self.env['runtime']['settingsManager'].getSettingAsBool('time', 'presentDate'):        
-            if self.lastDateString != dateString:
+        if presentDate:
                 self.env['runtime']['outputManager'].presentText(dateString , soundIcon='', interrupt=False)        
                 self.lastDateString = dateString
         self.lastTime = datetime.datetime.now()

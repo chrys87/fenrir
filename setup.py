@@ -20,7 +20,7 @@ setup(
     # Packages
     packages=find_packages('src/fenrir'),
     package_dir={'': 'src/fenrir'},
-    scripts=['src/fenrir/fenrir'],
+    scripts=['src/fenrir/fenrir','src/fenrir/fenrir-daemon'],
     #entry_points = {
     #    "console_scripts": ['fenrir = fenrir:main']
     #    },
