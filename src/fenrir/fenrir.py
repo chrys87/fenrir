@@ -39,7 +39,7 @@ class fenrir():
         eventReceived = self.environment['runtime']['inputManager'].getInputEvent()
         if eventReceived:
             self.prepareCommand()
-            if not (self.wasCommand or self.environment['runtime']['inputManager'].isFenrirKeyPressed() or self.environment['runtime']['inputManager'].isScriptKeyPressed() or self.environment['generalInformation']['tutorialMode']) or  self.environment['runtime']['screenManager'].isSuspendingScreen():
+            if not (self.wasCommand  or self.environment['generalInformation']['tutorialMode']) or  self.environment['runtime']['screenManager'].isSuspendingScreen():
                 self.environment['runtime']['inputManager'].writeEventBuffer()
             if self.environment['runtime']['inputManager'].noKeyPressed():
                 if self.wasCommand:
@@ -78,7 +78,7 @@ class fenrir():
         shortcut = self.environment['runtime']['inputManager'].getCurrShortcut()        
         command = self.environment['runtime']['inputManager'].getCommandForShortcut(shortcut)        
         if len(self.environment['input']['prevDeepestInput']) <= len(self.environment['input']['currInput']):
-            self.wasCommand = command != ''        
+            self.wasCommand = command != '' or self.environment['runtime']['inputManager'].isFenrirKeyPressed() or self.environment['runtime']['inputManager'].isScriptKeyPressed()    
         if command == '':
             return
             
