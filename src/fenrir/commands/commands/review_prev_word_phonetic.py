@@ -20,7 +20,7 @@ class command():
     
     def run(self):
         self.env['runtime']['cursorManager'].enterReviewModeCurrTextCursor()
-        self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], prevWord = \
+        self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], prevWord, endOfScreen, lineBreak = \
           word_utils.getPrevWord(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
         
         if prevWord.isspace():

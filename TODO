@@ -15,6 +15,7 @@ Known Bugs:
     fd = os.open("/dev/tty5", os.O_RDONLY )
     os.tcgetpgrp(fd)
   
+  
 - implement onScreenUpdate commands
   read highlighted text mode
  

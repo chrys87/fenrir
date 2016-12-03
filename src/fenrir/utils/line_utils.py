@@ -24,7 +24,7 @@ def getPrevLine(currX,currY, currText):
 
 def getCurrentLine(currX,currY, currText):
     if currText == '':
-        return -1, -1, '', endOfScreen
+        return -1, -1, ''
     wrappedLines = currText.split('\n')         
     x = currX
     y = currY

@@ -36,7 +36,8 @@ class command():
             return
         # get the word            
         newContent = self.env['screenData']['newContentText'].split('\n')[self.env['screenData']['newCursor']['y']]
-        x, y, currWord =  word_utils.getCurrentWord(self.env['screenData']['newCursor']['x'], 0, newContent)                          
+        x, y, currWord, endOfScreen, lineBreak = \
+          word_utils.getCurrentWord(self.env['screenData']['newCursor']['x'], 0, newContent)                          
         # was this a typed word?
         if self.env['runtime']['screenManager'].isDelta():
             # is there a delta bigger than keyecho?

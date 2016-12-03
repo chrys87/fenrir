@@ -42,7 +42,7 @@ class command():
             
         # get the word
         newContent = self.env['screenData']['newContentText'].split('\n')[cursorPos['y']]
-        x, y, currWord =  word_utils.getCurrentWord(cursorPos['x'], 0, newContent)                  
+        x, y, currWord, endOfScreen, lineBreak = word_utils.getCurrentWord(cursorPos['x'], 0, newContent)                  
 
         if not currWord.isspace():
             if not self.spellChecker.check(currWord):

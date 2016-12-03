@@ -22,13 +22,13 @@ class command():
         if self.env['screenData']['newCursorReview'] == None:
             self.env['screenData']['newCursorReview'] = self.env['screenData']['newCursor'].copy()
 
-        self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], currWord = \
+        self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], nextWord, endOfScreen, lineBreak = \
           word_utils.getNextWord(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
         
-        if currWord.isspace():
+        if nextWord.isspace():
             self.env['runtime']['outputManager'].presentText("blank", interrupt=True)
         else:
-            self.env['runtime']['outputManager'].presentText(currWord, interrupt=True)
+            self.env['runtime']['outputManager'].presentText(nextWord, interrupt=True)
    
     def setCallback(self, callback):
         pass

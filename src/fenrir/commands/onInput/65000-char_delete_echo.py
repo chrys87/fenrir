@@ -26,10 +26,10 @@ class command():
 
         # More than just a deletion happend
 
-        if self.environment['runtime']['screenManager'].isDelta():
+        if self.env['runtime']['screenManager'].isDelta():
             return
         # no deletion
-        if not self.environment['runtime']['screenManager'].isNegativeDelta():
+        if not self.env['runtime']['screenManager'].isNegativeDelta():
             return
         if self.env['runtime']['inputManager'].noKeyPressed():
             return              

@@ -10,7 +10,7 @@ def getPrevChar(currX,currY, currText):
     lineBreak = False       
     endOfScreen = False
     if currText == '':
-        return -1, -1, '', endOfScreen
+        return -1, -1, '', endOfScreen, lineBreak
     wrappedLines = currText.split('\n')         
     x = currX
     y = currY  
@@ -20,6 +20,7 @@ def getPrevChar(currX,currY, currText):
             x = len(wrappedLines[y]) - 1
             lineBreak = True
         else:
+            lineBreak = False
             endOfScreen = True
     else:
         x -= 1
@@ -28,7 +29,7 @@ def getPrevChar(currX,currY, currText):
 
 def getCurrentChar(currX,currY, currText):
     if currText == '':
-        return -1, -1, '', endOfScreen
+        return -1, -1, ''
     wrappedLines = currText.split('\n')         
     currChar = wrappedLines[currY][currX]
     return currX, currY, currChar
@@ -62,19 +63,19 @@ def getDownChar(currX,currY, currText):
 def getLastCharInLine(currY, currText):
     endOfScreen = False    
     if currText == '':
-        return -1, -1, '', endOfScreen
+        return -1, -1, ''
     wrappedLines = currText.split('\n')         
     currX = len(wrappedLines[currY].rstrip())-1
     if currX < 0:
         currX = 0
     currChar = wrappedLines[currY][currX]
-    return currX, currY, currChar, endOfScreen
+    return currX, currY, currChar
 
 def getNextChar(currX,currY, currText):
     lineBreak = False        
     endOfScreen = False    
     if currText == '':
-        return -1, -1, '', endOfScreen
+        return -1, -1, '', endOfScreen, lineBreak
     wrappedLines = currText.split('\n')         
     x = currX
     y = currY
@@ -84,11 +85,12 @@ def getNextChar(currX,currY, currText):
             x = 0
             lineBreak = True
         else:
+            lineBreak = False        
             endOfScreen = True
     else:
         x += 1    
     currChar = wrappedLines[y][x]            
-    return x, y, currChar, endOfScreen
+    return x, y, currChar, endOfScreen, lineBreak
 
 def getPhonetic(currChar):
     if len(currChar) != 1:

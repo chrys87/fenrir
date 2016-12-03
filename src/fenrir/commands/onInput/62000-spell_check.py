@@ -63,7 +63,7 @@ class command():
             
         # get the word (just for speedup only look at current line
         newContent = self.env['screenData']['newContentText'].split('\n')[self.env['screenData']['newCursor']['y']]
-        x, y, currWord, endOfScreen, lineBreak =  word_utils.getCurrentWord(self.env['screenData']['newCursor']['x'], 0, newContent)                  
+        x, y, currWord, endOfScreen, lineBreak = word_utils.getCurrentWord(self.env['screenData']['newCursor']['x'], 0, newContent)                  
         # was this a typed word?
         if self.env['screenData']['newDelta'] != '':
             if not(newContent[self.env['screenData']['oldCursor']['x']] in string.whitespace + '!"#$%&()*+,-./:;<=>?@[\\]^_{|}~' and x != self.env['screenData']['oldCursor']['x']):

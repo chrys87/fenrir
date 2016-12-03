@@ -23,7 +23,7 @@ class command():
         if self.env['screenData']['newCursor']['x'] <= self.env['screenData']['oldCursor']['x']:
             return
         # is there any change?
-        if not self.environment['runtime']['screenManager'].isDelta():
+        if not self.env['runtime']['screenManager'].isDelta():
             return
         # big changes are no char (but the value is bigger than one maybe the differ needs longer than you can type, so a little strange random buffer for now)
         if len(self.env['screenData']['newDelta']) > 3:

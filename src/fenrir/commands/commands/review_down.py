@@ -19,7 +19,7 @@ class command():
 
     def run(self):
         cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
-        self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], downChar = \
+        self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], downChar, endOfScreen = \
           char_utils.getDownChar(self.env['screenData']['newCursorReview']['x'],self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
         if downChar.isspace():
             self.env['runtime']['outputManager'].presentText("line is empty" ,interrupt=True)

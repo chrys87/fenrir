@@ -20,14 +20,14 @@ class command():
     def run(self):
         self.env['runtime']['cursorManager'].enterReviewModeCurrTextCursor()
 
-        self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], nextChar = \
+        self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], prevChar, endOfScreen, lineBreak = \
           char_utils.getPrevChar(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
         
-        if nextChar.isspace():
+        if prevChar.isspace():
             self.env['runtime']['outputManager'].presentText("blank" ,interrupt=True)
         else:
-            nextChar = char_utils.getPhonetic(nextChar)
-            self.env['runtime']['outputManager'].presentText(nextChar ,interrupt=True, announceCapital=True)
+            prevChar = char_utils.getPhonetic(prevChar)
+            self.env['runtime']['outputManager'].presentText(prevChar ,interrupt=True, announceCapital=True)
   
     def setCallback(self, callback):
         pass

@@ -11,10 +11,10 @@ def getPrevWord(currX,currY, currText):
     lineBreak = False        
     endOfScreen = False
     if currText == '':
-        return -1, -1, '', endOfScreen
-    x, y, currWord, endOfScreen = getCurrentWord(currX,currY,currText)
+        return -1, -1, '', endOfScreen, lineBreak
+    x, y, currWord, endOfScreen, lineBreak = getCurrentWord(currX,currY,currText)
     if endOfScreen:
-        return x, y, currWord, endOfScreen
+        return x, y, currWord, endOfScreen, lineBreak
     wrappedLines = currText.split('\n') 
     return x, y, currWord, endOfScreen, lineBreak
 
@@ -22,7 +22,7 @@ def getCurrentWord(currX,currY, currText):
     lineBreak = False    
     endOfScreen = False
     if currText == '':
-        return -1, -1, '', endOfScreen
+        return -1, -1, '', endOfScreen, lineBreak
     x = currX
     y = currY
     wrappedLines = currText.split('\n')
@@ -34,7 +34,7 @@ def getNextWord(currX,currY, currText):
     lineBreak = False        
     endOfScreen = False
     if currText == '':
-        return -1, -1, '', endOfScreen
+        return -1, -1, '', endOfScreen, lineBreak
     x = currX
     y = currY
     wrappedLines = currText.split('\n')

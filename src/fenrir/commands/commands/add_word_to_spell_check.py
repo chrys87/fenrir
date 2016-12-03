@@ -41,7 +41,7 @@ class command():
         cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
         # get the word
         newContent = self.env['screenData']['newContentText'].split('\n')[cursorPos['y']]
-        x, y, currWord =  word_utils.getCurrentWord(cursorPos['x'], 0, newContent)
+        x, y, currWord, endOfScreen, lineBreak =  word_utils.getCurrentWord(cursorPos['x'], 0, newContent)
         currWord = currWord.strip(string.whitespace + '!"#$%&\()*+,-./:;<=§>?@[\\]^_{|}~')
 
         if currWord != '':
