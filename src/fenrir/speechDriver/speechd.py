@@ -8,7 +8,7 @@
 from core import debug
 
 class driver():
-    def __init__(self ):
+    def __init__(self):
         self._sd = None
         self._isInitialized = False
         self._language = ''
