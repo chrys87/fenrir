@@ -8,7 +8,7 @@
 from core import debug
 
 class driver():
-    def __init__(self ):
+    def __init__(self):
         pass
     def initialize(self, environment):
         self._isInitialized = False 
@@ -54,6 +54,7 @@ class driver():
     def setModule(self, module):
         if not self._isInitialized:
             return False
+        return True
 
     def setLanguage(self, language):
         if not self._isInitialized:
