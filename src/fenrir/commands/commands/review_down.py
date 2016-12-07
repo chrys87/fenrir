@@ -15,16 +15,15 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'set review cursor to end of current line and display the content'        
+        return 'set review cursor to char below the current char and present it.'        
 
     def run(self):
         cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
         self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], downChar, endOfScreen = \
           char_utils.getDownChar(self.env['screenData']['newCursorReview']['x'],self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
-        if downChar.isspace():
-            self.env['runtime']['outputManager'].presentText("line is empty" ,interrupt=True)
-        else:
-            self.env['runtime']['outputManager'].presentText(downChar ,interrupt=True, ignorePunctuation=True, announceCapital=True)        
-   
+        self.env['runtime']['outputManager'].presentText(downChar ,interrupt=True, ignorePunctuation=True, announceCapital=True)
+        if endOfScreen:
+            if self.env['runtime']['settingsManager'].getSettingAsBool('review', 'endOfScreen'):        
+                self.env['runtime']['outputManager'].presentText('end of screen' ,interrupt=False, soundIcon='EndOfScreen')                     
     def setCallback(self, callback):
         pass

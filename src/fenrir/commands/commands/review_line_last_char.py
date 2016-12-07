@@ -23,11 +23,8 @@ class command():
         self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], lastChar = \
           char_utils.getLastCharInLine(self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
         
-        if lastChar.isspace():
-            self.env['runtime']['outputManager'].presentText("line is empty" ,interrupt=True)
-        else:
-            self.env['runtime']['outputManager'].presentText(lastChar ,interrupt=True, ignorePunctuation=True, announceCapital=True)        
-            self.env['runtime']['outputManager'].presentText("last char in line", interrupt=False)
+        self.env['runtime']['outputManager'].presentText(lastChar ,interrupt=True, ignorePunctuation=True, announceCapital=True)        
+        self.env['runtime']['outputManager'].presentText("last char in line", interrupt=False)
    
     def setCallback(self, callback):
         pass

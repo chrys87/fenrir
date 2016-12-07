@@ -60,7 +60,7 @@ settings = {
   'highlight': False,
 },
 'review':{
-  'newLine': True,
+  'lineBreak': True,
   'endOfScreen': True,
 },
 'promote':{

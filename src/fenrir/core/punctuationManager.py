@@ -12,7 +12,7 @@ class punctuationManager():
         pass
     def initialize(self, environment):
         self.env = environment
-        self.allPunctNone = dict.fromkeys(map(ord, string.punctuation +"§"), ' ')
+        self.allPunctNone = dict.fromkeys(map(ord, string.punctuation +"§ "), ' ')
         # replace with None: 
         # dot, comma, grave, apostrophe
         #for char in [ord('`'),ord("'")]:
@@ -62,7 +62,7 @@ class punctuationManager():
         if not ignorePunctuation and self.env['runtime']['settingsManager'].getSetting('general', 'punctuationLevel').lower() in self.env['punctuation']['LEVELDICT']:
             currPunctLevel = self.env['punctuation']['LEVELDICT'][self.env['runtime']['settingsManager'].getSetting('general', 'punctuationLevel').lower()]
         else:
-            currPunctLevel = string.punctuation +'§'
+            currPunctLevel = string.punctuation +' §'
         resultText = self.usePunctuationDict(resultText, self.env['punctuation']['PUNCTDICT'], currPunctLevel)
         #resultText = self.removeUnused(resultText, currPunctLevel)
         return resultText

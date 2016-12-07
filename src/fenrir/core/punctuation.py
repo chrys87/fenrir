@@ -11,10 +11,11 @@ punctuation = {
 'LEVELDICT':{
   'none': '',
   'some': '#-$~+*-/\\@',
-  'most': '.,:-$~+*-/\\@!#%^&*()[]}{<>;',
-  'all': string.punctuation + '§',
+  'most': '.,:-$~ +*-/\\@!#%^&*()[]}{<>;',
+  'all': string.punctuation + ' §',
   },
 'PUNCTDICT':{
+  ' ':'space',
   '&':'and',
   "'":"apostrophe",
   '@':'at',

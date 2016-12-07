@@ -23,10 +23,7 @@ class command():
         self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], currChar = \
           char_utils.getCurrentChar(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
         
-        if currChar.isspace():
-            self.env['runtime']['outputManager'].presentText("space" ,interrupt=True)
-        else:
-            self.env['runtime']['outputManager'].presentText(currChar ,interrupt=True, ignorePunctuation=True, announceCapital=True)        
+        self.env['runtime']['outputManager'].presentText(currChar ,interrupt=True, ignorePunctuation=True, announceCapital=True)        
         self.env['runtime']['outputManager'].presentText("end of line", interrupt=False)
    
     def setCallback(self, callback):

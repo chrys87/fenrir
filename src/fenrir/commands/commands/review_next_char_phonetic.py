@@ -23,11 +23,13 @@ class command():
         self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], nextChar, endOfScreen, lineBreak = \
           char_utils.getNextChar(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
         
-        if nextChar.isspace():
-            self.env['runtime']['outputManager'].presentText("blank" ,interrupt=True)
-        else:
-            nextChar = char_utils.getPhonetic(nextChar)
-            self.env['runtime']['outputManager'].presentText(nextChar ,interrupt=True, announceCapital=True)
-  
+        nextChar = char_utils.getPhonetic(nextChar)
+        self.env['runtime']['outputManager'].presentText(nextChar ,interrupt=True, announceCapital=True)
+        if endOfScreen:
+            if self.env['runtime']['settingsManager'].getSettingAsBool('review', 'endOfScreen'):        
+                self.env['runtime']['outputManager'].presentText('end of screen' ,interrupt=False, soundIcon='EndOfScreen')                 
+        if lineBreak:
+            if self.env['runtime']['settingsManager'].getSettingAsBool('review', 'lineBreak'):        
+                self.env['runtime']['outputManager'].presentText('line break' ,interrupt=False, soundIcon='EndOfLine')   
     def setCallback(self, callback):
         pass

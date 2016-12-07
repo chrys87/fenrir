@@ -28,7 +28,7 @@ class outputManager():
         if self.playSoundIcon(soundIcon, interrupt):
             self.env['runtime']['debug'].writeDebugOut("soundIcon found" ,debug.debugLevel.INFO)            
             return
-        if text.strip(string.whitespace) == '':
+        if (len(text) > 1) and (text.strip(string.whitespace) == ''):
             return
         toAnnounceCapital = announceCapital and text[0].isupper()
         if toAnnounceCapital:
