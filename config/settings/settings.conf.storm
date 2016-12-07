@@ -68,6 +68,10 @@ cursor=True
 #follow highlighted text changes
 highlight=False
 
+[review]
+newLine=True
+endOfScreen=True
+
 [promote]
 enabled=True
 inactiveTimeoutSec=120

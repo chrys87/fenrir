@@ -8,29 +8,29 @@ from core import debug
 
 settings = {
 'sound': {
-    'enabled': True,
-    'driver': 'generic', 
-    'theme': 'default',
-    'volume': 1.0,
-    'genericPlayFileCommand': 'play -q -v fenrirVolume fenrirSoundFile',
-    'genericFrequencyCommand': 'play -q -v fenrirVolume -n -c1 synth fenrirDuration sine fenrirFrequence'
+  'enabled': True,
+  'driver': 'generic', 
+  'theme': 'default',
+  'volume': 1.0,
+  'genericPlayFileCommand': 'play -q -v fenrirVolume fenrirSoundFile',
+  'genericFrequencyCommand': 'play -q -v fenrirVolume -n -c1 synth fenrirDuration sine fenrirFrequence'
 },
 'speech':{
-    'enabled': True,
-    'driver': 'speechd',
-    'rate': 0.75,
-    'pitch': 0.5,
-    'capitalPitch':0.8,
-    'volume': 1.0,    
-    'module': 'espeak',
-    'voice': '',
-    'language': 'english-us',
-    'autoReadIncoming': True,
+  'enabled': True,
+  'driver': 'speechd',
+  'rate': 0.75,
+  'pitch': 0.5,
+  'capitalPitch':0.8,
+  'volume': 1.0,    
+  'module': 'espeak',
+  'voice': '',
+  'language': 'english-us',
+  'autoReadIncoming': True,
 },
 'braille':{
-    'enabled': False, 
-    'driver':'brlapi',
-    'layout': 'en',
+  'enabled': False, 
+  'driver':'brlapi',
+  'layout': 'en',
 },
 'screen':{
     'driver': 'linux',
@@ -58,6 +58,10 @@ settings = {
 'focus':{
   'cursor': True,
   'highlight': False,
+},
+'review':{
+  'newLine': True,
+  'endOfScreen': True,
 },
 'promote':{
   'enabled': True,
