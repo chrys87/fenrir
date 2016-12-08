@@ -1,7 +1,6 @@
 ToDos in Priority order:
 
 Known Bugs:
-- fenrir key is for some users in tintin printed
 - some timing issues for some users that leads to an delay to read incomming messages
 - for some users fenrir eats the orca key
 - in special cases next word skipps a word, "word<12 spaces>word2<12 spaces>word3 (storm_dragon)
