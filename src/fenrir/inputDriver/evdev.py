@@ -135,7 +135,7 @@ class driver():
                 self.uDevices[fd] = UInput.from_device(self.iDevices[fd].fn)
                 self.iDevices[fd].grab()
             except Exception as e:
-                self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR) 
+                self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: grabing not possible:  ' + str(e),debug.debugLevel.ERROR) 
     def releaseDevices(self):
         for fd in self.iDevices:
             try:
