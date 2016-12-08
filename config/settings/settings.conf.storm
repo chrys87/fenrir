@@ -28,7 +28,7 @@ layout=en
 [screen]
 driver=linux
 encoding=cp850
-screenUpdateDelay=0.4
+screenUpdateDelay=0.1
 suspendingScreen=7
 autodetectSuspendingScreen=False
 

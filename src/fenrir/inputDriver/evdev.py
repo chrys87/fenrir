@@ -131,9 +131,11 @@ class driver():
 #              )
 #            dev.grab()
         for fd in self.iDevices:
-            self.uDevices[fd] = UInput.from_device(self.iDevices[fd].fn)
-            self.iDevices[fd].grab()
-
+            try:        
+                self.uDevices[fd] = UInput.from_device(self.iDevices[fd].fn)
+                self.iDevices[fd].grab()
+            except Exception as e:
+                self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR) 
     def releaseDevices(self):
         for fd in self.iDevices:
             try:
