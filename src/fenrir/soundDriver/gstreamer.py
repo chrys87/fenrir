@@ -5,32 +5,35 @@
 # By Chrys, Storm Dragon, and contributers.
 
 from core import debug
-import gi
 import time, threading
-from gi.repository import GLib
 
+
+_gstreamerAvailable = False
 try:
+    import gi        
+    from gi.repository import GLib        
     gi.require_version('Gst', '1.0')
     from gi.repository import Gst
-except:
+    _gstreamerAvailable, args = Gst.init_check(None)   
+except Exception as e:
     _gstreamerAvailable = False
-else:
-    _gstreamerAvailable, args = Gst.init_check(None)
+    _availableError = str(e)
 
 class driver:
     def __init__(self):
-        self._initialized = False
         self._source = None
         self._sink = None
         self.volume = 1
+        self._initialized = False
+        
     def initialize(self, environment):
-        if self._initialized:
-           return
-        global _gstreamerAvailable           
-        if not _gstreamerAvailable:
-            self.environment['runtime']['debug'].writeDebugOut('Gstreamer not available',debug.debugLevel.ERROR)                        
-            return
         self.env = environment
+        global _gstreamerAvailable
+        self._initialized = _gstreamerAvailable              
+        if not self._initialized:
+            global _availableError
+            self.environment['runtime']['debug'].writeDebugOut('Gstreamer not available ' + _availableError,debug.debugLevel.ERROR)                        
+            return
         self._player = Gst.ElementFactory.make('playbin', 'player')
         bus = self._player.get_bus()
         bus.add_signal_watch()
@@ -46,21 +49,19 @@ class driver:
         self._pipeline.add(self._source)
         self._pipeline.add(self._sink)
         self._source.link(self._sink)
-
-        self._initialized = True
         self.mainloop = GLib.MainLoop()        
         self.thread = threading.Thread(target=self.mainloop.run)
         self.thread.start()
+
     def shutdown(self):
-        global _gstreamerAvailable    
-        if not _gstreamerAvailable:
+        if not self._initialized:
             return
         self.cancel()
         self.mainloop.quit()
-        self._initialized = False
-        _gstreamerAvailable = False
 
     def _onPlayerMessage(self, bus, message):
+        if not self._initialized:
+            return    
         if message.type == Gst.MessageType.EOS:
             self._player.set_state(Gst.State.NULL)
         elif message.type == Gst.MessageType.ERROR:
@@ -69,6 +70,8 @@ class driver:
             self.env['runtime']['debug'].writeDebugOut('GSTREAMER: _onPlayerMessage'+ str(error) + str(info),debug.debugLevel.WARNING)                        
 
     def _onPipelineMessage(self, bus, message):
+        if not self._initialized:
+            return    
         if message.type == Gst.MessageType.EOS:
             self._pipeline.set_state(Gst.State.NULL)
         elif message.type == Gst.MessageType.ERROR:
@@ -77,15 +80,21 @@ class driver:
             self.env['runtime']['debug'].writeDebugOut('GSTREAMER: _onPipelineMessage'+ str(error) + str(info),debug.debugLevel.WARNING)  
             
     def _onTimeout(self, element):
+        if not self._initialized:
+            return    
         element.set_state(Gst.State.NULL)
 
     def playSoundFile(self, fileName, interrupt=True):
+        if not self._initialized:
+            return    
         if interrupt:
             self.cancel()
         self._player.set_property('uri', 'file://%s' % fileName)
         self._player.set_state(Gst.State.PLAYING)
 
     def playFrequence(self, frequence, duration, adjustVolume, interrupt=True):
+        if not self._initialized:
+            return    
         if interrupt:
             self.cancel()
         self._source.set_property('volume', tone.volume)
@@ -96,8 +105,7 @@ class driver:
         GLib.timeout_add(duration, self._onTimeout, self._pipeline)
 
     def cancel(self, element=None):
-        global _gstreamerAvailable    
-        if not _gstreamerAvailable:
+        if not self._initialized:
             return
         if element:
             element.set_state(Gst.State.NULL)
@@ -105,6 +113,8 @@ class driver:
         self._player.set_state(Gst.State.NULL)
         self._pipeline.set_state(Gst.State.NULL)
     def setVolume(self, volume):
+        if not self._initialized:
+            return    
         self.volume = volume  
 
 

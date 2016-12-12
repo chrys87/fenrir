@@ -175,15 +175,18 @@ class settingsManager():
         return value
 
     def loadDriver(self, driverName, driverType):
-        if self.env['runtime'][driverType] != None:
-            print('shutdown %s',driverType)
-            self.env['runtime'][driverType].shutdown(self.env)    
-        spec = importlib.util.spec_from_file_location(driverName, os.path.dirname(os.path.realpath(__main__.__file__)) + "/" + driverType + '/' + driverName + '.py')
-        driver_mod = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(driver_mod)
-        self.env['runtime'][driverType] = driver_mod.driver()
-        self.env['runtime'][driverType].initialize(self.env)           
-
+        try:
+            if self.env['runtime'][driverType] != None:
+                self.env['runtime'][driverType].shutdown(self.env)    
+            spec = importlib.util.spec_from_file_location(driverName, os.path.dirname(os.path.realpath(__main__.__file__)) + "/" + driverType + '/' + driverName + '.py')
+            driver_mod = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(driver_mod)
+            self.env['runtime'][driverType] = driver_mod.driver()
+            self.env['runtime'][driverType].initialize(self.env)
+            self.env['runtime']['debug'].writeDebugOut('Loading Driver '  + driverType +" OK",debug.debugLevel.INFO, onAnyLevel=True)             
+        except Exception as e:
+            self.env['runtime'][driverType] = None
+            self.env['runtime']['debug'].writeDebugOut("Loading " + driverType + " Driver : "+ str(e), debug.debugLevel.ERROR)
     def shutdownDriver(self, driverType):
         if self.env['runtime'][driverType] == None:
             return

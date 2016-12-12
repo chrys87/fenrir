@@ -4,11 +4,17 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-import evdev
-import time
-from evdev import InputDevice, UInput
-from select import select
+_evdevAvailable = False
+_evdevAvailableError = ''
+try:
+    import evdev
+    from evdev import InputDevice, UInput
+    _evdevAvailable = True
+except Exception as e:
+    _evdevAvailableError = str(e)
 
+import time
+from select import select
 from core import inputEvent
 from core import debug
 
@@ -16,19 +22,30 @@ class driver():
     def __init__(self):
         self.iDevices = {}
         self.uDevices = {}
-        self.ledDevices = {}        
+        self.ledDevices = {} 
+        self._initialized = False        
 
     def initialize(self, environment):
-        self.env = environment    
-        self.getInputDevices()
+        self.env = environment
+        global _evdevAvailable
+        self._initialized = _evdevAvailable
+        if not self._initialized:
+            global _evdevAvailableError
+            self.env['runtime']['debug'].writeDebugOut('InputDriver: ' + _evdevAvailableError,debug.debugLevel.ERROR)         
+            return
+        self.getInputDevices()            
 
     def shutdown(self):
         pass
     def getInputEvent(self):
+        if not self._initialized:
+            time.sleep(0.005) # dont flood CPU
+            return None
         if not self.iDevices:
             return None
         if self.iDevices == {}:
             return None
+
         event = None
         r, w, x = select(self.iDevices, [], [], self.env['runtime']['settingsManager'].getSettingAsFloat('screen', 'screenUpdateDelay'))
         if r != []:
@@ -47,16 +64,24 @@ class driver():
         return None
 
     def writeEventBuffer(self):
+        if not self._initialized:
+            return    
         for iDevice, uDevice, event in self.env['input']['eventBuffer']:
             self.writeUInput(uDevice, event)
 
     def clearEventBuffer(self):
+        if not self._initialized:
+            return    
         del self.env['input']['eventBuffer'][:]
                         
     def writeUInput(self, uDevice, event):
+        if not self._initialized:
+            return    
         uDevice.write_event(event)
         uDevice.syn()  
     def getInputDevices(self):
+        if not self._initialized:
+            return    
         deviceList = evdev.list_devices()
         readableDevices = []
         for dev in deviceList:
@@ -83,6 +108,8 @@ class driver():
             self.ledDevices = {dev.fd: dev for dev in self.ledDevices if dev.name.upper() in self.env['runtime']['settingsManager'].getSetting('keyboard', 'device').upper().split(',')}        
             
     def mapEvent(self, event):
+        if not self._initialized:
+            return None    
         if not event:
             return None
         mEvent = inputEvent.inputEvent
@@ -97,6 +124,8 @@ class driver():
             return None
        
     def getLedState(self, led = 0):
+        if not self._initialized:
+            return None    
         # 0 = Numlock
         # 1 = Capslock
         # 2 = Rollen
@@ -108,6 +137,8 @@ class driver():
             return led in dev.leds()
         return False          
     def toggleLedState(self, led = 0):
+        if not self._initialized:
+            return None    
         ledState = self.getLedState(led)
         for i in self.ledDevices:
             if ledState == 1:
@@ -115,6 +146,8 @@ class driver():
             else:
                 self.ledDevices[i].set_led(led , 1)
     def grabDevices(self):
+        if not self._initialized:
+            return None    
 #        leve the old code until the new one is better tested    
 #        for fd in self.iDevices:
 #            dev = self.iDevices[fd]
@@ -137,6 +170,8 @@ class driver():
             except Exception as e:
                 self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: grabing not possible:  ' + str(e),debug.debugLevel.ERROR) 
     def releaseDevices(self):
+        if not self._initialized:
+            return None    
         for fd in self.iDevices:
             try:
                 self.iDevices[fd].ungrab()
@@ -154,7 +189,9 @@ class driver():
         self.iDevices.clear()
         self.uDevices.clear()
 
-        def __del__(self):
-            self.releaseDevices()
+    def __del__(self):
+        if not self._initialized:
+            return None        
+        self.releaseDevices()
 
 
