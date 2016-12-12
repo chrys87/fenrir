@@ -3,7 +3,6 @@ ToDos in Priority order:
 Known Bugs:
 - some timing issues for some users that leads to an delay to read incomming messages
 - for some users fenrir eats the orca key
-- dont break on non existing python-evdev event.
 - in special cases next word skipps a word, "word<12 spaces>word2<12 spaces>word3 (storm_dragon)
 - Fenrir key sometimes wents crazy? (maybe this is if fenrir key is released before other keys)
 - For example, in screen, it just tells me bell in window, but doesn't tell me which one. (southernprince)
