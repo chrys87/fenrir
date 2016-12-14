@@ -25,10 +25,10 @@ class driver():
     def shutdown(self):
         pass
 
-    def speak(self,text, queueable=True):
+    def speak(self,text, interrupt=True):
         if not self._isInitialized:
             return False
-        if not queueable:
+        if not interrupt:
             self.cancel()
         self._es.synth(text)
         return True
@@ -62,7 +62,7 @@ class driver():
     def setRate(self, rate):
         if not self._isInitialized:
             return False
-        return self._es.set_parameter(self._es.Parameter().Rate, int(rate*450 + 80))
+        return self._es.set_parameter(self._es.Parameter().Rate, int(rate * 500 + 100))
 
     def setModule(self, module):
         if not self._isInitialized:
