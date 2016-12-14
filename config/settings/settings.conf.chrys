@@ -37,7 +37,7 @@ driver=speechd
 
 
 # The rate selects how fast fenrir will speak. Options range from 0, slowest, to 1.0, fastest.
-rate=0.45
+rate=0.6
 
 # Pitch controls the pitch of the voice, select from 0, lowest, to 1.0, highest.
 pitch=0.5
