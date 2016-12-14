@@ -25,10 +25,10 @@ class driver():
     def shutdown(self):
         pass
 
-    def speak(self,text, queueable=True):
+    def speak(self,text, interrupt=True):
         if not self._isInitialized:
             return False
-        if not queueable:
+        if not interrupt:
             self.cancel()
         self._es.synth(text)
         return True
