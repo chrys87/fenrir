@@ -73,9 +73,9 @@ class screenManager():
                 try:
                     self.env['runtime']['brailleDriver'].leveScreen() 
                 except Exception as e:
-                    pass
+                self.env['runtime']['debug'].writeDebugOut('screenManager:changeBrailleScreen:leveScreen ' + str(e),debug.debugLevel.ERROR) 
         if not self.isSuspendingScreen():
             try:
                 self.env['runtime']['brailleDriver'].enterScreen(self.env['screenData']['newTTY'])      
             except Exception as e:                
-                self.env['runtime']['debug'].writeDebugOut('screenManager:changeBrailleScreen ' + str(e),debug.debugLevel.ERROR) 
+                self.env['runtime']['debug'].writeDebugOut('screenManager:changeBrailleScreen:enterScreen ' + str(e),debug.debugLevel.ERROR) 
