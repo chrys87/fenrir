@@ -63,7 +63,7 @@ class screenManager():
         try:
             self.env['runtime']['screenDriver'].injectTextToScreen(text, screen) 
         except Exception as e:
-            pass
+            self.env['runtime']['debug'].writeDebugOut('screenManager:injectTextToScreen ' + str(e),debug.debugLevel.ERROR) 
             
     def changeBrailleScreen(self):
         if not self.env['runtime']['brailleDriver']:
