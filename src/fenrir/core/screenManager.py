@@ -59,9 +59,9 @@ class screenManager():
             windowText += line[self.env['commandBuffer']['windowArea'][currApp]['1']['x']:self.env['commandBuffer']['windowArea'][currApp]['2']['x'] + 1] + '\n'
         return windowText
     
-    def injectTextToScreen(self, text):
+    def injectTextToScreen(self, text, screen = None):
         try:
-            self.env['runtime']['screenDriver'].injectTextToScreen(text) 
+            self.env['runtime']['screenDriver'].injectTextToScreen(text, screen) 
         except Exception as e:
             pass
             
