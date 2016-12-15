@@ -78,4 +78,4 @@ class screenManager():
             try:
                 self.env['runtime']['brailleDriver'].enterScreen(self.env['screenData']['newTTY'])      
             except Exception as e:                
-                pass
+                self.env['runtime']['debug'].writeDebugOut('screenManager:changeBrailleScreen ' + str(e),debug.debugLevel.ERROR) 
