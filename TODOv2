@@ -31,7 +31,7 @@ Braille Support:
   https://wiki.gnome.org/Attic/LSR/ScratchPad/Braille/BrlAPI  
 
 Driver:
-- implement PTY driver
+- implement PTY Screen driver (to use gnome-terminal and other terminal emulators)
 - ATK input driver (dont grab on graphical interface)
 - BrlTTY driver
   https://docs.python.org/3.2/library/pty.html
