@@ -1,10 +1,10 @@
 ToDos in Priority order:
 
 Known Bugs:
-- some timing issues for some users that leads to an delay to read incomming messages
-- for some users fenrir eats the orca key
 - in special cases next word skipps a word, "word<12 spaces>word2<12 spaces>word3 (storm_dragon)
-- Fenrir key sometimes wents crazy? (maybe this is if fenrir key is released before other keys)
+- some timing issues for some users that leads to an delay to read incomming messages (fixed?)
+- for some users fenrir eats the orca key (fixed?)
+- Fenrir key sometimes wents crazy? (maybe this is if fenrir key is released before other keys) (fixed?)
 - spellcheck triggers twice if there are two spaces after an word and you arrow over them
 - mouse is not usable on desktop with fenrir running (it waits for key events, need to sync here)
 Glitches
