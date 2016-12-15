@@ -5,9 +5,7 @@
 # By Chrys, Storm Dragon, and contributers.
 
 from core import debug
-import fcntl
-import termios
-import time, sys
+import time
 
 class command():
     def __init__(self):
@@ -34,11 +32,8 @@ class command():
             self.env['runtime']['outputManager'].presentText('clipboard empty', interrupt=True)
             return                                         
         self.env['runtime']['outputManager'].presentText('paste clipboard', soundIcon='PasteClipboardOnScreen', interrupt=True)
-        time.sleep(0.02)
-        with open("/dev/tty" + self.env['screenData']['newTTY'], 'w') as fd:
-            for c in self.env['commandBuffer']['clipboard'][currClipboard]:
-                fcntl.ioctl(fd, termios.TIOCSTI, c)
-                time.sleep(0.02)
+        time.sleep(0.01)
+        self.env['runtime']['screenManager'].injectTextToScreen(self.env['commandBuffer']['clipboard'][currClipboard])
               
     def setCallback(self, callback):
         pass
