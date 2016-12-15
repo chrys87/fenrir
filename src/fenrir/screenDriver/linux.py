@@ -28,8 +28,11 @@ class driver():
             currScreenFile.close()
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)   
-    def injectTextToScreen(self, text):
-        with open("/dev/tty" + self.env['screenData']['newTTY'], 'w') as fd:
+    def injectTextToScreen(self, text, screen = None):
+        useScreen = "/dev/tty" + self.env['screenData']['newTTY']
+        if screen != None:
+            useScreen = screen
+        with open(useScreen, 'w') as fd:
             for c in text:
                 fcntl.ioctl(fd, termios.TIOCSTI, c)
                 time.sleep(0.005)
