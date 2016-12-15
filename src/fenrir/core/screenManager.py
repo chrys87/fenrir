@@ -58,7 +58,13 @@ class screenManager():
         for line in windowList:
             windowText += line[self.env['commandBuffer']['windowArea'][currApp]['1']['x']:self.env['commandBuffer']['windowArea'][currApp]['2']['x'] + 1] + '\n'
         return windowText
-  
+    
+    def injectTextToScreen(self, text):
+        try:
+            self.env['runtime']['screenDriver'].injectTextToScreen(text) 
+        except Exception as e:
+            pass
+            
     def changeBrailleScreen(self):
         if not self.env['runtime']['brailleDriver']:
             return
