@@ -7,6 +7,9 @@
 import difflib
 import re
 import subprocess
+import fcntl
+import termios
+import time
 from core import debug
 from utils import screen_utils
 
@@ -25,7 +28,12 @@ class driver():
             currScreenFile.close()
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)   
-
+    def injectTextToScreen(self, text):
+        with open("/dev/tty" + self.env['screenData']['newTTY'], 'w') as fd:
+            for c in text:
+                fcntl.ioctl(fd, termios.TIOCSTI, c)
+                time.sleep(0.005)
+                
     def getCurrApplication(self):
         apps = []
         try:
