@@ -4,6 +4,9 @@ General:
 - implement onScreenUpdate commands
   read highlighted text mode
 - translateable
+- be more event based
+- try to make it more asynchronus
+- multpible threads
  
 - implement commands
   attributes_curr_char
