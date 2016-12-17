@@ -51,16 +51,30 @@ class driver():
         if r != []:
             for fd in r:
                 event = self.iDevices[fd].read_one()            
+                foreward = False
                 while(event):
                     self.env['input']['eventBuffer'].append( [self.iDevices[fd], self.uDevices[fd], event])
                     if event.type == evdev.events.EV_KEY:
                         if event.code != 0:
-                            currMapEvent = self.env['runtime']['inputDriver'].mapEvent(event)
+                            currMapEvent = self.mapEvent(event)
                             if not currMapEvent:
-                                return currMapEvent
-                            if currMapEvent['EventState'] in [0,1,2]:
-                                return currMapEvent
-                    event = self.iDevices[fd].read_one()                            
+                                foreward = True                            
+                                event = self.iDevices[fd].read_one()                               
+                                continue
+                            if not isinstance(currMapEvent['EventName'], str):
+                                foreward = True                            
+                                event = self.iDevices[fd].read_one()                               
+                                continue
+                            if not foreward:
+                                if currMapEvent['EventState'] in [0,1,2]:
+                                    return currMapEvent
+                    else:
+                        if not event.type in [0,1,4]:
+                            foreward = True
+                    event = self.iDevices[fd].read_one()   
+                if foreward:
+                    self.writeEventBuffer()
+                    self.clearEventBuffer()                                                                         
         return None
 
     def writeEventBuffer(self):

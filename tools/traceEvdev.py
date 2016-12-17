@@ -15,6 +15,6 @@ while True:
     if r != []:
         for fd in r:
             for event in devices[fd].read():
-                   print('Devicename:'+ devices[fd].name + '  Devicepath:' + devices[fd].fn + '  Events:' + str(devices[fd].active_keys(verbose=True)) + '  Value:' + str(event.value))
+                   print('Devicename:'+ devices[fd].name + '  Devicepath:' + devices[fd].fn + '  EventType: '  + str(event.type) +  ' Events:' + str(devices[fd].active_keys(verbose=True)) + '  Value:' + str(event.value))
 
 
