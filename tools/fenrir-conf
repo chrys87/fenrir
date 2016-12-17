@@ -1,0 +1,208 @@
+#!/bin/bash
+
+# Get user input args are return variable, question, options
+get_input()
+{
+# Variable names are long, cause I want absolutely no name conflicts.
+local __get_input_input=$1
+shift
+local __get_input_question="$1"
+shift
+local __get_input_answer=""
+local __get_input_i=""
+local __get_input_continue=false
+for __get_input_i in $@; do
+if [ "${__get_input_i:0:1}" = "-" ]; then
+local __get_input_default="${__get_input_i:1}"
+fi
+done
+while [ $__get_input_continue = false ]; do
+echo -n "$__get_input_question (${@/#-/}) "
+if [ -n "$__get_input_default" ]; then
+read -e -i "$__get_input_default" __get_input_answer
+else
+read -e __get_input_answer
+fi
+for __get_input_i in $@; do
+if [ "$__get_input_answer" = "${__get_input_i/#-/}" ]; then
+__get_input_continue=true
+break
+fi
+done
+done
+__get_input_answer="${__get_input_answer//no/False}"
+__get_input_answer="${__get_input_answer//yes/True}"
+eval $__get_input_input="'$__get_input_answer'"
+}
+configFile="/etc/fenrir/settings/settings.conf"
+
+if [ "$(whoami)" != "root" ]; then
+echo "Please run $0 as root."
+exit 1
+fi
+
+if [ -f "$configFile" ]; then
+read -p "This will replace your current settings. Press enter to continue or control+c to abort." continue
+fi
+
+get_input sound "Enable sound?" -yes no
+if [ "$sound" = "true" ]; then
+get_input soundDriver "Select sound driver:" -generic gstreamer
+else
+soundDriver="generic"
+fi
+get_input speech "Enable speech?" -yes no
+if [ "$speech" = "true" ]; then
+get_input speechDriver "Select speech driver:" espeak -speechd
+else
+speechDriver="speechd"
+fi
+get_input charEcho "enable character echo?" -yes no
+get_input wordEcho "enable word echo?" yes -no
+
+cat << EOF > "$configFile"
+[sound]
+# Turn sound on or off:
+enabled=$sound
+
+# Select the driver used to play sounds, choices are generic and gstreamer.
+# Sox is the default.
+driver=$soundDriver
+
+# Sound themes. This is the pack of sounds used for sound alerts.
+# Sound packs may be located at /usr/share/sounds
+# For system wide availability, or ~/.local/share/fenrir/sounds
+# For the current user.
+theme=default
+
+# Sound volume controls how loud the sounds for your chosen soundpack are.
+# 0 is quietest, 1.0 is loudest.
+volume=1.0
+
+# shell commands for generic sound driver
+# the folowing variable are substituded
+# fenrirVolume = the current volume setting
+# fenrirSoundFile = the soundfile for an soundicon
+# fenrirFrequence = the frequence to play
+# fenrirDuration = the duration of the frequence
+# the following command is used for play a soundfile
+genericPlayFileCommand=play -q -v fenrirVolume fenrirSoundFile
+#the following command is used for generating a frequence beep
+genericFrequencyCommand=play -q -v fenrirVolume -n -c1 synth fenrirDuration sine fenrirFrequence
+
+[speech]
+# Turn speech on or off:
+enabled=$speech
+
+# Select speech driver, options are speechd (default) or espeak:
+driver=$speechDriver
+
+
+# The rate selects how fast fenrir will speak. Options range from 0, slowest, to 1.0, fastest.
+rate=0.45
+
+# Pitch controls the pitch of the voice, select from 0, lowest, to 1.0, highest.
+pitch=0.5
+# Pitch for capital letters
+capitalPitch=0.9
+
+# Volume controls the loudness of the voice, select from 0, quietest, to 1.0, loudest.
+volume=1.0
+
+# Module is used for speech-dispatcher, to select the speech module you want to use.
+# Consult speech-dispatcher's configuration and help ti find out which modules are available.
+# The default is espeak.
+module=espeak
+
+# Voice selects the varient you want to use, for example, f5 will use the female voice #5 in espeak,
+# or if using the espeak module in speech-dispatcher. To find out which voices are available, consult the documentation provided with your chosen synthesizer.
+voice=
+
+# Select the language you want fenrir to use.
+language=english-us
+
+# Read new text as it happens?
+autoReadIncoming=True
+
+[braille]
+#braille is not implemented yet
+enabled=False
+driver=brlapi
+layout=en
+
+[screen]
+driver=linux
+encoding=cp850
+screenUpdateDelay=0.05
+suspendingScreen=
+autodetectSuspendingScreen=True
+
+[keyboard]
+driver=evdev
+# filter input devices NOMICE, ALL or a DEVICE NAME
+device=ALL
+# gives fenrir exclusive access to the keyboard and let consume keystrokes.
+grabDevices=True
+ignoreShortcuts=False
+# the current shortcut layout located in /etc/fenrir/keyboard
+keyboardLayout=$keyboard
+# echo chars while typing.
+charEcho=$charEcho
+# echo deleted chars
+charDeleteEcho=True
+# echo word after pressing space
+wordEcho=$wordEcho
+# interrupt speech on any keypress
+interruptOnKeyPress=$enterupt
+# timeout for double tap in sec
+doubleTapTimeout=0.2
+
+[general]
+debugLevel=0
+punctuationProfile=default
+punctuationLevel=some
+respectPunctuationPause=True
+newLinePause=True
+numberOfClipboards=10
+emoticons=True
+# define the current fenrir key
+fenrirKeys=KEY_KP0,KEY_META,KEY_INSERT
+scriptKey=KEY_COMPOSE
+timeFormat=%H:%M:%P
+dateFormat=%A, %B %d, %Y
+autoSpellCheck=True
+spellCheckLanguage=en_US
+scriptPath=/usr/share/fenrir/scripts
+
+[focus]
+#follow the text cursor
+cursor=True
+#follow highlighted text changes
+highlight=False
+
+[promote]
+enabled=True
+inactiveTimeoutSec=120
+list=
+
+[time]
+# automatic time anouncement
+enabled=False
+# present time
+presentTime=True
+# present date (on change)
+presentDate=True
+# present time after a given period of seconds
+delaySec=0
+# present time after to given minutes example every 15 minutes: 00,15,30,45
+# if delaySec is >0 onMinutes is ignored
+onMinutes=00,30
+# announce via soundicon (not interrupting)
+announce=True
+# interrupt current speech for time announcement
+interrupt=False
+EOF
+
+echo "Settings saved to $configFile."
+
+exit 0
