@@ -20,7 +20,8 @@ class command():
         if self.env['runtime']['settingsManager'].getSettingAsBool('speech', 'enabled'): 
             self.env['runtime']['outputManager'].presentText("speech temporary disabled", soundIcon='SpeechOff', interrupt=True)
             self.env['commandBuffer']['enableSpeechOnKeypress'] = True
-            self.env['runtime']['settingsManager'].setSetting('speech', 'enabled', str(not self.env['runtime']['settingsManager'].getSettingAsBool('speech', 'enabled')))   
+            self.env['runtime']['settingsManager'].setSetting('speech', 'enabled', str(not self.env['runtime']['settingsManager'].getSettingAsBool('speech', 'enabled')))
+            self.env['runtime']['outputManager'].interruptOutput()            
                
     def setCallback(self, callback):
         pass
