@@ -87,6 +87,7 @@ settings = {
   'charDeleteEcho': True,
   'wordEcho': True,
   'interruptOnKeyPress': True,
+  'interruptOnKeyPressFilter': '',
   'doubleTapTimeout': 0.2,
 }
 }

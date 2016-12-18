@@ -22,8 +22,14 @@ class command():
         if self.env['runtime']['inputManager'].noKeyPressed():
             return        
         if len(self.env['input']['prevDeepestInput']) > len(self.env['input']['currInput']):
-            return            
-        if self.environment['runtime']['screenManager'].isScreenChange():
+            return 
+        if len(self.env['input']['currInput']) != 1:
+            return
+        # if the filter is set
+        if self.env['runtime']['settingsManager'].getSetting('keyboard', 'interruptOnKeyPressFilter').strip() != '':            
+            if not self.env['input']['currInput'][0] in self.env['runtime']['settingsManager'].getSetting('keyboard', 'interruptOnKeyPressFilter').split(','):
+                return                                        
+        if self.env['runtime']['screenManager'].isScreenChange():
             return               
         self.env['runtime']['outputManager'].interruptOutput()
 
