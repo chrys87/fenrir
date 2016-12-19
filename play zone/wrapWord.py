@@ -15,16 +15,26 @@ def getPrevWord(currX,currY, currText):
         return -1, -1, '', endOfScreen, lineBreak
     if currText.strip(string.punctuation +"§ " + string.whitespace) == '':
         return currX, currY, '', endOfScreen, lineBreak               
-    x, y, currWord, endOfScreen, lineBreak = getCurrentWord(currX,currY,currText)
+    x, y, currWord, endOfScreen, lineBreakCurrWord = getCurrentWord(currX,currY,currText)
     if endOfScreen:
         return x, y, currWord, endOfScreen, lineBreak
     wrappedLines = currText.split('\n')
     currLine = wrappedLines[y]
-    Found = False
-    while(not Found):
-        currWord = 'prev'
-        return x, y, currWord, endOfScreen, lineBreak
-    return currX, currY, '', False, False
+    if x - 1 < 0:
+        if y - 1 < 0:
+            lineBreak = False
+            endOfScreen = True
+            return currX, currY, '', endOfScreen, lineBreak
+        else:
+            y -= 1
+            currLine = wrappedLines[y]
+            x = len( wrappedLines[y]) - 1
+            lineBreak = True
+    else:
+        x -= 1
+    x, y, currWord, endOfScreen, lineBreak = getCurrentWord(x,y,currText)        
+    lineBreak = lineBreak or lineBreakCurrWord
+    return x, y, currWord, endOfScreen, lineBreak
 
 def getCurrentWord(currX,currY, currText):
     lineBreak = False    
@@ -40,7 +50,31 @@ def getCurrentWord(currX,currY, currText):
     currLine = wrappedLines[y]
     Found = False
     while(not Found):
-        currWord = 'curr'
+        if not currLine[x] in string.whitespace:
+            if x == 0:
+                Found = True
+            else:
+                if currLine[x - 1] in string.whitespace:
+                    Found = True
+        if not Found:
+            if x - 1 < 0:
+                if y - 1 < 0:
+                    lineBreak = False
+                    endOfScreen = True
+                    return currX, currY, '', endOfScreen, lineBreak
+                else:
+                    y -= 1
+                    currLine = wrappedLines[y]
+                    x = len( wrappedLines[y]) - 1
+                    lineBreak = True
+            else:
+                x -= 1
+    if Found:
+        currWord = currLine[x:]
+        for d in string.whitespace:
+            delimiterPos = currWord.find(d)
+            if delimiterPos != -1:
+                currWord = currWord[:delimiterPos]              
         return x, y, currWord, endOfScreen, lineBreak
     return currX, currY, '', False, False
 
@@ -75,8 +109,7 @@ print('__DATA START__')
 print(data)
 print('__DATA END__\n\n')
 
-x = 0
+x = 3
 y = 0
 x, y, currWord, endOfScreen, lineBreak = getCurrentWord(x,y,data)
 print(x,y,currWord)
-    
