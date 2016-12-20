@@ -13,7 +13,7 @@ def getPrevWord(currX,currY, currText):
     endOfScreen = False
     if currText == '':
         return -1, -1, '', endOfScreen, lineBreak
-    if currText.strip(string.punctuation +"§ " + string.whitespace) == '':
+    if currText.strip( string.whitespace) == '':
         return currX, currY, '', endOfScreen, lineBreak               
     x, y, currWord, endOfScreen, lineBreakCurrWord = getCurrentWord(currX,currY,currText)
     if endOfScreen:
@@ -42,7 +42,7 @@ def getCurrentWord(currX,currY, currText):
     endOfScreen = False
     if currText == '':
         return -1, -1, '', endOfScreen, lineBreak
-    if currText.strip(string.punctuation +"§ " + string.whitespace) == '':
+    if currText.strip( string.whitespace) == '':
         return currX, currY, '', endOfScreen, lineBreak        
     x = currX
     y = currY
@@ -85,7 +85,7 @@ def getNextWord(currX,currY, currText):
     endOfScreen = False
     if currText == '':
         return -1, -1, '', endOfScreen, lineBreak
-    if currText.strip(string.punctuation +"§ " + string.whitespace) == '':
+    if currText.strip( string.whitespace) == '':
         return currX, currY, '', endOfScreen, lineBreak        
     x = currX
     y = currY
