@@ -7,35 +7,6 @@
 from core import debug
 import string
 
-def getPrevWord(currX,currY, currText):
-    lineBreak = False        
-    endOfScreen = False
-    if currText == '':
-        return -1, -1, '', endOfScreen, lineBreak
-    if currText.strip( string.whitespace) == '':
-        return currX, currY, '', endOfScreen, lineBreak               
-    x, y, currWord, endOfScreen, lineBreakCurrWord = getCurrentWord(currX,currY,currText)
-    if endOfScreen:
-        return x, y, currWord, endOfScreen, lineBreak
-    wrappedLines = currText.split('\n')
-    currLine = wrappedLines[y]
-    if x - 1 < 0:
-        if y - 1 < 0:
-            lineBreak = False
-            endOfScreen = True
-            return currX, currY, '', endOfScreen, lineBreak
-        else:
-            y -= 1
-            currLine = wrappedLines[y]
-            x = len( wrappedLines[y]) - 1
-            lineBreak = True
-    else:
-        x -= 1
-    lineBreakCurrWord = lineBreak or lineBreakCurrWord
-    x, y, currWord, endOfScreen, lineBreak = getCurrentWord(x,y,currText)          
-    lineBreak = lineBreak or lineBreakCurrWord
-    return x, y, currWord, endOfScreen, lineBreak
-
 def getCurrentWord(currX,currY, currText):
     lineBreak = False    
     endOfScreen = False
@@ -74,10 +45,38 @@ def getCurrentWord(currX,currY, currText):
         for d in string.whitespace:
             delimiterPos = currWord.find(d)
             if delimiterPos != -1:
-                currWord = currWord[:delimiterPos]
-                
+                currWord = currWord[:delimiterPos]               
         return x, y, currWord, endOfScreen, lineBreak
     return currX, currY, '', False, False
+
+def getPrevWord(currX,currY, currText):
+    lineBreak = False        
+    endOfScreen = False
+    if currText == '':
+        return -1, -1, '', endOfScreen, lineBreak
+    if currText.strip( string.whitespace) == '':
+        return currX, currY, '', endOfScreen, lineBreak               
+    x, y, currWord, endOfScreen, lineBreakCurrWord = getCurrentWord(currX,currY,currText)
+    if endOfScreen:
+        return x, y, currWord, endOfScreen, lineBreak
+    wrappedLines = currText.split('\n')
+    currLine = wrappedLines[y]
+    if x - 1 < 0:
+        if y - 1 < 0:
+            lineBreak = False
+            endOfScreen = True
+            return currX, currY, '', endOfScreen, lineBreak
+        else:
+            y -= 1
+            currLine = wrappedLines[y]
+            x = len( wrappedLines[y]) - 1
+            lineBreak = True
+    else:
+        x -= 1
+    lineBreakCurrWord = lineBreak or lineBreakCurrWord
+    x, y, currWord, endOfScreen, lineBreak = getCurrentWord(x,y,currText)          
+    lineBreak = lineBreak or lineBreakCurrWord
+    return x, y, currWord, endOfScreen, lineBreak
 
 def getNextWord(currX,currY, currText):
     lineBreak = False    
