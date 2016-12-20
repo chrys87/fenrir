@@ -36,7 +36,7 @@ def getCurrentWord(currX,currY, currText):
                 else:
                     y -= 1
                     currLine = wrappedLines[y]
-                    x = len( wrappedLines[y]) - 1
+                    x = len( currLine) - 1
                     lineBreak = True
             else:
                 x -= 1
@@ -69,7 +69,7 @@ def getPrevWord(currX,currY, currText):
         else:
             y -= 1
             currLine = wrappedLines[y]
-            x = len( wrappedLines[y]) - 1
+            x = len( currLine) - 1
             lineBreak = True
     else:
         x -= 1
