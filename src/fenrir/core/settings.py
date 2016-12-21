@@ -33,9 +33,9 @@ settings = {
   'layout': 'en',
 },
 'screen':{
-    'driver': 'linux',
+    'driver': 'vcsa',
     'encoding': 'cp850',
-    'screenUpdateDelay': 0.4,
+    'screenUpdateDelay': 0.1,
     'suspendingScreen': '',
     'autodetectSuspendingScreen': False,
 },
