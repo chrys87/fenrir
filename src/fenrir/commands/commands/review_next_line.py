@@ -31,6 +31,6 @@ class command():
             self.env['runtime']['outputManager'].presentText(nextLine, interrupt=True)
         if endOfScreen:
             if self.env['runtime']['settingsManager'].getSettingAsBool('review', 'endOfScreen'):        
-                self.env['runtime']['outputManager'].presentText('end of screen' ,interrupt=False, soundIcon='EndOfScreen')                 
+                self.env['runtime']['outputManager'].presentText('end of screen' ,interrupt=True, soundIcon='EndOfScreen')                 
     def setCallback(self, callback):
         pass
