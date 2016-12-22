@@ -43,8 +43,10 @@ class punctuationManager():
         resultText = str(text)
 
         if punctuationDict and punctuation and punctuation != '':
+            if ' ' in punctuation:
+                resultText = resultText.replace(' ',' ' + punctuationDict[' '] + ' ')
             for key,item in punctuationDict.items():
-                if key in punctuation:
+                if key in punctuation and key not in ' ':
                     if self.env['runtime']['settingsManager'].getSetting('general', 'respectPunctuationPause') and \
                       len(key) == 1 and \
                       key in ",.;:?!-":
