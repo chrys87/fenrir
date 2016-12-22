@@ -18,19 +18,19 @@ class command():
     
     def run(self):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'interruptOnKeyPress'):
-            return     
-        if self.env['runtime']['inputManager'].noKeyPressed():
-            return        
-        if len(self.env['input']['prevDeepestInput']) > len(self.env['input']['currInput']):
             return 
-        if len(self.env['input']['currInput']) != 1:
+        if self.env['runtime']['inputManager'].noKeyPressed():
+            return
+        if self.env['runtime']['screenManager'].isScreenChange():
+            return
+        if len(self.env['input']['prevDeepestInput']) > len(self.env['input']['currInput']):
             return
         # if the filter is set
         if self.env['runtime']['settingsManager'].getSetting('keyboard', 'interruptOnKeyPressFilter').strip() != '':            
-            if not self.env['input']['currInput'][0] in self.env['runtime']['settingsManager'].getSetting('keyboard', 'interruptOnKeyPressFilter').split(','):
-                return                                        
-        if self.env['runtime']['screenManager'].isScreenChange():
-            return               
+            filterList = self.env['runtime']['settingsManager'].getSetting('keyboard', 'interruptOnKeyPressFilter').split(',')
+            for currInput in self.env['input']['currInput']:
+                if not currInput in filterList:
+                    return                                                  
         self.env['runtime']['outputManager'].interruptOutput()
 
     def setCallback(self, callback):
