@@ -38,8 +38,11 @@ class command():
         # word begin produce a diff wiht len == 2 |a | others with 1 |a|
         if len(self.env['screenData']['newNegativeDelta']) > 2:
             return           
-
-        self.env['runtime']['outputManager'].presentText(self.env['screenData']['newNegativeDelta'], interrupt=True, ignorePunctuation=True, announceCapital=True)
+        currNegativeDelta = self.env['screenData']['newNegativeDelta']
+        if len(currNegativeDelta.strip()) != len(currNegativeDelta) and \
+          currNegativeDelta.strip() != '':
+            currNegativeDelta = currNegativeDelta.strip()
+        self.env['runtime']['outputManager'].presentText(currNegativeDelta, interrupt=True, ignorePunctuation=True, announceCapital=True)
 
     def setCallback(self, callback):
         pass

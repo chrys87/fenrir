@@ -72,9 +72,11 @@ class command():
                 currWord = currWord.strip(string.whitespace + '!"#$%&()*+,-./:;<=>?@[\\]^_{|}~')
         else:
         # or just arrow arround?
-            if not(newContent[self.env['screenData']['newCursor']['x']].isspace() and x != self.env['screenData']['newCursor']['x']):
-                return            
-
+            if not newContent[self.env['screenData']['newCursor']['x']].isspace():
+                return
+            if (x + len(currWord) != self.env['screenData']['newCursor']['x']) and \
+              (x + len(currWord) != self.env['screenData']['newCursor']['x']-1):
+                return  
         # ignore empty
         if currWord.strip(string.whitespace) =='':
             return

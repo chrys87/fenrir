@@ -38,16 +38,15 @@ class command():
         newContent = self.env['screenData']['newContentText'].split('\n')[self.env['screenData']['newCursor']['y']]
         x, y, currWord, endOfScreen, lineBreak = \
           word_utils.getCurrentWord(self.env['screenData']['newCursor']['x'], 0, newContent)                          
-        # was this a typed word?
+        # currently writing
         if self.env['runtime']['screenManager'].isDelta():
-            # is there a delta bigger than keyecho?
-            if len(self.env['screenData']['newDelta']) > 1:
-                return          
-            if not(newContent[self.env['screenData']['oldCursor']['x']].isspace() and x != self.env['screenData']['oldCursor']['x']):
-                return
+            return
         else:
-        # or just arrow arround?
-            if not(newContent[self.env['screenData']['newCursor']['x']].isspace() and x != self.env['screenData']['newCursor']['x']):
+        # at the end of a word
+            if not newContent[self.env['screenData']['newCursor']['x']].isspace():
+                return
+            if (x + len(currWord) != self.env['screenData']['newCursor']['x']) and \
+              (x + len(currWord) != self.env['screenData']['newCursor']['x']-1):
                 return    
 
         if currWord != '':
