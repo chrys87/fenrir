@@ -36,7 +36,8 @@ class command():
         if not self.env['runtime']['cursorManager'].isCursorHorizontalMove():
             return
         x, y, currChar = char_utils.getCurrentChar(self.env['screenData']['newCursor']['x'], self.env['screenData']['newCursor']['y'], self.env['screenData']['newContentText'])
-        self.env['runtime']['outputManager'].presentText(currChar, interrupt=True, ignorePunctuation=True, announceCapital=True)
+        if not currChar.isspace():
+            self.env['runtime']['outputManager'].presentText(currChar, interrupt=True, ignorePunctuation=True, announceCapital=True)
     def setCallback(self, callback):
         pass
 
