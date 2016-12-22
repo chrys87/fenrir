@@ -24,6 +24,8 @@ class outputManager():
         self.env['runtime']['settingsManager'].shutdownDriver('brailleDriver')
         
     def presentText(self, text, interrupt=True, soundIcon = '', ignorePunctuation=False, announceCapital=False):
+        if text == '':
+            return
         self.env['runtime']['debug'].writeDebugOut("presentText:\nsoundIcon:'"+soundIcon+"'\nText:\n" + text ,debug.debugLevel.INFO)
         if self.playSoundIcon(soundIcon, interrupt):
             self.env['runtime']['debug'].writeDebugOut("soundIcon found" ,debug.debugLevel.INFO)            

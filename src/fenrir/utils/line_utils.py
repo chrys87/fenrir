@@ -19,7 +19,9 @@ def getPrevLine(currX,currY, currText):
     else:
         endOfScreen = True        
     x = 0
-    currLine = wrappedLines[y]                   
+    currLine = ''
+    if not endOfScreen:
+        currLine = wrappedLines[y]                   
     return x, y, currLine, endOfScreen
 
 def getCurrentLine(currX,currY, currText):
@@ -44,5 +46,7 @@ def getNextLine(currX,currY, currText):
     else:
         endOfScreen = True
     x = 0
-    currLine = wrappedLines[y]    
+    currLine = ''
+    if not endOfScreen:
+        currLine = wrappedLines[y]     
     return x, y, currLine, endOfScreen

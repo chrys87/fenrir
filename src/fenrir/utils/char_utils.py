@@ -15,7 +15,7 @@ def getPrevChar(currX,currY, currText):
     x = currX
     y = currY  
     if x - 1 < 0:
-        if y - 1 > 0:
+        if y - 1 >= 0:
             y -= 1
             x = len(wrappedLines[y]) - 1
             lineBreak = True
@@ -24,7 +24,9 @@ def getPrevChar(currX,currY, currText):
             endOfScreen = True
     else:
         x -= 1
-    currChar = wrappedLines[y][x]        
+    currChar = ''
+    if not endOfScreen:
+        currChar = wrappedLines[y][x]        
     return x, y, currChar, endOfScreen, lineBreak
 
 def getCurrentChar(currX,currY, currText):
@@ -44,7 +46,9 @@ def getUpChar(currX,currY, currText):
         currY = 0 
     else:
         endOfScreen = True                
-    currChar = wrappedLines[currY][currX]
+    currChar = ''
+    if not endOfScreen:
+        currChar = wrappedLines[currY][currX]
     return currX, currY, currChar, endOfScreen
 
 def getDownChar(currX,currY, currText):
@@ -57,7 +61,9 @@ def getDownChar(currX,currY, currText):
         currY = len(wrappedLines) -1
     else:
         endOfScreen = True             
-    currChar = wrappedLines[currY][currX]
+    currChar = ''
+    if not endOfScreen:
+        currChar = wrappedLines[currY][currX]       
     return currX, currY, currChar, endOfScreen
 
 def getLastCharInLine(currY, currText):
@@ -89,7 +95,9 @@ def getNextChar(currX,currY, currText):
             endOfScreen = True
     else:
         x += 1    
-    currChar = wrappedLines[y][x]            
+    currChar = ''
+    if not endOfScreen:
+        currChar = wrappedLines[y][x]                 
     return x, y, currChar, endOfScreen, lineBreak
 
 def getPhonetic(currChar):
