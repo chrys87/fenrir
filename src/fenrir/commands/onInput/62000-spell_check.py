@@ -65,7 +65,7 @@ class command():
         newContent = self.env['screenData']['newContentText'].split('\n')[self.env['screenData']['newCursor']['y']]
         x, y, currWord, endOfScreen, lineBreak = word_utils.getCurrentWord(self.env['screenData']['newCursor']['x'], 0, newContent)                  
         # was this a typed word?
-        if self.env['screenData']['newDelta'] != '':
+        if self.env['runtime']['screenManager'].isDelta():
             if not(newContent[self.env['screenData']['oldCursor']['x']] in string.whitespace + '!"#$%&()*+,-./:;<=>?@[\\]^_{|}~' and x != self.env['screenData']['oldCursor']['x']):
                 return
             else:
