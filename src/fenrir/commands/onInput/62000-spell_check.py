@@ -32,19 +32,19 @@ class command():
         self.language = self.env['runtime']['settingsManager'].getSetting('general', 'spellCheckLanguage')      
       
     def run(self):
+        if not initialized:
+           return        
         if not self.env['runtime']['settingsManager'].getSettingAsBool('general', 'autoSpellCheck'):
             return
         if self.env['runtime']['inputManager'].noKeyPressed():
             return  
-        if not initialized:
-           return
         if self.env['runtime']['settingsManager'].getSetting('general', 'spellCheckLanguage') != self.language:
             try:
                 self.updateSpellLanguage()
             except:
                return
 
-        # just when cursor move worddetection is needed
+        # just when horizontal cursor move worddetection is needed
         if not self.env['runtime']['cursorManager'].isCursorHorizontalMove():
             return
             
@@ -77,9 +77,7 @@ class command():
             if (x + len(currWord) != self.env['screenData']['newCursor']['x']) and \
               (x + len(currWord) != self.env['screenData']['newCursor']['x']-1):
                 return  
-        # ignore empty
-        if currWord.strip(string.whitespace) =='':
-            return
+
         # just on end of word
         if self.env['screenData']['newCursor']['x'] > 0:
             if not newContent[self.env['screenData']['oldCursor']['x'] - 1].lower() in string.ascii_lowercase:
