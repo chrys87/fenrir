@@ -1,6 +1,7 @@
 # fenrir (Alfa)
 An TTY screenreader for Linux.
-Its an early alpha version. You can test it. It is not recommended for production use. In theorie its not limited to linux. but i currently only provide drivers for that because I have no ohter system here. If you want to help or write drivers to make it work on other systems, just let me know.
+Its an early alpha version. You can test it. It is not recommended for production use. In theorie its not limited to linux. but i currently only provide drivers for that because I have no ohter system here. If you want to help or write drivers to make it work on other systems, just let me know. 
+This software is licensed under the LGPL v3 .
 
 # requirements (core)
 - linux
