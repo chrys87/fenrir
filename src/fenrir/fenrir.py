@@ -1,4 +1,4 @@
-#!/bin/python
+#!/bin/python3
 # -*- coding: utf-8 -*-
 
 # Fenrir TTY screen reader
