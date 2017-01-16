@@ -27,11 +27,10 @@ class driver():
 
     def speak(self,text, interrupt=True):
         if not self._isInitialized:
-            return False
+            return
         if not interrupt:
             self.cancel()
         self._es.synth(text)
-        return True
 
     def cancel(self):
         if not self._isInitialized:
@@ -44,38 +43,37 @@ class driver():
 
     def clear_buffer(self):
         if not self._isInitialized:
-            return False
-        return True
+            return
 
     def setVoice(self, voice):
         if not self._isInitialized:
-            return False
+            return
         if voice =='':
-            return False            
+            return            
         return self._es.set_voice(voice)
 
     def setPitch(self, pitch):
         if not self._isInitialized:
-            return False
+            return
         return self._es.set_parameter(self._es.Parameter().Pitch, int(pitch * 99)) 
         
     def setRate(self, rate):
         if not self._isInitialized:
-            return False
+            return
         return self._es.set_parameter(self._es.Parameter().Rate, int(rate * 500 + 100))
 
     def setModule(self, module):
         if not self._isInitialized:
-            return False
+            return
 
     def setLanguage(self, language):
         if not self._isInitialized:
-            return False
+            return
         if language =='':
-            return False
+            return
         return self._es.set_voice(language)
 
     def setVolume(self, volume):
         if not self._isInitialized:
-            return False    
+            return    
         return self._es.set_parameter(self._es.Parameter().Volume, int(volume * 200))
