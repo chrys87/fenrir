@@ -27,12 +27,12 @@ class driver():
     def shutdown(self):
         if not self._isInitialized:
             return
-        self._isInitialized = False
         self.cancel()
         try:
             self._sd.close()
         except:
             pass
+        self._isInitialized = False            
         
     def speak(self,text, queueable=True):
         if not self._isInitialized:
