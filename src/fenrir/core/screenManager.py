@@ -16,7 +16,7 @@ class screenManager():
         self.env['runtime']['settingsManager'].loadDriver(\
           self.env['runtime']['settingsManager'].getSetting('screen', 'driver'), 'screenDriver')    
         if self.env['runtime']['settingsManager'].getSettingAsBool('screen', 'autodetectSuspendingScreen'):
-            self.autoIgnoreScreens = self.env['runtime']['screenDriver'].getIgnoreScreens()
+            self.updateAutoIgnoreScreens()
         
     def shutdown(self):
         self.env['runtime']['settingsManager'].shutdownDriver('screenDriver')
@@ -25,7 +25,7 @@ class screenManager():
         self.env['runtime']['screenDriver'].getCurrScreen()
         self.env['screenData']['oldApplication'] = self.env['screenData']['newApplication']            
         if self.isScreenChange():
-            self.autoIgnoreScreens = self.env['runtime']['screenDriver'].getIgnoreScreens()        
+            self.updateAutoIgnoreScreens()                   
             self.changeBrailleScreen()                                          
         if not self.isSuspendingScreen(self.env['screenData']['newTTY']):       
             self.env['runtime']['screenDriver'].update(trigger)
@@ -40,7 +40,8 @@ class screenManager():
         return ((screen in \
           self.env['runtime']['settingsManager'].getSetting('screen', 'suspendingScreen').split(',')) or
           (screen in self.autoIgnoreScreens))
-    
+    def updateAutoIgnoreScreens(self):
+        self.autoIgnoreScreens = self.env['runtime']['screenDriver'].getIgnoreScreens()
     def isScreenChange(self):
         if not self.env['screenData']['oldTTY']:
             return False
