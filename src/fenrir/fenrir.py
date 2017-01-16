@@ -58,7 +58,7 @@ class fenrir():
             self.environment['runtime']['commandManager'].executeSwitchTrigger('onSwitchApplicationProfile', \
               self.environment['runtime']['applicationManager'].getPrevApplication(), \
               self.environment['runtime']['applicationManager'].getCurrentApplication())  
-              self.environment['runtime']['screenManager'].updateAutoIgnoreScreens()          
+            self.environment['runtime']['screenManager'].updateAutoIgnoreScreens()          
         
         if self.environment['runtime']['screenManager'].isScreenChange():    
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenChanged')             

@@ -15,8 +15,7 @@ class screenManager():
         self.env = environment
         self.env['runtime']['settingsManager'].loadDriver(\
           self.env['runtime']['settingsManager'].getSetting('screen', 'driver'), 'screenDriver')    
-        if self.env['runtime']['settingsManager'].getSettingAsBool('screen', 'autodetectSuspendingScreen'):
-            self.updateAutoIgnoreScreens()
+        self.updateAutoIgnoreScreens()
         
     def shutdown(self):
         self.env['runtime']['settingsManager'].shutdownDriver('screenDriver')
@@ -41,7 +40,8 @@ class screenManager():
           self.env['runtime']['settingsManager'].getSetting('screen', 'suspendingScreen').split(',')) or
           (screen in self.autoIgnoreScreens))
     def updateAutoIgnoreScreens(self):
-        self.autoIgnoreScreens = self.env['runtime']['screenDriver'].getIgnoreScreens()
+        if self.env['runtime']['settingsManager'].getSettingAsBool('screen', 'autodetectSuspendingScreen'):
+            self.autoIgnoreScreens = self.env['runtime']['screenDriver'].getIgnoreScreens()
     def isScreenChange(self):
         if not self.env['screenData']['oldTTY']:
             return False
