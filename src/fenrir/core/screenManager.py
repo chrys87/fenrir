@@ -25,6 +25,7 @@ class screenManager():
         self.env['runtime']['screenDriver'].getCurrScreen()
         self.env['screenData']['oldApplication'] = self.env['screenData']['newApplication']            
         if self.isScreenChange():
+            self.autoIgnoreScreens = self.env['runtime']['screenDriver'].getIgnoreScreens()        
             self.changeBrailleScreen()                                          
         if not self.isSuspendingScreen(self.env['screenData']['newTTY']):       
             self.env['runtime']['screenDriver'].update(trigger)
