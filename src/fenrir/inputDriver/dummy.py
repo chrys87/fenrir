@@ -29,6 +29,7 @@ class driver():
     def clearEventBuffer(self):
         if not self._initialized:
             return    
+        del self.env['input']['eventBuffer'][:]            
 
     def getInputDevices(self):
         if not self._initialized:
