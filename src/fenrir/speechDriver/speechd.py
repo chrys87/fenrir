@@ -35,12 +35,13 @@ class driver():
         self._isInitialized = False            
         
     def speak(self,text, queueable=True):
+        if not queueable:
+            self.cancel()      
         if not self._isInitialized:
             self.initialize(self.env)
             if not self._isInitialized:
-                return False
+                return
         try:
-            if queueable == False: self.cancel()        
             self._sd.set_synthesis_voice(self._language)        
             self._sd.set_punctuation(self._punct.NONE)              
             self._sd.speak(text)            
@@ -50,7 +51,10 @@ class driver():
     def cancel(self):
         if not self._isInitialized:
             return
-        self._sd.cancel()
+        try:
+            self._sd.cancel()
+        except Exception as e:
+            self._isInitialized = False        
 
     def setCallback(self, callback):
         pass
@@ -65,32 +69,32 @@ class driver():
         try:
             if voice != '':
                 self._sd.set_voice(voice)
-        except:
-            pass
+        except Exception as e:
+            self._isInitialized = False
 
     def setPitch(self, pitch):
         if not self._isInitialized:
             return
         try:
             self._sd.set_pitch(int(-100 + pitch * 200)) 
-        except:
-            pass
+        except Exception as e:
+            self._isInitialized = False
 
     def setRate(self, rate):
         if not self._isInitialized:
             return 
         try:
             self._sd.set_rate(int(-100 + rate * 200))
-        except:
-            pass
+        except Exception as e:
+            self._isInitialized = False
 
     def setModule(self, module):
         if not self._isInitialized:
             return
         try:
             self._sd.set_output_module(module)
-        except:
-            pass
+        except Exception as e:
+            self._isInitialized = False
             
     def setLanguage(self, language):
         if not self._isInitialized:
@@ -102,5 +106,5 @@ class driver():
             return 
         try:               
             self._sd.set_volume(int(-100 + volume * 200))
-        except:
-            pass
+        except Exception as e:
+            self._isInitialized = False
