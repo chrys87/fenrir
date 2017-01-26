@@ -5,6 +5,7 @@ General:
   read highlighted text mode
 - translateable
 - be more event based (vcsa sets POLLPRI)
+  http://scotdoyle.com/python-epoll-howto.html
 - try to make it more asynchronus
 - multpible threads
  
