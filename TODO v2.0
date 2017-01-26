@@ -36,9 +36,9 @@ Braille Support:
 
 Driver:
 - implement PTY Screen driver (to use gnome-terminal and other terminal emulators)
+  https://docs.python.org/3.2/library/pty.html
 - ATK input driver (dont grab on graphical interface)
 - BrlTTY driver
-  https://docs.python.org/3.2/library/pty.html
 - implement speechdriver generic
 - implement autodetection of plugged and removed input devices (python-pyudev) for evdev driver
   http://askubuntu.com/questions/508236/how-can-i-run-code-whenever-a-usb-device-is-unplugged-without-requiring-root
