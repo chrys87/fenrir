@@ -1,6 +1,6 @@
 [sound]
 enabled=True
-driver=generic
+driver=genericDriver
 theme=default
 volume=1.0
 # shell commands for generic sound driver
@@ -9,7 +9,7 @@ genericFrequencyCommand=play -q -v fenrirVolume -n -c1 synth fenrirDuration sine
 
 [speech]
 enabled=True
-driver=speechd
+driver=speechdDriver
 rate=0.85
 pitch=0.5
 # Pitch for capital letters
@@ -22,7 +22,7 @@ autoReadIncoming=True
 
 [braille]
 enabled=False
-driver=brlapi
+driver=brlapiDriver
 layout=en
 
 [screen]
@@ -33,7 +33,7 @@ suspendingScreen=7
 autodetectSuspendingScreen=False
 
 [keyboard]
-driver=evdev
+driver=evdevDriver
 # filter input devices NOMICE, ALL or a DEVICE NAME
 device=ALL
 grabDevices=True

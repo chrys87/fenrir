@@ -4,7 +4,7 @@ enabled=True
 
 # Select the driver used to play sounds, choices are generic and gstreamer.
 # Sox is the default.
-driver=generic
+driver=genericDriver
 
 # Sound themes. This is the pack of sounds used for sound alerts.
 # Sound packs may be located at /usr/share/sounds
@@ -32,8 +32,8 @@ genericFrequencyCommand=play -q -v fenrirVolume -n -c1 synth fenrirDuration sine
 enabled=True
 
 # Select speech driver, options are speechd (default) or espeak:
-driver=speechd
-#driver=espeak
+driver=speechdDriver
+#driver=espeakDriver
 
 
 # The rate selects how fast fenrir will speak. Options range from 0, slowest, to 1.0, fastest.
@@ -65,18 +65,18 @@ autoReadIncoming=True
 [braille]
 #braille is not implemented yet
 enabled=True
-driver=brlapi
+driver=brlapiDriver
 layout=en
 
 [screen]
-driver=vcsa
+driver=vcsaDriver
 encoding=cp850
 screenUpdateDelay=0.05
 suspendingScreen=
 autodetectSuspendingScreen=True
 
 [keyboard]
-driver=evdev
+driver=evdevDriver
 # filter input devices NOMICE, ALL or a DEVICE NAME
 device=ALL
 # gives fenrir exclusive access to the keyboard and let consume keystrokes. just disable on problems.
