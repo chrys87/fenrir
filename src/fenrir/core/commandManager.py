@@ -4,10 +4,10 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-import importlib.util
 import glob, os, time
 import __main__
 from core import debug
+from utils import module_utils
 
 class commandManager():
     def __init__(self):
@@ -39,9 +39,7 @@ class commandManager():
                 if fileName.startswith('__'):
                     continue
                 if fileExtension.lower() == '.py':
-                    spec = importlib.util.spec_from_file_location(fileName, command)
-                    command_mod = importlib.util.module_from_spec(spec)
-                    spec.loader.exec_module(command_mod)
+                    command_mod = module_utils.importModule(fileName, command)
                     self.env['commands'][section][fileName.upper()] = command_mod.command()
                     self.env['commandsIgnore'][section][fileName.upper()[fileName.upper().find('-')+1:]+'_IGNORE'] = False
                     self.env['commands'][section][fileName.upper()].initialize(self.env)
@@ -77,9 +75,7 @@ class commandManager():
                 fileName = fileName.split('/')[-1]
                 if fileName.startswith('__'):
                     continue
-                spec = importlib.util.spec_from_file_location(fileName ,subCommand)
-                command_mod = importlib.util.module_from_spec(spec)
-                spec.loader.exec_module(command_mod)
+                command_mod = module_utils.importModule(fileName ,subCommand)
                 self.env['commands'][section][fileName.upper()] = command_mod.command()
                 self.env['commands'][section][fileName.upper()].initialize(self.env,command)
                 self.env['runtime']['debug'].writeDebugOut("Load script:" + section + "." + fileName.upper() ,debug.debugLevel.INFO, onAnyLevel=True)                    

@@ -4,7 +4,6 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-import importlib.util
 import os
 import __main__
 from configparser import ConfigParser
@@ -19,6 +18,7 @@ from core import environment
 from core import inputEvent 
 from core.settings import settings
 from core import debug
+from utils import module_utils
 
 class settingsManager():
     def __init__(self):
@@ -178,9 +178,8 @@ class settingsManager():
         try:
             if self.env['runtime'][driverType] != None:
                 self.env['runtime'][driverType].shutdown(self.env)    
-            spec = importlib.util.spec_from_file_location(driverName, os.path.dirname(os.path.realpath(__main__.__file__)) + "/" + driverType + '/' + driverName + '.py')
-            driver_mod = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(driver_mod)
+            driver_mod = module_utils.importModule(driverName, 
+os.path.dirname(os.path.realpath(__main__.__file__)) + "/" + driverType + '/' + driverName + '.py')
             self.env['runtime'][driverType] = driver_mod.driver()
             self.env['runtime'][driverType].initialize(self.env)
             self.env['runtime']['debug'].writeDebugOut('Loading Driver '  + driverType +" OK",debug.debugLevel.INFO, onAnyLevel=True)             
