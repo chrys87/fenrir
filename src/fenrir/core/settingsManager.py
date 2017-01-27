@@ -178,8 +178,8 @@ class settingsManager():
         try:
             if self.env['runtime'][driverType] != None:
                 self.env['runtime'][driverType].shutdown(self.env)    
-            driver_mod = module_utils.importModule(driverName, 
-os.path.dirname(os.path.realpath(__main__.__file__)) + "/" + driverType + '/' + driverName + '.py')
+            driver_mod = module_utils.importModule(driverName,
+              os.path.dirname(os.path.realpath(__main__.__file__)) + "/" + driverType + '/' + driverName + '.py')
             self.env['runtime'][driverType] = driver_mod.driver()
             self.env['runtime'][driverType].initialize(self.env)
             self.env['runtime']['debug'].writeDebugOut('Loading Driver '  + driverType +" OK",debug.debugLevel.INFO, onAnyLevel=True)             
