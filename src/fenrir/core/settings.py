@@ -9,7 +9,7 @@ from core import debug
 settings = {
 'sound': {
   'enabled': True,
-  'driver': 'generic', 
+  'driver': 'genericDriver', 
   'theme': 'default',
   'volume': 1.0,
   'genericPlayFileCommand': 'play -q -v fenrirVolume fenrirSoundFile',
@@ -17,7 +17,7 @@ settings = {
 },
 'speech':{
   'enabled': True,
-  'driver': 'speechd',
+  'driver': 'speechdDriver',
   'rate': 0.75,
   'pitch': 0.5,
   'capitalPitch':0.8,
@@ -29,11 +29,11 @@ settings = {
 },
 'braille':{
   'enabled': False, 
-  'driver':'brlapi',
+  'driver':'brlapiDriver',
   'layout': 'en',
 },
 'screen':{
-    'driver': 'vcsa',
+    'driver': 'vcsaDriver',
     'encoding': 'cp850',
     'screenUpdateDelay': 0.1,
     'suspendingScreen': '',
