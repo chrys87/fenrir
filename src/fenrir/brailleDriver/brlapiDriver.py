@@ -10,23 +10,23 @@ class driver():
     def __init__(self):
         self._isInitialized = False
         self._brl = None
-
+        self._deviceSize = 0
     def initialize(self, environment):
         self.env = environment
         try:
             import brlapi
+            self._brl = brlapi.Connection()            
+            self._deviceSize = self._brl.displaySize           
         except Exception as e:
             print(e)
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)                 
             return
-            
-        try:
-            self._brl = brlapi.Connection()  
-        except Exception as e:
-            print(e)
-            self.env['runtime']['debug'].writeDebugOut('BRAILLE.connectDevice '+str(e),debug.debugLevel.ERROR)
-            return
         self._isInitialized = True
+
+    def getDeviceSize(self):
+        if not self._isInitialized:
+            return (0,0)
+        return self._deviceSize
 
     def flush(self):
         if not self._isInitialized:
