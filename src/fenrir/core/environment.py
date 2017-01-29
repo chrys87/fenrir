@@ -8,6 +8,7 @@ from core import debug
 from core import settings
 from core import runtime
 from core import screenData
+from core import output
 from core import generalInformation
 from core import commands
 from core import inputEvent
@@ -24,6 +25,7 @@ environment = {
 'commandBuffer': commands.commandBuffer,
 'input': inputEvent.input,
 'punctuation': punctuation.punctuation,
+'output': output.output,
 'soundIcons': {},
 'bindings': {},
 }

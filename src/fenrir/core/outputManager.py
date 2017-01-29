@@ -23,7 +23,7 @@ class outputManager():
         self.env['runtime']['settingsManager'].shutdownDriver('speechDriver')
         self.env['runtime']['settingsManager'].shutdownDriver('brailleDriver')
         
-    def presentText(self, text, interrupt=True, soundIcon = '', ignorePunctuation=False, announceCapital=False):
+    def presentText(self, text, interrupt=True, soundIcon = '', ignorePunctuation=False, announceCapital=False, flush=False):
         if text == '':
             return
         self.env['runtime']['debug'].writeDebugOut("presentText:\nsoundIcon:'"+soundIcon+"'\nText:\n" + text ,debug.debugLevel.INFO)
@@ -98,12 +98,25 @@ class outputManager():
             self.env['runtime']['debug'].writeDebugOut("\"speak\" in outputManager.speakText ",debug.debugLevel.ERROR)
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)            
 
-    def brailleText(self, text, interrupt=True):
+    def brailleText(self, text, flush=False):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('braille', 'enabled'):
             return
         if self.env['runtime']['brailleDriver'] == None:
             return        
-        self.env['runtime']['brailleDriver'].writeText(text[:35])
+        size = self.env['runtime']['brailleDriver'].getDeviceSize()
+        if flush:
+            self.env['output']['nextFlush'] = time.time() + 5.0
+            self.env['output']['messageText'] = text
+             
+            self.env['runtime']['brailleDriver'].writeText(text[:size[0]])            
+        else:
+            if self.env['output']['nextFlush'] < time.time():
+                if self.env['output']['messageText'] != '':
+                    self.env['output']['messageText'] = ''
+                cursor = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
+                x, y, currLine = \
+                  line_utils.getCurrentLine(cursor['x'], cursor['y'], self.env['screenData']['newContentText'])                
+                self.env['runtime']['brailleDriver'].writeText(currLine[:size[0]])
 
     def interruptOutput(self):
         self.env['runtime']['speechDriver'].cancel()
