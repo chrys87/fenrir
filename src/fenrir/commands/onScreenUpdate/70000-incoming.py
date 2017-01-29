@@ -28,7 +28,7 @@ class command():
             if len(self.env['screenData']['newDelta'].strip(' \n\t')) <= 2:
                 return          
 
-        self.env['runtime']['outputManager'].presentText(self.env['screenData']['newDelta'], interrupt=False)
+        self.env['runtime']['outputManager'].presentText(self.env['screenData']['newDelta'], interrupt=False,flush=False)
 
     def setCallback(self, callback):
         pass
