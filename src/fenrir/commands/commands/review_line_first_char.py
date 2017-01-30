@@ -29,7 +29,7 @@ class command():
         self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], currChar = \
           char_utils.getCurrentChar(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])       
 
-        self.env['runtime']['outputManager'].presentText(currChar ,interrupt=True, ignorePunctuation=True, announceCapital=True)        
+        self.env['runtime']['outputManager'].presentText(currChar ,interrupt=True, ignorePunctuation=True, announceCapital=True, flush=False)        
         self.env['runtime']['outputManager'].presentText("first char in line indent " + str(len(currLine) - len(currLine.lstrip())), interrupt=False)
    
     def setCallback(self, callback):

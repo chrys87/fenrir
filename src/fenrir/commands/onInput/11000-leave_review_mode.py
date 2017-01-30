@@ -17,9 +17,10 @@ class command():
         return 'No Description found'   
 
     def run(self):
+        return
         if not self.env['runtime']['settingsManager'].getSettingAsBool('review', 'leaveReviewOnKeypress'):
             return
-        if self.env['runtime']['inputManager'].noKeyPressed():
+        if not self.env['runtime']['inputManager'].noKeyPressed():
             return
         if self.env['runtime']['screenManager'].isScreenChange():
             return

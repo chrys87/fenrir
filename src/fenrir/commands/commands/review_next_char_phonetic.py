@@ -24,7 +24,7 @@ class command():
           char_utils.getNextChar(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
         
         nextChar = char_utils.getPhonetic(nextChar)
-        self.env['runtime']['outputManager'].presentText(nextChar ,interrupt=True, announceCapital=True)
+        self.env['runtime']['outputManager'].presentText(nextChar ,interrupt=True, announceCapital=True, flush=False)
         if endOfScreen:
             if self.env['runtime']['settingsManager'].getSettingAsBool('review', 'endOfScreen'):        
                 self.env['runtime']['outputManager'].presentText('end of screen' ,interrupt=True, soundIcon='EndOfScreen')                 

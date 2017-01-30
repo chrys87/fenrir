@@ -24,9 +24,9 @@ class command():
           char_utils.getCurrentChar(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
         
         if currChar.isspace():
-            self.env['runtime']['outputManager'].presentText("blank" ,interrupt=True)
+            self.env['runtime']['outputManager'].presentText("blank" ,interrupt=True, flush=False)
         else:
-            self.env['runtime']['outputManager'].presentText(currChar ,interrupt=True, ignorePunctuation=True, announceCapital=True)        
+            self.env['runtime']['outputManager'].presentText(currChar ,interrupt=True, ignorePunctuation=True, announceCapital=True, flush=False)
         self.env['runtime']['outputManager'].presentText("beginning of line", interrupt=False)
    
     def setCallback(self, callback):

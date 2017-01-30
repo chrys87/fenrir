@@ -24,10 +24,10 @@ class command():
           char_utils.getCurrentChar(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
         
         if currChar.isspace():
-            self.env['runtime']['outputManager'].presentText("blank" ,interrupt=True)
+            self.env['runtime']['outputManager'].presentText("blank" ,interrupt=True, flush=False)
         else:
             currChar = char_utils.getPhonetic(currChar)
-            self.env['runtime']['outputManager'].presentText(currChar ,interrupt=True, announceCapital=True)
+            self.env['runtime']['outputManager'].presentText(currChar ,interrupt=True, announceCapital=True, flush=False)
   
     def setCallback(self, callback):
         pass

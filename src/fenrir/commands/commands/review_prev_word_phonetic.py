@@ -24,12 +24,12 @@ class command():
           word_utils.getPrevWord(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
         
         if prevWord.isspace():
-            self.env['runtime']['outputManager'].presentText("blank", interrupt=True)
+            self.env['runtime']['outputManager'].presentText("blank", interrupt=True, flush=False)
         else:
             firstSequence = True
             for c in prevWord:
                 currChar = char_utils.getPhonetic(c) 
-                self.env['runtime']['outputManager'].presentText(currChar, interrupt=firstSequence, announceCapital=True)
+                self.env['runtime']['outputManager'].presentText(currChar, interrupt=firstSequence, announceCapital=True, flush=False)
                 firstSequence = False
         if endOfScreen:
             if self.env['runtime']['settingsManager'].getSettingAsBool('review', 'endOfScreen'):        

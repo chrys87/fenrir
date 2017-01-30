@@ -19,7 +19,7 @@ class command():
 
     def run(self):
         self.env['screenData']['newCursorReview'] = {'x':0,'y':0}
-        self.env['runtime']['outputManager'].presentText("Top", interrupt=True)
+        self.env['runtime']['outputManager'].presentText("Top", interrupt=True, flush=False)
 
     def setCallback(self, callback):
         pass

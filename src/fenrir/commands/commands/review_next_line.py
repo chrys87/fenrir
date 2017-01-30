@@ -26,9 +26,9 @@ class command():
           line_utils.getNextLine(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
         
         if nextLine.isspace():
-            self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True)
+            self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True, flush=False)
         else:
-            self.env['runtime']['outputManager'].presentText(nextLine, interrupt=True)
+            self.env['runtime']['outputManager'].presentText(nextLine, interrupt=True, flush=False)
         if endOfScreen:
             if self.env['runtime']['settingsManager'].getSettingAsBool('review', 'endOfScreen'):        
                 self.env['runtime']['outputManager'].presentText('end of screen' ,interrupt=True, soundIcon='EndOfScreen')                 

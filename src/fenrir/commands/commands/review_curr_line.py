@@ -24,9 +24,9 @@ class command():
           line_utils.getCurrentLine(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
         
         if currLine.isspace():
-            self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True)
+            self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True, flush=False)
         else:
-            self.env['runtime']['outputManager'].presentText(currLine, interrupt=True) 
+            self.env['runtime']['outputManager'].presentText(currLine, interrupt=True, flush=False) 
     def setCallback(self, callback):
         pass
 

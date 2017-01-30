@@ -21,7 +21,7 @@ class command():
         cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
         self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], upChar, endOfScreen = \
           char_utils.getUpChar(self.env['screenData']['newCursorReview']['x'],self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
-        self.env['runtime']['outputManager'].presentText(upChar ,interrupt=True, ignorePunctuation=True, announceCapital=True)        
+        self.env['runtime']['outputManager'].presentText(upChar ,interrupt=True, ignorePunctuation=True, announceCapital=True, flush=False) 
         if endOfScreen:
             if self.env['runtime']['settingsManager'].getSettingAsBool('review', 'endOfScreen'):        
                 self.env['runtime']['outputManager'].presentText('end of screen' ,interrupt=True, soundIcon='EndOfScreen')                 

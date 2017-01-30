@@ -25,7 +25,7 @@ class command():
         self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], prevChar, endOfScreen, lineBreak = \
           char_utils.getPrevChar(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
         
-        self.env['runtime']['outputManager'].presentText(prevChar, interrupt=True, ignorePunctuation=True, announceCapital=True)
+        self.env['runtime']['outputManager'].presentText(prevChar, interrupt=True, ignorePunctuation=True, announceCapital=True, flush=False)
         if endOfScreen:
             if self.env['runtime']['settingsManager'].getSettingAsBool('review', 'endOfScreen'):        
                 self.env['runtime']['outputManager'].presentText('end of screen' ,interrupt=True, soundIcon='EndOfScreen')                 
