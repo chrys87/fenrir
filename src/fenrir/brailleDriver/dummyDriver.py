@@ -26,6 +26,7 @@ class driver():
         if not self._isInitialized:
             return
         pirnt('BrailleDummyDriver: writeText:' + str(text))
+        pirnt('BrailleDummyDriver: -----------------------------------')
 
     def connectDevice(self):
         pirnt('BrailleDummyDriver: connectDevice')
