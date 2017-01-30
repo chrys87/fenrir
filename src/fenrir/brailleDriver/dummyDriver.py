@@ -13,35 +13,35 @@ class driver():
     def initialize(self, environment):
         self.env = environment
         self._isInitialized = True
-        pirnt('BrailleDummyDriver: Initialize')
+        print('BrailleDummyDriver: Initialize')
         
 
     def getDeviceSize(self):
         if not self._isInitialized:
             return (0,0)
-        pirnt('BrailleDummyDriver: getDeviceSize 20')
+        print('BrailleDummyDriver: getDeviceSize 20')
         return (20,0)
 
     def writeText(self,text):
         if not self._isInitialized:
             return
-        pirnt('BrailleDummyDriver: writeText:' + str(text))
-        pirnt('BrailleDummyDriver: -----------------------------------')
+        print('BrailleDummyDriver: writeText:' + str(text))
+        print('BrailleDummyDriver: -----------------------------------')
 
     def connectDevice(self):
-        pirnt('BrailleDummyDriver: connectDevice')
+        print('BrailleDummyDriver: connectDevice')
 
     def enterScreen(self, screen):
         if not self._isInitialized:
             return
-        pirnt('BrailleDummyDriver: enterScreen')
+        print('BrailleDummyDriver: enterScreen')
 
     def leveScreen(self):
         if not self._isInitialized:
             return
-        pirnt('BrailleDummyDriver: leveScreen')
+        print('BrailleDummyDriver: leveScreen')
 
     def shutdown(self):
         if not self._isInitialized:
             return
-        pirnt('BrailleDummyDriver: Shutdown')
+        print('BrailleDummyDriver: Shutdown')

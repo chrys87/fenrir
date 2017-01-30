@@ -10,7 +10,7 @@ class driver():
     def __init__(self):
         self._isInitialized = False
         self._brl = None
-        self._deviceSize = 0
+
     def initialize(self, environment):
         self.env = environment
         try:
@@ -25,6 +25,8 @@ class driver():
 
     def getDeviceSize(self):
         if not self._isInitialized:
+            return (0,0)
+        if not self._deviceSize:
             return (0,0)
         return self._deviceSize
 

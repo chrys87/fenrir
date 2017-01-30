@@ -13,58 +13,58 @@ class driver():
     def initialize(self, environment):
         self._isInitialized = True
         self.env = environment
-        pirnt('SpeechDummyDriver: Iitialize')
+        print('SpeechDummyDriver: Iitialize')
         
     def shutdown(self):
-        pirnt('SpeechDummyDriver: Shutdown')
+        print('SpeechDummyDriver: Shutdown')
 
     def speak(self,text, queueable=True):
         if not self._isInitialized:
             return
         if not queueable: 
             self.cancel()
-        pirnt('SpeechDummyDriver: Speak:'+text)
-        pirnt('SpeechDummyDriver: -----------------------------------')
+        print('SpeechDummyDriver: Speak:'+text)
+        print('SpeechDummyDriver: -----------------------------------')
 
     def cancel(self):
         if not self._isInitialized:
             return
-        pirnt('SpeechDummyDriver: Cancel')        
+        print('SpeechDummyDriver: Cancel')        
 
     def setCallback(self, callback):
-        pirnt('SpeechDummyDriver: setCallback')    
+        print('SpeechDummyDriver: setCallback')    
 
     def clear_buffer(self):
         if not self._isInitialized:
             return
-        pirnt('SpeechDummyDriver: clear_buffer')    
+        print('SpeechDummyDriver: clear_buffer')    
 
     def setVoice(self, voice):
         if not self._isInitialized:
             return
-        pirnt('SpeechDummyDriver: setVoice:' +  str(voice))    
+        print('SpeechDummyDriver: setVoice:' +  str(voice))    
 
     def setPitch(self, pitch):
         if not self._isInitialized:
             return
-        pirnt('SpeechDummyDriver: setPitch:' + str(pitch))    
+        print('SpeechDummyDriver: setPitch:' + str(pitch))    
 
     def setRate(self, rate):
         if not self._isInitialized:
             return
-        pirnt('SpeechDummyDriver: setRate:' + str(rate))    
+        print('SpeechDummyDriver: setRate:' + str(rate))    
 
     def setModule(self, module):
         if not self._isInitialized:
             return 
-        pirnt('SpeechDummyDriver: setModule:' + str(module))    
+        print('SpeechDummyDriver: setModule:' + str(module))    
 
     def setLanguage(self, language):
         if not self._isInitialized:
             return
-        pirnt('SpeechDummyDriver: setLanguage:' + str(language))    
+        print('SpeechDummyDriver: setLanguage:' + str(language))    
 
     def setVolume(self, volume):
         if not self._isInitialized:
             return     
-        pirnt('SpeechDummyDriver: setVolume:' + str(volume))
+        print('SpeechDummyDriver: setVolume:' + str(volume))
