@@ -13,14 +13,15 @@ class driver():
     def initialize(self, environment):
         self.env = environment
         self._isInitialized = True
+        self.deviceSize = (40,0)
         print('BrailleDummyDriver: Initialize')
         
 
     def getDeviceSize(self):
         if not self._isInitialized:
             return (0,0)
-        print('BrailleDummyDriver: getDeviceSize 20')
-        return (20,0)
+        print('BrailleDummyDriver: getDeviceSize ' + str(self.deviceSize))
+        return self.deviceSize
 
     def writeText(self,text):
         if not self._isInitialized:

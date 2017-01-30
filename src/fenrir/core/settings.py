@@ -61,6 +61,7 @@ settings = {
 'focus':{
   'cursor': True,
   'highlight': False,
+  'brailleFocusMode': 'review',
 },
 'review':{
   'lineBreak': True,
