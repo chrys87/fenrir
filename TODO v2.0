@@ -9,6 +9,7 @@ General:
   http://scotdoyle.com/python-epoll-howto.html
 - try to make it more asynchronus
 - multpible threads
+- leave revew on typing
  
 - implement commands
   attributes_curr_char
@@ -20,20 +21,22 @@ General:
     last item
   
 Braille Support:
-  output to braille device
   virtual buffer area for scroll left/right if the line is to long for device
+  follow cursor while typing
+  make cursor following configurable
+  brailleFocusMode:
+    - manual = no automatic toggle command used
+    - review = priority to review
+    - last = follow last used cursor
+    - text = jumps to textcursor when typing, needs command to be back to review
   print cursor in review
   print cursor in textmode
-  make flushMode configurable
-  make flushTimeout configurable
-  flush message after X seconds and show current line (review over text)
   leve review mode on typing (show current textline)  
   command for scroll left
   command for scroll right
   capture input from braile
   make routing keys assignable in keyboard
   make brailleTable configurable
-  tweak current commands and output
   http://mielke.cc/brltty/doc/Manual-BrlAPI/English/BrlAPI.html
   https://git.gnome.org/browse/orca/tree/src/orca/braille.py
   https://wiki.gnome.org/Attic/LSR/ScratchPad/Braille/BrlAPI 
@@ -47,6 +50,7 @@ Driver:
 - implement speechdriver generic
 - implement autodetection of plugged and removed input devices (python-pyudev) for evdev driver
   http://askubuntu.com/questions/508236/how-can-i-run-code-whenever-a-usb-device-is-unplugged-without-requiring-root
+- try to autodetect encoding
 
 Settings:
 - configuration should be overwriteable with parameter and alternative paths
@@ -68,5 +72,14 @@ Application Profiles
 - per application shortcuts
 
 -----------DONE----------------
-- Add nice dummy drivers
-- initial BrlTTY driver
+- Add nice dummy drivers as template or for debugging
+
+Braille Support:
+  initial BrlTTY driver
+  detect device size via driver
+  output to braille device  
+  make flushMode configurable
+  make flushTimeout configurable
+  flush message after X seconds and show current line (review over text)
+  tweak current commands and output
+  command flush_braille
