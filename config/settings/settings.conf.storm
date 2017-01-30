@@ -24,6 +24,13 @@ autoReadIncoming=True
 enabled=False
 driver=brlapiDriver
 layout=en
+# to what should the flush timeout relate to 
+# word = flush after seconds * word words
+# static = flush after X secods
+flushMode=word
+# seconds to flush or
+# -1 = no automatic flush (manual via shortcut)
+flushTimeout=3
 
 [screen]
 driver=vcsaDriver
