@@ -24,7 +24,7 @@ class driver():
         if not queueable: 
             self.cancel()
         pirnt('SpeechDummyDriver: Speak:'+text)
-        pirnt('SpeechDummyDriver:-----------------------------')
+        pirnt('SpeechDummyDriver: -----------------------------------')
 
     def cancel(self):
         if not self._isInitialized:
