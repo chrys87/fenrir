@@ -27,7 +27,8 @@ Braille Support:
   flush message after X seconds and show current line (review over text)
   make flush configurable
   leve review mode on typing (show current textline)  
-  commands for scroll left/right
+  command for scroll left
+  command for scroll right
   capture input from braile
   make routing keys assignable in keyboard
   make brailleTable configurable
