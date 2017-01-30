@@ -136,6 +136,10 @@ highlight=False
 [review]
 lineBreak=True
 endOfScreen=True
+# leave the review when pressing a key
+leaveReviewOnKeypress=False
+# leave the review when changing the screen
+leaveReviewOnScreenChange=True
 
 [promote]
 enabled=True

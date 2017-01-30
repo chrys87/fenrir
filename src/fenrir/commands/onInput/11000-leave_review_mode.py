@@ -17,6 +17,14 @@ class command():
         return 'No Description found'   
 
     def run(self):
+        if not self.env['runtime']['settingsManager'].getSettingAsBool('review', 'leaveReviewOnKeypress'):
+            return
+        if self.env['runtime']['inputManager'].noKeyPressed():
+            return
+        if self.env['runtime']['screenManager'].isScreenChange():
+            return
+        if len(self.env['input']['prevDeepestInput']) > len(self.env['input']['currInput']):
+            return
         self.env['runtime']['cursorManager'].clearReviewCursor()
 
     def setCallback(self, callback):

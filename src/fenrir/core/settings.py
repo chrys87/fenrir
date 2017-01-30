@@ -65,6 +65,8 @@ settings = {
 'review':{
   'lineBreak': True,
   'endOfScreen': True,
+  'leaveReviewOnKeypress': False,
+  'leaveReviewOnScreenChange': True,
 },
 'promote':{
   'enabled': True,
