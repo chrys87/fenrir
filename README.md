@@ -1,35 +1,46 @@
-# fenrir
+# Fenrir
 An TTY screenreader for Linux.
 In theorie its not limited to linux. but i currently only provide drivers for that because I do not have an ohter system here. If you want to help or write drivers to make it work on other systems, just let me know. 
 This software is licensed under the LGPL v3 .
 
 # requirements (core)
-- linux
-- python3
-- python-evdev
-- loaded uinput kernel module
-- Read permission to the following files:
-  - /sys/devices/virtual/tty/tty0/active
-  - /dev/vcsa[1-64]
-- ReadWrite permission 
-  - /dev/input
-  - /dev/uinput
-- speech, sound or braille drivers see "optional (features, drivers)".
+- linux (currently only screen and input drivers available for that)
+- python3 >= 3.3
+- screen, input, speech, sound or braille drivers see "features, drivers".
 
-# optional (features, drivers)
-- "espeak" speech driver:
+# features, drivers
+Input Drivers:
+- "evdevDriver" input driver for linux evdev
+  - python-evdev 
+  - loaded uinput kernel module
+  - ReadWrite permission 
+    - /dev/input
+    - /dev/uinput
+Screen Drivers:
+- "vcsaDriver" screen driver for linux VCSA devices
+  - Read permission to the following files:
+    - /sys/devices/virtual/tty/tty0/active
+    - /dev/vcsa[1-64]
+Speech Drivers:
+- "espeakDriver" speech driver for espeak:
   - python-espeak
-- "speechd" speech driver:
+- "speechdDriver" speech driver for speech-dispatcher:
   - speech-dispatcher
   - python-speechd
-- brltty braille driver (not implemented yet, WIP):
+- "dummyDriver" speech driver for debugging
+Braille Drivers:
+- "brlttyDriver" braille driver (WIP):
   - brltty (configured and running)
   - python-brlapi
-- "generic" sound driver:
+- "dummyDriver" braille driver for debugging
+Sound Drivers:
+- "genericDriver" sound driver for sound as subprocess:
   - sox
-- "gstreamer" sound driver
+- "gstreamerDriver" sound driver for gstreamer
   - gstreamer 1.x
   - GLib
+- "dummyDriver" sound driver for debugging
+Extra:
 - spellchecker
   - python-pyenchant
   - aspell-YourLanguageCode (example aspell-en for us english)
@@ -46,6 +57,7 @@ sudo ./fenrir
 Settings "settings.conf" is located in the "config" directory.
 Take care that the used drivers in the config matching your installed drivers. 
 By default it uses:
-- sound driver: generic (via sox, could configured in settings.conf)
-- speech driver: speechd
-- braille driver: brltty (WIP)
+- sound driver: genericDriver (via sox, could configured in settings.conf)
+- speech driver: speechdDriver
+- braille driver: brlttyDriver (WIP)
+- input driver: evdevDriver
