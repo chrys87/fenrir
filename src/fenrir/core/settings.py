@@ -31,6 +31,8 @@ settings = {
   'enabled': False, 
   'driver':'brlapiDriver',
   'layout': 'en',
+  'flushMode': 'word',
+  'flushTimeout': 3,
 },
 'screen':{
     'driver': 'vcsaDriver',
