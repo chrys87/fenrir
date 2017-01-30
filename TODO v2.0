@@ -50,6 +50,7 @@ Driver:
 - implement autodetection of plugged and removed input devices (python-pyudev) for evdev driver
   http://askubuntu.com/questions/508236/how-can-i-run-code-whenever-a-usb-device-is-unplugged-without-requiring-root
 - try to autodetect encoding
+  https://stackoverflow.com/questions/6396659/how-do-you-get-the-encoding-of-the-terminal-from-within-a-python-script
 
 Settings:
 - configuration should be overwriteable with parameter and alternative paths
