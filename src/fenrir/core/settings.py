@@ -31,7 +31,7 @@ settings = {
   'enabled': False, 
   'driver':'brlapiDriver',
   'layout': 'en',
-  'flushMode': 'word',
+  'flushMode': 'word', #NONE,FIX,CHAR,WORD
   'flushTimeout': 3,
   'fixCursorOnCell': -1,
 },

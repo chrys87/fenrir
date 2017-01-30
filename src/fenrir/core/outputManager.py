@@ -107,7 +107,7 @@ class outputManager():
             return        
         size = self.env['runtime']['brailleDriver'].getDeviceSize()
         if flush:
-            self.env['output']['nextFlush'] = time.time() + 5.0
+            self.env['output']['nextFlush'] = time.time() + self.getFlushTime(text)
             self.env['output']['messageText'] = text
             self.env['runtime']['brailleDriver'].writeText('flush'+self.env['output']['messageText'] [self.env['output']['messageOffset']['x']: \
               self.env['output']['messageOffset']['x']+size[0]])         
@@ -120,6 +120,7 @@ class outputManager():
                 cursor = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
                 x, y, currLine = \
                   line_utils.getCurrentLine(cursor['x'], cursor['y'], self.env['screenData']['newContentText'])                
+                
                 self.env['runtime']['brailleDriver'].writeText('notflush<>' + currLine +'<>'+currLine[cursor['x']:cursor['x'] + size[0]])
             else:
                 self.env['runtime']['brailleDriver'].writeText('flush'+self.env['output']['messageText'] [self.env['output']['messageOffset']['x']: \
@@ -128,8 +129,25 @@ class outputManager():
     def interruptOutput(self):
         self.env['runtime']['speechDriver'].cancel()
         self.env['runtime']['debug'].writeDebugOut("Interrupt speech",debug.debugLevel.INFO)       
-        
 
+    def clearFlushTime(self):
+        self.setFlushTime(0.0)
+
+    def setFlushTime(self,newTime):
+        self.env['output']['nextFlush'] = newTime
+
+    def getFlushTime(self,text=''):
+        if self.env['runtime']['settingsManager'].getSettingAsFloat('braille', 'flushTimeout') < 0 or \
+          self.env['runtime']['settingsManager'].getSetting('braille', 'flushMode').upper() == 'NONE':
+            return 999999999999    
+        if self.env['runtime']['settingsManager'].getSetting('braille', 'flushMode').upper() == 'FIX':
+            return self.env['runtime']['settingsManager'].getSettingAsFloat('braille', 'flushTimeout')
+        if self.env['runtime']['settingsManager'].getSetting('braille', 'flushMode').upper() == 'CHAR':
+            return self.env['runtime']['settingsManager'].getSettingAsFloat('braille', 'flushTimeout') * len(text)
+        if self.env['runtime']['settingsManager'].getSetting('braille', 'flushMode').upper() == 'WORD':
+            wordsList = text.split(' ')
+            return self.env['runtime']['settingsManager'].getSettingAsFloat('braille', 'flushTimeout') * len( list( filter(None, wordsList) ) )
+                           
     def playSoundIcon(self, soundIcon = '', interrupt=True):
         if soundIcon == '':
             return False
