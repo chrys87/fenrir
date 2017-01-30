@@ -33,7 +33,7 @@ settings = {
   'layout': 'en',
   'flushMode': 'word',
   'flushTimeout': 3,
-  'scrollOnCell': -1,
+  'fixCursorOnCell': -1,
 },
 'screen':{
     'driver': 'vcsaDriver',

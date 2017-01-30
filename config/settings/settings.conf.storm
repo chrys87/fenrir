@@ -31,11 +31,11 @@ flushMode=word
 # seconds to flush or
 # -1 = no automatic flush (manual via shortcut)
 flushTimeout=3
-# define the cell on the Braille device where fenrir should scroll
+# define the cell on the Braille device where fenrir should scroll and keep the cursor
 # 0 = first cell on device
 # -1 = last cell on device 
 # >0 = fix cell number
-scrollOnCell=-1
+fixCursorOnCell=-1
 
 [screen]
 driver=vcsaDriver
