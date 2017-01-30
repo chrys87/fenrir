@@ -24,7 +24,7 @@ class outputManager():
         self.env['runtime']['settingsManager'].shutdownDriver('speechDriver')
         self.env['runtime']['settingsManager'].shutdownDriver('brailleDriver')
         
-    def presentText(self, text, interrupt=True, soundIcon = '', ignorePunctuation=False, announceCapital=False, flush=False):
+    def presentText(self, text, interrupt=True, soundIcon = '', ignorePunctuation=False, announceCapital=False, flush=True):
         if text == '':
             return
         self.env['runtime']['debug'].writeDebugOut("presentText:\nsoundIcon:'"+soundIcon+"'\nText:\n" + text ,debug.debugLevel.INFO)
@@ -100,7 +100,7 @@ class outputManager():
             self.env['runtime']['debug'].writeDebugOut("\"speak\" in outputManager.speakText ",debug.debugLevel.ERROR)
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)            
 
-    def brailleText(self, text='', flush=False):
+    def brailleText(self, text='', flush=True):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('braille', 'enabled'):
             return
         if self.env['runtime']['brailleDriver'] == None:

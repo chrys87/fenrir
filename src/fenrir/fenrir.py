@@ -64,7 +64,7 @@ class fenrir():
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenChanged')             
         else:
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenUpdate')         
-        self.environment['runtime']['outputManager'].brailleText()    
+        self.environment['runtime']['outputManager'].brailleText(flush=False)    
         self.handleCommands()
         #print(time.time()-startTime)       
 

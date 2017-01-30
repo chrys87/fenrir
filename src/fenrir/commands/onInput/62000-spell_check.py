@@ -126,7 +126,7 @@ class command():
             pass
 
         if not self.spellChecker.check(currWord):
-            self.env['runtime']['outputManager'].presentText('misspelled',soundIcon='mispell', interrupt=False)
+            self.env['runtime']['outputManager'].presentText('misspelled',soundIcon='mispell', interrupt=False, flush=False)
 
     def setCallback(self, callback):
         pass

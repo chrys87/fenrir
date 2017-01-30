@@ -50,7 +50,7 @@ class command():
                 return    
 
         if currWord != '':
-            self.env['runtime']['outputManager'].presentText(currWord, interrupt=True)
+            self.env['runtime']['outputManager'].presentText(currWord, interrupt=True, flush=False)
 
     def setCallback(self, callback):
         pass
