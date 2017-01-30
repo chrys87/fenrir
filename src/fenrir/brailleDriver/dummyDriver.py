@@ -8,7 +8,8 @@ from core import debug
 
 class driver():
     def __init__(self):
-        self._isInitialized = False
+        pass
+
     def initialize(self, environment):
         self.env = environment
         self._isInitialized = True
@@ -16,26 +17,28 @@ class driver():
     def getDeviceSize(self):
         if not self._isInitialized:
             return (0,0)
+        pirnt('BrailleDummyDriver: getDeviceSize 20')        
         return (20,0)
-   
+
     def writeText(self,text):
         if not self._isInitialized:
             return
-        print(text)
+        pirnt('BrailleDummyDriver: writeText:' + str(text))
+
     def connectDevice(self):
-        pirnt('Connect Dummy Device')
-        
+        pirnt('BrailleDummyDriver: connectDevice')
+
     def enterScreen(self, screen):
         if not self._isInitialized:
             return
-        pirnt('enter screen')
+        pirnt('BrailleDummyDriver: enterScreen')
 
     def leveScreen(self):
         if not self._isInitialized:
             return
-        pirnt('leve screen')
+        pirnt('BrailleDummyDriver: leveScreen')
 
     def shutdown(self):
         if not self._isInitialized:
             return
-        pirnt('shutdown')
+        pirnt('BrailleDummyDriver: Shutdown')
