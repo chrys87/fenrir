@@ -35,7 +35,7 @@ class command():
         if currLine.isspace():
             self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True, flush=False)
         else:
-            self.env['runtime']['outputManager'].presentText(currLine, interrupt=True)
+            self.env['runtime']['outputManager'].presentText(currLine, interrupt=True, flush=False)
  
     def setCallback(self, callback):
         pass
