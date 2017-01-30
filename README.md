@@ -16,11 +16,13 @@ This software is licensed under the LGPL v3 .
   - ReadWrite permission 
     - /dev/input
     - /dev/uinput
+
 # Screen Drivers:
 - "vcsaDriver" screen driver for linux VCSA devices
   - Read permission to the following files:
     - /sys/devices/virtual/tty/tty0/active
     - /dev/vcsa[1-64]
+
 # Speech Drivers:
 - "espeakDriver" speech driver for espeak:
   - python-espeak
@@ -28,11 +30,13 @@ This software is licensed under the LGPL v3 .
   - speech-dispatcher
   - python-speechd
 - "dummyDriver" speech driver for debugging
+
 # Braille Drivers:
 - "brlttyDriver" braille driver (WIP):
   - brltty (configured and running)
   - python-brlapi
 - "dummyDriver" braille driver for debugging
+
 # Sound Drivers:
 - "genericDriver" sound driver for sound as subprocess:
   - sox
@@ -40,6 +44,7 @@ This software is licensed under the LGPL v3 .
   - gstreamer 1.x
   - GLib
 - "dummyDriver" sound driver for debugging
+
 # Extra:
 - spellchecker
   - python-pyenchant
