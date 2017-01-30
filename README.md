@@ -6,9 +6,9 @@ This software is licensed under the LGPL v3 .
 # requirements (core)
 - linux (currently only screen and input drivers available for that)
 - python3 >= 3.3
-- screen, input, speech, sound or braille drivers see "features, drivers".
+- screen, input, speech, sound or braille drivers see "Features, Drivers, Extras".
 
-# features, drivers
+# Features, Drivers, Extras
 # Input Drivers:
 - "evdevDriver" input driver for linux evdev
   - python-evdev 
