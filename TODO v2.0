@@ -31,7 +31,6 @@ Braille Support:
     - text = jumps to textcursor when typing, needs command to be back to review
   print cursor in review
   print cursor in textmode
-  leve review mode on typing (show current textline)  
   command for scroll left
   command for scroll right
   capture input from braile
