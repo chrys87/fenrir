@@ -3,7 +3,7 @@ An TTY screenreader for Linux.
 In theorie its not limited to linux. but i currently only provide drivers for that because I do not have an ohter system here. If you want to help or write drivers to make it work on other systems, just let me know. 
 This software is licensed under the LGPL v3 .
 
-# requirements (core)
+# Requirements (core)
 - linux (currently only screen and input drivers available for that)
 - python3 >= 3.3
 - screen, input, speech, sound or braille drivers see "Features, Drivers, Extras".
