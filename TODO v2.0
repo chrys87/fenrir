@@ -3,7 +3,7 @@ ToDo list for Fenrir Version 2.0
 General:  
 - implement onScreenUpdate commands
   read highlighted text mode
-- translateable
+- translateable (easy for contribute)
   http://www.supernifty.org/blog/2011/09/16/python-localization-made-easy/
 - be more event based (vcsa sets POLLPRI)
   http://scotdoyle.com/python-epoll-howto.html
@@ -13,7 +13,7 @@ General:
  
 - implement commands
   attributes_curr_char
-  generic list command (convert clipboard management)
+  generic list command (convert clipboard management) (easy for contribute)
     next item
     pref item
     curr item
