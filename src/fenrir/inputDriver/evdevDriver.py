@@ -162,27 +162,26 @@ class driver():
     def grabDevices(self):
         if not self._initialized:
             return None
-        try:
-            for fd in self.iDevices:
-                try:        
-                    self.uDevices[fd] = UInput.from_device(self.iDevices[fd].fn)
-                except:
-                    try:
-                        self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: compat fallback:  ' + str(e),debug.debugLevel.ERROR)         
-                        dev = self.iDevices[fd]
-                        cap = dev.capabilities()
-                        del cap[0]
-                        self.uDevices[fd] = UInput(
-                          cap,
-                          dev.name,
-                        )
-                    except Exception as e:
-                        self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: init Uinput not possible:  ' + str(e),debug.debugLevel.ERROR)         
-                        return                  
+        for fd in self.iDevices:
+            try:        
+                self.uDevices[fd] = UInput.from_device(self.iDevices[fd].fn)
+            except:
                 try:
-                    self.iDevices[fd].grab()
+                    self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: compat fallback:  ' + str(e),debug.debugLevel.ERROR)         
+                    dev = self.iDevices[fd]
+                    cap = dev.capabilities()
+                    del cap[0]
+                    self.uDevices[fd] = UInput(
+                      cap,
+                      dev.name,
+                    )
                 except Exception as e:
-                    self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: grabing not possible:  ' + str(e),debug.debugLevel.ERROR)         
+                    self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: init Uinput not possible:  ' + str(e),debug.debugLevel.ERROR)         
+                    return                  
+            try:
+                self.iDevices[fd].grab()
+            except Exception as e:
+                self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: grabing not possible:  ' + str(e),debug.debugLevel.ERROR)         
 #        leve the old code until the new one is better tested    
 #        for fd in self.iDevices:
 #            dev = self.iDevices[fd]
@@ -198,7 +197,6 @@ class driver():
 #              #'/dev/uinput'
 #            )
 #            dev.grab()
-
 
     def releaseDevices(self):
         if not self._initialized:
