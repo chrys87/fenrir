@@ -9,7 +9,7 @@ import __main__
 
 if not os.path.dirname(os.path.realpath(__main__.__file__)) in sys.path:
     sys.path.append(os.path.dirname(os.path.realpath(__main__.__file__)))
-
+from core import i18n
 from core import settingsManager
 from core import debug
 
