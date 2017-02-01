@@ -22,7 +22,6 @@ General:
   
 Braille Support:
   virtual buffer area for scroll left/right if the line is to long for device
-  follow cursor while typing
   make cursor following configurable
   brailleFocusMode:
     - manual = no automatic toggle command used
@@ -83,3 +82,4 @@ Braille Support:
   flush message after X seconds and show current line (review over text)
   tweak current commands and output
   command flush_braille
+  follow cursor while typing
