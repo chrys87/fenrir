@@ -105,27 +105,54 @@ class outputManager():
             return
         if self.env['runtime']['brailleDriver'] == None:
             return        
-        size = self.env['runtime']['brailleDriver'].getDeviceSize()
         if flush:
             self.env['output']['nextFlush'] = time.time() + self.getFlushTime(text)
             self.env['output']['messageText'] = text
-            self.env['runtime']['brailleDriver'].writeText('flush'+self.env['output']['messageText'] [self.env['output']['messageOffset']['x']: \
-              self.env['output']['messageOffset']['x']+size[0]])         
+            displayText = self.getBrailleTextWithOffset(self.env['output']['messageText'], self.env['output']['messageOffset'])    
+            self.env['runtime']['brailleDriver'].writeText('flush'+displayText)         
         else:
             if self.env['output']['nextFlush'] < time.time():
                 if self.env['output']['messageText'] != '':
                     self.env['output']['messageText'] = ''
                 if self.env['output']['messageOffset'] != {'x':0,'y':0}:
                     self.env['output']['messageOffset'] = {'x':0,'y':0}
-                cursor = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
+                cursor = self.getBrailleCursor()
                 x, y, currLine = \
                   line_utils.getCurrentLine(cursor['x'], cursor['y'], self.env['screenData']['newContentText'])                
-                
-                self.env['runtime']['brailleDriver'].writeText('notflush<>' + currLine +'<>'+currLine[cursor['x']:cursor['x'] + size[0]])
+                displayText = self.getBrailleTextWithOffset(currLine, self.env['output']['textOffset'], cursor, flush=True)    
+                self.env['runtime']['brailleDriver'].writeText('notflush'+displayText)                  
             else:
-                self.env['runtime']['brailleDriver'].writeText('flush'+self.env['output']['messageText'] [self.env['output']['messageOffset']['x']: \
-                  self.env['output']['messageOffset']['x']+size[0]])                          
+                displayText = self.getBrailleTextWithOffset(self.env['output']['messageText'], self.env['output']['messageOffset'])    
+                self.env['runtime']['brailleDriver'].writeText('flush'+displayText)                          
 
+    def getBrailleCursor(self):
+        if self.env['runtime']['settingsManager'].getSetting('focus', 'brailleFocusMode') == 'review':
+            return self.env['runtime']['cursorManager'].getReviewOrTextCursor()
+
+    def getCursorCell(self):
+        if self.env['runtime']['settingsManager'].getSettingAsInt('braille', 'fixCursorOnCell') == -1:
+            return self.env['runtime']['brailleDriver'].getDeviceSize()[0]
+        return self.env['runtime']['settingsManager'].getSettingAsInt('braille', 'fixCursorOnCell')    
+
+    def getBrailleTextWithOffset(self, text, offset = {'x':0,'y':0}, cursor = {'x':0,'y':0}, flush=True):
+        if text == '':
+            return ''
+        size = self.env['runtime']['brailleDriver'].getDeviceSize()
+        cursorCell = self.getCursorCell()
+        offsetText = text
+        offsetStart = cursor['x'] + offset['x']        
+        if offsetStart < size[0]:        
+            if offsetStart <= cursorCell:
+                return offsetText[0: size[0]]
+
+        offsetStart -= cursorCell
+        if offsetStart >= len(offsetText):
+            offsetStart = len(offsetText) - 1
+        if offsetStart < 0:
+            offsetStart = 0            
+        offsetEnd = offsetStart + size[0]            
+        offsetText = offsetText[offsetStart: offsetEnd]
+        return offsetText
     def interruptOutput(self):
         self.env['runtime']['speechDriver'].cancel()
         self.env['runtime']['debug'].writeDebugOut("Interrupt speech",debug.debugLevel.INFO)       
