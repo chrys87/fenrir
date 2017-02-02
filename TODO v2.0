@@ -37,6 +37,7 @@ Braille Support:
   capture input from braile
   make routing keys assignable in keyboard
   make brailleTable configurable
+  pkg-config --variable=tablesdir liblouis
   http://mielke.cc/brltty/doc/Manual-BrlAPI/English/BrlAPI.html
   https://git.gnome.org/browse/orca/tree/src/orca/braille.py
   https://wiki.gnome.org/Attic/LSR/ScratchPad/Braille/BrlAPI 
