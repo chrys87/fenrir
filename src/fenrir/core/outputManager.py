@@ -118,9 +118,9 @@ class outputManager():
                 if self.env['output']['messageOffset'] != None:
                     self.env['output']['messageOffset'] = None
                 cursor = self.getBrailleCursor()
-                x, y, currLine = \
+                x, y, self.env['output']['brlText'] = \
                   line_utils.getCurrentLine(cursor['x'], cursor['y'], self.env['screenData']['newContentText'])                
-                displayText = self.getBrailleTextWithOffset(currLine, self.env['output']['cursorOffset'], cursor)    
+                displayText = self.getBrailleTextWithOffset(self.env['screenData']['newContentText'], self.env['output']['cursorOffset'], cursor)    
                 self.env['runtime']['brailleDriver'].writeText('notflush'+displayText)                  
             else:
                 displayText = self.getBrailleTextWithOffset(self.env['output']['messageText'], self.env['output']['messageOffset'])    
@@ -136,13 +136,19 @@ class outputManager():
         return self.env['runtime']['cursorManager'].getReviewOrTextCursor()                     
     
     def getFixCursorCell(self):
-        if self.env['runtime']['settingsManager'].getSettingAsInt('braille', 'fixCursorOnCell') == -1:
-            return self.env['runtime']['brailleDriver'].getDeviceSize()[0]
-        return self.env['runtime']['settingsManager'].getSettingAsInt('braille', 'fixCursorOnCell')    
-    def getActiveOffset(self):
+        size = self.env['runtime']['brailleDriver'].getDeviceSize()[0]
+        fixCell = self.env['runtime']['settingsManager'].getSettingAsInt('braille', 'fixCursorOnCell')
+        if fixCell <= -1:
+            return size[0]
+        if fixCell >= size[0]:
+            return size[0]
+        return fixCell 
+    def getActiveOffsetAndText(self):
         if self.env['output']['messageOffset']:
-            return self.env['output']['messageOffset']
-        return self.env['output']['cursorOffset']
+            return self.env['output']['messageOffset'], self.env['output']['messageText']
+        if not self.env['output']['cursorOffset']:
+            return self.getBrailleCursor(), self.env['screenData']['newContentText']
+        return self.env['output']['cursorOffset'], self.env['screenData']['newContentText']
     def getHorizontalPanSize(self):
         size = self.env['runtime']['brailleDriver'].getDeviceSize()        
         if self.env['runtime']['settingsManager'].getSettingAsInt('braille', 'panSizeHorizontal') <= 0:
@@ -151,15 +157,37 @@ class outputManager():
             return size[0]            
         return self.env['runtime']['settingsManager'].getSettingAsInt('braille', 'panSizeHorizontal')
     def getHorizontalPanLevel(self,offsetChange = 0):
+        panned = True
         panSize = self.getHorizontalPanSize()
-        offset = self.getActiveOffset()
-        if not offset:
-            offset = self.getBrailleCursor()    
-        offsetStart = (int(offset['x']  / panSize) + offsetChange) * panSize        
-    def panLeft(self):
-        return self.getHorizontalPanLevel(-1)
-    def panRight(self):
-        return self.getHorizontalPanLevel(1)
+        offset, text = self.getActiveOffsetAndText()
+        currline = text.split('\n')[offset['y']]
+        newOffsetStart = (int(offset['x']  / panSize) + offsetChange) * panSize
+        if newOffsetStart < 0:
+            newOffsetStart = 0
+            panned = False
+        if newOffsetStart >= len(text):
+            newOffsetStart = int((len(text) - panSize - 1) / panSize)
+            panned = False
+        return newOffsetStart, panned    
+    def setPanLeft(self):
+        newPan, panned = self.getHorizontalPanLevel(-1)
+        if self.env['output']['messageOffset']:
+            self.env['output']['messageOffset'] = newPan.copy()
+        else:
+            self.env['output']['cursorOffset'] = newPan.copy()       
+        return panned
+    def setPanRight(self):
+        newPan, panned = self.getHorizontalPanLevel(1)  
+        if self.env['output']['messageOffset']:
+            self.env['output']['messageOffset'] = newPan.copy()
+        else:
+            self.env['output']['cursorOffset'] = newPan.copy()            
+        return panned
+    def removePanning(self):
+        if self.env['output']['messageOffset']:
+            self.env['output']['messageOffset'] = None
+        else:
+            self.env['output']['cursorOffset'] = None
     def getBrailleTextWithOffset(self, text, offset = None, cursor = None):
         if text == '':
             return ''
