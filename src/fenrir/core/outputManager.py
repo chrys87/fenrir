@@ -127,13 +127,15 @@ class outputManager():
                 self.env['runtime']['brailleDriver'].writeText('flush'+displayText)                          
 
     def getBrailleCursor(self):
-        if self.env['runtime']['settingsManager'].getSetting('focus', 'cursorFollowMode') == 'review':
+        if self.env['runtime']['settingsManager'].getSetting('braille', 'cursorFollowMode').upper() == 'REVIEW':
             return self.env['runtime']['cursorManager'].getReviewOrTextCursor()
-        self.env['runtime']['settingsManager'].getSetting('focus', 'cursorFollowMode') == 'manual':
-            pass            
-        self.env['runtime']['settingsManager'].getSetting('focus', 'cursorFollowMode') == 'last':
-            pass            
-    def getCursorCell(self):
+        if self.env['runtime']['settingsManager'].getSetting('braille', 'cursorFollowMode').upper() == 'MANUAL':
+            return self.env['runtime']['cursorManager'].getReviewOrTextCursor()            
+        if self.env['runtime']['settingsManager'].getSetting('braille', 'cursorFollowMode').upper() == 'LAST':
+            return self.env['runtime']['cursorManager'].getReviewOrTextCursor()
+        return self.env['runtime']['cursorManager'].getReviewOrTextCursor()                     
+    
+    def getFixCursorCell(self):
         if self.env['runtime']['settingsManager'].getSettingAsInt('braille', 'fixCursorOnCell') == -1:
             return self.env['runtime']['brailleDriver'].getDeviceSize()[0]
         return self.env['runtime']['settingsManager'].getSettingAsInt('braille', 'fixCursorOnCell')    
@@ -142,17 +144,23 @@ class outputManager():
         if text == '':
             return ''
         size = self.env['runtime']['brailleDriver'].getDeviceSize()
-        cursorCell = self.getCursorCell()
+
         offsetText = text
         if cursor and not offset:
-            offsetStart = cursor['x']      
-            if offsetStart < size[0]:        
-                if offsetStart <= cursorCell:
-                    return offsetText[0: size[0]]
+            if self.env['runtime']['settingsManager'].getSetting('braille', 'cursorFollowMode').upper() == 'FIXCELL':
+                #fix cell
+                cursorCell = self.getFixCursorCell()                                
+                offsetStart = cursor['x']      
+                if offsetStart < size[0]:        
+                    if offsetStart <= cursorCell:
+                        return offsetText[0: size[0]]
 
-            offsetStart -= cursorCell
-            if offsetStart >= len(offsetText):
-                offsetStart = len(offsetText) - 1
+                offsetStart -= cursorCell
+                if offsetStart >= len(offsetText):
+                    offsetStart = len(offsetText) - 1
+            else: 
+                # page and fallback
+                offsetStart = int(cursor / size[0]) * size[0]
         else:
             if not offset:
                 offset = {'x':0,'y':0}

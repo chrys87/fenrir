@@ -33,6 +33,7 @@ settings = {
   'layout': 'en',
   'flushMode': 'word', #NONE,FIX,CHAR,WORD
   'flushTimeout': 3,
+  'cursorFocusMode':'page', # page,fixCell
   'fixCursorOnCell': -1,
   'cursorFollowMode': 'review', # none, review, last, text  
   'panSize': 0 # 0 display size
