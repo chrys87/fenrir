@@ -36,7 +36,7 @@ settings = {
   'cursorFocusMode':'page', # page,fixCell
   'fixCursorOnCell': -1,
   'cursorFollowMode': 'review', # none, review, last, text  
-  'panSize': 0 # 0 display size
+  'panSizeHorizontal': 0 # 0 = display size
 },
 'screen':{
     'driver': 'vcsaDriver',

@@ -139,13 +139,33 @@ class outputManager():
         if self.env['runtime']['settingsManager'].getSettingAsInt('braille', 'fixCursorOnCell') == -1:
             return self.env['runtime']['brailleDriver'].getDeviceSize()[0]
         return self.env['runtime']['settingsManager'].getSettingAsInt('braille', 'fixCursorOnCell')    
-
+    def getActiveOffset(self):
+        if self.env['output']['messageOffset']:
+            return self.env['output']['messageOffset']
+        return self.env['output']['cursorOffset']
+    def getHorizontalPanSize(self):
+        size = self.env['runtime']['brailleDriver'].getDeviceSize()        
+        if self.env['runtime']['settingsManager'].getSettingAsInt('braille', 'panSizeHorizontal') <= 0:
+            return size[0]
+        if self.env['runtime']['settingsManager'].getSettingAsInt('braille', 'panSizeHorizontal') >= size[0]:
+            return size[0]            
+        return self.env['runtime']['settingsManager'].getSettingAsInt('braille', 'panSizeHorizontal')
+    def getHorizontalPanLevel(self,offsetChange = 0):
+        panSize = self.getHorizontalPanSize()
+        offset = self.getActiveOffset()
+        if not offset:
+            offset = self.getBrailleCursor()    
+        offsetStart = (int(offset['x']  / panSize) + offsetChange) * panSize        
+    def panLeft(self):
+        return self.getHorizontalPanLevel(-1)
+    def panRight(self):
+        return self.getHorizontalPanLevel(1)
     def getBrailleTextWithOffset(self, text, offset = None, cursor = None):
         if text == '':
             return ''
         size = self.env['runtime']['brailleDriver'].getDeviceSize()
-
         offsetText = text
+
         if cursor and not offset:
             if self.env['runtime']['settingsManager'].getSetting('braille', 'cursorFollowMode').upper() == 'FIXCELL':
                 #fix cell
@@ -160,7 +180,7 @@ class outputManager():
                     offsetStart = len(offsetText) - 1
             else: 
                 # page and fallback
-                offsetStart = int(cursor / size[0]) * size[0]
+                offsetStart = int(cursor['x'] / size[0]) * size[0]
         else:
             if not offset:
                 offset = {'x':0,'y':0}

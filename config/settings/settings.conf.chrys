@@ -89,9 +89,9 @@ fixCursorOnCell=-1
 # review = priority to review
 # last = follow last used cursor
 cursorFollowMode=review
-# number of cells in panning
+# number of cells in panning (horizontal)
 # 0 = display size, >0 number of cells
-panSize=0
+panSizeHorizontal=0
 
 [screen]
 driver=vcsaDriver
