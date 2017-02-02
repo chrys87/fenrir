@@ -34,6 +34,8 @@ settings = {
   'flushMode': 'word', #NONE,FIX,CHAR,WORD
   'flushTimeout': 3,
   'fixCursorOnCell': -1,
+  'cursorFollowMode': 'review', # none, review, last, text  
+  'panSize': 0 # 0 display size
 },
 'screen':{
     'driver': 'vcsaDriver',
@@ -61,7 +63,6 @@ settings = {
 'focus':{
   'cursor': True,
   'highlight': False,
-  'brailleFocusMode': 'review', # none, review, last, text
 },
 'review':{
   'lineBreak': True,

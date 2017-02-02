@@ -80,6 +80,14 @@ flushTimeout=3
 # -1 = last cell on device 
 # >0 = fix cell number
 fixCursorOnCell=-1
+#How should the braille follow the focus
+# none = no automatic toggle command used
+# review = priority to review
+# last = follow last used cursor
+cursorFollowMode=review
+# number of cells in panning
+# 0 = display size, >0 number of cells
+panSize=0
 
 [screen]
 driver=vcsaDriver
@@ -132,12 +140,6 @@ scriptPath=/usr/share/fenrir/scripts
 cursor=True
 #follow highlighted text changes
 highlight=False
-# How should the braille follow the focus
-# none = no automatic toggle command used
-# review = priority to review
-# last = follow last used cursor
-# text = jumps to textcursor when typing, needs command to be back to review
-brailleFocusMode=review
 
 [review]
 lineBreak=True

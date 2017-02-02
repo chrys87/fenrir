@@ -10,6 +10,6 @@ from core import debug
 output = {
 'nextFlush': time.time(),
 'messageText': '',
-'messageOffset': {'x':0,'y':0},
-'textOffset': {'x':0,'y':0},
+'messageOffset': None,
+'cursorOffset': None,
 }

@@ -107,6 +107,7 @@ class outputManager():
             return        
         if flush:
             self.env['output']['nextFlush'] = time.time() + self.getFlushTime(text)
+            self.env['output']['messageOffset'] = {'x':0,'y':0}            
             self.env['output']['messageText'] = text
             displayText = self.getBrailleTextWithOffset(self.env['output']['messageText'], self.env['output']['messageOffset'])    
             self.env['runtime']['brailleDriver'].writeText('flush'+displayText)         
@@ -114,44 +115,55 @@ class outputManager():
             if self.env['output']['nextFlush'] < time.time():
                 if self.env['output']['messageText'] != '':
                     self.env['output']['messageText'] = ''
-                if self.env['output']['messageOffset'] != {'x':0,'y':0}:
-                    self.env['output']['messageOffset'] = {'x':0,'y':0}
+                if self.env['output']['messageOffset'] != None:
+                    self.env['output']['messageOffset'] = None
                 cursor = self.getBrailleCursor()
                 x, y, currLine = \
                   line_utils.getCurrentLine(cursor['x'], cursor['y'], self.env['screenData']['newContentText'])                
-                displayText = self.getBrailleTextWithOffset(currLine, self.env['output']['textOffset'], cursor, flush=True)    
+                displayText = self.getBrailleTextWithOffset(currLine, self.env['output']['cursorOffset'], cursor)    
                 self.env['runtime']['brailleDriver'].writeText('notflush'+displayText)                  
             else:
                 displayText = self.getBrailleTextWithOffset(self.env['output']['messageText'], self.env['output']['messageOffset'])    
                 self.env['runtime']['brailleDriver'].writeText('flush'+displayText)                          
 
     def getBrailleCursor(self):
-        if self.env['runtime']['settingsManager'].getSetting('focus', 'brailleFocusMode') == 'review':
+        if self.env['runtime']['settingsManager'].getSetting('focus', 'cursorFollowMode') == 'review':
             return self.env['runtime']['cursorManager'].getReviewOrTextCursor()
-
+        self.env['runtime']['settingsManager'].getSetting('focus', 'cursorFollowMode') == 'manual':
+            pass            
+        self.env['runtime']['settingsManager'].getSetting('focus', 'cursorFollowMode') == 'last':
+            pass            
     def getCursorCell(self):
         if self.env['runtime']['settingsManager'].getSettingAsInt('braille', 'fixCursorOnCell') == -1:
             return self.env['runtime']['brailleDriver'].getDeviceSize()[0]
         return self.env['runtime']['settingsManager'].getSettingAsInt('braille', 'fixCursorOnCell')    
 
-    def getBrailleTextWithOffset(self, text, offset = {'x':0,'y':0}, cursor = {'x':0,'y':0}, flush=True):
+    def getBrailleTextWithOffset(self, text, offset = None, cursor = None):
         if text == '':
             return ''
         size = self.env['runtime']['brailleDriver'].getDeviceSize()
         cursorCell = self.getCursorCell()
         offsetText = text
-        offsetStart = cursor['x'] + offset['x']        
-        if offsetStart < size[0]:        
-            if offsetStart <= cursorCell:
-                return offsetText[0: size[0]]
+        if cursor and not offset:
+            offsetStart = cursor['x']      
+            if offsetStart < size[0]:        
+                if offsetStart <= cursorCell:
+                    return offsetText[0: size[0]]
 
-        offsetStart -= cursorCell
-        if offsetStart >= len(offsetText):
-            offsetStart = len(offsetText) - 1
+            offsetStart -= cursorCell
+            if offsetStart >= len(offsetText):
+                offsetStart = len(offsetText) - 1
+        else:
+            if not offset:
+                offset = {'x':0,'y':0}
+            offsetStart = offset['x']         
+            if offsetStart >= len(offsetText):
+                offsetStart = len(offsetText) - size[0]
+        
         if offsetStart < 0:
-            offsetStart = 0            
+            offsetStart = 0           
         offsetEnd = offsetStart + size[0]            
-        offsetText = offsetText[offsetStart: offsetEnd]
+        offsetText = offsetText[offsetStart: offsetEnd]        
         return offsetText
     def interruptOutput(self):
         self.env['runtime']['speechDriver'].cancel()
