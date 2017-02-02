@@ -21,13 +21,17 @@ General:
     last item
   
 Braille Support:
-  virtual buffer area for scroll left/right if the line is to long for device
+  create offset for scrolling
+  respect scrolling
+  add command to scroll left
+  add command to scroll Right
   make cursor following configurable
+  brailleCursorTrackingMode
+    - cell
+    - page
   brailleFocusMode:
     - manual = no automatic toggle command used
-    - review = priority to review
     - last = follow last used cursor
-    - text = jumps to textcursor when typing, needs command to be back to review
   print cursor in review
   print cursor in textmode
   command for scroll left
@@ -83,3 +87,5 @@ Braille Support:
   tweak current commands and output
   command flush_braille
   follow cursor while typing
+  brailleFocusMode:
+    - review = priority to review
