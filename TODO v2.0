@@ -23,10 +23,7 @@ General:
 Braille Support:
   create offset for scrolling
   respect scrolling
-  add command to scroll left
-  add command to scroll Right
-  make cursor following configurable
-  brailleCursorTrackingMode
+  make cursor following configurable (brailleCursorTrackingMode)
     - cell
     - page
   brailleFocusMode:
@@ -36,6 +33,7 @@ Braille Support:
   print cursor in textmode
   command for scroll left
   command for scroll right
+  command toggle used cursor (in manual brailleFocusMode)  
   capture input from braile
   make routing keys assignable in keyboard
   make brailleTable configurable
