@@ -21,18 +21,11 @@ General:
     last item
   
 Braille Support:
-  create offset for scrolling
-  respect scrolling
-  make cursor following configurable (brailleCursorTrackingMode)
-    - cell
-    - page
   brailleFocusMode:
     - manual = no automatic toggle command used
     - last = follow last used cursor
   print cursor in review
   print cursor in textmode
-  command for scroll left
-  command for scroll right
   command toggle used cursor (in manual brailleFocusMode)  
   capture input from braile
   make routing keys assignable in keyboard
@@ -85,6 +78,13 @@ Braille Support:
   flush message after X seconds and show current line (review over text)
   tweak current commands and output
   command flush_braille
-  follow cursor while typing
+  command for scroll left
+  command for scroll right  
+  create offset for scrolling
+  respect scrolling
+  make cursor following configurable (brailleCursorTrackingMode)
+    - cell
+    - page  
+  follow cursor while typing  
   brailleFocusMode:
     - review = priority to review
