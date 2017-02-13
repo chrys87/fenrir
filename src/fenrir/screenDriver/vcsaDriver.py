@@ -35,7 +35,7 @@ class driver():
         with open(useScreen, 'w') as fd:
             for c in text:
                 fcntl.ioctl(fd, termios.TIOCSTI, c)
-                time.sleep(0.005)
+                time.sleep(0.0005)
                 
     def getCurrApplication(self):
         apps = []
