@@ -25,6 +25,9 @@ class command():
     def getDescription(self):
         return 'checks the spelling of the current word'        
     def updateSpellLanguage(self):  
+        if not initialized:  
+           self.env['runtime']['outputManager'].presentText('pychant is not installed', interrupt=True) 
+           return            
         self.spellChecker = enchant.Dict(self.env['runtime']['settingsManager'].getSetting('general', 'spellCheckLanguage'))
         self.language = self.env['runtime']['settingsManager'].getSetting('general', 'spellCheckLanguage')      
        
