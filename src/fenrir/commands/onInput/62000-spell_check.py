@@ -28,12 +28,15 @@ class command():
         return 'No Description found'
       
     def updateSpellLanguage(self):  
+        if not initialized:
+           self.env['runtime']['outputManager'].presentText('pychant is not installed', interrupt=True) 
+           return
         self.spellChecker = enchant.Dict(self.env['runtime']['settingsManager'].getSetting('general', 'spellCheckLanguage'))
         self.language = self.env['runtime']['settingsManager'].getSetting('general', 'spellCheckLanguage')      
-      
+
     def run(self):
         if not initialized:
-           return        
+            return        
         if not self.env['runtime']['settingsManager'].getSettingAsBool('general', 'autoSpellCheck'):
             return
         if self.env['runtime']['inputManager'].noKeyPressed():
@@ -42,7 +45,7 @@ class command():
             try:
                 self.updateSpellLanguage()
             except:
-               return
+                return
 
         # just when horizontal cursor move worddetection is needed
         if not self.env['runtime']['cursorManager'].isCursorHorizontalMove():
