@@ -6,7 +6,7 @@ This software is licensed under the LGPL v3 .
 # requirements (core)
 - linux
 - python3
-- python-evdev
+- python-evdev >=0.6.3
 - loaded uinput kernel module
 - Read permission to the following files:
   - /sys/devices/virtual/tty/tty0/active
