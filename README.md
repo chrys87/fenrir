@@ -11,7 +11,7 @@ This software is licensed under the LGPL v3 .
 # Features, Drivers, Extras
 # Input Drivers:
 - "evdevDriver" input driver for linux evdev
-  - python-evdev 
+  - python-evdev >=0.6.3
   - loaded uinput kernel module
   - ReadWrite permission 
     - /dev/input
@@ -41,7 +41,7 @@ This software is licensed under the LGPL v3 .
 - "genericDriver" sound driver for sound as subprocess:
   - sox
 - "gstreamerDriver" sound driver for gstreamer
-  - gstreamer 1.x
+  - gstreamer >=1.0
   - GLib
 - "dummyDriver" sound driver for debugging
 
