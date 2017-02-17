@@ -55,17 +55,12 @@ This software is licensed under the LGPL v3 .
 
 # installation
 - Archlinux: PKGBUILD in AUR
-- install.sh (there is currently no uninstall)
-- run from git:
+- Manual: run install.sh and uninstall.sh as root
+- you also can just run it from git without installation:
 You can just run the following as root:
 cd src/fenrir-package/
 sudo ./fenrir
 Settings "settings.conf" is located in the "config" directory or after installation in /etc/fenrir.
-To install it use the "install.sh" in the root folder of the git.
-sudo ./install.sh
-or remove
-sudo ./deinstall.sh
-
 Take care that the used drivers in the config matching your installed drivers. 
 By default it uses:
 - sound driver: genericDriver (via sox, could configured in settings.conf)
