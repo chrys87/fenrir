@@ -6,6 +6,7 @@ This software is licensed under the LGPL v3 .
 # Requirements (core)
 - linux (currently only screen and input drivers available for that)
 - python3 >= 3.3
+-	python-configargparse
 - screen, input, speech, sound or braille drivers see "Features, Drivers, Extras".
 
 # Features, Drivers, Extras
@@ -59,7 +60,12 @@ This software is licensed under the LGPL v3 .
 You can just run the following as root:
 cd src/fenrir-package/
 sudo ./fenrir
-Settings "settings.conf" is located in the "config" directory.
+Settings "settings.conf" is located in the "config" directory or after installation in /etc/fenrir.
+To install it use the "install.sh" in the root folder of the git.
+sudo ./install.sh
+or remove
+sudo ./deinstall.sh
+
 Take care that the used drivers in the config matching your installed drivers. 
 By default it uses:
 - sound driver: genericDriver (via sox, could configured in settings.conf)
