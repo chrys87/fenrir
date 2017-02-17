@@ -16,7 +16,11 @@ cp -a tools/* /usr/share/fenrir/tools
 install -m755 -d /usr/share/fenrir/scripts
 cp -a "config/scripts/wlan__-__key_y.sh" /usr/share/fenrir/scripts/
 
+# keyboard
+install -m644 -D "config/keyboard/desktop.conf" /etc/fenrir/keyboard/desktop.conf
+install -m644 -D "config/keyboard/laptop.conf" /etc/fenrir/keyboard/laptop.conf
 
+# punctuation
 install -m755 -d /etc/fenrir/punctuation 
 cp -a config/punctuation/* /etc/fenrir/punctuation 
 
@@ -27,29 +31,14 @@ cp -a config/sound/default-wav /usr/share/sounds/fenrir/default-wav
 cp -a config/sound/template /usr/share/sounds/fenrir/template
 
 # config
-if [ -f "/etc/fenrir/keyboard/desktop.conf" ]; then
-    echo "Do you want overwrite the desktop keyboard layout? (y/n)"
-    read yn
-    if [ $yn = "Y" -o $yn = "y"];
-    then
-        install -m644 -D "config/keyboard/desktop.conf" /etc/fenrir/keyboard/desktop.conf
-    fi
-fi
-
-if [ -f "/etc/fenrir/keyboard/laptop.conf" ]; then
-    echo "Do you want overwrite the laptop keyboard layout? (y/n)"
-    read yn
-    if [ $yn = "Y" -o $yn = "y"];
-    then
-        install -m644 -D "config/keyboard/laptop.conf" /etc/fenrir/keyboard/laptop.conf
-    fi
-fi
-if [ -f "config/settings/settings.conf" ]; then
+if [ -f "/etc/fenrir/settings/settings.conf" ]; then
     echo "Do you want overwrite your current settings? (y/n)"
     read yn
-    if [ $yn = "Y" -o $yn = "y"];
-    then
+    if [ $yn = "Y" -o $yn = "y"]; then
+      mv /etc/fenrir/settings/settings.conf /etc/fenrir/settings/settings.conf.bak
       install -m644 -D "config/settings/settings.conf" /etc/fenrir/settings/settings.conf
+    else
+      install -m644 -D "config/settings/settings.conf" /etc/fenrir/settings/settings.conf.current    
     fi
 fi
 
