@@ -34,7 +34,7 @@ cp -a config/sound/template /usr/share/sounds/fenrir/template
 if [ -f "/etc/fenrir/settings/settings.conf" ]; then
     echo "Do you want overwrite your current settings? (y/n)"
     read yn
-    if [ $yn = "Y" -o $yn = "y"]; then
+    if [ $yn = "Y" -o $yn = "y" ]; then
       mv /etc/fenrir/settings/settings.conf /etc/fenrir/settings/settings.conf.bak
       install -m644 -D "config/settings/settings.conf" /etc/fenrir/settings/settings.conf
     else
