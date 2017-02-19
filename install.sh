@@ -1,6 +1,6 @@
 #!/bin/bash
 #Basic install script for fenrir.
-read -p "This will install fenrir. Press ctrl+c to cancil, or enter to continue." continue
+read -p "This will install fenrir. Press ctrl+c to cancel, or enter to continue." continue
 
 # fenrir main application
 install -m755 -d /opt/fenrir
@@ -45,10 +45,15 @@ fi
 
 # end message
 cat << EOF
+Installation completed.
+install path:/opt/fenrir
+settings path:/etc/fenrir
+
 To test fenrir
 sudo systemctl start fenrir
 To have fenrir start at boot:
 sudo systemctl enable fenrir
+
 Pulseaudio users may want to run
 /usr/share/fenrir/tools/configure-pulseaudio
 once as their user account and once as root.
