@@ -28,7 +28,7 @@ class command():
             self.env['runtime']['settingsManager'].setSetting('speech', 'enabled','True')
             self.env['runtime']['settingsManager'].setSetting('sound', 'enabled','True')
             self.env['runtime']['settingsManager'].setSetting('braille', 'enabled','True')
-            self.env['runtime']['outputManager'].presentText(_('Fenrir unmuted), soundIcon='Cancel', interrupt=True)                  
+            self.env['runtime']['outputManager'].presentText(_('Fenrir unmuted'), soundIcon='Cancel', interrupt=True)                  
 
     def setCallback(self, callback):
         pass
