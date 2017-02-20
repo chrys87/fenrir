@@ -1,17 +1,18 @@
 # Fenrir
-An TTY screenreader for Linux.
-In theorie its not limited to linux. but i currently only provide drivers for that because I do not have an ohter system here. If you want to help or write drivers to make it work on other systems, just let me know. 
+A TTY screenreader for Linux.
+In theory it's not just limited to Linux. but i currently only provide drivers for that since I do not have another system here. If you want to help or write drivers to make it work on other systems, just let me know. 
 This software is licensed under the LGPL v3 .
 
 # Requirements (core)
 - linux (currently only screen and input drivers available for that)
 - python3 >= 3.3
+-	python-configargparse
 - screen, input, speech, sound or braille drivers see "Features, Drivers, Extras".
 
 # Features, Drivers, Extras
 # Input Drivers:
 - "evdevDriver" input driver for linux evdev
-  - python-evdev 
+  - python-evdev >=0.6.3
   - loaded uinput kernel module
   - ReadWrite permission 
     - /dev/input
@@ -41,7 +42,7 @@ This software is licensed under the LGPL v3 .
 - "genericDriver" sound driver for sound as subprocess:
   - sox
 - "gstreamerDriver" sound driver for gstreamer
-  - gstreamer 1.x
+  - gstreamer >=1.0
   - GLib
 - "dummyDriver" sound driver for debugging
 
@@ -54,12 +55,12 @@ This software is licensed under the LGPL v3 .
 
 # installation
 - Archlinux: PKGBUILD in AUR
-- install.sh (there is currently no uninstall)
-- run from git:
+- Manual: run install.sh and uninstall.sh as root
+- you also can just run it from Git without installing:
 You can just run the following as root:
 cd src/fenrir-package/
 sudo ./fenrir
-Settings "settings.conf" is located in the "config" directory.
+Settings "settings.conf" is located in the "config" directory or after installation in /etc/fenrir/settings.
 Take care that the used drivers in the config matching your installed drivers. 
 By default it uses:
 - sound driver: genericDriver (via sox, could configured in settings.conf)

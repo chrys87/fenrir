@@ -11,6 +11,7 @@ if [ -f "$xdgPath/pulse/default.pa" ]; then
     read -p "This will replace the current file located at $xdgPath/pulse/default.pa, press enter to continue or control+c to abort. " continue
 fi
 echo '.include /etc/pulse/default.pa
+load-module module-switch-on-connect
 load-module module-native-protocol-unix auth-anonymous=1 socket=/tmp/pulse.sock' > $xdgPath/pulse/default.pa
 echo "If you have not yet done so, please run this script as root to write the client.conf file."
 else
