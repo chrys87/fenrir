@@ -3,13 +3,13 @@ ToDo list for Fenrir Version 2.0
 General:  
 - implement onScreenUpdate commands
   read highlighted text mode
-- translateable (easy for contribute)
+- translateable (easy for contribution)
   http://www.supernifty.org/blog/2011/09/16/python-localization-made-easy/
 - be more event based (vcsa sets POLLPRI)
   http://scotdoyle.com/python-epoll-howto.html
 - try to make it more asynchronus
 - multpible threads
-- leave revew on typing
+- leave review on typing
  
 - implement commands
   attributes_curr_char
@@ -28,7 +28,7 @@ Braille Support:
   print cursor in textmode
   command toggle used cursor (in manual brailleFocusMode)  
   capture input from braile
-  make routing keys assignable in keyboard
+  make routing keys assignable by keyboard
   make brailleTable configurable
   pkg-config --variable=tablesdir liblouis
   http://mielke.cc/brltty/doc/Manual-BrlAPI/English/BrlAPI.html
@@ -40,21 +40,21 @@ Driver:
 - implement PTY Screen driver (to use gnome-terminal and other terminal emulators)
   https://docs.python.org/3.2/library/pty.html
 - implement PTY Input driver  
-- ATK input driver (dont grab on graphical interface)
+- ATK input driver (don't grab on graphical interface)
 - implement speechdriver generic
-- implement autodetection of plugged and removed input devices (python-pyudev) for evdev driver
+- implement autodetection of plugged and unplugged input devices (python-pyudev) for evdev driver
   http://askubuntu.com/questions/508236/how-can-i-run-code-whenever-a-usb-device-is-unplugged-without-requiring-root
 - try to autodetect encoding
   https://stackoverflow.com/questions/6396659/how-do-you-get-the-encoding-of-the-terminal-from-within-a-python-script
 
 Settings:
-- configuration should be overwriteable with parameter and alternative paths
+- configuration should be overwritable with parameter and alternative paths
 - write settings
 - menue for settings configuration #storm
 
 Application Profiles
 - reimplement process detection without subprocessing
-- reuse new porcess detection code for X11 detection
+- reuse new process detection code for X11 detection
 - fenrir is not able to detect the current application inside of screen.
     ps -e  -H -o pid,pgrp,ppid,tty,cmd
     http://stackoverflow.com/questions/24861351/how-to-detect-if-python-script-is-being-run-as-a-background-process/24862213
