@@ -28,7 +28,7 @@ class driver():
         if interrupt:
             self.cancel()
         print('SoundDummyDriver: playFrequence:' + ' freq:' + str(frequence) + ' duration:' + str(duration) + ' adjustVolume:' + str(adjustVolume) )
-        print('SoundDummyDriver: -----------------------------------')')          
+        print('SoundDummyDriver: -----------------------------------')          
 
     def playSoundFile(self, filePath, interrupt = True):
         if not self._initialized:
