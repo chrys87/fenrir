@@ -14,14 +14,14 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'enables and disables output in braille'        
+        return _('enables and disables output in braille')        
 
     def run(self):
         if self.env['runtime']['settingsManager'].getSettingAsBool('braille', 'enabled'): 
-            self.env['runtime']['outputManager'].presentText("braille disabled", soundIcon='BrailleOff', interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_('braille disabled'), soundIcon='BrailleOff', interrupt=True)
         self.env['runtime']['settingsManager'].setSetting('braille', 'enabled', str(not self.env['runtime']['settingsManager'].getSettingAsBool('braille', 'enabled')))   
         if self.env['runtime']['settingsManager'].getSettingAsBool('braille', 'enabled'): 
-            self.env['runtime']['outputManager'].presentText("braille enabled", soundIcon='BrailleOn', interrupt=True)                 
+            self.env['runtime']['outputManager'].presentText(_('braille enabled'), soundIcon='BrailleOn', interrupt=True)                 
 
     def setCallback(self, callback):
         pass
