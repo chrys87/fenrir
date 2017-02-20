@@ -15,11 +15,11 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'copies marked text to the currently selected clipboard'    
+        return _('copies marked text to the currently selected clipboard')    
     
     def run(self):
         if not self.env['commandBuffer']['Marks']['1']:
-            self.env['runtime']['outputManager'].presentText("one or two marks needed", interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_("one or two marks needed"), interrupt=True)
             return
         if not self.env['commandBuffer']['Marks']['2']:
             self.env['runtime']['cursorManager'].setMark()

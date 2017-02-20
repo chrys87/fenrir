@@ -14,7 +14,7 @@ class command():
     def shutdown(self):
         pass
     def getDescription(self):
-        return 'Move braille view to the right.'         
+        return _('Move braille view to the right.')         
     def run(self):
         panned = self.env['runtime']['outputManager'].setPanRight()
     def setCallback(self, callback):

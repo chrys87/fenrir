@@ -14,11 +14,11 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'speaks the contents of the currently selected clipboard'       
+        return _('speaks the contents of the currently selected clipboard')       
 
     def run(self):
         if len(self.env['commandBuffer']['clipboard']) == 0:
-            self.env['runtime']['outputManager'].presentText('clipboard empty', interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_('clipboard empty'), interrupt=True)
             return 
         self.env['runtime']['outputManager'].presentText(self.env['commandBuffer']['clipboard'][self.env['commandBuffer']['currClipboard']], interrupt=True)
                

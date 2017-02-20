@@ -15,7 +15,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'Reads from the top of the screen to the cursor position'        
+        return _('Reads from the top of the screen to the cursor position')        
 
     def run(self):
         # Prefer review cursor over text cursor
@@ -27,7 +27,7 @@ class command():
         textBeforeCursor = mark_utils.getTextBeforeMark(cursorPos, self.env['screenData']['newContentText'])
 
         if textBeforeCursor.isspace():
-            self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_("blank"), soundIcon='EmptyLine', interrupt=True)
         else:
             self.env['runtime']['outputManager'].presentText(textBeforeCursor, interrupt=True)
    

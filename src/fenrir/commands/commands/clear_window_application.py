@@ -14,14 +14,14 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'Turn off window mode for application'
+        return _('Turn off window mode for application')
     
     def run(self):
         if self.env['runtime']['cursorManager'].clearWindowForApplication():
             currApp = self.env['runtime']['applicationManager'].getCurrentApplication()    
-            self.env['runtime']['outputManager'].presentText('Window Mode off for application ' + currApp, interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_('Window Mode off for application {0}').format(currApp,), interrupt=True)
         else:
-            self.env['runtime']['outputManager'].presentText("Not in window Mode", interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_("Not in window Mode"), interrupt=True)
         
     def setCallback(self, callback):
         pass
