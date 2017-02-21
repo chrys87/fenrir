@@ -96,6 +96,8 @@ class driver():
     def getInputDevices(self):
         if not self._initialized:
             return    
+        if self.iDevices != {}:
+            self.releaseDevices()
         deviceList = evdev.list_devices()
         readableDevices = []
         for dev in deviceList:
