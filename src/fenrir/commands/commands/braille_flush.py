@@ -14,7 +14,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'flush the braille device if an message is written on'
+        return _('flush the braille device if a message is written on')
     def run(self):
         self.env['runtime']['outputManager'].clearFlushTime()
     def setCallback(self, callback):

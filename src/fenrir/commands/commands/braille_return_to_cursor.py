@@ -14,7 +14,7 @@ class command():
     def shutdown(self):
         pass
     def getDescription(self):
-        return 'Set the braille view back to cursor.'         
+        return _('Set the braille view back to cursor.')         
     def run(self):
         self.env['runtime']['outputManager'].removePanning()
     def setCallback(self, callback):

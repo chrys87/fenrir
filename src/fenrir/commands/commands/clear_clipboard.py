@@ -14,12 +14,12 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'clears the currently selected clipboard'     
+        return _('clears the currently selected clipboard')     
 
     def run(self):
         self.env['commandBuffer']['currClipboard'] = -1
         del self.env['commandBuffer']['clipboard'][:]
-        self.env['runtime']['outputManager'].presentText('clipboard cleared', interrupt=True)
+        self.env['runtime']['outputManager'].presentText(_('clipboard cleared'), interrupt=True)
         return                
     def setCallback(self, callback):
         pass

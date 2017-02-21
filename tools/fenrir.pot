@@ -1,0 +1,283 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2017-02-20 10:45+UTC\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+#: ../src/fenrir/commands/commands/add_word_to_spell_check.py:27
+msgid "adds the current word to the exceptions dictionary"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/add_word_to_spell_check.py:34
+msgid "pyenchant is not installed"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/add_word_to_spell_check.py:49
+msgid "{0} is already in dict"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/add_word_to_spell_check.py:52
+msgid "{0} added"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/bookmark_1.py:19
+#: ../src/fenrir/commands/commands/bookmark_10.py:19
+#: ../src/fenrir/commands/commands/bookmark_2.py:19
+#: ../src/fenrir/commands/commands/bookmark_3.py:19
+#: ../src/fenrir/commands/commands/bookmark_4.py:19
+#: ../src/fenrir/commands/commands/bookmark_5.py:19
+#: ../src/fenrir/commands/commands/bookmark_6.py:19
+#: ../src/fenrir/commands/commands/bookmark_7.py:19
+#: ../src/fenrir/commands/commands/bookmark_8.py:19
+#: ../src/fenrir/commands/commands/bookmark_9.py:19
+msgid "read Bookmark {0}"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/bookmark_1.py:24
+#: ../src/fenrir/commands/commands/bookmark_10.py:24
+#: ../src/fenrir/commands/commands/bookmark_2.py:24
+#: ../src/fenrir/commands/commands/bookmark_3.py:24
+#: ../src/fenrir/commands/commands/bookmark_4.py:24
+#: ../src/fenrir/commands/commands/bookmark_5.py:24
+#: ../src/fenrir/commands/commands/bookmark_6.py:24
+#: ../src/fenrir/commands/commands/bookmark_7.py:24
+#: ../src/fenrir/commands/commands/bookmark_8.py:24
+#: ../src/fenrir/commands/commands/bookmark_9.py:24
+msgid "Bookmark {0} not set"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/bookmark_1.py:27
+#: ../src/fenrir/commands/commands/bookmark_1.py:30
+#: ../src/fenrir/commands/commands/bookmark_10.py:27
+#: ../src/fenrir/commands/commands/bookmark_10.py:30
+#: ../src/fenrir/commands/commands/bookmark_2.py:27
+#: ../src/fenrir/commands/commands/bookmark_2.py:30
+#: ../src/fenrir/commands/commands/bookmark_3.py:27
+#: ../src/fenrir/commands/commands/bookmark_3.py:30
+#: ../src/fenrir/commands/commands/bookmark_4.py:27
+#: ../src/fenrir/commands/commands/bookmark_4.py:30
+#: ../src/fenrir/commands/commands/bookmark_5.py:27
+#: ../src/fenrir/commands/commands/bookmark_5.py:30
+#: ../src/fenrir/commands/commands/bookmark_6.py:27
+#: ../src/fenrir/commands/commands/bookmark_6.py:30
+#: ../src/fenrir/commands/commands/bookmark_7.py:27
+#: ../src/fenrir/commands/commands/bookmark_7.py:30
+#: ../src/fenrir/commands/commands/bookmark_8.py:27
+#: ../src/fenrir/commands/commands/bookmark_8.py:30
+#: ../src/fenrir/commands/commands/bookmark_9.py:27
+#: ../src/fenrir/commands/commands/bookmark_9.py:30
+msgid "Bookmark for application {0} not set"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/bookmark_1.py:43
+#: ../src/fenrir/commands/commands/bookmark_10.py:43
+#: ../src/fenrir/commands/commands/bookmark_2.py:43
+#: ../src/fenrir/commands/commands/bookmark_3.py:43
+#: ../src/fenrir/commands/commands/bookmark_4.py:43
+#: ../src/fenrir/commands/commands/bookmark_5.py:43
+#: ../src/fenrir/commands/commands/bookmark_6.py:43
+#: ../src/fenrir/commands/commands/bookmark_7.py:43
+#: ../src/fenrir/commands/commands/bookmark_8.py:43
+#: ../src/fenrir/commands/commands/bookmark_9.py:43
+#: ../src/fenrir/commands/commands/curr_screen_after_cursor.py:27
+#: ../src/fenrir/commands/commands/curr_screen_before_cursor.py:30
+msgid "blank"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/braille_flush.py:17
+msgid "flush the braille device if a message is written on"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/braille_pan_left.py:17
+msgid "Move braille view to the left."
+msgstr ""
+
+#: ../src/fenrir/commands/commands/braille_pan_right.py:17
+msgid "Move braille view to the right."
+msgstr ""
+
+#: ../src/fenrir/commands/commands/braille_return_to_cursor.py:17
+msgid "Set the braille view back to cursor."
+msgstr ""
+
+#: ../src/fenrir/commands/commands/clear_bookmark_1.py:17
+#: ../src/fenrir/commands/commands/clear_bookmark_10.py:17
+#: ../src/fenrir/commands/commands/clear_bookmark_2.py:17
+#: ../src/fenrir/commands/commands/clear_bookmark_3.py:17
+#: ../src/fenrir/commands/commands/clear_bookmark_4.py:17
+#: ../src/fenrir/commands/commands/clear_bookmark_5.py:17
+#: ../src/fenrir/commands/commands/clear_bookmark_6.py:17
+#: ../src/fenrir/commands/commands/clear_bookmark_7.py:17
+#: ../src/fenrir/commands/commands/clear_bookmark_8.py:17
+#: ../src/fenrir/commands/commands/clear_bookmark_9.py:17
+msgid "remove Bookmark {0}"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/clear_bookmark_1.py:24
+#: ../src/fenrir/commands/commands/clear_bookmark_10.py:24
+#: ../src/fenrir/commands/commands/clear_bookmark_2.py:24
+#: ../src/fenrir/commands/commands/clear_bookmark_3.py:24
+#: ../src/fenrir/commands/commands/clear_bookmark_4.py:24
+#: ../src/fenrir/commands/commands/clear_bookmark_5.py:24
+#: ../src/fenrir/commands/commands/clear_bookmark_6.py:24
+#: ../src/fenrir/commands/commands/clear_bookmark_7.py:24
+#: ../src/fenrir/commands/commands/clear_bookmark_8.py:24
+#: ../src/fenrir/commands/commands/clear_bookmark_9.py:24
+msgid "Bookmark {0} removed for application {1}"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/clear_clipboard.py:17
+msgid "clears the currently selected clipboard"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/clear_clipboard.py:22
+msgid "clipboard cleared"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/clear_window_application.py:17
+msgid "Turn off window mode for application"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/clear_window_application.py:22
+msgid "Window Mode off for application {0}"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/clear_window_application.py:24
+msgid "Not in window Mode"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/copy_marked_to_clipboard.py:18
+msgid "copies marked text to the currently selected clipboard"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/copy_marked_to_clipboard.py:22
+msgid "one or two marks needed"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/curr_clipboard.py:17
+msgid "speaks the contents of the currently selected clipboard"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/curr_clipboard.py:21
+msgid "clipboard empty"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/curr_screen.py:17
+msgid "reads the contents of the current screen"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/curr_screen.py:21
+msgid "screen is empty"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/curr_screen_after_cursor.py:18
+msgid "reads from the cursor to the bottom of the screen"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/curr_screen_before_cursor.py:18
+msgid "Reads from the top of the screen to the cursor position"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/cursor_column.py:17
+msgid "presents the current column number for review cursor in review mode or the text cursor if not. Starts with 1"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/cursor_lineno.py:17
+msgid "presents the current line number for review cursor in review mode or the text cursor if not. Starts with 1"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_braille.py:17
+msgid "enables and disables output in braille"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_braille.py:21
+msgid "braille disabled"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_braille.py:24
+msgid "braille enabled"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_emoticons.py:16
+msgid "enables or disables announcement of emoticons instead of chars"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_emoticons.py:21
+msgid "emoticons enabled"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_emoticons.py:23
+msgid "emoticons disabled"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_highlight_tracking.py:16
+msgid "enables or disables tracking of highlighted"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_highlight_tracking.py:24
+msgid "highlight tracking"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_highlight_tracking.py:26
+msgid "cursor tracking"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_output.py:17
+msgid "toggles all output settings"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_output.py:23
+msgid "Fenrir muted"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_output.py:31
+msgid "Fenrir unmuted"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_punctuation_level.py:23
+msgid "No punctuation found."
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_sound.py:17
+msgid "enables or disables sound"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_sound.py:21
+msgid "sound disabled"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_sound.py:24
+msgid "sound enabled"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_speech.py:17
+msgid "enables or disables speech"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_speech.py:21
+msgid "speech disabled"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_speech.py:24
+msgid "speech enabled"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_tutorial_mode.py:18
+msgid "You are leaving the tutorial mode. Press that shortcut again to enter the tutorial mode again."
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_tutorial_mode.py:21
+msgid "you entered the tutorial mode. In that mode the commands are not executed. but you get a description of what the shortcut does. To leave the tutorial mode, press that shortcut again."
+msgstr ""
+

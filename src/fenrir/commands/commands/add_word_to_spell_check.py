@@ -24,14 +24,14 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'adds the current word to the exceptions dictionary'        
+        return _('adds the current word to the exceptions dictionary')        
     def updateSpellLanguage(self):  
         self.spellChecker = enchant.Dict(self.env['runtime']['settingsManager'].getSetting('general', 'spellCheckLanguage'))
         self.language = self.env['runtime']['settingsManager'].getSetting('general', 'spellCheckLanguage')      
     
     def run(self):
         if not initialized:
-           self.env['runtime']['outputManager'].presentText('pychant is not installed', interrupt=True) 
+           self.env['runtime']['outputManager'].presentText(_('pyenchant is not installed'), interrupt=True) 
            return
         if self.env['runtime']['settingsManager'].getSetting('general', 'spellCheckLanguage') != self.language:
             try:
@@ -46,10 +46,10 @@ class command():
 
         if currWord != '':
             if self.spellChecker.is_added(currWord):
-                self.env['runtime']['outputManager'].presentText(currWord + ' is already in dict',soundIcon='Cancel', interrupt=True)                
+                self.env['runtime']['outputManager'].presentText(_('{0} is already in dict').format(currWord,), soundIcon='Cancel', interrupt=True)                
             else:
                 self.spellChecker.add(currWord)             
-                self.env['runtime']['outputManager'].presentText(currWord + ' added',soundIcon='Accept', interrupt=True)               
+                self.env['runtime']['outputManager'].presentText(_('{0} added').format(currWord,), soundIcon='Accept', interrupt=True)               
 
     def setCallback(self, callback):
         pass

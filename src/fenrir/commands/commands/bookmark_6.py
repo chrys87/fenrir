@@ -16,18 +16,18 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'read Bookmark ' + self.ID
+        return _('read Bookmark {0}').format(self.ID,)
 
     def run(self):
         currApp = self.env['runtime']['applicationManager'].getCurrentApplication()
         if not self.env['commandBuffer']['bookMarks'][self.ID]:
-            self.env['runtime']['outputManager'].presentText("Bookmark " + self.ID + "not set", interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_('Bookmark {0} not set').format(self.ID,), interrupt=True)
             return
         if not self.env['commandBuffer']['bookMarks'][self.ID][currApp]:
-            self.env['runtime']['outputManager'].presentText("Bookmark for application " + currApp + " not set", interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_('Bookmark for application {0} not set').format(currApp,), interrupt=True)
             return
         if not self.env['commandBuffer']['bookMarks'][self.ID][currApp]['1']:
-            self.env['runtime']['outputManager'].presentText("Bookmark for application " + currApp + " not set", interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_('Bookmark for application {0} not set').format(currApp,), interrupt=True)
             return
 
         # set marks
@@ -40,7 +40,7 @@ class command():
             x, y, marked = \
               line_utils.getCurrentLine(startMark['x'], startMark['y'], self.env['screenData']['newContentText'])
         if marked.isspace():
-            self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_('blank'), soundIcon='EmptyLine', interrupt=True)
         else:
             self.env['runtime']['outputManager'].presentText(marked, interrupt=True)
 

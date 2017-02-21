@@ -14,14 +14,14 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'remove Bookmark ' + self.ID        
+        return _('remove Bookmark {0}').format(self.ID,)        
     
     def run(self):
         currApp = self.env['runtime']['applicationManager'].getCurrentApplication()
-        
+
         del self.env['commandBuffer']['bookMarks'][self.ID][currApp]
 
-        self.env['runtime']['outputManager'].presentText('Bookmark ' + self.ID + " removed for application " + currApp, interrupt=True)
+        self.env['runtime']['outputManager'].presentText(_('Bookmark {0} removed for application {1}').format(self.ID, currApp), interrupt=True)
 
     def setCallback(self, callback):
         pass
