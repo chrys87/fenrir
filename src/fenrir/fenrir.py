@@ -57,14 +57,13 @@ class fenrir():
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onApplicationChange')
             self.environment['runtime']['commandManager'].executeSwitchTrigger('onSwitchApplicationProfile', \
               self.environment['runtime']['applicationManager'].getPrevApplication(), \
-              self.environment['runtime']['applicationManager'].getCurrentApplication())  
-            self.environment['runtime']['screenManager'].updateAutoIgnoreScreens()          
+              self.environment['runtime']['applicationManager'].getCurrentApplication())          
         
         if self.environment['runtime']['screenManager'].isScreenChange():    
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenChanged')             
         else:
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenUpdate')         
-        self.environment['runtime']['outputManager'].brailleText(flush=False)    
+        #self.environment['runtime']['outputManager'].brailleText(flush=False)    
         self.handleCommands()
         #print(time.time()-startTime)       
 

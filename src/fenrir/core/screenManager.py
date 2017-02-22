@@ -9,22 +9,22 @@ import time
 
 class screenManager():
     def __init__(self):
-        self.autoIgnoreScreens = []
-
+        pass
     def initialize(self, environment):
         self.env = environment
         self.env['runtime']['settingsManager'].loadDriver(\
           self.env['runtime']['settingsManager'].getSetting('screen', 'driver'), 'screenDriver')    
-        self.updateAutoIgnoreScreens()
+        self.env['runtime']['screenDriver'].getCurrScreen()
+        self.env['runtime']['screenDriver'].getSessionInformation()
         
     def shutdown(self):
         self.env['runtime']['settingsManager'].shutdownDriver('screenDriver')
 
     def update(self, trigger='onUpdate'):
         self.env['runtime']['screenDriver'].getCurrScreen()
+        self.env['runtime']['screenDriver'].getSessionInformation()
         self.env['screenData']['oldApplication'] = self.env['screenData']['newApplication']            
-        if self.isScreenChange():
-            self.updateAutoIgnoreScreens()                   
+        if self.isScreenChange():                 
             self.changeBrailleScreen()                                          
         if not self.isSuspendingScreen(self.env['screenData']['newTTY']):       
             self.env['runtime']['screenDriver'].update(trigger)
@@ -36,12 +36,14 @@ class screenManager():
     def isSuspendingScreen(self, screen = None):
         if screen == None:
             screen = self.env['screenData']['newTTY']
-        return ((screen in \
-          self.env['runtime']['settingsManager'].getSetting('screen', 'suspendingScreen').split(',')) or
-          (screen in self.autoIgnoreScreens))
-    def updateAutoIgnoreScreens(self):
+        ignoreScreens = []
+        fixIgnoreScreens = self.env['runtime']['settingsManager'].getSetting('screen', 'suspendingScreen')
+        if fixIgnoreScreens != '':
+            ignoreScreens.append(fixIgnoreScreens.split(',')) 
         if self.env['runtime']['settingsManager'].getSettingAsBool('screen', 'autodetectSuspendingScreen'):
-            self.autoIgnoreScreens = self.env['runtime']['screenDriver'].getIgnoreScreens()
+            ignoreScreens.append(self.env['screenData']['autoIgnoreScreens'])        
+        return (screen in ignoreScreens)
+ 
     def isScreenChange(self):
         if not self.env['screenData']['oldTTY']:
             return False

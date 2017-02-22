@@ -32,5 +32,6 @@ screenData = {
 'newContentAttrib': b'',
 'newTTY':'0',
 'newApplication': '',
-'lastScreenUpdate': time.time()
+'lastScreenUpdate': time.time(),
+'autoIgnoreScreens':[],
 }
