@@ -9,7 +9,7 @@ This software is licensed under the LGPL v3 .
 -	python-configargparse
 - screen, input, speech, sound or braille drivers see "Features, Drivers, Extras".
 
-# Features, Drivers, Extras
+# Features, Drivers, Extras, Dependencys
 # Input Drivers:
 1. "evdevDriver" input driver for linux evdev
   - python-evdev >=0.6.3
@@ -21,10 +21,10 @@ This software is licensed under the LGPL v3 .
 # Screen Drivers:
 1. "vcsaDriver" screen driver for linux VCSA devices
   - python-dbus
-  - Read permission to the following files:
+  - Read permission to the following files and services:
     - /sys/devices/virtual/tty/tty0/active
     - /dev/vcsa[1-64]
-    - systemd DBUS
+    - read systemd DBUS
 
 # Speech Drivers:
 1. "espeakDriver" speech driver for espeak:
@@ -35,10 +35,10 @@ This software is licensed under the LGPL v3 .
 2. "dummyDriver" speech driver for debugging
 
 # Braille Drivers:
-- "brlttyDriver" braille driver (WIP):
+1. "brlttyDriver" braille driver (WIP):
   - brltty (configured and running)
   - python-brlapi
-- "dummyDriver" braille driver for debugging
+2. "dummyDriver" braille driver for debugging
 
 # Sound Drivers:
 1. "genericDriver" sound driver for sound as subprocess:
@@ -49,10 +49,10 @@ This software is licensed under the LGPL v3 .
 3. "dummyDriver" sound driver for debugging
 
 # Extra:
-- spellchecker
+1. spellchecker
   - python-pyenchant
   - aspell-YourLanguageCode (example aspell-en for us english)
-- unix daemon:
+2. unix daemon (also needed for systemd):
   - python-daemonize
 
 # installation
