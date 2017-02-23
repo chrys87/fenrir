@@ -15,11 +15,23 @@ class commandManager():
     def initialize(self, environment):
         self.env = environment
         self.env['runtime']['commandManager'].loadCommands('commands')
+        self.env['runtime']['commandManager'].loadCommands('commands',
+          self.env['runtime']['settingsManager'].getSetting('general', 'commandPath'))        
         self.env['runtime']['commandManager'].loadCommands('onInput')
-        self.env['runtime']['commandManager'].loadCommands('onScreenUpdate')         
+        self.env['runtime']['commandManager'].loadCommands('onInput',
+          self.env['runtime']['settingsManager'].getSetting('general', 'commandPath'))              
+        self.env['runtime']['commandManager'].loadCommands('onScreenUpdate')  
+        self.env['runtime']['commandManager'].loadCommands('onScreenUpdate',
+          self.env['runtime']['settingsManager'].getSetting('general', 'commandPath'))              
         self.env['runtime']['commandManager'].loadCommands('onScreenChanged')
+        self.env['runtime']['commandManager'].loadCommands('onScreenChanged',
+          self.env['runtime']['settingsManager'].getSetting('general', 'commandPath'))           
         self.env['runtime']['commandManager'].loadCommands('onApplicationChange')
-        self.env['runtime']['commandManager'].loadCommands('onSwitchApplicationProfile')        
+        self.env['runtime']['commandManager'].loadCommands('onApplicationChange',
+          self.env['runtime']['settingsManager'].getSetting('general', 'commandPath'))           
+        self.env['runtime']['commandManager'].loadCommands('onSwitchApplicationProfile')  
+        self.env['runtime']['commandManager'].loadCommands('onSwitchApplicationProfile',
+          self.env['runtime']['settingsManager'].getSetting('general', 'commandPath'))           
         self.env['runtime']['commandManager'].loadScriptCommands()
     def shutdown(self):
         self.env['runtime']['commandManager'].shutdownCommands('commands')
@@ -29,8 +41,12 @@ class commandManager():
         self.env['runtime']['commandManager'].shutdownCommands('onApplicationChange') 
         self.env['runtime']['commandManager'].shutdownCommands('onSwitchApplicationProfile') 
         
-    def loadCommands(self, section='commands'):
-        commandFolder = os.path.dirname(os.path.realpath(__main__.__file__)) + "/commands/" + section +"/"
+    def loadCommands(self, section='commands',commandPath=''):
+        if commandPath =='':
+            commandPath = os.path.dirname(os.path.realpath(__main__.__file__))
+        if not commandPath.endswith('/'):
+            commandPath += '/'        
+        commandFolder = commandPath + "/commands/" + section +"/"
         commandList = glob.glob(commandFolder+'*')
         for command in commandList:
             try:
@@ -50,8 +66,9 @@ class commandManager():
                 self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)                
                 continue
     
-    def loadScriptCommands(self, section='commands'):
-        scriptPath = self.env['runtime']['settingsManager'].getSetting('general', 'scriptPath')
+    def loadScriptCommands(self, section='commands', scriptPath=''):
+        if scriptPath =='':
+            scriptPath = self.env['runtime']['settingsManager'].getSetting('general', 'scriptPath')
         if not scriptPath.endswith('/'):
             scriptPath += '/'
         if not os.path.exists(scriptPath) or scriptPath == '/':
