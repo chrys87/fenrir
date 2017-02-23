@@ -7,6 +7,8 @@ Known Bugs (Problems with the logic ):
 Glitches (improve diff results):
 - For example, in screen, it just tells me bell in window, but doesn't tell me which one. (southernprince)
 - alpine seems to have problems (southernprince)
+- whole status line in irssi is spoken insteed of just the changes
+- whole status line in vim is spoken insteed of just the changes
 
 Questions:
 - what is the correct codepage for cyrillic
