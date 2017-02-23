@@ -14,24 +14,31 @@ class commandManager():
         pass
     def initialize(self, environment):
         self.env = environment
-        self.env['runtime']['commandManager'].loadCommands('commands')
+        # commands
         self.env['runtime']['commandManager'].loadCommands('commands',
           self.env['runtime']['settingsManager'].getSetting('general', 'commandPath'))        
-        self.env['runtime']['commandManager'].loadCommands('onInput')
+        self.env['runtime']['commandManager'].loadCommands('commands')
+        # onInput
         self.env['runtime']['commandManager'].loadCommands('onInput',
           self.env['runtime']['settingsManager'].getSetting('general', 'commandPath'))              
-        self.env['runtime']['commandManager'].loadCommands('onScreenUpdate')  
+        self.env['runtime']['commandManager'].loadCommands('onInput')
+        # onScreenUpdate
         self.env['runtime']['commandManager'].loadCommands('onScreenUpdate',
-          self.env['runtime']['settingsManager'].getSetting('general', 'commandPath'))              
-        self.env['runtime']['commandManager'].loadCommands('onScreenChanged')
+          self.env['runtime']['settingsManager'].getSetting('general', 'commandPath'))
+        self.env['runtime']['commandManager'].loadCommands('onScreenUpdate')  
+        # onScreenChanged
         self.env['runtime']['commandManager'].loadCommands('onScreenChanged',
           self.env['runtime']['settingsManager'].getSetting('general', 'commandPath'))           
-        self.env['runtime']['commandManager'].loadCommands('onApplicationChange')
+        self.env['runtime']['commandManager'].loadCommands('onScreenChanged')
+        # onApplicationChange
         self.env['runtime']['commandManager'].loadCommands('onApplicationChange',
-          self.env['runtime']['settingsManager'].getSetting('general', 'commandPath'))           
-        self.env['runtime']['commandManager'].loadCommands('onSwitchApplicationProfile')  
+          self.env['runtime']['settingsManager'].getSetting('general', 'commandPath'))            
+        self.env['runtime']['commandManager'].loadCommands('onApplicationChange')
+        # onSwitchApplicationProfile
         self.env['runtime']['commandManager'].loadCommands('onSwitchApplicationProfile',
-          self.env['runtime']['settingsManager'].getSetting('general', 'commandPath'))           
+          self.env['runtime']['settingsManager'].getSetting('general', 'commandPath'))               
+        self.env['runtime']['commandManager'].loadCommands('onSwitchApplicationProfile')  
+        # scripts for scriptKey
         self.env['runtime']['commandManager'].loadScriptCommands()
     def shutdown(self):
         self.env['runtime']['commandManager'].shutdownCommands('commands')
@@ -62,6 +69,8 @@ class commandManager():
                 fileName, fileExtension = os.path.splitext(command)
                 fileName = fileName.split('/')[-1]
                 if fileName.startswith('__'):
+                    continue
+                if self.env['commands'][section][fileName.upper()]:
                     continue
                 if fileExtension.lower() == '.py':
                     command_mod = module_utils.importModule(fileName, command)
@@ -100,6 +109,8 @@ class commandManager():
                 fileName, fileExtension = os.path.splitext(command)
                 fileName = fileName.split('/')[-1]
                 if fileName.startswith('__'):
+                    continue
+                if self.env['commands'][section][fileName.upper()]:
                     continue
                 command_mod = module_utils.importModule(fileName ,subCommand)
                 self.env['commands'][section][fileName.upper()] = command_mod.command()
