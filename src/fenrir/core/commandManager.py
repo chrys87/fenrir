@@ -46,7 +46,16 @@ class commandManager():
             commandPath = os.path.dirname(os.path.realpath(__main__.__file__))
         if not commandPath.endswith('/'):
             commandPath += '/'        
-        commandFolder = commandPath + "/commands/" + section +"/"
+        commandFolder = commandPath + "commands/" + section +"/"
+        if not os.path.exists(commandFolder):
+            self.env['runtime']['debug'].writeDebugOut("commandFolder not exists:" + commandFolder ,debug.debugLevel.ERROR)                   
+            return   
+        if not os.path.isdir(commandFolder):
+            self.env['runtime']['debug'].writeDebugOut("commandFolder not a directory:" + commandFolder ,debug.debugLevel.ERROR)                                    
+            return      
+        if not os.access(commandFolder, os.R_OK):
+            self.env['runtime']['debug'].writeDebugOut("commandFolder not readable:" + commandFolder ,debug.debugLevel.ERROR)                                    
+            return           
         commandList = glob.glob(commandFolder+'*')
         for command in commandList:
             try:
@@ -71,7 +80,7 @@ class commandManager():
             scriptPath = self.env['runtime']['settingsManager'].getSetting('general', 'scriptPath')
         if not scriptPath.endswith('/'):
             scriptPath += '/'
-        if not os.path.exists(scriptPath) or scriptPath == '/':
+        if not os.path.exists(scriptPath):
             if os.path.exists(os.path.dirname(os.path.realpath(__main__.__file__)) +'/../../config/scripts/'):
                 scriptPath = os.path.dirname(os.path.realpath(__main__.__file__)) +'/../../config/scripts/'            
             else:
