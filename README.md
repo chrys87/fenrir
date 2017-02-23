@@ -11,7 +11,7 @@ This software is licensed under the LGPL v3 .
 
 # Features, Drivers, Extras
 # Input Drivers:
-- "evdevDriver" input driver for linux evdev
+1. "evdevDriver" input driver for linux evdev
   - python-evdev >=0.6.3
   - loaded uinput kernel module
   - ReadWrite permission 
@@ -19,18 +19,20 @@ This software is licensed under the LGPL v3 .
     - /dev/uinput
 
 # Screen Drivers:
-- "vcsaDriver" screen driver for linux VCSA devices
+1. "vcsaDriver" screen driver for linux VCSA devices
+  - python-dbus
   - Read permission to the following files:
     - /sys/devices/virtual/tty/tty0/active
     - /dev/vcsa[1-64]
+    - systemd DBUS
 
 # Speech Drivers:
-- "espeakDriver" speech driver for espeak:
+1. "espeakDriver" speech driver for espeak:
   - python-espeak
 - "speechdDriver" speech driver for speech-dispatcher:
   - speech-dispatcher
   - python-speechd
-- "dummyDriver" speech driver for debugging
+2. "dummyDriver" speech driver for debugging
 
 # Braille Drivers:
 - "brlttyDriver" braille driver (WIP):
@@ -39,12 +41,12 @@ This software is licensed under the LGPL v3 .
 - "dummyDriver" braille driver for debugging
 
 # Sound Drivers:
-- "genericDriver" sound driver for sound as subprocess:
+1. "genericDriver" sound driver for sound as subprocess:
   - sox
-- "gstreamerDriver" sound driver for gstreamer
+2. "gstreamerDriver" sound driver for gstreamer
   - gstreamer >=1.0
   - GLib
-- "dummyDriver" sound driver for debugging
+3. "dummyDriver" sound driver for debugging
 
 # Extra:
 - spellchecker
