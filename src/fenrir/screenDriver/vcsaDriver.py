@@ -65,8 +65,6 @@ class driver():
         return
 
     def getSessionInformation(self):
-        sta = time.time()
-        
         progname = 'org.freedesktop.login1'
         objpath  = '/org/freedesktop/login1'
         intfname = 'org.freedesktop.login1.Manager'
