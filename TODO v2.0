@@ -54,7 +54,6 @@ Settings:
 
 Application Profiles
 - reimplement process detection without subprocessing
-- reuse new process detection code for X11 detection
 - fenrir is not able to detect the current application inside of screen.
     ps -e  -H -o pid,pgrp,ppid,tty,cmd
     http://stackoverflow.com/questions/24861351/how-to-detect-if-python-script-is-being-run-as-a-background-process/24862213
@@ -68,6 +67,7 @@ Application Profiles
 
 -----------DONE----------------
 - Add nice dummy drivers as template or for debugging
+- reimplement detection code for X11
 
 Braille Support:
   initial BrlTTY driver
