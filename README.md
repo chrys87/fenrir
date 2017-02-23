@@ -60,7 +60,8 @@ This software is licensed under the LGPL v3 .
 - Manual: run install.sh and uninstall.sh as root
 - you also can just run it from Git without installing:
 You can just run the following as root:
-cd src/fenrir-package/
+if you are in Fenrir Git rootfolder:
+cd src/fenrir/
 sudo ./fenrir
 Settings "settings.conf" is located in the "config" directory or after installation in /etc/fenrir/settings.
 Take care that the used drivers in the config matching your installed drivers. 
