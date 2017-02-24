@@ -90,7 +90,7 @@ autoSpellCheck=True
 spellCheckLanguage=en_US
 scriptPath=/usr/share/fenrir/scripts
 # overload commands, and create new one without changing Fenrir default
-commandPath=/usr/share/fenrir/command
+commandPath=/usr/share/fenrir/commands
 
 [focus]
 #follow the text cursor

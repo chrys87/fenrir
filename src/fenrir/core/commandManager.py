@@ -50,12 +50,12 @@ class commandManager():
         
     def loadCommands(self, section='commands',commandPath=''):
         if commandPath =='':
-            commandPath = os.path.dirname(os.path.realpath(__main__.__file__))
+            commandPath = os.path.dirname(os.path.realpath(__main__.__file__))+ "/commands/"
         if not commandPath.endswith('/'):
             commandPath += '/'        
-        commandFolder = commandPath + "commands/" + section +"/"
+        commandFolder = commandPath + section +"/"
         if not os.path.exists(commandFolder):
-            self.env['runtime']['debug'].writeDebugOut("commandFolder not exists:" + commandFolder ,debug.debugLevel.ERROR)                   
+            self.env['runtime']['debug'].writeDebugOut("commandFolder not exists:" + commandFolder ,debug.debugLevel.WARNING)                   
             return   
         if not os.path.isdir(commandFolder):
             self.env['runtime']['debug'].writeDebugOut("commandFolder not a directory:" + commandFolder ,debug.debugLevel.ERROR)                                    
@@ -63,6 +63,7 @@ class commandManager():
         if not os.access(commandFolder, os.R_OK):
             self.env['runtime']['debug'].writeDebugOut("commandFolder not readable:" + commandFolder ,debug.debugLevel.ERROR)                                    
             return           
+        print(commandFolder)
         commandList = glob.glob(commandFolder+'*')
         for command in commandList:
             try:
@@ -70,8 +71,11 @@ class commandManager():
                 fileName = fileName.split('/')[-1]
                 if fileName.startswith('__'):
                     continue
-                if self.env['commands'][section][fileName.upper()]:
-                    continue
+                try:
+                    if self.env['commands'][section][fileName.upper()] != None:
+                        continue
+                except:
+                    pass
                 if fileExtension.lower() == '.py':
                     command_mod = module_utils.importModule(fileName, command)
                     self.env['commands'][section][fileName.upper()] = command_mod.command()
@@ -79,7 +83,7 @@ class commandManager():
                     self.env['commands'][section][fileName.upper()].initialize(self.env)
                     self.env['runtime']['debug'].writeDebugOut("Load command:" + section + "." + fileName.upper() ,debug.debugLevel.INFO, onAnyLevel=True)                    
             except Exception as e:
-                print(e)
+                print(command+str(e))
                 self.env['runtime']['debug'].writeDebugOut("Loading command:" + command ,debug.debugLevel.ERROR)
                 self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)                
                 continue

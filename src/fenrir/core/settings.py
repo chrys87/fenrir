@@ -60,7 +60,7 @@ settings = {
   'autoSpellCheck': False,
   'spellCheckLanguage': 'en_US',
   'scriptPath':'/usr/share/fenrir/scripts',
-  'commandPath':'/usr/share/fenrir/command',
+  'commandPath':'/usr/share/fenrir/commands',
 },
 'focus':{
   'cursor': True,

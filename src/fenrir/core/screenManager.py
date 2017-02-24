@@ -41,7 +41,7 @@ class screenManager():
         if fixIgnoreScreens != '':
             ignoreScreens.append(fixIgnoreScreens.split(',')) 
         if self.env['runtime']['settingsManager'].getSettingAsBool('screen', 'autodetectSuspendingScreen'):
-            ignoreScreens.append(self.env['screenData']['autoIgnoreScreens'])        
+            ignoreScreens.extend(self.env['screenData']['autoIgnoreScreens'])        
         return (screen in ignoreScreens)
  
     def isScreenChange(self):
