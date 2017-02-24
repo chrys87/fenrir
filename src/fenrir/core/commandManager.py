@@ -63,7 +63,7 @@ class commandManager():
         if not os.access(commandFolder, os.R_OK):
             self.env['runtime']['debug'].writeDebugOut("commandFolder not readable:" + commandFolder ,debug.debugLevel.ERROR)                                    
             return           
-        print(commandFolder)
+
         commandList = glob.glob(commandFolder+'*')
         for command in commandList:
             try:
