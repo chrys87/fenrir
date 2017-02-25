@@ -10,6 +10,7 @@ import subprocess
 import fcntl
 import termios
 import time
+import dbus
 from core import debug
 from utils import screen_utils
 
@@ -63,19 +64,28 @@ class driver():
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)    
         return
 
-    def getIgnoreScreens(self):
-        xlist = []
-        try:
-            x = subprocess.Popen('ps a -o tty,comm | grep Xorg', shell=True, stdout=subprocess.PIPE).stdout.read().decode()[:-1].split('\n')
-        except Exception as e:
-            return xlist
-        for i in x:
-            if not "grep" in i and \
-              not "ps" in i:                
-                if (i[:3].lower() == 'tty'):
-                    xlist.append(i[3])
-        return xlist
+    def getSessionInformation(self):
+        progname = 'org.freedesktop.login1'
+        objpath  = '/org/freedesktop/login1'
+        intfname = 'org.freedesktop.login1.Manager'
+        methname = 'ListSessions'
 
+        bus = dbus.SystemBus()
+
+        obj  = bus.get_object(progname, objpath)
+        inf = dbus.Interface(obj, intfname)
+        meth = inf.get_dbus_method(methname)
+
+        sessions = meth()
+        self.env['screenData']['autoIgnoreScreens'] = []
+        for session in sessions:
+            obj = bus.get_object(progname, session[4])
+            inf = dbus.Interface(obj, 'org.freedesktop.DBus.Properties')
+            sessionType = inf.Get('org.freedesktop.login1.Session', 'Type')
+            screen = str(inf.Get('org.freedesktop.login1.Session', 'TTY'))
+            screen = screen[screen.upper().find('TTY') + 3:]
+            if sessionType.upper() == 'X11':
+                self.env['screenData']['autoIgnoreScreens'].append(screen)
 
     def update(self, trigger='onUpdate'):
         newContentBytes = b''       
