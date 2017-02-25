@@ -24,8 +24,10 @@ class command():
             return     
         if self.env['runtime']['screenManager'].isScreenChange():
             return
-        if self.env['runtime']['screenManager'].isDelta():
-            return    
+        # this leads to problems in vim -> status line change -> no announcement
+        #if self.env['runtime']['screenManager'].isDelta():
+        #    return
+            
         # is a vertical change?
         if not self.env['runtime']['cursorManager'].isCursorVerticalMove():
             return   
