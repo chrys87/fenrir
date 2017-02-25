@@ -1,19 +1,37 @@
 #!/bin/python
 import os
+import time
+start = time.time()
 pids = [pid for pid in os.listdir('/proc') if pid.isdigit()]
+#pids = ['5960']
 
+tty = os.open('/dev/tty2', os.O_RDWR)
+fg = str(os.tcgetpgrp(tty))
+tty.close()
+print(fg)
 for pid in pids:
     try:
-        currStat = open(os.path.join('/proc', pid, 'stat'), 'rb').read()
-        currStat = currStat.split()
-        if b'agetty' in currStat[1]:
-            print( currStat )
-            print(currStat[0])
-            os.major(int(currStat[6]))
-            os.minor(int(currStat[6]))
+        currStat = str(open('/proc/' + pid + '/stat', 'rb').read())
+        currStat = currStat.split(' ')      
+        if int(currStat[4]) == 0:
+            continue
+        #print(currStat)
+        #print(fg,int(currStat[4]))
+        if fg == currStat[4]:
+            print(currStat[1])
+            #print( currStat )
+            #print(currStat[0])
+            major = os.major(int(currStat[6]))
+            minor = os.minor(int(currStat[6]))
+            ueventContent = open('/sys/dev/char/' + str(major) + ':' + str(minor) + '/uevent','r').read().split()
+            #print(ueventContent)
+            #print(int(currStat[4]),currStat[1])              
     except IOError: # proc has already terminated
         continue        
-        
+
+print(time.time()-start)      
+  
+
 '''
 Table 1-4: Contents of the stat files (as of 2.6.30-rc7)
 ..............................................................................
