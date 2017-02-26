@@ -215,7 +215,15 @@ class driver():
         try:
             self.uDevices[fd].close()
         except:
-            pass    
+            pass 
+        try:
+            del(self.iDevices[fd])
+        except:
+            pass
+        try:
+            del(self.uDevices[fd])
+        except:
+            pass                 
     def hasIDevices(self):
         if not self._initialized:
             return False
@@ -228,7 +236,8 @@ class driver():
     def releaseDevices(self):
         if not self.hasIDevices():
             return
-        for fd in self.iDevices:
+        devices = self.iDevices.copy()
+        for fd in devices:
             self.removeDevice(fd)
         self.iDevices.clear()
         self.uDevices.clear()
