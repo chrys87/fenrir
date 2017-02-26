@@ -13,4 +13,6 @@ generalInformation = {
 'prevUser':'',
 'managerList':['inputManager','screenManager','commandManager','outputManager'
   ,'punctuationManager','cursorManager','applicationManager','debug'],
+'commandFolderList':['commands','onInput','onScreenUpdate','onScreenChanged'
+  ,'onApplicationChange','onSwitchApplicationProfile',],
 }
