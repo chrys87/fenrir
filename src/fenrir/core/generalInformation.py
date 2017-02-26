@@ -11,8 +11,8 @@ generalInformation = {
 'tutorialMode': False,
 'currUser':'',
 'prevUser':'',
-'managerList':['inputManager','screenManager','commandManager','outputManager'
-  ,'punctuationManager','cursorManager','applicationManager','debug'],
+'managerList':['punctuationManager','cursorManager','applicationManager','commandManager'
+  ,'screenManager','inputManager','outputManager','debug'],
 'commandFolderList':['commands','onInput','onScreenUpdate','onScreenChanged'
   ,'onApplicationChange','onSwitchApplicationProfile',],
 }
