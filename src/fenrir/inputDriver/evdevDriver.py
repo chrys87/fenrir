@@ -50,7 +50,12 @@ class driver():
         r, w, x = select(self.iDevices, [], [], self.env['runtime']['settingsManager'].getSettingAsFloat('screen', 'screenUpdateDelay'))
         if r != []:
             for fd in r:
-                event = self.iDevices[fd].read_one()            
+                try:
+                    event = self.iDevices[fd].read_one()            
+                except:
+                    #print('jow')
+                    del(self.iDevices[fd])
+                    return None
                 foreward = False
                 while(event):
                     self.env['input']['eventBuffer'].append( [self.iDevices[fd], self.uDevices[fd], event])
