@@ -22,7 +22,6 @@ class driver():
     def __init__(self):
         self.iDevices = {}
         self.uDevices = {}
-        self.ledDevices = {} 
         self._initialized = False        
 
     def initialize(self, environment):
@@ -38,7 +37,6 @@ class driver():
     def shutdown(self):
         if not self._initialized:
             return       
-        self.releaseDevices()
     def getInputEvent(self):
 
         if not self.hasIDevices():
@@ -111,21 +109,17 @@ class driver():
             except Exception as e:
                 self.env['runtime']['debug'].writeDebugOut("Skip Inputdevice : " + dev +' ' + str(e),debug.debugLevel.ERROR)                     
         self.iDevices = map(evdev.InputDevice, (readableDevices))
-        self.ledDevices = map(evdev.InputDevice, (readableDevices))          
+
         # 3 pos absolute
         # 2 pos relative
-        # 17 LEDs
         # 1 Keys
         # we try to filter out mices and other stuff here        
         if self.env['runtime']['settingsManager'].getSetting('keyboard', 'device').upper() == 'ALL':
             self.iDevices = {dev.fd: dev for dev in self.iDevices if 1 in dev.capabilities()}
-            self.ledDevices = {dev.fd: dev for dev in self.ledDevices if 1 in dev.capabilities() and 17 in dev.capabilities()}     
         elif self.env['runtime']['settingsManager'].getSetting('keyboard', 'device').upper() == 'NOMICE':       
             self.iDevices = {dev.fd: dev for dev in self.iDevices if 1 in dev.capabilities() and not 3 in dev.capabilities() and not 2 in dev.capabilities()}
-            self.ledDevices = {dev.fd: dev for dev in self.ledDevices if 1 in dev.capabilities() and 17 in dev.capabilities() and not 3 in dev.capabilities() and not 2 in dev.capabilities()}
         else:             
             self.iDevices = {dev.fd: dev for dev in self.iDevices if dev.name.upper() in self.env['runtime']['settingsManager'].getSetting('keyboard', 'device').upper().split(',')}
-            self.ledDevices = {dev.fd: dev for dev in self.ledDevices if dev.name.upper() in self.env['runtime']['settingsManager'].getSetting('keyboard', 'device').upper().split(',')}        
             
     def mapEvent(self, event):
         if not self._initialized:
@@ -144,27 +138,26 @@ class driver():
             return None
        
     def getLedState(self, led = 0):
-        if not self._initialized:
+        if not self.hasIDevices():
             return False    
         # 0 = Numlock
         # 1 = Capslock
         # 2 = Rollen
-        if self.ledDevices == None:
-            return False
-        if self.ledDevices == {}:
-            return False                   
-        for fd, dev in self.ledDevices.items():
-            return led in dev.leds()
+        for fd, dev in self.iDevices.items():
+            if led in dev.leds():
+                return True
         return False          
     def toggleLedState(self, led = 0):
-        if not self._initialized:
-            return None    
+        if not self.hasIDevices():
+            return False    
         ledState = self.getLedState(led)
-        for i in self.ledDevices:
-            if ledState == 1:
-                self.ledDevices[i].set_led(led , 0)
-            else:
-                self.ledDevices[i].set_led(led , 1)
+        for i in self.iDevices:
+            # 17 LEDs
+            if 17 in self.iDevices[i].capabilities():            
+                if ledState == 1:
+                    self.iDevices[i].set_led(led , 0)
+                else:
+                    self.iDevices[i].set_led(led , 1)
     def grabDevices(self):
         if not self._initialized:
             return
@@ -245,6 +238,5 @@ class driver():
     def __del__(self):
         if not self._initialized:
             return      
-        self.shutdown()
 
 
