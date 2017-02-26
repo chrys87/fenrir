@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-02-20 10:45+UTC\n"
-"PO-Revision-Date: 2017-02-20 04:52-0600\n"
+"POT-Creation-Date: 2017-02-26 20:20+UTC\n"
+"PO-Revision-Date: 2017-02-26 14:24-0600\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -137,7 +137,7 @@ msgstr "Eliminar marcador {0}"
 #: ../src/fenrir/commands/commands/clear_bookmark_8.py:24
 #: ../src/fenrir/commands/commands/clear_bookmark_9.py:24
 msgid "Bookmark {0} removed for application {1}"
-msgstr ""
+msgstr "el marcador {0} de la aplicación {1} ha sido eliminado"
 
 #: ../src/fenrir/commands/commands/clear_clipboard.py:17
 msgid "clears the currently selected clipboard"
@@ -153,7 +153,7 @@ msgstr "Desactiva el modo de ventana para la aplicación"
 
 #: ../src/fenrir/commands/commands/clear_window_application.py:22
 msgid "Window Mode off for application {0}"
-msgstr ""
+msgstr "El modo de ventana está desactivado para la aplicación {0}"
 
 #: ../src/fenrir/commands/commands/clear_window_application.py:24
 msgid "Not in window Mode"
@@ -196,12 +196,16 @@ msgid ""
 "presents the current column number for review cursor in review mode or the "
 "text cursor if not. Starts with 1"
 msgstr ""
+"Indica el número de columna actual para el cursor de revisión si se está en "
+"el modo de revisión, o el cursor de texto si no."
 
 #: ../src/fenrir/commands/commands/cursor_lineno.py:17
 msgid ""
 "presents the current line number for review cursor in review mode or the "
 "text cursor if not. Starts with 1"
 msgstr ""
+"Indica el número de línea actual para el cursor de revisión si se está en el "
+"modo de revisión, o el cursor de texto si no."
 
 #: ../src/fenrir/commands/commands/toggle_braille.py:17
 msgid "enables and disables output in braille"
