@@ -14,7 +14,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'disables speech until next keypress' 
+        return _('disables speech until next keypress') 
     
     def run(self):
         if self.env['runtime']['inputManager'].noKeyPressed():
@@ -25,7 +25,7 @@ class command():
             return
         self.env['runtime']['settingsManager'].setSetting('speech', 'enabled', str(self.env['commandBuffer']['enableSpeechOnKeypress']))
         self.env['commandBuffer']['enableSpeechOnKeypress'] = False
-        self.env['runtime']['outputManager'].presentText("speech enabled", soundIcon='SpeechOn', interrupt=True)        
+        self.env['runtime']['outputManager'].presentText(_("speech enabled"), soundIcon='SpeechOn', interrupt=True)        
                
     def setCallback(self, callback):
         pass
