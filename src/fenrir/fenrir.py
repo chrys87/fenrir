@@ -21,7 +21,7 @@ class fenrir():
                 raise RuntimeError('Cannot Initialize. Maybe the configfile is not available or not parseable')
         except RuntimeError:
             raise
-        self.environment['runtime']['outputManager'].presentText("Start Fenrir", soundIcon='ScreenReaderOn', interrupt=True)          
+        self.environment['runtime']['outputManager'].presentText(_("Start Fenrir"), soundIcon='ScreenReaderOn', interrupt=True)          
         signal.signal(signal.SIGINT, self.captureSignal)
         signal.signal(signal.SIGTERM, self.captureSignal)
         self.wasCommand = False
@@ -96,7 +96,7 @@ class fenrir():
         self.shutdownRequest()
 
     def shutdown(self):
-        self.environment['runtime']['outputManager'].presentText("Quit Fenrir", soundIcon='ScreenReaderOff', interrupt=True)       
+        self.environment['runtime']['outputManager'].presentText(_("Quit Fenrir"), soundIcon='ScreenReaderOff', interrupt=True)       
         for currManager in self.environment['generalInformation']['managerList']:
             if self.environment['runtime'][currManager]:
                 self.environment['runtime'][currManager].shutdown()                      
