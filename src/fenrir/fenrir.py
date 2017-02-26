@@ -35,8 +35,8 @@ class fenrir():
         self.shutdown()
 
     def handleProcess(self):
-        #startTime = time.time()      
         eventReceived = self.environment['runtime']['inputManager'].getInputEvent()
+        startTime = time.time()              
         if eventReceived:
             self.prepareCommand()
             if not (self.wasCommand  or self.environment['generalInformation']['tutorialMode']) or  self.environment['runtime']['screenManager'].isSuspendingScreen():
@@ -65,7 +65,7 @@ class fenrir():
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenUpdate')         
         #self.environment['runtime']['outputManager'].brailleText(flush=False)    
         self.handleCommands()
-        #print(time.time()-startTime)       
+        print(time.time()-startTime)       
 
     def prepareCommand(self):
         if self.environment['runtime']['screenManager'].isSuspendingScreen():
@@ -84,7 +84,6 @@ class fenrir():
             
         self.environment['runtime']['commandManager'].queueCommand(command)  
 
-    
     def handleCommands(self): 
         if not self.environment['runtime']['commandManager'].isCommandQueued():
             return

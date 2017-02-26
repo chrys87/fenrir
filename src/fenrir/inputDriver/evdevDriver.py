@@ -36,16 +36,15 @@ class driver():
         self.getInputDevices()            
 
     def shutdown(self):
-        pass
-    def getInputEvent(self):
         if not self._initialized:
-            time.sleep(0.005) # dont flood CPU
-            return None
-        if not self.iDevices:
-            return None
-        if self.iDevices == {}:
-            return None
+            return       
+        self.releaseDevices()
+    def getInputEvent(self):
 
+        if not self.hasIDevices():
+            time.sleep(0.008) # dont flood CPU        
+            return None
+            
         event = None
         r, w, x = select(self.iDevices, [], [], self.env['runtime']['settingsManager'].getSettingAsFloat('screen', 'screenUpdateDelay'))
         if r != []:
@@ -54,7 +53,7 @@ class driver():
                     event = self.iDevices[fd].read_one()            
                 except:
                     #print('jow')
-                    del(self.iDevices[fd])
+                    self.removeDevice(fd)
                     return None
                 foreward = False
                 while(event):
@@ -146,7 +145,7 @@ class driver():
        
     def getLedState(self, led = 0):
         if not self._initialized:
-            return None    
+            return False    
         # 0 = Numlock
         # 1 = Capslock
         # 2 = Rollen
@@ -168,7 +167,7 @@ class driver():
                 self.ledDevices[i].set_led(led , 1)
     def grabDevices(self):
         if not self._initialized:
-            return None
+            return
         for fd in self.iDevices:
             try:        
                 self.uDevices[fd] = UInput.from_device(self.iDevices[fd].fn)
@@ -204,30 +203,39 @@ class driver():
 #              #'/dev/uinput'
 #            )
 #            dev.grab()
-
-    def releaseDevices(self):
+    def removeDevice(self,fd):
+        try:
+            self.iDevices[fd].ungrab()
+        except:
+            pass
+        try:
+            self.iDevices[fd].close()
+        except:
+            pass
+        try:
+            self.uDevices[fd].close()
+        except:
+            pass    
+    def hasIDevices(self):
         if not self._initialized:
-            return None    
+            return False
+        if not self.iDevices:
+            return False
+        if len(self.iDevices) == 0:
+            return False
+        return True    
+    
+    def releaseDevices(self):
+        if not self.hasIDevices():
+            return
         for fd in self.iDevices:
-            try:
-                self.iDevices[fd].ungrab()
-            except:
-                pass
-            try:
-                self.iDevices[fd].close()
-            except:
-                pass
-            try:
-                self.uDevices[fd].close()
-            except:
-                pass
-
+            self.removeDevice(fd)
         self.iDevices.clear()
         self.uDevices.clear()
 
     def __del__(self):
         if not self._initialized:
-            return None        
-        self.releaseDevices()
+            return      
+        self.shutdown()
 
 

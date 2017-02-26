@@ -17,6 +17,7 @@ from utils import screen_utils
 class driver():
     def __init__(self):
         self.vcsaDevicePath = '/dev/vcsa'
+        self.ListSessions = None
     def initialize(self, environment):
         self.env = environment
     def shutdown(self):
@@ -62,24 +63,18 @@ class driver():
                                 return
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)    
-        return
 
     def getSessionInformation(self):
-        progname = 'org.freedesktop.login1'
-        objpath  = '/org/freedesktop/login1'
-        intfname = 'org.freedesktop.login1.Manager'
-        methname = 'ListSessions'
-
         bus = dbus.SystemBus()
-
-        obj  = bus.get_object(progname, objpath)
-        inf = dbus.Interface(obj, intfname)
-        meth = inf.get_dbus_method(methname)
-
-        sessions = meth()
+        if not self.ListSessions:
+            obj  = bus.get_object('org.freedesktop.login1', '/org/freedesktop/login1')
+            inf = dbus.Interface(obj, 'org.freedesktop.login1.Manager')
+            self.ListSessions = inf.get_dbus_method('ListSessions')
+    
+        sessions = self.ListSessions()
         self.env['screenData']['autoIgnoreScreens'] = []
         for session in sessions:
-            obj = bus.get_object(progname, session[4])
+            obj = bus.get_object('org.freedesktop.login1', session[4])
             inf = dbus.Interface(obj, 'org.freedesktop.DBus.Properties')
             sessionType = inf.Get('org.freedesktop.login1.Session', 'Type')
             screen = str(inf.Get('org.freedesktop.login1.Session', 'TTY'))
