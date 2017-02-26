@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2017-02-26 20:20+UTC\n"
+"POT-Creation-Date: 2017-02-26 22:19+UTC\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,6 +20,9 @@ msgid "adds the current word to the exceptions dictionary"
 msgstr ""
 
 #: ../src/fenrir/commands/commands/add_word_to_spell_check.py:34
+#: ../src/fenrir/commands/commands/remove_word_from_spell_check.py:34
+#: ../src/fenrir/commands/commands/spell_check.py:29
+#: ../src/fenrir/commands/commands/spell_check.py:36
 msgid "pyenchant is not installed"
 msgstr ""
 
@@ -92,6 +95,24 @@ msgstr ""
 #: ../src/fenrir/commands/commands/bookmark_9.py:43
 #: ../src/fenrir/commands/commands/curr_screen_after_cursor.py:27
 #: ../src/fenrir/commands/commands/curr_screen_before_cursor.py:30
+#: ../src/fenrir/commands/commands/cursor_read_to_end_of_line.py:27
+#: ../src/fenrir/commands/commands/indent_curr_line.py:31
+#: ../src/fenrir/commands/commands/marked_text.py:33
+#: ../src/fenrir/commands/commands/present_first_line.py:25
+#: ../src/fenrir/commands/commands/present_last_line.py:25
+#: ../src/fenrir/commands/commands/review_curr_char_phonetic.py:27
+#: ../src/fenrir/commands/commands/review_curr_line.py:27
+#: ../src/fenrir/commands/commands/review_curr_word.py:27
+#: ../src/fenrir/commands/commands/review_curr_word_phonetic.py:27
+#: ../src/fenrir/commands/commands/review_line_begin.py:27
+#: ../src/fenrir/commands/commands/review_next_line.py:29
+#: ../src/fenrir/commands/commands/review_next_word.py:29
+#: ../src/fenrir/commands/commands/review_next_word_phonetic.py:27
+#: ../src/fenrir/commands/commands/review_prev_line.py:27
+#: ../src/fenrir/commands/commands/review_prev_word.py:27
+#: ../src/fenrir/commands/commands/review_prev_word_phonetic.py:27
+#: ../src/fenrir/commands/onInput/55000-present_line_if_cursor_change_vertical.py:38
+#: ../src/fenrir/commands/onInput/72000-history.py:50
 msgid "blank"
 msgstr ""
 
@@ -170,6 +191,18 @@ msgid "speaks the contents of the currently selected clipboard"
 msgstr ""
 
 #: ../src/fenrir/commands/commands/curr_clipboard.py:21
+#: ../src/fenrir/commands/commands/export_clipboard_to_x.py:29
+#: ../src/fenrir/commands/commands/export_clipboard_to_x.py:32
+#: ../src/fenrir/commands/commands/export_clipboard_to_x.py:35
+#: ../src/fenrir/commands/commands/export_clipboard_to_x.py:38
+#: ../src/fenrir/commands/commands/first_clipboard.py:21
+#: ../src/fenrir/commands/commands/last_clipboard.py:21
+#: ../src/fenrir/commands/commands/next_clipboard.py:21
+#: ../src/fenrir/commands/commands/paste_clipboard.py:23
+#: ../src/fenrir/commands/commands/paste_clipboard.py:26
+#: ../src/fenrir/commands/commands/paste_clipboard.py:29
+#: ../src/fenrir/commands/commands/paste_clipboard.py:32
+#: ../src/fenrir/commands/commands/prev_clipboard.py:21
 msgid "clipboard empty"
 msgstr ""
 
@@ -197,6 +230,460 @@ msgstr ""
 msgid "presents the current line number for review cursor in review mode or the text cursor if not. Starts with 1"
 msgstr ""
 
+#: ../src/fenrir/commands/commands/cursor_position.py:17
+msgid "displays the position of the review cursor"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/cursor_position.py:23
+msgid "line {0}, column {1}"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/cursor_read_to_end_of_line.py:18
+msgid "read to end of line, use review cursor if you are in review mode, otherwhise use text cursor"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/date.py:18
+msgid "presents the date"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/dec_sound_volume.py:18
+msgid "decrease sound volume"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/dec_sound_volume.py:29
+#: ../src/fenrir/commands/commands/inc_sound_volume.py:29
+msgid "{0} percent sound volume"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/dec_speech_pitch.py:18
+msgid "decreases the pitch of the speech"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/dec_speech_pitch.py:27
+#: ../src/fenrir/commands/commands/inc_speech_pitch.py:27
+msgid "{0} percent speech pitch"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/dec_speech_rate.py:18
+msgid "decreases the rate of the speech"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/dec_speech_rate.py:27
+#: ../src/fenrir/commands/commands/inc_speech_rate.py:27
+msgid "{0} percent speech rate"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/dec_speech_volume.py:18
+msgid "decreases the volume of the speech"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/dec_speech_volume.py:27
+#: ../src/fenrir/commands/commands/inc_speech_volume.py:27
+msgid "{0} percent speech volume"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/exit_review.py:17
+msgid "exits review mode"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/exit_review.py:21
+msgid "Not in review mode"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/exit_review.py:25
+msgid "leave review mode"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/export_clipboard_to_x.py:21
+msgid "export the current fenrir clipboard to X clipboard"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/first_clipboard.py:17
+msgid "selects the first clipboard"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/forward_keypress.py:17
+msgid "sends the following keypress to the terminal"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/forward_keypress.py:21
+msgid "Forward next keypress"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/inc_sound_volume.py:18
+msgid "adjusts the volume for in coming sounds"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/inc_speech_pitch.py:18
+msgid "increases the pitch of the speech"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/inc_speech_rate.py:18
+msgid "increase the speech rate"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/inc_speech_volume.py:18
+msgid "increase the speech volume"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/indent_curr_line.py:18
+msgid "shows the indention level for the current line"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/indent_curr_line.py:33
+msgid "indent {0}"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/last_clipboard.py:17
+msgid "selects the last clipboard"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/last_incoming.py:17
+msgid "displays the last received text"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/marked_text.py:18
+msgid "speaks the currently selected text that will be copied to the clipboard"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/marked_text.py:23
+msgid "please set begin and endmark"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/next_clipboard.py:17
+msgid "selects the next clipboard"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/next_clipboard.py:26
+msgid "First clipboard "
+msgstr ""
+
+#: ../src/fenrir/commands/commands/paste_clipboard.py:18
+msgid "pastes the text from the currently selected clipboard"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/present_first_line.py:18
+msgid "present first line"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/present_last_line.py:18
+#: ../src/fenrir/commands/commands/review_curr_line.py:18
+msgid "current line"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/prev_clipboard.py:17
+msgid "selects the previous clipboard"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/prev_clipboard.py:26
+msgid "Last clipboard "
+msgstr ""
+
+#: ../src/fenrir/commands/commands/quit_fenrir.py:17
+msgid "exits Fenrir"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/remove_marks.py:17
+msgid "removes marks from selected text"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/remove_marks.py:21
+msgid "Remove marks"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/remove_word_from_spell_check.py:27
+msgid "removes the current word from the exceptions dictionary"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/remove_word_from_spell_check.py:50
+msgid "{0} is already removed from dict"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/remove_word_from_spell_check.py:53
+msgid "{0} removed"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/review_bottom.py:17
+msgid "move review to bottom of screen"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/review_bottom.py:21
+msgid "Bottom"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/review_curr_char.py:18
+msgid "presents the current character."
+msgstr ""
+
+#: ../src/fenrir/commands/commands/review_curr_char_phonetic.py:18
+msgid "set review and phonetically presents the current character"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/review_curr_word.py:18
+msgid "current word."
+msgstr ""
+
+#: ../src/fenrir/commands/commands/review_curr_word.py:32
+#: ../src/fenrir/commands/commands/review_curr_word_phonetic.py:36
+#: ../src/fenrir/commands/commands/review_down.py:27
+#: ../src/fenrir/commands/commands/review_next_char.py:28
+#: ../src/fenrir/commands/commands/review_next_char_phonetic.py:30
+#: ../src/fenrir/commands/commands/review_next_line.py:34
+#: ../src/fenrir/commands/commands/review_next_word.py:34
+#: ../src/fenrir/commands/commands/review_next_word_phonetic.py:36
+#: ../src/fenrir/commands/commands/review_prev_char.py:31
+#: ../src/fenrir/commands/commands/review_prev_char_phonetic.py:30
+#: ../src/fenrir/commands/commands/review_prev_line.py:32
+#: ../src/fenrir/commands/commands/review_prev_word.py:32
+#: ../src/fenrir/commands/commands/review_prev_word_phonetic.py:36
+#: ../src/fenrir/commands/commands/review_up.py:27
+msgid "end of screen"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/review_curr_word.py:35
+#: ../src/fenrir/commands/commands/review_curr_word_phonetic.py:39
+#: ../src/fenrir/commands/commands/review_next_char.py:31
+#: ../src/fenrir/commands/commands/review_next_char_phonetic.py:33
+#: ../src/fenrir/commands/commands/review_next_word.py:37
+#: ../src/fenrir/commands/commands/review_next_word_phonetic.py:39
+#: ../src/fenrir/commands/commands/review_prev_char.py:34
+#: ../src/fenrir/commands/commands/review_prev_char_phonetic.py:33
+#: ../src/fenrir/commands/commands/review_prev_word.py:35
+#: ../src/fenrir/commands/commands/review_prev_word_phonetic.py:39
+#: ../src/fenrir/commands/commands/review_up.py:30
+msgid "line break"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/review_curr_word_phonetic.py:19
+#: ../src/fenrir/commands/commands/review_next_word_phonetic.py:19
+#: ../src/fenrir/commands/commands/review_prev_word_phonetic.py:19
+msgid "phonetically spells the current word and set review to it"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/review_down.py:18
+msgid "set review cursor to char below the current char and present it."
+msgstr ""
+
+#: ../src/fenrir/commands/commands/review_line_begin.py:18
+msgid "set review cursor to begin of current line and display the content"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/review_line_begin.py:30
+msgid "beginning of line"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/review_line_end.py:18
+#: ../src/fenrir/commands/commands/review_line_first_char.py:19
+#: ../src/fenrir/commands/commands/review_line_last_char.py:18
+msgid "set review cursor to end of current line and display the content"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/review_line_end.py:27
+msgid "end of line"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/review_line_first_char.py:26
+msgid "line is empty"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/review_line_first_char.py:33
+msgid "first char in line indent {0}"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/review_line_last_char.py:27
+msgid "last char in line"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/review_next_char.py:18
+msgid "moves review to the next character and presents it"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/review_next_char_phonetic.py:18
+msgid "phonetically presents the next character and set review to it"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/review_next_line.py:18
+msgid "moves review to the next line and presents it"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/review_next_word.py:18
+msgid "moves review to the next word and presents it"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/review_prev_char.py:18
+msgid "moves review to the previous character and presents it"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/review_prev_char_phonetic.py:18
+msgid "phonetically presents the previous character and set review to it"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/review_prev_line.py:18
+msgid "moves review to the previous line and presents it"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/review_prev_word.py:18
+msgid "moves review focus to the previous word and presents it"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/review_top.py:18
+msgid "move review to top of screen"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/review_top.py:22
+msgid "Top"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/review_up.py:18
+msgid "set review cursor to the char in the line below and present it"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/set_bookmark_1.py:18
+#: ../src/fenrir/commands/commands/set_bookmark_10.py:18
+#: ../src/fenrir/commands/commands/set_bookmark_2.py:18
+#: ../src/fenrir/commands/commands/set_bookmark_3.py:18
+#: ../src/fenrir/commands/commands/set_bookmark_4.py:18
+#: ../src/fenrir/commands/commands/set_bookmark_5.py:18
+#: ../src/fenrir/commands/commands/set_bookmark_6.py:18
+#: ../src/fenrir/commands/commands/set_bookmark_7.py:18
+#: ../src/fenrir/commands/commands/set_bookmark_8.py:18
+#: ../src/fenrir/commands/commands/set_bookmark_9.py:18
+msgid "set Bookmark {0}"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/set_bookmark_1.py:22
+#: ../src/fenrir/commands/commands/set_bookmark_10.py:22
+#: ../src/fenrir/commands/commands/set_bookmark_2.py:22
+#: ../src/fenrir/commands/commands/set_bookmark_3.py:22
+#: ../src/fenrir/commands/commands/set_bookmark_4.py:22
+#: ../src/fenrir/commands/commands/set_bookmark_5.py:22
+#: ../src/fenrir/commands/commands/set_bookmark_6.py:22
+#: ../src/fenrir/commands/commands/set_bookmark_7.py:22
+#: ../src/fenrir/commands/commands/set_bookmark_8.py:22
+#: ../src/fenrir/commands/commands/set_bookmark_9.py:22
+msgid "No Mark found"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/set_bookmark_1.py:32
+#: ../src/fenrir/commands/commands/set_bookmark_10.py:32
+#: ../src/fenrir/commands/commands/set_bookmark_2.py:32
+#: ../src/fenrir/commands/commands/set_bookmark_3.py:32
+#: ../src/fenrir/commands/commands/set_bookmark_4.py:32
+#: ../src/fenrir/commands/commands/set_bookmark_5.py:32
+#: ../src/fenrir/commands/commands/set_bookmark_6.py:32
+#: ../src/fenrir/commands/commands/set_bookmark_7.py:32
+#: ../src/fenrir/commands/commands/set_bookmark_8.py:32
+#: ../src/fenrir/commands/commands/set_bookmark_9.py:32
+msgid "Bookmark {0} set for application {1}"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/set_mark.py:17
+msgid "places marks to select text to copy to the clipboard"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/set_mark.py:21
+msgid "no review cursor"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/set_mark.py:26
+#: ../src/fenrir/commands/commands/set_mark.py:28
+msgid "set mark"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/set_window_application.py:17
+msgid "set Window Mode, needs 2 marks "
+msgstr ""
+
+#: ../src/fenrir/commands/commands/set_window_application.py:22
+msgid "Window Mode on for application {0}"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/set_window_application.py:25
+msgid "Set window begin and end marks"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/shut_up.py:17
+msgid "interrupts the current presentation"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/spell_check.py:26
+msgid "checks the spelling of the current word"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/spell_check.py:52
+#: ../src/fenrir/commands/onInput/62000-spell_check.py:132
+msgid "misspelled"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/spell_check.py:54
+msgid "correct"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/subprocess.py:21
+msgid "script: {0} fullpath: {1}"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/subprocess.py:24
+msgid "scriptfile does not exist"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/subprocess.py:27
+msgid "scriptfile is not a file"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/subprocess.py:30
+msgid "scriptfile is not executable"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/temp_disable_speech.py:17
+#: ../src/fenrir/commands/onInput/15000-enable_temp_speech.py:17
+msgid "disables speech until next keypress"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/temp_disable_speech.py:21
+msgid "speech temporary disabled"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/time.py:18
+msgid "presents the time"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_auto_read.py:16
+msgid "enables or disables automatic reading of new text as it appears"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_auto_read.py:21
+msgid "autoread enabled"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_auto_read.py:23
+msgid "autoread disabled"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_auto_spell_check.py:17
+msgid "enables or disables automatic spell checking"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_auto_spell_check.py:22
+msgid "auto spellcheck enabled"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_auto_spell_check.py:24
+msgid "auto spellcheck disabled"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_auto_time.py:16
+msgid "enables or disables automatic reading of time after an period"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_auto_time.py:21
+msgid "autotime enabled"
+msgstr ""
+
+#: ../src/fenrir/commands/commands/toggle_auto_time.py:23
+msgid "autotime disabled"
+msgstr ""
+
 #: ../src/fenrir/commands/commands/toggle_braille.py:17
 msgid "enables and disables output in braille"
 msgstr ""
@@ -222,6 +709,7 @@ msgid "emoticons disabled"
 msgstr ""
 
 #: ../src/fenrir/commands/commands/toggle_highlight_tracking.py:16
+#: ../src/fenrir/commands/onInput/56000-highlight_tracking.py:16
 msgid "enables or disables tracking of highlighted"
 msgstr ""
 
@@ -270,6 +758,7 @@ msgid "speech disabled"
 msgstr ""
 
 #: ../src/fenrir/commands/commands/toggle_speech.py:24
+#: ../src/fenrir/commands/onInput/15000-enable_temp_speech.py:28
 msgid "speech enabled"
 msgstr ""
 
@@ -279,5 +768,46 @@ msgstr ""
 
 #: ../src/fenrir/commands/commands/toggle_tutorial_mode.py:21
 msgid "you entered the tutorial mode. In that mode the commands are not executed. but you get a description of what the shortcut does. To leave the tutorial mode, press that shortcut again."
+msgstr ""
+
+#: ../src/fenrir/commands/onInput/80000-capslock.py:22
+msgid "Capslock on"
+msgstr ""
+
+#: ../src/fenrir/commands/onInput/80000-capslock.py:24
+msgid "Capslock off"
+msgstr ""
+
+#: ../src/fenrir/commands/onInput/80300-scrolllock.py:22
+msgid "Scrolllock on"
+msgstr ""
+
+#: ../src/fenrir/commands/onInput/80300-scrolllock.py:24
+msgid "Scrolllock off"
+msgstr ""
+
+#: ../src/fenrir/commands/onInput/80500-numlock.py:22
+msgid "Numlock on"
+msgstr ""
+
+#: ../src/fenrir/commands/onInput/80500-numlock.py:24
+msgid "Numlock off"
+msgstr ""
+
+#:
+#: ../src/fenrir/commands/onScreenChanged/80000-screen_change_announcement.py:20
+msgid "screen {0}"
+msgstr ""
+
+#: ../src/fenrir/commands/onScreenUpdate/76000-time.py:66
+msgid "Autotime: {0}"
+msgstr ""
+
+#: ../src/fenrir/fenrir.py:24
+msgid "Start Fenrir"
+msgstr ""
+
+#: ../src/fenrir/fenrir.py:99
+msgid "Quit Fenrir"
 msgstr ""
 
