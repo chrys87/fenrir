@@ -14,7 +14,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'interrupts the current presentation'        
+        return _('interrupts the current presentation')        
     def run(self):
         if len(self.env['input']['prevDeepestInput']) > len(self.env['input']['currInput']):
             return          

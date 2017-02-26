@@ -15,7 +15,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'set review and phonetically presents the current character'    
+        return _('set review and phonetically presents the current character')    
     
     def run(self):
         self.env['runtime']['cursorManager'].enterReviewModeCurrTextCursor()
@@ -24,7 +24,7 @@ class command():
           char_utils.getCurrentChar(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
         
         if currChar.isspace():
-            self.env['runtime']['outputManager'].presentText("blank" ,interrupt=True, flush=False)
+            self.env['runtime']['outputManager'].presentText(_("blank"), interrupt=True, flush=False)
         else:
             currChar = char_utils.getPhonetic(currChar)
             self.env['runtime']['outputManager'].presentText(currChar ,interrupt=True, announceCapital=True, flush=False)

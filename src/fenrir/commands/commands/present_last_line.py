@@ -15,14 +15,14 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'current line'        
+        return _('current line')        
     
     def run(self):
         x, y, lastLine = \
           line_utils.getCurrentLine(0, self.env['screenData']['lines'] -1, self.env['screenData']['newContentText'])
 
         if lastLine.isspace():
-            self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_("blank"), soundIcon='EmptyLine', interrupt=True)
         else:
             self.env['runtime']['outputManager'].presentText(lastLine, interrupt=True) 
     def setCallback(self, callback):

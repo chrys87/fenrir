@@ -15,7 +15,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'presents the current character.'        
+        return _('presents the current character.')        
     
     def run(self):
         self.env['runtime']['cursorManager'].enterReviewModeCurrTextCursor()

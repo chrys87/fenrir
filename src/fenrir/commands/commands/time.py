@@ -15,7 +15,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'presents the time'        
+        return _('presents the time')        
 
     def run(self):
         timeFormat = self.env['runtime']['settingsManager'].getSetting('general', 'timeFormat')

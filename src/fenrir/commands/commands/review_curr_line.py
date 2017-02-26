@@ -15,7 +15,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'current line'        
+        return _('current line')        
     
     def run(self):
         self.env['runtime']['cursorManager'].enterReviewModeCurrTextCursor()
@@ -24,7 +24,7 @@ class command():
           line_utils.getCurrentLine(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
         
         if currLine.isspace():
-            self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True, flush=False)
+            self.env['runtime']['outputManager'].presentText(_("blank"), soundIcon='EmptyLine', interrupt=True, flush=False)
         else:
             self.env['runtime']['outputManager'].presentText(currLine, interrupt=True, flush=False) 
     def setCallback(self, callback):

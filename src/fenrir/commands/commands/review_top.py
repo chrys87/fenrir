@@ -15,11 +15,11 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'move review to top of screen'        
+        return _('move review to top of screen')        
 
     def run(self):
         self.env['screenData']['newCursorReview'] = {'x':0,'y':0}
-        self.env['runtime']['outputManager'].presentText("Top", interrupt=True, flush=False)
+        self.env['runtime']['outputManager'].presentText(_("Top"), interrupt=True, flush=False)
 
     def setCallback(self, callback):
         pass

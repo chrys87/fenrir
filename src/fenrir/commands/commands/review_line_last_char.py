@@ -15,7 +15,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'set review cursor to end of current line and display the content'        
+        return _('set review cursor to end of current line and display the content')        
 
     def run(self):
         cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
@@ -24,7 +24,7 @@ class command():
           char_utils.getLastCharInLine(self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
         
         self.env['runtime']['outputManager'].presentText(lastChar ,interrupt=True, ignorePunctuation=True, announceCapital=True, flush=False)        
-        self.env['runtime']['outputManager'].presentText("last char in line", interrupt=False)
+        self.env['runtime']['outputManager'].presentText(_("last char in line"), interrupt=False)
    
     def setCallback(self, callback):
         pass

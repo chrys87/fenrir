@@ -24,14 +24,14 @@ class command():
     def shutdown(self):
         pass
     def getDescription(self):
-        return 'removes the current word from the exceptions dictionary'        
+        return _('removes the current word from the exceptions dictionary')        
     def updateSpellLanguage(self):  
         self.spellChecker = enchant.Dict(self.env['runtime']['settingsManager'].getSetting('general', 'spellCheckLanguage'))
         self.language = self.env['runtime']['settingsManager'].getSetting('general', 'spellCheckLanguage')      
        
     def run(self):
         if not initialized:
-           self.env['runtime']['outputManager'].presentText('pychant is not installed', interrupt=True) 
+           self.env['runtime']['outputManager'].presentText(_('pyenchant is not installed'), interrupt=True) 
            return
         if self.env['runtime']['settingsManager'].getSetting('general', 'spellCheckLanguage') != self.language:
             try:
@@ -47,9 +47,9 @@ class command():
         currWord = currWord.strip(string.whitespace + '!"#$%&\()*+,-./:;<=§>?@[\\]^_{|}~')
         if not currWord.isspace():
             if self.spellChecker.is_removed(currWord):
-                self.env['runtime']['outputManager'].presentText(currWord + ' is already removed from dict',soundIcon='Cancel', interrupt=True)                
+                self.env['runtime']['outputManager'].presentText(_('{0} is already removed from dict').format(currWord,), soundIcon='Cancel', interrupt=True)                
             else:
                 self.spellChecker.remove(currWord)             
-                self.env['runtime']['outputManager'].presentText(currWord + ' removed',soundIcon='Accept', interrupt=True)                    
+                self.env['runtime']['outputManager'].presentText(_('{0} removed').format(currWord,), soundIcon='Accept', interrupt=True)                    
     def setCallback(self, callback):
         pass

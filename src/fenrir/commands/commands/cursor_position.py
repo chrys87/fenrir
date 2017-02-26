@@ -14,13 +14,13 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'displays the position of the review cursor'        
+        return _('displays the position of the review cursor')        
 
     def run(self):
         # Prefer review cursor over text cursor
         cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
 
-        self.env['runtime']['outputManager'].presentText("line "+  str(cursorPos['y']+1) + " column "+  str(cursorPos['x']+1), interrupt=True)
+        self.env['runtime']['outputManager'].presentText(_("line {0}, column {1}").format(cursorPos['y']+1, cursorPos['x']+1), interrupt=True)
    
     def setCallback(self, callback):
         pass

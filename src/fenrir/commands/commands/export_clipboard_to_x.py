@@ -18,7 +18,7 @@ class command():
     def shutdown(self):
         pass
     def getDescription(self):
-        return 'export the current fenrir clipboard to X clipboard'
+        return _('export the current fenrir clipboard to X clipboard')
     def run(self):                       
         _thread.start_new_thread(self._threadRun , ())
 
@@ -26,16 +26,16 @@ class command():
         try:
             currClipboard = self.env['commandBuffer']['currClipboard']
             if currClipboard < 0:
-                self.env['runtime']['outputManager'].presentText('clipboard empty', interrupt=True)
+                self.env['runtime']['outputManager'].presentText(_('clipboard empty'), interrupt=True)
                 return
             if not self.env['commandBuffer']['clipboard']:
-                self.env['runtime']['outputManager'].presentText('clipboard empty', interrupt=True)
+                self.env['runtime']['outputManager'].presentText(_('clipboard empty'), interrupt=True)
                 return
             if not self.env['commandBuffer']['clipboard'][currClipboard]:
-                self.env['runtime']['outputManager'].presentText('clipboard empty', interrupt=True)
+                self.env['runtime']['outputManager'].presentText(_('clipboard empty'), interrupt=True)
                 return 
             if self.env['commandBuffer']['clipboard'][currClipboard] == '':
-                self.env['runtime']['outputManager'].presentText('clipboard empty', interrupt=True)
+                self.env['runtime']['outputManager'].presentText(_('clipboard empty'), interrupt=True)
                 return                                         
     
             p = Popen('su -c "echo -n \"' + self.env['commandBuffer']['clipboard'][currClipboard] +'\" | xclip -selection c' + self.env['generalInformation']['currUser'] , stdout=PIPE, stderr=PIPE, shell=True)

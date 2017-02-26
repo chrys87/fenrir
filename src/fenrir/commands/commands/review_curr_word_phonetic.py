@@ -16,7 +16,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'phonetically spells the current word and set review to it'        
+        return _('phonetically spells the current word and set review to it')        
     
     def run(self):
         self.env['runtime']['cursorManager'].enterReviewModeCurrTextCursor()
@@ -24,7 +24,7 @@ class command():
           word_utils.getCurrentWord(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
         
         if currWord.isspace():
-            self.env['runtime']['outputManager'].presentText("blank", interrupt=True, flush=False)
+            self.env['runtime']['outputManager'].presentText(_("blank"), interrupt=True, flush=False)
         else:
             firstSequence = True
             for c in currWord:
@@ -33,9 +33,9 @@ class command():
                 firstSequence = False
         if endOfScreen:
             if self.env['runtime']['settingsManager'].getSettingAsBool('review', 'endOfScreen'):        
-                self.env['runtime']['outputManager'].presentText('end of screen' ,interrupt=True, soundIcon='EndOfScreen')                 
+                self.env['runtime']['outputManager'].presentText(_('end of screen'), interrupt=True, soundIcon='EndOfScreen')                 
         if lineBreak:
             if self.env['runtime']['settingsManager'].getSettingAsBool('review', 'lineBreak'):        
-                self.env['runtime']['outputManager'].presentText('line break' ,interrupt=False, soundIcon='EndOfLine')   
+                self.env['runtime']['outputManager'].presentText(_('line break'), interrupt=False, soundIcon='EndOfLine')   
     def setCallback(self, callback):
         pass

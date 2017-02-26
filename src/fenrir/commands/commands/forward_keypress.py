@@ -14,11 +14,11 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'sends the following keypress to the terminal'        
+        return _('sends the following keypress to the terminal')        
     
     def run(self):
         self.env['input']['keyForeward'] = 3
-        self.env['runtime']['outputManager'].presentText('Foreward next keypress', interrupt=True)
+        self.env['runtime']['outputManager'].presentText(_('Forward next keypress'), interrupt=True)
 
     def setCallback(self, callback):
         pass
