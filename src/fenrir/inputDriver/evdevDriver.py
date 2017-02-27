@@ -104,7 +104,6 @@ class driver():
         if not force:
             if len(deviceFileList) == self.iDeviceNo:
                 return
-        self.iDeviceNo = len(deviceFileList)    
         mode = self.env['runtime']['settingsManager'].getSetting('keyboard', 'device').upper()
         iDevicesFiles = []
         for device in self.iDevices:
@@ -133,6 +132,7 @@ class driver():
                             self.iDevices[currDevice.fd] = currDevice
                             self.grabDevice(currDevice.fd)
                             print('Device added (ALL):' + self.iDevices[currDevice.fd].name)
+                            print(currDevice.capabilities(verbose=True))
                         elif mode == 'NOMICE':
                             if not ((2 in cap) or (3 in cap)):
                                 self.iDevices[currDevice.fd] = currDevice
@@ -144,6 +144,7 @@ class driver():
                     print('Device added (Name):' + self.iDevices[currDevice.fd].name)
             except Exception as e:
                 print("Skip Inputdevice : " + deviceFile +' ' + str(e))                     
+        self.iDeviceNo = len(evdev.list_devices())
             
     def mapEvent(self, event):
         if not self._initialized:
