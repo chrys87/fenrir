@@ -77,10 +77,11 @@ class driver():
             obj = bus.get_object('org.freedesktop.login1', session[4])
             inf = dbus.Interface(obj, 'org.freedesktop.DBus.Properties')
             sessionType = inf.Get('org.freedesktop.login1.Session', 'Type')
-            screen = str(inf.Get('org.freedesktop.login1.Session', 'TTY'))
-            screen = screen[screen.upper().find('TTY') + 3:]
-            if screen == '':
-                screen = str(inf.Get('org.freedesktop.login1.Session', 'VTNr'))
+            screen = str(inf.Get('org.freedesktop.login1.Session', 'VTNr'))  
+            if screen == '':                      
+                screen = str(inf.Get('org.freedesktop.login1.Session', 'TTY'))
+                screen = screen[screen.upper().find('TTY') + 3:]
+
             if sessionType.upper() == 'X11':
                 self.env['screenData']['autoIgnoreScreens'].append(screen)
             if screen == self.env['screenData']['newTTY'] :
