@@ -132,7 +132,6 @@ class driver():
                             self.iDevices[currDevice.fd] = currDevice
                             self.grabDevice(currDevice.fd)
                             print('Device added (ALL):' + self.iDevices[currDevice.fd].name)
-                            print(currDevice.capabilities(verbose=True))
                         elif mode == 'NOMICE':
                             if not ((2 in cap) or (3 in cap)):
                                 self.iDevices[currDevice.fd] = currDevice
