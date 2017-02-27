@@ -80,7 +80,7 @@ class driver():
             screen = str(inf.Get('org.freedesktop.login1.Session', 'TTY'))
             screen = screen[screen.upper().find('TTY') + 3:]
             if screen == '':
-                screen = str(inf.Get('org.freedesktop.login1.Session', 'VTNR'))
+                screen = str(inf.Get('org.freedesktop.login1.Session', 'VTNr'))
                 screen = screen[screen.upper().find('VC') + 2:]
             if sessionType.upper() == 'X11':
                 self.env['screenData']['autoIgnoreScreens'].append(screen)
