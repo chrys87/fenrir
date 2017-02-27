@@ -23,8 +23,7 @@ class command():
         if value < 0.0:
             value = 0.0 
         self.env['runtime']['settingsManager'].setSetting('speech', 'pitch', str(value))   
-
-        self.env['runtime']['outputManager'].presentText(_("{0} percent speech pitch").format(int(value * 100)) soundIcon='', interrupt=True)
+        self.env['runtime']['outputManager'].presentText(_('{0} percent speech pitch').format(int(value * 100)), soundIcon='', interrupt=True)
  
     def setCallback(self, callback):
         pass
