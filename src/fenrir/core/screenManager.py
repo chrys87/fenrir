@@ -39,7 +39,7 @@ class screenManager():
         ignoreScreens = []
         fixIgnoreScreens = self.env['runtime']['settingsManager'].getSetting('screen', 'suspendingScreen')
         if fixIgnoreScreens != '':
-            ignoreScreens.append(fixIgnoreScreens.split(',')) 
+            ignoreScreens.extend(fixIgnoreScreens.split(',')) 
         if self.env['runtime']['settingsManager'].getSettingAsBool('screen', 'autodetectSuspendingScreen'):
             ignoreScreens.extend(self.env['screenData']['autoIgnoreScreens'])        
         return (screen in ignoreScreens)
