@@ -15,7 +15,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'moves review to the previous line and presents it'        
+        return _('moves review to the previous line and presents it')        
 
     def run(self):
         self.env['runtime']['cursorManager'].enterReviewModeCurrTextCursor()
@@ -24,12 +24,12 @@ class command():
           line_utils.getPrevLine(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
         
         if prevLine.isspace():
-            self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True, flush=False)
+            self.env['runtime']['outputManager'].presentText(_("blank"), soundIcon='EmptyLine', interrupt=True, flush=False)
         else:
             self.env['runtime']['outputManager'].presentText(prevLine, interrupt=True, flush=False)
         if endOfScreen:
             if self.env['runtime']['settingsManager'].getSettingAsBool('review', 'endOfScreen'):        
-                self.env['runtime']['outputManager'].presentText('end of screen' ,interrupt=True, soundIcon='EndOfScreen')                 
+                self.env['runtime']['outputManager'].presentText(_('end of screen'), interrupt=True, soundIcon='EndOfScreen')                 
 
     def setCallback(self, callback):
         pass

@@ -15,7 +15,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'set review cursor to the char in the line below and present it'        
+        return _('set review cursor to the char in the line below and present it')        
 
     def run(self):
         cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
@@ -24,9 +24,9 @@ class command():
         self.env['runtime']['outputManager'].presentText(upChar ,interrupt=True, ignorePunctuation=True, announceCapital=True, flush=False) 
         if endOfScreen:
             if self.env['runtime']['settingsManager'].getSettingAsBool('review', 'endOfScreen'):        
-                self.env['runtime']['outputManager'].presentText('end of screen' ,interrupt=True, soundIcon='EndOfScreen')                 
+                self.env['runtime']['outputManager'].presentText(_('end of screen'), interrupt=True, soundIcon='EndOfScreen')                 
         if lineBreak:
             if self.env['runtime']['settingsManager'].getSettingAsBool('review', 'lineBreak'):        
-                self.env['runtime']['outputManager'].presentText('line break' ,interrupt=False, soundIcon='EndOfLine')    
+                self.env['runtime']['outputManager'].presentText(_('line break'), interrupt=False, soundIcon='EndOfLine')    
     def setCallback(self, callback):
         pass

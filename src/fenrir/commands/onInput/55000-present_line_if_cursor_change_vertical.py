@@ -35,7 +35,7 @@ class command():
         x, y, currLine = line_utils.getCurrentLine(self.env['screenData']['newCursor']['x'], self.env['screenData']['newCursor']['y'], self.env['screenData']['newContentText'])
 
         if currLine.isspace():
-            self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True, flush=False)
+            self.env['runtime']['outputManager'].presentText(_("blank"), soundIcon='EmptyLine', interrupt=True, flush=False)
         else:
             self.env['runtime']['outputManager'].presentText(currLine, interrupt=True, flush=False)
  

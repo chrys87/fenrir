@@ -15,7 +15,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'decrease sound volume'        
+        return _('decrease sound volume')        
 
     def run(self):
         
@@ -26,7 +26,7 @@ class command():
             value = 0.1  
         self.env['runtime']['settingsManager'].setSetting('sound', 'volume', str(value))   
 
-        self.env['runtime']['outputManager'].presentText(str(int(value * 100)) + " percent sound volume", soundIcon='SoundOff', interrupt=True)
+        self.env['runtime']['outputManager'].presentText(_("{0} percent sound volume").format(int(value * 100)), soundIcon='SoundOff', interrupt=True)
    
     def setCallback(self, callback):
         pass

@@ -55,6 +55,8 @@ This software is licensed under the LGPL v3 .
   - aspell-YourLanguageCode (example aspell-en for us english)
 2. unix daemon (also needed for systemd):
   - python-daemonize
+3. Modify system volume:
+  - pyalsaaudio (needs libasound2's headers).
 
 # installation
 - Archlinux: PKGBUILD in AUR

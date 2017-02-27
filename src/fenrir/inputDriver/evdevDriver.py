@@ -22,7 +22,6 @@ class driver():
     def __init__(self):
         self.iDevices = {}
         self.uDevices = {}
-        self.ledDevices = {} 
         self._initialized = False        
 
     def initialize(self, environment):
@@ -36,21 +35,24 @@ class driver():
         self.getInputDevices()            
 
     def shutdown(self):
-        pass
-    def getInputEvent(self):
         if not self._initialized:
-            time.sleep(0.005) # dont flood CPU
-            return None
-        if not self.iDevices:
-            return None
-        if self.iDevices == {}:
-            return None
+            return       
+    def getInputEvent(self):
 
+        if not self.hasIDevices():
+            time.sleep(0.008) # dont flood CPU        
+            return None
+            
         event = None
         r, w, x = select(self.iDevices, [], [], self.env['runtime']['settingsManager'].getSettingAsFloat('screen', 'screenUpdateDelay'))
         if r != []:
             for fd in r:
-                event = self.iDevices[fd].read_one()            
+                try:
+                    event = self.iDevices[fd].read_one()            
+                except:
+                    #print('jow')
+                    self.removeDevice(fd)
+                    return None
                 foreward = False
                 while(event):
                     self.env['input']['eventBuffer'].append( [self.iDevices[fd], self.uDevices[fd], event])
@@ -107,21 +109,17 @@ class driver():
             except Exception as e:
                 self.env['runtime']['debug'].writeDebugOut("Skip Inputdevice : " + dev +' ' + str(e),debug.debugLevel.ERROR)                     
         self.iDevices = map(evdev.InputDevice, (readableDevices))
-        self.ledDevices = map(evdev.InputDevice, (readableDevices))          
+
         # 3 pos absolute
         # 2 pos relative
-        # 17 LEDs
         # 1 Keys
         # we try to filter out mices and other stuff here        
         if self.env['runtime']['settingsManager'].getSetting('keyboard', 'device').upper() == 'ALL':
             self.iDevices = {dev.fd: dev for dev in self.iDevices if 1 in dev.capabilities()}
-            self.ledDevices = {dev.fd: dev for dev in self.ledDevices if 1 in dev.capabilities() and 17 in dev.capabilities()}     
         elif self.env['runtime']['settingsManager'].getSetting('keyboard', 'device').upper() == 'NOMICE':       
             self.iDevices = {dev.fd: dev for dev in self.iDevices if 1 in dev.capabilities() and not 3 in dev.capabilities() and not 2 in dev.capabilities()}
-            self.ledDevices = {dev.fd: dev for dev in self.ledDevices if 1 in dev.capabilities() and 17 in dev.capabilities() and not 3 in dev.capabilities() and not 2 in dev.capabilities()}
         else:             
             self.iDevices = {dev.fd: dev for dev in self.iDevices if dev.name.upper() in self.env['runtime']['settingsManager'].getSetting('keyboard', 'device').upper().split(',')}
-            self.ledDevices = {dev.fd: dev for dev in self.ledDevices if dev.name.upper() in self.env['runtime']['settingsManager'].getSetting('keyboard', 'device').upper().split(',')}        
             
     def mapEvent(self, event):
         if not self._initialized:
@@ -140,30 +138,29 @@ class driver():
             return None
        
     def getLedState(self, led = 0):
-        if not self._initialized:
-            return None    
+        if not self.hasIDevices():
+            return False    
         # 0 = Numlock
         # 1 = Capslock
         # 2 = Rollen
-        if self.ledDevices == None:
-            return False
-        if self.ledDevices == {}:
-            return False                   
-        for fd, dev in self.ledDevices.items():
-            return led in dev.leds()
+        for fd, dev in self.iDevices.items():
+            if led in dev.leds():
+                return True
         return False          
     def toggleLedState(self, led = 0):
-        if not self._initialized:
-            return None    
+        if not self.hasIDevices():
+            return False    
         ledState = self.getLedState(led)
-        for i in self.ledDevices:
-            if ledState == 1:
-                self.ledDevices[i].set_led(led , 0)
-            else:
-                self.ledDevices[i].set_led(led , 1)
+        for i in self.iDevices:
+            # 17 LEDs
+            if 17 in self.iDevices[i].capabilities():            
+                if ledState == 1:
+                    self.iDevices[i].set_led(led , 0)
+                else:
+                    self.iDevices[i].set_led(led , 1)
     def grabDevices(self):
         if not self._initialized:
-            return None
+            return
         for fd in self.iDevices:
             try:        
                 self.uDevices[fd] = UInput.from_device(self.iDevices[fd].fn)
@@ -199,30 +196,47 @@ class driver():
 #              #'/dev/uinput'
 #            )
 #            dev.grab()
-
-    def releaseDevices(self):
+    def removeDevice(self,fd):
+        try:
+            self.iDevices[fd].ungrab()
+        except:
+            pass
+        try:
+            self.iDevices[fd].close()
+        except:
+            pass
+        try:
+            self.uDevices[fd].close()
+        except:
+            pass 
+        try:
+            del(self.iDevices[fd])
+        except:
+            pass
+        try:
+            del(self.uDevices[fd])
+        except:
+            pass                 
+    def hasIDevices(self):
         if not self._initialized:
-            return None    
-        for fd in self.iDevices:
-            try:
-                self.iDevices[fd].ungrab()
-            except:
-                pass
-            try:
-                self.iDevices[fd].close()
-            except:
-                pass
-            try:
-                self.uDevices[fd].close()
-            except:
-                pass
-
+            return False
+        if not self.iDevices:
+            return False
+        if len(self.iDevices) == 0:
+            return False
+        return True    
+    
+    def releaseDevices(self):
+        if not self.hasIDevices():
+            return
+        devices = self.iDevices.copy()
+        for fd in devices:
+            self.removeDevice(fd)
         self.iDevices.clear()
         self.uDevices.clear()
 
     def __del__(self):
         if not self._initialized:
-            return None        
-        self.releaseDevices()
+            return      
 
 

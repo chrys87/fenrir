@@ -47,7 +47,7 @@ class command():
                     announce = currLine                      
 
         if currLine.isspace():
-            self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True, flush=False)
+            self.env['runtime']['outputManager'].presentText(_("blank"), soundIcon='EmptyLine', interrupt=True, flush=False)
         else:            
             self.env['runtime']['outputManager'].presentText(announce, interrupt=True, flush=False)
         self.env['commandsIgnore']['onScreenUpdate']['CHAR_DELETE_ECHO'] = True

@@ -14,7 +14,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'exits Fenrir'        
+        return _('exits Fenrir')        
     
     def run(self):
         self.env['generalInformation']['running'] = False

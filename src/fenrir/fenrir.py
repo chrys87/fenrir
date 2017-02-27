@@ -21,7 +21,7 @@ class fenrir():
                 raise RuntimeError('Cannot Initialize. Maybe the configfile is not available or not parseable')
         except RuntimeError:
             raise
-        self.environment['runtime']['outputManager'].presentText("Start Fenrir", soundIcon='ScreenReaderOn', interrupt=True)          
+        self.environment['runtime']['outputManager'].presentText(_("Start Fenrir"), soundIcon='ScreenReaderOn', interrupt=True)          
         signal.signal(signal.SIGINT, self.captureSignal)
         signal.signal(signal.SIGTERM, self.captureSignal)
         self.wasCommand = False
@@ -35,8 +35,8 @@ class fenrir():
         self.shutdown()
 
     def handleProcess(self):
-        #startTime = time.time()      
         eventReceived = self.environment['runtime']['inputManager'].getInputEvent()
+        startTime = time.time()              
         if eventReceived:
             self.prepareCommand()
             if not (self.wasCommand  or self.environment['generalInformation']['tutorialMode']) or  self.environment['runtime']['screenManager'].isSuspendingScreen():
@@ -65,7 +65,7 @@ class fenrir():
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenUpdate')         
         #self.environment['runtime']['outputManager'].brailleText(flush=False)    
         self.handleCommands()
-        #print(time.time()-startTime)       
+        print(time.time()-startTime)       
 
     def prepareCommand(self):
         if self.environment['runtime']['screenManager'].isSuspendingScreen():
@@ -84,7 +84,6 @@ class fenrir():
             
         self.environment['runtime']['commandManager'].queueCommand(command)  
 
-    
     def handleCommands(self): 
         if not self.environment['runtime']['commandManager'].isCommandQueued():
             return
@@ -97,35 +96,11 @@ class fenrir():
         self.shutdownRequest()
 
     def shutdown(self):
-        if self.environment['runtime']['inputManager']:
-            self.environment['runtime']['inputManager'].shutdown()                      
-            del self.environment['runtime']['inputManager']
-        self.environment['runtime']['outputManager'].presentText("Quit Fenrir", soundIcon='ScreenReaderOff', interrupt=True)   
-        time.sleep(0.9) # wait a little for sound
-        
-        if self.environment['runtime']['screenManager']:
-            self.environment['runtime']['screenManager'].shutdown()  
-            del self.environment['runtime']['screenManager']
-        if self.environment['runtime']['commandManager']:
-            self.environment['runtime']['commandManager'].shutdown()                                    
-            del self.environment['runtime']['commandManager']
-        if self.environment['runtime']['outputManager']:
-            self.environment['runtime']['outputManager'].shutdown()    
-            del self.environment['runtime']['outputManager']
-        if self.environment['runtime']['punctuationManager']:
-            self.environment['runtime']['punctuationManager'].shutdown()    
-            del self.environment['runtime']['punctuationManager']
-        if self.environment['runtime']['cursorManager']:
-            self.environment['runtime']['cursorManager'].shutdown()    
-            del self.environment['runtime']['cursorManager']
-        if self.environment['runtime']['applicationManager']:
-            self.environment['runtime']['applicationManager'].shutdown()    
-            del self.environment['runtime']['applicationManager']
-            
-        if self.environment['runtime']['debug']:
-            self.environment['runtime']['debug'].shutdown() 
-            del self.environment['runtime']['debug']
-        time.sleep(0.2) # wait a little before splatter it :)
+        self.environment['runtime']['outputManager'].presentText(_("Quit Fenrir"), soundIcon='ScreenReaderOff', interrupt=True)       
+        for currManager in self.environment['generalInformation']['managerList']:
+            if self.environment['runtime'][currManager]:
+                self.environment['runtime'][currManager].shutdown()                      
+                del self.environment['runtime'][currManager]
         self.environment = None
 
 def main():

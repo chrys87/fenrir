@@ -15,7 +15,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'increase the speech volume'        
+        return _('increase the speech volume')        
     
     def run(self):
         value = self.env['runtime']['settingsManager'].getSettingAsFloat('speech', 'volume')
@@ -24,7 +24,7 @@ class command():
             value = 1.0  
         self.env['runtime']['settingsManager'].setSetting('speech', 'volume', str(value))   
 
-        self.env['runtime']['outputManager'].presentText(str(int(value * 100)) + " percent speech volume", soundIcon='', interrupt=True)
+        self.env['runtime']['outputManager'].presentText(_("{0} percent speech volume").format(int(value * 100)), soundIcon='', interrupt=True)
   
     def setCallback(self, callback):
         pass

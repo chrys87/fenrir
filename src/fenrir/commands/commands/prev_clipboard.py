@@ -14,16 +14,16 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'selects the previous clipboard'        
+        return _('selects the previous clipboard')        
 
     def run(self):
         if len(self.env['commandBuffer']['clipboard']) == 0:
-            self.env['runtime']['outputManager'].presentText('clipboard empty', interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_('clipboard empty'), interrupt=True)
             return 
         self.env['commandBuffer']['currClipboard'] -= 1
         if self.env['commandBuffer']['currClipboard'] < 0:
             self.env['commandBuffer']['currClipboard'] = len(self.env['commandBuffer']['clipboard']) -1
-            self.env['runtime']['outputManager'].presentText('Last clipboard ', interrupt=True)            
+            self.env['runtime']['outputManager'].presentText(_('Last clipboard '), interrupt=True)            
             self.env['runtime']['outputManager'].presentText(self.env['commandBuffer']['clipboard'][self.env['commandBuffer']['currClipboard']], interrupt=False)            
         else:
             self.env['runtime']['outputManager'].presentText(self.env['commandBuffer']['clipboard'][self.env['commandBuffer']['currClipboard']], interrupt=True)

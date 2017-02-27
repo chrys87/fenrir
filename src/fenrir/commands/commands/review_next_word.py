@@ -15,7 +15,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'moves review to the next word and presents it'        
+        return _('moves review to the next word and presents it')        
     
     def run(self):
         self.env['screenData']['oldCursorReview'] = self.env['screenData']['newCursorReview']
@@ -26,14 +26,14 @@ class command():
           word_utils.getNextWord(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
         
         if nextWord.isspace():
-            self.env['runtime']['outputManager'].presentText("blank", interrupt=True, flush=False)
+            self.env['runtime']['outputManager'].presentText(_("blank"), interrupt=True, flush=False)
         else:
             self.env['runtime']['outputManager'].presentText(nextWord, interrupt=True, flush=False)
         if endOfScreen:
             if self.env['runtime']['settingsManager'].getSettingAsBool('review', 'endOfScreen'):        
-                self.env['runtime']['outputManager'].presentText('end of screen' ,interrupt=True, soundIcon='EndOfScreen')                 
+                self.env['runtime']['outputManager'].presentText(_('end of screen'), interrupt=True, soundIcon='EndOfScreen')                 
         if lineBreak:
             if self.env['runtime']['settingsManager'].getSettingAsBool('review', 'lineBreak'):        
-                self.env['runtime']['outputManager'].presentText('line break' ,interrupt=False, soundIcon='EndOfLine')    
+                self.env['runtime']['outputManager'].presentText(_('line break'), interrupt=False, soundIcon='EndOfLine')    
     def setCallback(self, callback):
         pass

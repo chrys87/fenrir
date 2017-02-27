@@ -14,17 +14,17 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'places marks to select text to copy to the clipboard'        
+        return _('places marks to select text to copy to the clipboard')        
     
     def run(self):
         if not self.env['runtime']['cursorManager'].isReviewMode():
-            self.env['runtime']['outputManager'].presentText('no review cursor', interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_('no review cursor'), interrupt=True)
             return
 
         currMark = self.env['runtime']['cursorManager'].setMark()
         if currMark == 1:
-            self.env['runtime']['outputManager'].presentText('set mark',soundIcon='PlaceStartMark', interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_('set mark'), soundIcon='PlaceStartMark', interrupt=True)
         elif currMark == 2:
-            self.env['runtime']['outputManager'].presentText('set mark',soundIcon='PlaceEndMark', interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_('set mark'),soundIcon='PlaceEndMark', interrupt=True)
     def setCallback(self, callback):
         pass

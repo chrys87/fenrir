@@ -15,7 +15,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'read to end of line, use review cursor if you are in reviewmode, otherwhise use text cursor'        
+        return _('read to end of line, use review cursor if you are in review mode, otherwhise use text cursor')        
     
     def run(self):
         cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
@@ -24,7 +24,7 @@ class command():
           line_utils.getCurrentLine(cursorPos['x'], cursorPos['y'], self.env['screenData']['newContentText'])
         
         if currLine.isspace():
-            self.env['runtime']['outputManager'].presentText("blank", soundIcon='EmptyLine', interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_("blank"), soundIcon='EmptyLine', interrupt=True)
         else:
             self.env['runtime']['outputManager'].presentText(currLine[cursorPos['x']], interrupt=True) 
         self.env['runtime']['outputManager'].announceActiveCursor()            

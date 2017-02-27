@@ -41,7 +41,9 @@ if [ -f "/etc/fenrir/settings/settings.conf" ]; then
     else
       install -m644 -D "config/settings/settings.conf" /etc/fenrir/settings/settings.conf.current    
     fi
-fi
+else
+    install -m644 -D "config/settings/settings.conf" /etc/fenrir/settings/settings.conf    
+fi    
 
 
 # end message

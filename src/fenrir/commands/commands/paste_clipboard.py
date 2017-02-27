@@ -15,21 +15,21 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'pastes the text from the currently selected clipboard'        
+        return _('pastes the text from the currently selected clipboard')        
     
     def run(self):    
         currClipboard = self.env['commandBuffer']['currClipboard']
         if currClipboard < 0:
-            self.env['runtime']['outputManager'].presentText('clipboard empty', interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_('clipboard empty'), interrupt=True)
             return
         if not self.env['commandBuffer']['clipboard']:
-            self.env['runtime']['outputManager'].presentText('clipboard empty', interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_('clipboard empty'), interrupt=True)
             return
         if not self.env['commandBuffer']['clipboard'][currClipboard]:
-            self.env['runtime']['outputManager'].presentText('clipboard empty', interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_('clipboard empty'), interrupt=True)
             return 
         if self.env['commandBuffer']['clipboard'][currClipboard] == '':
-            self.env['runtime']['outputManager'].presentText('clipboard empty', interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_('clipboard empty'), interrupt=True)
             return                                         
         self.env['runtime']['outputManager'].presentText('paste clipboard', soundIcon='PasteClipboardOnScreen', interrupt=True)
         time.sleep(0.01)
