@@ -77,9 +77,11 @@ class driver():
             obj = bus.get_object('org.freedesktop.login1', session[4])
             inf = dbus.Interface(obj, 'org.freedesktop.DBus.Properties')
             sessionType = inf.Get('org.freedesktop.login1.Session', 'Type')
-            screen = str(inf.Get('org.freedesktop.login1.Session', 'VTNr'))  
-            if screen == '':                      
+            screen = str(inf.Get('org.freedesktop.login1.Session', 'VTNr'))
+            self.env['runtime']['debug'].writeDebugOut('VTNr:' + screen +  ' ' +sessionType,debug.debugLevel.ERROR)                                                             
+            if screen == '':  
                 screen = str(inf.Get('org.freedesktop.login1.Session', 'TTY'))
+                self.env['runtime']['debug'].writeDebugOut('TTY:' + screen +  ' ' +sessionType,debug.debugLevel.ERROR)                                                               
                 screen = screen[screen.upper().find('TTY') + 3:]
             if screen == '':
                 self.env['runtime']['debug'].writeDebugOut('No TTY found for session:' + session[4],debug.debugLevel.ERROR)               
@@ -90,6 +92,7 @@ class driver():
                 if self.env['generalInformation']['currUser'] != session[2]:
                     self.env['generalInformation']['prevUser'] = self.env['generalInformation']['currUser']
                     self.env['generalInformation']['currUser'] = session[2]
+        self.env['runtime']['debug'].writeDebugOut('autoignore:' + str(self.env['screenData']['autoIgnoreScreens']),debug.debugLevel.ERROR)                                                                   
 
     def update(self, trigger='onUpdate'):
         newContentBytes = b''       
