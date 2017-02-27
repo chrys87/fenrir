@@ -7,6 +7,7 @@ This software is licensed under the LGPL v3 .
 - linux (currently only screen and input drivers available for that)
 - python3 >= 3.3
 -	python-configargparse
+- python-dbus for interaction with logind
 - screen, input, speech, sound or braille drivers see "Features, Drivers, Extras".
 
 # Features, Drivers, Extras, Dependencys
