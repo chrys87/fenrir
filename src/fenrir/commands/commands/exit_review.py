@@ -14,15 +14,15 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'exits review mode'        
+        return _('exits review mode')        
     
     def run(self):
         if not self.env['runtime']['cursorManager'].isReviewMode():
-            self.env['runtime']['outputManager'].presentText("Not in review mode", interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_("Not in review mode"), interrupt=True)
             return  
 
         self.env['runtime']['cursorManager'].clearReviewCursor()
-        self.env['runtime']['outputManager'].presentText("leve review mode", interrupt=True)
+        self.env['runtime']['outputManager'].presentText(_("leave review mode"), interrupt=True)
    
     def setCallback(self, callback):
         pass

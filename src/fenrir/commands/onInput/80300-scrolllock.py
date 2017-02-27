@@ -19,9 +19,9 @@ class command():
         if self.env['input']['oldScrollLock'] == self.env['input']['newScrollLock']:
             return
         if self.env['input']['newScrollLock']:
-            self.env['runtime']['outputManager'].presentText("Scrolllock on", interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_("Scrolllock on"), interrupt=True)
         else:
-            self.env['runtime']['outputManager'].presentText("Scrolllock off", interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_("Scrolllock off"), interrupt=True)
         
     def setCallback(self, callback):
         pass

@@ -19,9 +19,9 @@ class command():
         if self.env['input']['oldNumLock'] == self.env['input']['newNumLock']:
             return
         if self.env['input']['newNumLock']:
-            self.env['runtime']['outputManager'].presentText("Numlock on", interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_("Numlock on"), interrupt=True)
         else:
-            self.env['runtime']['outputManager'].presentText("Numlock off", interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_("Numlock off"), interrupt=True)
         
     def setCallback(self, callback):
         pass

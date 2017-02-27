@@ -15,7 +15,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'set review cursor to begin of current line and display the content'        
+        return _('set review cursor to begin of current line and display the content')        
 
     def run(self):
         cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
@@ -24,10 +24,10 @@ class command():
           char_utils.getCurrentChar(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
         
         if currChar.isspace():
-            self.env['runtime']['outputManager'].presentText("blank" ,interrupt=True, flush=False)
+            self.env['runtime']['outputManager'].presentText(_("blank"), interrupt=True, flush=False)
         else:
             self.env['runtime']['outputManager'].presentText(currChar ,interrupt=True, ignorePunctuation=True, announceCapital=True, flush=False)
-        self.env['runtime']['outputManager'].presentText("beginning of line", interrupt=False)
+        self.env['runtime']['outputManager'].presentText(_("beginning of line"), interrupt=False)
    
     def setCallback(self, callback):
         pass

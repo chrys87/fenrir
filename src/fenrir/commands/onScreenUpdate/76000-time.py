@@ -63,7 +63,7 @@ class command():
         
         if presentTime:
             # present the time
-            self.env['runtime']['outputManager'].presentText('Autotime: ' + timeString , soundIcon='', interrupt=False)
+            self.env['runtime']['outputManager'].presentText(_('Autotime: {0}').format(timeString), soundIcon='', interrupt=False)
         # and date if changes
         if presentDate:
                 self.env['runtime']['outputManager'].presentText(dateString , soundIcon='', interrupt=False)        

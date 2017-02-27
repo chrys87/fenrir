@@ -15,7 +15,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'presents the date'        
+        return _('presents the date')        
     
     def run(self):
         dateFormat = self.env['runtime']['settingsManager'].getSetting('general', 'dateFormat')

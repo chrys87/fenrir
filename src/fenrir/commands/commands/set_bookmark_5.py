@@ -15,11 +15,11 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'set Bookmark ' + self.ID        
+        return _('set Bookmark {0}').format(self.ID,)        
     
     def run(self):
         if not self.env['commandBuffer']['Marks']['1']:
-            self.env['runtime']['outputManager'].presentText("No Mark found", interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_("No Mark found"), interrupt=True)
             return
         currApp = self.env['runtime']['applicationManager'].getCurrentApplication()
         self.env['commandBuffer']['bookMarks'][self.ID][currApp] = {}
@@ -29,7 +29,7 @@ class command():
             self.env['commandBuffer']['bookMarks'][self.ID][currApp]['2'] = self.env['commandBuffer']['Marks']['2'].copy()
         else:
             self.env['commandBuffer']['bookMarks'][self.ID][currApp]['2'] = None
-        self.env['runtime']['outputManager'].presentText('Bookmark ' + self.ID + " set for application " + currApp, interrupt=True)
+        self.env['runtime']['outputManager'].presentText(_('Bookmark {0} set for application {1}').format(self.ID, currApp), interrupt=True)
         self.env['commandBuffer']['Marks']['1'] = None
         self.env['commandBuffer']['Marks']['2'] = None
     def setCallback(self, callback):

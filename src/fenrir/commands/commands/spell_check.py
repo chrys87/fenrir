@@ -23,17 +23,17 @@ class command():
     def shutdown(self):
         pass
     def getDescription(self):
-        return 'checks the spelling of the current word'        
+        return _('checks the spelling of the current word')        
     def updateSpellLanguage(self):  
         if not initialized:  
-           self.env['runtime']['outputManager'].presentText('pychant is not installed', interrupt=True) 
+           self.env['runtime']['outputManager'].presentText(_('pyenchant is not installed'), interrupt=True) 
            return            
         self.spellChecker = enchant.Dict(self.env['runtime']['settingsManager'].getSetting('general', 'spellCheckLanguage'))
         self.language = self.env['runtime']['settingsManager'].getSetting('general', 'spellCheckLanguage')      
        
     def run(self):
         if not initialized:
-           self.env['runtime']['outputManager'].presentText('pychant is not installed', interrupt=True) 
+           self.env['runtime']['outputManager'].presentText(_('pyenchant is not installed'), interrupt=True) 
            return
         if self.env['runtime']['settingsManager'].getSetting('general', 'spellCheckLanguage') != self.language:
             try:
@@ -49,8 +49,8 @@ class command():
 
         if not currWord.isspace():
             if not self.spellChecker.check(currWord):
-                self.env['runtime']['outputManager'].presentText('misspelled',soundIcon='mispell', interrupt=True)
+                self.env['runtime']['outputManager'].presentText(_('misspelled'),soundIcon='mispell', interrupt=True)
             elif not ignore:
-                self.env['runtime']['outputManager'].presentText('correct',soundIcon='', interrupt=True)            
+                self.env['runtime']['outputManager'].presentText(_('correct'),soundIcon='', interrupt=True)            
     def setCallback(self, callback):
         pass

@@ -14,11 +14,11 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return 'removes marks from selected text'        
+        return _('removes marks from selected text')        
     
     def run(self):
         self.env['runtime']['cursorManager'].clearMarks()
-        self.env['runtime']['outputManager'].presentText('Remove marks', interrupt=True)
+        self.env['runtime']['outputManager'].presentText(_('Remove marks'), interrupt=True)
 
     def setCallback(self, callback):
         pass
