@@ -22,7 +22,6 @@ class inputManager():
         self.env['input']['oldCapsLock'] = self.env['input']['newCapsLock']
         self.env['input']['newScrollLock'] = self.env['runtime']['inputDriver'].getLedState(2)
         self.env['input']['oldScrollLock'] = self.env['input']['newScrollLock']
-        self.grabDevices()
 
     def shutdown(self):
         self.env['runtime']['inputManager'].releaseDevices()

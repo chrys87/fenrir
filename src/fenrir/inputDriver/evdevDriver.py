@@ -22,6 +22,7 @@ class driver():
     def __init__(self):
         self.iDevices = {}
         self.uDevices = {}
+        self.iDeviceNo = 0
         self._initialized = False        
 
     def initialize(self, environment):
@@ -32,17 +33,16 @@ class driver():
             global _evdevAvailableError
             self.env['runtime']['debug'].writeDebugOut('InputDriver: ' + _evdevAvailableError,debug.debugLevel.ERROR)         
             return
-        self.getInputDevices()            
+        self.updateInputDevices()            
 
     def shutdown(self):
         if not self._initialized:
             return       
     def getInputEvent(self):
-
         if not self.hasIDevices():
             time.sleep(0.008) # dont flood CPU        
             return None
-            
+        self.updateInputDevices()   
         event = None
         r, w, x = select(self.iDevices, [], [], self.env['runtime']['settingsManager'].getSettingAsFloat('screen', 'screenUpdateDelay'))
         if r != []:
@@ -95,31 +95,55 @@ class driver():
             return    
         uDevice.write_event(event)
         uDevice.syn()  
-    def getInputDevices(self):
-        if not self._initialized:
-            return    
-        if self.iDevices != {}:
-            self.releaseDevices()
-        deviceList = evdev.list_devices()
-        readableDevices = []
-        for dev in deviceList:
-            try:
-                open(dev)
-                readableDevices.append(dev)
-            except Exception as e:
-                self.env['runtime']['debug'].writeDebugOut("Skip Inputdevice : " + dev +' ' + str(e),debug.debugLevel.ERROR)                     
-        self.iDevices = map(evdev.InputDevice, (readableDevices))
 
-        # 3 pos absolute
-        # 2 pos relative
-        # 1 Keys
-        # we try to filter out mices and other stuff here        
-        if self.env['runtime']['settingsManager'].getSetting('keyboard', 'device').upper() == 'ALL':
-            self.iDevices = {dev.fd: dev for dev in self.iDevices if 1 in dev.capabilities()}
-        elif self.env['runtime']['settingsManager'].getSetting('keyboard', 'device').upper() == 'NOMICE':       
-            self.iDevices = {dev.fd: dev for dev in self.iDevices if 1 in dev.capabilities() and not 3 in dev.capabilities() and not 2 in dev.capabilities()}
-        else:             
-            self.iDevices = {dev.fd: dev for dev in self.iDevices if dev.name.upper() in self.env['runtime']['settingsManager'].getSetting('keyboard', 'device').upper().split(',')}
+    def updateInputDevices(self, force = False, init = False):
+        if init:
+            self.iDevices = {}
+            self.iDeviceNo = 0
+        deviceFileList = evdev.list_devices()
+        if not force:
+            if len(deviceFileList) == self.iDeviceNo:
+                return
+        self.iDeviceNo = len(deviceFileList)    
+        mode = self.env['runtime']['settingsManager'].getSetting('keyboard', 'device').upper()
+        iDevicesFiles = []
+        for device in self.iDevices:
+            iDevicesFiles.append(self.iDevices[device].fn)
+        if len(iDevicesFiles) == len(deviceFileList):
+            return
+        for deviceFile in deviceFileList:
+            try:
+                if deviceFile in iDevicesFiles:
+                    print('skip')
+                    continue        
+                open(deviceFile)
+                # 3 pos absolute
+                # 2 pos relative
+                # 1 Keys
+                currDevice = evdev.InputDevice(deviceFile)
+                if currDevice.name.upper() in ['SPEAKUP','PY-EVDEV-UINPUT']:
+                    continue
+                cap = currDevice.capabilities()
+                if mode in ['ALL','NOMICE']:
+                    if 1 in cap:
+                        if 116 in cap[1] and len(cap[1]) < 5:
+                            print('power')
+                            continue
+                        if mode == 'ALL':
+                            self.iDevices[currDevice.fd] = currDevice
+                            self.grabDevice(currDevice.fd)
+                            print('Device added (ALL):' + self.iDevices[currDevice.fd].name)
+                        elif mode == 'NOMICE':
+                            if not ((2 in cap) or (3 in cap)):
+                                self.iDevices[currDevice.fd] = currDevice
+                                self.grabDevice(currDevice.fd)
+                                print('Device added (NOMICE):' + self.iDevices[currDevice.fd].name)
+                elif currDevice.name.upper() in mode.split(','):
+                    self.iDevices[currDevice.fd] = currDevice
+                    self.grabDevice(currDevice.fd)                    
+                    print('Device added (Name):' + self.iDevices[currDevice.fd].name)
+            except Exception as e:
+                print("Skip Inputdevice : " + deviceFile +' ' + str(e))                     
             
     def mapEvent(self, event):
         if not self._initialized:
@@ -162,25 +186,27 @@ class driver():
         if not self._initialized:
             return
         for fd in self.iDevices:
-            try:        
-                self.uDevices[fd] = UInput.from_device(self.iDevices[fd].fn)
-            except Exception as e:
-                try:
-                    self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: compat fallback:  ' + str(e),debug.debugLevel.ERROR)         
-                    dev = self.iDevices[fd]
-                    cap = dev.capabilities()
-                    del cap[0]
-                    self.uDevices[fd] = UInput(
-                      cap,
-                      dev.name,
-                    )
-                except Exception as e:
-                    self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: init Uinput not possible:  ' + str(e),debug.debugLevel.ERROR)         
-                    return                  
+            self.grabDevice()
+    def grabDevice(self, fd):
+        try:        
+            self.uDevices[fd] = UInput.from_device(self.iDevices[fd].fn)
+        except Exception as e:
             try:
-                self.iDevices[fd].grab()
+                self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: compat fallback:  ' + str(e),debug.debugLevel.ERROR)         
+                dev = self.iDevices[fd]
+                cap = dev.capabilities()
+                del cap[0]
+                self.uDevices[fd] = UInput(
+                  cap,
+                  dev.name,
+                )
             except Exception as e:
-                self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: grabing not possible:  ' + str(e),debug.debugLevel.ERROR)         
+                self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: init Uinput not possible:  ' + str(e),debug.debugLevel.ERROR)         
+                return                  
+        try:
+            self.iDevices[fd].grab()
+        except Exception as e:
+            self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: grabing not possible:  ' + str(e),debug.debugLevel.ERROR)         
 #        leve the old code until the new one is better tested    
 #        for fd in self.iDevices:
 #            dev = self.iDevices[fd]
@@ -195,8 +221,9 @@ class driver():
 #              #dev.info.bustype,
 #              #'/dev/uinput'
 #            )
-#            dev.grab()
+#            dev.grab()    
     def removeDevice(self,fd):
+        self.clearEventBuffer()
         try:
             self.iDevices[fd].ungrab()
         except:
