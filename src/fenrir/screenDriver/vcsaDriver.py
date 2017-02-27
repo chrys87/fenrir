@@ -81,7 +81,9 @@ class driver():
             if screen == '':                      
                 screen = str(inf.Get('org.freedesktop.login1.Session', 'TTY'))
                 screen = screen[screen.upper().find('TTY') + 3:]
-
+            if screen == '':
+                self.env['runtime']['debug'].writeDebugOut('No TTY found for session:' + session[4],debug.debugLevel.ERROR)               
+                return
             if sessionType.upper() == 'X11':
                 self.env['screenData']['autoIgnoreScreens'].append(screen)
             if screen == self.env['screenData']['newTTY'] :
