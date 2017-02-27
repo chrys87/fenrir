@@ -1,7 +1,16 @@
 #!/bin/python
 iDevices = {}
-def updateInputDevices():
+iDeviceNo = 0
+def updateInputDevices(force = False, init = False):
+    global iDeviceNo
+    if init:
+        iDevices = {}
+        iDeviceNo = 0
     deviceFileList = evdev.list_devices()
+    if not force:
+        if len(deviceFileList) == iDeviceNo:
+            return
+    iDeviceNo = len(deviceFileList)    
     mode = 'ALL'
     iDevicesFiles = []
     for device in iDevices:
