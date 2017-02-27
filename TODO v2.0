@@ -6,8 +6,7 @@ General:
   read highlighted text mode
 - be more event based (vcsa sets POLLPRI)
   http://scotdoyle.com/python-epoll-howto.html
-- try to make it more asynchronus
-- multpible threads
+- try to make it more asynchronus with multpible threads
 - leave review on typing (Easy for contribution)
 
 - implement commands
