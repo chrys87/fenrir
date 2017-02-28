@@ -24,7 +24,7 @@ class inputManager():
         self.env['input']['oldScrollLock'] = self.env['input']['newScrollLock']
 
     def shutdown(self):
-        self.env['runtime']['inputManager'].releaseDevices()
+        self.env['runtime']['inputManager'].removeAllDevices()
         self.env['runtime']['settingsManager'].shutdownDriver('inputDriver')
 
     def getInputEvent(self):
