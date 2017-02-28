@@ -40,8 +40,6 @@ Driver:
 - implement PTY Input driver  
 - ATK input driver (don't grab on graphical interface)
 - implement speechdriver generic (Easy for contribution)
-- implement autodetection of plugged and unplugged input devices (python-pyudev) for evdev driver
-  http://askubuntu.com/questions/508236/how-can-i-run-code-whenever-a-usb-device-is-unplugged-without-requiring-root
 - try to autodetect encoding (Easy for contribution)
   https://stackoverflow.com/questions/6396659/how-do-you-get-the-encoding-of-the-terminal-from-within-a-python-script
 
@@ -69,7 +67,9 @@ Application Profiles
 - initial translate structure (manuelcortez Thanks!)  
   http://www.supernifty.org/blog/2011/09/16/python-localization-made-easy/
 - add a configurable place where you can place own commands or overwrite existing commands without need to change default code
-
+- implement autodetection of plugged and unplugged input devices (python-pyudev) for evdev driver
+  http://askubuntu.com/questions/508236/how-can-i-run-code-whenever-a-usb-device-is-unplugged-without-requiring-root
+  
 Braille Support:
   initial BrlTTY driver
   detect device size via driver
