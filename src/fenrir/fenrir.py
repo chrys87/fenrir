@@ -36,7 +36,10 @@ class fenrir():
 
     def handleProcess(self):
         eventReceived = self.environment['runtime']['inputManager'].getInputEvent()
-        startTime = time.time()              
+        startTime = time.time()    
+        if not eventReceived:
+            if not self.environment['runtime']['screenManager'].isSuspendingScreen():
+                self.environment['runtime']['inputManager'].updateInputDevices()
         if eventReceived:
             self.prepareCommand()
             if not (self.wasCommand  or self.environment['generalInformation']['tutorialMode']) or  self.environment['runtime']['screenManager'].isSuspendingScreen():
