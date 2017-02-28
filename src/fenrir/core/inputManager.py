@@ -15,6 +15,7 @@ class inputManager():
         self.env = environment
         self.env['runtime']['settingsManager'].loadDriver(\
           self.env['runtime']['settingsManager'].getSetting('keyboard', 'driver'), 'inputDriver')
+        self.env['runtime']['inputManager'].updateInputDevices()        
         # init LEDs with current state
         self.env['input']['newNumLock'] = self.env['runtime']['inputDriver'].getLedState()
         self.env['input']['oldNumLock'] = self.env['input']['newNumLock']
