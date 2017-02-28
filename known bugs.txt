@@ -1,5 +1,4 @@
 Known Bugs (Problems with the logic ):
-- fenrir crashes on device unplug (remove device graceful)
 - word echo triggers twice if there are two spaces after an word and you arrow over them
 - spellcheck triggers twice if there are two spaces after an word and you arrow over them
 
