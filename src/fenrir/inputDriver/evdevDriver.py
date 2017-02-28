@@ -50,7 +50,6 @@ class driver():
                 try:
                     event = self.iDevices[fd].read_one()            
                 except:
-                    #print('jow')
                     self.removeDevice(fd)
                     return None
                 foreward = False
@@ -98,8 +97,7 @@ class driver():
 
     def updateInputDevices(self, force = False, init = False):
         if init:
-            self.iDevices = {}
-            self.iDeviceNo = 0
+            self.removeAllDevices()
         deviceFileList = evdev.list_devices()
         if not force:
             if len(deviceFileList) == self.iDeviceNo:
@@ -113,7 +111,6 @@ class driver():
         for deviceFile in deviceFileList:
             try:
                 if deviceFile in iDevicesFiles:
-                    print('skip')
                     continue        
                 open(deviceFile)
                 # 3 pos absolute
@@ -182,11 +179,12 @@ class driver():
                     self.iDevices[i].set_led(led , 0)
                 else:
                     self.iDevices[i].set_led(led , 1)
-    def grabDevices(self):
+    def grabAllDevices(self):
         if not self._initialized:
             return
         for fd in self.iDevices:
-            self.grabDevice()
+            self.grabDevice(fd)
+
     def grabDevice(self, fd):
         try:        
             self.uDevices[fd] = UInput.from_device(self.iDevices[fd].fn)
@@ -207,21 +205,7 @@ class driver():
             self.iDevices[fd].grab()
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: grabing not possible:  ' + str(e),debug.debugLevel.ERROR)         
-#        leve the old code until the new one is better tested    
-#        for fd in self.iDevices:
-#            dev = self.iDevices[fd]
-#            cap = dev.capabilities()
-#            del cap[0]
-#            self.uDevices[fd] = UInput(
-#              cap,
-#              dev.name,
-#              #dev.info.vendor,
-#              #dev.info.product,
-#              #dev.version,
-#              #dev.info.bustype,
-#              #'/dev/uinput'
-#            )
-#            dev.grab()    
+
     def removeDevice(self,fd):
         self.clearEventBuffer()
         try:
@@ -252,8 +236,8 @@ class driver():
         if len(self.iDevices) == 0:
             return False
         return True    
-    
-    def releaseDevices(self):
+
+    def removeAllDevices(self):
         if not self.hasIDevices():
             return
         devices = self.iDevices.copy()
@@ -261,6 +245,7 @@ class driver():
             self.removeDevice(fd)
         self.iDevices.clear()
         self.uDevices.clear()
+        self.iDeviceNo = 0
 
     def __del__(self):
         if not self._initialized:
