@@ -41,7 +41,6 @@ class driver():
         if not self.hasIDevices():
             time.sleep(0.008) # dont flood CPU        
             return None
-        self.updateInputDevices()   
         event = None
         r, w, x = select(self.iDevices, [], [], self.env['runtime']['settingsManager'].getSettingAsFloat('screen', 'screenUpdateDelay'))
         if r != []:
