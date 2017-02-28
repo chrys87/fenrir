@@ -111,7 +111,11 @@ class driver():
             try:
                 if deviceFile in iDevicesFiles:
                     continue        
-                open(deviceFile)
+                try:
+                    open(deviceFile)
+                except:
+                    print("Not readable Inputdevice : " + deviceFile +' ' + str(e))    
+                    continue
                 # 3 pos absolute
                 # 2 pos relative
                 # 1 Keys
@@ -121,9 +125,12 @@ class driver():
                 cap = currDevice.capabilities()
                 if mode in ['ALL','NOMICE']:
                     if 1 in cap:
-                        if 116 in cap[1] and len(cap[1]) < 5:
+                        if 116 in cap[1] and len(cap[1]) < 10:
                             print('power')
                             continue
+                        if len(cap[1]) < 30:
+                            print('Not A useful keyboared')
+                            continue                            
                         if mode == 'ALL':
                             self.iDevices[currDevice.fd] = currDevice
                             self.grabDevice(currDevice.fd)
