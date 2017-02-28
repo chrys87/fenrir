@@ -32,8 +32,7 @@ class driver():
         if not self._initialized:
             global _evdevAvailableError
             self.env['runtime']['debug'].writeDebugOut('InputDriver: ' + _evdevAvailableError,debug.debugLevel.ERROR)         
-            return
-        self.updateInputDevices()            
+            return  
 
     def shutdown(self):
         if not self._initialized:
