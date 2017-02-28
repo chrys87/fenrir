@@ -31,7 +31,7 @@ class driver():
             return    
         del self.env['input']['eventBuffer'][:]            
 
-    def getInputDevices(self):
+    def updateInputDevices(self, force = False, init = False):
         if not self._initialized:
             return    
        
