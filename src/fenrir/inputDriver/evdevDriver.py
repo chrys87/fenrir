@@ -106,6 +106,7 @@ class driver():
             iDevicesFiles.append(self.iDevices[device].fn)
         if len(iDevicesFiles) == len(deviceFileList):
             return
+        eventType = evdev.events
         for deviceFile in deviceFileList:
             try:
                 if deviceFile in iDevicesFiles:
@@ -123,11 +124,11 @@ class driver():
                     continue
                 cap = currDevice.capabilities()
                 if mode in ['ALL','NOMICE']:
-                    if 1 in cap:
-                        if 116 in cap[1] and len(cap[1]) < 10:
+                    if eventType.EV_KEY in cap:
+                        if 116 in cap[eventType.EV_KEY] and len(cap[eventType.EV_KEY]) < 10:
                             print('power')
                             continue
-                        if len(cap[1]) < 30:
+                        if len(cap[eventType.EV_KEY]) < 30:
                             print('Not A useful keyboared')
                             continue                            
                         if mode == 'ALL':
@@ -135,7 +136,7 @@ class driver():
                             self.grabDevice(currDevice.fd)
                             print('Device added (ALL):' + self.iDevices[currDevice.fd].name)
                         elif mode == 'NOMICE':
-                            if not ((2 in cap) or (3 in cap)):
+                            if not ((eventType.EV_REL in cap) or (eventType.EV_ABS in cap)):
                                 self.iDevices[currDevice.fd] = currDevice
                                 self.grabDevice(currDevice.fd)
                                 print('Device added (NOMICE):' + self.iDevices[currDevice.fd].name)
