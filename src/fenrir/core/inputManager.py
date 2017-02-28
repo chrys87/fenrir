@@ -15,7 +15,7 @@ class inputManager():
         self.env = environment
         self.env['runtime']['settingsManager'].loadDriver(\
           self.env['runtime']['settingsManager'].getSetting('keyboard', 'driver'), 'inputDriver')
-        self.env['runtime']['inputManager'].updateInputDevices()        
+        self.updateInputDevices()
         # init LEDs with current state
         self.env['input']['newNumLock'] = self.env['runtime']['inputDriver'].getLedState()
         self.env['input']['oldNumLock'] = self.env['input']['newNumLock']
@@ -25,7 +25,7 @@ class inputManager():
         self.env['input']['oldScrollLock'] = self.env['input']['newScrollLock']
 
     def shutdown(self):
-        self.env['runtime']['inputManager'].removeAllDevices()
+        self.removeAllDevices()
         self.env['runtime']['settingsManager'].shutdownDriver('inputDriver')
 
     def getInputEvent(self):
@@ -101,13 +101,16 @@ class inputManager():
                 return False
         return self.setLedState
 
-    def grabDevices(self):
+    def grabAllDevices(self):
         if self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
-            self.env['runtime']['inputDriver'].grabDevices()
-
-    def releaseDevices(self):
+            self.env['runtime']['inputDriver'].grabAllDevices()
+    
+    def updateInputDevices(self):
+        self.env['runtime']['inputDriver'].updateInputDevices()  
+    
+    def removeAllDevices(self):
         try:
-            self.env['runtime']['inputDriver'].releaseDevices()
+            self.env['runtime']['inputDriver'].removeAllDevices()
         except:
             pass
 
