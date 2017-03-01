@@ -26,12 +26,14 @@ class command():
 
         # its a cursor movement (experimental) - maybe also check current shortcut string?
 
-        if abs(self.env['screenData']['newCursor']['x'] - self.env['screenData']['oldCursor']['x']) >= 1:
-            if len(self.env['screenData']['newDelta'].strip(' \n\t0123456789')) <= 2:
-                return          
-        if abs(self.env['screenData']['newCursor']['y'] - self.env['screenData']['oldCursor']['y']) == 1:
-            if len(self.env['screenData']['newDelta'].strip(' \n\t0123456789')) <= 2:
-                return                        
+        if not '$' in self.env['screenData']['newDelta'] and
+          not '#' in self.env['screenData']['newDelta']:
+            if abs(self.env['screenData']['newCursor']['x'] - self.env['screenData']['oldCursor']['x']) >= 1:
+                if len(self.env['screenData']['newDelta'].strip(' \n\t0123456789')) <= 2:
+                    return          
+            if abs(self.env['screenData']['newCursor']['y'] - self.env['screenData']['oldCursor']['y']) == 1:
+                if len(self.env['screenData']['newDelta'].strip(' \n\t0123456789')) <= 2:
+                    return                        
         self.env['runtime']['outputManager'].presentText(self.env['screenData']['newDelta'], interrupt=False, flush=False)
 
     def setCallback(self, callback):
