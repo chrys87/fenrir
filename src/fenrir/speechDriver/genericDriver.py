@@ -22,7 +22,7 @@ class speakQueue(Queue):
 class driver():
     def __init__(self):
         self.proc = None
-        self.speechThread = threading.Thread(target=worker)
+        self.speechThread = Thread(target=self.worker)
         self.textQueue = speakQueue()
         self.volume = None
         self.rate = None
@@ -33,9 +33,11 @@ class driver():
     def initialize(self, environment):
         self._isInitialized = True    
         self.env = environment     
-        self.speechCommand = self.env['runtime']['settingsManager'].getSetting('speech', 'genericSpeechCommand')
+        self.speechCommand = ''
+        #self.speechCommand = self.env['runtime']['settingsManager'].getSetting('speech', 'genericSpeechCommand')
         if self.speechCommand == '':
-            self.speechCommand = 'espeak fenrirModule fenrirLanguage -v fenrirVoice -p fenrirPitch -v fenrirVolume -s fenrirRate'  
+            self.speechCommand = 'spd-say "fenrirText"'  
+        #'espeak -a fenrirVolume -s fenrirRate -p fenrirPitch -v fenrirVoice "fenrirText"'  
         if self._isInitialized:
             self.speechThread.start()   
     def shutdown(self):
@@ -49,7 +51,12 @@ class driver():
             return
         if not queueable: 
             self.cancel()
-         = None
+        self.volume = '200'
+        self.rate = '200'
+        self.pitch = '200'
+        self.module = ''
+        self.language = ''
+        self.voice = 'de'           
         utterance = {
           'text': text,
           'volume': self.volume,
@@ -65,7 +72,9 @@ class driver():
         if not self._isInitialized:
             return
         self.clear_buffer()
-
+        if self.proc:
+            self.proc.kill()
+        
     def setCallback(self, callback):
         print('SpeechDummyDriver: setCallback')    
 
@@ -74,7 +83,6 @@ class driver():
             return
         if not self.textQueue.not_empty:
             self.textQueue.clear()     
-
     def setVoice(self, voice):
         if not self._isInitialized:
             return
@@ -112,17 +120,32 @@ class driver():
                 if utterance == -1:
                     return
             elif not isinstance(utterance, dict):
-                if not len(utterance) == 7:
-                    continue
-            print(utterance)#
+                continue
+            print(utterance)
+            for key, item in utterance.items():
+                if not utterance[key]:
+                    utterance[key] = ''
+                    
             popenSpeechCommand = self.speechCommand
-            popenSpeechCommand = self.popenSpeechCommand.replace('fenrirVolume', str(utterance['volume'] ))
+            popenSpeechCommand = popenSpeechCommand.replace('fenrirVolume', str(utterance['volume'] ))
             popenSpeechCommand = popenSpeechCommand.replace('fenrirModule', str(utterance['module']))
             popenSpeechCommand = popenSpeechCommand.replace('fenrirLanguage', str(utterance['language'])) 
             popenSpeechCommand = popenSpeechCommand.replace('fenrirVoice', str(utterance['voice']))               
             popenSpeechCommand = popenSpeechCommand.replace('fenrirPitch', str(utterance['pitch']))               
             popenSpeechCommand = popenSpeechCommand.replace('fenrirRate', str(utterance['rate'] ))               
-            popenSpeechCommand = popenSpeechCommand.replace('fenrirRate', str(utterance['text'] ))        
+            popenSpeechCommand = popenSpeechCommand.replace('fenrirText', str(utterance['text'] ))        
         
-            self.proc = subprocess.Popen(popenSpeechCommand, shell=True)            
+            self.proc = Popen(popenSpeechCommand, shell=True)            
+        try:
+            self.proc = Popen(popenSpeechCommand , stdout=PIPE, stderr=PIPE, shell=True)
+            stdout, stderr = p.communicate()
+            screenEncoding = self.env['runtime']['settingsManager'].getSetting('screen', 'encoding')
+            stderr = stderr.decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
+            stdout = stdout.decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
+            if stderr != '':
+                print('err' + stderr)
+            if stdout != '':
+                print('out' + stdout)
+        except Exception as e:
+                print('except' + str(e))       
 
