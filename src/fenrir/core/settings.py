@@ -26,6 +26,13 @@ settings = {
   'voice': '',
   'language': 'english-us',
   'autoReadIncoming': True,
+  'genericSpeechCommand':'espeak -a fenrirVolume -s fenrirRate -p fenrirPitch -v fenrirVoice "fenrirText"',
+  'fenrirMinVolume':0,
+  'fenrirMaxVolume':200,
+  'fenrirMinPitch':0,
+  'fenrirMaxPitch':99,
+  'fenrirMinRate':80,
+  'fenrirMaxRate':450,   
 },
 'braille':{
   'enabled': False, 
