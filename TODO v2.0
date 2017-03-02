@@ -11,7 +11,8 @@ General:
 
 - implement commands
   attributes_curr_char (Easy for contribution)
-  generic list command (convert clipboard management) (Easy for contribution)
+  https://github.com/jwilk/vcsapeek/blob/master/linuxvt.py
+- generic list (convert clipboard management) (Easy for contribution)
     next item
     pref item
     curr item
@@ -67,7 +68,9 @@ Application Profiles
   http://www.supernifty.org/blog/2011/09/16/python-localization-made-easy/
 - add a configurable place where you can place own commands or overwrite existing commands without need to change default code
 - implement autodetection of plugged and unplugged input devices (python-pyudev) for evdev driver
+  http://stackoverflow.com/questions/22678686/python-script-to-detect-hot-plug-event
   http://askubuntu.com/questions/508236/how-can-i-run-code-whenever-a-usb-device-is-unplugged-without-requiring-root
+  https://www.mattfischer.com/blog/?p=182
 - implement speechdriver generic (Easy for contribution)
   
 Braille Support:
