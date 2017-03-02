@@ -8,8 +8,9 @@
 from core import debug
 from threading import Thread
 from queue import Queue, Empty
-#import subprocess, os
+import time
 from subprocess import Popen, PIPE
+import subprocess
 
 class speakQueue(Queue):
     def clear(self):
@@ -43,7 +44,7 @@ class driver():
         if self.speechCommand == '':
             self.speechCommand = 'espeak -a fenrirVolume -s fenrirRate -p fenrirPitch -v fenrirVoice "fenrirText"'
         if False: #for debugging overwrite here
-            self.speechCommand = 'spd-say --wait "fenrirText"'  
+            self.speechCommand = 'spd-say --wait -r 100 -i 100  "fenrirText"'  
         
         self._isInitialized = True   
         if self._isInitialized:
@@ -75,7 +76,9 @@ class driver():
             return
         self.clear_buffer()
         if self.proc:
+            self.proc.terminate()
             self.proc.kill()
+            self.proc = None            
         
     def setCallback(self, callback):
         print('SpeechDummyDriver: setCallback')    
@@ -83,8 +86,7 @@ class driver():
     def clear_buffer(self):
         if not self._isInitialized:
             return
-        if not self.textQueue.not_empty:
-            self.textQueue.clear()     
+        self.textQueue.clear()     
     def setVoice(self, voice):
         if not self._isInitialized:
             return
@@ -118,6 +120,7 @@ class driver():
     def worker(self):
         while True:
             utterance = self.textQueue.get()
+
             if isinstance(utterance, int):
                 if utterance == -1:
                     return
@@ -129,7 +132,7 @@ class driver():
                     utterance[key] = ''
                 if not utterance[key]:
                     utterance[key] = ''
-            print(utterance)                    
+            utterance = utterance.copy()
             popenSpeechCommand = self.speechCommand
             popenSpeechCommand = popenSpeechCommand.replace('fenrirVolume', str(utterance['volume'] ).replace('"',''))
             popenSpeechCommand = popenSpeechCommand.replace('fenrirModule', str(utterance['module']).replace('"',''))
@@ -140,15 +143,13 @@ class driver():
             popenSpeechCommand = popenSpeechCommand.replace('fenrirText', str(utterance['text']).replace('"','').replace('\n',''))
                   
             try:
+                s = time.time()
+                #subprocess.check_call(popenSpeechCommand,shell=True)
                 self.proc = Popen(popenSpeechCommand , stdout=PIPE, stderr=PIPE, shell=True)
-                stdout, stderr = self.proc.communicate()
-                screenEncoding = self.env['runtime']['settingsManager'].getSetting('screen', 'encoding')
-                stderr = stderr.decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
-                stdout = stdout.decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
-                if stderr != '':
-                    print('err' + stderr)
-                if stdout != '':
-                    print('out' + stdout)
+                self.proc.wait()
+                self.proc = None
+                print(popenSpeechCommand)
+                print('run',time.time() -s)
             except Exception as e:
                     print('except' + str(e))
 
