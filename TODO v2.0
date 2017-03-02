@@ -39,7 +39,6 @@ Driver:
   https://docs.python.org/3.2/library/pty.html
 - implement PTY Input driver  
 - ATK input driver (don't grab on graphical interface)
-- implement speechdriver generic (Easy for contribution)
 - try to autodetect encoding (Easy for contribution)
   https://stackoverflow.com/questions/6396659/how-do-you-get-the-encoding-of-the-terminal-from-within-a-python-script
 
@@ -69,6 +68,7 @@ Application Profiles
 - add a configurable place where you can place own commands or overwrite existing commands without need to change default code
 - implement autodetection of plugged and unplugged input devices (python-pyudev) for evdev driver
   http://askubuntu.com/questions/508236/how-can-i-run-code-whenever-a-usb-device-is-unplugged-without-requiring-root
+- implement speechdriver generic (Easy for contribution)
   
 Braille Support:
   initial BrlTTY driver
