@@ -10,7 +10,6 @@ from threading import Thread
 from queue import Queue, Empty
 import time
 from subprocess import Popen, PIPE
-import subprocess
 
 class speakQueue(Queue):
     def clear(self):
@@ -25,12 +24,12 @@ class driver():
         self.proc = None
         self.speechThread = Thread(target=self.worker)
         self.textQueue = speakQueue()
-        self.volume = None
-        self.rate = None
-        self.pitch = None
-        self.module = None
-        self.language = None        
-        self.voice = None
+        self.volume = ''
+        self.rate = ''
+        self.pitch = ''
+        self.module = ''
+        self.language = ''        
+        self.voice = ''
     def initialize(self, environment):   
         self.env = environment  
         self.minVolume = self.env['runtime']['settingsManager'].getSettingAsInt('speech', 'fenrirMinVolume')
@@ -76,9 +75,12 @@ class driver():
             return
         self.clear_buffer()
         if self.proc:
-            self.proc.terminate()
-            self.proc.kill()
-            self.proc = None            
+            try:
+                self.proc.terminate()
+            except:
+                self.proc.kill()
+            finally: 
+                self.proc = None            
         
     def setCallback(self, callback):
         print('SpeechDummyDriver: setCallback')    
@@ -87,6 +89,7 @@ class driver():
         if not self._isInitialized:
             return
         self.textQueue.clear()     
+    
     def setVoice(self, voice):
         if not self._isInitialized:
             return
@@ -95,12 +98,12 @@ class driver():
     def setPitch(self, pitch):
         if not self._isInitialized:
             return
-        self.pitch = self.minPitch + pitch * (self.maxPitch - self.minPitch )
+        self.pitch = str(self.minPitch + pitch * (self.maxPitch - self.minPitch ))
 
     def setRate(self, rate):
         if not self._isInitialized:
             return
-        self.rate = self.minRate + rate * (self.maxRate - self.minRate )
+        self.rate = str(self.minRate + rate * (self.maxRate - self.minRate ))
 
     def setModule(self, module):
         if not self._isInitialized:
@@ -115,7 +118,7 @@ class driver():
     def setVolume(self, volume):
         if not self._isInitialized:
             return     
-        self.volume = self.minVolume + volume * (self.maxVolume - self.minVolume )
+        self.volume = str(self.minVolume + volume * (self.maxVolume - self.minVolume ))
     
     def worker(self):
         while True:
@@ -130,9 +133,12 @@ class driver():
             for key in ['volume','module','language','voice','pitch','rate','text']:
                 if not key in utterance:
                     utterance[key] = ''
-                if not utterance[key]:
+                if not isinstance(utterance[key],str):
                     utterance[key] = ''
-            utterance = utterance.copy()
+                if key == 'text':
+                    if utterance[key] == '':
+                        continue
+
             popenSpeechCommand = self.speechCommand
             popenSpeechCommand = popenSpeechCommand.replace('fenrirVolume', str(utterance['volume'] ).replace('"',''))
             popenSpeechCommand = popenSpeechCommand.replace('fenrirModule', str(utterance['module']).replace('"',''))
@@ -147,9 +153,9 @@ class driver():
                 #subprocess.check_call(popenSpeechCommand,shell=True)
                 self.proc = Popen(popenSpeechCommand , stdout=PIPE, stderr=PIPE, shell=True)
                 self.proc.wait()
-                self.proc = None
                 print(popenSpeechCommand)
                 print('run',time.time() -s)
             except Exception as e:
                     print('except' + str(e))
+            self.proc = None
 
