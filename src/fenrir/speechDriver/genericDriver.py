@@ -150,7 +150,6 @@ class driver():
                   
             try:
                 s = time.time()
-                #subprocess.check_call(popenSpeechCommand,shell=True)
                 self.proc = Popen(popenSpeechCommand , stdout=PIPE, stderr=PIPE, shell=True)
                 self.proc.wait()
                 print(popenSpeechCommand)
