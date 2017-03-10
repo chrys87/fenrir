@@ -150,7 +150,7 @@ class driver():
                   
             try:
                 s = time.time()
-                self.proc = Popen(popenSpeechCommand , stdout=PIPE, stderr=PIPE, shell=True)
+                self.proc = Popen(popenSpeechCommand, shell=True)
                 self.proc.wait()
                 print(popenSpeechCommand)
                 print('run',time.time() -s)
