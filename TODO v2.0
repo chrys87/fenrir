@@ -10,6 +10,7 @@ General:
 - leave review on typing (Easy for contribution)
 
 - implement commands
+  Tutorial Mode: navigate through a list of bound commands. speak binding and description.
   attributes_curr_char (Easy for contribution)
   https://github.com/jwilk/vcsapeek/blob/master/linuxvt.py
 - generic list (convert clipboard management) (Easy for contribution)
