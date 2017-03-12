@@ -68,7 +68,7 @@ class fenrir():
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenUpdate')         
         #self.environment['runtime']['outputManager'].brailleText(flush=False)    
         self.handleCommands()
-        print(time.time()-startTime)       
+        #print(time.time()-startTime)       
 
     def prepareCommand(self):
         if self.environment['runtime']['screenManager'].isSuspendingScreen():
