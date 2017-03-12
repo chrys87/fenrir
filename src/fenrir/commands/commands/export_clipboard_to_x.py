@@ -20,30 +20,39 @@ class command():
     def getDescription(self):
         return _('export the current fenrir clipboard to X clipboard')
     def run(self):                       
-        _thread.start_new_thread(self._threadRun , ())
+       print('drin')
+       _thread.start_new_thread(self._threadRun , ())
 
     def _threadRun(self):
+        print('jo')
         try:
             currClipboard = self.env['commandBuffer']['currClipboard']
+            print(currClipboard)
+            
             if currClipboard < 0:
                 self.env['runtime']['outputManager'].presentText(_('clipboard empty'), interrupt=True)
+                print('1')
                 return
             if not self.env['commandBuffer']['clipboard']:
                 self.env['runtime']['outputManager'].presentText(_('clipboard empty'), interrupt=True)
+                print('2')
                 return
             if not self.env['commandBuffer']['clipboard'][currClipboard]:
                 self.env['runtime']['outputManager'].presentText(_('clipboard empty'), interrupt=True)
+                print('3')
                 return 
             if self.env['commandBuffer']['clipboard'][currClipboard] == '':
                 self.env['runtime']['outputManager'].presentText(_('clipboard empty'), interrupt=True)
+                print('4')
                 return                                         
-    
-            p = Popen('su -c "echo -n \"' + self.env['commandBuffer']['clipboard'][currClipboard] +'\" | xclip -selection c' + self.env['generalInformation']['currUser'] , stdout=PIPE, stderr=PIPE, shell=True)
+            print('doit')
+            p = Popen('su -c "echo -n \"' + self.env['commandBuffer']['clipboard'][currClipboard] +'\" | xclip -d :0 -selection c' + self.env['generalInformation']['currUser'] , stdout=PIPE, stderr=PIPE, shell=True)
             stdout, stderr = p.communicate()
             self.env['runtime']['outputManager'].interruptOutput()
             screenEncoding = self.env['runtime']['settingsManager'].getSetting('screen', 'encoding')
             stderr = stderr.decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
             stdout = stdout.decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
+            print('test:',stderr,stdout)
             if stderr != '':
                 self.env['runtime']['outputManager'].presentText(stdout , soundIcon='', interrupt=False)
             else:
