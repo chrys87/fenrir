@@ -13,6 +13,7 @@ This software is licensed under the LGPL v3 .
 # Input Drivers:
 1. "evdevDriver" input driver for linux evdev
   - python-evdev >=0.6.3
+- This is commonly referred to as python3-evdev by your distribution
   - loaded uinput kernel module
   - ReadWrite permission 
     - /dev/input
