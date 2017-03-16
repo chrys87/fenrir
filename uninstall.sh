@@ -10,6 +10,7 @@ read -p "This will remove fenrir and settings. Press ctrl+c to cancel, or enter 
 
 # do it
 unlink /usr/bin/fenrir
+unlink /usr/bin/fenrir-daemon
 rm -r /opt/fenrir
 rm -r /usr/share/fenrir
 rm -r /etc/fenrir
