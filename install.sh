@@ -6,8 +6,8 @@ read -p "This will install Fenrir. Press ctrl+c to cancel, or enter to continue.
 install -m755 -d /opt/fenrir
 cp -a src/fenrir/* /opt/fenrir
 install -m644 -D "autostart/systemd/fenrir.service" /usr/lib/systemd/system/fenrir.service
-ln -s /opt/fenrir/fenrir-daemon /usr/bin/fenrir
-
+ln -s /opt/fenrir/fenrir-daemon /usr/bin/fenrir-daemon
+ln -s /opt/fenrir/fenrir /usr/bin/fenrir
 # tools
 install -m755 -d /usr/share/fenrir/tools
 cp -a tools/* /usr/share/fenrir/tools
