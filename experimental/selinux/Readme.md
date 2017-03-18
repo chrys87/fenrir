@@ -6,6 +6,7 @@ semodule -i /path/to/fenrir.pp
 
 
 # created with that
-# ausearch -c '(r-daemon)' --raw | audit2allow -M my-rdaemon
-# semodule -X 300 -i my-rdaemon.pp
+# systemctl start fenrir
+# ausearch -c '(r-daemon)' --raw | audit2allow -M fenrir
+# semodule -X 300 -i fenrir.pp
 
