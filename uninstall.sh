@@ -1,8 +1,8 @@
 #!/bin/bash
-#Basic install script for fenrir.
+#Basic uninstall script for fenrir.
 cat << EOF
-fenrir is going to remove.
-every script and settings are lost.
+Fenrir is going to remove.
+All scripts and settings will be lost.
 EOF
 
 # ask
@@ -10,6 +10,7 @@ read -p "This will remove fenrir and settings. Press ctrl+c to cancel, or enter 
 
 # do it
 unlink /usr/bin/fenrir
+unlink /usr/bin/fenrir-daemon
 rm -r /opt/fenrir
 rm -r /usr/share/fenrir
 rm -r /etc/fenrir
@@ -18,5 +19,5 @@ rm /usr/lib/systemd/system/fenrir.service
 
 # success message
 cat << EOF
-fenrir is removed
+Fenrir has been successfully removed from your system.
 EOF
