@@ -1,8 +1,8 @@
 #!/bin/bash
-#Basic install script for fenrir.
+#Basic uninstall script for fenrir.
 cat << EOF
-fenrir is going to remove.
-every script and settings are lost.
+Fenrir is going to remove.
+All scripts and settings will be lost.
 EOF
 
 # ask
@@ -19,5 +19,5 @@ rm /usr/lib/systemd/system/fenrir.service
 
 # success message
 cat << EOF
-fenrir is removed
+Fenrir has been successfully removed from your system.
 EOF
