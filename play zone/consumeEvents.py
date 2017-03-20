@@ -7,12 +7,6 @@ import time
 iDevices = map(evdev.InputDevice, (evdev.list_devices()))
 iDevices = {dev.fd: dev for dev in iDevices if evdev.events.EV_KEY in dev.capabilities()}
 
-for fd in iDevices:
-    dev = iDevices[fd]
-    print(dev.name,dev.leds())
-
-return
-
 uDevices = {}
 for fd in iDevices:
     dev = iDevices[fd]
