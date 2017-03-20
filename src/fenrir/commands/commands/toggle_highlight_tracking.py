@@ -13,7 +13,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return _('enables or disables tracking of highlighted')        
+        return _('enables or disables tracking of highlighted text')        
     
     def run(self):
         currMode = self.env['runtime']['settingsManager'].getSettingAsBool('focus', 'highlight')
