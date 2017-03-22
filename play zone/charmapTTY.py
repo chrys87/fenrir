@@ -2,6 +2,9 @@
 #attrib:
 #http://rampex.ihep.su/Linux/linux_howto/html/tutorials/mini/Colour-ls-6.html
 #0 = black, 1 = blue, 2 = green, 3 = cyan, 4 = red, 5 = purple, 6 = brown/yellow, 7 = white. 
+#https://github.com/jwilk/vcsapeek/blob/master/linuxvt.py
+#blink = 5 if attr & 1 else 0
+#bold = 1 if attr & 16 else 0
 from fcntl import ioctl
 from array import array
 import struct
