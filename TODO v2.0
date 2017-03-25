@@ -4,10 +4,21 @@ Things with not so deep knowledge needed are marekd wiht "(Easy for contribution
 General:  
 - implement onScreenUpdate commands
   read highlighted text mode
+- try to make it more asynchronus with multpible threads
 - be more event based (vcsa sets POLLPRI)
   http://scotdoyle.com/python-epoll-howto.html
-- try to make it more asynchronus with multpible threads
-- leave review on typing (Easy for contribution)
+  Needed events:
+  screen update (vcsa sets POLLPRI)
+  plug input device (udev event)
+  screen changed (logind event, collides with screen update)
+  keyboard input (select, wait forever)
+  braille input (brlapi_readKey)
+  braille flush (timer, sleep)
+  Each event is watched in an own thread. This improves performance and reduce the load.
+  The event loop is to be done as "queue" since those are thread safe.  
+  The threads are reading incomming data and add the events and data to the queue
+  the mainloop just reads the queue in an blocking way and executes the needed codepath with the data.
+- leave review on typing (Prototype "charmapTTY" in play zone)
 
 - implement commands
   Tutorial Mode: navigate through a list of bound commands. speak binding and description.
@@ -31,6 +42,7 @@ Braille Support:
   make routing keys assignable by keyboard
   make brailleTable configurable
   pkg-config --variable=tablesdir liblouis
+    returns on Arch:/usr/share/liblouis/tables
   http://mielke.cc/brltty/doc/Manual-BrlAPI/English/BrlAPI.html
   https://git.gnome.org/browse/orca/tree/src/orca/braille.py
   https://wiki.gnome.org/Attic/LSR/ScratchPad/Braille/BrlAPI 
