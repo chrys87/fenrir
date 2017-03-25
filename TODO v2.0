@@ -37,6 +37,7 @@ Braille Support:
     - last = follow last used cursor
   print cursor in review
   print cursor in textmode
+  word wrapping (if word does not fit print it at next page)
   command toggle used cursor (in manual brailleFocusMode)  
   capture input from braile
   make routing keys assignable by keyboard
