@@ -10,10 +10,10 @@ import __main__
 if not os.path.dirname(os.path.realpath(__main__.__file__)) in sys.path:
     sys.path.append(os.path.dirname(os.path.realpath(__main__.__file__)))
 
-import fenrir
+from core import fenrirManager
 
 def main():
-    app = fenrir.fenrir()
+    app = fenrirManager.fenrirManager()
     app.proceed()
     del app
 
