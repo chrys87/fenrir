@@ -1,7 +1,6 @@
 Known Bugs (Problems with the logic ):
 - word echo triggers twice if there are two spaces after an word and you arrow over them
 - spellcheck triggers twice if there are two spaces after an word and you arrow over them
-- bash prompt is spoken twice as long it screen is not "full" -> Trigger: Vertical Movement, Auto Incomming (one of them needs to be stopped from triggering)
 Glitches (improve diff results):
 - For example, in screen, it just tells me bell in window, but doesn't tell me which one. (southernprince)
 - alpine seems to have problems (southernprince)
