@@ -93,9 +93,9 @@ class commandManager():
                 fileName = fileName.split('/')[-1]
                 if fileName.startswith('__'):
                     continue
-                if self.env['commands'][section][fileName.upper()]:
+                if fileName.upper() in self.env['commands'][section]:
                     continue
-                command_mod = module_utils.importModule(fileName ,subCommand)
+                command_mod = module_utils.importModule(fileName ,subCommand)              
                 self.env['commands'][section][fileName.upper()] = command_mod.command()
                 self.env['commands'][section][fileName.upper()].initialize(self.env,command)
                 self.env['runtime']['debug'].writeDebugOut("Load script:" + section + "." + fileName.upper() ,debug.debugLevel.INFO, onAnyLevel=True)                    
