@@ -9,17 +9,18 @@ from threading import Thread
 from queue import Queue, Empty
 import time 
 from enum import Enum
-
+from _thread import allocate_lock
+#from multiprocessing import Process, Queue
 
 class fenrirEventType(Enum):
     Ignore = 0
-    ScreenUpdate = 1
-    KeyboardInput = 2
-    BrailleInput = 3
-    PlugInputDevice = 4
-    BrailleFlush = 5
-    ScreenChanged = 6
-    StopMainLoop = 7
+    StopMainLoop = 1
+    ScreenUpdate = 2
+    KeyboardInput = 3
+    BrailleInput = 4
+    PlugInputDevice = 5
+    BrailleFlush = 6
+    ScreenChanged = 7
     def __int__(self):
         return self.value
     def __str__(self):
@@ -37,8 +38,10 @@ class eventQueue(Queue):
 
 class eventManager():
     def __init__(self):
+        self._mainLoopRunning = True
         self._eventThreads = []
         self._eventQueue = eventQueue()
+        self.lock = allocate_lock()        
     def initialize(self, environment):
         self.env = environment
     def shutdown(self):
@@ -48,22 +51,38 @@ class eventManager():
         print(event)
         return(event != fenrirEventType.StopMainLoop)
     def startMainEventLoop(self):
-        while(self.proceedEventLoop()):
-            pass
+        while(True):
+            self.proceedEventLoop()
+            self.lock.acquire(True)
+            if not self._mainLoopRunning:
+                break
+            self.lock.release()                
+    def stopMainEventLoop(self):
+            self.lock.acquire(True)
+            self._mainLoopRunning = False
+            self.lock.release()     
+            self._eventQueue.put({"EVENT":fenrirEventType.StopMainLoop,"DATA":None})        
     def addEventThread(self, event, function):
         t = Thread(target=self.eventWorkerThread, args=(event, function))
         self._eventThreads.append(t)
         t.start()
     def eventWorkerThread(self, event, function):       
-        for i in range(20):
-#        while True:
-            Data = function()
+#        for i in range(20):
+        while True:
+            Data = None
+            try:
+                Data = function()
+            except Exception as e:
+                print(e)
             self._eventQueue.put({"EVENT":event,"DATA":Data})
-
+            self.lock.acquire(True)
+            if not self._mainLoopRunning:
+                break
+            self.lock.release()                
 
 def p():
-    time.sleep(0.2)
-    return("p")
+    time.sleep(0.5)
+    #return("p")
 
 
 e = eventManager()
@@ -71,3 +90,5 @@ e.addEventThread(fenrirEventType.ScreenUpdate,p)
 e.addEventThread(fenrirEventType.BrailleInput,p)
 e.addEventThread(fenrirEventType.PlugInputDevice,p)
 e.addEventThread(fenrirEventType.ScreenChanged,p)
+time.sleep(0.5)
+e.addEventThread(fenrirEventType.StopMainLoop,e.stopMainEventLoop)
