@@ -5,12 +5,13 @@
 # By Chrys, Storm Dragon, and contributers.
 
 #from core import debug
-from threading import Thread
-from queue import Queue, Empty
+#from threading import Thread
+#from queue import Queue, Empty
 import time 
 from enum import Enum
-from _thread import allocate_lock
-#from multiprocessing import Process, Queue
+#from _thread import allocate_lock
+from multiprocessing import Process, Queue, Lock
+from multiprocessing.sharedctypes import Value
 
 class fenrirEventType(Enum):
     Ignore = 0
@@ -26,7 +27,7 @@ class fenrirEventType(Enum):
     def __str__(self):
         return self.name
 
-
+'''
 class eventQueue(Queue):
     def clear(self):
         try:
@@ -34,55 +35,77 @@ class eventQueue(Queue):
                 self.get_nowait()
         except Empty:
             pass
-
+'''
 
 class eventManager():
     def __init__(self):
-        self._mainLoopRunning = True
-        self._eventThreads = []
-        self._eventQueue = eventQueue()
-        self.lock = allocate_lock()        
+        self._mainLoopRunning =  Value('i', 1)
+        self._eventProcesses = []
+        self._eventQueue = Queue()
+        self.lock = Lock()     
     def initialize(self, environment):
         self.env = environment
     def shutdown(self):
-        self._eventQueue.clear()
+        for proc in self._eventProcesses:
+            try:
+                proc.terminate()
+            except Exception as e:
+                print(e)
+                
+        #self._eventQueue.clear()
     def proceedEventLoop(self):
         event = self._eventQueue.get()
+        self.eventDispatcher(event)
         print(event)
-        return(event != fenrirEventType.StopMainLoop)
+        return(event['Type'] != fenrirEventType.StopMainLoop)
+    def eventDispatcher(self, event):
+        if not event:
+            return
+        if event['Type'] == fenrirEventType.Ignore:
+            pass
+        elif event['Type'] == fenrirEventType.StopMainLoop:
+            self._mainLoopRunning.value = 0
+        elif event['Type'] == fenrirEventType.ScreenUpdate:
+            pass            
+        elif event['Type'] == fenrirEventType.KeyboardInput:
+            pass            
+        elif event['Type'] == fenrirEventType.BrailleInput:
+            pass            
+        elif event['Type'] == fenrirEventType.PlugInputDevice:
+            pass            
+        elif event['Type'] == fenrirEventType.BrailleFlush:
+            pass            
+        elif event['Type'] == fenrirEventType.ScreenChanged:
+            pass                
     def startMainEventLoop(self):
         while(True):
-            self.proceedEventLoop()
-            self.lock.acquire(True)
-            if not self._mainLoopRunning:
-                break
-            self.lock.release()                
-    def stopMainEventLoop(self):
-            self.lock.acquire(True)
-            self._mainLoopRunning = False
-            self.lock.release()     
-            self._eventQueue.put({"EVENT":fenrirEventType.StopMainLoop,"DATA":None})        
+            if not self.proceedEventLoop():
+                self._mainLoopRunning.value = 0
+                break            
+    def stopMainEventLoop(self, Force = False):
+        if Force:
+            self._mainLoopRunning.value = 0
+        time.sleep(0.5)
+        self._eventQueue.put({"Type":fenrirEventType.StopMainLoop,"Data":None})                                
     def addEventThread(self, event, function):
-        t = Thread(target=self.eventWorkerThread, args=(event, function))
-        self._eventThreads.append(t)
+        t = Process(target=self.eventWorkerThread, args=(event, function, self._eventQueue, self.lock))
+        self._eventProcesses.append(t)
         t.start()
-    def eventWorkerThread(self, event, function):       
-#        for i in range(20):
+    def eventWorkerThread(self, event, function, eventQueue, lock):       
         while True:
             Data = None
             try:
                 Data = function()
+                print(Data)
             except Exception as e:
                 print(e)
-            self._eventQueue.put({"EVENT":event,"DATA":Data})
-            self.lock.acquire(True)
-            if not self._mainLoopRunning:
+            eventQueue.put({"Type":event,"Data":Data})
+            if self._mainLoopRunning.value == 0:
                 break
-            self.lock.release()                
 
 def p():
     time.sleep(0.5)
-    #return("p")
+    return("p")
 
 
 e = eventManager()
