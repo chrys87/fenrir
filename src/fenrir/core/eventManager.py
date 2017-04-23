@@ -46,18 +46,19 @@ class eventManager():
     def initialize(self, environment):
         self.env = environment
     def shutdown(self):
+        self.terminateAllProcesses()
+        #self._eventQueue.clear()
+    def terminateAllProcesses(self):
         for proc in self._eventProcesses:
             try:
                 proc.terminate()
             except Exception as e:
-                print(e)
-                
-        #self._eventQueue.clear()
+                print(e)            
     def proceedEventLoop(self):
         event = self._eventQueue.get()
+        print(event)        
         self.eventDispatcher(event)
-        print(event)
-        return(event['Type'] != fenrirEventType.StopMainLoop)
+
     def eventDispatcher(self, event):
         if not event:
             return
@@ -65,6 +66,7 @@ class eventManager():
             pass
         elif event['Type'] == fenrirEventType.StopMainLoop:
             self._mainLoopRunning.value = 0
+            return
         elif event['Type'] == fenrirEventType.ScreenUpdate:
             pass            
         elif event['Type'] == fenrirEventType.KeyboardInput:
@@ -78,10 +80,9 @@ class eventManager():
         elif event['Type'] == fenrirEventType.ScreenChanged:
             pass                
     def startMainEventLoop(self):
-        while(True):
-            if not self.proceedEventLoop():
-                self._mainLoopRunning.value = 0
-                break            
+        while(self._mainLoopRunning.value == 1):
+            self.proceedEventLoop()
+           
     def stopMainEventLoop(self, Force = False):
         if Force:
             self._mainLoopRunning.value = 0
