@@ -20,8 +20,8 @@ class command():
     def run(self):
         self.env['runtime']['cursorManager'].enterReviewModeCurrTextCursor()
 
-        self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], currLine = \
-          line_utils.getCurrentLine(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
+        self.env['screen']['newCursorReview']['x'], self.env['screen']['newCursorReview']['y'], currLine = \
+          line_utils.getCurrentLine(self.env['screen']['newCursorReview']['x'], self.env['screen']['newCursorReview']['y'], self.env['screen']['newContentText'])
         
         if currLine.isspace():
             self.env['runtime']['outputManager'].presentText(_("blank"), soundIcon='EmptyLine', interrupt=True, flush=False)

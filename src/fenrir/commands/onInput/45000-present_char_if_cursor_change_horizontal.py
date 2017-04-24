@@ -35,7 +35,7 @@ class command():
         # is it a horizontal change?
         if not self.env['runtime']['cursorManager'].isCursorHorizontalMove():
             return
-        x, y, currChar = char_utils.getCurrentChar(self.env['screenData']['newCursor']['x'], self.env['screenData']['newCursor']['y'], self.env['screenData']['newContentText'])
+        x, y, currChar = char_utils.getCurrentChar(self.env['screen']['newCursor']['x'], self.env['screen']['newCursor']['y'], self.env['screen']['newContentText'])
         if not currChar.isspace():
             self.env['runtime']['outputManager'].presentText(currChar, interrupt=True, ignorePunctuation=True, announceCapital=True, flush=False)
     def setCallback(self, callback):

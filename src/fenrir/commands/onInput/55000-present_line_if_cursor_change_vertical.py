@@ -26,14 +26,14 @@ class command():
             return
         # this leads to problems in vim -> status line change -> no announcement, so we do check the lengh as hack
         if self.env['runtime']['screenManager'].isDelta():
-            if len(self.env['screenData']['newDelta']) > 4:  
+            if len(self.env['screen']['newDelta']) > 4:  
                 return
             
         # is a vertical change?
         if not self.env['runtime']['cursorManager'].isCursorVerticalMove():
             return   
        
-        x, y, currLine = line_utils.getCurrentLine(self.env['screenData']['newCursor']['x'], self.env['screenData']['newCursor']['y'], self.env['screenData']['newContentText'])
+        x, y, currLine = line_utils.getCurrentLine(self.env['screen']['newCursor']['x'], self.env['screen']['newCursor']['y'], self.env['screen']['newContentText'])
 
         if currLine.isspace():
             self.env['runtime']['outputManager'].presentText(_("blank"), soundIcon='EmptyLine', interrupt=True, flush=False)

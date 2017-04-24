@@ -21,7 +21,7 @@ class command():
         cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
 
         x, y, currLine = \
-          line_utils.getCurrentLine(cursorPos['x'], cursorPos['y'], self.env['screenData']['newContentText'])
+          line_utils.getCurrentLine(cursorPos['x'], cursorPos['y'], self.env['screen']['newContentText'])
         
         if currLine.isspace():
             self.env['runtime']['outputManager'].presentText(_("blank"), soundIcon='EmptyLine', interrupt=True)

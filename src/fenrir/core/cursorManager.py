@@ -26,10 +26,10 @@ class cursorManager():
           self.env['commandBuffer']['Marks']['2'] != None        
     def setMark(self):
         currCursor = None
-        if self.env['screenData']['newCursorReview']:
-            currCursor = self.env['screenData']['newCursorReview'].copy()
+        if self.env['screen']['newCursorReview']:
+            currCursor = self.env['screen']['newCursorReview'].copy()
         else:
-            currCursor = self.env['screenData']['newCursor'].copy()
+            currCursor = self.env['screen']['newCursor'].copy()
         if not self.env['commandBuffer']['Marks']['1']:
             self.env['commandBuffer']['Marks']['1'] = currCursor.copy()
             return 1
@@ -38,43 +38,43 @@ class cursorManager():
             return 2
         return 0
     def getReviewOrTextCursor(self):
-        if self.env['screenData']['newCursorReview']:
-            return self.env['screenData']['newCursorReview'].copy()
+        if self.env['screen']['newCursorReview']:
+            return self.env['screen']['newCursorReview'].copy()
         else:
-            return self.env['screenData']['newCursor'].copy()
+            return self.env['screen']['newCursor'].copy()
     def clearReviewCursor(self):
         if not self.isReviewMode():
             return
-        self.env['screenData']['oldCursorReview'] = None
-        self.env['screenData']['newCursorReview'] = None
+        self.env['screen']['oldCursorReview'] = None
+        self.env['screen']['newCursorReview'] = None
         
     def isCursorHorizontalMove(self):
-        return self.env['screenData']['newCursor']['x'] != self.env['screenData']['oldCursor']['x']
+        return self.env['screen']['newCursor']['x'] != self.env['screen']['oldCursor']['x']
 
     def isCursorVerticalMove(self):
-        return self.env['screenData']['newCursor']['y'] != self.env['screenData']['oldCursor']['y']
+        return self.env['screen']['newCursor']['y'] != self.env['screen']['oldCursor']['y']
 
     def isReviewMode(self):
-        return self.env['screenData']['newCursorReview'] != None
+        return self.env['screen']['newCursorReview'] != None
         
     def enterReviewModeCurrTextCursor(self, overwrite=False):
         if self.isReviewMode() and not overwrite:
             return
-        self.env['screenData']['oldCursorReview'] = self.env['screenData']['newCursorReview']
-        if not self.env['screenData']['newCursorReview']:
-            self.env['screenData']['newCursorReview'] = self.env['screenData']['newCursor'].copy()
+        self.env['screen']['oldCursorReview'] = self.env['screen']['newCursorReview']
+        if not self.env['screen']['newCursorReview']:
+            self.env['screen']['newCursorReview'] = self.env['screen']['newCursor'].copy()
             if self.env['runtime']['settingsManager'].getSettingAsBool('focus', 'highlight') and \
-              self.env['screenData']['newCursorAttrib'] != None:
-                if self.env['screenData']['newCursorAttrib']['x'] != 0 and \
-                  self.env['screenData']['newCursorAttrib']['y'] != 0:
-                    self.env['screenData']['newCursorReview'] = self.env['screenData']['newCursorAttrib'].copy()            
+              self.env['screen']['newCursorAttrib'] != None:
+                if self.env['screen']['newCursorAttrib']['x'] != 0 and \
+                  self.env['screen']['newCursorAttrib']['y'] != 0:
+                    self.env['screen']['newCursorReview'] = self.env['screen']['newCursorAttrib'].copy()            
 
     def setReviewCursorPosition(self, x, y):
         if not self.isReviewMode():
             self.enterReviewModeCurrTextCursor()
-        self.env['screenData']['oldCursorReview'] = self.env['screenData']['newCursorReview']
-        self.env['screenData']['newCursorReview']['x'] = x
-        self.env['screenData']['newCursorReview']['y'] = y
+        self.env['screen']['oldCursorReview'] = self.env['screen']['newCursorReview']
+        self.env['screen']['newCursorReview']['x'] = x
+        self.env['screen']['newCursorReview']['y'] = y
         
     def isApplicationWindowSet(self):
         try:

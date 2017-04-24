@@ -21,7 +21,7 @@ class command():
             return
 
         # detect typing or chilling
-        if self.env['screenData']['newCursor']['x'] >= self.env['screenData']['oldCursor']['x']:
+        if self.env['screen']['newCursor']['x'] >= self.env['screen']['oldCursor']['x']:
             return 
 
         # More than just a deletion happend
@@ -36,9 +36,9 @@ class command():
 
         # too much for a single backspace...
         # word begin produce a diff wiht len == 2 |a | others with 1 |a|
-        if len(self.env['screenData']['newNegativeDelta']) > 2:
+        if len(self.env['screen']['newNegativeDelta']) > 2:
             return           
-        currNegativeDelta = self.env['screenData']['newNegativeDelta']
+        currNegativeDelta = self.env['screen']['newNegativeDelta']
         if len(currNegativeDelta.strip()) != len(currNegativeDelta) and \
           currNegativeDelta.strip() != '':
             currNegativeDelta = currNegativeDelta.strip()

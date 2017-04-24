@@ -19,7 +19,7 @@ class command():
     
     def run(self):
         x, y, lastLine = \
-          line_utils.getCurrentLine(0, self.env['screenData']['lines'] -1, self.env['screenData']['newContentText'])
+          line_utils.getCurrentLine(0, self.env['screen']['lines'] -1, self.env['screen']['newContentText'])
 
         if lastLine.isspace():
             self.env['runtime']['outputManager'].presentText(_("blank"), soundIcon='EmptyLine', interrupt=True)

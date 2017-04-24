@@ -19,7 +19,7 @@ class command():
     def run(self):
         if self.env['runtime']['inputManager'].noKeyPressed():
             return   
-        if self.env['screenData']['newAttribDelta'] != '':
+        if self.env['screen']['newAttribDelta'] != '':
             return  
         if self.env['runtime']['screenManager'].isScreenChange():
             return
@@ -29,8 +29,8 @@ class command():
             return
         if not self.env['input']['currInput'][0] in ['KEY_UP','KEY_DOWN']:              
             return            
-        prevLine = self.env['screenData']['oldContentText'].split('\n')[self.env['screenData']['newCursor']['y']]
-        currLine = self.env['screenData']['newContentText'].split('\n')[self.env['screenData']['newCursor']['y']]
+        prevLine = self.env['screen']['oldContentText'].split('\n')[self.env['screen']['newCursor']['y']]
+        currLine = self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']]
         if not currLine.isspace():
             currPrompt = currLine.find('$')
             rootPrompt = currLine.find('#')

@@ -7,7 +7,7 @@
 from core import debug
 import string
 
-punctuation = {
+punctuationData = {
 'LEVELDICT':{
   'none': '',
   'some': '#-$~+*-/\\@',

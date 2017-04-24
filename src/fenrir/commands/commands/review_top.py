@@ -18,7 +18,7 @@ class command():
         return _('move review to top of screen')        
 
     def run(self):
-        self.env['screenData']['newCursorReview'] = {'x':0,'y':0}
+        self.env['screen']['newCursorReview'] = {'x':0,'y':0}
         self.env['runtime']['outputManager'].presentText(_("Top"), interrupt=True, flush=False)
 
     def setCallback(self, callback):

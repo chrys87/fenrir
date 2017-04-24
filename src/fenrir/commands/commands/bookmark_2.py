@@ -35,10 +35,10 @@ class command():
         startMark = self.env['commandBuffer']['bookMarks'][self.ID][currApp]['1'].copy()
         if self.env['commandBuffer']['bookMarks'][self.ID][currApp]['2']:
             endMark = self.env['commandBuffer']['bookMarks'][self.ID][currApp]['2'].copy()
-            marked = mark_utils.getTextBetweenMarks(startMark, endMark, self.env['screenData']['newContentText'])
+            marked = mark_utils.getTextBetweenMarks(startMark, endMark, self.env['screen']['newContentText'])
         else:
             x, y, marked = \
-              line_utils.getCurrentLine(startMark['x'], startMark['y'], self.env['screenData']['newContentText'])
+              line_utils.getCurrentLine(startMark['x'], startMark['y'], self.env['screen']['newContentText'])
         if marked.isspace():
             self.env['runtime']['outputManager'].presentText(_("blank"), soundIcon='EmptyLine', interrupt=True)
         else:

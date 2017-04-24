@@ -18,12 +18,12 @@ class command():
         return _('moves review to the next word and presents it')        
     
     def run(self):
-        self.env['screenData']['oldCursorReview'] = self.env['screenData']['newCursorReview']
-        if self.env['screenData']['newCursorReview'] == None:
-            self.env['screenData']['newCursorReview'] = self.env['screenData']['newCursor'].copy()
+        self.env['screen']['oldCursorReview'] = self.env['screen']['newCursorReview']
+        if self.env['screen']['newCursorReview'] == None:
+            self.env['screen']['newCursorReview'] = self.env['screen']['newCursor'].copy()
 
-        self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], nextWord, endOfScreen, lineBreak = \
-          word_utils.getNextWord(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
+        self.env['screen']['newCursorReview']['x'], self.env['screen']['newCursorReview']['y'], nextWord, endOfScreen, lineBreak = \
+          word_utils.getNextWord(self.env['screen']['newCursorReview']['x'], self.env['screen']['newCursorReview']['y'], self.env['screen']['newContentText'])
         
         if nextWord.isspace():
             self.env['runtime']['outputManager'].presentText(_("blank"), interrupt=True, flush=False)

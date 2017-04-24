@@ -46,7 +46,7 @@ class command():
                 print('4')
                 return                                         
             print('doit')
-            p = Popen('su -c "echo -n \"' + self.env['commandBuffer']['clipboard'][currClipboard] +'\" | xclip -d :0 -selection c' + self.env['generalInformation']['currUser'] , stdout=PIPE, stderr=PIPE, shell=True)
+            p = Popen('su -c "echo -n \"' + self.env['commandBuffer']['clipboard'][currClipboard] +'\" | xclip -d :0 -selection c' + self.env['general']['currUser'] , stdout=PIPE, stderr=PIPE, shell=True)
             stdout, stderr = p.communicate()
             self.env['runtime']['outputManager'].interruptOutput()
             screenEncoding = self.env['runtime']['settingsManager'].getSetting('screen', 'encoding')

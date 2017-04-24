@@ -20,7 +20,7 @@ class command():
 
     def run(self):
         # first place could not be the end of a word
-        if self.env['screenData']['newCursor']['x'] == 0:
+        if self.env['screen']['newCursor']['x'] == 0:
             return
         # is it enabled?    
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'wordEcho'):
@@ -35,18 +35,18 @@ class command():
         if self.env['runtime']['cursorManager'].isCursorVerticalMove():
             return
         # get the word            
-        newContent = self.env['screenData']['newContentText'].split('\n')[self.env['screenData']['newCursor']['y']]
+        newContent = self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']]
         x, y, currWord, endOfScreen, lineBreak = \
-          word_utils.getCurrentWord(self.env['screenData']['newCursor']['x'], 0, newContent)                          
+          word_utils.getCurrentWord(self.env['screen']['newCursor']['x'], 0, newContent)                          
         # currently writing
         if self.env['runtime']['screenManager'].isDelta():
             return
         else:
         # at the end of a word
-            if not newContent[self.env['screenData']['newCursor']['x']].isspace():
+            if not newContent[self.env['screen']['newCursor']['x']].isspace():
                 return
-            if (x + len(currWord) != self.env['screenData']['newCursor']['x']) and \
-              (x + len(currWord) != self.env['screenData']['newCursor']['x']-1):
+            if (x + len(currWord) != self.env['screen']['newCursor']['x']) and \
+              (x + len(currWord) != self.env['screen']['newCursor']['x']-1):
                 return    
 
         if currWord != '':

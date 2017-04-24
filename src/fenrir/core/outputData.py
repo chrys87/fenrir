@@ -7,7 +7,7 @@
 import time
 from core import debug
 
-output = {
+outputData = {
 'nextFlush': time.time(),
 'messageText': '',
 'messageOffset': None,

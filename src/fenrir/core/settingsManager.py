@@ -7,6 +7,7 @@
 import os
 import __main__
 from configparser import ConfigParser
+from core import eventManager
 from core import inputManager
 from core import outputManager
 from core import commandManager
@@ -15,14 +16,14 @@ from core import punctuationManager
 from core import cursorManager
 from core import applicationManager
 from core import environment 
-from core import inputEvent 
-from core.settings import settings
+from core import inputData
+from core.settingsData import settingsData
 from core import debug
 from utils import module_utils
 
 class settingsManager():
     def __init__(self):
-        self.settings = settings
+        self.settings = settingsData
     def initialize(self, environment):
         self.env = environment
     def shutdown(self):
@@ -99,7 +100,7 @@ class settingsManager():
             self.env['runtime']['debug'].writeDebugOut("SoundIcon: " + soundIcon + '.' + soundIconFile, debug.debugLevel.INFO, onAnyLevel=True)               
         siConfig.close()
     def isValidKey(self, key):
-        return key in inputEvent.keyNames
+        return key in inputData.keyNames
     
     def loadDicts(self, dictConfigPath=os.path.dirname(os.path.realpath(__main__.__file__)) + '/../../config/punctuation/default.conf'):
         dictConfig = open(dictConfigPath,"r")
@@ -254,7 +255,9 @@ class settingsManager():
                 environment['runtime']['settingsManager'].loadDicts(self.getSetting('general','punctuationProfile'))
         else:
             environment['runtime']['settingsManager'].loadDicts(self.getSetting('general','punctuationProfile'))
-
+        
+        environment['runtime']['eventManager'] = eventManager.eventManager()
+        environment['runtime']['eventManager'].initialize(environment)
         environment['runtime']['inputManager'] = inputManager.inputManager()
         environment['runtime']['inputManager'].initialize(environment)             
         environment['runtime']['outputManager'] = outputManager.outputManager()

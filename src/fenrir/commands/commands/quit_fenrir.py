@@ -17,7 +17,7 @@ class command():
         return _('exits Fenrir')        
     
     def run(self):
-        self.env['generalInformation']['running'] = False
+        self.env['general']['running'] = False
 
     def setCallback(self, callback):
         pass

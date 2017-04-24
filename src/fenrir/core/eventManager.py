@@ -106,7 +106,7 @@ class eventManager():
             except Exception as e:
                 print(e)
             self.putToEventQueue(event, Data)
-
+'''
 def p():
     time.sleep(0.02)
     return("p")
@@ -122,4 +122,4 @@ e.addEventThread(fenrirEventType.StopMainLoop,e.stopMainEventLoop)
 s = time.time()
 e.startMainEventLoop()
 print(time.time() - s )
-
+'''

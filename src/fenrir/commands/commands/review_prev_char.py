@@ -18,12 +18,12 @@ class command():
         return _('moves review to the previous character and presents it')        
     
     def run(self):
-        self.env['screenData']['oldCursorReview'] = self.env['screenData']['newCursorReview']
-        if not self.env['screenData']['newCursorReview']:
-            self.env['screenData']['newCursorReview'] = self.env['screenData']['newCursor'].copy()
+        self.env['screen']['oldCursorReview'] = self.env['screen']['newCursorReview']
+        if not self.env['screen']['newCursorReview']:
+            self.env['screen']['newCursorReview'] = self.env['screen']['newCursor'].copy()
 
-        self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], prevChar, endOfScreen, lineBreak = \
-          char_utils.getPrevChar(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
+        self.env['screen']['newCursorReview']['x'], self.env['screen']['newCursorReview']['y'], prevChar, endOfScreen, lineBreak = \
+          char_utils.getPrevChar(self.env['screen']['newCursorReview']['x'], self.env['screen']['newCursorReview']['y'], self.env['screen']['newContentText'])
         
         self.env['runtime']['outputManager'].presentText(prevChar, interrupt=True, ignorePunctuation=True, announceCapital=True, flush=False)
         if endOfScreen:

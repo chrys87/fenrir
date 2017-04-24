@@ -19,12 +19,12 @@ class command():
 
     def run(self):
         # Prefer review cursor over text cursor
-        if self.env['screenData']['newCursorReview']:
-            cursorPos = self.env['screenData']['newCursorReview'].copy()
+        if self.env['screen']['newCursorReview']:
+            cursorPos = self.env['screen']['newCursorReview'].copy()
         else:
-            cursorPos = self.env['screenData']['newCursor'].copy()
+            cursorPos = self.env['screen']['newCursor'].copy()
 
-        textBeforeCursor = mark_utils.getTextBeforeMark(cursorPos, self.env['screenData']['newContentText'])
+        textBeforeCursor = mark_utils.getTextBeforeMark(cursorPos, self.env['screen']['newContentText'])
 
         if textBeforeCursor.isspace():
             self.env['runtime']['outputManager'].presentText(_("blank"), soundIcon='EmptyLine', interrupt=True)

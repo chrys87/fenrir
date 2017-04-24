@@ -22,14 +22,14 @@ class command():
             return
         if self.env['runtime']['settingsManager'].getSetting('promote', 'list').strip(" \t\n") == '':
             return
-        if self.env['screenData']['newDelta'] == '':
+        if self.env['screen']['newDelta'] == '':
             return
         if int(time.time() - self.env['input']['lastInputTime']) < self.env['runtime']['settingsManager'].getSettingAsInt('promote', 'inactiveTimeoutSec'):
             return
         if len(self.env['runtime']['settingsManager'].getSetting('promote', 'list')) == 0:
             return       
         for promote in self.env['runtime']['settingsManager'].getSetting('promote', 'list').split(','):
-            if promote in self.env['screenData']['newDelta']:    
+            if promote in self.env['screen']['newDelta']:    
                 self.env['runtime']['outputManager'].playSoundIcon('PromotedText')        
                 self.env['input']['lastInputTime'] = time.time()
                 return

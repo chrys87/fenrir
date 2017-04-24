@@ -6,7 +6,7 @@
 
 from core import debug
 
-runtime = {
+runtimeData = {
 'speechDriver': None,
 'screenDriver': None,
 'soundDriver': None,

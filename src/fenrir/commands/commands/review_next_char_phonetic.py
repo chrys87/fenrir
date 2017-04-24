@@ -20,8 +20,8 @@ class command():
     def run(self):
         self.env['runtime']['cursorManager'].enterReviewModeCurrTextCursor()
 
-        self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], nextChar, endOfScreen, lineBreak = \
-          char_utils.getNextChar(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
+        self.env['screen']['newCursorReview']['x'], self.env['screen']['newCursorReview']['y'], nextChar, endOfScreen, lineBreak = \
+          char_utils.getNextChar(self.env['screen']['newCursorReview']['x'], self.env['screen']['newCursorReview']['y'], self.env['screen']['newContentText'])
         
         nextChar = char_utils.getPhonetic(nextChar)
         self.env['runtime']['outputManager'].presentText(nextChar ,interrupt=True, announceCapital=True, flush=False)

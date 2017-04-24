@@ -18,13 +18,13 @@ class command():
     def load(self):
         print('--------------')
         print('bash')
-        print('load new',self.env['screenData']['newApplication'])        
+        print('load new',self.env['screen']['newApplication'])        
         print('--------------')
         
     def unload(self):
         print('--------------')
         print('bash')
-        print('unload old',self.env['screenData']['oldApplication'])     
+        print('unload old',self.env['screen']['oldApplication'])     
         print('--------------')
         
     def setCallback(self, callback):

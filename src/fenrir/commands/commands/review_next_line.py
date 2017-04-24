@@ -18,12 +18,12 @@ class command():
         return _('moves review to the next line and presents it')        
     
     def run(self):
-        self.env['screenData']['oldCursorReview'] = self.env['screenData']['newCursorReview']
-        if not self.env['screenData']['newCursorReview']:
-            self.env['screenData']['newCursorReview'] = self.env['screenData']['newCursor'].copy()
+        self.env['screen']['oldCursorReview'] = self.env['screen']['newCursorReview']
+        if not self.env['screen']['newCursorReview']:
+            self.env['screen']['newCursorReview'] = self.env['screen']['newCursor'].copy()
 
-        self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], nextLine, endOfScreen = \
-          line_utils.getNextLine(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
+        self.env['screen']['newCursorReview']['x'], self.env['screen']['newCursorReview']['y'], nextLine, endOfScreen = \
+          line_utils.getNextLine(self.env['screen']['newCursorReview']['x'], self.env['screen']['newCursorReview']['y'], self.env['screen']['newContentText'])
         
         if nextLine.isspace():
             self.env['runtime']['outputManager'].presentText(_("blank"), soundIcon='EmptyLine', interrupt=True, flush=False)

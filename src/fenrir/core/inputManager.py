@@ -6,7 +6,6 @@
 
 import time
 from core import debug
-from core import inputEvent
 
 class inputManager():
     def __init__(self):
