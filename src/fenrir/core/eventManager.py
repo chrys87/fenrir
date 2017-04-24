@@ -5,13 +5,12 @@
 # By Chrys, Storm Dragon, and contributers.
 
 #from core import debug
-#from threading import Thread
-#from queue import Queue, Empty
+from queue import Empty
 import time 
 from enum import Enum
-#from _thread import allocate_lock
 from multiprocessing import Process, Queue, Lock
 from multiprocessing.sharedctypes import Value
+from ctypes import c_bool
 
 class fenrirEventType(Enum):
     Ignore = 0
@@ -27,27 +26,18 @@ class fenrirEventType(Enum):
     def __str__(self):
         return self.name
 
-'''
-class eventQueue(Queue):
-    def clear(self):
-        try:
-            while True:
-                self.get_nowait()
-        except Empty:
-            pass
-'''
 
 class eventManager():
     def __init__(self):
-        self._mainLoopRunning =  Value('i', 1)
+        self._mainLoopRunning =  Value(c_bool, True)
         self._eventProcesses = []
-        self._eventQueue = Queue()
-        self.lock = Lock()     
+        self._eventQueue = Queue() # multiprocessing.Queue()
+        self.cleanEventQueue()
     def initialize(self, environment):
         self.env = environment
     def shutdown(self):
         self.terminateAllProcesses()
-        #self._eventQueue.clear()
+        self.cleanEventQueue()
     def terminateAllProcesses(self):
         for proc in self._eventProcesses:
             try:
@@ -58,7 +48,6 @@ class eventManager():
         event = self._eventQueue.get()
         print(event)        
         self.eventDispatcher(event)
-
     def eventDispatcher(self, event):
         if not event:
             return
@@ -68,6 +57,7 @@ class eventManager():
             self._mainLoopRunning.value = 0
             return
         elif event['Type'] == fenrirEventType.ScreenUpdate:
+            print('do an update')
             pass            
         elif event['Type'] == fenrirEventType.KeyboardInput:
             pass            
@@ -78,41 +68,51 @@ class eventManager():
         elif event['Type'] == fenrirEventType.BrailleFlush:
             pass            
         elif event['Type'] == fenrirEventType.ScreenChanged:
-            pass                
+            pass
     def startMainEventLoop(self):
-        while(self._mainLoopRunning.value == 1):
+        self._mainLoopRunning.value = True
+        while(self._mainLoopRunning.value):
             self.proceedEventLoop()
-           
     def stopMainEventLoop(self, Force = False):
         if Force:
-            self._mainLoopRunning.value = 0
-        time.sleep(0.5)
+            self._mainLoopRunning.value =  False
         self._eventQueue.put({"Type":fenrirEventType.StopMainLoop,"Data":None})                                
     def addEventThread(self, event, function):
-        t = Process(target=self.eventWorkerThread, args=(event, function, self._eventQueue, self.lock))
+        self._mainLoopRunning.value =  True
+        t = Process(target=self.eventWorkerThread, args=(event, function))
         self._eventProcesses.append(t)
         t.start()
-    def eventWorkerThread(self, event, function, eventQueue, lock):       
-        while True:
+    def cleanEventQueue(self):
+        if self._eventQueue.empty():
+            return
+        try:
+            while True:
+                self._eventQueue.get_nowait()
+        except Empty:
+            pass        
+           
+    def eventWorkerThread(self, event, function):       
+        while self._mainLoopRunning.value:
             Data = None
             try:
                 Data = function()
                 print(Data)
             except Exception as e:
                 print(e)
-            eventQueue.put({"Type":event,"Data":Data})
-            if self._mainLoopRunning.value == 0:
-                break
+            self._eventQueue.put({"Type":event,"Data":Data})
 
 def p():
     time.sleep(0.5)
     return("p")
 
-
+s = time.time()
 e = eventManager()
 e.addEventThread(fenrirEventType.ScreenUpdate,p)
 e.addEventThread(fenrirEventType.BrailleInput,p)
 e.addEventThread(fenrirEventType.PlugInputDevice,p)
 e.addEventThread(fenrirEventType.ScreenChanged,p)
-time.sleep(0.5)
+time.sleep(1.5)
 e.addEventThread(fenrirEventType.StopMainLoop,e.stopMainEventLoop)
+e.startMainEventLoop()
+print(time.time() - s - 1.5)
+
