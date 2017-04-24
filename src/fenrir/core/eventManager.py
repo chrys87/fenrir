@@ -46,13 +46,12 @@ class eventManager():
                 print(e)            
     def proceedEventLoop(self):
         event = self._eventQueue.get()
-        print(event)        
         self.eventDispatcher(event)
     def eventDispatcher(self, event):
         if not event:
             return
         if event['Type'] == fenrirEventType.Ignore:
-            pass
+            return
         elif event['Type'] == fenrirEventType.StopMainLoop:
             self._mainLoopRunning.value = 0
             return
@@ -90,29 +89,37 @@ class eventManager():
                 self._eventQueue.get_nowait()
         except Empty:
             pass        
-           
+    def putToEventQueue(self,event, data):
+        if not isinstance(event, fenrirEventType):
+            return False
+        self._eventQueue.put({"Type":event,"Data":data})    
+        return True
     def eventWorkerThread(self, event, function):       
+        if not isinstance(event, fenrirEventType):
+            return
+        if not callable(function):
+            return
         while self._mainLoopRunning.value:
             Data = None
             try:
                 Data = function()
-                print(Data)
             except Exception as e:
                 print(e)
-            self._eventQueue.put({"Type":event,"Data":Data})
+            self.putToEventQueue(event, Data)
 
 def p():
-    time.sleep(0.5)
+    time.sleep(1.5)
     return("p")
 
-s = time.time()
+
 e = eventManager()
 e.addEventThread(fenrirEventType.ScreenUpdate,p)
-e.addEventThread(fenrirEventType.BrailleInput,p)
-e.addEventThread(fenrirEventType.PlugInputDevice,p)
-e.addEventThread(fenrirEventType.ScreenChanged,p)
+#e.addEventThread(fenrirEventType.BrailleInput,p)
+#e.addEventThread(fenrirEventType.PlugInputDevice,p)
+#e.addEventThread(fenrirEventType.ScreenChanged,p)
 time.sleep(1.5)
 e.addEventThread(fenrirEventType.StopMainLoop,e.stopMainEventLoop)
+s = time.time()
 e.startMainEventLoop()
-print(time.time() - s - 1.5)
+print(time.time() - s )
 
