@@ -8,7 +8,7 @@
 from queue import Empty
 import time 
 from enum import Enum
-from multiprocessing import Process, Queue, Lock
+from multiprocessing import Process, Queue
 from multiprocessing.sharedctypes import Value
 from ctypes import c_bool
 
@@ -108,15 +108,15 @@ class eventManager():
             self.putToEventQueue(event, Data)
 
 def p():
-    time.sleep(1.5)
+    time.sleep(0.02)
     return("p")
 
-
+i = 1
 e = eventManager()
 e.addEventThread(fenrirEventType.ScreenUpdate,p)
-#e.addEventThread(fenrirEventType.BrailleInput,p)
-#e.addEventThread(fenrirEventType.PlugInputDevice,p)
-#e.addEventThread(fenrirEventType.ScreenChanged,p)
+e.addEventThread(fenrirEventType.BrailleInput,p)
+e.addEventThread(fenrirEventType.PlugInputDevice,p)
+e.addEventThread(fenrirEventType.ScreenChanged,p)
 time.sleep(1.5)
 e.addEventThread(fenrirEventType.StopMainLoop,e.stopMainEventLoop)
 s = time.time()
