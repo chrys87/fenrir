@@ -65,32 +65,35 @@ class driver():
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)    
 
     def getSessionInformation(self):
-        bus = dbus.SystemBus()
-        if not self.ListSessions:
-            obj  = bus.get_object('org.freedesktop.login1', '/org/freedesktop/login1')
-            inf = dbus.Interface(obj, 'org.freedesktop.login1.Manager')
-            self.ListSessions = inf.get_dbus_method('ListSessions')
-    
-        sessions = self.ListSessions()
-        self.env['screenData']['autoIgnoreScreens'] = []
-        for session in sessions:
-            obj = bus.get_object('org.freedesktop.login1', session[4])
-            inf = dbus.Interface(obj, 'org.freedesktop.DBus.Properties')
-            sessionType = inf.Get('org.freedesktop.login1.Session', 'Type')
-            screen = str(inf.Get('org.freedesktop.login1.Session', 'VTNr'))                                                            
-            if screen == '':  
-                screen = str(inf.Get('org.freedesktop.login1.Session', 'TTY'))                                                         
-                screen = screen[screen.upper().find('TTY') + 3:]
-            if screen == '':
-                self.env['runtime']['debug'].writeDebugOut('No TTY found for session:' + session[4],debug.debugLevel.ERROR)               
-                return
-            if sessionType.upper() == 'X11':
-                self.env['screenData']['autoIgnoreScreens'].append(screen)
-            if screen == self.env['screenData']['newTTY'] :
-                if self.env['generalInformation']['currUser'] != session[2]:
-                    self.env['generalInformation']['prevUser'] = self.env['generalInformation']['currUser']
-                    self.env['generalInformation']['currUser'] = session[2]                                                                
-
+        try:
+            bus = dbus.SystemBus()
+            if not self.ListSessions:
+                obj  = bus.get_object('org.freedesktop.login1', '/org/freedesktop/login1')
+                inf = dbus.Interface(obj, 'org.freedesktop.login1.Manager')
+                self.ListSessions = inf.get_dbus_method('ListSessions')
+        
+            sessions = self.ListSessions()
+            self.env['screenData']['autoIgnoreScreens'] = []
+            for session in sessions:
+                obj = bus.get_object('org.freedesktop.login1', session[4])
+                inf = dbus.Interface(obj, 'org.freedesktop.DBus.Properties')
+                sessionType = inf.Get('org.freedesktop.login1.Session', 'Type')
+                screen = str(inf.Get('org.freedesktop.login1.Session', 'VTNr'))                                                            
+                if screen == '':  
+                    screen = str(inf.Get('org.freedesktop.login1.Session', 'TTY'))                                                         
+                    screen = screen[screen.upper().find('TTY') + 3:]
+                if screen == '':
+                    self.env['runtime']['debug'].writeDebugOut('No TTY found for session:' + session[4],debug.debugLevel.ERROR)               
+                    return
+                if sessionType.upper() == 'X11':
+                    self.env['screenData']['autoIgnoreScreens'].append(screen)
+                if screen == self.env['screenData']['newTTY'] :
+                    if self.env['generalInformation']['currUser'] != session[2]:
+                        self.env['generalInformation']['prevUser'] = self.env['generalInformation']['currUser']
+                        self.env['generalInformation']['currUser'] = session[2]                                                                
+        except Exception as e:
+            self.env['runtime']['debug'].writeDebugOut('getSessionInformation: Maybe no LoginD:' + str(e),debug.debugLevel.ERROR)               
+            self.env['screenData']['autoIgnoreScreens'] = []           
     def update(self, trigger='onUpdate'):
         newContentBytes = b''       
         try:
