@@ -54,8 +54,11 @@ Driver:
   https://docs.python.org/3.2/library/pty.html
 - implement PTY Input driver  
 - ATK input driver (don't grab on graphical interface)
+https://git.linux-a11y.org/AIT/pyatspi2/src/master/examples/keypress.py
 - try to autodetect encoding (Easy for contribution)
   https://stackoverflow.com/questions/6396659/how-do-you-get-the-encoding-of-the-terminal-from-within-a-python-script
+- Dectalk SpeechDriver
+https://github.com/tvraman/emacspeak/blob/master/servers/obsolete/python/dectalk.py
 
 Settings:
 - configuration should be overwritable with parameter and alternative paths (Easy for contribution)
