@@ -73,7 +73,7 @@ class driver():
                 self.ListSessions = inf.get_dbus_method('ListSessions')
         
             sessions = self.ListSessions()
-            self.env['screenData']['autoIgnoreScreens'] = []
+            self.env['screen']['autoIgnoreScreens'] = []
             for session in sessions:
                 obj = bus.get_object('org.freedesktop.login1', session[4])
                 inf = dbus.Interface(obj, 'org.freedesktop.DBus.Properties')
@@ -93,7 +93,7 @@ class driver():
                         self.env['generalInformation']['currUser'] = session[2]                                                                
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('getSessionInformation: Maybe no LoginD:' + str(e),debug.debugLevel.ERROR)               
-            self.env['screenData']['autoIgnoreScreens'] = []           
+            self.env['screen']['autoIgnoreScreens'] = []           
 
     def update(self, trigger='onUpdate'):
         newContentBytes = b''       
