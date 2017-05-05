@@ -24,6 +24,7 @@ from utils import module_utils
 class settingsManager():
     def __init__(self):
         self.settings = settingsData
+        self.settingArgDict = {}
     def initialize(self, environment):
         self.env = environment
     def shutdown(self):
@@ -146,6 +147,11 @@ class settingsManager():
     def getSetting(self, section, setting):
         value = ''
         try:
+            value = self.settingArgDict[section][setting]
+            return value            
+        except:
+            pass
+        try:            
             value = self.env['settings'].get(section, setting)
         except:
             value = str(self.settings[section][setting])
@@ -153,6 +159,11 @@ class settingsManager():
 
     def getSettingAsInt(self, section, setting):
         value = 0
+        try:
+            value = int(self.settingArgDict[section][setting])
+            return value            
+        except:
+            pass  
         try:
             value = self.env['settings'].getint(section, setting)
         except:
@@ -162,6 +173,11 @@ class settingsManager():
     def getSettingAsFloat(self, section, setting):
         value = 0.0
         try:
+            value = float(self.settingArgDict[section][setting])
+            return value            
+        except Exception as e:
+            pass        
+        try:
             value = self.env['settings'].getfloat(section, setting)
         except:
             value = self.settings[section][setting]
@@ -169,6 +185,11 @@ class settingsManager():
 
     def getSettingAsBool(self, section, setting):
         value = False
+        try:
+            value = self.settingArgDict[section][setting].upper() in ['1','YES','JA','TRUE']
+            return value
+        except Exception as e:
+            pass      
         try:
             value = self.env['settings'].getboolean(section, setting)
         except:
@@ -205,7 +226,22 @@ class settingsManager():
         for key in keyList:
             if not key in  self.env['input']['scriptKey']:
                 self.env['input']['scriptKey'].append(key)
-       
+    def parseSettingArgs(self, settingArgs):
+        optionArgDict = {}
+        for optionElem in settingArgs.split(';'):
+            if len(optionElem.split('#',1)) != 2:
+                continue
+            if len(optionElem.split('#',1)[1].split('=',1)) != 2:
+                continue
+            section = str(optionElem.split('#',1)[0]).lower()
+            option = str(optionElem.split('#',1)[1].split('=',1)[0]).lower()
+            value = optionElem.split('#',1)[1].split('=',1)[1]           
+            try:
+                e = optionArgDict[section]
+            except KeyError:
+                optionArgDict[section] = {}
+            optionArgDict[section][option] = str(value)
+        return optionArgDict
     def initFenrirConfig(self, cliArgs, environment = environment.environment):
         settingsRoot = '/etc/fenrir/'
         settingsFile = cliArgs.setting
@@ -220,8 +256,8 @@ class settingsManager():
                 return None
         # get settings file
         if not os.path.exists(settingsFile):
-            if os.path.exists(settingsRoot + '/settings/' + settingsFile):
-                settingsFile = settingsRoot + '/settings/' + settingsFile
+            if os.path.exists(settingsRoot + '/settings/settings.conf'):
+                settingsFile = settingsRoot + '/settings/settings.conf'
             else:
                 return None            
         # get sound themes root
@@ -235,7 +271,8 @@ class settingsManager():
         validConfig = environment['runtime']['settingsManager'].loadSettings(settingsFile)
         if not validConfig:
             return None
-
+        if cliArgs.options != '':
+            self.settingArgDict = self.parseSettingArgs(cliArgs.options)
         self.setFenrirKeys(self.getSetting('general','fenrirKeys'))
         self.setScriptKeys(self.getSetting('general','scriptKeys'))      
 

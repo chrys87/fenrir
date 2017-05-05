@@ -133,7 +133,6 @@ class driver():
                             self.iDevices[currDevice.fd] = currDevice
                             self.grabDevice(currDevice.fd)
                             self.env['runtime']['debug'].writeDebugOut('Device added (ALL):' + self.iDevices[currDevice.fd].name, debug.debugLevel.INFO)                           
-                            print()
                         elif mode == 'NOMICE':
                             if not ((eventType.EV_REL in cap) or (eventType.EV_ABS in cap)):
                                 self.iDevices[currDevice.fd] = currDevice
