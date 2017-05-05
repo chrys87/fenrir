@@ -13,21 +13,39 @@ if not os.path.dirname(os.path.realpath(__main__.__file__)) in sys.path:
 from core import i18n
 from core import settingsManager
 from core import debug
+import argparse
 
 class fenrirManager():
     def __init__(self):
+        self.initialized = False
+        cliArgs = self.handleArgs()
+        if not cliArgs:
+            return        
         try:
-            self.environment = settingsManager.settingsManager().initFenrirConfig()
+            self.environment = settingsManager.settingsManager().initFenrirConfig(cliArgs)
             if not self.environment:
                 raise RuntimeError('Cannot Initialize. Maybe the configfile is not available or not parseable')
         except RuntimeError:
             raise
+        self.initialized = True        
         self.environment['runtime']['outputManager'].presentText(_("Start Fenrir"), soundIcon='ScreenReaderOn', interrupt=True)          
         signal.signal(signal.SIGINT, self.captureSignal)
         signal.signal(signal.SIGTERM, self.captureSignal)
         self.wasCommand = False
-
+        
+    def handleArgs(self):
+        args = None
+        parser = argparse.ArgumentParser(description="Fenrir Help")
+        parser.add_argument('-s', '--setting', metavar='SETTING-FILE', default='/etc/fenrir/settings/settings.conf', help='Use a specified settingsfile')
+        parser.add_argument('-o', '--options', metavar='SECTION:SETTING=VALUE,..', default='', help='Overwrite options in given settings file')        
+        try:
+            args = parser.parse_args()
+        except Exception as e:
+            parser.print_help()
+        return args    
     def proceed(self):
+        if not self.initialized:
+            return
         while(self.environment['generalInformation']['running']):
             try:
                 self.handleProcess()

@@ -113,8 +113,8 @@ class driver():
                     continue        
                 try:
                     open(deviceFile)
-                except:
-                    print("Not readable Inputdevice : " + deviceFile +' ' + str(e))    
+                except Exception as e:
+                    self.env['runtime']['debug'].writeDebugOut("Not readable Inputdevice : " + deviceFile +' ' + str(e),debug.debugLevel.ERROR)                                
                     continue
                 # 3 pos absolute
                 # 2 pos relative
@@ -126,26 +126,25 @@ class driver():
                 if mode in ['ALL','NOMICE']:
                     if eventType.EV_KEY in cap:
                         if 116 in cap[eventType.EV_KEY] and len(cap[eventType.EV_KEY]) < 10:
-                            print('power')
                             continue
                         if len(cap[eventType.EV_KEY]) < 30:
-                            print('Not A useful keyboared')
                             continue                            
                         if mode == 'ALL':
                             self.iDevices[currDevice.fd] = currDevice
                             self.grabDevice(currDevice.fd)
-                            print('Device added (ALL):' + self.iDevices[currDevice.fd].name)
+                            self.env['runtime']['debug'].writeDebugOut('Device added (ALL):' + self.iDevices[currDevice.fd].name, debug.debugLevel.INFO)                           
+                            print()
                         elif mode == 'NOMICE':
                             if not ((eventType.EV_REL in cap) or (eventType.EV_ABS in cap)):
                                 self.iDevices[currDevice.fd] = currDevice
                                 self.grabDevice(currDevice.fd)
-                                print('Device added (NOMICE):' + self.iDevices[currDevice.fd].name)
+                                self.env['runtime']['debug'].writeDebugOut('Device added (NOMICE):' + self.iDevices[currDevice.fd].name,debug.debugLevel.INFO)                                                
                 elif currDevice.name.upper() in mode.split(','):
                     self.iDevices[currDevice.fd] = currDevice
-                    self.grabDevice(currDevice.fd)                    
-                    print('Device added (Name):' + self.iDevices[currDevice.fd].name)
+                    self.grabDevice(currDevice.fd)
+                    self.env['runtime']['debug'].writeDebugOut('Device added (Name):' + self.iDevices[currDevice.fd].name,debug.debugLevel.INFO)                                                        
             except Exception as e:
-                print("Skip Inputdevice : " + deviceFile +' ' + str(e))                     
+                self.env['runtime']['debug'].writeDebugOut("Skip Inputdevice : " + deviceFile +' ' + str(e),debug.debugLevel.ERROR)                
         self.iDeviceNo = len(evdev.list_devices())
             
     def mapEvent(self, event):
