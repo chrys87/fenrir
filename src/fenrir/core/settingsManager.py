@@ -219,8 +219,8 @@ class settingsManager():
                 return None
         # get settings file
         if not os.path.exists(settingsFile):
-            if os.path.exists(settingsRoot + '/settings/' + settingsFile):
-                settingsFile = settingsRoot + '/settings/' + settingsFile
+            if os.path.exists(settingsRoot + '/settings/settings.conf'):
+                settingsFile = settingsRoot + '/settings/settings.conf'
             else:
                 return None            
         # get sound themes root
@@ -234,7 +234,7 @@ class settingsManager():
         validConfig = environment['runtime']['settingsManager'].loadSettings(settingsFile)
         if not validConfig:
             return None
-
+        #print(cliArgs.options)
         self.setFenrirKeys(self.getSetting('general','fenrirKeys'))
         self.setScriptKeys(self.getSetting('general','scriptKeys'))      
 

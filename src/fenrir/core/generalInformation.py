@@ -8,6 +8,7 @@ from core import debug
 
 generalInformation = {
 'running': True,
+'args': None,
 'tutorialMode': False,
 'currUser':'',
 'prevUser':'',

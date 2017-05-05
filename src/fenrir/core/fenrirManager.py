@@ -19,6 +19,7 @@ class fenrirManager():
     def __init__(self):
         self.initialized = False
         cliArgs = self.handleArgs()
+        print(cliArgs)
         if not cliArgs:
             return        
         try:
