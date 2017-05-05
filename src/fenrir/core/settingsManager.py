@@ -206,14 +206,25 @@ class settingsManager():
             if not key in  self.env['input']['scriptKey']:
                 self.env['input']['scriptKey'].append(key)
        
-    def initFenrirConfig(self, environment = environment.environment, settingsRoot = '/etc/fenrir/', settingsFile='settings.conf', soundRoot = '/usr/share/sounds/fenrir/'):
+    def initFenrirConfig(self, cliArgs, environment = environment.environment):
+        settingsRoot = '/etc/fenrir/'
+        settingsFile = cliArgs.setting
+        soundRoot = '/usr/share/sounds/fenrir/'
         environment['runtime']['debug'] = debug.debug()
         environment['runtime']['debug'].initialize(environment)
+        # get fenrir settings root
         if not os.path.exists(settingsRoot):
             if os.path.exists(os.path.dirname(os.path.realpath(__main__.__file__)) +'/../../config/'):
                 settingsRoot = os.path.dirname(os.path.realpath(__main__.__file__)) +'/../../config/'
             else:
                 return None
+        # get settings file
+        if not os.path.exists(settingsFile):
+            if os.path.exists(settingsRoot + '/settings/' + settingsFile):
+                settingsFile = settingsRoot + '/settings/' + settingsFile
+            else:
+                return None            
+        # get sound themes root
         if not os.path.exists(soundRoot):
             if os.path.exists(os.path.dirname(os.path.realpath(__main__.__file__)) +'/../../config/sound/'):
                 soundRoot = os.path.dirname(os.path.realpath(__main__.__file__)) +'/../../config/sound/'
@@ -221,7 +232,7 @@ class settingsManager():
         environment['runtime']['settingsManager'] = self 
         environment['runtime']['settingsManager'].initialize(environment)
 
-        validConfig = environment['runtime']['settingsManager'].loadSettings(settingsRoot + '/settings/' + settingsFile)
+        validConfig = environment['runtime']['settingsManager'].loadSettings(settingsFile)
         if not validConfig:
             return None
 
