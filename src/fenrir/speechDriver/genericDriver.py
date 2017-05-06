@@ -6,10 +6,9 @@
 # generic driver
 
 from core import debug
-from threading import Thread
+from threading import Thread, Lock
 from queue import Queue, Empty
-import time
-from subprocess import Popen, PIPE
+from subprocess import Popen
 
 class speakQueue(Queue):
     def clear(self):
@@ -23,6 +22,7 @@ class driver():
     def __init__(self):
         self.proc = None
         self.speechThread = Thread(target=self.worker)
+        self.lock = Lock()
         self.textQueue = speakQueue()
         self.volume = ''
         self.rate = ''
@@ -74,6 +74,7 @@ class driver():
         if not self._isInitialized:
             return
         self.clear_buffer()
+        self.lock.acquire(True)
         if self.proc:
             try:
                 self.proc.terminate()
@@ -81,7 +82,7 @@ class driver():
                 self.proc.kill()
             finally: 
                 self.proc = None            
-        
+        self.lock.release()
     def setCallback(self, callback):
         print('SpeechDummyDriver: setCallback')    
 
@@ -149,12 +150,13 @@ class driver():
             popenSpeechCommand = popenSpeechCommand.replace('fenrirText', str(utterance['text']).replace('"','').replace('\n',''))
                   
             try:
-                s = time.time()
+                self.lock.acquire(True)
                 self.proc = Popen(popenSpeechCommand, shell=True)
-                self.proc.wait()
-                print(popenSpeechCommand)
-                print('run',time.time() -s)
+                self.lock.release()	
+                self.proc.wait() # critical for MT? - if we lock it we deadlock it maybe.
             except Exception as e:
-                    print('except' + str(e))
+                    self.env['runtime']['debug'].writeDebugOut('speechDriver:worker:'str(e),debug.debugLevel.ERROR)    
+            self.lock.acquire(True)
             self.proc = None
+            self.lock.release()
 
