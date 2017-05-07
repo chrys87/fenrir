@@ -148,14 +148,14 @@ class driver():
             popenSpeechCommand = popenSpeechCommand.replace('fenrirPitch', str(utterance['pitch']).replace('"',''))               
             popenSpeechCommand = popenSpeechCommand.replace('fenrirRate', str(utterance['rate']).replace('"',''))               
             popenSpeechCommand = popenSpeechCommand.replace('fenrirText', str(utterance['text']).replace('"','').replace('\n',''))
-                  
+
             try:
                 self.lock.acquire(True)
                 self.proc = Popen(popenSpeechCommand, shell=True)
                 self.lock.release()	
-                self.proc.wait() # critical for MT? - if we lock it we deadlock it maybe.
+                self.proc.wait()
             except Exception as e:
-                    self.env['runtime']['debug'].writeDebugOut('speechDriver:worker:'str(e),debug.debugLevel.ERROR)    
+                self.env['runtime']['debug'].writeDebugOut('speechDriver:worker:' + str(e),debug.debugLevel.ERROR)    
             self.lock.acquire(True)
             self.proc = None
             self.lock.release()
