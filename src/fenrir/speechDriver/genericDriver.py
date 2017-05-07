@@ -150,12 +150,14 @@ class driver():
             popenSpeechCommand = popenSpeechCommand.replace('fenrirText', str(utterance['text']).replace('"','').replace('\n',''))
 
             try:
+                self.env['runtime']['debug'].writeDebugOut('speechDriver:worker:' + popenSpeechCommand,debug.debugLevel.INFO)                                            
                 self.lock.acquire(True)
                 self.proc = Popen(popenSpeechCommand, shell=True)
                 self.lock.release()	
                 self.proc.wait()
             except Exception as e:
                 self.env['runtime']['debug'].writeDebugOut('speechDriver:worker:' + str(e),debug.debugLevel.ERROR)    
+
             self.lock.acquire(True)
             self.proc = None
             self.lock.release()
