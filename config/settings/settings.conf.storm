@@ -16,7 +16,7 @@ pitch=0.5
 # Pitch for capital letters
 capitalPitch=0.9
 module=espeak
-voice=
+voice=en-us
 language=english-us
 volume=1.0
 autoReadIncoming=True
@@ -41,7 +41,6 @@ fenrirMinPitch=0
 fenrirMaxPitch=99
 fenrirMinRate=80
 fenrirMaxRate=450
-fenrirVoice=en-us
 
 
 [braille]
