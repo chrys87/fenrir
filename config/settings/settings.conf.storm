@@ -9,9 +9,9 @@ genericFrequencyCommand=play -q -v fenrirVolume -n -c1 synth fenrirDuration sine
 
 [speech]
 enabled=True
-#driver=speechdDriver
-driver=genericDriver
-rate=0.85
+driver=speechdDriver
+#driver=genericDriver
+rate=0.95
 pitch=0.5
 # Pitch for capital letters
 capitalPitch=0.9
@@ -40,7 +40,7 @@ fenrirMaxVolume=200
 fenrirMinPitch=0
 fenrirMaxPitch=99
 fenrirMinRate=80
-fenrirMaxRate=450
+fenrirMaxRate=890
 
 
 [braille]
