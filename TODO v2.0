@@ -61,7 +61,6 @@ https://git.linux-a11y.org/AIT/pyatspi2/src/master/examples/keypress.py
 https://github.com/tvraman/emacspeak/blob/master/servers/obsolete/python/dectalk.py
 
 Settings:
-- configuration should be overwritable with parameter and alternative paths (Easy for contribution)
 - write settings (Easy for contribution)
 - menue for settings configuration (Easy for contribution)
 
@@ -109,3 +108,6 @@ Braille Support:
   follow cursor while typing  
   brailleFocusMode:
     - review = priority to review
+
+Settings:
+- configuration should be overwritable with parameter and alternative paths (Easy for contribution)
