@@ -18,7 +18,7 @@ General:
   The event loop is to be done as "queue" since those are thread safe.  
   The threads are reading incomming data and add the events and data to the queue
   the mainloop just reads the queue in an blocking way and executes the needed codepath with the data.
-- leave review on typing (Prototype "charmapTTY" in play zone)
+- leave review on typing 
 
 - implement commands
   Tutorial Mode: navigate through a list of bound commands. speak binding and description.
@@ -55,7 +55,7 @@ Driver:
 - implement PTY Input driver  
 - ATK input driver (don't grab on graphical interface)
 https://git.linux-a11y.org/AIT/pyatspi2/src/master/examples/keypress.py
-- try to autodetect encoding (Easy for contribution)
+- try to autodetect encoding (Easy for contribution) (Prototype "charmapTTY" in play zone)
   https://stackoverflow.com/questions/6396659/how-do-you-get-the-encoding-of-the-terminal-from-within-a-python-script
 - Dectalk SpeechDriver
 https://github.com/tvraman/emacspeak/blob/master/servers/obsolete/python/dectalk.py
