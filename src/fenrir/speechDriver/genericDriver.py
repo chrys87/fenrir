@@ -80,11 +80,11 @@ class driver():
             try:
                 self.proc.terminate()
             except Exception as e:
-                self.env['runtime']['debug'].writeDebugOut('speechDriver:Cancel:self.proc.terminate():' + str(e),debug.debugLevel.ERROR)                                
+                self.env['runtime']['debug'].writeDebugOut('speechDriver:Cancel:self.proc.terminate():' + str(e),debug.debugLevel.WARNING)                                
                 try:
                     self.proc.kill()
                 except Exception as e:
-                    self.env['runtime']['debug'].writeDebugOut('speechDriver:Cancel:self.proc.kill():' + str(e),debug.debugLevel.ERROR)                    
+                    self.env['runtime']['debug'].writeDebugOut('speechDriver:Cancel:self.proc.kill():' + str(e),debug.debugLevel.WARNING)                    
             self.proc = None            
         self.lock.release()
     def setCallback(self, callback):
