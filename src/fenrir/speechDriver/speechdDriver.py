@@ -73,7 +73,6 @@ class driver():
                 self._sd.set_voice(voice)
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver setVoice:' + str(e),debug.debugLevel.ERROR)                                 
-            self._isInitialized = False
 
     def setPitch(self, pitch):
         if not self._isInitialized:
@@ -82,7 +81,6 @@ class driver():
             self._sd.set_pitch(int(-100 + pitch * 200)) 
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver setPitch:' + str(e),debug.debugLevel.ERROR)                                         
-            self._isInitialized = False
 
     def setRate(self, rate):
         if not self._isInitialized:
@@ -91,7 +89,6 @@ class driver():
             self._sd.set_rate(int(-100 + rate * 200))
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver setRate:' + str(e),debug.debugLevel.ERROR)                                                 
-            self._isInitialized = False
 
     def setModule(self, module):
         if not self._isInitialized:
@@ -100,7 +97,6 @@ class driver():
             self._sd.set_output_module(module)
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver setModule:' + str(e),debug.debugLevel.ERROR)                                                 
-            self._isInitialized = False
             
     def setLanguage(self, language):
         if not self._isInitialized:
@@ -114,4 +110,3 @@ class driver():
             self._sd.set_volume(int(-100 + volume * 200))
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver setVolume:' + str(e),debug.debugLevel.ERROR)                                                         
-            self._isInitialized = False
