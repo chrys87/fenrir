@@ -43,7 +43,8 @@ class driver():
         if self.speechCommand == '':
             self.speechCommand = 'espeak -a fenrirVolume -s fenrirRate -p fenrirPitch -v fenrirVoice "fenrirText"'
         if False: #for debugging overwrite here
-            self.speechCommand = 'spd-say --wait -r 100 -i 100  "fenrirText"'  
+            #self.speechCommand = 'spd-say --wait -r 100 -i 100  "fenrirText"'  
+            self.speechCommand = 'flite -t "fenrirText"'           
         
         self._isInitialized = True   
         if self._isInitialized:
@@ -78,10 +79,13 @@ class driver():
         if self.proc:
             try:
                 self.proc.terminate()
-            except:
-                self.proc.kill()
-            finally: 
-                self.proc = None            
+            except Exception as e:
+                self.env['runtime']['debug'].writeDebugOut('speechDriver:Cancel:self.proc.terminate():' + str(e),debug.debugLevel.ERROR)                                
+                try:
+                    self.proc.kill()
+                except Exception as e:
+                    self.env['runtime']['debug'].writeDebugOut('speechDriver:Cancel:self.proc.kill():' + str(e),debug.debugLevel.ERROR)                    
+            self.proc = None            
         self.lock.release()
     def setCallback(self, callback):
         print('SpeechDummyDriver: setCallback')    
