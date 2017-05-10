@@ -15,7 +15,7 @@ class commandManager():
     def initialize(self, environment):
         self.env = environment
         # commands
-        for commandFolder in self.env['generalInformation']['commandFolderList']:
+        for commandFolder in self.env['general']['commandFolderList']:
             self.env['runtime']['commandManager'].loadCommands(commandFolder,
               self.env['runtime']['settingsManager'].getSetting('general', 'commandPath'))        
             self.env['runtime']['commandManager'].loadCommands(commandFolder)
@@ -24,7 +24,7 @@ class commandManager():
         self.env['runtime']['commandManager'].loadScriptCommands()
     
     def shutdown(self):
-        for commandFolder in self.env['generalInformation']['commandFolderList']:    
+        for commandFolder in self.env['general']['commandFolderList']:    
             self.env['runtime']['commandManager'].shutdownCommands(commandFolder)
         
     def loadCommands(self, section='commands',commandPath=''):
@@ -180,7 +180,7 @@ class commandManager():
             return    
         if self.commandExists(command, section):
             try:
-                if self.env['generalInformation']['tutorialMode']:
+                if self.env['general']['tutorialMode']:
                     self.env['runtime']['debug'].writeDebugOut("Tutorial for command:" + section + "." + command ,debug.debugLevel.INFO)                   
                     description = self.env['commands'][section][command].getDescription()
                     self.env['runtime']['outputManager'].presentText(description, interrupt=True)                                       

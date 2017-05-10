@@ -46,7 +46,7 @@ class fenrirManager():
     def proceed(self):
         if not self.initialized:
             return
-        while(self.environment['generalInformation']['running']):
+        while(self.environment['general']['running']):
             try:
                 self.handleProcess()
             except Exception as e:
@@ -61,13 +61,13 @@ class fenrirManager():
                 self.environment['runtime']['inputManager'].updateInputDevices()
         if eventReceived:
             self.prepareCommand()
-            if not (self.wasCommand  or self.environment['generalInformation']['tutorialMode']) or  self.environment['runtime']['screenManager'].isSuspendingScreen():
+            if not (self.wasCommand  or self.environment['general']['tutorialMode']) or  self.environment['runtime']['screenManager'].isSuspendingScreen():
                 self.environment['runtime']['inputManager'].writeEventBuffer()
             if self.environment['runtime']['inputManager'].noKeyPressed():
                 if self.wasCommand:
                         self.wasCommand = False   
                         self.environment['runtime']['inputManager'].clearEventBuffer()            
-                if self.environment['generalInformation']['tutorialMode']:
+                if self.environment['general']['tutorialMode']:
                     self.environment['runtime']['inputManager'].clearEventBuffer()
                 if self.environment['input']['keyForeward'] > 0:
                     self.environment['input']['keyForeward'] -=1
@@ -112,14 +112,14 @@ class fenrirManager():
         self.environment['runtime']['commandManager'].executeCommand( self.environment['commandInfo']['currCommand'], 'commands')
 
     def shutdownRequest(self):
-        self.environment['generalInformation']['running'] = False
+        self.environment['general']['running'] = False
 
     def captureSignal(self, siginit, frame):
         self.shutdownRequest()
 
     def shutdown(self):
         self.environment['runtime']['outputManager'].presentText(_("Quit Fenrir"), soundIcon='ScreenReaderOff', interrupt=True)       
-        for currManager in self.environment['generalInformation']['managerList']:
+        for currManager in self.environment['general']['managerList']:
             if self.environment['runtime'][currManager]:
                 self.environment['runtime'][currManager].shutdown()                      
                 del self.environment['runtime'][currManager]

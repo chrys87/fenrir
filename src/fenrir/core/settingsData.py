@@ -6,7 +6,7 @@
 
 from core import debug
 
-settings = {
+settingsData = {
 'sound': {
   'enabled': True,
   'driver': 'genericDriver', 

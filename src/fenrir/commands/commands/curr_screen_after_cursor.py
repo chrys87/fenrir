@@ -21,7 +21,7 @@ class command():
         # Prefer review cursor over text cursor
         cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
 
-        textAfterCursor = mark_utils.getTextAfterMark(cursorPos, self.env['screenData']['newContentText'])
+        textAfterCursor = mark_utils.getTextAfterMark(cursorPos, self.env['screen']['newContentText'])
 
         if textAfterCursor.isspace():
             self.env['runtime']['outputManager'].presentText(_("blank"), soundIcon='EmptyLine', interrupt=True)

@@ -19,9 +19,9 @@ class command():
 
     def run(self):
         cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
-        self.env['runtime']['cursorManager'].setReviewCursorPosition(self.env['screenData']['columns']-1 ,cursorPos['y'])
-        self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], currChar = \
-          char_utils.getCurrentChar(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])
+        self.env['runtime']['cursorManager'].setReviewCursorPosition(self.env['screen']['columns']-1 ,cursorPos['y'])
+        self.env['screen']['newCursorReview']['x'], self.env['screen']['newCursorReview']['y'], currChar = \
+          char_utils.getCurrentChar(self.env['screen']['newCursorReview']['x'], self.env['screen']['newCursorReview']['y'], self.env['screen']['newContentText'])
         
         self.env['runtime']['outputManager'].presentText(currChar ,interrupt=True, ignorePunctuation=True, announceCapital=True, flush=False)
         self.env['runtime']['outputManager'].presentText(_("end of line"), interrupt=False)

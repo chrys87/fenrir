@@ -28,7 +28,7 @@ class command():
         startMark = self.env['commandBuffer']['Marks']['1'].copy()
         endMark = self.env['commandBuffer']['Marks']['2'].copy()         
         
-        marked = mark_utils.getTextBetweenMarks(startMark, endMark, self.env['screenData']['newContentText'])
+        marked = mark_utils.getTextBetweenMarks(startMark, endMark, self.env['screen']['newContentText'])
 
         self.env['commandBuffer']['clipboard'] = [marked] + self.env['commandBuffer']['clipboard'][:self.env['runtime']['settingsManager'].getSettingAsInt('general', 'numberOfClipboards') -1]
         self.env['commandBuffer']['currClipboard'] = 0

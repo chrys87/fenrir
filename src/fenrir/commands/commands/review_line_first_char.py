@@ -21,13 +21,13 @@ class command():
     def run(self):
         cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
         x, y, currLine = \
-          line_utils.getCurrentLine(cursorPos['x'], cursorPos['y'], self.env['screenData']['newContentText'])
+          line_utils.getCurrentLine(cursorPos['x'], cursorPos['y'], self.env['screen']['newContentText'])
         if currLine.isspace():
             self.env['runtime']['outputManager'].presentText(_("line is empty"), interrupt=True)
             return          
         self.env['runtime']['cursorManager'].setReviewCursorPosition((len(currLine) - len(currLine.lstrip())), cursorPos['y'])
-        self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], currChar = \
-          char_utils.getCurrentChar(self.env['screenData']['newCursorReview']['x'], self.env['screenData']['newCursorReview']['y'], self.env['screenData']['newContentText'])       
+        self.env['screen']['newCursorReview']['x'], self.env['screen']['newCursorReview']['y'], currChar = \
+          char_utils.getCurrentChar(self.env['screen']['newCursorReview']['x'], self.env['screen']['newCursorReview']['y'], self.env['screen']['newContentText'])       
 
         self.env['runtime']['outputManager'].presentText(currChar ,interrupt=True, ignorePunctuation=True, announceCapital=True, flush=False)        
         self.env['runtime']['outputManager'].presentText(_("first char in line indent {0}").format(str(len(currLine) - len(currLine.lstrip()))), interrupt=False)

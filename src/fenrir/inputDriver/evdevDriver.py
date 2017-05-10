@@ -15,7 +15,7 @@ except Exception as e:
 
 import time
 from select import select
-from core import inputEvent
+from core import inputData
 from core import debug
 
 class driver():
@@ -151,7 +151,7 @@ class driver():
             return None    
         if not event:
             return None
-        mEvent = inputEvent.inputEvent
+        mEvent = inputData.inputEvent
         try:
             mEvent['EventName'] = evdev.ecodes.keys[event.code]
             mEvent['EventValue'] = event.code

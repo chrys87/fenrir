@@ -55,35 +55,35 @@ class command():
         if self.env['runtime']['cursorManager'].isCursorVerticalMove():
             return
         # more than a keyecho?
-        if len(self.env['screenData']['newDelta']) > 1:
+        if len(self.env['screen']['newDelta']) > 1:
             return            
         # deletion
         if self.env['runtime']['screenManager'].isNegativeDelta():
             return             
         # first place could not be the end of a word
-        if self.env['screenData']['newCursor']['x'] == 0:
+        if self.env['screen']['newCursor']['x'] == 0:
             return
             
         # get the word (just for speedup only look at current line
-        newContent = self.env['screenData']['newContentText'].split('\n')[self.env['screenData']['newCursor']['y']]
-        x, y, currWord, endOfScreen, lineBreak = word_utils.getCurrentWord(self.env['screenData']['newCursor']['x'], 0, newContent)                  
+        newContent = self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']]
+        x, y, currWord, endOfScreen, lineBreak = word_utils.getCurrentWord(self.env['screen']['newCursor']['x'], 0, newContent)                  
         # was this a typed word?
         if self.env['runtime']['screenManager'].isDelta():
-            if not(newContent[self.env['screenData']['oldCursor']['x']] in string.whitespace + '!"#$%&()*+,-./:;<=>?@[\\]^_{|}~' and x != self.env['screenData']['oldCursor']['x']):
+            if not(newContent[self.env['screen']['oldCursor']['x']] in string.whitespace + '!"#$%&()*+,-./:;<=>?@[\\]^_{|}~' and x != self.env['screen']['oldCursor']['x']):
                 return
             else:
                 currWord = currWord.strip(string.whitespace + '!"#$%&()*+,-./:;<=>?@[\\]^_{|}~')
         else:
         # or just arrow arround?
-            if not newContent[self.env['screenData']['newCursor']['x']].isspace():
+            if not newContent[self.env['screen']['newCursor']['x']].isspace():
                 return
-            if (x + len(currWord) != self.env['screenData']['newCursor']['x']) and \
-              (x + len(currWord) != self.env['screenData']['newCursor']['x']-1):
+            if (x + len(currWord) != self.env['screen']['newCursor']['x']) and \
+              (x + len(currWord) != self.env['screen']['newCursor']['x']-1):
                 return  
 
         # just on end of word
-        if self.env['screenData']['newCursor']['x'] > 0:
-            if not newContent[self.env['screenData']['oldCursor']['x'] - 1].lower() in string.ascii_lowercase:
+        if self.env['screen']['newCursor']['x'] > 0:
+            if not newContent[self.env['screen']['oldCursor']['x'] - 1].lower() in string.ascii_lowercase:
                 return
         
         # ignore bash buildins

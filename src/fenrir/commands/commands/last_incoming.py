@@ -17,7 +17,7 @@ class command():
         return _('displays the last received text')        
     
     def run(self):
-        self.env['runtime']['outputManager'].presentText(self.env['screenData']['newDelta'], interrupt=True)
+        self.env['runtime']['outputManager'].presentText(self.env['screen']['newDelta'], interrupt=True)
   
     def setCallback(self, callback):
         pass

@@ -7,6 +7,7 @@
 import os
 import __main__
 from configparser import ConfigParser
+from core import eventManager
 from core import inputManager
 from core import outputManager
 from core import commandManager
@@ -15,14 +16,14 @@ from core import punctuationManager
 from core import cursorManager
 from core import applicationManager
 from core import environment 
-from core import inputEvent 
-from core.settings import settings
+from core import inputData
+from core.settingsData import settingsData
 from core import debug
 from utils import module_utils
 
 class settingsManager():
     def __init__(self):
-        self.settings = settings
+        self.settings = settingsData
         self.settingArgDict = {}
     def initialize(self, environment):
         self.env = environment
@@ -100,7 +101,7 @@ class settingsManager():
             self.env['runtime']['debug'].writeDebugOut("SoundIcon: " + soundIcon + '.' + soundIconFile, debug.debugLevel.INFO, onAnyLevel=True)               
         siConfig.close()
     def isValidKey(self, key):
-        return key in inputEvent.keyNames
+        return key in inputData.keyNames
     
     def loadDicts(self, dictConfigPath=os.path.dirname(os.path.realpath(__main__.__file__)) + '/../../config/punctuation/default.conf'):
         dictConfig = open(dictConfigPath,"r")
@@ -203,10 +204,10 @@ class settingsManager():
               os.path.dirname(os.path.realpath(__main__.__file__)) + "/" + driverType + '/' + driverName + '.py')
             self.env['runtime'][driverType] = driver_mod.driver()
             self.env['runtime'][driverType].initialize(self.env)
-            self.env['runtime']['debug'].writeDebugOut('Loading Driver '  + driverType +" OK",debug.debugLevel.INFO, onAnyLevel=True)             
+            self.env['runtime']['debug'].writeDebugOut('Loading Driver '  + driverType + ' (' + driverName +") OK",debug.debugLevel.INFO, onAnyLevel=True)             
         except Exception as e:
             self.env['runtime'][driverType] = None
-            self.env['runtime']['debug'].writeDebugOut("Loading " + driverType + " Driver : "+ str(e), debug.debugLevel.ERROR)
+            self.env['runtime']['debug'].writeDebugOut('Loading Driver '  + driverType + ' (' + driverName +") FAILED:"+ str(e), debug.debugLevel.ERROR)
     def shutdownDriver(self, driverType):
         if self.env['runtime'][driverType] == None:
             return
@@ -302,7 +303,9 @@ class settingsManager():
                 environment['runtime']['settingsManager'].loadDicts(self.getSetting('general','punctuationProfile'))
         else:
             environment['runtime']['settingsManager'].loadDicts(self.getSetting('general','punctuationProfile'))
-
+        
+        environment['runtime']['eventManager'] = eventManager.eventManager()
+        environment['runtime']['eventManager'].initialize(environment)
         environment['runtime']['inputManager'] = inputManager.inputManager()
         environment['runtime']['inputManager'].initialize(environment)             
         environment['runtime']['outputManager'] = outputManager.outputManager()

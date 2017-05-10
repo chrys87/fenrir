@@ -17,10 +17,10 @@ class command():
         return _('reads the contents of the current screen')        
 
     def run(self):
-        if self.env['screenData']['newContentText'].isspace():
+        if self.env['screen']['newContentText'].isspace():
             self.env['runtime']['outputManager'].presentText(_("screen is empty"), soundIcon='EmptyLine', interrupt=True)
         else:    
-           self.env['runtime']['outputManager'].presentText(self.env['screenData']['newContentText'],interrupt=True)
+           self.env['runtime']['outputManager'].presentText(self.env['screen']['newContentText'],interrupt=True)
  
     def setCallback(self, callback):
         pass

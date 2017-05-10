@@ -14,13 +14,13 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        self.env['generalInformation']['tutorialMode'] = False
+        self.env['general']['tutorialMode'] = False
         return _('You are leaving the tutorial mode. Press that shortcut again to enter the tutorial mode again.')
     
     def run(self):
         text = _('you entered the tutorial mode. In that mode the commands are not executed. but you get a description of what the shortcut does. To leave the tutorial mode, press that shortcut again.')
         self.env['runtime']['outputManager'].presentText(text,  interrupt=True)                  
-        self.env['generalInformation']['tutorialMode'] = True            
+        self.env['general']['tutorialMode'] = True            
     
     def setCallback(self, callback):
         pass

@@ -27,7 +27,7 @@ class command():
         startMark = self.env['commandBuffer']['Marks']['1'].copy()
         endMark = self.env['commandBuffer']['Marks']['2'].copy() 
 
-        marked = mark_utils.getTextBetweenMarks(startMark, endMark, self.env['screenData']['newContentText'])
+        marked = mark_utils.getTextBetweenMarks(startMark, endMark, self.env['screen']['newContentText'])
 
         if marked.isspace():
             self.env['runtime']['outputManager'].presentText(_("blank"), soundIcon='EmptyLine', interrupt=True)

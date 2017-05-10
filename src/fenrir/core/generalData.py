@@ -6,13 +6,13 @@
 
 from core import debug
 
-generalInformation = {
+generalData = {
 'running': True,
 'args': None,
 'tutorialMode': False,
 'currUser':'',
 'prevUser':'',
-'managerList':['punctuationManager','cursorManager','applicationManager','commandManager'
+'managerList':['eventManager','punctuationManager','cursorManager','applicationManager','commandManager'
   ,'screenManager','inputManager','outputManager','debug'],
 'commandFolderList':['commands','onInput','onScreenUpdate','onScreenChanged'
   ,'onApplicationChange','onSwitchApplicationProfile',],
