@@ -52,6 +52,8 @@ Braille Support:
 Driver:
 - implement PTY Screen driver (to use gnome-terminal and other terminal emulators)
   https://docs.python.org/3.2/library/pty.html
+  http://sqizit.bartletts.id.au/2011/02/14/pseudo-terminals-in-python/
+  https://blog.konpat.me/pythons-pseudo-terminal-pty-examples/
 - implement PTY Input driver  
 - ATK input driver (don't grab on graphical interface)
 https://git.linux-a11y.org/AIT/pyatspi2/src/master/examples/keypress.py
