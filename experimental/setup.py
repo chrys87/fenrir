@@ -1,4 +1,5 @@
 #!/bin/python
+#https://python-packaging.readthedocs.io/en/latest/minimal.html
 import os
 from setuptools import find_packages
 from setuptools import setup
