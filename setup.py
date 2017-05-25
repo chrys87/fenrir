@@ -42,7 +42,7 @@ setup(
     # Dependent packages (distributions)
     install_requires=[
         "evdev",
-        "sox",
+        "sox"
     ],
     
 )
