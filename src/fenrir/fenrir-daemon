@@ -5,10 +5,10 @@
 # By Chrys, Storm Dragon, and contributers.
 
 import os, sys
-import __main__
+import fenrirVersion
 
-if not os.path.dirname(os.path.realpath(__main__.__file__)) in sys.path:
-    sys.path.append(os.path.dirname(os.path.realpath(__main__.__file__)))
+if not os.path.dirname(os.path.realpath(fenrirVersion.__file__)) in sys.path:
+    sys.path.append(os.path.dirname(os.path.realpath(fenrirVersion.__file__)))
 
 from core import fenrirManager
 from daemonize import Daemonize
@@ -22,7 +22,7 @@ def main():
 
 if __name__ == "__main__":
     # for debug in foreground
-    #daemon = Daemonize(app="fenrir-daemon", pid=pidFile, action=main, foreground=True,chdir=os.path.dirname(os.path.realpath(__main__.__file__)))
-    daemon = Daemonize(app="fenrir-daemon", pid=pidFile, action=main, chdir=os.path.dirname(os.path.realpath(__main__.__file__)))
+    #daemon = Daemonize(app="fenrir-daemon", pid=pidFile, action=main, foreground=True,chdir=os.path.dirname(os.path.realpath(fenrirVersion.__file__)))
+    daemon = Daemonize(app="fenrir-daemon", pid=pidFile, action=main, chdir=os.path.dirname(os.path.realpath(fenrirVersion.__file__)))
     daemon.start()
 
