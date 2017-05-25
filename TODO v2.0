@@ -80,6 +80,8 @@ Application Profiles
 - per application shortcuts
 
 -----------DONE----------------
+- initial working setup.py
+- add dependency check (check-dependencys.py)
 - Add nice dummy drivers as template or for debugging
 - reimplement detection code for X11
 - initial translate structure (manuelcortez Thanks!)  
