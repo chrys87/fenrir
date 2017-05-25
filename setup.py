@@ -6,17 +6,15 @@ from setuptools import setup
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
-
-
 setup(
     # Application name:
     name="fenrir",
     # Version number (initial):
-    version="0.1a",
+    version="1.5a",
 
     # Application author details:
-    author="Chrys and others",
-    author_email="chrys87@web.de",
+    author="Chrys, storm_dragon, Jeremiah and others",
+    author_email="christian.hempfling@linux-a11y.org",
 
     # Packages
     packages=find_packages('src/fenrir'),
