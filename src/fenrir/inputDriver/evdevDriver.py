@@ -79,7 +79,7 @@ class driver():
     def writeEventBuffer(self):
         if not self._initialized:
             return    
-        for iDevice, uDevice, event in self.env['input']['eventBuffer']:
+        for iDevice, uDevice, event in self.env['input']['eventBuffer']:           
             self.writeUInput(uDevice, event)
 
     def clearEventBuffer(self):
@@ -92,6 +92,7 @@ class driver():
             return    
         uDevice.write_event(event)
         uDevice.syn()  
+        time.sleep(0.0001)
 
     def updateInputDevices(self, force = False, init = False):
         if init:

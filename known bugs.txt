@@ -6,6 +6,7 @@ Glitches (improve diff results):
 - alpine seems to have problems (southernprince)
 - whole status line in irssi is spoken insteed of just the changes
 - whole status line in vim is spoken insteed of just the changes
+- keys sometimes get stuck
 
 Questions:
 - what is the correct codepage for cyrillic
