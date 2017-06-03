@@ -104,6 +104,9 @@ punctuationLevel=some
 respectPunctuationPause=True
 newLinePause=True
 numberOfClipboards=10
+# used path for "export_clipboard_to_file"
+# $user is replaced by username
+clipboardExportPath=/tmp/fenrirClipboard
 emoticons=True
 fenrirKeys=KEY_KP0,KEY_META
 scriptKey=KEY_COMPOSE
