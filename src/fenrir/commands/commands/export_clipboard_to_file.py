@@ -5,6 +5,7 @@
 # By Chrys, Storm Dragon, and contributers.
 
 from core import debug
+import os
 
 class command():
     def __init__(self):
@@ -38,6 +39,7 @@ class command():
                 return                                         
             clipboardFile.write(self.env['commandBuffer']['clipboard'][currClipboard])
             clipboardFile.close()
+            os.chmod(clipboardFilePath, 0o666)
             self.env['runtime']['outputManager'].presentText(_('clipboard exported to file'), interrupt=True)            
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('export_clipboard_to_file:run: Filepath:'+ clipboardFile +' trace:' + str(e),debug.debugLevel.ERROR)                                
