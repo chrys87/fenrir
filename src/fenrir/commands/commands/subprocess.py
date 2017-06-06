@@ -33,7 +33,8 @@ class command():
 
     def _threadRun(self):
         try:
-            p = Popen(self.scriptPath , stdout=PIPE, stderr=PIPE, shell=True)
+            callstring = self.scriptPath + ' ' + self.env['general']['currUser']
+            p = Popen(callstring , stdout=PIPE, stderr=PIPE, shell=True)
             stdout, stderr = p.communicate()
             self.env['runtime']['outputManager'].interruptOutput()
             screenEncoding = self.env['runtime']['settingsManager'].getSetting('screen', 'encoding')
