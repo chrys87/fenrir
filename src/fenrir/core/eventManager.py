@@ -76,9 +76,14 @@ class eventManager():
         if Force:
             self._mainLoopRunning.value =  False
         self._eventQueue.put({"Type":fenrirEventType.StopMainLoop,"Data":None})                                
-    def addEventThread(self, event, function):
+    def addCustomEventThread(self, function):
         self._mainLoopRunning.value =  True
-        t = Process(target=self.eventWorkerThread, args=(event, function))
+        t = Process(target=self.eventWorkerThread, args=(q, function))
+        self._eventProcesses.append(t)
+        t.start()
+    def addSimpleEventThread(self, event, function):
+        self._mainLoopRunning.value =  True
+        t = Process(target=self.SimpleEventWorkerThread, args=(event, function))
         self._eventProcesses.append(t)
         t.start()
     def cleanEventQueue(self):
@@ -94,7 +99,18 @@ class eventManager():
             return False
         self._eventQueue.put({"Type":event,"Data":data})    
         return True
-    def eventWorkerThread(self, event, function):       
+    def customEventWorkerThread(self, eventQueue, function):       
+        if not isinstance(eventQueue, Queue):
+            return
+        if not callable(function):
+            return
+        while self._mainLoopRunning.value:
+            try:
+                function(eventQueue)
+            except Exception as e:
+                print(e)
+
+    def simpleEventWorkerThread(self, event, function):       
         if not isinstance(event, fenrirEventType):
             return
         if not callable(function):
