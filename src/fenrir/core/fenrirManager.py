@@ -22,7 +22,7 @@ class fenrirManager():
         if not cliArgs:
             return        
         try:
-            self.environment = settingsManager.settingsManager().initFenrirConfig(cliArgs)
+            self.environment = settingsManager.settingsManager().initFenrirConfig(cliArgs, self)
             if not self.environment:
                 raise RuntimeError('Cannot Initialize. Maybe the configfile is not available or not parseable')
         except RuntimeError:
@@ -46,11 +46,8 @@ class fenrirManager():
     def proceed(self):
         if not self.initialized:
             return
-        while(self.environment['general']['running']):
-            try:
-                self.handleProcess()
-            except Exception as e:
-                self.environment['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR) 
+        self.environment['runtime']['eventManager'].startMainEventLoop()
+
         self.shutdown()
 
     def handleProcess(self):
@@ -118,7 +115,10 @@ class fenrirManager():
         self.shutdownRequest()
 
     def shutdown(self):
+        self.environment['eventManager'].stopMainEventLoop()        
         self.environment['runtime']['outputManager'].presentText(_("Quit Fenrir"), soundIcon='ScreenReaderOff', interrupt=True)       
+        self.environment['eventManager'].cleanEventQueue()
+        self.environment['eventManager'].stopMainEventLoop(True)
         for currManager in self.environment['general']['managerList']:
             if self.environment['runtime'][currManager]:
                 self.environment['runtime'][currManager].shutdown()                      

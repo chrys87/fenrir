@@ -242,7 +242,7 @@ class settingsManager():
                 optionArgDict[section] = {}
             optionArgDict[section][option] = str(value)
         return optionArgDict
-    def initFenrirConfig(self, cliArgs, environment = environment.environment):
+    def initFenrirConfig(self, cliArgs, fenrirManager = None, environment = environment.environment):
         settingsRoot = '/etc/fenrir/'
         settingsFile = cliArgs.setting
         soundRoot = '/usr/share/sounds/fenrir/'
@@ -304,6 +304,8 @@ class settingsManager():
         else:
             environment['runtime']['settingsManager'].loadDicts(self.getSetting('general','punctuationProfile'))
         
+        if fenrirManager:
+            environment['runtime']['fenrirManager'] = fenrirManager
         environment['runtime']['eventManager'] = eventManager.eventManager()
         environment['runtime']['eventManager'].initialize(environment)
         environment['runtime']['inputManager'] = inputManager.inputManager()

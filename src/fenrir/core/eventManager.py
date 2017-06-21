@@ -4,7 +4,7 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-#from core import debug
+from core import debug
 from queue import Empty
 import time 
 from enum import Enum
@@ -21,6 +21,7 @@ class fenrirEventType(Enum):
     PlugInputDevice = 5
     BrailleFlush = 6
     ScreenChanged = 7
+    HeartBeat = 8 # for time based scheduling
     def __int__(self):
         return self.value
     def __str__(self):
@@ -34,10 +35,14 @@ class eventManager():
         self._eventQueue = Queue() # multiprocessing.Queue()
         self.cleanEventQueue()
     def initialize(self, environment):
-        self.env = environment
+        self.env = environment    
+        self.addSimpleEventThread(fenrirEventType.HeartBeat, self.timerProcess)
     def shutdown(self):
         self.terminateAllProcesses()
         self.cleanEventQueue()
+    def timerProcess(self):
+        time.sleep(0.005)
+        return time.time()
     def terminateAllProcesses(self):
         for proc in self._eventProcesses:
             try:
@@ -68,6 +73,9 @@ class eventManager():
             pass            
         elif event['Type'] == fenrirEventType.ScreenChanged:
             pass
+        elif event['Type'] == fenrirEventType.HeartBeat:
+            self.env['runtime']['fenrirManager'].handleProcess()
+            print('HeartBeat at ' + str(event['Type']) + ' ' +str(event['Data'] ))
     def startMainEventLoop(self):
         self._mainLoopRunning.value = True
         while(self._mainLoopRunning.value):
@@ -83,7 +91,7 @@ class eventManager():
         t.start()
     def addSimpleEventThread(self, event, function):
         self._mainLoopRunning.value =  True
-        t = Process(target=self.SimpleEventWorkerThread, args=(event, function))
+        t = Process(target=self.simpleEventWorkerThread, args=(event, function))
         self._eventProcesses.append(t)
         t.start()
     def cleanEventQueue(self):
