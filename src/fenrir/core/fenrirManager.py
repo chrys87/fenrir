@@ -109,16 +109,16 @@ class fenrirManager():
         self.environment['runtime']['commandManager'].executeCommand( self.environment['commandInfo']['currCommand'], 'commands')
 
     def shutdownRequest(self):
-        self.environment['eventManager'].stopMainEventLoop()
+        self.environment['runtime']['eventManager'].stopMainEventLoop()
 
     def captureSignal(self, siginit, frame):
         self.shutdownRequest()
 
     def shutdown(self):
-        self.environment['eventManager'].stopMainEventLoop()        
+        self.environment['runtime']['eventManager'].stopMainEventLoop()        
         self.environment['runtime']['outputManager'].presentText(_("Quit Fenrir"), soundIcon='ScreenReaderOff', interrupt=True)       
-        self.environment['eventManager'].cleanEventQueue()
-        self.environment['eventManager'].stopMainEventLoop(True)
+        self.environment['runtime']['eventManager'].cleanEventQueue()
+        self.environment['runtime']['eventManager'].stopMainEventLoop(True)
         for currManager in self.environment['general']['managerList']:
             if self.environment['runtime'][currManager]:
                 self.environment['runtime'][currManager].shutdown()                      

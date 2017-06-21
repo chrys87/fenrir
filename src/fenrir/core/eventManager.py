@@ -41,7 +41,7 @@ class eventManager():
         self.terminateAllProcesses()
         self.cleanEventQueue()
     def timerProcess(self):
-        time.sleep(0.005)
+        time.sleep(0.04)
         #self.env['runtime']['settingsManager'].getSettingAsFloat('screen', 'screenUpdateDelay')
         return time.time()
     def terminateAllProcesses(self):
@@ -60,6 +60,7 @@ class eventManager():
             return
         elif event['Type'] == fenrirEventType.StopMainLoop:
             self._mainLoopRunning.value = 0
+            print('stop')
             return
         elif event['Type'] == fenrirEventType.ScreenUpdate:
             print('do an update')
@@ -76,22 +77,25 @@ class eventManager():
             pass
         elif event['Type'] == fenrirEventType.HeartBeat:
             self.env['runtime']['fenrirManager'].handleProcess()
+            print(self._eventQueue.qsize())            
             print('HeartBeat at ' + str(event['Type']) + ' ' +str(event['Data'] ))
     def startMainEventLoop(self):
-        self._mainLoopRunning.value = True
-        while(self._mainLoopRunning.value):
+        self._mainLoopRunning.value = 1
+        while(self._mainLoopRunning.value == 1):
+            st = time.time()            
             self.proceedEventLoop()
+            print('loop ' + str(time.time() - st))
     def stopMainEventLoop(self, Force = False):
         if Force:
-            self._mainLoopRunning.value =  False
+            self._mainLoopRunning.value =  0
         self._eventQueue.put({"Type":fenrirEventType.StopMainLoop,"Data":None})                                
     def addCustomEventThread(self, function):
-        self._mainLoopRunning.value =  True
+        self._mainLoopRunning.value =  1
         t = Process(target=self.eventWorkerThread, args=(q, function))
         self._eventProcesses.append(t)
         t.start()
     def addSimpleEventThread(self, event, function):
-        self._mainLoopRunning.value =  True
+        self._mainLoopRunning.value =  1
         t = Process(target=self.simpleEventWorkerThread, args=(event, function))
         self._eventProcesses.append(t)
         t.start()
@@ -124,7 +128,7 @@ class eventManager():
             return
         if not callable(function):
             return
-        while self._mainLoopRunning.value:
+        while self._mainLoopRunning.value == 1:
             Data = None
             try:
                 Data = function()
