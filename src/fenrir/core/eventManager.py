@@ -41,10 +41,14 @@ class eventManager():
         self.terminateAllProcesses()
         self.cleanEventQueue()
     def timerProcess(self):
-        time.sleep(0.03)
+        try:
+            time.sleep(0.03)
+        except:
+            pass
         #self.env['runtime']['settingsManager'].getSettingAsFloat('screen', 'screenUpdateDelay')
         return time.time()
     def terminateAllProcesses(self):
+        time.sleep(1)
         for proc in self._eventProcesses:
             try:
                 proc.terminate()
@@ -52,7 +56,9 @@ class eventManager():
                 print(e)            
     def proceedEventLoop(self):
         event = self._eventQueue.get()
+        st = time.time()
         self.eventDispatcher(event)
+        print('NET loop ' + str(time.time() - st))        
     def eventDispatcher(self, event):
         if not event:
             return
@@ -84,7 +90,7 @@ class eventManager():
         while(self._mainLoopRunning.value == 1):
             st = time.time()            
             self.proceedEventLoop()
-            print('loop ' + str(time.time() - st))
+            print('ALL loop ' + str(time.time() - st))
     def stopMainEventLoop(self, Force = False):
         if Force:
             self._mainLoopRunning.value =  0
