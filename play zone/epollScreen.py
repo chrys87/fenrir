@@ -3,39 +3,35 @@
 import select
 import time
 
+currScreen = '2'
 vcsa = {}
 for i in range(1,7):
     vcsa[str(i)] = open('/dev/vcs'+str(i),'rb')
-    vcsa[str(i)].read()
 
 tty = open('/sys/devices/virtual/tty/tty0/active','r')
-
-oldTty = str(tty.read()[3:-1])
-watchdog = select.poll()
+currScreen = str(tty.read()[3:-1])
+oldScreen = currScreen
+watchdog = select.epoll()
+watchdog.register(vcsa[currScreen], select.EPOLLPRI)
 watchdog.register(tty, select.EPOLLPRI)
-watchdog.register(vcsa[ oldTty ], select.EPOLLPRI)
-
+    
 while True:
-    changed = watchdog.poll()
+    changes = watchdog.poll()
     print('-----------------------------')
-    print(changed,tty.fileno())
-    for fileno, event in changed:
-        if tty.fileno() == fileno: 
-            currTty = tty.seek(0)
-            #b = open('/sys/devices/virtual/tty/tty0/active','r')  
-            currTty = str(tty.read()[3:-1])
-            print('|'+currTty+'|'+oldTty+'|')
-            if currTty != oldTty:
-                watchdog.register(vcsa[ currTty ].fileno(), select.EPOLLPRI)   
-                watchdog.unregister(vcsa[ oldTty ].fileno())  
-                oldTty = currTty
-                print('new screen ' + currTty)
+    print(changes)
+    for change in changes:
+        fileno = change[0]
+        event = change[1]
+        print(change,fileno, tty.fileno())
+        if fileno == tty.fileno():
+            tty.seek(0)
+            currScreen = str(tty.read()[3:-1])        
+            if currScreen != oldScreen:
+                watchdog.unregister(vcsa[ oldScreen ])              
+                watchdog.register(vcsa[ currScreen ], select.EPOLLPRI)   
+                oldScreen = currScreen  
+                print('new screen '+ currScreen)            
         else:
-            print('update '+ currTty + ' ' + str(fileno))
-            vcsa[currTty].seek(0)
-            b = vcsa[currTty].read()
-            #print(b)
-    time.sleep(0.5)
-
-
-
+            vcsa[currScreen].seek(0)
+            content = vcsa[currScreen].read()
+            print('update '+ str(time.time()))
