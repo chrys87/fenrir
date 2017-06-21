@@ -41,7 +41,7 @@ class eventManager():
         self.terminateAllProcesses()
         self.cleanEventQueue()
     def timerProcess(self):
-        time.sleep(0.04)
+        time.sleep(0.03)
         #self.env['runtime']['settingsManager'].getSettingAsFloat('screen', 'screenUpdateDelay')
         return time.time()
     def terminateAllProcesses(self):
@@ -133,7 +133,8 @@ class eventManager():
             try:
                 Data = function()
             except Exception as e:
-                print(e)
+                pass                
+                #print(e)
             self.putToEventQueue(event, Data)
             if runOnce:
                 break
