@@ -42,7 +42,7 @@ class driver():
             time.sleep(0.008) # dont flood CPU        
             return None
         event = None
-        r, w, x = select(self.iDevices, [], [], self.env['runtime']['settingsManager'].getSettingAsFloat('screen', 'screenUpdateDelay'))
+        r, w, x = select(self.iDevices, [], [], 0)
         if r != []:
             for fd in r:
                 try:

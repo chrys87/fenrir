@@ -17,7 +17,7 @@ class command():
         return _('exits Fenrir')        
     
     def run(self):
-        self.env['general']['running'] = False
+        self.env['eventManager'].stopMainEventLoop() 
 
     def setCallback(self, callback):
         pass

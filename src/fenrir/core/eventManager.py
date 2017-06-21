@@ -42,6 +42,7 @@ class eventManager():
         self.cleanEventQueue()
     def timerProcess(self):
         time.sleep(0.005)
+        #self.env['runtime']['settingsManager'].getSettingAsFloat('screen', 'screenUpdateDelay')
         return time.time()
     def terminateAllProcesses(self):
         for proc in self._eventProcesses:
@@ -118,7 +119,7 @@ class eventManager():
             except Exception as e:
                 print(e)
 
-    def simpleEventWorkerThread(self, event, function):       
+    def simpleEventWorkerThread(self, event, function, runOnce = False):       
         if not isinstance(event, fenrirEventType):
             return
         if not callable(function):
@@ -130,6 +131,8 @@ class eventManager():
             except Exception as e:
                 print(e)
             self.putToEventQueue(event, Data)
+            if runOnce:
+                break
 '''
 def p():
     time.sleep(0.02)

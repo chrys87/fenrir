@@ -109,7 +109,7 @@ class fenrirManager():
         self.environment['runtime']['commandManager'].executeCommand( self.environment['commandInfo']['currCommand'], 'commands')
 
     def shutdownRequest(self):
-        self.environment['general']['running'] = False
+        self.environment['eventManager'].stopMainEventLoop()
 
     def captureSignal(self, siginit, frame):
         self.shutdownRequest()
