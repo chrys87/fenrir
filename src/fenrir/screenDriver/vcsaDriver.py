@@ -10,8 +10,10 @@ import subprocess
 import fcntl
 import termios
 import time
+import select
 import dbus
 from core import debug
+from core.eventData import fenrirEventType
 from utils import screen_utils
 
 class driver():
@@ -20,6 +22,7 @@ class driver():
         self.ListSessions = None
     def initialize(self, environment):
         self.env = environment
+        self.env['runtime']['eventManager'].addCustomEventThread(self.updateWatchdog)        
     def shutdown(self):
         pass
     def getCurrScreen(self):
@@ -93,7 +96,44 @@ class driver():
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('getSessionInformation: Maybe no LoginD:' + str(e),debug.debugLevel.ERROR)               
             self.env['screen']['autoIgnoreScreens'] = []           
+ 
+    def updateWatchdog(self,eventQueue):
+        print('init updateWatchdog')
+        currScreen = '2'
+        vcsa = {}
+        for i in range(1,7):
+            vcsa[str(i)] = open('/dev/vcsa'+str(i),'rb')
 
+        tty = open('/sys/devices/virtual/tty/tty0/active','r')
+        currScreen = str(tty.read()[3:-1])
+        oldScreen = currScreen
+        watchdog = select.epoll()
+        watchdog.register(vcsa[currScreen], select.EPOLLPRI)
+        watchdog.register(tty, select.EPOLLPRI)
+            
+        while True:
+            changes = watchdog.poll()
+            print('-----------------------------')
+            print(changes)
+            for change in changes:
+                fileno = change[0]
+                event = change[1]
+                print(change,fileno, tty.fileno())
+                if fileno == tty.fileno():
+                    tty.seek(0)
+                    currScreen = str(tty.read()[3:-1])        
+                    if currScreen != oldScreen:
+                        watchdog.unregister(vcsa[ oldScreen ])              
+                        watchdog.register(vcsa[ currScreen ], select.EPOLLPRI)   
+                        oldScreen = currScreen
+                        eventQueue.put({"Type":fenrirEventType.ScreenChanged,"Data":''})                          
+                        print('new screen '+ currScreen)            
+                else:
+                    vcsa[currScreen].seek(0)
+                    content = vcsa[currScreen].read()
+                    eventQueue.put({"Type":fenrirEventType.ScreenUpdate,"Data":''})
+                    print('update '+ str(time.time()))    
+  
     def update(self, trigger='onUpdate'):
         newContentBytes = b''       
         try:
