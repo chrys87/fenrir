@@ -26,8 +26,7 @@ class eventManager():
         self.cleanEventQueue()
     def heartBeatTimer(self):
         try:
-            time.sleep(0.3)
-            print('bin auch da')
+            time.sleep(8)
         except:
             pass
         #self.env['runtime']['settingsManager'].getSettingAsFloat('screen', 'screenUpdateDelay')
@@ -43,8 +42,9 @@ class eventManager():
         event = self._eventQueue.get()
         st = time.time()
         self.eventDispatcher(event)
-        print('NET loop ' + str(time.time() - st))        
+        #print('NET loop ' + str(time.time() - st))        
     def eventDispatcher(self, event):
+        print(event['Type'])
         if not event:
             return
         if event['Type'] == fenrirEventType.Ignore:
@@ -83,7 +83,7 @@ class eventManager():
         while( self.isMainEventLoopRunning()):
             st = time.time()            
             self.proceedEventLoop()
-            print('ALL loop ' + str(time.time() - st))
+            #print('ALL loop ' + str(time.time() - st))
     def stopMainEventLoop(self, Force = False):
         if Force:
             self._mainLoopRunning.value =  0
@@ -148,6 +148,5 @@ class eventManager():
                 pass                
                 print(e)
             self.putToEventQueue(event, Data)
-            print('jo')
             if runOnce:
                 break

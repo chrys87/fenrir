@@ -110,15 +110,13 @@ class driver():
         watchdog = select.epoll()
         watchdog.register(vcsa[currScreen], select.EPOLLPRI)
         watchdog.register(tty, select.EPOLLPRI)
-            
+        lastChange = 0             
         while True:
-            changes = watchdog.poll()
-            print('-----------------------------')
-            print(changes)
+                          
+            changes = watchdog.poll(3)
             for change in changes:
                 fileno = change[0]
                 event = change[1]
-                print(change,fileno, tty.fileno())
                 if fileno == tty.fileno():
                     tty.seek(0)
                     currScreen = str(tty.read()[3:-1])        
@@ -126,13 +124,14 @@ class driver():
                         watchdog.unregister(vcsa[ oldScreen ])              
                         watchdog.register(vcsa[ currScreen ], select.EPOLLPRI)   
                         oldScreen = currScreen
-                        eventQueue.put({"Type":fenrirEventType.ScreenChanged,"Data":''})                          
-                        print('new screen '+ currScreen)            
+                        eventQueue.put({"Type":fenrirEventType.ScreenChanged,"Data":''})   
                 else:
                     vcsa[currScreen].seek(0)
                     content = vcsa[currScreen].read()
-                    eventQueue.put({"Type":fenrirEventType.ScreenUpdate,"Data":''})
-                    print('update '+ str(time.time()))    
+                    print(time.time(), lastChange)
+                    if time.time() - lastChange > 0.1:
+                        eventQueue.put({"Type":fenrirEventType.ScreenUpdate,"Data":''})
+                    lastChange = time.time()               
   
     def update(self, trigger='onUpdate'):
         newContentBytes = b''       

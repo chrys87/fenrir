@@ -42,15 +42,15 @@ class driver():
             self.env['runtime']['debug'].writeDebugOut('InputDriver: ' + _evdevAvailableError,debug.debugLevel.ERROR)         
             return  
         self.updateInputDevices()
-        self.env['runtime']['eventManager'].addSimpleEventThread(fenrirEventType.KeyboardInput, self.inputWatchdog, {'dev':self.iDevicesFD, 'syn':self.watchDog})
+        self.env['runtime']['eventManager'].addSimpleEventThread(fenrirEventType.KeyboardInput, self.inputWatchdog, {'dev':self.iDevicesFD})
     def shutdown(self):
         if not self._initialized:
             return  
     def inputWatchdog(self, iDevicesFD):
         deviceFd = []
-        for fd in iDevicesFD:
+        for fd in iDevicesFD['dev']:
             deviceFd.append(fd)
-        while self.watchDog.value == 1:  
+        while self.watchDog.value == 0:  
             time.sleep(0.01)                                                                                         
         r, w, x = select(deviceFd, [], [], 3)                     
         self.watchDog.value = 0
@@ -170,8 +170,7 @@ class driver():
         i = 0
         for fd in self.iDevices:
             self.iDevicesFD[i] = fd
-            i +=1   
-        print(self.iDevicesFD[:])
+            i +=1
         self.iDeviceNo = len(evdev.list_devices())
             
     def mapEvent(self, event):
