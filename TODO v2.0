@@ -4,20 +4,24 @@ Things with not so deep knowledge needed are marekd wiht "(Easy for contribution
 General:  
 - implement onScreenUpdate commands
   read highlighted text mode
-- try to make it more asynchronus with multpible threads
+- try to make it more asynchronus with multpible threads (DONE)
 - be more event based (vcsa sets POLLPRI)
   http://scotdoyle.com/python-epoll-howto.html
   Needed events:
-  screen update (vcsa sets POLLPRI)
+  screen update (vcsa sets POLLPRI) (DONE)
   plug input device (udev event)
-  screen changed (logind event, collides with screen update)
-  keyboard input (select, wait forever)
+  screen changed (logind event, collides with screen update)  (DONE)
+  keyboard input (select, wait forever) (DONE)
   braille input (brlapi_readKey)
-  braille flush (timer, sleep)
-  Each event is watched in an own thread. This improves performance and reduce the load.
-  The event loop is to be done as "queue" since those are thread safe.  
-  The threads are reading incomming data and add the events and data to the queue
-  the mainloop just reads the queue in an blocking way and executes the needed codepath with the data.
+  braille flush (timer, sleep)  (DONE)
+  Each event is watched in an own thread. This improves performance and reduce the load. (DONE)
+  The event loop is to be done as "queue" since those are thread safe.   (DONE)
+  The threads are reading incomming data and add the events and data to the queue (DONE)
+  the mainloop just reads the queue in an blocking way and executes the needed codepath with the data. (DONE)
+  clean up the code for the events so that just the correct codepath is used:
+  - screen
+  - input
+  - new device
 - leave review on typing 
 
 - implement commands
