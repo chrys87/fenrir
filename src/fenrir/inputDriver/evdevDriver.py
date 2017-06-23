@@ -16,9 +16,13 @@ except Exception as e:
 import time
 from select import select
 import multiprocessing
+from multiprocessing.sharedctypes import Value
+from ctypes import c_bool
+
 from core.eventData import fenrirEventType
 from core import inputData
 from core import debug
+
 
 class driver():
     def __init__(self):
@@ -28,7 +32,7 @@ class driver():
         self.uDevices = {}
         self.iDeviceNo = 0
         self._initialized = False        
-
+        self.watchDog = Value(c_bool, True)
     def initialize(self, environment):
         self.env = environment
         global _evdevAvailable
@@ -38,7 +42,7 @@ class driver():
             self.env['runtime']['debug'].writeDebugOut('InputDriver: ' + _evdevAvailableError,debug.debugLevel.ERROR)         
             return  
         self.updateInputDevices()
-        self.env['runtime']['eventManager'].addSimpleEventThread(fenrirEventType.KeyboardInput, self.inputWatchdog, self.iDevicesFD)
+        self.env['runtime']['eventManager'].addSimpleEventThread(fenrirEventType.KeyboardInput, self.inputWatchdog, {'dev':self.iDevicesFD, 'syn':self.watchDog})
     def shutdown(self):
         if not self._initialized:
             return  
@@ -46,12 +50,14 @@ class driver():
         deviceFd = []
         for fd in iDevicesFD:
             deviceFd.append(fd)
-        print('select', deviceFd, iDevicesFD)
-        r, w, x = select(deviceFd, [], [], 3)  
-        time.sleep(0.1)                   
+        while self.watchDog.value == 1:  
+            time.sleep(0.01)                                                                                         
+        r, w, x = select(deviceFd, [], [], 3)                     
+        self.watchDog.value = 0
     def getInputEvent(self):
         if not self.hasIDevices():
             time.sleep(0.008) # dont flood CPU        
+            self.watchDog.value = 1
             return None
         event = None
         r, w, x = select(self.iDevices, [], [], 0.0001)
@@ -61,6 +67,7 @@ class driver():
                     event = self.iDevices[fd].read_one()            
                 except:
                     self.removeDevice(fd)
+                    self.watchDog.value = 1                                                                                                         
                     return None
                 foreward = False
                 while(event):
@@ -78,6 +85,7 @@ class driver():
                                 continue
                             if not foreward:
                                 if currMapEvent['EventState'] in [0,1,2]:
+                                    self.watchDog.value = 1                                
                                     return currMapEvent
                     else:
                         if not event.type in [0,1,4]:
@@ -85,7 +93,8 @@ class driver():
                     event = self.iDevices[fd].read_one()   
                 if foreward:
                     self.writeEventBuffer()
-                    self.clearEventBuffer()                                                                         
+                    self.clearEventBuffer()        
+        self.watchDog.value = 1                                                                                     
         return None
 
     def writeEventBuffer(self):
