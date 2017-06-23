@@ -15,12 +15,16 @@ except Exception as e:
 
 import time
 from select import select
+import multiprocessing
+from core.eventData import fenrirEventType
 from core import inputData
 from core import debug
 
 class driver():
     def __init__(self):
+        self._manager = multiprocessing.Manager()
         self.iDevices = {}
+        self.iDevicesFD = None
         self.uDevices = {}
         self.iDeviceNo = 0
         self._initialized = False        
@@ -33,16 +37,24 @@ class driver():
             global _evdevAvailableError
             self.env['runtime']['debug'].writeDebugOut('InputDriver: ' + _evdevAvailableError,debug.debugLevel.ERROR)         
             return  
-
+        self.updateInputDevices()
+        self.env['runtime']['eventManager'].addSimpleEventThread(fenrirEventType.KeyboardInput, self.inputWatchdog, self.iDevicesFD)
     def shutdown(self):
         if not self._initialized:
-            return       
+            return  
+    def inputWatchdog(self, iDevicesFD):
+        deviceFd = []
+        for fd in iDevicesFD:
+            deviceFd.append(fd)
+        print('select', deviceFd, iDevicesFD)
+        r, w, x = select(deviceFd, [], [], 3)  
+        time.sleep(0.1)                   
     def getInputEvent(self):
         if not self.hasIDevices():
             time.sleep(0.008) # dont flood CPU        
             return None
         event = None
-        r, w, x = select(self.iDevices, [], [], 0)
+        r, w, x = select(self.iDevices, [], [], 0.0001)
         if r != []:
             for fd in r:
                 try:
@@ -145,6 +157,12 @@ class driver():
                     self.env['runtime']['debug'].writeDebugOut('Device added (Name):' + self.iDevices[currDevice.fd].name,debug.debugLevel.INFO)                                                        
             except Exception as e:
                 self.env['runtime']['debug'].writeDebugOut("Skip Inputdevice : " + deviceFile +' ' + str(e),debug.debugLevel.ERROR)                
+        self.iDevicesFD = multiprocessing.Array('i', len(self.iDevices))
+        i = 0
+        for fd in self.iDevices:
+            self.iDevicesFD[i] = fd
+            i +=1   
+        print(self.iDevicesFD[:])
         self.iDeviceNo = len(evdev.list_devices())
             
     def mapEvent(self, event):

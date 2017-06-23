@@ -20,13 +20,14 @@ class eventManager():
         self.cleanEventQueue()
     def initialize(self, environment):
         self.env = environment    
-        self.addSimpleEventThread(fenrirEventType.HeartBeat, self.timerProcess)
+        self.addSimpleEventThread(fenrirEventType.HeartBeat, self.heartBeatTimer)
     def shutdown(self):
         self.terminateAllProcesses()
         self.cleanEventQueue()
-    def timerProcess(self):
+    def heartBeatTimer(self):
         try:
-            time.sleep(1.3)
+            time.sleep(0.3)
+            print('bin auch da')
         except:
             pass
         #self.env['runtime']['settingsManager'].getSettingAsFloat('screen', 'screenUpdateDelay')
@@ -87,14 +88,21 @@ class eventManager():
         if Force:
             self._mainLoopRunning.value =  0
         self._eventQueue.put({"Type":fenrirEventType.StopMainLoop,"Data":None})                                
-    def addCustomEventThread(self, function):
+    def addCustomEventThread(self, function, pargs = None, multiprocess=False):
         self._mainLoopRunning.value =  1
-        t = Process(target=self.customEventWorkerThread, args=(self._eventQueue, function))
+
+        if multiprocess:        
+            t = Process(target=self.customEventWorkerThread, args=(self._eventQueue, function, pargs))
+        else:# thread not implemented yet
+            t = Process(target=self.customEventWorkerThread, args=(self._eventQueue, function, pargs))        
         self._eventProcesses.append(t)
         t.start()
-    def addSimpleEventThread(self, event, function):
+    def addSimpleEventThread(self, event, function, pargs = None, multiprocess=False, runOnce = False):
         self._mainLoopRunning.value =  1
-        t = Process(target=self.simpleEventWorkerThread, args=(event, function))
+        if multiprocess:
+            t = Process(target=self.simpleEventWorkerThread, args=(event, function, pargs))
+        else:# thread not implemented yet
+            t = Process(target=self.simpleEventWorkerThread, args=(event, function, pargs))                    
         self._eventProcesses.append(t)
         t.start()
     def cleanEventQueue(self):
@@ -110,18 +118,21 @@ class eventManager():
             return False
         self._eventQueue.put({"Type":event,"Data":data})    
         return True
-    def customEventWorkerThread(self, eventQueue, function):       
+    def customEventWorkerThread(self, eventQueue, function, args):       
         #if not isinstance(eventQueue, Queue):
         #    return
         if not callable(function):
             return
         while self.isMainEventLoopRunning():
             try:
-                function(eventQueue)
+                if args:
+                    function(eventQueue, args)
+                else:
+                    function(eventQueue)
             except Exception as e:
                 print(e)
 
-    def simpleEventWorkerThread(self, event, function, runOnce = False):       
+    def simpleEventWorkerThread(self, event, function, args, runOnce = False):       
         if not isinstance(event, fenrirEventType):
             return
         if not callable(function):
@@ -129,10 +140,14 @@ class eventManager():
         while self.isMainEventLoopRunning():
             Data = None
             try:
-                Data = function()
+                if args != None:
+                    Data = function(args)                
+                else:
+                    Data = function()
             except Exception as e:
                 pass                
-                #print(e)
+                print(e)
             self.putToEventQueue(event, Data)
+            print('jo')
             if runOnce:
                 break
