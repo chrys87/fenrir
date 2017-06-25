@@ -28,35 +28,3 @@ commandInfo = {
 'lastCommandExecutionTime': time.time(),
 'lastCommandRequestTime': time.time(),
 }
-
-# used by the commandManager
-commands = {
-'onInput':{
-    },
-'onScreenChanged':{
-    },
-'onScreenUpdate':{
-    },
-'onApplicationChange':{
-    },   
-'commands':{
-    },
-'onSwitchApplicationProfile':{
-    },
-}
-
-# used by the commandManager
-commandsIgnore = {
-'onInput':{
-    },
-'onScreenChanged':{
-    },
-'onScreenUpdate':{
-    },
-'onApplicationChange':{
-    },   
-'commands':{
-    },
-'onSwitchApplicationProfile':{
-    },
-}

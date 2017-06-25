@@ -42,7 +42,12 @@ class driver():
             self.env['runtime']['debug'].writeDebugOut('InputDriver: ' + _evdevAvailableError,debug.debugLevel.ERROR)         
             return  
         self.updateInputDevices()
+        self.env['runtime']['eventManager'].addSimpleEventThread(fenrirEventType.PlugInputDevice, self.plugInputDeviceWatchdog)        
         self.env['runtime']['eventManager'].addSimpleEventThread(fenrirEventType.KeyboardInput, self.inputWatchdog, {'dev':self.iDevicesFD})
+    def plugInputDeviceWatchdog(self):
+        time.sleep(2)
+        #self.env['runtime']['settingsManager'].getSettingAsFloat('screen', 'screenUpdateDelay')
+        return time.time()    
     def shutdown(self):
         if not self._initialized:
             return  
@@ -54,7 +59,9 @@ class driver():
             if active.value == 0:
                 return
             time.sleep(0.01)                                                                                         
-        r, w, x = select(deviceFd, [], [], 2)                     
+        r = []
+        while r == []:
+            r, w, x = select(deviceFd, [], [], 2)                     
         self.watchDog.value = 0
     def getInputEvent(self):
         if not self.hasIDevices():

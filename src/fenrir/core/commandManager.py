@@ -15,6 +15,8 @@ class commandManager():
     def initialize(self, environment):
         self.env = environment
         # commands
+        self.env['commands'] = {}
+        self.env['commandsIgnore'] = {}        
         for commandFolder in self.env['general']['commandFolderList']:
             self.env['runtime']['commandManager'].loadCommands(commandFolder,
               self.env['runtime']['settingsManager'].getSetting('general', 'commandPath'))        
@@ -42,7 +44,8 @@ class commandManager():
         if not os.access(commandFolder, os.R_OK):
             self.env['runtime']['debug'].writeDebugOut("commandFolder not readable:" + commandFolder ,debug.debugLevel.ERROR)                                    
             return           
-
+        self.env['commands'][section] = {}
+        self.env['commandsIgnore'][section] = {}
         commandList = glob.glob(commandFolder+'*')
         for command in commandList:
             try:
@@ -62,7 +65,6 @@ class commandManager():
                     self.env['commands'][section][fileName.upper()].initialize(self.env)
                     self.env['runtime']['debug'].writeDebugOut("Load command:" + section + "." + fileName.upper() ,debug.debugLevel.INFO, onAnyLevel=True)                    
             except Exception as e:
-                print(command+str(e))
                 self.env['runtime']['debug'].writeDebugOut("Loading command:" + command ,debug.debugLevel.ERROR)
                 self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)                
                 continue
@@ -172,8 +174,7 @@ class commandManager():
                         self.env['runtime']['debug'].writeDebugOut("Executing trigger.command:" + trigger + "." + command ,debug.debugLevel.INFO)                    
                         self.env['commands'][trigger][command].run()                    
                 except Exception as e:
-                    self.env['runtime']['debug'].writeDebugOut("Executing trigger:" + trigger + "." + command ,debug.debugLevel.ERROR)
-                    self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR) 
+                    self.env['runtime']['debug'].writeDebugOut("Executing trigger:" + trigger + "." + command + str(e) ,debug.debugLevel.ERROR)
 
     def executeCommand(self, command, section = 'commands'):
         if self.env['runtime']['screenManager'].isSuspendingScreen():

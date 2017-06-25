@@ -44,23 +44,18 @@ class eventManager():
         self.eventDispatcher(event)
         #print('NET loop ' + str(time.time() - st))        
     def eventDispatcher(self, event):
-        print(event['Type'])
+        print(event['Type'], self._eventQueue.qsize())
         if not event:
             return
         if event['Type'] == fenrirEventType.Ignore:
             return
         elif event['Type'] == fenrirEventType.StopMainLoop:
             self.handleStopMainLoop()
-            print('stop')
             return
         elif event['Type'] == fenrirEventType.ScreenUpdate:
             self.env['runtime']['fenrirManager'].handleScreenUpdate()
-            print(self._eventQueue.qsize())         
-            print('ScreenUpdate')
         elif event['Type'] == fenrirEventType.KeyboardInput:
             self.env['runtime']['fenrirManager'].handleInput()
-            print(self._eventQueue.qsize())
-            print('KeyboardInput')                     
         elif event['Type'] == fenrirEventType.BrailleInput:
             pass            
         elif event['Type'] == fenrirEventType.PlugInputDevice:
@@ -69,14 +64,9 @@ class eventManager():
             pass            
         elif event['Type'] == fenrirEventType.ScreenChanged:
             self.env['runtime']['fenrirManager'].handleScreenChange()
-            print(self._eventQueue.qsize())         
-            print('ScreenChanged')
         elif event['Type'] == fenrirEventType.HeartBeat:
-            # run timer actions
-            #self.env['runtime']['fenrirManager'].handleProcess()
-            print(self._eventQueue.qsize())            
-            print('HeartBeat at {0} {1}'.format(event['Type'], event['Data'] ))
-
+            self.env['runtime']['fenrirManager'].handleHeartBeat()
+            #print('HeartBeat at {0} {1}'.format(event['Type'], event['Data'] ))
     def isMainEventLoopRunning(self):
         return self._mainLoopRunning.value == 1
     def startMainEventLoop(self):
