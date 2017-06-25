@@ -147,7 +147,7 @@ class settingsManager():
     def getSetting(self, section, setting):
         value = ''
         try:
-            value = self.settingArgDict[section][setting]
+            value = self.settingArgDict[section.lower()][setting.lower()]
             return value            
         except:
             pass
@@ -160,10 +160,10 @@ class settingsManager():
     def getSettingAsInt(self, section, setting):
         value = 0
         try:
-            value = int(self.settingArgDict[section][setting])
+            value = int(self.settingArgDict[section.lower()][setting.lower()])
             return value            
-        except:
-            pass  
+        except Exception as e:
+            pass
         try:
             value = self.env['settings'].getint(section, setting)
         except:
@@ -173,7 +173,7 @@ class settingsManager():
     def getSettingAsFloat(self, section, setting):
         value = 0.0
         try:
-            value = float(self.settingArgDict[section][setting])
+            value = float(self.settingArgDict[section.lower()][setting.lower()])
             return value            
         except Exception as e:
             pass        
@@ -186,7 +186,7 @@ class settingsManager():
     def getSettingAsBool(self, section, setting):
         value = False
         try:
-            value = self.settingArgDict[section][setting].upper() in ['1','YES','JA','TRUE']
+            value = self.settingArgDict[section.lower()][setting.lower()].upper() in ['1','YES','JA','TRUE']
             return value
         except Exception as e:
             pass      
@@ -241,6 +241,7 @@ class settingsManager():
             except KeyError:
                 optionArgDict[section] = {}
             optionArgDict[section][option] = str(value)
+        print(optionArgDict)
         return optionArgDict
     def initFenrirConfig(self, cliArgs, fenrirManager = None, environment = environment.environment):
         settingsRoot = '/etc/fenrir/'
