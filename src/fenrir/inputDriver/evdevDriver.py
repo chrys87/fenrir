@@ -46,13 +46,15 @@ class driver():
     def shutdown(self):
         if not self._initialized:
             return  
-    def inputWatchdog(self, iDevicesFD):
+    def inputWatchdog(self,active , iDevicesFD):
         deviceFd = []
         for fd in iDevicesFD['dev']:
             deviceFd.append(fd)
         while self.watchDog.value == 0:  
+            if active.value == 0:
+                return
             time.sleep(0.01)                                                                                         
-        r, w, x = select(deviceFd, [], [], 3)                     
+        r, w, x = select(deviceFd, [], [], 2)                     
         self.watchDog.value = 0
     def getInputEvent(self):
         if not self.hasIDevices():

@@ -97,7 +97,7 @@ class driver():
             self.env['runtime']['debug'].writeDebugOut('getSessionInformation: Maybe no LoginD:' + str(e),debug.debugLevel.ERROR)               
             self.env['screen']['autoIgnoreScreens'] = []           
  
-    def updateWatchdog(self,eventQueue):
+    def updateWatchdog(self,active , eventQueue):
         print('init VCSA updateWatchdog')
         currScreen = '2'
         vcsa = {}
@@ -110,10 +110,9 @@ class driver():
         watchdog = select.epoll()
         watchdog.register(vcsa[currScreen], select.EPOLLPRI)
         watchdog.register(tty, select.EPOLLPRI)
-        lastChange = 0             
-        while True:
-                          
-            changes = watchdog.poll(3)
+        lastScreenContent = b''
+        while active.value == 1:
+            changes = watchdog.poll(2)
             for change in changes:
                 fileno = change[0]
                 event = change[1]
@@ -124,16 +123,19 @@ class driver():
                         watchdog.unregister(vcsa[ oldScreen ])              
                         watchdog.register(vcsa[ currScreen ], select.EPOLLPRI)   
                         oldScreen = currScreen
-                        eventQueue.put({"Type":fenrirEventType.ScreenChanged,"Data":''})   
+                        eventQueue.put({"Type":fenrirEventType.ScreenChanged,"Data":''})  
+                        vcsa[currScreen].seek(0)                        
+                        lastScreenContent = vcsa[currScreen].read() 
                 else:
                     vcsa[currScreen].seek(0)
-                    content = vcsa[currScreen].read()
-                    print(time.time(), lastChange)
-                    if time.time() - lastChange > 0.1:
+                    screenContent = vcsa[currScreen].read()
+                    if screenContent != lastScreenContent:
                         eventQueue.put({"Type":fenrirEventType.ScreenUpdate,"Data":''})
-                    lastChange = time.time()               
+                        lastScreenContent = screenContent              
   
     def update(self, trigger='onUpdate'):
+        if trigger == 'onInput': # no need for an update on input for VCSA
+            return
         newContentBytes = b''       
         try:
             # read screen

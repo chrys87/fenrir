@@ -26,7 +26,7 @@ class eventManager():
         self.cleanEventQueue()
     def heartBeatTimer(self):
         try:
-            time.sleep(8)
+            time.sleep(0.5)
         except:
             pass
         #self.env['runtime']['settingsManager'].getSettingAsFloat('screen', 'screenUpdateDelay')
@@ -50,15 +50,15 @@ class eventManager():
         if event['Type'] == fenrirEventType.Ignore:
             return
         elif event['Type'] == fenrirEventType.StopMainLoop:
-            self._mainLoopRunning.value = 0
+            self.handleStopMainLoop()
             print('stop')
             return
         elif event['Type'] == fenrirEventType.ScreenUpdate:
-            self.env['runtime']['fenrirManager'].handleProcess()
+            self.env['runtime']['fenrirManager'].handleScreenUpdate()
             print(self._eventQueue.qsize())         
             print('ScreenUpdate')
         elif event['Type'] == fenrirEventType.KeyboardInput:
-            self.env['runtime']['fenrirManager'].handleProcess()
+            self.env['runtime']['fenrirManager'].handleInput()
             print(self._eventQueue.qsize())
             print('KeyboardInput')                     
         elif event['Type'] == fenrirEventType.BrailleInput:
@@ -68,11 +68,12 @@ class eventManager():
         elif event['Type'] == fenrirEventType.BrailleFlush:
             pass            
         elif event['Type'] == fenrirEventType.ScreenChanged:
-            self.env['runtime']['fenrirManager'].handleProcess()
+            self.env['runtime']['fenrirManager'].handleScreenChange()
             print(self._eventQueue.qsize())         
             print('ScreenChanged')
         elif event['Type'] == fenrirEventType.HeartBeat:
-            self.env['runtime']['fenrirManager'].handleProcess()
+            # run timer actions
+            #self.env['runtime']['fenrirManager'].handleProcess()
             print(self._eventQueue.qsize())            
             print('HeartBeat at {0} {1}'.format(event['Type'], event['Data'] ))
 
@@ -84,6 +85,9 @@ class eventManager():
             st = time.time()            
             self.proceedEventLoop()
             #print('ALL loop ' + str(time.time() - st))
+    def handleStopMainLoop(self):
+        self._mainLoopRunning.value =  0
+        time.sleep(3.5)
     def stopMainEventLoop(self, Force = False):
         if Force:
             self._mainLoopRunning.value =  0
@@ -126,9 +130,9 @@ class eventManager():
         while self.isMainEventLoopRunning():
             try:
                 if args:
-                    function(eventQueue, args)
+                    function(self._mainLoopRunning, eventQueue, args)
                 else:
-                    function(eventQueue)
+                    function(self._mainLoopRunning, eventQueue)
             except Exception as e:
                 print(e)
 
@@ -141,7 +145,7 @@ class eventManager():
             Data = None
             try:
                 if args != None:
-                    Data = function(args)                
+                    Data = function(self._mainLoopRunning, args)                
                 else:
                     Data = function()
             except Exception as e:

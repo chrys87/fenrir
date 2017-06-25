@@ -47,15 +47,10 @@ class fenrirManager():
         if not self.initialized:
             return
         self.environment['runtime']['eventManager'].startMainEventLoop()
-
         self.shutdown()
-
-    def handleProcess(self):
+    def handleInput(self):
         eventReceived = self.environment['runtime']['inputManager'].getInputEvent()
-        startTime = time.time()    
-        if not eventReceived:
-            if not self.environment['runtime']['screenManager'].isSuspendingScreen():
-                self.environment['runtime']['inputManager'].updateInputDevices()
+        startTime = time.time()
         if eventReceived:
             self.prepareCommand()
             if not (self.wasCommand  or self.environment['general']['tutorialMode']) or  self.environment['runtime']['screenManager'].isSuspendingScreen():
@@ -69,23 +64,39 @@ class fenrirManager():
                 if self.environment['input']['keyForeward'] > 0:
                     self.environment['input']['keyForeward'] -=1
             self.environment['runtime']['screenManager'].update('onInput')                            
-            self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')      
-        else:
-            self.environment['runtime']['screenManager'].update('onUpdate')
+            self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')       
+        self.handleCommands()
+    def handleScreenChange(self):
+        self.environment['runtime']['screenManager'].update('onUpdate')
+        
         if self.environment['runtime']['applicationManager'].isApplicationChange():
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onApplicationChange')
             self.environment['runtime']['commandManager'].executeSwitchTrigger('onSwitchApplicationProfile', \
               self.environment['runtime']['applicationManager'].getPrevApplication(), \
               self.environment['runtime']['applicationManager'].getCurrentApplication())          
         
-        if self.environment['runtime']['screenManager'].isScreenChange():    
+        if not self.environment['runtime']['screenManager'].isScreenChange():    
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenChanged')             
-        else:
-            self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenUpdate')         
-        #self.environment['runtime']['outputManager'].brailleText(flush=False)    
-        self.handleCommands()
-        #print(time.time()-startTime)       
-
+            
+    def handleScreenUpdate(self):
+        self.environment['runtime']['screenManager'].update('onUpdate')
+        
+        if self.environment['runtime']['applicationManager'].isApplicationChange():
+            self.environment['runtime']['commandManager'].executeDefaultTrigger('onApplicationChange')
+            self.environment['runtime']['commandManager'].executeSwitchTrigger('onSwitchApplicationProfile', \
+              self.environment['runtime']['applicationManager'].getPrevApplication(), \
+              self.environment['runtime']['applicationManager'].getCurrentApplication())          
+        
+        if not self.environment['runtime']['screenManager'].isScreenChange():    
+            self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenUpdate')
+    def handlePlugInputDevice(self):
+        if not self.environment['runtime']['screenManager'].isSuspendingScreen(): # remove if all works
+            self.environment['runtime']['inputManager'].updateInputDevices()    
+    def handleHeartBeat(self):
+        self.environment['runtime']['commandManager'].executeDefaultTrigger('onHeartBeat')  
+        self.handlePlugInputDevice()
+        #self.environment['runtime']['outputManager'].brailleText(flush=False)                        
+    
     def prepareCommand(self):
         if self.environment['runtime']['screenManager'].isSuspendingScreen():
             self.wasCommand = False
