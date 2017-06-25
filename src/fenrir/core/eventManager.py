@@ -87,7 +87,7 @@ class eventManager():
             #print('ALL loop ' + str(time.time() - st))
     def handleStopMainLoop(self):
         self._mainLoopRunning.value =  0
-        time.sleep(3.5)
+        time.sleep(0.1)
     def stopMainEventLoop(self, Force = False):
         if Force:
             self._mainLoopRunning.value =  0
