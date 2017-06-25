@@ -79,16 +79,18 @@ class fenrirManager():
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenChanged')             
             
     def handleScreenUpdate(self):
+        s = time.time()
         self.environment['runtime']['screenManager'].update('onUpdate')
-        
+        '''        
         if self.environment['runtime']['applicationManager'].isApplicationChange():
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onApplicationChange')
             self.environment['runtime']['commandManager'].executeSwitchTrigger('onSwitchApplicationProfile', \
               self.environment['runtime']['applicationManager'].getPrevApplication(), \
               self.environment['runtime']['applicationManager'].getCurrentApplication())          
-        
-        if not self.environment['runtime']['screenManager'].isScreenChange():    
-            self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenUpdate')
+        '''        
+        #if not self.environment['runtime']['screenManager'].isScreenChange():    
+        self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenUpdate')
+        #print(time.time() -s)
     def handlePlugInputDevice(self):
         self.environment['runtime']['commandManager'].executeDefaultTrigger('PlugInputDevice')   
     def handleHeartBeat(self):

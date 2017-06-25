@@ -74,7 +74,7 @@ class eventManager():
         while( self.isMainEventLoopRunning()):
             st = time.time()            
             self.proceedEventLoop()
-            #print('ALL loop ' + str(time.time() - st))
+            print('ALL loop ' + str(time.time() - st))
     def handleStopMainLoop(self):
         self._mainLoopRunning.value =  0
         time.sleep(0.1)
