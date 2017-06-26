@@ -21,16 +21,18 @@ class screenManager():
         self.env['runtime']['settingsManager'].shutdownDriver('screenDriver')
 
     def update(self, trigger='onUpdate'):
-        self.env['runtime']['screenDriver'].getCurrScreen()
-        self.env['runtime']['screenDriver'].getSessionInformation()
+        
+        if trigger == 'onScreenChange':
+            self.env['runtime']['screenDriver'].getCurrScreen()
+            self.env['runtime']['screenDriver'].getSessionInformation()
         self.env['screen']['oldApplication'] = self.env['screen']['newApplication']            
         if self.isScreenChange():                 
             self.changeBrailleScreen()                                          
         if not self.isSuspendingScreen(self.env['screen']['newTTY']):       
             self.env['runtime']['screenDriver'].update(trigger)
-            if trigger == 'onUpdate' or self.isScreenChange() \
-              or len(self.env['screen']['newDelta']) > 6:
-                self.env['runtime']['screenDriver'].getCurrApplication() 
+            #if trigger == 'onUpdate' or self.isScreenChange() \
+            #  or len(self.env['screen']['newDelta']) > 6:
+            #    self.env['runtime']['screenDriver'].getCurrApplication() 
             self.env['screen']['lastScreenUpdate'] = time.time()
 
     def isSuspendingScreen(self, screen = None):

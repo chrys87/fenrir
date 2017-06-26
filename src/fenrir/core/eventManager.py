@@ -53,9 +53,11 @@ class eventManager():
             self.handleStopMainLoop()
             return
         elif event['Type'] == fenrirEventType.ScreenUpdate:
+            pass
             self.env['runtime']['fenrirManager'].handleScreenUpdate()
         elif event['Type'] == fenrirEventType.KeyboardInput:
             self.env['runtime']['fenrirManager'].handleInput()
+            #self.env['runtime']['fenrirManager'].handleScreenUpdate()            
         elif event['Type'] == fenrirEventType.BrailleInput:
             pass            
         elif event['Type'] == fenrirEventType.PlugInputDevice:

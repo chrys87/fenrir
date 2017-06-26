@@ -45,7 +45,7 @@ class driver():
         self.env['runtime']['eventManager'].addSimpleEventThread(fenrirEventType.PlugInputDevice, self.plugInputDeviceWatchdog)        
         self.env['runtime']['eventManager'].addSimpleEventThread(fenrirEventType.KeyboardInput, self.inputWatchdog, {'dev':self.iDevicesFD})
     def plugInputDeviceWatchdog(self):
-        time.sleep(2)
+        time.sleep(2.5)
         #self.env['runtime']['settingsManager'].getSettingAsFloat('screen', 'screenUpdateDelay')
         return time.time()    
     def shutdown(self):
@@ -58,7 +58,7 @@ class driver():
         while self.watchDog.value == 0:  
             if active.value == 0:
                 return
-            time.sleep(0.01)                                                                                         
+            time.sleep(0.001)                                                                                         
         r = []
         while r == []:
             r, w, x = select(deviceFd, [], [], 2)                     
