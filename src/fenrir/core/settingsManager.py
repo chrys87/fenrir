@@ -226,8 +226,16 @@ class settingsManager():
         for key in keyList:
             if not key in  self.env['input']['scriptKey']:
                 self.env['input']['scriptKey'].append(key)
+    def setOptionArgDict(self, section, option, value):
+        section = section.lower()
+        option = option.lower()
+        try:
+            e = self.settingArgDict[section]
+        except KeyError:
+            self.settingArgDict[section] = {}
+        self.settingArgDict[section][option] = str(value)    
+    
     def parseSettingArgs(self, settingArgs):
-        optionArgDict = {}
         for optionElem in settingArgs.split(';'):
             if len(optionElem.split('#',1)) != 2:
                 continue
@@ -236,13 +244,8 @@ class settingsManager():
             section = str(optionElem.split('#',1)[0]).lower()
             option = str(optionElem.split('#',1)[1].split('=',1)[0]).lower()
             value = optionElem.split('#',1)[1].split('=',1)[1]           
-            try:
-                e = optionArgDict[section]
-            except KeyError:
-                optionArgDict[section] = {}
-            optionArgDict[section][option] = str(value)
-        print(optionArgDict)
-        return optionArgDict
+            self.setOptionArgDict(section, option, value)
+
     def initFenrirConfig(self, cliArgs, fenrirManager = None, environment = environment.environment):
         settingsRoot = '/etc/fenrir/'
         settingsFile = cliArgs.setting
@@ -272,11 +275,15 @@ class settingsManager():
         validConfig = environment['runtime']['settingsManager'].loadSettings(settingsFile)
         if not validConfig:
             return None
+        
         if cliArgs.options != '':
-            self.settingArgDict = self.parseSettingArgs(cliArgs.options)
+            self.parseSettingArgs(cliArgs.options)
+        if cliArgs.debug:
+            self.setOptionArgDict('general', 'debugLevel', 3)        
+        
         self.setFenrirKeys(self.getSetting('general','fenrirKeys'))
         self.setScriptKeys(self.getSetting('general','scriptKeys'))      
-
+        
         if not os.path.exists(self.getSetting('keyboard','keyboardLayout')):
             if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout')):  
                 self.setSetting('keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout'))

@@ -37,7 +37,8 @@ class fenrirManager():
         args = None
         parser = argparse.ArgumentParser(description="Fenrir Help")
         parser.add_argument('-s', '--setting', metavar='SETTING-FILE', default='/etc/fenrir/settings/settings.conf', help='Use a specified settingsfile')
-        parser.add_argument('-o', '--options', metavar='SECTION#SETTING=VALUE,..', default='', help='Overwrite options in given settings file')        
+        parser.add_argument('-o', '--options', metavar='SECTION#SETTING=VALUE,..', default='', help='Overwrite options in given settings file')       
+        parser.add_argument('-d', '--debug',  const=True, default='', nargs='?', help='Turns on Debugmode')                 
         try:
             args = parser.parse_args()
         except Exception as e:
@@ -54,7 +55,6 @@ class fenrirManager():
         if eventReceived:
             self.prepareCommand()
             if not (self.wasCommand  or self.environment['general']['tutorialMode']) or  self.environment['runtime']['screenManager'].isSuspendingScreen():
-                print('ignore screen', self.environment['runtime']['screenManager'].isSuspendingScreen())
                 self.environment['runtime']['inputManager'].writeEventBuffer()
             if self.environment['runtime']['inputManager'].noKeyPressed():
                 if self.wasCommand:
