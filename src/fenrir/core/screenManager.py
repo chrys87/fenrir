@@ -21,7 +21,7 @@ class screenManager():
         self.env['runtime']['settingsManager'].shutdownDriver('screenDriver')
 
     def update(self, trigger='onUpdate'):
-        self.env['runtime']['screenDriver'].getCurrScreen()        
+        self.env['runtime']['screenDriver'].getCurrScreen()                        
         if trigger == 'onScreenChange':
             self.env['runtime']['screenDriver'].getSessionInformation()
         self.env['screen']['oldApplication'] = self.env['screen']['newApplication']            
@@ -43,6 +43,7 @@ class screenManager():
             ignoreScreens.extend(fixIgnoreScreens.split(',')) 
         if self.env['runtime']['settingsManager'].getSettingAsBool('screen', 'autodetectSuspendingScreen'):
             ignoreScreens.extend(self.env['screen']['autoIgnoreScreens'])        
+        self.env['runtime']['debug'].writeDebugOut('screenManager:isSuspendingScreen ' + str(ignoreScreens) + ' '+ str(self.env['screen']['newTTY']),debug.debugLevel.INFO) 
         return (screen in ignoreScreens)
  
     def isScreenChange(self):
