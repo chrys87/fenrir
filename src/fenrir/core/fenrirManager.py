@@ -63,33 +63,31 @@ class fenrirManager():
                     self.environment['runtime']['inputManager'].clearEventBuffer()
                 if self.environment['input']['keyForeward'] > 0:
                     self.environment['input']['keyForeward'] -=1
-            self.environment['runtime']['screenManager'].update('onInput')                            
+            #self.environment['runtime']['screenManager'].update('onInput')                            
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')       
         self.handleCommands()
     def handleScreenChange(self):
         self.environment['runtime']['screenManager'].update('onScreenChange')
-        
+        '''        
         if self.environment['runtime']['applicationManager'].isApplicationChange():
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onApplicationChange')
             self.environment['runtime']['commandManager'].executeSwitchTrigger('onSwitchApplicationProfile', \
               self.environment['runtime']['applicationManager'].getPrevApplication(), \
               self.environment['runtime']['applicationManager'].getCurrentApplication())          
-        
-        if not self.environment['runtime']['screenManager'].isScreenChange():    
-            self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenChanged')             
+        '''        
+        self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenChanged')             
             
     def handleScreenUpdate(self):
         s = time.time()
 
         self.environment['runtime']['screenManager'].update('onUpdate')
-
+        '''
         if self.environment['runtime']['applicationManager'].isApplicationChange():
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onApplicationChange')
             self.environment['runtime']['commandManager'].executeSwitchTrigger('onSwitchApplicationProfile', \
               self.environment['runtime']['applicationManager'].getPrevApplication(), \
               self.environment['runtime']['applicationManager'].getCurrentApplication())          
-              
-        #if not self.environment['runtime']['screenManager'].isScreenChange():    
+        '''              
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenUpdate')
         #print(time.time() -s)
     def handlePlugInputDevice(self):
