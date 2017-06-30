@@ -17,13 +17,12 @@ class command():
         return 'No Description found'      
 
     def run(self):
-
         if not self.env['runtime']['settingsManager'].getSettingAsBool('speech', 'autoReadIncoming'):
             return
         # is there something to read?
         if not self.env['runtime']['screenManager'].isDelta():
             return            
-        if len(self.env['screen']['newDelta']) >=2:
+        if len(self.env['screen']['newDelta']) <=2:
             return
         # its a cursor movement (experimental) - maybe also check current shortcut string?
         

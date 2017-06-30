@@ -17,32 +17,29 @@ class command():
         return 'No Description found'        
 
     def run(self):
-        print('drin')
-        #if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'charDeleteEcho'):
-        #    return
-
+        if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'charDeleteEcho'):
+            return
         # detect typing or chilling
-        #if self.env['screen']['newCursor']['x'] >= self.env['screen']['oldCursor']['x']:
-        #    return 
+        if self.env['screen']['newCursor']['x'] >= self.env['screen']['oldCursor']['x']:
+            return 
 
         # More than just a deletion happend
 
         if self.env['runtime']['screenManager'].isDelta():
             return
         # no deletion
-        #if not self.env['runtime']['screenManager'].isNegativeDelta():
-        #    return           
+        if not self.env['runtime']['screenManager'].isNegativeDelta():
+            return           
 
         # too much for a single backspace...
         # word begin produce a diff wiht len == 2 |a | others with 1 |a|
-        #if len(self.env['screen']['newNegativeDelta']) > 2:
-        #    return           
+        if len(self.env['screen']['newNegativeDelta']) > 2:
+            return           
         currNegativeDelta = self.env['screen']['newNegativeDelta']
         #if len(currNegativeDelta.strip()) != len(currNegativeDelta) and \
         #  currNegativeDelta.strip() != '':
         #    currNegativeDelta = currNegativeDelta.strip()
         self.env['runtime']['outputManager'].presentText(currNegativeDelta, interrupt=True, ignorePunctuation=True, announceCapital=True, flush=False)
-        print('danach',currNegativeDelta,'d')
     def setCallback(self, callback):
         pass
 
