@@ -21,9 +21,11 @@ class screenManager():
         self.env['runtime']['settingsManager'].shutdownDriver('screenDriver')
 
     def update(self, trigger='onUpdate'):
-        self.env['runtime']['screenDriver'].getCurrScreen()                        
+        self.env['runtime']['screenDriver'].getCurrScreen()                                    
+
         if trigger == 'onScreenChange':
             self.env['runtime']['screenDriver'].getSessionInformation()
+
         self.env['screen']['oldApplication'] = self.env['screen']['newApplication']            
         if self.isScreenChange():                 
             self.changeBrailleScreen()                                          

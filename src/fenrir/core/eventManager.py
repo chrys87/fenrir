@@ -44,7 +44,7 @@ class eventManager():
         self.eventDispatcher(event)
         #print('NET loop ' + str(time.time() - st))        
     def eventDispatcher(self, event):
-        print(event['Type'], self._eventQueue.qsize())
+        self.env['runtime']['debug'].writeDebugOut('eventManager:eventDispatcher:start: event:' + str(event['Type']) + ' QueueSize:' + str( self._eventQueue.qsize()),debug.debugLevel.INFO)         
         if not event:
             return
         if event['Type'] == fenrirEventType.Ignore:
@@ -53,11 +53,9 @@ class eventManager():
             self.handleStopMainLoop()
             return
         elif event['Type'] == fenrirEventType.ScreenUpdate:
-            pass
             self.env['runtime']['fenrirManager'].handleScreenUpdate()
         elif event['Type'] == fenrirEventType.KeyboardInput:
             self.env['runtime']['fenrirManager'].handleInput()
-            #self.env['runtime']['fenrirManager'].handleScreenUpdate()            
         elif event['Type'] == fenrirEventType.BrailleInput:
             pass            
         elif event['Type'] == fenrirEventType.PlugInputDevice:
@@ -68,7 +66,6 @@ class eventManager():
             self.env['runtime']['fenrirManager'].handleScreenChange()
         elif event['Type'] == fenrirEventType.HeartBeat:
             self.env['runtime']['fenrirManager'].handleHeartBeat()
-            #print('HeartBeat at {0} {1}'.format(event['Type'], event['Data'] ))
     def isMainEventLoopRunning(self):
         return self._mainLoopRunning.value == 1
     def startMainEventLoop(self):
@@ -76,7 +73,7 @@ class eventManager():
         while( self.isMainEventLoopRunning()):
             st = time.time()            
             self.proceedEventLoop()
-            print('ALL loop ' + str(time.time() - st))
+
     def handleStopMainLoop(self):
         self._mainLoopRunning.value =  0
         time.sleep(0.1)
@@ -141,8 +138,7 @@ class eventManager():
                 else:
                     Data = function()
             except Exception as e:
-                pass                
-                print(e)
+                self.env['runtime']['debug'].writeDebugOut('eventManager:simpleEventWorkerThread:function():' + st(e),debug.debugLevel.ERROR) 
             self.putToEventQueue(event, Data)
             if runOnce:
                 break

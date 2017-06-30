@@ -135,6 +135,7 @@ class driver():
     def update(self, trigger='onUpdate'):
         if trigger == 'onInput': # no need for an update on input for VCSA
             return
+        #print(self.env['screen']['newTTY'], self.env['screen']['oldTTY'])
         newContentBytes = b''       
         try:
             # read screen
