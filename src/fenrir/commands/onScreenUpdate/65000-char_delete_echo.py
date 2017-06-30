@@ -24,7 +24,6 @@ class command():
             return 
 
         # More than just a deletion happend
-
         if self.env['runtime']['screenManager'].isDelta():
             return
         # no deletion
