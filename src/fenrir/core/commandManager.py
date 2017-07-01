@@ -18,9 +18,10 @@ class commandManager():
         self.env['commands'] = {}
         self.env['commandsIgnore'] = {}        
         for commandFolder in self.env['general']['commandFolderList']:
-            self.env['runtime']['commandManager'].loadCommands(commandFolder,
-              self.env['runtime']['settingsManager'].getSetting('general', 'commandPath'))        
-            self.env['runtime']['commandManager'].loadCommands(commandFolder)
+            self.env['runtime']['commandManager'].loadCommands(commandFolder)        
+            if self.env['runtime']['settingsManager'].getSetting('general', 'commandPath') != '':
+                self.env['runtime']['commandManager'].loadCommands(commandFolder,
+                  self.env['runtime']['settingsManager'].getSetting('general', 'commandPath'))        
 
         # scripts for scriptKey
         self.env['runtime']['commandManager'].loadScriptCommands()
