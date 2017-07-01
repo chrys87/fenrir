@@ -98,39 +98,41 @@ class driver():
             self.env['screen']['autoIgnoreScreens'] = []           
  
     def updateWatchdog(self,active , eventQueue):
-        vcsa = {}
-        for i in range(1,7):
-            vcsa[str(i)] = open('/dev/vcsa'+str(i),'rb')
+        try:
+            vcsa = {}
+            for i in range(1,7):
+                vcsa[str(i)] = open('/dev/vcsa'+str(i),'rb')
 
-        tty = open('/sys/devices/virtual/tty/tty0/active','r')
-        currScreen = str(tty.read()[3:-1])
-        oldScreen = currScreen
-        watchdog = select.epoll()
-        watchdog.register(vcsa[currScreen], select.EPOLLPRI)
-        watchdog.register(tty, select.EPOLLPRI)
-        lastScreenContent = b''
-        while active.value == 1:
-            changes = watchdog.poll(2)
-            for change in changes:
-                fileno = change[0]
-                event = change[1]
-                if fileno == tty.fileno():
-                    tty.seek(0)
-                    currScreen = str(tty.read()[3:-1])        
-                    if currScreen != oldScreen:
-                        watchdog.unregister(vcsa[ oldScreen ])              
-                        watchdog.register(vcsa[ currScreen ], select.EPOLLPRI)   
-                        oldScreen = currScreen
-                        eventQueue.put({"Type":fenrirEventType.ScreenChanged,"Data":''})  
-                        vcsa[currScreen].seek(0)                        
-                        lastScreenContent = vcsa[currScreen].read() 
-                else:
-                    vcsa[currScreen].seek(0)
-                    screenContent = vcsa[currScreen].read()
-                    if screenContent != lastScreenContent:
-                        eventQueue.put({"Type":fenrirEventType.ScreenUpdate,"Data":''})
-                        lastScreenContent = screenContent              
-  
+            tty = open('/sys/devices/virtual/tty/tty0/active','r')
+            currScreen = str(tty.read()[3:-1])
+            oldScreen = currScreen
+            watchdog = select.epoll()
+            watchdog.register(vcsa[currScreen], select.EPOLLPRI)
+            watchdog.register(tty, select.EPOLLPRI)
+            lastScreenContent = b''
+            while active.value == 1:
+                changes = watchdog.poll(2)
+                for change in changes:
+                    fileno = change[0]
+                    event = change[1]
+                    if fileno == tty.fileno():
+                        tty.seek(0)
+                        currScreen = str(tty.read()[3:-1])        
+                        if currScreen != oldScreen:
+                            watchdog.unregister(vcsa[ oldScreen ])              
+                            watchdog.register(vcsa[ currScreen ], select.EPOLLPRI)   
+                            oldScreen = currScreen
+                            eventQueue.put({"Type":fenrirEventType.ScreenChanged,"Data":''})  
+                            vcsa[currScreen].seek(0)                        
+                            lastScreenContent = vcsa[currScreen].read() 
+                    else:
+                        vcsa[currScreen].seek(0)
+                        screenContent = vcsa[currScreen].read()
+                        if screenContent != lastScreenContent:
+                            eventQueue.put({"Type":fenrirEventType.ScreenUpdate,"Data":''})
+                            lastScreenContent = screenContent              
+        except Exception as e:
+            self.env['runtime']['debug'].writeDebugOut('VCSA:updateWatchdog:' + str(e),debug.debugLevel.ERROR)         
     def update(self, trigger='onUpdate'):
         if trigger == 'onInput': # no need for an update on input for VCSA
             return
