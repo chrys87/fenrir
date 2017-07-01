@@ -98,7 +98,6 @@ class driver():
             self.env['screen']['autoIgnoreScreens'] = []           
  
     def updateWatchdog(self,active , eventQueue):
-        currScreen = '2'
         vcsa = {}
         for i in range(1,7):
             vcsa[str(i)] = open('/dev/vcsa'+str(i),'rb')
