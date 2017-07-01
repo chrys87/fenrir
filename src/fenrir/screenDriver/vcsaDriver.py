@@ -116,7 +116,7 @@ class driver():
                     fileno = change[0]
                     event = change[1]
                     if fileno == tty.fileno():
-                        self.env['runtime']['debug'].writeDebugOut('ScreenChange' + str(e),debug.debugLevel.INFO)                             
+                        self.env['runtime']['debug'].writeDebugOut('ScreenChange',debug.debugLevel.INFO)                             
                         tty.seek(0)
                         currScreen = str(tty.read()[3:-1])        
                         if currScreen != oldScreen:
