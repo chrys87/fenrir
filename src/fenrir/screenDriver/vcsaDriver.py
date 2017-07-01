@@ -116,6 +116,7 @@ class driver():
                     fileno = change[0]
                     event = change[1]
                     if fileno == tty.fileno():
+                        self.env['runtime']['debug'].writeDebugOut('ScreenChange' + str(e),debug.debugLevel.INFO)                             
                         tty.seek(0)
                         currScreen = str(tty.read()[3:-1])        
                         if currScreen != oldScreen:
@@ -126,6 +127,7 @@ class driver():
                             vcsa[currScreen].seek(0)                        
                             lastScreenContent = vcsa[currScreen].read() 
                     else:
+                        self.env['runtime']['debug'].writeDebugOut('ScreenUpdate',debug.debugLevel.INFO)                                                 
                         vcsa[currScreen].seek(0)
                         screenContent = vcsa[currScreen].read()
                         if screenContent != lastScreenContent:
