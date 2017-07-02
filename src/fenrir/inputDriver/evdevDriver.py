@@ -293,7 +293,12 @@ class driver():
         try:
             del(self.uDevices[fd])
         except:
-            pass                 
+            pass  
+        self.iDevicesFD = multiprocessing.Array('i', len(self.iDevices))
+        i = 0
+        for fd in self.iDevices:
+            self.iDevicesFD[i] = fd
+            i +=1                        
     def hasIDevices(self):
         if not self._initialized:
             return False
