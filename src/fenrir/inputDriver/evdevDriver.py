@@ -5,13 +5,21 @@
 # By Chrys, Storm Dragon, and contributers.
 
 _evdevAvailable = False
+_udevAvailable = False
 _evdevAvailableError = ''
+_udevAvailableError = ''
 try:
     import evdev
     from evdev import InputDevice, UInput
     _evdevAvailable = True
 except Exception as e:
     _evdevAvailableError = str(e)
+
+try:
+    import pyudev
+    _udevAvailable = True
+except Exception as e:
+    _udevAvailableError = str(e)
 
 import time
 from select import select
@@ -36,17 +44,35 @@ class driver():
     def initialize(self, environment):
         self.env = environment
         global _evdevAvailable
+        global _udevAvailable        
         self._initialized = _evdevAvailable
         if not self._initialized:
             global _evdevAvailableError
             self.env['runtime']['debug'].writeDebugOut('InputDriver: ' + _evdevAvailableError,debug.debugLevel.ERROR)         
             return  
         self.updateInputDevices()
-        self.env['runtime']['eventManager'].addSimpleEventThread(fenrirEventType.PlugInputDevice, self.plugInputDeviceWatchdog)        
+        if _udevAvailable:
+            self.env['runtime']['eventManager'].addCustomEventThread(self.plugInputDeviceWatchdogUdev)        
+        else:
+            self.env['runtime']['eventManager'].addSimpleEventThread(fenrirEventType.PlugInputDevice, self.plugInputDeviceWatchdogTimer)                
         self.env['runtime']['eventManager'].addSimpleEventThread(fenrirEventType.KeyboardInput, self.inputWatchdog, {'dev':self.iDevicesFD})
-    def plugInputDeviceWatchdog(self):
-        time.sleep(2.5)
+    def plugInputDeviceWatchdogUdev(self,active , eventQueue):
+        context = pyudev.Context()
+        monitor = pyudev.Monitor.from_netlink(context)
+        monitor.start()
+        while active:
+            devices = monitor.poll(2)
+            if devices:
+                for device in devices:
+                    if not active:
+                        return
+                print('drin')                
+                eventQueue.put({"Type":fenrirEventType.PlugInputDevice,"Data":''})
+
         #self.env['runtime']['settingsManager'].getSettingAsFloat('screen', 'screenUpdateDelay')
+        return time.time()        
+    def plugInputDeviceWatchdogTimer(self):
+        time.sleep(2.5)
         return time.time()    
     def shutdown(self):
         if not self._initialized:
