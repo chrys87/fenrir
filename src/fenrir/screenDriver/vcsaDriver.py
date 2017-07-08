@@ -7,6 +7,7 @@
 import difflib
 import re
 import subprocess
+import glob, os
 import fcntl
 import termios
 import time
@@ -100,8 +101,10 @@ class driver():
     def updateWatchdog(self,active , eventQueue):
         try:
             vcsa = {}
-            for i in range(1,7):
-                vcsa[str(i)] = open('/dev/vcsa'+str(i),'rb')
+            vcsaDevices = glob.glob('/dev/vcsa*')
+            for vcsaDev in vcsaDevices:
+                index = vcsaDev[9:]
+                vcsa[str(index)] = open(vcsaDev,'rb')
 
             tty = open('/sys/devices/virtual/tty/tty0/active','r')
             currScreen = str(tty.read()[3:-1])
@@ -120,12 +123,21 @@ class driver():
                         tty.seek(0)
                         currScreen = str(tty.read()[3:-1])        
                         if currScreen != oldScreen:
-                            watchdog.unregister(vcsa[ oldScreen ])              
-                            watchdog.register(vcsa[ currScreen ], select.EPOLLPRI)   
+                            try:
+                                watchdog.unregister(vcsa[ oldScreen ])              
+                            except:
+                                pass
+                            try:
+                                watchdog.register(vcsa[ currScreen ], select.EPOLLPRI)   
+                            except:
+                                pass
                             oldScreen = currScreen
                             eventQueue.put({"Type":fenrirEventType.ScreenChanged,"Data":''})  
-                            vcsa[currScreen].seek(0)                        
-                            lastScreenContent = vcsa[currScreen].read() 
+                            try:
+                                vcsa[currScreen].seek(0)                        
+                                lastScreenContent = vcsa[currScreen].read() 
+                            except:
+                                lastScreenContent = b'' 
                     else:
                         self.env['runtime']['debug'].writeDebugOut('ScreenUpdate',debug.debugLevel.INFO)                                                 
                         vcsa[currScreen].seek(0)
@@ -135,6 +147,7 @@ class driver():
                             lastScreenContent = screenContent              
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('VCSA:updateWatchdog:' + str(e),debug.debugLevel.ERROR)         
+    
     def update(self, trigger='onUpdate'):
         if trigger == 'onInput': # no need for an update on input for VCSA
             return
