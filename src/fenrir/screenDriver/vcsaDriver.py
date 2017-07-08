@@ -96,7 +96,8 @@ class driver():
                         self.env['general']['currUser'] = session[2]                                                                
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('getSessionInformation: Maybe no LoginD:' + str(e),debug.debugLevel.ERROR)               
-            self.env['screen']['autoIgnoreScreens'] = []           
+            self.env['screen']['autoIgnoreScreens'] = []     
+        self.env['runtime']['debug'].writeDebugOut('getSessionInformation:'  + str(self.env['screen']['autoIgnoreScreens']) + ' ' + str(self.env['general']) + ,debug.debugLevel.INFO)                           
  
     def updateWatchdog(self,active , eventQueue):
         try:
