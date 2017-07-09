@@ -5,7 +5,7 @@
 #https://github.com/jwilk/vcsapeek/blob/master/linuxvt.py
 #blink = 5 if attr & 1 else 0
 #bold = 1 if attr & 16 else 0
-from fcntl import ioctl
+import fcntl
 from array import array
 import struct
 import errno
@@ -23,7 +23,7 @@ cols = int(head[1])
 GIO_UNIMAP = 0x4B66
 VT_GETHIFONTMASK = 0x560D
 himask = array("H", (0,))
-ioctl(tty, VT_GETHIFONTMASK, himask)
+fcntl.ioctl(tty, VT_GETHIFONTMASK, himask)
 hichar, = struct.unpack_from("@H", himask)
 
 sz = 512
@@ -32,7 +32,7 @@ while True:
     try:
         unipairs = array("H", [0]*(2*sz))
         unimapdesc = array("B", struct.pack("@HP", sz, unipairs.buffer_info()[0]))
-        ioctl(tty.fileno(), GIO_UNIMAP, unimapdesc)
+        fcntl.ioctl(tty.fileno(), GIO_UNIMAP, unimapdesc)
         break
     except IOError as e:
         if e.errno != errno.ENOMEM:
