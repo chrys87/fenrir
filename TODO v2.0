@@ -22,6 +22,10 @@ General:
   - screen
   - input
   - new device
+  Bugs:
+  - device detection is broken
+  - arrow up/down announcement is broken
+  - let drivers choos between threads and process
 
 - implement commands
   Tutorial Mode: navigate through a list of bound commands. speak binding and description.
