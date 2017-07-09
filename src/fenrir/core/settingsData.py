@@ -76,7 +76,7 @@ settingsData = {
 'review':{
   'lineBreak': True,
   'endOfScreen': True,
-  'leaveReviewOnKeypress': False,
+  'leaveReviewOnCursorChange': True,
   'leaveReviewOnScreenChange': True,
 },
 'promote':{

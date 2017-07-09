@@ -13,6 +13,6 @@ generalData = {
 'prevUser':'',
 'managerList':['eventManager','punctuationManager','cursorManager','applicationManager','commandManager'
   ,'screenManager','inputManager','outputManager','debug'],
-'commandFolderList':['commands','onInput','onScreenUpdate','onScreenChanged','onHeartBeat', 'onPlugInputDevice'
+'commandFolderList':['commands','onInput', 'onCursorChange', 'onScreenUpdate','onScreenChanged','onHeartBeat', 'onPlugInputDevice'
   ,'onApplicationChange','onSwitchApplicationProfile',],
 }

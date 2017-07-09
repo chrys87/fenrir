@@ -78,8 +78,8 @@ panSizeHorizontal=0
 driver=vcsaDriver
 encoding=cp850
 screenUpdateDelay=0.05
-suspendingScreen=7
-autodetectSuspendingScreen=False
+suspendingScreen=
+autodetectSuspendingScreen=True
 
 [keyboard]
 driver=evdevDriver
@@ -128,7 +128,7 @@ highlight=False
 lineBreak=True
 endOfScreen=True
 # leave the review when pressing a key
-leaveReviewOnKeypress=False
+leaveReviewOnCursorChange=True
 # leave the review when changing the screen
 leaveReviewOnScreenChange=True
 

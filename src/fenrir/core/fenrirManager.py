@@ -88,7 +88,11 @@ class fenrirManager():
             self.environment['runtime']['commandManager'].executeSwitchTrigger('onSwitchApplicationProfile', \
               self.environment['runtime']['applicationManager'].getPrevApplication(), \
               self.environment['runtime']['applicationManager'].getCurrentApplication())          
-        '''              
+        '''
+        # has cursor changed?
+        if self.environment['runtime']['cursorManager'].isCursorVerticalMove() or \
+          self.environment['runtime']['cursorManager'].isCursorHorizontalMove():
+            self.environment['runtime']['commandManager'].executeDefaultTrigger('onCursorChange')        
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenUpdate')
         #print(time.time() -s)
     
