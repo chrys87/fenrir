@@ -35,7 +35,7 @@ class helpManager():
         commandShortcut = commandShortcut.replace('KEY_',' ')
         if commandShortcut == '':
             commandShortcut = 'unbound'
-        helptext = commandName + ', Shortcut ' + commandShortcut + ', Description' + commandDescription
+        helptext = commandName + ', Shortcut ' + commandShortcut + ', Description ' + commandDescription
         return helptext
     def createHelpDict(self, section = 'commands'):
         self.helpDict = {}        
