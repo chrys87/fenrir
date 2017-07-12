@@ -28,7 +28,14 @@ class helpManager():
         commandName = commandName.split('__-__')[0]       
         commandName = commandName.replace('_',' ')        
         commandName = commandName.replace('_',' ')
-        helptext = commandName + ', Shortcut , Description' + self.env['runtime']['commandManager'].getCommandDescription( command, section = 'commands')
+        commandDescription = self.env['runtime']['commandManager'].getCommandDescription( command, section = 'commands')
+        if commandDescription == '':
+            commandDescription = 'no Description available'
+        commandShortcut = self.env['runtime']['commandManager'].getShortcutForCommand( command)
+        commandShortcut = commandShortcut.replace('KEY_',' ')
+        if commandShortcut == '':
+            commandShortcut = 'unbound'
+        helptext = commandName + ', Shortcut ' + commandShortcut + ', Description' + commandDescription
         return helptext
     def createHelpDict(self, section = 'commands'):
         self.helpDict = {}        

@@ -16,7 +16,6 @@ class command():
     def getDescription(self):
         return _('Toggle the Tutorial mode')    
     def run(self):
-        print('TM')
         text = ''
         if self.env['runtime']['helpManager'].isTutorialMode():
             text = _('You are leaving the tutorial mode. Press that shortcut again to enter the tutorial mode again.')

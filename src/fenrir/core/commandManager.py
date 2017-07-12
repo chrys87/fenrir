@@ -126,7 +126,6 @@ class commandManager():
                 shortcut.append(sorted(shortcutKeys)) 
                 self.env['bindings'][str(shortcut)] = fileName.upper()                     
             except Exception as e:
-                print(e)
                 self.env['runtime']['debug'].writeDebugOut("Loading script:" + command ,debug.debugLevel.ERROR)
                 self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)                
                 continue
@@ -196,7 +195,6 @@ class commandManager():
         if self.commandExists(command, section):
             try:
                 self.env['runtime']['debug'].writeDebugOut("Executing command:" + section + "." + command ,debug.debugLevel.INFO)                    
-                print(command, section)
                 self.env['commands'][section][command].run()
             except Exception as e:
                 self.env['runtime']['debug'].writeDebugOut("Executing command:" + section + "." + command +' ' + str(e),debug.debugLevel.ERROR)
@@ -222,4 +220,11 @@ class commandManager():
         self.env['commandInfo']['currCommand'] = command
         
     def commandExists(self, command, section = 'commands'):
-        return( command in self.env['commands'][section]) 
+        return( command in self.env['commands'][section])
+    def getShortcutForCommand(self, command):
+        shortcut = ''
+        try:
+            shortcut = list(self.env['bindings'].keys())[list(self.env['bindings'].values()).index(command)]      
+        except:
+            pass
+        return shortcut      
