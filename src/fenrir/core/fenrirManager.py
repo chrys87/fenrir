@@ -62,7 +62,8 @@ class fenrirManager():
             if self.environment['runtime']['inputManager'].noKeyPressed():
                 if self.wasCommand:
                         self.wasCommand = False   
-                        self.environment['runtime']['inputManager'].clearEventBuffer()            
+                        self.environment['runtime']['inputManager'].clearEventBuffer()  
+                        self.environment['runtime']['commandManager'].clearCommandQueued()          
                 if self.environment['runtime']['helpManager'].isTutorialMode():
                     self.environment['runtime']['inputManager'].clearEventBuffer()
                 if self.environment['input']['keyForeward'] > 0:
