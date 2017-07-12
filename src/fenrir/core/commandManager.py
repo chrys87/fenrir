@@ -183,7 +183,7 @@ class commandManager():
             try:
                 if self.env['runtime']['helpManager'].isTutorialMode():
                     self.env['runtime']['debug'].writeDebugOut("Tutorial for command:" + section + "." + command ,debug.debugLevel.INFO)                   
-                    description = self.getCommandDescription(section, command)
+                    description = self.getCommandDescription(command, section)
                     self.env['runtime']['outputManager'].presentText(description, interrupt=True)                                       
                 else:
                     self.env['runtime']['debug'].writeDebugOut("Executing command:" + section + "." + command ,debug.debugLevel.INFO)                    
