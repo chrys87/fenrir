@@ -12,7 +12,7 @@ generalData = {
 'currUser':'',
 'prevUser':'',
 'managerList':['eventManager','punctuationManager','cursorManager','applicationManager','commandManager'
-  ,'screenManager','inputManager','outputManager','debug'],
+  ,'screenManager','inputManager','outputManager','helpManager','debug'],
 'commandFolderList':['commands','onInput', 'onCursorChange', 'onScreenUpdate','onScreenChanged','onHeartBeat', 'onPlugInputDevice'
-  ,'onApplicationChange','onSwitchApplicationProfile',],
+  ,'onApplicationChange','onSwitchApplicationProfile','help',],
 }

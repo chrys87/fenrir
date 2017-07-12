@@ -54,13 +54,16 @@ class fenrirManager():
         startTime = time.time()
         if eventReceived:
             self.prepareCommand()
-            if not (self.wasCommand  or self.environment['general']['tutorialMode']) or  self.environment['runtime']['screenManager'].isSuspendingScreen():
+            if not self.environment['runtime']['screenManager'].isSuspendingScreen():
+                if self.environment['runtime']['helpManager'].handleTutorialMode():
+                  self.wasCommand = True        
+            if not (self.wasCommand  or self.environment['runtime']['helpManager'].isTutorialMode()) or  self.environment['runtime']['screenManager'].isSuspendingScreen():
                 self.environment['runtime']['inputManager'].writeEventBuffer()
             if self.environment['runtime']['inputManager'].noKeyPressed():
                 if self.wasCommand:
                         self.wasCommand = False   
                         self.environment['runtime']['inputManager'].clearEventBuffer()            
-                if self.environment['general']['tutorialMode']:
+                if self.environment['runtime']['helpManager'].isTutorialMode():
                     self.environment['runtime']['inputManager'].clearEventBuffer()
                 if self.environment['input']['keyForeward'] > 0:
                     self.environment['input']['keyForeward'] -=1

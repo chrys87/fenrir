@@ -10,6 +10,9 @@ from array import array
 import struct
 import errno
 import sys
+import time
+
+
 
 ttyno = 4 
 tty = open('/dev/tty%d' % ttyno, 'rb')
@@ -19,7 +22,7 @@ head = vcs.read(4)
 rows = int(head[0])
 cols = int(head[1])
 
-
+s = time.time()
 GIO_UNIMAP = 0x4B66
 VT_GETHIFONTMASK = 0x560D
 himask = array("H", (0,))
@@ -51,6 +54,7 @@ for u, b in zip(utable[::2], utable[1::2]):
 
 allText = []
 allAttrib = []
+
 for y in range(rows):
     lineText = ''
     lineAttrib = []
@@ -64,13 +68,14 @@ for y in range(rows):
         lineAttrib.append(attr)             
         ink = attr & 0x0F
         paper = (attr>>4) & 0x0F
-        if (ink != 7) or (paper != 0):
-            print(ink,paper)
+        #if (ink != 7) or (paper != 0):
+        #    print(ink,paper)
         if sh & hichar:
             ch |= 0x100
         lineText += chr(charmap.get(ch, u'?'))
     allText.append(lineText)
     allAttrib.append(lineAttrib)
 
-print(allText)
-print(allAttrib)
+#print(allText)
+#print(allAttrib)
+print(time.time() -s)
