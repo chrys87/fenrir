@@ -190,6 +190,7 @@ class commandManager():
                     self.runCommand(command, section)
             except Exception as e:
                 self.env['runtime']['debug'].writeDebugOut("Executing command:" + section + "." + command +' ' + str(e),debug.debugLevel.ERROR)
+
    
     def runCommand(self, command, section = 'commands'):
         if self.commandExists(command, section):
@@ -207,7 +208,9 @@ class commandManager():
                 return self.env['commands'][section][command].getDescription()
             except Exception as e:
                 self.env['runtime']['debug'].writeDebugOut('commandManager.getCommandDescription:' + str(e),debug.debugLevel.ERROR) 
-    
+        self.clearCommandQueued()
+        self.env['commandInfo']['lastCommandExecutionTime'] = time.time()  
+            
     def isCommandQueued(self):
         return self.env['commandInfo']['currCommand'] != ''
 
