@@ -42,6 +42,7 @@ def autoDecodeVCSA(allData):
         i = 0
         for x in range(cols):
             data = allData[i: i + 2]
+            i += 2            
             if data == b' \x07':
                 #attr = 7
                 #ink = 7
@@ -49,7 +50,6 @@ def autoDecodeVCSA(allData):
                 #ch = ' '
                 lineAttrib.append(7)             
                 lineText += ' '
-                i += 2
                 continue
             (sh,) = struct.unpack("=H", data)
             attr = (sh >> 8) & 0xFF
@@ -67,7 +67,6 @@ def autoDecodeVCSA(allData):
                 lineText += charmap[ch]            
             except:
                 lineText += chr('?')
-            i += 2
         allText.append(lineText)
         allAttrib.append(lineAttrib)
     return allText, allAttrib
