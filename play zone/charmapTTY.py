@@ -49,6 +49,7 @@ def autoDecodeVCSA(allData):
                 #ch = ' '
                 lineAttrib.append(7)             
                 lineText += ' '
+                i += 2
                 continue
             (sh,) = struct.unpack("=H", data)
             attr = (sh >> 8) & 0xFF
