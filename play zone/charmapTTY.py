@@ -36,7 +36,6 @@ def updateCharMap(screen):
 def autoDecodeVCSA(allData):
     allText = []
     allAttrib = []
-    print(time.time() -s )    
     for y in range(rows):
         lineText = ''
         lineAttrib = []
@@ -44,9 +43,10 @@ def autoDecodeVCSA(allData):
         for x in range(cols):
             data = allData[i: i + 2]
             if data == b' \x07':
-                attr = 7
-                ink = 7
-                paper = 0
+                #attr = 7
+                #ink = 7
+                #paper = 0
+                #ch = ' '
                 lineAttrib.append(7)             
                 lineText += ' '
                 continue
