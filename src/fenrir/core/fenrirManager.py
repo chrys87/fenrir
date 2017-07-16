@@ -54,9 +54,9 @@ class fenrirManager():
         startTime = time.time()
         if eventReceived:
             self.prepareCommand()
-            if not self.environment['runtime']['screenManager'].isSuspendingScreen():
-                if self.environment['runtime']['helpManager'].handleTutorialMode():
-                  self.wasCommand = True        
+            #if not self.environment['runtime']['screenManager'].isSuspendingScreen():
+            #    if self.environment['runtime']['helpManager'].handleTutorialMode():
+            #      self.wasCommand = True        
             if not (self.wasCommand  or self.environment['runtime']['helpManager'].isTutorialMode()) or  self.environment['runtime']['screenManager'].isSuspendingScreen():
                 self.environment['runtime']['inputManager'].writeEventBuffer()
             if self.environment['runtime']['inputManager'].noKeyPressed():
@@ -70,7 +70,7 @@ class fenrirManager():
                     self.environment['input']['keyForeward'] -=1
             #self.environment['runtime']['screenManager'].update('onInput')                            
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')       
-        self.handleCommands()
+            self.handleCommands()
     def handleScreenChange(self):
         self.environment['runtime']['screenManager'].update('onScreenChange')
         '''        
@@ -116,19 +116,21 @@ class fenrirManager():
         if self.environment['input']['keyForeward'] > 0:
             return
         shortcut = self.environment['runtime']['inputManager'].getCurrShortcut()        
-        command = self.environment['runtime']['inputManager'].getCommandForShortcut(shortcut)        
-        if len(self.environment['input']['prevDeepestInput']) <= len(self.environment['input']['currInput']):
+        command = self.environment['runtime']['inputManager'].getCommandForShortcut(shortcut)                    
+        if len(self.environment['input']['prevDeepestInput']) >= len(self.environment['input']['currInput']):
             self.wasCommand = command != '' or self.environment['runtime']['inputManager'].isFenrirKeyPressed() or self.environment['runtime']['inputManager'].isScriptKeyPressed()    
         if command == '':
             return
-            
         self.environment['runtime']['commandManager'].queueCommand(command)  
 
     def handleCommands(self): 
         if not self.environment['runtime']['commandManager'].isCommandQueued():
             return
+        if len(self.environment['input']['prevDeepestInput']) > len(self.environment['input']['currInput']):
+            return
+        if self.environment['runtime']['helpManager'].isTutorialMode():
+            self.environment['runtime']['commandManager'].executeCommand( self.environment['commandInfo']['currCommand'], 'help')
         self.environment['runtime']['commandManager'].executeCommand( self.environment['commandInfo']['currCommand'], 'commands')
-
     def shutdownRequest(self):
         self.environment['runtime']['eventManager'].stopMainEventLoop()
 

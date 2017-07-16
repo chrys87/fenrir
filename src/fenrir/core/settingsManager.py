@@ -70,8 +70,10 @@ class settingsManager():
                 self.env['runtime']['debug'].writeDebugOut("invalid shortcut (missing KEY_FENRIR): "+ str(shortcut) + ' command:' +commandName ,debug.debugLevel.ERROR)                    
                 continue            
             self.env['runtime']['debug'].writeDebugOut("Shortcut: "+ str(shortcut) + ' command:' +commandName ,debug.debugLevel.INFO, onAnyLevel=True)    
-            self.env['bindings'][str(shortcut)] = commandName     
+            self.env['bindings'][str(shortcut)] = commandName   
         kbConfig.close()
+        # fix bindings 
+        self.env['bindings'][str([1, ['KEY_F1', 'KEY_FENRIR']])] = 'TOGGLE_TUTORIAL_MODE'
 
     def loadSoundIcons(self, soundIconPath):
         siConfig = open(soundIconPath + '/soundicons.conf',"r")

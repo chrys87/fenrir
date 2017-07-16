@@ -181,7 +181,7 @@ class commandManager():
             return    
         if self.commandExists(command, section):
             try:
-                if self.env['runtime']['helpManager'].isTutorialMode():
+                if self.env['runtime']['helpManager'].isTutorialMode() and section != 'help':
                     self.env['runtime']['debug'].writeDebugOut("Tutorial for command:" + section + "." + command ,debug.debugLevel.INFO)                   
                     description = self.getCommandDescription(command, section)
                     self.env['runtime']['outputManager'].presentText(description, interrupt=True)                                       
