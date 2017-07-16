@@ -5,7 +5,9 @@ import struct
 import errno
 import sys
 charmap = {}
+hichar = None
 def updateCharMap(screen):
+    global hichar
     ttyno = '4' 
     tty = open('/dev/tty' + screen, 'rb')
     GIO_UNIMAP = 0x4B66
@@ -33,7 +35,7 @@ def updateCharMap(screen):
             charmap[b] = chr(u)
 
 
-def autoDecodeVCSA(allData):
+def autoDecodeVCSA(allData, rows, cols):
     allText = []
     allAttrib = []
     for y in range(rows):
@@ -61,8 +63,8 @@ def autoDecodeVCSA(allData):
             paper = (attr>>4) & 0x0F
             #if (ink != 7) or (paper != 0):
             #    print(ink,paper)
-            if sh & hichar:
-                ch |= 0x100
+            #if sh & hichar:
+            #    ch |= 0x100
             try:
                 lineText += charmap[ch]            
             except:
@@ -79,6 +81,6 @@ def m():
     head = vcsa.read(4)
     rows = int(head[0])
     cols = int(head[1])
-    text, attrib = autoDecodeVCSA(vcsa.read())
+    text, attrib = autoDecodeVCSA(vcsa.read(), rows, cols)
     print(time.time() -s )
     
