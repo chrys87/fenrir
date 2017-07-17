@@ -117,8 +117,8 @@ class fenrirManager():
             return
         shortcut = self.environment['runtime']['inputManager'].getCurrShortcut()        
         command = self.environment['runtime']['inputManager'].getCommandForShortcut(shortcut)                    
-        if len(self.environment['input']['prevDeepestInput']) >= len(self.environment['input']['currInput']):
-            self.wasCommand = command != '' or self.environment['runtime']['inputManager'].isFenrirKeyPressed() or self.environment['runtime']['inputManager'].isScriptKeyPressed()    
+        #if len(self.environment['input']['prevDeepestInput']) >= len(self.environment['input']['currInput']):
+        self.wasCommand = command != '' or self.environment['runtime']['inputManager'].isFenrirKeyPressed() or self.environment['runtime']['inputManager'].isScriptKeyPressed()    
         if command == '':
             return
         self.environment['runtime']['commandManager'].queueCommand(command)  
