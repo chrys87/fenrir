@@ -1,6 +1,13 @@
 ToDo list for Fenrir Version 2.0 
 Things with not so deep knowledge needed are marekd wiht "(Easy for contribution)". so just start with that :).
 
+Bugs:
+- device detection is broken
+- arrow up/down announcement is broken
+- let drivers choos between threads and process
+- HilightTracking is broken for autoencoding
+
+
 General:  
 - implement onScreenUpdate commands
   read highlighted text mode
@@ -22,11 +29,6 @@ General:
   - screen
   - input
   - new device
-  Bugs:
-  - device detection is broken
-  - arrow up/down announcement is broken
-  - let drivers choos between threads and process
-
 - implement commands
   Tutorial Mode: navigate through a list of bound commands. speak binding and description.
   attributes_curr_char (Easy for contribution)
@@ -64,8 +66,6 @@ Driver:
 - implement PTY Input driver  
 - ATK input driver (don't grab on graphical interface)
 https://git.linux-a11y.org/AIT/pyatspi2/src/master/examples/keypress.py
-- try to autodetect encoding (Easy for contribution) (Prototype "charmapTTY" in play zone)
-  https://stackoverflow.com/questions/6396659/how-do-you-get-the-encoding-of-the-terminal-from-within-a-python-script
 - Dectalk SpeechDriver
 https://github.com/tvraman/emacspeak/blob/master/servers/obsolete/python/dectalk.py
 
@@ -100,7 +100,9 @@ Application Profiles
   http://askubuntu.com/questions/508236/how-can-i-run-code-whenever-a-usb-device-is-unplugged-without-requiring-root
   https://www.mattfischer.com/blog/?p=182
 - implement speechdriver generic (Easy for contribution)
-  
+- try to autodetect encoding (Easy for contribution) (Prototype "charmapTTY" in play zone)
+  https://stackoverflow.com/questions/6396659/how-do-you-get-the-encoding-of-the-terminal-from-within-a-python-script
+    
 Braille Support:
   initial BrlTTY driver
   detect device size via driver
