@@ -1,7 +1,9 @@
 import time
 from fcntl import ioctl
 from array import array
-import struct
+from struct import unpack_from
+from struct import unpack
+from struct import pack
 import errno
 import sys
 charmap = {}
@@ -14,13 +16,13 @@ def updateCharMap(screen):
     VT_GETHIFONTMASK = 0x560D
     himask = array("H", (0,))
     ioctl(tty, VT_GETHIFONTMASK, himask)
-    hichar, = struct.unpack_from("@H", himask)
+    hichar, = unpack_from("@H", himask)
     sz = 512
     line = ''
     while True:
         try:
             unipairs = array("H", [0]*(2*sz))
-            unimapdesc = array("B", struct.pack("@HP", sz, unipairs.buffer_info()[0]))
+            unimapdesc = array("B", pack("@HP", sz, unipairs.buffer_info()[0]))
             ioctl(tty.fileno(), GIO_UNIMAP, unimapdesc)
             break
         except IOError as e:
@@ -28,8 +30,8 @@ def updateCharMap(screen):
                 raise
             sz *= 2
     tty.close()
-    ncodes, = struct.unpack_from("@H", unimapdesc)
-    utable = struct.unpack_from("@%dH" % (2*ncodes), unipairs)
+    ncodes, = unpack_from("@H", unimapdesc)
+    utable = unpack_from("@%dH" % (2*ncodes), unipairs)
     for u, b in zip(utable[::2], utable[1::2]):
         if charmap.get(b) is None:
             charmap[b] = chr(u)
@@ -53,7 +55,7 @@ def autoDecodeVCSA(allData, rows, cols):
                 lineAttrib.append(7)             
                 lineText += ' '
                 continue
-            (sh,) = struct.unpack("=H", data)
+            (sh,) = unpack("=H", data)
             attr = (sh >> 8) & 0xFF
             ch = sh & 0xFF
             if hichar == 0x100:
@@ -63,8 +65,8 @@ def autoDecodeVCSA(allData, rows, cols):
             paper = (attr>>4) & 0x0F
             #if (ink != 7) or (paper != 0):
             #    print(ink,paper)
-            #if sh & hichar:
-            #    ch |= 0x100
+            if sh & hichar:
+                ch |= 0x100
             try:
                 lineText += charmap[ch]            
             except:
@@ -73,11 +75,11 @@ def autoDecodeVCSA(allData, rows, cols):
         allAttrib.append(lineAttrib)
     return allText, allAttrib
 
-def m():
+def m(screen):
     s = time.time()
-    updateCharMap('4')        
+    updateCharMap(str(screen))        
     print(time.time() -s )    
-    vcsa = open('/dev/vcsa' + '4', 'rb')
+    vcsa = open('/dev/vcsa' + str(screen), 'rb')
     head = vcsa.read(4)
     rows = int(head[0])
     cols = int(head[1])

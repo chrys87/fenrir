@@ -15,91 +15,27 @@ import difflib
 import re
 import subprocess
 import glob, os
-import fcntl
 import termios
 import time
 import select
 import dbus
 import fcntl
 from array import array
-import struct
 import errno
 import sys
+from utils import screen_utils
+from fcntl import ioctl
+from struct import unpack_from, unpack, pack
 from core import debug
 from core.eventData import fenrirEventType
-from utils import screen_utils
 
-
-'''
-ttyno = 4 
-tty = open('/dev/tty%d' % ttyno, 'rb')
-vcs = open('/dev/vcsa%d' % ttyno, 'rb')
-
-head = vcs.read(4)
-rows = int(head[0])
-cols = int(head[1])
-
-
-GIO_UNIMAP = 0x4B66
-VT_GETHIFONTMASK = 0x560D
-himask = array("H", (0,))
-fcntl.ioctl(tty, VT_GETHIFONTMASK, himask)
-hichar, = struct.unpack_from("@H", himask)
-
-sz = 512
-line = ''
-while True:
-    try:
-        unipairs = array("H", [0]*(2*sz))
-        unimapdesc = array("B", struct.pack("@HP", sz, unipairs.buffer_info()[0]))
-        fcntl.ioctl(tty.fileno(), GIO_UNIMAP, unimapdesc)
-        break
-    except IOError as e:
-        if e.errno != errno.ENOMEM:
-            raise
-        sz *= 2
-
-tty.close()
-
-ncodes, = struct.unpack_from("@H", unimapdesc)
-utable = struct.unpack_from("@%dH" % (2*ncodes), unipairs)
-
-charmap = {}
-for u, b in zip(utable[::2], utable[1::2]):
-    if charmap.get(b) is None:
-        charmap[b] = u
-
-allText = []
-allAttrib = []
-for y in range(rows):
-    lineText = ''
-    lineAttrib = []
-    for x in range(cols):
-        data = vcs.read(2)
-        (sh,) = struct.unpack("=H", data)
-        attr = (sh >> 8) & 0xFF
-        ch = sh & 0xFF
-        if hichar == 0x100:
-            attr >>= 1
-        lineAttrib.append(attr)             
-        ink = attr & 0x0F
-        paper = (attr>>4) & 0x0F
-        if (ink != 7) or (paper != 0):
-            print(ink,paper)
-        if sh & hichar:
-            ch |= 0x100
-        lineText += chr(charmap.get(ch, u'?'))
-    allText.append(lineText)
-    allAttrib.append(lineAttrib)
-
-print(allText)
-print(allAttrib)
-'''
 
 class driver():
     def __init__(self):
         self.vcsaDevicePath = '/dev/vcsa'
         self.ListSessions = None
+        self.charmap = {}
+        self.hichar = None        
     def initialize(self, environment):
         self.env = environment
         self.env['runtime']['eventManager'].addCustomEventThread(self.updateWatchdog)        
@@ -227,11 +163,74 @@ class driver():
                             lastScreenContent = screenContent              
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('VCSA:updateWatchdog:' + str(e),debug.debugLevel.ERROR)         
-    
+
+    def updateCharMap(self, screen):
+        tty = open('/dev/tty' + screen, 'rb')
+        GIO_UNIMAP = 0x4B66
+        VT_GETHIFONTMASK = 0x560D
+        himask = array("H", (0,))
+        ioctl(tty, VT_GETHIFONTMASK, himask)
+        self.hichar, = unpack_from("@H", himask)
+        sz = 512
+        line = ''
+        while True:
+            try:
+                unipairs = array("H", [0]*(2*sz))
+                unimapdesc = array("B", pack("@HP", sz, unipairs.buffer_info()[0]))
+                ioctl(tty.fileno(), GIO_UNIMAP, unimapdesc)
+                break
+            except IOError as e:
+                if e.errno != errno.ENOMEM:
+                    raise
+                sz *= 2
+        tty.close()
+        ncodes, = unpack_from("@H", unimapdesc)
+        utable = unpack_from("@%dH" % (2*ncodes), unipairs)
+        for u, b in zip(utable[::2], utable[1::2]):
+            if self.charmap.get(b) is None:
+                self.charmap[b] = chr(u)
+
+    def autoDecodeVCSA(self, allData, rows, cols):
+        allText = ''
+        allAttrib = b''
+        i = 0        
+        for y in range(rows):
+            lineText = ''
+            lineAttrib = b''
+            for x in range(cols):
+                data = allData[i: i + 2]
+                i += 2            
+                if data == b' \x07':
+                    #attr = 7
+                    #ink = 7
+                    #paper = 0
+                    #ch = ' '
+                    lineAttrib += b'7'             
+                    lineText += ' '
+                    continue
+                (sh,) = unpack("=H", data)
+                attr = (sh >> 8) & 0xFF
+                ch = sh & 0xFF
+                if self.hichar == 0x100:
+                    attr >>= 1
+                lineAttrib += bytes(attr)
+                ink = attr & 0x0F
+                paper = (attr>>4) & 0x0F
+                #if (ink != 7) or (paper != 0):
+                #    print(ink,paper)
+                if sh & self.hichar:
+                    ch |= 0x100
+                try:
+                    lineText += self.charmap[ch]            
+                except:
+                    lineText += chr('?')
+            allText += lineText + '\n'
+            allAttrib += lineAttrib
+        return str(allText), allAttrib
+        
     def update(self, trigger='onUpdate'):
         if trigger == 'onInput': # no need for an update on input for VCSA
             return
-        #print(self.env['screen']['newTTY'], self.env['screen']['oldTTY'])
         newContentBytes = b''       
         try:
             # read screen
@@ -261,11 +260,18 @@ class driver():
         self.env['screen']['newCursor']['x'] = int( self.env['screen']['newContentBytes'][2])
         self.env['screen']['newCursor']['y'] = int( self.env['screen']['newContentBytes'][3])
         # analyze content
-        self.env['screen']['newContentText'] = self.env['screen']['newContentBytes'][4:][::2].decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
-        self.env['screen']['newContentText'] = screen_utils.removeNonprintable(self.env['screen']['newContentText'])
-        self.env['screen']['newContentAttrib'] = self.env['screen']['newContentBytes'][5:][::2]
-        self.env['screen']['newContentText'] = screen_utils.insertNewlines(self.env['screen']['newContentText'], self.env['screen']['columns'])
-
+        s = time.time()
+        if screenEncoding.upper() == 'AUTO':
+            self.updateCharMap(str(self.env['screen']['newTTY'])) 
+            self.env['screen']['newContentText'], \
+              self.env['screen']['newContentAttrib'] =\
+              self.autoDecodeVCSA(self.env['screen']['newContentBytes'][4:], self.env['screen']['lines'], self.env['screen']['columns'])
+        else:             
+            self.env['screen']['newContentText'] = self.env['screen']['newContentBytes'][4:][::2].decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
+            self.env['screen']['newContentText'] = screen_utils.removeNonprintable(self.env['screen']['newContentText'])
+            self.env['screen']['newContentAttrib'] = self.env['screen']['newContentBytes'][5:][::2]
+            self.env['screen']['newContentText'] = screen_utils.insertNewlines(self.env['screen']['newContentText'], self.env['screen']['columns'])
+        print(time.time() -s,  self.env['screen']['newTTY'] )
         if self.env['screen']['newTTY'] != self.env['screen']['oldTTY']:
             self.env['screen']['oldContentBytes'] = b''
             self.env['screen']['oldContentAttrib'] = b''
