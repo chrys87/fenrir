@@ -1,18 +1,18 @@
 Known Bugs (Problems with the logic ):
 - word echo triggers twice if there are two spaces after an word and you arrow over them
 - spellcheck triggers twice if there are two spaces after an word and you arrow over them
-Glitches (improve diff results):
-- For example, in screen, it just tells me bell in window, but doesn't tell me which one. (southernprince)
-- alpine seems to have problems (southernprince)
-- whole status line in irssi is spoken insteed of just the changes
-- whole status line in vim is spoken insteed of just the changes
 - keys sometimes get stuck
 - device detection is broken
 - arrow up/down announcement is broken
 - let drivers choos between threads and process
 - HilightTracking is broken for autoencoding
+- commands are sometimes fired twice (keypress and key release)
+
+Glitches (improve diff results):
+- For example, in screen, it just tells me bell in window, but doesn't tell me which one. (southernprince)
+- alpine seems to have problems (southernprince)
+- whole status line in irssi is spoken insteed of just the changes
+- whole status line in vim is spoken insteed of just the changes
 
 Questions:
-schould be done by autoencoding Verify:
-- what is the correct codepage for cyrillic
-- cyrillic (see autoencoding prototype)
+- cyrillic (Done (Autoencode), needs testing)
