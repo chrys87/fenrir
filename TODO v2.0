@@ -1,13 +1,6 @@
 ToDo list for Fenrir Version 2.0 
 Things with not so deep knowledge needed are marekd wiht "(Easy for contribution)". so just start with that :).
 
-Bugs:
-- device detection is broken
-- arrow up/down announcement is broken
-- let drivers choos between threads and process
-- HilightTracking is broken for autoencoding
-
-
 General:  
 - implement onScreenUpdate commands
   read highlighted text mode
