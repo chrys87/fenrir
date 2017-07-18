@@ -7,7 +7,12 @@ Glitches (improve diff results):
 - whole status line in irssi is spoken insteed of just the changes
 - whole status line in vim is spoken insteed of just the changes
 - keys sometimes get stuck
+- device detection is broken
+- arrow up/down announcement is broken
+- let drivers choos between threads and process
+- HilightTracking is broken for autoencoding
 
 Questions:
+schould be done by autoencoding Verify:
 - what is the correct codepage for cyrillic
 - cyrillic (see autoencoding prototype)
