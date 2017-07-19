@@ -17,7 +17,6 @@ import argparse
 
 class fenrirManager():
     def __init__(self):
-        self.initialized = False
         cliArgs = self.handleArgs()
         if not cliArgs:
             return        
@@ -27,7 +26,6 @@ class fenrirManager():
                 raise RuntimeError('Cannot Initialize. Maybe the configfile is not available or not parseable')
         except RuntimeError:
             raise
-        self.initialized = True        
         self.environment['runtime']['outputManager'].presentText(_("Start Fenrir"), soundIcon='ScreenReaderOn', interrupt=True)          
         signal.signal(signal.SIGINT, self.captureSignal)
         signal.signal(signal.SIGTERM, self.captureSignal)
@@ -50,8 +48,8 @@ class fenrirManager():
         self.environment['runtime']['eventManager'].startMainEventLoop()
         self.shutdown()
     def handleInput(self):
+        startTime = time.time()        
         eventReceived = self.environment['runtime']['inputManager'].getInputEvent()
-        startTime = time.time()
         if eventReceived:
             self.prepareCommand()
             #if not self.environment['runtime']['screenManager'].isSuspendingScreen():
@@ -71,6 +69,8 @@ class fenrirManager():
             self.environment['runtime']['screenManager'].update('onInput')                            
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')       
             self.handleCommands()
+        print('handleInput:',time.time() - startTime)
+            
     def handleScreenChange(self):
         self.environment['runtime']['screenManager'].update('onScreenChange')
         '''        
@@ -83,7 +83,7 @@ class fenrirManager():
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenChanged')             
             
     def handleScreenUpdate(self):
-        s = time.time()
+        startTime = time.time()
 
         self.environment['runtime']['screenManager'].update('onUpdate')
         '''
@@ -98,7 +98,7 @@ class fenrirManager():
           self.environment['runtime']['cursorManager'].isCursorHorizontalMove():
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onCursorChange')        
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenUpdate')
-        #print(time.time() -s)
+        print('handleScreenUpdate:',time.time() - startTime)
     
     def handlePlugInputDevice(self):
         self.environment['runtime']['commandManager'].executeDefaultTrigger('PlugInputDevice')   
