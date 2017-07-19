@@ -68,7 +68,7 @@ class fenrirManager():
                     self.environment['runtime']['inputManager'].clearEventBuffer()
                 if self.environment['input']['keyForeward'] > 0:
                     self.environment['input']['keyForeward'] -=1
-            #self.environment['runtime']['screenManager'].update('onInput')                            
+            self.environment['runtime']['screenManager'].update('onInput')                            
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')       
             self.handleCommands()
     def handleScreenChange(self):
