@@ -17,6 +17,7 @@ import argparse
 
 class fenrirManager():
     def __init__(self):
+        self.initialized = False
         cliArgs = self.handleArgs()
         if not cliArgs:
             return        
@@ -29,6 +30,7 @@ class fenrirManager():
         self.environment['runtime']['outputManager'].presentText(_("Start Fenrir"), soundIcon='ScreenReaderOn', interrupt=True)          
         signal.signal(signal.SIGINT, self.captureSignal)
         signal.signal(signal.SIGTERM, self.captureSignal)
+        self.initialized = True
         self.wasCommand = False
         
     def handleArgs(self):
