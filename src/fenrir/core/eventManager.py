@@ -47,15 +47,17 @@ class eventManager():
         self.env['runtime']['debug'].writeDebugOut('eventManager:eventDispatcher:start: event:' + str(event['Type']) + ' QueueSize:' + str( self._eventQueue.qsize()),debug.debugLevel.INFO)         
         if not event:
             return
+        if not event['Type']:
+            return
         if event['Type'] == fenrirEventType.Ignore:
             return
         elif event['Type'] == fenrirEventType.StopMainLoop:
-            self.handleStopMainLoop()
+            self.handleStopMainLoop(event)
             return
         elif event['Type'] == fenrirEventType.ScreenUpdate:
-            self.env['runtime']['fenrirManager'].handleScreenUpdate()
+            self.env['runtime']['fenrirManager'].handleScreenUpdate(event)
         elif event['Type'] == fenrirEventType.KeyboardInput:
-            self.env['runtime']['fenrirManager'].handleInput()
+            self.env['runtime']['fenrirManager'].handleInput(event)
         elif event['Type'] == fenrirEventType.BrailleInput:
             pass            
         elif event['Type'] == fenrirEventType.PlugInputDevice:
@@ -63,18 +65,19 @@ class eventManager():
         elif event['Type'] == fenrirEventType.BrailleFlush:
             pass            
         elif event['Type'] == fenrirEventType.ScreenChanged:
-            self.env['runtime']['fenrirManager'].handleScreenChange()
+            self.env['runtime']['fenrirManager'].handleScreenChange(event)
         elif event['Type'] == fenrirEventType.HeartBeat:
-            self.env['runtime']['fenrirManager'].handleHeartBeat()
+            self.env['runtime']['fenrirManager'].handleHeartBeat(event)
+        elif event['Type'] == fenrirEventType.ExecuteCommand:
+            self.env['runtime']['fenrirManager'].handleExecuteCommand(event)
     def isMainEventLoopRunning(self):
         return self._mainLoopRunning.value == 1
     def startMainEventLoop(self):
         self._mainLoopRunning.value = 1
         while( self.isMainEventLoopRunning()):
-            st = time.time()            
             self.proceedEventLoop()
 
-    def handleStopMainLoop(self):
+    def handleStopMainLoop(self, event):
         self._mainLoopRunning.value =  0
         time.sleep(0.1)
     def stopMainEventLoop(self, Force = False):

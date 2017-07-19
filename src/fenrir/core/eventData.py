@@ -17,6 +17,7 @@ class fenrirEventType(Enum):
     BrailleFlush = 6
     ScreenChanged = 7
     HeartBeat = 8 # for time based scheduling
+    ExecuteCommand = 9
     def __int__(self):
         return self.value
     def __str__(self):

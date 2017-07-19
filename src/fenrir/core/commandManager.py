@@ -199,7 +199,6 @@ class commandManager():
                 self.env['commands'][section][command].run()
             except Exception as e:
                 self.env['runtime']['debug'].writeDebugOut("Executing command:" + section + "." + command +' ' + str(e),debug.debugLevel.ERROR)
-        self.clearCommandQueued()
         self.env['commandInfo']['lastCommandExecutionTime'] = time.time()    
         
     def getCommandDescription(self, command, section = 'commands'):
@@ -208,19 +207,7 @@ class commandManager():
                 return self.env['commands'][section][command].getDescription()
             except Exception as e:
                 self.env['runtime']['debug'].writeDebugOut('commandManager.getCommandDescription:' + str(e),debug.debugLevel.ERROR) 
-        self.clearCommandQueued()
         self.env['commandInfo']['lastCommandExecutionTime'] = time.time()  
-            
-    def isCommandQueued(self):
-        return self.env['commandInfo']['currCommand'] != ''
-
-    def clearCommandQueued(self):
-        self.env['commandInfo']['currCommand'] = ''
-        
-    def queueCommand(self, command):
-        if command == '':
-            return
-        self.env['commandInfo']['currCommand'] = command
         
     def commandExists(self, command, section = 'commands'):
         return( command in self.env['commands'][section])

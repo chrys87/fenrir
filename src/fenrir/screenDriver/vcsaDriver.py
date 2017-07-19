@@ -260,7 +260,7 @@ class driver():
         self.env['screen']['newCursor']['x'] = int( self.env['screen']['newContentBytes'][2])
         self.env['screen']['newCursor']['y'] = int( self.env['screen']['newContentBytes'][3])
         # analyze content
-        s = time.time()
+
         if screenEncoding.upper() == 'AUTO':
             self.updateCharMap(str(self.env['screen']['newTTY'])) 
             self.env['screen']['newContentText'], \
@@ -271,7 +271,7 @@ class driver():
             self.env['screen']['newContentText'] = screen_utils.removeNonprintable(self.env['screen']['newContentText'])
             self.env['screen']['newContentAttrib'] = self.env['screen']['newContentBytes'][5:][::2]
             self.env['screen']['newContentText'] = screen_utils.insertNewlines(self.env['screen']['newContentText'], self.env['screen']['columns'])
-        print(time.time() -s,  self.env['screen']['newTTY'] )
+
         if self.env['screen']['newTTY'] != self.env['screen']['oldTTY']:
             self.env['screen']['oldContentBytes'] = b''
             self.env['screen']['oldContentAttrib'] = b''
