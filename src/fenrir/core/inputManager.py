@@ -39,7 +39,7 @@ class inputManager():
                     self.env['input']['currInput'].remove(mEvent['EventName'])
                     if len(self.env['input']['currInput']) > 1:
                         self.env['input']['currInput'] = sorted(self.env['input']['currInput'])
-                    if len(self.env['input']['currInput']) == 0:
+                    elif len(self.env['input']['currInput']) == 0:
                         self.env['input']['prevDeepestInput'] = []
                         self.env['input']['shortcutRepeat'] = 1 
                     self.setLedState = self.handleLedStates(mEvent)                                             
@@ -153,11 +153,13 @@ class inputManager():
             self.env['runtime']['debug'].writeDebugOut("Error while writeUInput",debug.debugLevel.ERROR)
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)
 
-    def isFenrirKeyPressed(self):
-        return 'KEY_FENRIR' in self.env['input']['prevDeepestInput']
+    #def isFenrirKeyPressed(self):
+    #    print('isFenrirKeyPressed')    
+    #    return 'KEY_FENRIR' in self.env['input']['prevDeepestInput']
     
-    def isScriptKeyPressed(self):
-        return 'KEY_SCRIPT' in self.env['input']['prevDeepestInput']
+    #def isScriptKeyPressed(self):
+    #    print('isScriptKeyPressed')
+    #    return 'KEY_SCRIPT' in self.env['input']['prevDeepestInput']
 
     def noKeyPressed(self):
         return self.env['input']['currInput'] == []
@@ -195,10 +197,13 @@ class inputManager():
         if len(self.env['input']['prevDeepestInput']) != 1:
             return False
         return (self.env['input']['currInput'][0] =='KEY_FENRIR') or (self.env['input']['currInput'][0] == 'KEY_SCRIPT')
+    
     def isFenrirKey(self, eventName):
         return eventName in self.env['input']['fenrirKey']
+    
     def isScriptKey(self, eventName):
         return eventName in self.env['input']['scriptKey']
+    
     def getCommandForShortcut(self, shortcut):
         if not self.shortcutExists(shortcut):
             return '' 
