@@ -149,9 +149,6 @@ class inputManager():
             if self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
                 self.env['runtime']['inputDriver'].writeEventBuffer()
             self.clearEventBuffer()
-            if len(self.env['input']['currInput']) == 1:              
-                if self.env['input']['currInput'][0] in ['KEY_UP','KEY_DOWN']:              
-                    time.sleep(0.08) # hack for tintin history because it needs more time
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut("Error while writeUInput",debug.debugLevel.ERROR)
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)
