@@ -7,7 +7,6 @@
 from core import debug
 import time
 
-
 # used as shared memory between commands
 # use this in your own commands
 commandBuffer = {
