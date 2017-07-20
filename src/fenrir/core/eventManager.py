@@ -97,9 +97,9 @@ class eventManager():
         self._mainLoopRunning.value =  1
         if multiprocess:
             t = Process(target=self.simpleEventWorkerThread, args=(event, function, pargs))
+            self._eventProcesses.append(t)            
         else:# thread not implemented yet
             t = Process(target=self.simpleEventWorkerThread, args=(event, function, pargs))                    
-        self._eventProcesses.append(t)
         t.start()
     def cleanEventQueue(self):
         if self._eventQueue.empty():

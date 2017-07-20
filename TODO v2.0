@@ -4,6 +4,7 @@ Things with not so deep knowledge needed are marekd wiht "(Easy for contribution
 General:  
 - implement onScreenUpdate commands
   read highlighted text mode
+- Migrate *Data.py to classes and use getter/setter  
 - try to make it more asynchronus with multpible threads
 - be more event based (vcsa sets POLLPRI)
   http://scotdoyle.com/python-epoll-howto.html
