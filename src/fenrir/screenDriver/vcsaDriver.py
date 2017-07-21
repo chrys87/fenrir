@@ -222,7 +222,7 @@ class driver():
                     ch |= 0x100
                 try:
                     lineText += self.charmap[ch]            
-                except:
+                except KeyError:
                     lineText += chr('?')
             allText += lineText + '\n'
             allAttrib += lineAttrib
