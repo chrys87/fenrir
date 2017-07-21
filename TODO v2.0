@@ -26,7 +26,7 @@ General:
 - implement commands
   attributes_curr_char (Easy for contribution)
   https://github.com/jwilk/vcsapeek/blob/master/linuxvt.py
-- generic list (convert clipboard management) (Easy for contribution)
+- generic list or see Tutorial mode list (convert clipboard management) (Easy for contribution)
     next item
     pref item
     curr item
