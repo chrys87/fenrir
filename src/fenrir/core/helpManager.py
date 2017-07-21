@@ -79,26 +79,4 @@ class helpManager():
             return    
         self.tutorialListIndex -= 1
         if self.tutorialListIndex < 0:
-           self.tutorialListIndex = len(self.helpDict) - 1
-    def handleTutorialMode(self):
-        return
-        if self.env['runtime']['inputManager'].noKeyPressed():
-            return    
-        if self.env['input']['currInput'] in [['KEY_F1', 'KEY_FENRIR']]:
-            self.env['runtime']['commandManager'].runCommand('TOGGLE_TUTORIAL_MODE', 'help')     
-            return True                                       
-        if not self.isTutorialMode():
-            return
-        if self.env['input']['currInput'] in [['KEY_ESC']]:
-            self.env['runtime']['commandManager'].runCommand('TOGGLE_TUTORIAL_MODE', 'help')             
-            return True                                       
-        if self.env['input']['currInput'] in [['KEY_UP']]:
-            self.env['runtime']['commandManager'].runCommand('PREV_HELP', 'help')                  
-            return True                                       
-        if self.env['input']['currInput'] in [['KEY_DOWN']]:              
-            self.env['runtime']['commandManager'].runCommand('NEXT_HELP', 'help')  
-            return True                                       
-        if self.env['input']['currInput'] in [['KEY_SPACE']]:              
-            self.env['runtime']['commandManager'].runCommand('CURR_HELP', 'help')   
-            return True     
-        return False                                                             
+           self.tutorialListIndex = len(self.helpDict) - 1                                                
