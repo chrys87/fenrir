@@ -9,7 +9,7 @@ from core import debug
 
 class helpManager():
     def __init__(self):
-        self.helpDict = None
+        self.helpDict = {}
         self.tutorialListIndex = None          
     def initialize(self, environment):
         self.env = environment
