@@ -13,7 +13,6 @@ class helpManager():
         self.tutorialListIndex = None          
     def initialize(self, environment):
         self.env = environment
-        self.createHelpDict()
     def shutdown(self):
         pass      
     def toggleTutorialMode(self):
