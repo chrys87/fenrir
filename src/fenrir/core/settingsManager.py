@@ -15,6 +15,7 @@ from core import screenManager
 from core import punctuationManager
 from core import cursorManager
 from core import applicationManager
+from core import helpManager
 from core import environment 
 from core import inputData
 from core.settingsData import settingsData
@@ -69,8 +70,10 @@ class settingsManager():
                 self.env['runtime']['debug'].writeDebugOut("invalid shortcut (missing KEY_FENRIR): "+ str(shortcut) + ' command:' +commandName ,debug.debugLevel.ERROR)                    
                 continue            
             self.env['runtime']['debug'].writeDebugOut("Shortcut: "+ str(shortcut) + ' command:' +commandName ,debug.debugLevel.INFO, onAnyLevel=True)    
-            self.env['bindings'][str(shortcut)] = commandName     
+            self.env['bindings'][str(shortcut)] = commandName   
         kbConfig.close()
+        # fix bindings 
+        self.env['bindings'][str([1, ['KEY_F1', 'KEY_FENRIR']])] = 'TOGGLE_TUTORIAL_MODE'
 
     def loadSoundIcons(self, soundIconPath):
         siConfig = open(soundIconPath + '/soundicons.conf',"r")
@@ -147,7 +150,7 @@ class settingsManager():
     def getSetting(self, section, setting):
         value = ''
         try:
-            value = self.settingArgDict[section][setting]
+            value = self.settingArgDict[section.lower()][setting.lower()]
             return value            
         except:
             pass
@@ -160,10 +163,10 @@ class settingsManager():
     def getSettingAsInt(self, section, setting):
         value = 0
         try:
-            value = int(self.settingArgDict[section][setting])
+            value = int(self.settingArgDict[section.lower()][setting.lower()])
             return value            
-        except:
-            pass  
+        except Exception as e:
+            pass
         try:
             value = self.env['settings'].getint(section, setting)
         except:
@@ -173,7 +176,7 @@ class settingsManager():
     def getSettingAsFloat(self, section, setting):
         value = 0.0
         try:
-            value = float(self.settingArgDict[section][setting])
+            value = float(self.settingArgDict[section.lower()][setting.lower()])
             return value            
         except Exception as e:
             pass        
@@ -186,7 +189,7 @@ class settingsManager():
     def getSettingAsBool(self, section, setting):
         value = False
         try:
-            value = self.settingArgDict[section][setting].upper() in ['1','YES','JA','TRUE']
+            value = self.settingArgDict[section.lower()][setting.lower()].upper() in ['1','YES','JA','TRUE']
             return value
         except Exception as e:
             pass      
@@ -226,8 +229,16 @@ class settingsManager():
         for key in keyList:
             if not key in  self.env['input']['scriptKey']:
                 self.env['input']['scriptKey'].append(key)
+    def setOptionArgDict(self, section, option, value):
+        section = section.lower()
+        option = option.lower()
+        try:
+            e = self.settingArgDict[section]
+        except KeyError:
+            self.settingArgDict[section] = {}
+        self.settingArgDict[section][option] = str(value)    
+    
     def parseSettingArgs(self, settingArgs):
-        optionArgDict = {}
         for optionElem in settingArgs.split(';'):
             if len(optionElem.split('#',1)) != 2:
                 continue
@@ -236,13 +247,9 @@ class settingsManager():
             section = str(optionElem.split('#',1)[0]).lower()
             option = str(optionElem.split('#',1)[1].split('=',1)[0]).lower()
             value = optionElem.split('#',1)[1].split('=',1)[1]           
-            try:
-                e = optionArgDict[section]
-            except KeyError:
-                optionArgDict[section] = {}
-            optionArgDict[section][option] = str(value)
-        return optionArgDict
-    def initFenrirConfig(self, cliArgs, environment = environment.environment):
+            self.setOptionArgDict(section, option, value)
+
+    def initFenrirConfig(self, cliArgs, fenrirManager = None, environment = environment.environment):
         settingsRoot = '/etc/fenrir/'
         settingsFile = cliArgs.setting
         soundRoot = '/usr/share/sounds/fenrir/'
@@ -271,11 +278,15 @@ class settingsManager():
         validConfig = environment['runtime']['settingsManager'].loadSettings(settingsFile)
         if not validConfig:
             return None
+        
         if cliArgs.options != '':
-            self.settingArgDict = self.parseSettingArgs(cliArgs.options)
+            self.parseSettingArgs(cliArgs.options)
+        if cliArgs.debug:
+            self.setOptionArgDict('general', 'debugLevel', 3)        
+        
         self.setFenrirKeys(self.getSetting('general','fenrirKeys'))
         self.setScriptKeys(self.getSetting('general','scriptKeys'))      
-
+        
         if not os.path.exists(self.getSetting('keyboard','keyboardLayout')):
             if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout')):  
                 self.setSetting('keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout'))
@@ -304,6 +315,8 @@ class settingsManager():
         else:
             environment['runtime']['settingsManager'].loadDicts(self.getSetting('general','punctuationProfile'))
         
+        if fenrirManager:
+            environment['runtime']['fenrirManager'] = fenrirManager
         environment['runtime']['eventManager'] = eventManager.eventManager()
         environment['runtime']['eventManager'].initialize(environment)
         environment['runtime']['inputManager'] = inputManager.inputManager()
@@ -318,15 +331,17 @@ class settingsManager():
         environment['runtime']['cursorManager'].initialize(environment)  
         environment['runtime']['applicationManager'] = applicationManager.applicationManager()
         environment['runtime']['applicationManager'].initialize(environment)  
-        
+        environment['runtime']['helpManager'] = helpManager.helpManager()
+        environment['runtime']['helpManager'].initialize(environment) 
         if environment['runtime']['screenManager'] == None:
             environment['runtime']['screenManager'] = screenManager.screenManager()
             environment['runtime']['screenManager'].initialize(environment) 
             
         environment['runtime']['debug'].writeDebugOut('\/-------environment-------\/',debug.debugLevel.INFO, onAnyLevel=True)        
-        environment['runtime']['debug'].writeDebugOut(str(environment),debug.debugLevel.INFO, onAnyLevel=True)
-        environment['runtime']['debug'].writeDebugOut('\/-------settings.conf-------\/',debug.debugLevel.INFO, onAnyLevel=True)        
-        environment['runtime']['debug'].writeDebugOut(str(environment['settings']._sections
-),debug.debugLevel.INFO, onAnyLevel=True)        
+        environment['runtime']['debug'].writeDebugOut(str(environment), debug.debugLevel.INFO, onAnyLevel=True)
+        environment['runtime']['debug'].writeDebugOut('\/-------settings.conf-------\/', debug.debugLevel.INFO, onAnyLevel=True)        
+        environment['runtime']['debug'].writeDebugOut(str(environment['settings']._sections) , debug.debugLevel.INFO, onAnyLevel=True)
+        environment['runtime']['debug'].writeDebugOut('\/-------self.settingArgDict-------\/',debug.debugLevel.INFO, onAnyLevel=True)        
+        environment['runtime']['debug'].writeDebugOut(str( self.settingArgDict) ,debug.debugLevel.INFO, onAnyLevel=True)
         return environment
      

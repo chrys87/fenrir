@@ -29,8 +29,6 @@ class command():
         # just when cursor move worddetection is needed
         if not self.env['runtime']['cursorManager'].isCursorHorizontalMove():
             return
-        if self.env['runtime']['inputManager'].noKeyPressed():
-            return  
         # for now no new line
         if self.env['runtime']['cursorManager'].isCursorVerticalMove():
             return

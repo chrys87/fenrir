@@ -5,7 +5,9 @@
 # By Chrys, Storm Dragon, and contributers.
 
 _evdevAvailable = False
+_udevAvailable = False
 _evdevAvailableError = ''
+_udevAvailableError = ''
 try:
     import evdev
     from evdev import InputDevice, UInput
@@ -13,42 +15,93 @@ try:
 except Exception as e:
     _evdevAvailableError = str(e)
 
+try:
+    import pyudev
+    _udevAvailable = True
+except Exception as e:
+    _udevAvailableError = str(e)
+
 import time
 from select import select
+import multiprocessing
+from multiprocessing.sharedctypes import Value
+from ctypes import c_bool
+
+from core.eventData import fenrirEventType
 from core import inputData
 from core import debug
 
+
 class driver():
     def __init__(self):
+        self._manager = multiprocessing.Manager()
         self.iDevices = {}
+        self.iDevicesFD = None
         self.uDevices = {}
         self.iDeviceNo = 0
         self._initialized = False        
-
+        self.watchDog = Value(c_bool, True)
     def initialize(self, environment):
         self.env = environment
         global _evdevAvailable
+        global _udevAvailable        
         self._initialized = _evdevAvailable
         if not self._initialized:
             global _evdevAvailableError
             self.env['runtime']['debug'].writeDebugOut('InputDriver: ' + _evdevAvailableError,debug.debugLevel.ERROR)         
             return  
+        self.updateInputDevices()
+        if _udevAvailable:
+            self.env['runtime']['eventManager'].addCustomEventThread(self.plugInputDeviceWatchdogUdev)        
+        else:
+            self.env['runtime']['eventManager'].addSimpleEventThread(fenrirEventType.PlugInputDevice, self.plugInputDeviceWatchdogTimer)                
+        self.env['runtime']['eventManager'].addSimpleEventThread(fenrirEventType.KeyboardInput, self.inputWatchdog, {'dev':self.iDevicesFD})
+    def plugInputDeviceWatchdogUdev(self,active , eventQueue):
+        context = pyudev.Context()
+        monitor = pyudev.Monitor.from_netlink(context)
+        monitor.filter_by(subsystem='input')        
+        monitor.start()
+        while active:
+            devices = monitor.poll(2)
+            if devices:
+                for device in devices:
+                    if not active:
+                        return
+                print('drin')                
+                eventQueue.put({"Type":fenrirEventType.PlugInputDevice,"Data":''})
 
+        #self.env['runtime']['settingsManager'].getSettingAsFloat('screen', 'screenUpdateDelay')
+        return time.time()        
+    def plugInputDeviceWatchdogTimer(self):
+        time.sleep(2.5)
+        return time.time()    
     def shutdown(self):
         if not self._initialized:
-            return       
+            return  
+    def inputWatchdog(self,active , iDevicesFD):
+        deviceFd = []
+        for fd in iDevicesFD['dev']:
+            deviceFd.append(fd)
+        while self.watchDog.value == 0:  
+            if active.value == 0:
+                return
+        r = []
+        while r == []:
+            r, w, x = select(deviceFd, [], [], 2)                     
+        self.watchDog.value = 0
     def getInputEvent(self):
         if not self.hasIDevices():
-            time.sleep(0.008) # dont flood CPU        
+            self.watchDog.value = 1
             return None
         event = None
-        r, w, x = select(self.iDevices, [], [], self.env['runtime']['settingsManager'].getSettingAsFloat('screen', 'screenUpdateDelay'))
+        r, w, x = select(self.iDevices, [], [], 0.0001)
         if r != []:
             for fd in r:
                 try:
                     event = self.iDevices[fd].read_one()            
                 except:
                     self.removeDevice(fd)
+                    self.watchDog.value = 1                                                                                                         
                     return None
                 foreward = False
                 while(event):
@@ -66,6 +119,7 @@ class driver():
                                 continue
                             if not foreward:
                                 if currMapEvent['EventState'] in [0,1,2]:
+                                    self.watchDog.value = 1                                
                                     return currMapEvent
                     else:
                         if not event.type in [0,1,4]:
@@ -73,7 +127,8 @@ class driver():
                     event = self.iDevices[fd].read_one()   
                 if foreward:
                     self.writeEventBuffer()
-                    self.clearEventBuffer()                                                                         
+                    self.clearEventBuffer()        
+        self.watchDog.value = 1                                                                                     
         return None
 
     def writeEventBuffer(self):
@@ -92,7 +147,7 @@ class driver():
             return    
         uDevice.write_event(event)
         uDevice.syn()  
-        time.sleep(0.01)
+        time.sleep(0.0001)
 
     def updateInputDevices(self, force = False, init = False):
         if init:
@@ -145,6 +200,11 @@ class driver():
                     self.env['runtime']['debug'].writeDebugOut('Device added (Name):' + self.iDevices[currDevice.fd].name,debug.debugLevel.INFO)                                                        
             except Exception as e:
                 self.env['runtime']['debug'].writeDebugOut("Skip Inputdevice : " + deviceFile +' ' + str(e),debug.debugLevel.ERROR)                
+        self.iDevicesFD = multiprocessing.Array('i', len(self.iDevices))
+        i = 0
+        for fd in self.iDevices:
+            self.iDevicesFD[i] = fd
+            i +=1
         self.iDeviceNo = len(evdev.list_devices())
             
     def mapEvent(self, event):
@@ -191,6 +251,9 @@ class driver():
             self.grabDevice(fd)
 
     def grabDevice(self, fd):
+        if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
+            self.uDevices[fd] = None
+            return
         try:        
             self.uDevices[fd] = UInput.from_device(self.iDevices[fd].fn)
         except Exception as e:
@@ -232,7 +295,12 @@ class driver():
         try:
             del(self.uDevices[fd])
         except:
-            pass                 
+            pass  
+        self.iDevicesFD = multiprocessing.Array('i', len(self.iDevices))
+        i = 0
+        for fd in self.iDevices:
+            self.iDevicesFD[i] = fd
+            i +=1                        
     def hasIDevices(self):
         if not self._initialized:
             return False

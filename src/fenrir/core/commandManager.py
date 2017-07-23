@@ -15,10 +15,13 @@ class commandManager():
     def initialize(self, environment):
         self.env = environment
         # commands
+        self.env['commands'] = {}
+        self.env['commandsIgnore'] = {}  
         for commandFolder in self.env['general']['commandFolderList']:
-            self.env['runtime']['commandManager'].loadCommands(commandFolder,
-              self.env['runtime']['settingsManager'].getSetting('general', 'commandPath'))        
-            self.env['runtime']['commandManager'].loadCommands(commandFolder)
+            self.env['runtime']['commandManager'].loadCommands(commandFolder)        
+            if self.env['runtime']['settingsManager'].getSetting('general', 'commandPath') != '':
+                self.env['runtime']['commandManager'].loadCommands(commandFolder,
+                  self.env['runtime']['settingsManager'].getSetting('general', 'commandPath'))        
 
         # scripts for scriptKey
         self.env['runtime']['commandManager'].loadScriptCommands()
@@ -42,7 +45,8 @@ class commandManager():
         if not os.access(commandFolder, os.R_OK):
             self.env['runtime']['debug'].writeDebugOut("commandFolder not readable:" + commandFolder ,debug.debugLevel.ERROR)                                    
             return           
-
+        self.env['commands'][section] = {}
+        self.env['commandsIgnore'][section] = {}
         commandList = glob.glob(commandFolder+'*')
         for command in commandList:
             try:
@@ -62,7 +66,6 @@ class commandManager():
                     self.env['commands'][section][fileName.upper()].initialize(self.env)
                     self.env['runtime']['debug'].writeDebugOut("Load command:" + section + "." + fileName.upper() ,debug.debugLevel.INFO, onAnyLevel=True)                    
             except Exception as e:
-                print(command+str(e))
                 self.env['runtime']['debug'].writeDebugOut("Loading command:" + command ,debug.debugLevel.ERROR)
                 self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)                
                 continue
@@ -123,7 +126,6 @@ class commandManager():
                 shortcut.append(sorted(shortcutKeys)) 
                 self.env['bindings'][str(shortcut)] = fileName.upper()                     
             except Exception as e:
-                print(e)
                 self.env['runtime']['debug'].writeDebugOut("Loading script:" + command ,debug.debugLevel.ERROR)
                 self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)                
                 continue
@@ -172,37 +174,47 @@ class commandManager():
                         self.env['runtime']['debug'].writeDebugOut("Executing trigger.command:" + trigger + "." + command ,debug.debugLevel.INFO)                    
                         self.env['commands'][trigger][command].run()                    
                 except Exception as e:
-                    self.env['runtime']['debug'].writeDebugOut("Executing trigger:" + trigger + "." + command ,debug.debugLevel.ERROR)
-                    self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR) 
+                    self.env['runtime']['debug'].writeDebugOut("Executing trigger:" + trigger + "." + command + str(e) ,debug.debugLevel.ERROR)
 
     def executeCommand(self, command, section = 'commands'):
         if self.env['runtime']['screenManager'].isSuspendingScreen():
             return    
         if self.commandExists(command, section):
             try:
-                if self.env['general']['tutorialMode']:
+                if self.env['runtime']['helpManager'].isTutorialMode() and section != 'help':
                     self.env['runtime']['debug'].writeDebugOut("Tutorial for command:" + section + "." + command ,debug.debugLevel.INFO)                   
-                    description = self.env['commands'][section][command].getDescription()
+                    description = self.getCommandDescription(command, section)
                     self.env['runtime']['outputManager'].presentText(description, interrupt=True)                                       
                 else:
                     self.env['runtime']['debug'].writeDebugOut("Executing command:" + section + "." + command ,debug.debugLevel.INFO)                    
-                    self.env['commands'][section][command].run()
+                    self.runCommand(command, section)
             except Exception as e:
-                self.env['runtime']['debug'].writeDebugOut("Executing command:" + section + "." + command ,debug.debugLevel.ERROR)
-                self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR) 
-        self.clearCommandQueued()
+                self.env['runtime']['debug'].writeDebugOut("Executing command:" + section + "." + command +' ' + str(e),debug.debugLevel.ERROR)
+
+   
+    def runCommand(self, command, section = 'commands'):
+        if self.commandExists(command, section):
+            try:
+                self.env['runtime']['debug'].writeDebugOut("Executing command:" + section + "." + command ,debug.debugLevel.INFO)                    
+                self.env['commands'][section][command].run()
+            except Exception as e:
+                self.env['runtime']['debug'].writeDebugOut("Executing command:" + section + "." + command +' ' + str(e),debug.debugLevel.ERROR)
         self.env['commandInfo']['lastCommandExecutionTime'] = time.time()    
-
-    def isCommandQueued(self):
-        return self.env['commandInfo']['currCommand'] != ''
-
-    def clearCommandQueued(self):
-        self.env['commandInfo']['currCommand'] = ''
         
-    def queueCommand(self, command):
-        if command == '':
-            return
-        self.env['commandInfo']['currCommand'] = command
+    def getCommandDescription(self, command, section = 'commands'):
+        if self.commandExists(command, section):
+            try:
+                return self.env['commands'][section][command].getDescription()
+            except Exception as e:
+                self.env['runtime']['debug'].writeDebugOut('commandManager.getCommandDescription:' + str(e),debug.debugLevel.ERROR) 
+        self.env['commandInfo']['lastCommandExecutionTime'] = time.time()  
         
     def commandExists(self, command, section = 'commands'):
-        return( command in self.env['commands'][section]) 
+        return( command in self.env['commands'][section])
+    def getShortcutForCommand(self, command):
+        shortcut = ''
+        try:
+            shortcut = list(self.env['bindings'].keys())[list(self.env['bindings'].values()).index(command)]      
+        except:
+            pass
+        return shortcut      

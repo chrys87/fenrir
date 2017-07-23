@@ -7,7 +7,6 @@
 from core import debug
 import time
 
-
 # used as shared memory between commands
 # use this in your own commands
 commandBuffer = {
@@ -24,39 +23,7 @@ commandBuffer = {
 
 # used by the commandManager
 commandInfo = {
-'currCommand': '',
+#'currCommand': '',
 'lastCommandExecutionTime': time.time(),
 'lastCommandRequestTime': time.time(),
-}
-
-# used by the commandManager
-commands = {
-'onInput':{
-    },
-'onScreenChanged':{
-    },
-'onScreenUpdate':{
-    },
-'onApplicationChange':{
-    },   
-'commands':{
-    },
-'onSwitchApplicationProfile':{
-    },
-}
-
-# used by the commandManager
-commandsIgnore = {
-'onInput':{
-    },
-'onScreenChanged':{
-    },
-'onScreenUpdate':{
-    },
-'onApplicationChange':{
-    },   
-'commands':{
-    },
-'onSwitchApplicationProfile':{
-    },
 }

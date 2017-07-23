@@ -7,13 +7,12 @@
 from core import debug
 
 generalData = {
-'running': True,
 'args': None,
 'tutorialMode': False,
 'currUser':'',
 'prevUser':'',
 'managerList':['eventManager','punctuationManager','cursorManager','applicationManager','commandManager'
-  ,'screenManager','inputManager','outputManager','debug'],
-'commandFolderList':['commands','onInput','onScreenUpdate','onScreenChanged'
-  ,'onApplicationChange','onSwitchApplicationProfile',],
+  ,'screenManager','inputManager','outputManager','helpManager','debug'],
+'commandFolderList':['commands','onInput', 'onCursorChange', 'onScreenUpdate','onScreenChanged','onHeartBeat', 'onPlugInputDevice'
+  ,'onApplicationChange','onSwitchApplicationProfile','help',],
 }

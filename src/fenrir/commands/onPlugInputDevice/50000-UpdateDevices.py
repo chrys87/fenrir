@@ -12,13 +12,11 @@ class command():
     def initialize(self, environment):
         self.env = environment
     def shutdown(self):
-        pass 
+        pass
     def getDescription(self):
-        return _('exits Fenrir')        
-    
+        return 'No description found'         
     def run(self):
-        self.env['runtime']['eventManager'].stopMainEventLoop() 
-
+        if not self.env['runtime']['screenManager'].isSuspendingScreen(): # remove if all works
+            self.env['runtime']['inputManager'].updateInputDevices() 
     def setCallback(self, callback):
         pass
-

@@ -14,11 +14,13 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return _('exits Fenrir')        
+        return _('exits review mode')        
     
     def run(self):
-        self.env['runtime']['eventManager'].stopMainEventLoop() 
-
+        if not self.env['runtime']['settingsManager'].getSettingAsBool('review', 'leaveReviewOnCursorChange'):
+            return        
+        if self.env['runtime']['cursorManager'].isReviewMode():
+            self.env['runtime']['cursorManager'].clearReviewCursor()
+   
     def setCallback(self, callback):
         pass
-

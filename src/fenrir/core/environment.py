@@ -19,8 +19,6 @@ environment = {
 'runtime': runtimeData,
 'general': generalData,
 'settings': settingsData,
-'commands': commandData.commands,
-'commandsIgnore': commandData.commandsIgnore,
 'commandInfo': commandData.commandInfo,
 'commandBuffer': commandData.commandBuffer,
 'input': inputData,

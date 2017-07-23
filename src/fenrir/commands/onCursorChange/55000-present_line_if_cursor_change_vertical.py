@@ -19,9 +19,7 @@ class command():
     
     def run(self):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('focus', 'cursor'):
-            return    
-        if self.env['runtime']['inputManager'].noKeyPressed():
-            return     
+            return      
         if self.env['runtime']['screenManager'].isScreenChange():
             return
         # this leads to problems in vim -> status line change -> no announcement, so we do check the lengh as hack

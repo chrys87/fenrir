@@ -39,8 +39,6 @@ class command():
             return        
         if not self.env['runtime']['settingsManager'].getSettingAsBool('general', 'autoSpellCheck'):
             return
-        if self.env['runtime']['inputManager'].noKeyPressed():
-            return  
         if self.env['runtime']['settingsManager'].getSetting('general', 'spellCheckLanguage') != self.language:
             try:
                 self.updateSpellLanguage()

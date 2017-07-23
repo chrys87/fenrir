@@ -4,28 +4,13 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-#from core import debug
+from core import debug
+from core.eventData import fenrirEventType
 from queue import Empty
 import time 
-from enum import Enum
 from multiprocessing import Process, Queue
 from multiprocessing.sharedctypes import Value
 from ctypes import c_bool
-
-class fenrirEventType(Enum):
-    Ignore = 0
-    StopMainLoop = 1
-    ScreenUpdate = 2
-    KeyboardInput = 3
-    BrailleInput = 4
-    PlugInputDevice = 5
-    BrailleFlush = 6
-    ScreenChanged = 7
-    def __int__(self):
-        return self.value
-    def __str__(self):
-        return self.name
-
 
 class eventManager():
     def __init__(self):
@@ -34,11 +19,20 @@ class eventManager():
         self._eventQueue = Queue() # multiprocessing.Queue()
         self.cleanEventQueue()
     def initialize(self, environment):
-        self.env = environment
+        self.env = environment    
+        self.addSimpleEventThread(fenrirEventType.HeartBeat, self.heartBeatTimer)
     def shutdown(self):
         self.terminateAllProcesses()
         self.cleanEventQueue()
+    def heartBeatTimer(self):
+        try:
+            time.sleep(0.5)
+        except:
+            pass
+        #self.env['runtime']['settingsManager'].getSettingAsFloat('screen', 'screenUpdateDelay')
+        return time.time()
     def terminateAllProcesses(self):
+        time.sleep(1)
         for proc in self._eventProcesses:
             try:
                 proc.terminate()
@@ -46,20 +40,24 @@ class eventManager():
                 print(e)            
     def proceedEventLoop(self):
         event = self._eventQueue.get()
+        st = time.time()
         self.eventDispatcher(event)
+        #print('NET loop ' + str(time.time() - st))        
     def eventDispatcher(self, event):
+        self.env['runtime']['debug'].writeDebugOut('eventManager:eventDispatcher:start: event:' + str(event['Type']) + ' QueueSize:' + str( self._eventQueue.qsize()),debug.debugLevel.INFO)         
         if not event:
+            return
+        if not event['Type']:
             return
         if event['Type'] == fenrirEventType.Ignore:
             return
         elif event['Type'] == fenrirEventType.StopMainLoop:
-            self._mainLoopRunning.value = 0
+            self.handleStopMainLoop(event)
             return
         elif event['Type'] == fenrirEventType.ScreenUpdate:
-            print('do an update')
-            pass            
+            self.env['runtime']['fenrirManager'].handleScreenUpdate(event)
         elif event['Type'] == fenrirEventType.KeyboardInput:
-            pass            
+            self.env['runtime']['fenrirManager'].handleInput(event)
         elif event['Type'] == fenrirEventType.BrailleInput:
             pass            
         elif event['Type'] == fenrirEventType.PlugInputDevice:
@@ -67,19 +65,41 @@ class eventManager():
         elif event['Type'] == fenrirEventType.BrailleFlush:
             pass            
         elif event['Type'] == fenrirEventType.ScreenChanged:
-            pass
+            self.env['runtime']['fenrirManager'].handleScreenChange(event)
+        elif event['Type'] == fenrirEventType.HeartBeat:
+            self.env['runtime']['fenrirManager'].handleHeartBeat(event)
+        elif event['Type'] == fenrirEventType.ExecuteCommand:
+            self.env['runtime']['fenrirManager'].handleExecuteCommand(event)
+    def isMainEventLoopRunning(self):
+        return self._mainLoopRunning.value == 1
     def startMainEventLoop(self):
-        self._mainLoopRunning.value = True
-        while(self._mainLoopRunning.value):
+        self._mainLoopRunning.value = 1
+        while( self.isMainEventLoopRunning()):
             self.proceedEventLoop()
+
+    def handleStopMainLoop(self, event):
+        self._mainLoopRunning.value =  0
+        time.sleep(0.1)
     def stopMainEventLoop(self, Force = False):
         if Force:
-            self._mainLoopRunning.value =  False
+            self._mainLoopRunning.value =  0
         self._eventQueue.put({"Type":fenrirEventType.StopMainLoop,"Data":None})                                
-    def addEventThread(self, event, function):
-        self._mainLoopRunning.value =  True
-        t = Process(target=self.eventWorkerThread, args=(event, function))
+    def addCustomEventThread(self, function, pargs = None, multiprocess=False):
+        self._mainLoopRunning.value =  1
+
+        if multiprocess:        
+            t = Process(target=self.customEventWorkerThread, args=(self._eventQueue, function, pargs))
+        else:# thread not implemented yet
+            t = Process(target=self.customEventWorkerThread, args=(self._eventQueue, function, pargs))        
         self._eventProcesses.append(t)
+        t.start()
+    def addSimpleEventThread(self, event, function, pargs = None, multiprocess=False, runOnce = False):
+        self._mainLoopRunning.value =  1
+        if multiprocess:
+            t = Process(target=self.simpleEventWorkerThread, args=(event, function, pargs))
+            self._eventProcesses.append(t)            
+        else:# thread not implemented yet
+            t = Process(target=self.simpleEventWorkerThread, args=(event, function, pargs))                    
         t.start()
     def cleanEventQueue(self):
         if self._eventQueue.empty():
@@ -94,32 +114,34 @@ class eventManager():
             return False
         self._eventQueue.put({"Type":event,"Data":data})    
         return True
-    def eventWorkerThread(self, event, function):       
+    def customEventWorkerThread(self, eventQueue, function, args):       
+        #if not isinstance(eventQueue, Queue):
+        #    return
+        if not callable(function):
+            return
+        while self.isMainEventLoopRunning():
+            try:
+                if args:
+                    function(self._mainLoopRunning, eventQueue, args)
+                else:
+                    function(self._mainLoopRunning, eventQueue)
+            except Exception as e:
+                print(e)
+
+    def simpleEventWorkerThread(self, event, function, args, runOnce = False):       
         if not isinstance(event, fenrirEventType):
             return
         if not callable(function):
             return
-        while self._mainLoopRunning.value:
+        while self.isMainEventLoopRunning():
             Data = None
             try:
-                Data = function()
+                if args != None:
+                    Data = function(self._mainLoopRunning, args)                
+                else:
+                    Data = function()
             except Exception as e:
-                print(e)
+                self.env['runtime']['debug'].writeDebugOut('eventManager:simpleEventWorkerThread:function():' + st(e),debug.debugLevel.ERROR) 
             self.putToEventQueue(event, Data)
-'''
-def p():
-    time.sleep(0.02)
-    return("p")
-
-i = 1
-e = eventManager()
-e.addEventThread(fenrirEventType.ScreenUpdate,p)
-e.addEventThread(fenrirEventType.BrailleInput,p)
-e.addEventThread(fenrirEventType.PlugInputDevice,p)
-e.addEventThread(fenrirEventType.ScreenChanged,p)
-time.sleep(1.5)
-e.addEventThread(fenrirEventType.StopMainLoop,e.stopMainEventLoop)
-s = time.time()
-e.startMainEventLoop()
-print(time.time() - s )
-'''
+            if runOnce:
+                break

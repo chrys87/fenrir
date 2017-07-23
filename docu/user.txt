@@ -13,7 +13,7 @@ Fenrir requires several drivers to interact with the operating system.
  
 ===== Speech Drivers =====
  
-A speech driver is for communication with the text to speech system like [[speech-dispatcher|Speech-dispatcher]] or [[espeak|Espeak]]. \\
+A speech driver is for communication with the text to speech system like [[#SpeechDispatcher|Speech-Dispatcher]] or [[http://espeak.sourceforge.net|Espeak]]. \\
 See section [[#Speech|Speech]] in ''settings.conf'' for more information.
 
  
@@ -26,10 +26,18 @@ Dependency's:
  
   * speech-dispatcher (installed and configured, [[https://devel.freebsoft.org/speechd#sec2|Documentation]])
   * python-speechd
+
+==== Espeak ====
+ 
+Uses espeak via python bindings.
+ 
+Dependency's:
+  * Espeak or Espeak-ng
+  * [[https://launchpad.net/python-espeak|python-espeak]]
  
 ==== Generic ====
  
-This invokes speech via a sub-process. This is almost the same as entering the command by commandline. The performance depends on the overhead of the speech syntheses application but it is really flexible.
+This invokes speech via a sub-process. This is almost the same as entering the command by commandline. The performance depends on the overhead of the speech synthesis application but it is really flexible.
  
 Dependency's:
   * Espeak or Espeak-ng
@@ -132,7 +140,7 @@ Fenrir can run without installation. It just requires the dependencies to be ins
 We recommend to try it out before installation to be sure everything works and prevent yourself from experiencing a non-talking environment.
  
 ===== Try Out =====
-Fenrir does not require installation. You can try out if everything works before you want to install. In this way you can be sure that your system doesnt break or does not talking.
+Fenrir does not require installation. You can try it and make sure everything works before you decide to install. In this way you can be sure that your system doesnt break or stop talking.
 for that you can just grab the code and run as root ''src/fenrir/fenrir'' (in foreground) or ''src/fenrir/fenrir-daemon'' (in background, that one is used by systemd for autostart)
 
 ===== Install it =====
@@ -149,7 +157,8 @@ For Arch there are PKGBUILDs in the AUR:
  
   - Download the latest stable version from the [[https://linux-a11y.org/index.php?page=fenrir-screenreader|Fenrir-Project]] site.
   - Unpack the archive
-  - install the needed Dependencys an standard installation requires the following. 
+  - Check the needed Dependencys by running [[https://github.com/chrys87/fenrir/blob/master/check-dependencys.py|check-dependencys.py]] script
+  - install the needed missing dependencys an standard installation requires the following:
     * python3 >= 3.3 (and all the following is needed for python3 )
     * python3-speechd (screen)
     * python3-dbus (screen)
@@ -159,7 +168,7 @@ For Arch there are PKGBUILDs in the AUR:
     * python3-pyenchant (spellchecker)
     * your language for aspell (aspell-<lang>) (spellchecker)
     * sox (sound)
-    * For an individual installation see [[#Support and Requirements|Support and Requirements]] or cunsult the [[https://github.com/chrys87/fenrir/blob/master/README.md|Readme]])
+    * For an individual installation see [[#Support and Requirements|Support and Requirements]] or consult the [[https://github.com/chrys87/fenrir/blob/master/README.md|Readme]])
   - run "install.sh" as root
 
 this installs fenrir as the following
@@ -186,21 +195,22 @@ To enable auto start on system boot:
 ====== First Steps ======
  
 If you are using Fenrir for the first time you may want to take a look at these resources:
-  * [[#Keyindings|Keyindings]]
+  * [[#Keybindings|Keybindings]]
   * [[#Tutorial Mode|Tutorial Mode]]
  
 ====== Features ======
  
 ===== Commands =====
  
-==== Keyindings ====
+==== Keybindings ====
  
-Normal commands can invoked in to ways:
+Normal commands can be invoked in two ways:
   - Using a Metakey ([[#Fenrir Key|FenrirKey]])
-  - Shortcuts with an single key
- 
+  - Shortcuts with a single key
+
+See section [[#Keyboard|Keyboard]] in ''settings.conf'' for more information. 
 === Fenrir Key ===
-The Fenrir Key is for invoking screen reader commands. Fenrir can handle more than one Key as FenrirKey at the same time.
+The Fenrir Key is for invoking screen reader commands. Fenrir can utilize more than one FenrirKey at the same time.
 By default the following keys are used:
   - Insert
   - KeyPad Insert
@@ -208,7 +218,7 @@ By default the following keys are used:
  
 === Script Key ===
 To invoke "Scripts" the Script Key is mandatory. The shortcut is encoded in the filename of the script. See [[#Scripting|Scripting]]
-===Desktop Layout===
+=== Desktop Layout ===
 ^Shortcut   ^Command    ^
 |FenrirKey + H|[[#Tutorial Mode|toggle tutorial mode]]|
 |CTRL|[[#shut up|shut up (interrupts speech)]]|
@@ -317,6 +327,8 @@ To invoke "Scripts" the Script Key is mandatory. The shortcut is encoded in the 
 |FenrirKey + Shift + C|[[#read current clipboard|current clipboard]]|
 |FenrirKey + C|[[#copy marked to clipboard|copy marked text to clipboard]]|
 |FenrirKey + V|[[#paste clipboard|paste clipboard contents]]|
+|FenrirKey + P|[[#import clipboard from file|import clipboard from file]]|
+|FenrirKey + Alt + Shift +C|[[#export clipboard to file|export clipboard to file]]|
 |FenrirKey + CTRL + Shift + X|[[#Remove Marks|remove marks]]|
 |FenrirKey + X|[[#Set mark|set mark]]|
 |FenrirKey + Shift + X|[[#Get text between marks|announce marked text]]|
@@ -324,8 +336,8 @@ To invoke "Scripts" the Script Key is mandatory. The shortcut is encoded in the 
 |<Unbound>|export clipboard to X|
 |FenrirKey + CTRL + Up|include Alsa volume|
 |FenrirKey + CTRL + Down|decrease Alsa volume|
- 
-===Laptop Layout===
+
+=== Laptop Layout ===
 ^Shortcut   ^Command    ^
 |FenrirKey + H|[[#Tutorial Mode|toggle tutorial mode]]|
 |CTRL|[[#shut up|shut up (interrupts speech)]]|
@@ -335,7 +347,7 @@ To invoke "Scripts" the Script Key is mandatory. The shortcut is encoded in the 
 |FenrirKey + U|[[#review previous line|reviews previous line]]|
 |FenrirKey + O|[[#review next line|reviews next line]]|
 |FenrirKey + Shift + J|[[#review line beginning|reviews line beginning]]|
-|FenrirKey + SHFIT + L|[[#review line ending|reviews line ending]]|
+|FenrirKey + Shift + L|[[#review line ending|reviews line ending]]|
 |FenrirKey + CTRL + J|[[#review line first character|reviews line first character]]|
 |FenrirKey + CTRL + L|[[#review line last character|reviews line last character]]|
 |FenrirKey + Alt + 1|[[#present first line|presents first line]]|
@@ -343,15 +355,15 @@ To invoke "Scripts" the Script Key is mandatory. The shortcut is encoded in the 
 |FenrirKey + K|[[#review current word|reviews current word]]|
 |FenrirKey + J|[[#review previous word|reviews previous word]]|
 |FenrirKey + L|[[#review next word|reviews next word]]|
-|2 * FenrirKey + K|[[#review current word phonetic|reviews current word phonetic]]|
-|2 * FenrirKey + J|[[#review previous word phonetic|reviews previous word phonetic]]|
-|2 * FenrirKey + L|[[#review next word phonetic|reviews next word phonetic]]|
-|FenrirKey + comma|[[#review current character|reviews current char]]|
-|FenrirKey + M|[[#review previous character|reviews previous char]]|
-|FenrirKey + dot|[[#review next character|reviews next char]]|
-|2 * FenrirKey + comma|[[#review current character phonetic|reviews current character phonetic]]|
-|2 * FenrirKey + M|[[#review previous character phonetic|reviews previous character phonetic]]|
-|2 * FenrirKey + dot|[[#review next character phonetic|reviews next character phonetic]]|
+|FenrirKey + CTRL + ALT + K|[[#review current word phonetic|reviews current word phonetic]]|
+|FenrirKey + CTRL + ALT + J|[[#review previous word phonetic|reviews previous word phonetic]]|
+|FenrirKey + CTRL + ALT + L|[[#review next word phonetic|reviews next word phonetic]]|
+|FenrirKey + comma|[[#review current character|reviews current character]]|
+|FenrirKey + M|[[#review previous character|reviews previous character]]|
+|FenrirKey + dot|[[#review next character|reviews next character]]|
+|FenrirKey + CTRL + ALT + comma|[[#review current character phonetic|reviews current character phonetic]]|
+|FenrirKey + CTRL + ALT + M|[[#review previous character phonetic|reviews previous character phonetic]]|
+|FenrirKey + CTRL + ALT + dot|[[#review next character phonetic|reviews next character phonetic]]|
 |FenrirKey + CTRL + I|[[#review up|reviews up]]|
 |FenrirKey + CTRL + comma|[[#review down|reviews down]]|
 |FenrirKey + Slash|[[#exit review|exit review]]|
@@ -434,6 +446,8 @@ To invoke "Scripts" the Script Key is mandatory. The shortcut is encoded in the 
 |FenrirKey + Shift + C|[[#read current clipboard|current clipboard]]|
 |FenrirKey + C|[[#copy marked to clipboard|copy marked text to clipboard]]|
 |FenrirKey + V|[[#paste clipboard|paste clipboard contents]]|
+|FenrirKey + F5|[[#import clipboard from file|import clipboard from file]]|
+|FenrirKey + Alt + Shift +C|[[#export clipboard to file|export clipboard to file]]|
 |FenrirKey + CTRL + Shift + X|[[#Remove Marks|remove marks]]|
 |FenrirKey + X|[[#Set mark|set mark]]|
 |FenrirKey + Shift + X|[[#Get text between marks|announce marked text]]|
@@ -544,6 +558,10 @@ Read the content of the current element of the clipboard list
 == paste clipboard ==
 Past whatever element is currently selected by first, last, prev or next clipboard commands.
 if no special clipboard is selected the first one (last copied) is used.
+== export clipboard to file ==
+This allows you to export the current clipboard to an configurable filepath. This is useful to share the clipboard with a graphical desktop.
+== import clipboard from file ==
+Import a clipboard from an configurable file. This is useful to share the clipboard with a graphical desktop.
 ==== Quick Settings ====
 Fenrir provides some shortcuts to change settings temporarily and on the fly without need to permanently change the ''settings.conf'' file.
 === toggle braille ===
@@ -768,29 +786,43 @@ speaks an _ as "line".
 speaks an _ as underscore.
 for question mark an ? is appended to the word that the TTS system can announce the question correctly.    
 ==== Custom ====
-The dict "[customDict]" is just for your own use. it does just replace the key by the value without any special functionality. This might be used to correct phonetic wrongly spoken words,make words more common or just shorter. Or even just for fun :).
+The dict "[customDict]" is just for your own use, it just replace the key with the value without any special functionality. This might be used to fix incorrectly spoken words, make words more common, shorter or just for fun. :)
 ==== Emoticons ====
-The Emoticons dict "[emoticonDict]" contains by default some emoticons. it replaces ":)" by "smile" or "XD" by "loool". So chatting is a little more colorful.
-The special on that dict is that you can toggle the substitution it on or off during run time or in settings.conf. This is useful because while doing programming or other serious work you want here colons and parans not smiles.
+The Emoticons dictionary "[emoticonDict]" by default contains some emoticons. it can replace ":)" with "smile" or "XD" with "loool" Making chat more colorful.
+A nice feature with this dictionary  is that you can toggle the substitution on or off during run time or in settings.conf. This is useful because while doing programming or other serious work you want to hear colons and parans not smiles.
 ====== Configuration ======
-===== Prepare =====
-===== Settings =====
 You can configure Fenrir in the following places (ordered by priority):
-  - /etc/fenrir/settings/settings.conf
-  - <sourceTree>/config/settings/settings.conf
-  - run with hard coded defaults.
+  - Commandline Parameters ''-o'' see [[#Set settings coption|Set settings coption]]
+  - /etc/fenrir/settings/settings.conf see [[#Settings|Settigns]]
+  - <sourceTree>/config/settings/settings.conf see [[#Settings|Settigns]]
+  - hard coded defaults
+===== Commandline Arguments =====
+==== Set settings coption ====
+You can specify options that overwrites the setting.conf.
+This is done with ''-o <list of options>'' parameter.
+The list of options has the following syntax
+  fenrir -o "section#setting=value;section#setting=value"
+
+For example change the sound driver to gstreamer and disable braille  
+  fenrir -o "sound#driver=gstreamerDriver;braille#enabled=False=False"
+or change debug level to verbose
+  fenrir -o "general#debugLevel=3"
+You can find the available sections and variables here [[#Settings]]
+See Syntax [[#settings.conf syntax]]
 ==== settings.conf syntax ====
-the syntax of the "settings.conf" is really simple and is similar to a "*.ini" file, there are 3 different elements. 
+the syntax of the [[#Settings|settings.conf]] is really simple and is similar to a "*.ini" file, there are 4 different elements. 
   - Sections
   - Settings
+  - Values
   - Comments
 
+A comment starts with an # and is ignored by fenrir.
+  # this is a comment
+To group settings we have sections.
 A section can look like this:
   [Section]
 A setting looks like this:
   settingName=Value
-A comment starts with an #.
-  # this is a comment
 
 Example:
   [sound]
@@ -800,7 +832,7 @@ Example:
   # Sox is default.
   driver=genericDriver
     
-
+===== Settings =====
 ==== Sound ====
 The sound is configured in section ''[sound]''. 
 
@@ -836,7 +868,7 @@ The generic sound driver uses shell commands for play sound and frequencies.
 ''genericFrequencyCommand'' defines the command that is used playing frequencies.
   genericFrequencyCommand=<your command for playing a frequence>
  
-The following variable are substituted in ''genericPlayFileCommand'' and ''genericFrequencyCommand'':
+The following variables are substituted in ''genericPlayFileCommand'' and ''genericFrequencyCommand'':
   * ''fenrirVolume'' = the current volume setting
   * ''fenrirSoundFile'' = the sound file for an sound icon
   * ''fenrirFrequence'' = the frequency to play
@@ -987,9 +1019,9 @@ Values: Integer,
   * ''0'' = display size
   * ''>0'' number of cells
 ==== Screen ====
-The settings for screens, (TTY, PTY) is done in the ''[screen]'' section.
+The settings for screens, (TTY, PTY) are configured in the ''[screen]'' section.
 
-The driver that gets the information from a screen:
+The driver to get the information from the screen:
   driver=vcsaDriver
 Available Drivers:
   * ''vcsaDriver'' using the VCSA driver (for TTYs), for Fenrir <1.5 just use ''vcsa''
@@ -1001,21 +1033,21 @@ The driver updates Fenrir with changes upon the screen.
   screenUpdateDelay=0.05
 Values: in Seconds
 
-If you want Fenrir to not be active on any screen. That can have different reasons. Maybe an X server or Wayland is running on that screen. You can make Fenrir ignore it or multiple screens seperated by '','' with:
+If you want Fenrir to not be active on any screen for various reasons. Maybe an X server or Wayland is running on that screen. You can make Fenrir ignore it or multiple screens seperated by '','' with:
   suspendingScreen=
 Values: Depends on driver:
   * VCSA: the number of the TTY. TTY6 is ''6''.
 Example ignore TTY1 and TTY2:
   suspendingScreen=1,2
 
-There is also the ability to let Fenrir auto detect screens that running an X. So Screens running an GUI are ignored.
+There is also the ability to let Fenrir auto detect screens that are running an X server. So Screens running an GUI are ignored.
   autodetectSuspendingScreen=True
 Values: on=''True'', off=''False''
 
 ==== Keyboard ====
 The settings for keyboard and input related configuration is located in the section ''[keyboard]'' of the ''settings.conf'' file.
 
-Select the driver used to for grabbing the keybord and recieve shortcuts.
+Select the driver used for grabbing keybord input and for recieving shortcuts.
   driver=evdevDriver
 Values: Text, available Driver
 Available Drivers:
@@ -1028,23 +1060,23 @@ Values:
   * ''NOMICE'' Exclude mices from handling.
   * ''<Device Name>'' just use the device with the given name.
   
-Gives Fenrir exclusive access to the keyboard and lets it control keystrokes. This is needed to consume the Fenrir related shortcuts.
+Gives Fenrir exclusive access to the keyboard and lets it control keystrokes. This is needed to intercept Fenrir related shortcuts.
   grabDevices=True
 Values: on=''True'', off=''False''
 
-The following just make sense if you are using an second screenreader and just wanna have some hooked events. Fenrir ignores all shortcuts then. 
+The following just make sense if you are using a second screenreader and just wanna have some hooked events. Fenrir ignores all shortcuts then. 
   ignoreShortcuts=False
 Values: on=''True'', off=''False''
 
 The current keyboard layout used for shortcuts.
   keyboardLayout=desktop
- Values: A absolute Path to an Keyboard definition file or a Filename without extension located in  ''/etc/fenrir/keyboard''
+ Values: An absolute Path to a Keyboard definition file or a Filename without extension located in  ''/etc/fenrir/keyboard''
  
-Announce chars while typing.
+Announce characters while typing.
   charEcho=False
 Values: on=''True'', off=''False''
 
-Announce deleted chars
+Announce deleted characters
   charDeleteEcho=True
 Values: on=''True'', off=''False''
 
@@ -1058,71 +1090,77 @@ Values: on=''True'', off=''False''
 
 You can filter the keys on that the speech should interrupt 
   interruptOnKeyPressFilter=
-Values: (List) empty = all keys, otherwhise interrupt on given keys
+Values: (List) empty = all keys, otherwise interrupt with specified keys
 
 The timeout that is used for double tap shortcuts
   doubleTapTimeout=0.2
 Values: Seconds
 ==== General ====
-Overall stuff can be configured in section ''[general]''.
+Overall settings can be configured from the section ''[general]''.
 
 Set the current debug level:
   debugLevel=1
 Values: off=0, error=1, warning=2, info=3
 
-the current used punctuation and dict file:
+the current punctuation and dict file in use:
   punctuationProfile=default
 Values: Text, see available profiles in ''/etc/fenrir/punctuation'' or in ''sourceTree/config/punctuation''
 
-The current used punctuation level.
+The current punctuation level in use:
   punctuationLevel=some
 Values: Text, See available levels in the used punctuation file.  
 
-Respect pause for punctuations.
+Respect pause for punctuations:
   respectPunctuationPause=True
 Values: on=''True'', off=''False''
 
-Add a pause on Line break.
+Add a pause on Line break:
   newLinePause=True
 Values: on=''True'', off=''False''
+
+Specify the path where the clipboard should be exported to.
+See [[#export clipboard to file|export clipboard to file]].
+The variable ''$user'' is replaced by the current logged username.
+  clipboardExportPath=/tmp/fenrirClipboard
+Values: Text, Systemfilepath
 
 The number of available cipboards:
   numberOfClipboards=10
 Values: Integer, 1 - 999
 
-Replace emoticons like :) or ;) with there names.
+Replace emoticons like :) or ;) with text insertions:
   emoticons=True
 Values: on=''True'', off=''False''  
 
-Define the current fenrir keys. 
+Define the current fenrir keys:
   fenrirKeys=KEY_KP0,KEY_META,KEY_INSERT
 Values, Text list, separated by comma.
 
-Define the current script keys. 
+Define the current script keys: 
   scriptKey=KEY_COMPOSE
 Values, Text list, separated by comma.
 
-The timeformat that is used for output (time command)
+The time format to be used for (time command) output:
   timeFormat=%H:%M:%P
 Values: see python specification for [[https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior|datetime.strftime]]
 
-The date format that is used for output (date command).
+The date format to be used for (date command) output:
   dateFormat=%A, %B %d, %Y
 Values: see python specification for [[https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior|datetime.strftime]]
 
-Enable or Disable the spellchecker while typing.
+Enable or Disable spellcheck whilst typing:
   autoSpellCheck=True
 Values: on=''True'', off=''False''  
 
-The used dictionary for the spellchecker.
+The use of the dictionary with spellcheck:
   spellCheckLanguage=en_US
 Values: Text, see aspell dictionary's.
 
-Folder Path for your scripts "scriptKey" functionality. 
+Folder Path for your scripts "scriptKey" functionality: 
   scriptPath=/usr/share/fenrir/scripts
 Values: Text, Existing path on file system.
 
-Overload commands or create new one without changing Fenrir default.
+Override commands or create new ones without changing Fenrir defaults:
   commandPath=/usr/share/fenrir/commands
 Values: Text, Existing path on file system.
 Subfolders in commandPath are:
@@ -1132,51 +1170,51 @@ Subfolders in commandPath are:
   * ''onScreenUpdate'' = executed when the screen is captured
   
 ==== Focus ====
-The basic focus configuration is done in section ''[focus]''.
+The configuration for basic focus is in the section ''[focus]''.
 Follow the text cursor:
   cursor=True
 Values: on=''True'', off=''False''
   
-Follow highlighted text changes (Highlight Tracking)
+Follow highlighted text changes (Highlight Tracking):
   highlight=False
 Values: on=''True'', off=''False''
 ==== Review ====
-Configurations for the review mode are done in section ''[review]''.
+Configurations for the review mode are in the section ''[review]''.
 
-If "next word/ char" or "prev word/char" create an linebreak announce it.
+If "next word/ char" or "prev word/char" create a linebreak, announce it:
   lineBreak=True
 Values: on=''True'', off=''False''
 
-If "next word/ char" or "prev word/char" can not be done because you reached the end of the screen announce it.
+If "next word/ char" or "prev word/char" cannot be performed because you reached the end of the screen, announce it:
   endOfScreen=True
 Values: on=''True'', off=''False''
   
-Leave the review mode when pressing a key
+Leave the review mode when pressing a key:
   leaveReviewOnKeypress=False
 Values: on=''True'', off=''False''
 
-Leave the review mode when changing the screen (From TTY3 to TTY4)
+Leave the review mode when changing the screen (From TTY3 to TTY4):
   leaveReviewOnScreenChange=True
 Values: on=''True'', off=''False''
 ==== Promote ====
-"Promoted Lists" are configured in section ''[promote]''.
+"Promoted Lists" are configured in the section ''[promote]''.
 Turn Promoted Lists" on or off:
   enabled=True
 Values: on=''True'', off=''False''
 
-The minimum time interval for inactivity that activates promoting.
-By default it promotes after 120 Seconds inactivity.
+The minimum time interval of inactivity to activate promoting.
+By default it promotes after 120 Seconds inactivity:
   inactiveTimeoutSec=120
 Values: in Seconds  
 
-Define the list of promoted words comma seperated.
+Define a list of promoted words comma seperated:
   list=
 Values: text (comma seperated)
-Example to promote the word "nickname" or an bash prompt:
+Example to promote the word "nickname" or a bash prompt:
   list=nickname,$:,#:
   
 ==== Time ====
-The automated time announcement is configured in section ''[time]''.
+The automated time announcement is configured in the section ''[time]''.
 Time announcement is disabled by default.
 Turn time announcement on or off:
   enabled=True
@@ -1190,20 +1228,20 @@ Should the date be announced (just on date change):
   presentDate=True
 Values: on=''True'', off=''False''
 
-Announce after a given period of seconds
+Announce after a given period of seconds:
   delaySec=0
 Value: in Seconds, 0 = Deactivated  
 
-Announce after to fix minutes in an hour. if delaySec is >0 onMinutes is ignored.
+Announce after to fix minutes in an hour. if delaySec is >0 onMinutes is ignored:
   onMinutes=00,30
 Example every 15 minutes: 
   onMinutes=00,15,30,45
 
-Just play an soundicon (not interrupting)
+Just play a soundicon, (not interrupting):
   announce=True
 Values: on=''True'', off=''False''  
 
-Interrupt current speech for time announcement
+Interrupt current speech for time announcement:
   interrupt=False
 Values: on=''True'', off=''False''
 ====== Customization ======
@@ -1213,11 +1251,24 @@ The script key is the applications key. Usually this key can be found on the key
 When you name a script, the key name appears in the script seperated by the sequence __-__. So, for example, if you have a python weather script you want assigned to the script key plus the letter w you would name the script /usr/share/fenrir/scripts/weather__-__key_w.py
 Then, to access the script, simply press the script key and the letter w.
 Scripts must be executable. So, make sure to chmod 755 your script when you place it in the scripts directory.
+The script gets some parameter from fenrir when it is executed. So that information is available in your script then.
+
+==== Parameterlist ====
+^Parameter ^Content ^
+|$1|Username of the current logged in user|
+
+==== Examples ====
+Script that just speaks the current username when pressing ScriptKey + H.\\
+File: ''/usr/share/fenrir/scripts/helloWorld__-__key_h.sh'':
+  #!/bin/bash
+  echo $1
+
+
 ===== Commands =====
 You can place your own commands in "/usr/share/fenrir/commands" (path is configurable in settings.conf).
-Commands are python files with an special scheme. You can assign them to an shortcut using the filename without extension or place them in an hook trigger like OnInput or OnScreenChange. For deeper information see developer guide.
+Commands are python files with a special scheme. You can assign them to a shortcut using the filename without an extension or place them in a hook trigger like OnInput or OnScreenChange. For further information see developer guide.
 Good Examples: [[https://github.com/chrys87/fenrir/blob/master/src/fenrir/commands/commands/date.py|"date.py"]] (announce the Date), [[https://github.com/chrys87/fenrir/blob/master/src/fenrir/commands/commands/shut_up.py|"shut_up.py"]] (interrupt output)
-the basic scheme for an command is the following:
+the basic scheme for a command is as follows:
 
   from core import debug
   
@@ -1235,23 +1286,28 @@ the basic scheme for an command is the following:
       def setCallback(self, callback):
           pass
 
-  * [[https://github.com/chrys87/fenrir/blob/master/src/fenrir/commands/command_template.py|Template is here]]
+  * [[https://github.com/chrys87/fenrir/blob/master/src/fenrir/commands/command_template.py|Template lives here]]
   * The class needs to have the name "command".
-  * "initialize" is running once while loading the command.
-  * "shutdown" is running on unload the command (like quit fenrir)
-  * "getDescriptsion" just returns an string. That Sting is used in Tutorial Mode.
-  * "run" is executed when the command is invoked. (shortcut is pressed, or trigger is running)
+  * "initialize" is running once whilst loading the command.
+  * "shutdown" is running on unload like the command (quit fenrir)
+  * "getDescriptsion" just returns an string. That String is used in Tutorial Mode.
+  * "run" is executed when the command is invoked. (shortcut is pressed, or trigger isn't running)
   * setCAllback is currently not used. and has no functionality yet.
 
 
-====== Trouble Shooting ======
+====== Troubleshooting ======
 Fenrir does not start
-  - Did you installed all dependencys
-  - Try master, i changed many things for make it compatible to more systems
-Fenrir does not consume the shortcuts
-  - make sure you have python3-evdev installed
-  - use latest Fenrir version
+  - Have you installed all the dependencies [[#Support and Requirements|Support and Requirements]]
+  - Try using master, a lot of changes take place there to make Fenrir compatible with more systems
+Fenrir does not utilize the shortcuts
+  - Make sure you have python3-evdev installed
+  - Use the latest Fenrir version
 No Sound:
-  - run script to configure pulse for Fenrir ''tools/configure_pulse.sh'' (once as user and once as root, then restart)
+  - Run the scripts to configure pulse.  found in: ''tools/configure_pulse.sh'' (once as your user and once as root. Then restart Fenrir)
   - use ALSA
-  - configure pulse systemwide
+  - Configure Pulse systemwide
+No Speech: 
+  - Run the scripts to configure pulse.  found in: ''tools/configure_pulse.sh'' (once as your user and once as root. Then restart Fenrir)
+  - use ALSA
+  - Configure Pulse systemwide
+  - if you are using speech-dispatcher run "spd-conf" as user and as root once.

@@ -39,7 +39,7 @@ class inputManager():
                     self.env['input']['currInput'].remove(mEvent['EventName'])
                     if len(self.env['input']['currInput']) > 1:
                         self.env['input']['currInput'] = sorted(self.env['input']['currInput'])
-                    if len(self.env['input']['currInput']) == 0:
+                    elif len(self.env['input']['currInput']) == 0:
                         self.env['input']['prevDeepestInput'] = []
                         self.env['input']['shortcutRepeat'] = 1 
                     self.setLedState = self.handleLedStates(mEvent)                                             
@@ -141,13 +141,6 @@ class inputManager():
             eventName = 'KEY_SCRIPT'            
         return eventName
 
-    def isConsumeInput(self):
-        return self.env['runtime']['commandManager'].isCommandQueued() and \
-          not self.env['input']['keyForeward']
-        #and
-        #  not (self.env['input']['keyForeward'] or \
-        #  self.env['runtime']['settingsManager'].getSettingAsBool(, 'keyboard', 'grabDevices'))
- 
     def clearEventBuffer(self):
         self.env['runtime']['inputDriver'].clearEventBuffer()
           
@@ -155,24 +148,15 @@ class inputManager():
         try:
             if self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
                 self.env['runtime']['inputDriver'].writeEventBuffer()
-                time.sleep(0.008)
             self.clearEventBuffer()
-            if len(self.env['input']['currInput']) == 1:              
-                if self.env['input']['currInput'][0] in ['KEY_UP','KEY_DOWN']:              
-                    time.sleep(0.08) # hack for tintin history because it needs more time
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut("Error while writeUInput",debug.debugLevel.ERROR)
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)
 
-    def isFenrirKeyPressed(self):
-        return 'KEY_FENRIR' in self.env['input']['prevDeepestInput']
-    
-    def isScriptKeyPressed(self):
-        return 'KEY_SCRIPT' in self.env['input']['prevDeepestInput']
-
     def noKeyPressed(self):
         return self.env['input']['currInput'] == []
-        
+    def isKeyPress(self):
+        return (self.env['input']['prevInput'] == []) and (self.env['input']['currInput'] != [])
     def getPrevDeepestInput(self):
         shortcut = []
         shortcut.append(self.env['input']['shortcutRepeat'])
@@ -185,10 +169,13 @@ class inputManager():
         shortcut.append(self.env['input']['prevInput'])
         return str(shortcut)
 
-    def getCurrShortcut(self):
+    def getCurrShortcut(self, inputSequence = None):
         shortcut = []
         shortcut.append(self.env['input']['shortcutRepeat'])
-        shortcut.append(self.env['input']['currInput'])
+        if inputSequence:
+            shortcut.append(inputSequence)
+        else:        
+            shortcut.append(self.env['input']['currInput'])
         if len(self.env['input']['prevInput']) < len(self.env['input']['currInput']):
             if self.env['input']['shortcutRepeat'] > 1  and not self.shortcutExists(str(shortcut)):
                 shortcut = []
@@ -198,10 +185,17 @@ class inputManager():
         self.env['runtime']['debug'].writeDebugOut("currShortcut " + str(shortcut) ,debug.debugLevel.INFO)                      
         return str(shortcut)
         
+    def currKeyIsModifier(self):
+        if len(self.env['input']['prevDeepestInput']) != 1:
+            return False
+        return (self.env['input']['currInput'][0] =='KEY_FENRIR') or (self.env['input']['currInput'][0] == 'KEY_SCRIPT')
+    
     def isFenrirKey(self, eventName):
         return eventName in self.env['input']['fenrirKey']
+    
     def isScriptKey(self, eventName):
         return eventName in self.env['input']['scriptKey']
+    
     def getCommandForShortcut(self, shortcut):
         if not self.shortcutExists(shortcut):
             return '' 

@@ -6,13 +6,14 @@ This software is licensed under the LGPL v3 .
 # Requirements (core)
 - linux (currently only screen and input drivers available for that)
 - python3 >= 3.3
--	python-configargparse
+- python-configargparse
 - screen, input, speech, sound or braille drivers see "Features, Drivers, Extras".
 
 # Features, Drivers, Extras, Dependencys
 # Input Drivers:
 1. "evdevDriver" input driver for linux evdev
   - python-evdev >=0.6.3
+  - python-pyudev
 - This is commonly referred to as python3-evdev by your distribution
   - loaded uinput kernel module
   - ReadWrite permission 

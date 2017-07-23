@@ -79,6 +79,12 @@ try:
 except:
     print('python3-evdev: FAIL')
     available = available and False    
+try:
+    import pyudev
+    print('python3-pyudev: OK')
+except:
+    print('python3-pyudev: FAIL')
+    available = available and False     
 if available:
     currentInstallation.append('evdevDriver')
 # SOUND

@@ -3,23 +3,42 @@
 
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
+#attrib:
+#http://rampex.ihep.su/Linux/linux_howto/html/tutorials/mini/Colour-ls-6.html
+#0 = black, 1 = blue, 2 = green, 3 = cyan, 4 = red, 5 = purple, 6 = brown/yellow, 7 = white. 
+#https://github.com/jwilk/vcsapeek/blob/master/linuxvt.py
+#blink = 5 if attr & 1 else 0
+#bold = 1 if attr & 16 else 0
+
 
 import difflib
 import re
 import subprocess
-import fcntl
+import glob, os
 import termios
 import time
+import select
 import dbus
-from core import debug
+import fcntl
+from array import array
+import errno
+import sys
 from utils import screen_utils
+from fcntl import ioctl
+from struct import unpack_from, unpack, pack
+from core import debug
+from core.eventData import fenrirEventType
+
 
 class driver():
     def __init__(self):
         self.vcsaDevicePath = '/dev/vcsa'
         self.ListSessions = None
+        self.charmap = {}
+        self.hichar = None        
     def initialize(self, environment):
         self.env = environment
+        self.env['runtime']['eventManager'].addCustomEventThread(self.updateWatchdog)        
     def shutdown(self):
         pass
     def getCurrScreen(self):
@@ -92,9 +111,126 @@ class driver():
                         self.env['general']['currUser'] = session[2]                                                                
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('getSessionInformation: Maybe no LoginD:' + str(e),debug.debugLevel.ERROR)               
-            self.env['screen']['autoIgnoreScreens'] = []           
+            self.env['screen']['autoIgnoreScreens'] = []     
+        self.env['runtime']['debug'].writeDebugOut('getSessionInformation:'  + str(self.env['screen']['autoIgnoreScreens']) + ' ' + str(self.env['general'])  ,debug.debugLevel.INFO)                           
+ 
+    def updateWatchdog(self,active , eventQueue):
+        try:
+            vcsa = {}
+            vcsaDevices = glob.glob('/dev/vcsa*')
+            for vcsaDev in vcsaDevices:
+                index = vcsaDev[9:]
+                vcsa[str(index)] = open(vcsaDev,'rb')
 
+            tty = open('/sys/devices/virtual/tty/tty0/active','r')
+            currScreen = str(tty.read()[3:-1])
+            oldScreen = currScreen
+            watchdog = select.epoll()
+            watchdog.register(vcsa[currScreen], select.EPOLLPRI)
+            watchdog.register(tty, select.EPOLLPRI)
+            lastScreenContent = b''
+            while active.value == 1:
+                changes = watchdog.poll(2)
+                for change in changes:
+                    fileno = change[0]
+                    event = change[1]
+                    if fileno == tty.fileno():
+                        self.env['runtime']['debug'].writeDebugOut('ScreenChange',debug.debugLevel.INFO)                             
+                        tty.seek(0)
+                        currScreen = str(tty.read()[3:-1])        
+                        if currScreen != oldScreen:
+                            try:
+                                watchdog.unregister(vcsa[ oldScreen ])              
+                            except:
+                                pass
+                            try:
+                                watchdog.register(vcsa[ currScreen ], select.EPOLLPRI)   
+                            except:
+                                pass
+                            oldScreen = currScreen
+                            eventQueue.put({"Type":fenrirEventType.ScreenChanged,"Data":''})  
+                            try:
+                                vcsa[currScreen].seek(0)                        
+                                lastScreenContent = vcsa[currScreen].read() 
+                            except:
+                                lastScreenContent = b'' 
+                    else:
+                        self.env['runtime']['debug'].writeDebugOut('ScreenUpdate',debug.debugLevel.INFO)                                                 
+                        vcsa[currScreen].seek(0)
+                        screenContent = vcsa[currScreen].read()
+                        if screenContent != lastScreenContent:
+                            eventQueue.put({"Type":fenrirEventType.ScreenUpdate,"Data":''})
+                            lastScreenContent = screenContent              
+        except Exception as e:
+            self.env['runtime']['debug'].writeDebugOut('VCSA:updateWatchdog:' + str(e),debug.debugLevel.ERROR)         
+
+    def updateCharMap(self, screen):
+        tty = open('/dev/tty' + screen, 'rb')
+        GIO_UNIMAP = 0x4B66
+        VT_GETHIFONTMASK = 0x560D
+        himask = array("H", (0,))
+        ioctl(tty, VT_GETHIFONTMASK, himask)
+        self.hichar, = unpack_from("@H", himask)
+        sz = 512
+        line = ''
+        while True:
+            try:
+                unipairs = array("H", [0]*(2*sz))
+                unimapdesc = array("B", pack("@HP", sz, unipairs.buffer_info()[0]))
+                ioctl(tty.fileno(), GIO_UNIMAP, unimapdesc)
+                break
+            except IOError as e:
+                if e.errno != errno.ENOMEM:
+                    raise
+                sz *= 2
+        tty.close()
+        ncodes, = unpack_from("@H", unimapdesc)
+        utable = unpack_from("@%dH" % (2*ncodes), unipairs)
+        for u, b in zip(utable[::2], utable[1::2]):
+            if self.charmap.get(b) is None:
+                self.charmap[b] = chr(u)
+
+    def autoDecodeVCSA(self, allData, rows, cols):
+        allText = ''
+        allAttrib = b''
+        i = 0        
+        for y in range(rows):
+            lineText = ''
+            lineAttrib = b''
+            for x in range(cols):
+                data = allData[i: i + 2]
+                i += 2            
+                if data == b' \x07':
+                    #attr = 7
+                    #ink = 7
+                    #paper = 0
+                    #ch = ' '
+                    lineAttrib += b'7'             
+                    lineText += ' '
+                    continue
+                (sh,) = unpack("=H", data)
+                attr = (sh >> 8) & 0xFF
+                ch = sh & 0xFF
+                if self.hichar == 0x100:
+                    attr >>= 1
+                lineAttrib += bytes(attr)
+                ink = attr & 0x0F
+                paper = (attr>>4) & 0x0F
+                #if (ink != 7) or (paper != 0):
+                #    print(ink,paper)
+                if sh & self.hichar:
+                    ch |= 0x100
+                try:
+                    lineText += self.charmap[ch]            
+                except KeyError:
+                    lineText += chr('?')
+            allText += lineText + '\n'
+            allAttrib += lineAttrib
+        return str(allText), allAttrib
+        
     def update(self, trigger='onUpdate'):
+        if trigger == 'onInput': # no need for an update on input for VCSA
+            return
         newContentBytes = b''       
         try:
             # read screen
@@ -124,10 +260,17 @@ class driver():
         self.env['screen']['newCursor']['x'] = int( self.env['screen']['newContentBytes'][2])
         self.env['screen']['newCursor']['y'] = int( self.env['screen']['newContentBytes'][3])
         # analyze content
-        self.env['screen']['newContentText'] = self.env['screen']['newContentBytes'][4:][::2].decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
-        self.env['screen']['newContentText'] = screen_utils.removeNonprintable(self.env['screen']['newContentText'])
-        self.env['screen']['newContentAttrib'] = self.env['screen']['newContentBytes'][5:][::2]
-        self.env['screen']['newContentText'] = screen_utils.insertNewlines(self.env['screen']['newContentText'], self.env['screen']['columns'])
+
+        if screenEncoding.upper() == 'AUTO':
+            self.updateCharMap(str(self.env['screen']['newTTY'])) 
+            self.env['screen']['newContentText'], \
+              self.env['screen']['newContentAttrib'] =\
+              self.autoDecodeVCSA(self.env['screen']['newContentBytes'][4:], self.env['screen']['lines'], self.env['screen']['columns'])
+        else:             
+            self.env['screen']['newContentText'] = self.env['screen']['newContentBytes'][4:][::2].decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
+            self.env['screen']['newContentText'] = screen_utils.removeNonprintable(self.env['screen']['newContentText'])
+            self.env['screen']['newContentAttrib'] = self.env['screen']['newContentBytes'][5:][::2]
+            self.env['screen']['newContentText'] = screen_utils.insertNewlines(self.env['screen']['newContentText'], self.env['screen']['columns'])
 
         if self.env['screen']['newTTY'] != self.env['screen']['oldTTY']:
             self.env['screen']['oldContentBytes'] = b''

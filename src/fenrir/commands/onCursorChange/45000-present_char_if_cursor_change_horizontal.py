@@ -21,9 +21,7 @@ class command():
         if not self.env['runtime']['settingsManager'].getSettingAsBool('focus', 'cursor'):
             return        
         if self.env['runtime']['screenManager'].isScreenChange():
-            return            
-        if self.env['runtime']['inputManager'].noKeyPressed():
-            return            
+            return                 
         # detect an change on the screen, we just want to cursor arround, so no change should appear
         if self.env['runtime']['screenManager'].isDelta():
             return
