@@ -25,6 +25,7 @@ This software is licensed under the LGPL v3 .
   - python-dbus
   - Read permission to the following files and services:
     - /sys/devices/virtual/tty/tty0/active
+    - /dev/tty[1-64]
     - /dev/vcsa[1-64]
     - read systemd DBUS
 
