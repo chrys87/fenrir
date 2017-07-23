@@ -59,6 +59,7 @@ class driver():
     def plugInputDeviceWatchdogUdev(self,active , eventQueue):
         context = pyudev.Context()
         monitor = pyudev.Monitor.from_netlink(context)
+        monitor.filter_by(subsystem='input')        
         monitor.start()
         while active:
             devices = monitor.poll(2)
@@ -84,14 +85,12 @@ class driver():
         while self.watchDog.value == 0:  
             if active.value == 0:
                 return
-            time.sleep(0.001)                                                                                         
         r = []
         while r == []:
             r, w, x = select(deviceFd, [], [], 2)                     
         self.watchDog.value = 0
     def getInputEvent(self):
         if not self.hasIDevices():
-            time.sleep(0.008) # dont flood CPU        
             self.watchDog.value = 1
             return None
         event = None
@@ -148,7 +147,7 @@ class driver():
             return    
         uDevice.write_event(event)
         uDevice.syn()  
-        time.sleep(0.01)
+        time.sleep(0.0001)
 
     def updateInputDevices(self, force = False, init = False):
         if init:
@@ -252,6 +251,9 @@ class driver():
             self.grabDevice(fd)
 
     def grabDevice(self, fd):
+        if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
+            self.uDevices[fd] = None
+            return
         try:        
             self.uDevices[fd] = UInput.from_device(self.iDevices[fd].fn)
         except Exception as e:
