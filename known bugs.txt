@@ -12,7 +12,3 @@ Glitches (improve diff results):
 - whole status line in irssi is spoken insteed of just the changes
 - whole status line in vim is spoken insteed of just the changes
 
-Test:
-- cyrillic (Done (Autoencode), needs testing)
-- commands are sometimes fired twice (keypress and key release)
-- keys sometimes get stuck
