@@ -4,7 +4,18 @@ Things with not so deep knowledge needed are marekd wiht "(Easy for contribution
 General:  
 - implement onScreenUpdate commands
   read highlighted text mode
-- Migrate *Data.py to classes and use getter/setter  
+
+- Migrate *Data.py to classes and use getter/setter  (Easy for contribution)
+  commandsData.py
+  eventData.py  
+  generalData.py
+  inputData.py
+  outputData.py
+  punctuationData.py
+  runtimeData.py
+  screenData.py
+  settingsData -> defaultSettings.py
+
 - try to make it more asynchronus with multpible threads
 - be more event based (vcsa sets POLLPRI)
   http://scotdoyle.com/python-epoll-howto.html
@@ -23,9 +34,11 @@ General:
   - screen
   - input
   - new device
+
 - implement commands
   attributes_curr_char (Easy for contribution)
   https://github.com/jwilk/vcsapeek/blob/master/linuxvt.py
+
 - generic list or see Tutorial mode list (convert clipboard management) (Easy for contribution)
     next item
     pref item
@@ -56,14 +69,18 @@ Driver:
   https://docs.python.org/3.2/library/pty.html
   http://sqizit.bartletts.id.au/2011/02/14/pseudo-terminals-in-python/
   https://blog.konpat.me/pythons-pseudo-terminal-pty-examples/
+
 - implement PTY Input driver  
+
 - ATK input driver (don't grab on graphical interface)
 https://git.linux-a11y.org/AIT/pyatspi2/src/master/examples/keypress.py
+
 - Dectalk SpeechDriver
 https://github.com/tvraman/emacspeak/blob/master/servers/obsolete/python/dectalk.py
 
 Settings:
 - write settings (Easy for contribution)
+
 - menue for settings configuration (Easy for contribution)
 
 Application Profiles
