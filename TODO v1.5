@@ -20,23 +20,35 @@ Fix Bugs:
 - HilightTracking is broken for autoencoding
 
 -----------DONE----------------
+- Doku: Write a user wiki 
+  https://wiki.linux-a11y.org/doku.php?id=fenrir_user_manual&s[]=fenrir
+  
 - initial working setup.py
+
 - leave review on typing 
+
 - add dependency check (check-dependencys.py)
+
 - Add nice dummy drivers as template or for debugging
+
 - reimplement detection code for X11
+
 - initial translate structure (manuelcortez Thanks!)  
   http://www.supernifty.org/blog/2011/09/16/python-localization-made-easy/
+  
 - add a configurable place where you can place own commands or overwrite existing commands without need to change default code
+
 - implement autodetection of plugged and unplugged input devices (python-pyudev) for evdev driver
   http://stackoverflow.com/questions/22678686/python-script-to-detect-hot-plug-event
   http://askubuntu.com/questions/508236/how-can-i-run-code-whenever-a-usb-device-is-unplugged-without-requiring-root
   https://www.mattfischer.com/blog/?p=182
+  
 - implement speechdriver generic (Easy for contribution)
+
 - try to autodetect encoding (Easy for contribution) (Prototype "charmapTTY" in play zone)
   https://stackoverflow.com/questions/6396659/how-do-you-get-the-encoding-of-the-terminal-from-within-a-python-script
     
-Braille Support:
+Braille Support (WIP):
   initial BrlTTY driver
   detect device size via driver
   output to braille device  
@@ -57,6 +69,7 @@ Braille Support:
     - review = priority to review
 
 - initial try to make it more asynchronus with multpible threads
+
 - be more event based (vcsa sets POLLPRI)
   http://scotdoyle.com/python-epoll-howto.html
   Needed events:
@@ -76,6 +89,6 @@ Braille Support:
   - new device
 
 Settings:
-- [X] configuration should be overwritable with parameter and alternative paths (Easy for contribution)
+- configuration should be overwritable with parameter and alternative paths (Easy for contribution)
 Tutorial Mode:
-- [X] navigate through a list of bound commands. speak binding and description.
+- navigate through a list of bound commands. speak binding and description.
