@@ -13,24 +13,12 @@ General:
   screenData.py
   settingsData -> defaultSettings.py
 
-- try to make it more asynchronus with multpible threads
-- be more event based (vcsa sets POLLPRI)
-  http://scotdoyle.com/python-epoll-howto.html
-  Needed events:
-  screen update (vcsa sets POLLPRI)
-  plug input device (udev event)
-  screen changed (logind event, collides with screen update)
-  keyboard input (select, wait forever)
-  braille input (brlapi_readKey)
-  braille flush (timer, sleep)
-  Each event is watched in an own thread. This improves performance and reduce the load.
-  The event loop is to be done as "queue" since those are thread safe.
-  The threads are reading incomming data and add the events and data to the queue
-  the mainloop just reads the queue in an blocking way and executes the needed codepath with the data.
-  clean up the code for the events so that just the correct codepath is used:
-  - screen
-  - input
-  - new device
+Fix Bugs:
+- device detection is broken
+- arrow up/down announcement is broken
+- let drivers choos between threads and process
+- HilightTracking is broken for autoencoding
+
 -----------DONE----------------
 - initial working setup.py
 - leave review on typing 
@@ -67,6 +55,25 @@ Braille Support:
   follow cursor while typing  
   brailleFocusMode:
     - review = priority to review
+
+- initial try to make it more asynchronus with multpible threads
+- be more event based (vcsa sets POLLPRI)
+  http://scotdoyle.com/python-epoll-howto.html
+  Needed events:
+  screen update (vcsa sets POLLPRI)
+  plug input device (udev event)
+  screen changed (logind event, collides with screen update)
+  keyboard input (select, wait forever)
+  braille input (brlapi_readKey)
+  braille flush (timer, sleep)
+  Each event is watched in an own thread. This improves performance and reduce the load.
+  The event loop is to be done as "queue" since those are thread safe.
+  The threads are reading incomming data and add the events and data to the queue
+  the mainloop just reads the queue in an blocking way and executes the needed codepath with the data.
+  clean up the code for the events so that just the correct codepath is used:
+  - screen
+  - input
+  - new device
 
 Settings:
 - [X] configuration should be overwritable with parameter and alternative paths (Easy for contribution)
