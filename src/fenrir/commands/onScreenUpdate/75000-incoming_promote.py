@@ -22,8 +22,6 @@ class command():
             return
         if self.env['runtime']['settingsManager'].getSetting('promote', 'list').strip(" \t\n") == '':
             return
-        if len(self.env['screen']['newDelta']) <= 2:
-            return
         if int(time.time() - self.env['input']['lastInputTime']) < self.env['runtime']['settingsManager'].getSettingAsInt('promote', 'inactiveTimeoutSec'):
             return
         if len(self.env['runtime']['settingsManager'].getSetting('promote', 'list')) == 0:

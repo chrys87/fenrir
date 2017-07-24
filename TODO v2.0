@@ -1,10 +1,22 @@
 ToDo list for Fenrir Version 2.0 
 Things with not so deep knowledge needed are marekd wiht "(Easy for contribution)". so just start with that :).
 
-General:  
-- implement onScreenUpdate commands
-  read highlighted text mode
+Cleanups:
+- split oldValues := newValues out to helper function (Easy for contribution)
+  - split it out
+  - use it in evdev driver
+- Migrate *Data.py to classes and use getter/setter (Easy for contribution)
+  commandsData.py
+  eventData.py  
+  generalData.py
+  inputData.py
+  outputData.py
+  punctuationData.py
+  runtimeData.py
+  screenData.py
+  settingsData -> defaultSettings.py
 
+General:  
 - implement commands
   attributes_curr_char (Easy for contribution)
   https://github.com/jwilk/vcsapeek/blob/master/linuxvt.py
@@ -45,7 +57,7 @@ Driver:
 - ATK input driver (don't grab on graphical interface)
 https://git.linux-a11y.org/AIT/pyatspi2/src/master/examples/keypress.py
 
-- Dectalk SpeechDriver  (Easy for contribution, device needed - i dont own one)
+- Dectalk SpeechDriver (Easy for contribution, device needed - i dont own one)
 https://github.com/tvraman/emacspeak/blob/master/servers/obsolete/python/dectalk.py
 
 Settings:

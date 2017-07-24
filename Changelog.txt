@@ -1,3 +1,60 @@
+# Version 1.5
+- Doku: Write a user wiki 
+  https://wiki.linux-a11y.org/doku.php?id=fenrir_user_manual&s[]=fenrir
+  
+- initial working setup.py
+
+- leave review on typing 
+
+- add dependency check (check-dependencys.py)
+
+- Add nice dummy drivers as template or for debugging
+
+- reimplement detection code for X11
+
+- initial translate structure (manuelcortez Thanks!)  
+
+- add a configurable place where you can place own commands or overwrite existing commands without need to change default code
+
+- implement autodetection of plugged and unplugged input devices 
+
+- implement speechdriver generic
+
+- try to autodetect encoding (Easy for contribution) (Prototype "charmapTTY" in play zone)
+
+Braille Support (WIP):
+  - initial BrlTTY driver
+  - detect device size via driver
+  - output to braille device  
+  - make flushMode configurable
+  - make flushTimeout configurable
+  - flush message after X seconds and show current line (review over text)
+  - tweak current commands and output
+  - command flush_braille
+  - command for scroll left
+  - command for scroll right  
+  - create offset for scrolling
+  - respect scrolling
+  make cursor following configurable (brailleCursorTrackingMode)
+    - cell
+    - page  
+  follow cursor while typing  
+  brailleFocusMode:
+    - review = priority to review
+
+- move to an event based system
+
+- add initial multithreading/ multiprocessing support
+
+- support cli parameters
+  - add cli parameter for debugging "-d"
+  - add cli parameter to overwrite options "-o"
+  - add cli parameter to specify an settings.conf "-s"
+
+- list of bound commands in Tutorial Mode. speak name, binding and description.
+
+# Version: 1.00
+
 - move from VCS to VCSA and parese the Attributes
 http://linux.die.net/man/4/vcsa
 http://man.cx/vcsa(4)/de
