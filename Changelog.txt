@@ -1,3 +1,7 @@
+# Version 1.5
+
+# Version: 1.00
+
 - move from VCS to VCSA and parese the Attributes
 http://linux.die.net/man/4/vcsa
 http://man.cx/vcsa(4)/de
