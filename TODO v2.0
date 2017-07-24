@@ -2,8 +2,16 @@ ToDo list for Fenrir Version 2.0
 Things with not so deep knowledge needed are marekd wiht "(Easy for contribution)". so just start with that :).
 
 General:  
-- implement onScreenUpdate commands
-  read highlighted text mode
+- Migrate *Data.py to classes and use getter/setter  (Easy for contribution)
+  commandsData.py
+  eventData.py  
+  generalData.py
+  inputData.py
+  outputData.py
+  punctuationData.py
+  runtimeData.py
+  screenData.py
+  settingsData -> defaultSettings.py
 
 - implement commands
   attributes_curr_char (Easy for contribution)
