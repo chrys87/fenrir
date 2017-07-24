@@ -8,41 +8,48 @@ from core import debug
 
 class driver():
     def __init__(self):
-        pass
+        self.printMessages = False
 
     def initialize(self, environment):
         self.env = environment
         self._isInitialized = True
         self.deviceSize = (40,0)
-        print('BrailleDummyDriver: Initialize')
+        if self.printMessages:
+            print('BrailleDummyDriver: Initialize')
         
 
     def getDeviceSize(self):
         if not self._isInitialized:
             return (0,0)
-        print('BrailleDummyDriver: getDeviceSize ' + str(self.deviceSize))
+        if self.printMessages:
+            print('BrailleDummyDriver: getDeviceSize ' + str(self.deviceSize))
         return self.deviceSize
 
     def writeText(self,text):
         if not self._isInitialized:
             return
-        print('BrailleDummyDriver: writeText:' + str(text))
-        print('BrailleDummyDriver: -----------------------------------')
+        if self.printMessages:
+            print('BrailleDummyDriver: writeText:' + str(text))
+            print('BrailleDummyDriver: -----------------------------------')
 
     def connectDevice(self):
-        print('BrailleDummyDriver: connectDevice')
+        if self.printMessages:
+            print('BrailleDummyDriver: connectDevice')
 
     def enterScreen(self, screen):
         if not self._isInitialized:
             return
-        print('BrailleDummyDriver: enterScreen')
+        if self.printMessages:
+            print('BrailleDummyDriver: enterScreen')
 
     def leveScreen(self):
         if not self._isInitialized:
             return
-        print('BrailleDummyDriver: leveScreen')
+        if self.printMessages:
+            print('BrailleDummyDriver: leveScreen')
 
     def shutdown(self):
         if not self._isInitialized:
             return
-        print('BrailleDummyDriver: Shutdown')
+        if self.printMessages:
+            print('BrailleDummyDriver: Shutdown')
