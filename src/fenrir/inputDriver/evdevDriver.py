@@ -147,7 +147,7 @@ class driver():
             return    
         uDevice.write_event(event)
         uDevice.syn()  
-        time.sleep(0.0001)
+        time.sleep(0.00001)
 
     def updateInputDevices(self, force = False, init = False):
         if init:
