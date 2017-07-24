@@ -101,7 +101,6 @@ class fenrirManager():
             
     def handleScreenUpdate(self, event):
         #startTime = time.time()
-
         self.environment['runtime']['screenManager'].update('onUpdate')
         '''
         if self.environment['runtime']['applicationManager'].isApplicationChange():
