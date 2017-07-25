@@ -23,6 +23,6 @@ def main():
 if __name__ == "__main__":
     # for debug in foreground
     #daemon = Daemonize(app="fenrir-daemon", pid=pidFile, action=main, foreground=True,chdir=os.path.dirname(os.path.realpath(fenrirVersion.__file__)))
-    daemon = Daemonize(app="fenrir-daemon", pid=pidFile, action=main, chdir=os.path.dirname(os.path.realpath(fenrirVersion.__file__)))
+    daemon = Daemonize(app="fenrir-daemon", pid=pidFile, action=main, chdir=fenrirPath)
     daemon.start()
 
