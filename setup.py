@@ -1,9 +1,34 @@
 #!/bin/python
 #https://python-packaging.readthedocs.io/en/latest/minimal.html
-import os
+import os, glob
 from setuptools import find_packages
 from setuptools import setup
 fenrirVersion = '1.5'
+
+data_files = []
+directories = glob.glob('config/*')
+for directory in directories:
+    files = glob.glob(directory+'/*') 
+    destDir = ''
+    if 'config/punctuation' in directory :
+        destDir = '/etc/fenrir/punctuation'
+    elif 'config/keyboard' in directory:
+        destDir = '/etc/fenrir/keyboard'
+    elif 'config/settings' in directory:
+        destDir = '/etc/fenrir/settings'
+    elif 'config/scripts' in directory:
+        destDir = '/usr/share/fenrir/scripts' 
+    elif 'config/sound' in directory:
+        if "default-wav" in directory:
+            destDir = '/usr/share/sounds/fenrir/default-wav'
+        elif "default" in directory:
+            destDir = '/usr/share/sounds/fenrir/default'            
+        elif "template" in directory:
+            destDir = '/usr/share/sounds/fenrir/template'
+    if destDir != '':
+        data_files.append((destDir, files))
+ data_files.append(('/usr/lib/systemd/system/', 'autostart/systemd/fenrir.service'))
+
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
@@ -38,6 +63,8 @@ setup(
     # Include additional files into the package
     include_package_data=True,
     zip_safe=False,
+
+    data_files=data_files,
     
     # Dependent packages (distributions)
     install_requires=[
@@ -45,6 +72,7 @@ setup(
         "sox",
         "dbus-python",
         "pyenchant",
+        "pyudev",
         "setuptools",
     ],
     
