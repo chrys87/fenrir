@@ -6,11 +6,10 @@ from setuptools import setup
 fenrirVersion = '1.5'
 
 data_files = []
-directories = glob.glob('config/*/*')
+directories = glob.glob('config/*')
 for directory in directories:
-    files = glob.glob(directory+'/*')
-    print(directory)
-    destDir = '/etc/fenrir'
+    files = glob.glob(directory+'/*') 
+    destDir = ''
     if 'config/punctuation' in directory :
         destDir = '/etc/fenrir/punctuation'
     elif 'config/keyboard' in directory:
@@ -26,7 +25,8 @@ for directory in directories:
             destDir = '/usr/share/sounds/fenrir/default'            
         elif "template" in directory:
             destDir = '/usr/share/sounds/fenrir/template'
-    data_files.append((destDir, files))
+    if destDir != '':
+        data_files.append((destDir, files))
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
