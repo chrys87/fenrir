@@ -38,6 +38,10 @@ setup(
     # Include additional files into the package
     include_package_data=True,
     zip_safe=False,
+
+    data_files=[('/etc/fenrir', ['config/*]),
+              
+    ],    
     
     # Dependent packages (distributions)
     install_requires=[
