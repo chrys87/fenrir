@@ -28,7 +28,10 @@ for directory in directories:
     if destDir != '':
         data_files.append((destDir, files))
 
-data_files.append(('/usr/lib/systemd/system/', ['autostart/systemd/fenrir.service']))
+files = glob.glob('tools/*') 
+data_files.append(('/usr/share/fenrir/tools', files))
+data_files.append(('/usr/lib/systemd/system', ['autostart/systemd/fenrir.service']))
+
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
