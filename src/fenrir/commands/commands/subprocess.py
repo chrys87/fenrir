@@ -37,13 +37,10 @@ class command():
             p = Popen(callstring , stdout=PIPE, stderr=PIPE, shell=True)
             stdout, stderr = p.communicate()
             self.env['runtime']['outputManager'].interruptOutput()
-            screenEncoding = self.env['runtime']['settingsManager'].getSetting('screen', 'encoding')
-            stderr = stderr.decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
-            stdout = stdout.decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
             if stderr != '':
-                self.env['runtime']['outputManager'].presentText(stdout , soundIcon='', interrupt=False)
+                self.env['runtime']['outputManager'].presentText(str(stdout) , soundIcon='', interrupt=False)
             if stdout != '':
-                self.env['runtime']['outputManager'].presentText(stdout , soundIcon='', interrupt=False)
+                self.env['runtime']['outputManager'].presentText(str(stdout) , soundIcon='', interrupt=False)
         except Exception as e:
                 self.env['runtime']['outputManager'].presentText(e , soundIcon='', interrupt=False)
         
