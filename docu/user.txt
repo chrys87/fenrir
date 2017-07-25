@@ -88,6 +88,7 @@ Evdev is the low level input device framework for Linux.
 Dependency's:
  
   * Python-evdev >=0.6.3
+  * pyudev
   * loaded uinput kernel module
   * exclusive access to the input devices
 Read permission to the following files and services:
@@ -109,7 +110,8 @@ Dependency's:
   * Python-dbus
 Read permission to the following files and services:
   * /sys/devices/virtual/tty/tty0/active
-  * /dev/vcsa[1-64] ([[https://linux.die.net/man/4/vcsa|VCSA manpage]])
+  * /dev/tty[1 - 64] 
+  * /dev/vcsa[1 - 64] ([[https://linux.die.net/man/4/vcsa|VCSA manpage]])
   * read Systemd DBUS
  
 ===== Braille Drivers =====
