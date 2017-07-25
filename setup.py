@@ -6,7 +6,7 @@ from setuptools import setup
 fenrirVersion = '1.5'
 
 data_files = []
-directories = glob.glob('config/*')
+directories = glob.glob('config/*/*')
 for directory in directories:
     files = glob.glob(directory+'/*')
     destDir = '/etc/fenrir'
@@ -17,7 +17,7 @@ for directory in directories:
     if directory == 'config/settings':
         destDir = '/etc/fenrir/settings'
     elif directory == 'config/scripts':
-        destDir = '/usr/share/fenrir/scripts/' 
+        destDir = '/usr/share/fenrir/scripts' 
     elif directory == 'config/sound':
         destDir = '/usr/share/sounds/fenrir'  
     data_files.append((destDir, files))
