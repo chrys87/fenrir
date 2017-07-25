@@ -4,11 +4,11 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-import os, sys
-import fenrirVersion
+import os, sys, inspect
+fenrirPath = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))) 
 
-if not os.path.dirname(os.path.realpath(fenrirVersion.__file__)) in sys.path:
-    sys.path.append(os.path.dirname(os.path.realpath(fenrirVersion.__file__)))
+if not fenrirPath in sys.path:
+sys.path.append(fenrirPath)
 
 from core import fenrirManager
 from daemonize import Daemonize
