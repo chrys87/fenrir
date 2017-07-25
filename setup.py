@@ -14,7 +14,7 @@ for directory in directories:
         destDir = '/etc/fenrir/punctuation'
     elif directory == 'config/keyboard':
         destDir = '/etc/fenrir/keyboard'
-    if directory == 'config/settings':
+    elif directory == 'config/settings':
         destDir = '/etc/fenrir/settings'
     elif directory == 'config/scripts':
         destDir = '/usr/share/fenrir/scripts' 
