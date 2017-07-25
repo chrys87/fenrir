@@ -89,7 +89,7 @@ class commandManager():
             self.env['runtime']['debug'].writeDebugOut("scriptpath not readable:" + scriptPath ,debug.debugLevel.ERROR)                                    
             return         
         commandList = glob.glob(scriptPath+'*')
-        subCommand = os.path.dirname(os.path.realpath(fenrirVersion.__file__)) + '/commands/commands/subprocess.py'
+        subCommand = fenrirPath + '/commands/commands/subprocess.py'
         for command in commandList:
             invalid = False
             try:
