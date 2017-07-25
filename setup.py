@@ -28,7 +28,7 @@ for directory in directories:
     if destDir != '':
         data_files.append((destDir, files))
 
-data_files.append(('/usr/lib/systemd/system/', 'autostart/systemd/fenrir.service'))
+data_files.append(('/usr/lib/systemd/system/', ['autostart/systemd/fenrir.service']))
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
