@@ -43,7 +43,8 @@ setup(
     install_requires=[
         "evdev",
         "sox",
-        'setuptools',
+        "dbus-python",
+        "setuptools",
     ],
     
 )
