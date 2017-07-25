@@ -1,9 +1,27 @@
 #!/bin/python
 #https://python-packaging.readthedocs.io/en/latest/minimal.html
-import os
+import os, glob
 from setuptools import find_packages
 from setuptools import setup
 fenrirVersion = '1.5'
+
+data_files = []
+directories = glob.glob('config/*')
+for directory in directories:
+    files = glob.glob(directory+'/*')
+    destDir = '/etc/fenrir'
+    if directory == 'config/punctuation':
+        destDir = '/etc/fenrir/punctuation'
+    elif directory == 'config/keyboard':
+        destDir = '/etc/fenrir/keyboard'
+    if directory == 'config/settings':
+        destDir = '/etc/fenrir/settings'
+    elif directory == 'config/scripts':
+        destDir = '/usr/share/fenrir/scripts/' 
+    elif directory == 'config/sound':
+        destDir = '/usr/share/sounds/fenrir'  
+    data_files.append((destDir, files))
+
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
@@ -39,7 +57,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
 
-    data_files=[('/etc/fenrir', ['config/*']),
+    data_files=data_files,
               
     ],    
     
