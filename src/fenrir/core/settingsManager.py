@@ -4,9 +4,11 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-import os
+import os, inspect
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+fenrirPath = os.path.dirname(currentdir)
+
 from configparser import ConfigParser
-from . import fenrirVersion
 from core import eventManager
 from core import inputManager
 from core import outputManager
@@ -30,7 +32,7 @@ class settingsManager():
         self.env = environment
     def shutdown(self):
         pass
-    def loadShortcuts(self, kbConfigPath=os.path.dirname(os.path.realpath(fenrirVersion.__file__)) + '/../../config/keyboard/desktop.conf'):
+    def loadShortcuts(self, kbConfigPath=fenrirPath + '/../../config/keyboard/desktop.conf'):
         kbConfig = open(kbConfigPath,"r")
         while(True):
             invalid = False
