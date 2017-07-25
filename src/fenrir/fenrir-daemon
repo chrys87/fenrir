@@ -8,7 +8,7 @@ import os, sys, inspect
 fenrirPath = os.path.dirname(os.path.realpath(os.path.abspath(inspect.getfile(inspect.currentframe()))))
 
 if not fenrirPath in sys.path:
-sys.path.append(fenrirPath)
+    sys.path.append(fenrirPath)
 
 from core import fenrirManager
 from daemonize import Daemonize
