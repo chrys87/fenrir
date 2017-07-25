@@ -18,7 +18,7 @@ for directory in directories:
         destDir = '/etc/fenrir/settings'
     elif directory == 'config/scripts':
         destDir = '/usr/share/fenrir/scripts' 
-    elif directory == 'config/sound':
+    elif 'config/sound' in directory:
         destDir = '/usr/share/sounds/fenrir'  
     data_files.append((destDir, files))
 
