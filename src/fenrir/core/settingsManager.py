@@ -4,8 +4,10 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-import os
-import fenrirVersion
+import os, inspect
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+fenrirPath = os.path.dirname(currentdir)
+
 from configparser import ConfigParser
 from core import eventManager
 from core import inputManager
@@ -30,7 +32,7 @@ class settingsManager():
         self.env = environment
     def shutdown(self):
         pass
-    def loadShortcuts(self, kbConfigPath=os.path.dirname(os.path.realpath(fenrirVersion.__file__)) + '/../../config/keyboard/desktop.conf'):
+    def loadShortcuts(self, kbConfigPath=fenrirPath + '/../../config/keyboard/desktop.conf'):
         kbConfig = open(kbConfigPath,"r")
         while(True):
             invalid = False
@@ -106,7 +108,7 @@ class settingsManager():
     def isValidKey(self, key):
         return key in inputData.keyNames
     
-    def loadDicts(self, dictConfigPath=os.path.dirname(os.path.realpath(fenrirVersion.__file__)) + '/../../config/punctuation/default.conf'):
+    def loadDicts(self, dictConfigPath=fenrirPath + '/../../config/punctuation/default.conf'):
         dictConfig = open(dictConfigPath,"r")
         currDictName = ''
         while(True):
@@ -204,7 +206,7 @@ class settingsManager():
             if self.env['runtime'][driverType] != None:
                 self.env['runtime'][driverType].shutdown(self.env)    
             driver_mod = module_utils.importModule(driverName,
-              os.path.dirname(os.path.realpath(fenrirVersion.__file__)) + "/" + driverType + '/' + driverName + '.py')
+              fenrirPath + "/" + driverType + '/' + driverName + '.py')
             self.env['runtime'][driverType] = driver_mod.driver()
             self.env['runtime'][driverType].initialize(self.env)
             self.env['runtime']['debug'].writeDebugOut('Loading Driver '  + driverType + ' (' + driverName +") OK",debug.debugLevel.INFO, onAnyLevel=True)             
@@ -257,8 +259,8 @@ class settingsManager():
         environment['runtime']['debug'].initialize(environment)
         # get fenrir settings root
         if not os.path.exists(settingsRoot):
-            if os.path.exists(os.path.dirname(os.path.realpath(fenrirVersion.__file__)) +'/../../config/'):
-                settingsRoot = os.path.dirname(os.path.realpath(fenrirVersion.__file__)) +'/../../config/'
+            if os.path.exists(fenrirPath +'/../../config/'):
+                settingsRoot = fenrirPath +'/../../config/'
             else:
                 return None
         # get settings file
@@ -269,8 +271,8 @@ class settingsManager():
                 return None            
         # get sound themes root
         if not os.path.exists(soundRoot):
-            if os.path.exists(os.path.dirname(os.path.realpath(fenrirVersion.__file__)) +'/../../config/sound/'):
-                soundRoot = os.path.dirname(os.path.realpath(fenrirVersion.__file__)) +'/../../config/sound/'
+            if os.path.exists(fenrirPath +' /../../config/sound/'):
+                soundRoot = fenrirPath + '/../../config/sound/'
 
         environment['runtime']['settingsManager'] = self 
         environment['runtime']['settingsManager'].initialize(environment)

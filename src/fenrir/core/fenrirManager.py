@@ -5,10 +5,6 @@
 # By Chrys, Storm Dragon, and contributers.
 
 import os, sys, signal, time
-import fenrirVersion
-
-if not os.path.dirname(os.path.realpath(fenrirVersion.__file__)) in sys.path:
-    sys.path.append(os.path.dirname(os.path.realpath(fenrirVersion.__file__)))
 
 from core import i18n
 from core import settingsManager
@@ -170,11 +166,3 @@ class fenrirManager():
                 self.environment['runtime'][currManager].shutdown()                      
                 del self.environment['runtime'][currManager]
         self.environment = None
-
-def main():
-    app = fenrir()
-    app.proceed()
-    del app
-
-if __name__ == "__main__":
-    main()        

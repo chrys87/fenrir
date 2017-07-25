@@ -75,3 +75,7 @@ By default it uses:
 - speech driver: speechdDriver
 - braille driver: brlttyDriver (WIP)
 - input driver: evdevDriver
+
+# Documentation
+You can see all information in the wiki:
+https://wiki.linux-a11y.org/doku.php?id=fenrir_user_manual&s[]=fenrir
