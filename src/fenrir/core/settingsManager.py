@@ -5,7 +5,7 @@
 # By Chrys, Storm Dragon, and contributers.
 
 import os, inspect
-currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+currentdir = os.path.dirname(os.path.realpath(os.path.abspath(inspect.getfile(inspect.currentframe()))))
 fenrirPath = os.path.dirname(currentdir)
 
 from configparser import ConfigParser
