@@ -9,14 +9,15 @@ data_files = []
 directories = glob.glob('config/*/*')
 for directory in directories:
     files = glob.glob(directory+'/*')
+    print(directory)
     destDir = '/etc/fenrir'
-    if directory == 'config/punctuation':
+    if 'config/punctuation' in directory :
         destDir = '/etc/fenrir/punctuation'
-    elif directory == 'config/keyboard':
+    elif 'config/keyboard' in directory:
         destDir = '/etc/fenrir/keyboard'
-    elif directory == 'config/settings':
+    elif 'config/settings' in directory:
         destDir = '/etc/fenrir/settings'
-    elif directory == 'config/scripts':
+    elif 'config/scripts' in directory:
         destDir = '/usr/share/fenrir/scripts' 
     elif 'config/sound' in directory:
         if "default-wav" in directory:
