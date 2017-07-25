@@ -44,7 +44,6 @@ setup(
         "evdev",
         "sox",
         'setuptools',
-        'dbus-python',
     ],
     
 )
