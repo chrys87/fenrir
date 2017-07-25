@@ -5,8 +5,8 @@
 # By Chrys, Storm Dragon, and contributers.
 
 import os
-import fenrirVersion
 from configparser import ConfigParser
+from . import fenrirVersion
 from core import eventManager
 from core import inputManager
 from core import outputManager
