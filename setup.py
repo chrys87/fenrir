@@ -11,36 +11,37 @@ setup(
     name="fenrir",
     # Version number (initial):
     version="1.5a",
-
+    # description
+    description="An TTY Screen Reader For Linux.",
+    long_description=read('README.md'),
+    keywords='screenreader a11y accessibility terminal console',        
+    license="License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    url="https://github.com/chrys87/fenrir/",
+    classifiers=[
+        "Programming Language :: Python",        
+        "Development Status :: 5 - Production/Stable",
+		"Topic :: Multimedia :: Sound/Audio :: Speech",
+        "Environment :: Console",        
+    ],
+    
     # Application author details:
     author="Chrys, storm_dragon, Jeremiah and others",
-    author_email="christian.hempfling@linux-a11y.org",
+    author_email="chrysg@linux-a11y.org",
 
     # Packages
     packages=find_packages('src/fenrir'),
     package_dir={'': 'src/fenrir'},
     scripts=['src/fenrir/fenrir','src/fenrir/fenrir-daemon'],
-    #entry_points = {
-    #    "console_scripts": ['fenrir = fenrir:main']
-    #    },
 
     # Include additional files into the package
     include_package_data=True,
-
-    # Details
-    url="https://github.com/chrys87/fenrir/",
     zip_safe=False,
-    #
-    # license="MIT",
-     description="An TTY  Screen Reader For Linux.",
-    long_description=read('README.md'),
-    classifiers=[
-        "Development Status :: 3 - Alpha",
-],
+    
     # Dependent packages (distributions)
     install_requires=[
         "evdev",
-        "sox"
+        "sox",
+        'setuptools',
     ],
     
 )
