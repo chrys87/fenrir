@@ -45,6 +45,7 @@ setup(
         "sox",
         "dbus-python",
         "pyenchant",
+        "pyudev",
         "setuptools",
     ],
     
