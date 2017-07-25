@@ -19,7 +19,12 @@ for directory in directories:
     elif directory == 'config/scripts':
         destDir = '/usr/share/fenrir/scripts' 
     elif 'config/sound' in directory:
-        destDir = '/usr/share/sounds/fenrir'  
+        if "default-wav" in directory:
+            destDir = '/usr/share/sounds/fenrir/default-wav'
+        elif "default" in directory:
+            destDir = '/usr/share/sounds/fenrir/default'            
+        elif "template" in directory:
+            destDir = '/usr/share/sounds/fenrir/template'
     data_files.append((destDir, files))
 
 def read(fname):
