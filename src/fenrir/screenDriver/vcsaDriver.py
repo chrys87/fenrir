@@ -165,7 +165,12 @@ class driver():
             self.env['runtime']['debug'].writeDebugOut('VCSA:updateWatchdog:' + str(e),debug.debugLevel.ERROR)         
 
     def updateCharMap(self, screen):
-        tty = open('/dev/tty' + screen, 'rb')
+        self.charmap = {}
+        try:
+            tty = open('/dev/tty' + screen, 'rb')
+        except Exception as e:
+            self.env['runtime']['debug'].writeDebugOut('VCSA:updateCharMap:' + str(e),debug.debugLevel.ERROR)   
+            return        
         GIO_UNIMAP = 0x4B66
         VT_GETHIFONTMASK = 0x560D
         himask = array("H", (0,))
@@ -179,9 +184,10 @@ class driver():
                 unimapdesc = array("B", pack("@HP", sz, unipairs.buffer_info()[0]))
                 ioctl(tty.fileno(), GIO_UNIMAP, unimapdesc)
                 break
-            except IOError as e:
-                if e.errno != errno.ENOMEM:
-                    raise
+            except Exception as e:
+                tty.close()                
+                self.env['runtime']['debug'].writeDebugOut('VCSA:updateCharMap:' + str(e),debug.debugLevel.ERROR)   
+                return
                 sz *= 2
         tty.close()
         ncodes, = unpack_from("@H", unimapdesc)
