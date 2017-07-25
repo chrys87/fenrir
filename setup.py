@@ -18,17 +18,22 @@ for directory in directories:
         destDir = '/etc/fenrir/settings'
     elif 'config/scripts' in directory:
         destDir = '/usr/share/fenrir/scripts' 
-    elif 'config/sound' in directory:
-        if "default-wav" in directory:
-            destDir = '/usr/share/sounds/fenrir/default-wav'
-        elif "default" in directory:
-            destDir = '/usr/share/sounds/fenrir/default'            
-        elif "template" in directory:
-            destDir = '/usr/share/sounds/fenrir/template'
     if destDir != '':
         data_files.append((destDir, files))
 
-data_files.append(('/usr/lib/systemd/system/', ['autostart/systemd/fenrir.service']))
+files = glob.glob('config/sound/default-wav/*')         
+destDir = '/usr/share/sounds/fenrir/default-wav'
+data_files.append((destDir, files))        
+files = glob.glob('config/sound/default/*')                 
+destDir = '/usr/share/sounds/fenrir/default'            
+data_files.append((destDir, files))
+files = glob.glob('config/sound//template/*')                 
+destDir = '/usr/share/sounds/fenrir/template'
+data_files.append((destDir, files))
+files = glob.glob('tools/*') 
+data_files.append(('/usr/share/fenrir/tools', files))
+data_files.append(('/usr/lib/systemd/system', ['autostart/systemd/fenrir.service']))
+
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
