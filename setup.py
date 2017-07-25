@@ -15,7 +15,7 @@ setup(
     # description
     description="An TTY Screen Reader For Linux.",
     long_description=read('README.md'),
-    keywords='screenreader a11y accessibility terminal console',        
+    keywords=['screenreader', 'a11y', 'accessibility', 'terminal', 'TTY', 'console'],        
     license="License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
     url="https://github.com/chrys87/fenrir/",
     download_url = 'https://github.com/chrys87/fenrir/archive/' + fenrirVersion + '.tar.gz',	
