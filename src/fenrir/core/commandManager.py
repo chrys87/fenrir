@@ -4,8 +4,9 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-import glob, os, time
-from . import fenrirVersion
+import glob, os, time, inspect
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+fenrirPath = os.path.dirname(currentdir)
 from core import debug
 from utils import module_utils
 
@@ -32,7 +33,7 @@ class commandManager():
         
     def loadCommands(self, section='commands',commandPath=''):
         if commandPath =='':
-            commandPath = os.path.dirname(os.path.realpath(fenrirVersion.__file__))+ "/commands/"
+            commandPath = fenrirPath+ "/commands/"
         if not commandPath.endswith('/'):
             commandPath += '/'        
         commandFolder = commandPath + section +"/"
@@ -76,8 +77,8 @@ class commandManager():
         if not scriptPath.endswith('/'):
             scriptPath += '/'
         if not os.path.exists(scriptPath):
-            if os.path.exists(os.path.dirname(os.path.realpath(fenrirVersion.__file__)) +'/../../config/scripts/'):
-                scriptPath = os.path.dirname(os.path.realpath(fenrirVersion.__file__)) +'/../../config/scripts/'            
+            if os.path.exists(fenrirPath) +'/../../config/scripts/'):
+                scriptPath = fenrirPath +'/../../config/scripts/'            
             else:
                 self.env['runtime']['debug'].writeDebugOut("scriptpath not exists:" + scriptPath ,debug.debugLevel.WARNING)                            
                 return   
