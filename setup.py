@@ -58,8 +58,6 @@ setup(
     zip_safe=False,
 
     data_files=data_files,
-              
-    ],    
     
     # Dependent packages (distributions)
     install_requires=[
