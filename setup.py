@@ -3,6 +3,7 @@
 import os
 from setuptools import find_packages
 from setuptools import setup
+fenrirVersion = '1.5'
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
@@ -10,17 +11,18 @@ setup(
     # Application name:
     name="fenrir",
     # Version number (initial):
-    version="1.5a",
+    version=fenrirVersion,
     # description
     description="An TTY Screen Reader For Linux.",
     long_description=read('README.md'),
     keywords='screenreader a11y accessibility terminal console',        
     license="License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
     url="https://github.com/chrys87/fenrir/",
+    download_url = 'https://github.com/chrys87/fenrir/archive/' + fenrirVersion + '.tar.gz',	
     classifiers=[
         "Programming Language :: Python",        
         "Development Status :: 5 - Production/Stable",
-		"Topic :: Multimedia :: Sound/Audio :: Speech",
+        "Topic :: Multimedia :: Sound/Audio :: Speech",
         "Environment :: Console",        
     ],
     
