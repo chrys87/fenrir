@@ -7,6 +7,7 @@
 import glob, os, time, inspect
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 fenrirPath = os.path.dirname(currentdir)
+
 from core import debug
 from utils import module_utils
 
@@ -77,7 +78,7 @@ class commandManager():
         if not scriptPath.endswith('/'):
             scriptPath += '/'
         if not os.path.exists(scriptPath):
-            if os.path.exists(fenrirPath) +'/../../config/scripts/'):
+            if os.path.exists(fenrirPath +'/../../config/scripts/'):
                 scriptPath = fenrirPath +'/../../config/scripts/'            
             else:
                 self.env['runtime']['debug'].writeDebugOut("scriptpath not exists:" + scriptPath ,debug.debugLevel.WARNING)                            
