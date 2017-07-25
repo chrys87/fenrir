@@ -5,7 +5,7 @@
 # By Chrys, Storm Dragon, and contributers.
 
 import glob, os, time
-import fenrirVersion
+from . import fenrirVersion
 from core import debug
 from utils import module_utils
 
