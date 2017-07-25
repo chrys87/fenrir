@@ -39,7 +39,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
 
-    data_files=[('/etc/fenrir', ['config/*]),
+    data_files=[('/etc/fenrir', ['config/*']),
               
     ],    
     
