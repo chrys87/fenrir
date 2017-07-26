@@ -271,7 +271,7 @@ class settingsManager():
                 return None            
         # get sound themes root
         if not os.path.exists(soundRoot):
-            if os.path.exists(fenrirPath +' /../../config/sound/'):
+            if os.path.exists(fenrirPath + '/../../config/sound/'):
                 soundRoot = fenrirPath + '/../../config/sound/'
 
         environment['runtime']['settingsManager'] = self 
