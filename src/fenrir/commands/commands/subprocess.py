@@ -36,9 +36,11 @@ class command():
             callstring = self.scriptPath + ' ' + self.env['general']['currUser']
             p = Popen(callstring , stdout=PIPE, stderr=PIPE, shell=True)
             stdout, stderr = p.communicate()
+            stdout = stdout.decode('utf-8')
+            stderr = stderr.decode('utf-8')
             self.env['runtime']['outputManager'].interruptOutput()
             if stderr != '':
-                self.env['runtime']['outputManager'].presentText(str(stdout) , soundIcon='', interrupt=False)
+                self.env['runtime']['outputManager'].presentText(str(stderr) , soundIcon='', interrupt=False)
             if stdout != '':
                 self.env['runtime']['outputManager'].presentText(str(stdout) , soundIcon='', interrupt=False)
         except Exception as e:
