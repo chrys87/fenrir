@@ -94,7 +94,7 @@ class fenrirManager():
               self.environment['runtime']['applicationManager'].getCurrentApplication())          
         '''        
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenChanged')             
-            
+        self.environment['runtime']['screenManager'].update('onScreenChange')            
     def handleScreenUpdate(self, event):
         #startTime = time.time()
         self.environment['runtime']['screenManager'].update('onUpdate')
