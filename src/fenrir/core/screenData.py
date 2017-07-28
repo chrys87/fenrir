@@ -35,3 +35,21 @@ screenData = {
 'lastScreenUpdate': time.time(),
 'autoIgnoreScreens':[],
 }
+'''
+screenData = {
+'columns': 0,
+'lines': 0,
+'textDelta': '',
+'negativeDelta': '',
+'attribDelta': '',
+'reviewCursor':None, #{'x':0,'y':0}
+'attribCursor':None, #{'x':0,'y':0}
+'textCursor':None, #{'x':0,'y':0}
+'content': None, #{'x':0,'y':0}
+'Text': '',
+'Attrib': None,
+'screen': None,
+'application': '',
+'timestano': time.time(),
+}
+'''
