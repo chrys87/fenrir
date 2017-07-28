@@ -50,6 +50,6 @@ screenData = {
 'Attrib': None,
 'screen': None,
 'application': '',
-'timestano': time.time(),
+'timestamp': time.time(),
 }
 '''
