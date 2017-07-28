@@ -33,7 +33,6 @@ def trackHighlights(oldAttr, newAttr, text, lenght):
     new = splitEvery(newAttr,lenght)      
     textLines = text.split('\n')
     background = []
-    print(len(textLines),len(new),new)
     if len(textLines) != len(new):
         return result,  currCursor        
     try:
@@ -45,7 +44,6 @@ def trackHighlights(oldAttr, newAttr, text, lenght):
                 background.append(bgStat[1][0])
     except Exception as e:
         background.append((1,1,1,1))
-    print(background)
     for line in range(len(new)):
         if old[line] != new[line]:
             for column in range(len(new[line])):
