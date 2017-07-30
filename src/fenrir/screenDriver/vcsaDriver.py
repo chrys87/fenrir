@@ -198,11 +198,11 @@ class driver():
 
     def autoDecodeVCSA(self, allData, rows, cols):
         allText = ''
-        allAttrib = b''
+        allAttrib = []
         i = 0        
         for y in range(rows):
             lineText = ''
-            lineAttrib = b''
+            lineAttrib = []
             for x in range(cols):
                 data = allData[i: i + 2]
                 i += 2            
@@ -211,7 +211,7 @@ class driver():
                     #ink = 7
                     #paper = 0
                     #ch = ' '
-                    lineAttrib += b'7'             
+                    lineAttrib.append((7,7,0,0,0,0)) # attribute, ink, paper, blink, bold, underline
                     lineText += ' '
                     continue
                 (sh,) = unpack("=H", data)
@@ -219,7 +219,6 @@ class driver():
                 ch = sh & 0xFF
                 if self.hichar == 0x100:
                     attr >>= 1
-                lineAttrib += bytes(attr)
                 ink = attr & 0x0F
                 paper = (attr>>4) & 0x0F
                 #if (ink != 7) or (paper != 0):
@@ -230,6 +229,7 @@ class driver():
                     lineText += self.charmap[ch]            
                 except KeyError:
                     lineText += chr('?')
+                lineAttrib.append((attr,ink, paper,0,0,0)) # attribute, ink, paper, blink, bold, underline
             allText += lineText + '\n'
             allAttrib += lineAttrib
         return str(allText), allAttrib
@@ -280,7 +280,7 @@ class driver():
 
         if self.env['screen']['newTTY'] != self.env['screen']['oldTTY']:
             self.env['screen']['oldContentBytes'] = b''
-            self.env['screen']['oldContentAttrib'] = b''
+            self.env['screen']['oldContentAttrib'] = None
             self.env['screen']['oldContentText'] = ''
             self.env['screen']['oldCursor']['x'] = 0
             self.env['screen']['oldCursor']['y'] = 0
