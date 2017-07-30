@@ -7,7 +7,7 @@
 from core import debug
 from collections import Counter
 import string
-    
+
 def removeNonprintable(text):
     # Get the difference of all ASCII characters from the set of printable characters
     nonprintable = set([chr(i) for i in range(128)]).difference(string.printable)
@@ -17,8 +17,8 @@ def removeNonprintable(text):
 def insertNewlines(string, every=64):
     return '\n'.join(string[i:i+every] for i in range(0, len(string), every))
 
-def splitEvery(string, every=64):
-    return list(string[i:i+every] for i in range(0, len(string), every))
+def splitEvery(toSplit, every=64):
+    return list(toSplit[i:i+every] for i in range(0, len(toSplit), every))
 
 def trackHighlights(oldAttr, newAttr, text, lenght):
     result = ''
@@ -29,11 +29,13 @@ def trackHighlights(oldAttr, newAttr, text, lenght):
         return result,  currCursor
     if len(oldAttr) != len(newAttr):
         return result,  currCursor         
+        
     old = splitEvery(oldAttr,lenght)
     new = splitEvery(newAttr,lenght)      
     textLines = text.split('\n')
     background = []
-    if len(textLines) != len(new):
+
+    if len(textLines) - 1 != len(new):
         return result,  currCursor        
     try:
         bgStat = Counter(newAttr).most_common(3)
@@ -43,10 +45,11 @@ def trackHighlights(oldAttr, newAttr, text, lenght):
             if bgStat[1][1] > 40:
                 background.append(bgStat[1][0])
     except Exception as e:
-        background.append(chr(7))
+        background.append((7,7,0,0,0,0))
     for line in range(len(new)):
         if old[line] != new[line]:
             for column in range(len(new[line])):
+                print(new[line][column])
                 if old[line][column] != new[line][column]:
                     if not new[line][column] in background:
                         if not currCursor:
@@ -56,3 +59,11 @@ def trackHighlights(oldAttr, newAttr, text, lenght):
                         result += textLines[line][column]
             result += ' '
     return result, currCursor 
+
+'''
+t = 'hallo\nwelt!'
+old = ((1,1,0,0),(1,1,0,0),(1,1,0,0),(1,1,0,0),(1,1,0,0),(1,1,0,0),(1,1,0,0),(1,1,0,0),(1,1,0,0),(1,1,0,0))
+new = ((0,1,1,1),(1,1,1,1),(1,1,1,1),(1,1,1,1),(1,1,1,1),(1,1,0,0),(1,1,0,0),(1,1,0,0),(1,1,0,0),(1,1,0,0))
+
+trackHighlights(old,new,t,5)
+'''
