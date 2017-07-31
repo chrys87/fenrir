@@ -248,7 +248,6 @@ class driver():
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)   
             return
-        screenEncoding = self.env['runtime']['settingsManager'].getSetting('screen', 'encoding')
         # set new "old" values
         self.env['screen']['oldContentBytes'] = self.env['screen']['newContentBytes']
         self.env['screen']['oldContentText'] = self.env['screen']['newContentText']
@@ -265,18 +264,12 @@ class driver():
         self.env['screen']['columns'] = int( self.env['screen']['newContentBytes'][1])
         self.env['screen']['newCursor']['x'] = int( self.env['screen']['newContentBytes'][2])
         self.env['screen']['newCursor']['y'] = int( self.env['screen']['newContentBytes'][3])
-        # analyze content
 
-        if screenEncoding.upper() == 'AUTO':
-            self.updateCharMap(str(self.env['screen']['newTTY'])) 
-            self.env['screen']['newContentText'], \
-              self.env['screen']['newContentAttrib'] =\
-              self.autoDecodeVCSA(self.env['screen']['newContentBytes'][4:], self.env['screen']['lines'], self.env['screen']['columns'])
-        else:             
-            self.env['screen']['newContentText'] = self.env['screen']['newContentBytes'][4:][::2].decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
-            self.env['screen']['newContentText'] = screen_utils.removeNonprintable(self.env['screen']['newContentText'])
-            self.env['screen']['newContentAttrib'] = self.env['screen']['newContentBytes'][5:][::2]
-            self.env['screen']['newContentText'] = screen_utils.insertNewlines(self.env['screen']['newContentText'], self.env['screen']['columns'])
+        # analyze content
+        self.updateCharMap(str(self.env['screen']['newTTY'])) 
+        self.env['screen']['newContentText'], \
+          self.env['screen']['newContentAttrib'] =\
+          self.autoDecodeVCSA(self.env['screen']['newContentBytes'][4:], self.env['screen']['lines'], self.env['screen']['columns'])
 
         if self.env['screen']['newTTY'] != self.env['screen']['oldTTY']:
             self.env['screen']['oldContentBytes'] = b''
