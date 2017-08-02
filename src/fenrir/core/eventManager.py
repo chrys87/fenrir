@@ -61,7 +61,7 @@ class eventManager():
         elif event['Type'] == fenrirEventType.BrailleInput:
             pass            
         elif event['Type'] == fenrirEventType.PlugInputDevice:
-            pass            
+            self.env['runtime']['fenrirManager'].handlePlugInputDevice(event)
         elif event['Type'] == fenrirEventType.BrailleFlush:
             pass            
         elif event['Type'] == fenrirEventType.ScreenChanged:

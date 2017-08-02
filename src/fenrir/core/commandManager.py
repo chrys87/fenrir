@@ -163,9 +163,10 @@ class commandManager():
                 self.env['runtime']['debug'].writeDebugOut("Executing trigger:" + trigger + "." + newScript ,debug.debugLevel.ERROR)
                 self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)                 
 
-    def executeDefaultTrigger(self, trigger):
-        if self.env['runtime']['screenManager'].isSuspendingScreen():
-            return
+    def executeDefaultTrigger(self, trigger, force=False):
+        if not force:
+            if self.env['runtime']['screenManager'].isSuspendingScreen():
+                return
         for command in sorted(self.env['commands'][trigger]):
             if self.commandExists(command, trigger):        
                 try:

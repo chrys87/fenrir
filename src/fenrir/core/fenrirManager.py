@@ -113,10 +113,10 @@ class fenrirManager():
         #print('handleScreenUpdate:',time.time() - startTime)
     
     def handlePlugInputDevice(self, event):
-        self.environment['runtime']['commandManager'].executeDefaultTrigger('PlugInputDevice')   
+        self.environment['runtime']['commandManager'].executeDefaultTrigger('onPlugInputDevice', force=True)   
     
     def handleHeartBeat(self, event):
-        self.environment['runtime']['commandManager'].executeDefaultTrigger('onHeartBeat')  
+        self.environment['runtime']['commandManager'].executeDefaultTrigger('onHeartBeat',force=True)  
         #self.environment['runtime']['outputManager'].brailleText(flush=False)                        
     
     def detectCommand(self):    
