@@ -16,7 +16,6 @@ class command():
     def getDescription(self):
         return 'No description found'         
     def run(self):
-        if not self.env['runtime']['screenManager'].isSuspendingScreen(): # remove if all works
-            self.env['runtime']['inputManager'].updateInputDevices() 
+        self.env['runtime']['inputManager'].updateInputDevices() 
     def setCallback(self, callback):
         pass

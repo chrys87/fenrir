@@ -64,9 +64,6 @@ class driver():
         while active:
             devices = monitor.poll(2)
             if devices:
-                for device in devices:
-                    if not active:
-                        return
                 print('drin')                
                 eventQueue.put({"Type":fenrirEventType.PlugInputDevice,"Data":''})
 
@@ -80,28 +77,30 @@ class driver():
             return  
     def inputWatchdog(self,active , params):
         deviceFd = []
-        for fd in params['dev']:
-            deviceFd.append(fd)
+        print('WD:',params['dev'],self.watchDog.value == 0)        
         while self.watchDog.value == 0:  
             if active.value == 0:
                 return
         r = []
         while r == []:
+            deviceFd = list(params['dev'])       
             r, w, x = select(deviceFd, [], [], 2)                     
+            print('select',r, w, x)
         self.watchDog.value = 0
     def getInputEvent(self):
         if not self.hasIDevices():
             self.watchDog.value = 1
             return None
         event = None
-        r, w, x = select(self.iDevices, [], [], 0.0001)
+        r, w, x = select(self.iDevices, [], [], 0.00001)
+        print(self.iDevices,'read',r, w, x)
         if r != []:
             for fd in r:
                 try:
                     event = self.iDevices[fd].read_one()            
                 except:
                     self.removeDevice(fd)
-                    self.watchDog.value = 1                                                                                                         
+                    self.watchDog.value = 1   
                     return None
                 foreward = False
                 while(event):
@@ -153,7 +152,7 @@ class driver():
         if init:
             self.removeAllDevices()
         deviceFileList = evdev.list_devices()
-        if not force:
+        if not force and False:
             if len(deviceFileList) == self.iDeviceNo:
                 return
         mode = self.env['runtime']['settingsManager'].getSetting('keyboard', 'device').upper()
@@ -200,15 +199,15 @@ class driver():
                     self.env['runtime']['debug'].writeDebugOut('Device added (Name):' + self.iDevices[currDevice.fd].name,debug.debugLevel.INFO)                                                        
             except Exception as e:
                 self.env['runtime']['debug'].writeDebugOut("Skip Inputdevice : " + deviceFile +' ' + str(e),debug.debugLevel.ERROR)                
-        self.updateMPiDevicesFD()
         self.iDeviceNo = len(evdev.list_devices())
+        self.updateMPiDevicesFD()        
     def updateMPiDevicesFD(self):
         for fd in self.iDevices:
             if not fd in self.iDevicesFD:
                 self.iDevicesFD.append(fd)
         for fd in self.iDevicesFD:
             if not fd in self.iDevices:
-                self.iDevicesFD.remove(fd)            
+                self.iDevicesFD.remove(fd)  
     def mapEvent(self, event):
         if not self._initialized:
             return None    
