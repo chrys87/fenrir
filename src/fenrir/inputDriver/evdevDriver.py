@@ -64,7 +64,7 @@ class driver():
         while active.value == 1:
             devices = monitor.poll(2)
             if devices:
-                eventQueue.put({"Type":fenrirEventType.PlugInputDevice,"Data":''})
+                eventQueue.put({"Type":fenrirEventType.PlugInputDevice,"Data":None})
         return time.time()        
     def plugInputDeviceWatchdogTimer(self, active):
         time.sleep(2.5)
