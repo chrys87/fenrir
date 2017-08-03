@@ -52,10 +52,10 @@ class driver():
             return  
         self.updateInputDevices()
         if _udevAvailable:
-            self.env['runtime']['eventManager'].addCustomEventThread(self.plugInputDeviceWatchdogUdev)        
+            self.env['runtime']['processManager'].addCustomEventThread(self.plugInputDeviceWatchdogUdev)        
         else:
-            self.env['runtime']['eventManager'].addSimpleEventThread(fenrirEventType.PlugInputDevice, self.plugInputDeviceWatchdogTimer)                
-        self.env['runtime']['eventManager'].addSimpleEventThread(fenrirEventType.KeyboardInput, self.inputWatchdog, {'dev':self.iDevicesFD})
+            self.env['runtime']['processManager'].addSimpleEventThread(fenrirEventType.PlugInputDevice, self.plugInputDeviceWatchdogTimer)                
+        self.env['runtime']['processManager'].addSimpleEventThread(fenrirEventType.KeyboardInput, self.inputWatchdog, {'dev':self.iDevicesFD})
     def plugInputDeviceWatchdogUdev(self,active , eventQueue):
         context = pyudev.Context()
         monitor = pyudev.Monitor.from_netlink(context)
@@ -64,12 +64,11 @@ class driver():
         while active:
             devices = monitor.poll(2)
             if devices:
-                print('drin')                
                 eventQueue.put({"Type":fenrirEventType.PlugInputDevice,"Data":''})
 
         #self.env['runtime']['settingsManager'].getSettingAsFloat('screen', 'screenUpdateDelay')
         return time.time()        
-    def plugInputDeviceWatchdogTimer(self):
+    def plugInputDeviceWatchdogTimer(self, active):
         time.sleep(2.5)
         return time.time()    
     def shutdown(self):

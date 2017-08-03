@@ -38,7 +38,7 @@ class driver():
         self.hichar = None        
     def initialize(self, environment):
         self.env = environment
-        self.env['runtime']['eventManager'].addCustomEventThread(self.updateWatchdog)        
+        self.env['runtime']['processManager'].addCustomEventThread(self.updateWatchdog)        
     def shutdown(self):
         pass
     def getCurrScreen(self):

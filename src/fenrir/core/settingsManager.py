@@ -9,6 +9,7 @@ currentdir = os.path.dirname(os.path.realpath(os.path.abspath(inspect.getfile(in
 fenrirPath = os.path.dirname(currentdir)
 
 from configparser import ConfigParser
+from core import processManager
 from core import eventManager
 from core import inputManager
 from core import outputManager
@@ -318,9 +319,11 @@ class settingsManager():
             environment['runtime']['settingsManager'].loadDicts(self.getSetting('general','punctuationProfile'))
         
         if fenrirManager:
-            environment['runtime']['fenrirManager'] = fenrirManager
+            environment['runtime']['fenrirManager'] = fenrirManager         
         environment['runtime']['eventManager'] = eventManager.eventManager()
         environment['runtime']['eventManager'].initialize(environment)
+        environment['runtime']['processManager'] = processManager.processManager()
+        environment['runtime']['processManager'].initialize(environment)           
         environment['runtime']['inputManager'] = inputManager.inputManager()
         environment['runtime']['inputManager'].initialize(environment)             
         environment['runtime']['outputManager'] = outputManager.outputManager()
