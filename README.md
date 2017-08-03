@@ -27,7 +27,7 @@ This software is licensed under the LGPL v3 .
     - /sys/devices/virtual/tty/tty0/active
     - /dev/tty[1-64]
     - /dev/vcsa[1-64]
-    - read systemd DBUS
+    - read logind DBUS
 
 # Speech Drivers:
 1. "espeakDriver" speech driver for espeak:
