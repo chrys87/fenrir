@@ -8,9 +8,9 @@ from core import debug
 from core.eventData import fenrirEventType
 import time 
 from threading import Thread
-from multiprocessing import Process, Queue
-from multiprocessing.sharedctypes import Value
-from ctypes import c_bool
+from multiprocessing import Process
+#from multiprocessing.sharedctypes import Value
+#from ctypes import c_bool
 
 class processManager():
     def __init__(self):
