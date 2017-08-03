@@ -19,23 +19,22 @@ class processManager():
     def initialize(self, environment):
         self.env = environment 
         self.running = self.env['runtime']['eventManager'].getMainLoopRunning()
-        self.addSimpleEventThread(fenrirEventType.HeartBeat, self.heartBeatTimer, multiprocess=False)        
+        self.addSimpleEventThread(fenrirEventType.HeartBeat, self.heartBeatTimer, multiprocess=True)        
     def shutdown(self):
         self.terminateAllProcesses()
-    def heartBeatTimer(self, active):
-        try:
-            time.sleep(0.5)
-        except:
-            pass
-        return time.time()        
+        
     def terminateAllProcesses(self):
-        time.sleep(1)
         for proc in self._Processes:
             try:
                 proc.terminate()
             except Exception as e:
                 print(e)            
-                          
+    def heartBeatTimer(self, active):
+        try:
+            time.sleep(0.5)
+        except:
+            pass
+        return time.time()                          
     def addCustomEventThread(self, function, pargs = None, multiprocess = False, runOnce = False):      
         eventQueue = self.env['runtime']['eventManager'].getEventQueue()
         if multiprocess:        
@@ -50,7 +49,7 @@ class processManager():
         if multiprocess:
             t = Process(target=self.simpleEventWorkerThread, args=(event, function, pargs, runOnce))
             self._Processes.append(t)            
-        else:# thread not implemented yet
+        else:
             t = Thread(target=self.simpleEventWorkerThread, args=(event, function, pargs, runOnce))                    
             self._Threads.append(t)                        
         t.start()
@@ -67,7 +66,7 @@ class processManager():
                 else:
                     function(self.running, eventQueue)
             except Exception as e:
-                print(e)
+                self.env['runtime']['debug'].writeDebugOut('processManager:customEventWorkerThread:function():' + str(e),debug.debugLevel.ERROR) 
             if runOnce:
                 break
 

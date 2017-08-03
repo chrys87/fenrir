@@ -61,12 +61,10 @@ class driver():
         monitor = pyudev.Monitor.from_netlink(context)
         monitor.filter_by(subsystem='input')        
         monitor.start()
-        while active:
+        while active.value == 1:
             devices = monitor.poll(2)
             if devices:
                 eventQueue.put({"Type":fenrirEventType.PlugInputDevice,"Data":''})
-
-        #self.env['runtime']['settingsManager'].getSettingAsFloat('screen', 'screenUpdateDelay')
         return time.time()        
     def plugInputDeviceWatchdogTimer(self, active):
         time.sleep(2.5)
@@ -75,24 +73,26 @@ class driver():
         if not self._initialized:
             return  
     def inputWatchdog(self,active , params):
-        deviceFd = []
-        print('WD:',params['dev'],self.watchDog.value == 0)        
-        while self.watchDog.value == 0:  
-            if active.value == 0:
-                return
-        r = []
-        while r == []:
-            deviceFd = list(params['dev'])       
-            r, w, x = select(deviceFd, [], [], 2)                     
-            print('select',r, w, x)
-        self.watchDog.value = 0
+        try:        
+            deviceFd = []
+            while self.watchDog.value == 0:  
+                if active.value == 0:
+                    return
+            r = []
+            while r == []:
+                if active.value == 0:
+                    return        
+                deviceFd = list(params['dev'])       
+                r, w, x = select(deviceFd, [], [], 2)                     
+            self.watchDog.value = 0                    
+        except:
+            pass
     def getInputEvent(self):
         if not self.hasIDevices():
             self.watchDog.value = 1
             return None
         event = None
         r, w, x = select(self.iDevices, [], [], 0.00001)
-        print(self.iDevices,'read',r, w, x)
         if r != []:
             for fd in r:
                 try:
