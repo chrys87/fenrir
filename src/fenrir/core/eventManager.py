@@ -8,7 +8,7 @@ from core import debug
 from core.eventData import fenrirEventType
 from queue import Empty
 import time 
-from multiprocessing import Process, Queue
+from multiprocessing import Queue
 from multiprocessing.sharedctypes import Value
 from ctypes import c_bool
 
@@ -44,7 +44,8 @@ class eventManager():
         elif event['Type'] == fenrirEventType.BrailleInput:
             pass            
         elif event['Type'] == fenrirEventType.PlugInputDevice:
-            self.env['runtime']['fenrirManager'].handlePlugInputDevice(event)
+            #self.env['runtime']['fenrirManager'].handlePlugInputDevice(event)
+            pass
         elif event['Type'] == fenrirEventType.BrailleFlush:
             pass            
         elif event['Type'] == fenrirEventType.ScreenChanged:
