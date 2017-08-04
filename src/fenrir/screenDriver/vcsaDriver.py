@@ -159,7 +159,7 @@ class driver():
                         vcsa[currScreen].seek(0)
                         screenContent = vcsa[currScreen].read()
                         if screenContent != lastScreenContent:
-                            eventQueue.put({"Type":fenrirEventType.ScreenUpdate,"Data":''})
+                            eventQueue.put({"Type":fenrirEventType.ScreenUpdate,"Data":None})
                             lastScreenContent = screenContent              
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('VCSA:updateWatchdog:' + str(e),debug.debugLevel.ERROR)         
