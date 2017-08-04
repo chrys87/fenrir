@@ -16,7 +16,7 @@ class processManager():
         self._Threads = []       
     def initialize(self, environment):
         self.env = environment 
-        self.running = self.env['runtime']['eventManager'].getMainLoopRunning()
+        self.running = self.env['runtime']['eventManager'].getRunning()
         self.addSimpleEventThread(fenrirEventType.HeartBeat, self.heartBeatTimer, multiprocess=True)        
     def shutdown(self):
         self.terminateAllProcesses()
