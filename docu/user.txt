@@ -1304,28 +1304,28 @@ the basic scheme for a command is as follows:
 ===== Fenrir does not utilize the shortcuts =====
   - Make sure you have python3-evdev installed
   - Use the latest Fenrir version
-  - make sure that fenrir has permission to /dev/input/* and /dev/uinput (or run it as root)
-===== you get no sound at all =====
+  - Make sure that Fenrir has permission to /dev/input/* and /dev/uinput (or run it as root)
+===== No sound at all =====
   - Run the script to configure pulseaudio once as root and once as your user. This will setup pulseaudio but require a restart of pulseaudio. The script is located in ''tools/configure_pulse.sh''
-  - use ALSA
-  - [[https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/SystemWide/|Configure Pulse systemwide (Not recommented)]]
-  - try [[https://github.com/i-rinat/apulse|apulse]] (not tested). Please give me feedback if you try it out.
-  - use gstreamerDriver (change ''settings.conf'' in the section ''sound'' the line ''driver=genericDriver'' to ''driver=gstreamerDriver'')
-  - use wave soundicons (change ''settings.conf'' in the section ''sound'' the line ''theme=default'' to ''theme=default-wav'')
-  - use most current version of sox with opus support
-===== you get soundicons but no speech =====
-  - if you are using speech-dispatcher run "spd-conf" once as user and as root.
-  - you can test if speech-dispatcher works by invoke it as root\\  ''sudo spd-say "hello world"''
+  - Use ALSA
+  - [[https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/SystemWide/|Configure Pulse system wide]] (Not recommended)
+  - Use gstreamerDriver: change ''settings.conf'' in the section ''sound'' the line ''driver=genericDriver'' to ''driver=gstreamerDriver''
+  - Use wave sound-icons: change ''settings.conf'' in the section ''sound'' the line ''theme=default'' to ''theme=default-wav''
+  - Use most current version of [[http://sox.sourceforge.net/|sox]] with opus support
+  - Try [[https://github.com/i-rinat/apulse|apulse]] (not tested by myself but might work). Please give me feedback if you try it out.
+===== You get sound-icons but no speech =====
+  - If you are using speech-dispatcher run "spd-conf" once as user and as root.
+  - You can test if speech-dispatcher works by invoke it as root\\  ''sudo spd-say "hello world"''
 ===== Bugreports and feature requests =====
 Please report Bugs and feature requests to:
 [[https://github.com/chrys87/fenrir/issues|https://github.com/chrys87/fenrir/issues]]
 
 for bugs please provide a [[#Howto create a debug file|debug]] file that shows the issue.
-==== Howto create a debug file ====
-  - delete old stuff\\  ''sudo rm /var/log/fenrir.log''
-  - start fenrir in debug mode\\ ''sudo fenrir -d''
-  - do your stuff/ reproduce the problem
-  - stop fenrir (''fenrirKey + q'')
+==== How-to create a debug file ====
+  - Delete old debug stuff\\  ''sudo rm /var/log/fenrir.log''
+  - Start fenrir in debug mode\\ ''sudo fenrir -d''
+  - Do your stuff/ reproduce the problem
+  - Stop fenrir (''fenrirKey + q'')
 the debug file is located in ''/var/log/fenrir.log''
 
-plese be as precise as possible to make it easy to solve the problem.
+Please be as precise as possible to make it easy to solve the problem.
