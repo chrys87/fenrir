@@ -1,0 +1,15 @@
+Please report Bugs and feature requests to:
+https://github.com/chrys87/fenrir/issues
+
+for bugs please provide a debug file that shows the issue.
+Howto create a debug file:
+1. first delete old stuff:
+sudo rm /var/log/fenrir.log
+2. start fenrir in debug mode
+sudo fenrir -d
+<do your stuff>
+3. 
+stop fenrir (fenrirKey + q)
+the debug file is in /var/log/fenrir.log
+
+plese be as precise as possible to make it easy to solve the problem.
