@@ -9,6 +9,7 @@ currentdir = os.path.dirname(os.path.realpath(os.path.abspath(inspect.getfile(in
 fenrirPath = os.path.dirname(currentdir)
 
 from configparser import ConfigParser
+from core import debugManager
 from core import processManager
 from core import eventManager
 from core import inputManager
@@ -256,7 +257,7 @@ class settingsManager():
         settingsRoot = '/etc/fenrir/'
         settingsFile = cliArgs.setting
         soundRoot = '/usr/share/sounds/fenrir/'
-        environment['runtime']['debug'] = debug.debug()
+        environment['runtime']['debug'] = debugManager.debugManager()
         environment['runtime']['debug'].initialize(environment)
         # get fenrir settings root
         if not os.path.exists(settingsRoot):
@@ -285,8 +286,10 @@ class settingsManager():
         if cliArgs.options != '':
             self.parseSettingArgs(cliArgs.options)
         if cliArgs.debug:
-            self.setOptionArgDict('general', 'debugLevel', 3)        
-        
+            self.setOptionArgDict('general', 'debugLevel', 3)   
+        if cliArgs.print:
+            self.setOptionArgDict('general', 'debugLevel', 3)  
+            self.setOptionArgDict('general', 'debugMode', 'PRINT')                                               
         self.setFenrirKeys(self.getSetting('general','fenrirKeys'))
         self.setScriptKeys(self.getSetting('general','scriptKeys'))      
         

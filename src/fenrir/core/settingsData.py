@@ -54,6 +54,7 @@ settingsData = {
 },
 'general':{
   'debugLevel': debug.debugLevel.DEACTIVE,
+  'debugMode': 'FILE',
   'punctuationProfile':'default',
   'punctuationLevel': 'some',
   'respectPunctuationPause':True,

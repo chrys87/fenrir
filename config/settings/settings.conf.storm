@@ -42,7 +42,6 @@ fenrirMaxPitch=99
 fenrirMinRate=80
 fenrirMaxRate=890
 
-
 [braille]
 enabled=False
 driver=dummyDriver
@@ -99,6 +98,10 @@ doubleTapTimeout=0.2
 
 [general]
 debugLevel=1
+# debugMode sets where the debug output should send to:
+# debugMode=File writes to /var/log/fenrir.log
+# debugMode=Print just prints on the screen
+debugMode=File
 punctuationProfile=default
 punctuationLevel=some
 respectPunctuationPause=True
