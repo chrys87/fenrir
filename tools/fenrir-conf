@@ -132,9 +132,7 @@ layout=en
 
 [screen]
 driver=vcsa
-encoding=cp850
-screenUpdateDelay=0.05
-suspendingScreen=
+encoding=auto
 autodetectSuspendingScreen=True
 
 [keyboard]
@@ -161,6 +159,10 @@ doubleTapTimeout=0.2
 
 [general]
 debugLevel=0
+# debugMode sets where the debug output should send to:
+# debugMode=File writes to /var/log/fenrir.log
+# debugMode=Print just prints on the screen
+debugMode=File 
 punctuationProfile=default
 punctuationLevel=some
 respectPunctuationPause=True
