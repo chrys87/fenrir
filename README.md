@@ -9,7 +9,7 @@ This software is licensed under the LGPL v3 .
 - python-configargparse
 - screen, input, speech, sound or braille drivers see "Features, Drivers, Extras".
 
-# Features, Drivers, Extras, Dependencys
+# Features, Drivers, Extras, Dependencies
 # Input Drivers:
 1. "evdevDriver" input driver for linux evdev
   - python-evdev >=0.6.3
