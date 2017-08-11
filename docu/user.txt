@@ -1,4 +1,4 @@
- ====== Fenrir User Manual ======
+====== Fenrir User Manual ======
 
 Fenrir is a modern command line screen reader written in Python3. 
  
@@ -59,7 +59,7 @@ This driver is used by default.
  
 Dependency's:
  
-  * [[sox|Sox]]
+  * [[http://sox.sourceforge.net/|Sox]] with opus support
 The Requirements are flexible, they depend on the configuration in settings.conf. 
  
 ==== Gstreamer ====
@@ -107,12 +107,12 @@ For Linux VCSA devices. These exist on any current standard installation of Linu
  
 Dependency's:
  
-  * Python-dbus
-Read permission to the following files and services:
+  * python-dbus
+Read permission to the following files and services (or run as root):
   * /sys/devices/virtual/tty/tty0/active
   * /dev/tty[1 - 64] 
   * /dev/vcsa[1 - 64] ([[https://linux.die.net/man/4/vcsa|VCSA manpage]])
-  * read Systemd DBUS
+  * read Logind DBUS
  
 ===== Braille Drivers =====
 This is for Braille support.
@@ -129,7 +129,7 @@ Dependency's:
  
   * BrlTTY (configured and running, [[http://mielke.cc/brltty/doc/Manual-BRLTTY/English/BRLTTY.html|Documentation]])
   * python-brlapi (configured, [[http://mielke.cc/brltty/doc/Manual-BrlAPI/English/BrlAPI.html|Documentation]])
-===== Current Platforms =====
+===== Currently supported platforms =====
  
 Currently Fenrir  completely supports the following Platforms:
   * Linux TTY
@@ -1298,18 +1298,34 @@ the basic scheme for a command is as follows:
 
 
 ====== Troubleshooting ======
-Fenrir does not start
+===== Fenrir does not start =====
   - Have you installed all the dependencies [[#Support and Requirements|Support and Requirements]]
   - Try using master, a lot of changes take place there to make Fenrir compatible with more systems
-Fenrir does not utilize the shortcuts
+===== Fenrir does not utilize the shortcuts =====
   - Make sure you have python3-evdev installed
   - Use the latest Fenrir version
-No Sound:
-  - Run the scripts to configure pulse.  found in: ''tools/configure_pulse.sh'' (once as your user and once as root. Then restart Fenrir)
+  - make sure that fenrir has permission to /dev/input/* and /dev/uinput (or run it as root)
+===== you get no sound at all =====
+  - Run the script to configure pulseaudio once as root and once as your user. This will setup pulseaudio but require a restart of pulseaudio. The script is located in ''tools/configure_pulse.sh''
   - use ALSA
-  - Configure Pulse systemwide
-No Speech: 
-  - Run the scripts to configure pulse.  found in: ''tools/configure_pulse.sh'' (once as your user and once as root. Then restart Fenrir)
-  - use ALSA
-  - Configure Pulse systemwide
-  - if you are using speech-dispatcher run "spd-conf" as user and as root once.
+  - [[https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/SystemWide/|Configure Pulse systemwide (Not recommented)]]
+  - try [[https://github.com/i-rinat/apulse|apulse]] (not tested). Please give me feedback if you try it out.
+  - use gstreamerDriver (change ''settings.conf'' in the section ''sound'' the line ''driver=genericDriver'' to ''driver=gstreamerDriver'')
+  - use wave soundicons (change ''settings.conf'' in the section ''sound'' the line ''theme=default'' to ''theme=default-wav'')
+  - use most current version of sox with opus support
+===== you get soundicons but no speech =====
+  - if you are using speech-dispatcher run "spd-conf" once as user and as root.
+  - you can test if speech-dispatcher works by invoke it as root\\  ''sudo spd-say "hello world"''
+===== Bugreports and feature requests =====
+Please report Bugs and feature requests to:
+[[https://github.com/chrys87/fenrir/issues|https://github.com/chrys87/fenrir/issues]]
+
+for bugs please provide a [[#Howto create a debug file|debug]] file that shows the issue.
+==== Howto create a debug file ====
+  - delete old stuff\\  ''sudo rm /var/log/fenrir.log''
+  - start fenrir in debug mode\\ ''sudo fenrir -d''
+  - do your stuff/ reproduce the problem
+  - stop fenrir (''fenrirKey + q'')
+the debug file is located in ''/var/log/fenrir.log''
+
+plese be as precise as possible to make it easy to solve the problem.
