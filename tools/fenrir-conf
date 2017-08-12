@@ -3,7 +3,7 @@
 # Get user input args are return variable, question, options
 get_input()
 {
-# Variable names are long, cause I want absolutely no name conflicts.
+# Variable names are long, because we want absolutely no name conflicts.
 local __get_input_input=$1
 shift
 local __get_input_question="$1"
@@ -42,7 +42,7 @@ exit 1
 fi
 
 if [ -f "$configFile" ]; then
-read -p "This will replace your current settings. Press enter to continue or control+c to abort." continue
+read -p "This will replace your current settings, press enter to continue or control+C to abort." continue
 fi
 
 get_input sound "Enable sound?" -yes no
@@ -69,7 +69,7 @@ enabled=$sound
 # Sox is the default.
 driver=$soundDriver
 
-# Sound themes. This is the pack of sounds used for sound alerts.
+# Sound themes. These are the pack of sounds used for sound alerts.
 # Sound packs may be located at /usr/share/sounds
 # For system wide availability, or ~/.local/share/fenrir/sounds
 # For the current user.
@@ -80,14 +80,14 @@ theme=default
 volume=1.0
 
 # shell commands for generic sound driver
-# the folowing variable are substituded
+# the folowing variables are substituted
 # fenrirVolume = the current volume setting
 # fenrirSoundFile = the soundfile for an soundicon
 # fenrirFrequence = the frequence to play
-# fenrirDuration = the duration of the frequence
+# fenrirDuration = the duration of the frequency
 # the following command is used for play a soundfile
 genericPlayFileCommand=play -q -v fenrirVolume fenrirSoundFile
-#the following command is used for generating a frequence beep
+#the following command is used for generating a frequency beep
 genericFrequencyCommand=play -q -v fenrirVolume -n -c1 synth fenrirDuration sine fenrirFrequence
 
 [speech]
@@ -98,7 +98,7 @@ enabled=$speech
 driver=$speechDriver
 
 
-# The rate selects how fast fenrir will speak. Options range from 0, slowest, to 1.0, fastest.
+# The rate selects how fast Fenrir will speak. Options range from 0, slowest, to 1.0, fastest.
 rate=0.45
 
 # Pitch controls the pitch of the voice, select from 0, lowest, to 1.0, highest.
@@ -109,23 +109,23 @@ capitalPitch=0.9
 # Volume controls the loudness of the voice, select from 0, quietest, to 1.0, loudest.
 volume=1.0
 
-# Module is used for speech-dispatcher, to select the speech module you want to use.
-# Consult speech-dispatcher's configuration and help ti find out which modules are available.
-# The default is espeak.
+# Module is used for Speech-dispatcher, to select the speech module you want to use.
+# Consult Speech-dispatcher's configuration and help to find out which modules are available.
+# The default is Espeak.
 module=espeak
 
 # Voice selects the varient you want to use, for example, f5 will use the female voice #5 in espeak,
-# or if using the espeak module in speech-dispatcher. To find out which voices are available, consult the documentation provided with your chosen synthesizer.
+# or if using the espeak module in Speech-dispatcher. To find out which voices are available, consult the documentation provided with your selected synthesizer.
 voice=
 
-# Select the language you want fenrir to use.
+# Select the language you want Fenrir to use.
 language=english-us
 
 # Read new text as it happens?
 autoReadIncoming=True
 
 [braille]
-#braille is not implemented yet
+#Braille is not implemented yet
 enabled=False
 driver=brlapi
 layout=en
@@ -139,7 +139,7 @@ autodetectSuspendingScreen=True
 driver=evdev
 # filter input devices NOMICE, ALL or a DEVICE NAME
 device=ALL
-# gives fenrir exclusive access to the keyboard and let consume keystrokes.
+# gives Fenrir exclusive access to the keyboard and lets it absorb keystrokes.
 grabDevices=True
 ignoreShortcuts=False
 # the current shortcut layout located in /etc/fenrir/keyboard
@@ -152,7 +152,7 @@ charDeleteEcho=True
 wordEcho=$wordEcho
 # interrupt speech on any keypress
 interruptOnKeyPress=$enterupt
-# you can filter the keys on that the speech should interrupt (empty = all keys, otherwhise the given keys)
+# you can filter the keys that the speech should interrupt (empty = all keys, otherwise the given keys)
 interruptOnKeyPressFilter=
 # timeout for double tap in sec
 doubleTapTimeout=0.2
@@ -169,7 +169,7 @@ respectPunctuationPause=True
 newLinePause=True
 numberOfClipboards=10
 emoticons=True
-# define the current fenrir key
+# define the current Fenrir key
 fenrirKeys=KEY_KP0,KEY_META,KEY_INSERT
 scriptKey=KEY_COMPOSE
 timeFormat=%H:%M:%P

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script configures pulse to work both in the graphical invironment and in the console with root apps.
+# This script configures Pulse to work both in the graphical environment and in the console with root apps.
 
 if [[ $(whoami) != "root" ]]; then
 # Get the current user's XDG_HOME
@@ -67,8 +67,8 @@ fi
 
 # If there were no errors tell user to restart, else warn them errors happened.
 if [ $? -eq 0 ]; then
-echo "Configuration created successfully, restart pulse, or your system, for changes to take affect."
+echo "Configuration created successfully, please restart Pulseaudio or your system, for changes to take affect."
 else
-echo "Errors were encountered while writing the configuration. please correct them manually."
+echo "Errors were encountered whilst writing the configuration, please correct them manually."
 fi
 exit 0

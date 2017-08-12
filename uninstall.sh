@@ -1,12 +1,12 @@
 #!/bin/bash
-#Basic uninstall script for fenrir.
+#Basic uninstall script for Fenrir.
 cat << EOF
 Fenrir is going to remove.
 All scripts and settings will be lost.
 EOF
 
 # ask
-read -p "This will remove fenrir and settings. Press ctrl+c to cancel, or enter to continue." continue
+read -p "This will remove Fenrir and settings, press ctrl+C to cancel, or enter to continue." continue
 
 # do it
 unlink /usr/bin/fenrir

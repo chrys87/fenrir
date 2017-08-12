@@ -1,5 +1,5 @@
 
-Keymap for fenrir
+Keymap for Fenrir
 KEY_RESERVED
 KEY_ESC
 KEY_1
