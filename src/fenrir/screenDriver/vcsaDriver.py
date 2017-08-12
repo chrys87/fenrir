@@ -228,7 +228,7 @@ class driver():
                 try:
                     lineText += self.charmap[ch]            
                 except KeyError:
-                    lineText += chr('?')
+                    lineText += '?'
                 lineAttrib.append((attr,ink, paper,0,0,0)) # attribute, ink, paper, blink, bold, underline
             allText += lineText + '\n'
             allAttrib += lineAttrib
