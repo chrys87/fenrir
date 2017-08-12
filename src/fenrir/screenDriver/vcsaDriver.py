@@ -185,9 +185,7 @@ class driver():
                 ioctl(tty.fileno(), GIO_UNIMAP, unimapdesc)
                 break
             except Exception as e:
-                tty.close()                
                 self.env['runtime']['debug'].writeDebugOut('VCSA:updateCharMap:' + str(e),debug.debugLevel.ERROR)   
-                return
                 sz *= 2
         tty.close()
         ncodes, = unpack_from("@H", unimapdesc)
