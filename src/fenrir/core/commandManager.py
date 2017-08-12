@@ -198,10 +198,10 @@ class commandManager():
     def runCommand(self, command, section = 'commands'):
         if self.commandExists(command, section):
             try:
-                self.env['runtime']['debug'].writeDebugOut("Executing command:" + section + "." + command ,debug.debugLevel.INFO)                    
+                self.env['runtime']['debug'].writeDebugOut("runCommand command:" + section + "." + command ,debug.debugLevel.INFO)                    
                 self.env['commands'][section][command].run()
             except Exception as e:
-                self.env['runtime']['debug'].writeDebugOut("Executing command:" + section + "." + command +' ' + str(e),debug.debugLevel.ERROR)
+                self.env['runtime']['debug'].writeDebugOut("runCommand command:" + section + "." + command +' ' + str(e),debug.debugLevel.ERROR)
         self.env['commandInfo']['lastCommandExecutionTime'] = time.time()    
         
     def getCommandDescription(self, command, section = 'commands'):
