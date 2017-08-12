@@ -67,7 +67,7 @@ fi
 
 # If there were no errors tell user to restart, else warn them errors happened.
 if [ $? -eq 0 ]; then
-echo "Configuration created succeswsfully, restart pulse, or your system, for changes to take affect."
+echo "Configuration created successfully, restart pulse, or your system, for changes to take affect."
 else
 echo "Errors were encountered while writing the configuration. please correct them manually."
 fi
