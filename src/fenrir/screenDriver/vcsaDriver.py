@@ -243,27 +243,27 @@ class driver():
             return self.colorNames[attribute[1]]
         except:
             return ''
-    def getFenrirFGColor(attribute):
+    def getFenrirFGColor(self, attribute):
         try:
             return self.colorNames[attribute[0]]
         except:
             return ''
-    def getFenrirUnderline(attribute):
+    def getFenrirUnderline(self, attribute):
         if attribute[4] == 1:
             return _('underlined')
         return ''    
-    def getFenrirBold(attribute):
+    def getFenrirBold(self, attribute):
         if attribute[3] == 1:
             return _('bold')    
         return ''    
-    def getFenrirBlink(attribute):
+    def getFenrirBlink(self, attribute):
         if attribute[2] == 1:
             return _('blink')    
         return ''    
-    def getFenrirFont(attribute):
-        return 'System Font'    
-    def getFenrirFontSize(attribute):
-        return 'System Font Size'    
+    def getFenrirFont(self, attribute):
+        return _('System Font')
+    def getFenrirFontSize(self, attribute):
+        return _('System Font Size')    
     def update(self, trigger='onUpdate'):
         if trigger == 'onInput': # no need for an update on input for VCSA
             return
