@@ -47,8 +47,8 @@ class screenManager():
         attributeFormatString = attributeFormatString.replace('fenrirUnderline', self.env['runtime']['screenDriver'].getFenrirUnderline(attribute))
         attributeFormatString = attributeFormatString.replace('fenrirBold', self.env['runtime']['screenDriver'].getFenrirBold(attribute))
         attributeFormatString = attributeFormatString.replace('fenrirBlink', self.env['runtime']['screenDriver'].getFenrirBlink(attribute))
+        attributeFormatString = attributeFormatString.replace('fenrirFontSize', self.env['runtime']['screenDriver'].getFenrirFontSize(attribute))                        
         attributeFormatString = attributeFormatString.replace('fenrirFont', self.env['runtime']['screenDriver'].getFenrirFont(attribute))        
-        attributeFormatString = attributeFormatString.replace('fenrirFontSize', self.env['runtime']['screenDriver'].getFenrirFontSize(attribute))                
         return attributeFormatString
     def isSuspendingScreen(self, screen = None):
         if screen == None:
