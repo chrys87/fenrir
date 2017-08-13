@@ -5,6 +5,7 @@
 # By Chrys, Storm Dragon, and contributers.
 
 from core import debug
+from utils import screen_utils
 
 class command():
     def __init__(self):
@@ -17,7 +18,8 @@ class command():
         return 'No description found'         
     def run(self):
         cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
-        attributes = self.env['screen']['newContentAttrib'][cursorPos['x']][cursorPos['y']]
+        attributes = screen_utils.splitEvery(self.env['screen']['newContentAttrib'], self.env['screen']['columns'])
+        attributes = attributes[cursorPos['y']][cursorPos['x']]
         attributeFormatString = self.env['runtime']['settingsManager'].getSetting('general', 'attributeFormatString')
         attributeFormatString = self.env['runtime']['screenManager'].formatAttributes(attributes, attributeFormatString)
         self.env['runtime']['outputManager'].presentText(attributeFormatString, soundIcon='', interrupt=True)
