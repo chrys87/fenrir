@@ -35,7 +35,7 @@ class screenManager():
             #  or len(self.env['screen']['newDelta']) > 6:
             #    self.env['runtime']['screenDriver'].getCurrApplication() 
             self.env['screen']['lastScreenUpdate'] = time.time()
-    def formatAttributes(self, x, y,attribute, attributeFormatString = None):
+    def formatAttributes(self, attribute, attributeFormatString = None):
         if not attributeFormatString:
             attributeFormatString = self.env['runtime']['settingsManager'].getSetting('general', 'attributeFormatString')
         if not attributeFormatString:
