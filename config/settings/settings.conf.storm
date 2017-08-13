@@ -120,6 +120,14 @@ spellCheckLanguage=en_US
 scriptPath=/usr/share/fenrir/scripts
 # overload commands, and create new one without changing Fenrir default
 commandPath=
+#fenrirBGColor = the backgroundcolor
+#fenrirFGColor = the foregroundcolor
+#fenrirUnderline = speak the underline attribute
+#fenrirBold = speak the bold attribute
+#fenrirBlink = speak the blink attribute
+#fenrirFont = the font
+#fenrirFontSize = the fontsize
+attributeFormatString=Background fenrirBGColor,Foreground fenrirFGColor,fenrirUnderline,fenrirBold,fenrirBlink,fenrirFont,fenrirFontSize
 
 [focus]
 #follow the text cursor
