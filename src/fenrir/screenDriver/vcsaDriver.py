@@ -35,6 +35,7 @@ class driver():
         self.vcsaDevicePath = '/dev/vcsa'
         self.ListSessions = None
         self.charmap = {}
+        self.colorNames {0: _('black'), 1: _('blue'), 2: _('green'), 3: _('cyan'), 4: _('red'), 5: _('purple'), 6: _('brown/yellow'), 7: _('white')}
         self.hichar = None        
     def initialize(self, environment):
         self.env = environment
@@ -219,6 +220,12 @@ class driver():
                     attr >>= 1
                 ink = attr & 0x0F
                 paper = (attr>>4) & 0x0F
+                blink = 0
+                if attr & 1: 
+                    blink = 1
+                bold = 0 
+                if attr & 16:
+                    bold = 1
                 #if (ink != 7) or (paper != 0):
                 #    print(ink,paper)
                 if sh & self.hichar:
@@ -227,11 +234,36 @@ class driver():
                     lineText += self.charmap[ch]            
                 except KeyError:
                     lineText += '?'
-                lineAttrib.append((attr,ink, paper,0,0,0)) # attribute, ink, paper, blink, bold, underline
+                lineAttrib.append((attr,ink, paper,blink,bold,0)) # attribute, ink, paper, blink, bold, underline
             allText += lineText + '\n'
             allAttrib += lineAttrib
         return str(allText), allAttrib
-        
+    def getFenrirBGColor(self, attribute):
+        try:
+            return self.colorNames[attribute[1]]
+        except:
+            return ''
+    def getFenrirFGColor(attribute):
+        try:
+            return self.colorNames[attribute[0]]
+        except:
+            return ''
+    def getFenrirUnderline(attribute):
+        if attribute[4] == 1:
+            return _('underlined')
+        return ''    
+    def getFenrirBold(attribute):
+        if attribute[3] == 1:
+            return _('bold')    
+        return ''    
+    def getFenrirBlink(attribute):
+        if attribute[2] == 1:
+            return _('blink')    
+        return ''    
+    def getFenrirFont(attribute):
+        return 'System Font'    
+    def getFenrirFontSize(attribute):
+        return 'System Font Size'    
     def update(self, trigger='onUpdate'):
         if trigger == 'onInput': # no need for an update on input for VCSA
             return

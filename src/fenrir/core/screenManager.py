@@ -35,7 +35,21 @@ class screenManager():
             #  or len(self.env['screen']['newDelta']) > 6:
             #    self.env['runtime']['screenDriver'].getCurrApplication() 
             self.env['screen']['lastScreenUpdate'] = time.time()
-
+    def formatAttributes(self, x, y,attribute, attributeFormatString = None):
+        if not attributeFormatString:
+            attributeFormatString = self.env['runtime']['settingsManager'].getSetting('general', 'attributeFormatString')
+        if not attributeFormatString:
+            return ''
+        if attributeFormatString == '':
+            return ''
+        attributeFormatString = attributeFormatString.replace('fenrirBGColor', self.env['runtime']['screenDriver'].getFenrirBGColor(attribute))
+        attributeFormatString = attributeFormatString.replace('fenrirFGColor', self.env['runtime']['screenDriver'].getFenrirFGColor(attribute))
+        attributeFormatString = attributeFormatString.replace('fenrirUnderline', self.env['runtime']['screenDriver'].getFenrirUnderline(attribute))
+        attributeFormatString = attributeFormatString.replace('fenrirBold', self.env['runtime']['screenDriver'].getFenrirBold(attribute))
+        attributeFormatString = attributeFormatString.replace('fenrirBlink', self.env['runtime']['screenDriver'].getFenrirBlink(attribute))
+        attributeFormatString = attributeFormatString.replace('fenrirFont', self.env['runtime']['screenDriver'].getFenrirFont(attribute))        
+        attributeFormatString = attributeFormatString.replace('fenrirFontSize', self.env['runtime']['screenDriver'].getFenrirFontSize(attribute))                
+        return attributeFormatString
     def isSuspendingScreen(self, screen = None):
         if screen == None:
             screen = self.env['screen']['newTTY']
