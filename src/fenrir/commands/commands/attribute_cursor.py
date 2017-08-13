@@ -19,7 +19,7 @@ class command():
         cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
         attributes = self.env['screen']['newContentAttrib'][cursorPos['x']][cursorPos['y']]
         attributeFormatString = self.env['runtime']['settingsManager'].getSetting('general', 'attributeFormatString')
-        attributeFormatString = self.env['runtime']['screenManager'].formatAttributes(attributeFormatString)
+        attributeFormatString = self.env['runtime']['screenManager'].formatAttributes(attributes, attributeFormatString)
         self.env['runtime']['outputManager'].presentText(attributeFormatString, soundIcon='', interrupt=True)
     def setCallback(self, callback):
         pass
