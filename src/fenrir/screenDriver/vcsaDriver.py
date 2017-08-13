@@ -222,11 +222,11 @@ class driver():
                 ink = attr & 0x0F
                 paper = (attr>>4) & 0x0F
                 blink = 0
-                if attr & 1: 
-                    blink = 1
+                #if attr & 1: 
+                #    blink = 1
                 bold = 0 
-                if attr & 16:
-                    bold = 1
+                #if attr & 16:
+                #    bold = 1
                 #if (ink != 7) or (paper != 0):
                 #    print(ink,paper)
                 if sh & self.hichar:
@@ -243,11 +243,13 @@ class driver():
         try:
             return self.bgColorNames[attribute[2]]
         except Exception as e:
+            print(e)
             return ''
     def getFenrirFGColor(self, attribute):
         try:
             return self.fgColorNames[attribute[1]]
         except Exception as e:
+            print(e)        
             return ''
     def getFenrirUnderline(self, attribute):
         if attribute[5] == 1:
@@ -262,9 +264,9 @@ class driver():
             return _('blink')    
         return ''    
     def getFenrirFont(self, attribute):
-        return _('')
+        return _('Default')
     def getFenrirFontSize(self, attribute):
-        return _('')    
+        return _('Default')    
     def update(self, trigger='onUpdate'):
         if trigger == 'onInput': # no need for an update on input for VCSA
             return
