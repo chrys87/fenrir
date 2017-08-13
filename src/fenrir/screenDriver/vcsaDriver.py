@@ -240,7 +240,6 @@ class driver():
             allAttrib += lineAttrib
         return str(allText), allAttrib
     def getFenrirBGColor(self, attribute):
-        print(attribute[2])    
         try:
             return self.bgColorNames[attribute[2]]
         except Exception as e:
