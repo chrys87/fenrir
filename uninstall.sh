@@ -6,16 +6,16 @@ All scripts and settings will be lost.
 EOF
 
 # ask
-read -p "This will remove Fenrir and settings, press ctrl+C to cancel, or enter to continue." continue
+read -p "This will remove Fenrir and its settings from your system,, press ctrl+C to cancel, or enter to continue." continue
 
 # do it
 unlink /usr/bin/fenrir
 unlink /usr/bin/fenrir-daemon
-rm -r /opt/fenrir
-rm -r /usr/share/fenrir
-rm -r /etc/fenrir
-rm -r /usr/share/sounds/fenrir
-rm /usr/lib/systemd/system/fenrir.service
+rm -rf /opt/fenrir
+rm -rf /usr/share/fenrir
+rm -rf /etc/fenrir
+rm -rf /usr/share/sounds/fenrir
+rm -f /usr/lib/systemd/system/fenrir.service
 
 # success message
 cat << EOF
