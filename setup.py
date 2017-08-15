@@ -75,6 +75,7 @@ setup(
     # Dependent packages (distributions)
     install_requires=[
         "evdev",
+        "daemonize",
         "sox",
         "dbus-python",
         "pyenchant",
