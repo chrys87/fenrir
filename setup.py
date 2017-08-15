@@ -76,7 +76,6 @@ setup(
     install_requires=[
         "evdev",
         "daemonize",
-        "sox",
         "dbus-python",
         "pyenchant",
         "pyudev",
@@ -94,3 +93,4 @@ print('Please install the following packages manually:')
 print('- Speech-dispatcher: for the default speech driver')
 print('- Espeak: as basic TTS engine')
 print('- brltty: for Braille')
+print('- sox: as an player for the generic sound driver')
