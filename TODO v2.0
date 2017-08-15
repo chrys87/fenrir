@@ -17,6 +17,12 @@ Cleanups:
   settingsData -> defaultSettings.py
 
 General:  
+- imporove attribute handling
+[] add an attribute sound
+[] beep on cursor/ review by char (capital wins)
+[] beep on review by word (once for multible, captial wins)
+[] configurable (by char, by word, none)
+
 - generic list or see Tutorial mode list (convert clipboard management) (Easy for contribution)
     next item
     pref item
