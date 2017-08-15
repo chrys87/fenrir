@@ -44,7 +44,7 @@ setup(
     # Version number (initial):
     version=fenrirVersion,
     # description
-    description="An TTY Screen Reader For Linux.",
+    description="A TTY Screen Reader for Linux.",
     long_description=read('README.md'),
     keywords=['screenreader', 'a11y', 'accessibility', 'terminal', 'TTY', 'console'],        
     license="License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
@@ -58,7 +58,7 @@ setup(
     ],
     
     # Application author details:
-    author="Chrys, storm_dragon, Jeremiah and others",
+    author="Chrys, Storm_dragon, Jeremiah and others",
     author_email="chrysg@linux-a11y.org",
 
     # Packages
@@ -89,8 +89,8 @@ print('To have fenrir start at boot:')
 print('sudo systemctl enable fenrir')
 print('Pulseaudio users may want to run:')
 print('/usr/share/fenrir/tools/configure_pulse.sh')
-print('once as their user account and once as root to configure pulseaudio.')
-print('Please install the following packages manal:')
-print('- speech-dispatcher: for the default speech driver')
-print('- espeak: as basic TTS engine')
+print('once as their user account and once as root to configure Pulseaudio.')
+print('Please install the following packages manually:')
+print('- Speech-dispatcher: for the default speech driver')
+print('- Espeak: as basic TTS engine')
 print('- brltty: for Braille')
