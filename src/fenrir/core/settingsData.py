@@ -67,8 +67,9 @@ settingsData = {
   'dateFormat': '%A, %B %d, %Y',
   'autoSpellCheck': False,
   'spellCheckLanguage': 'en_US',
-  'scriptPath':'/usr/share/fenrir/scripts',
-  'commandPath':'/usr/share/fenrir/commands',
+  'scriptPath': '/usr/share/fenrir/scripts',
+  'commandPath': '/usr/share/fenrir/commands',
+  'attributeFormatString': 'Background fenrirBGColor,Foreground fenrirFGColor,fenrirUnderline,fenrirBold,fenrirBlink, Font fenrirFont,Fontsize fenrirFontSize'  
 },
 'focus':{
   'cursor': True,
