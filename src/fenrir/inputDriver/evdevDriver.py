@@ -174,8 +174,10 @@ class driver():
                 # 2 pos relative
                 # 1 Keys
                 currDevice = evdev.InputDevice(deviceFile)
-                if currDevice.name.upper() in ['SPEAKUP','PY-EVDEV-UINPUT']:
+                if currDevice.name.upper() in ['','SPEAKUP','PY-EVDEV-UINPUT']:
                     continue
+                if 'BRLTTY' in  currDevice.name.upper():
+                    continue                    
                 cap = currDevice.capabilities()
                 if mode in ['ALL','NOMICE']:
                     if eventType.EV_KEY in cap:
