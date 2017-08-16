@@ -20,26 +20,26 @@ See section [[#Speech|Speech]] in ''settings.conf'' for more information.
 ==== SpeechDispatcher ====
  
 This driver is used by default.
-It uses speech-dispatcher as its backend. 
+It uses Speech-dispatcher as its backend. 
  
-Dependency's:
+Dependencies:
  
-  * speech-dispatcher (installed and configured, [[https://devel.freebsoft.org/speechd#sec2|Documentation]])
-  * python-speechd
+  * Speech-dispatcher (installed and configured, [[https://devel.freebsoft.org/speechd#sec2|Documentation]])
+  * Python-speechd
 
 ==== Espeak ====
  
-Uses espeak via python bindings.
+Uses Espeak via Python bindings.
  
-Dependency's:
+Dependencies:
   * Espeak or Espeak-ng
   * [[https://launchpad.net/python-espeak|python-espeak]]
  
 ==== Generic ====
  
-This invokes speech via a sub-process. This is almost the same as entering the command by commandline. The performance depends on the overhead of the speech synthesis application but it is really flexible.
+This invokes speech via a sub-process. This is almost the same as using the commandline. The performance depends on the overhead of the speech synthesis application but it is really flexible.
  
-Dependency's:
+Dependencies:
   * Espeak or Espeak-ng
  
 The Requirements are flexible, they depend on the configuration in settings.conf. 
@@ -57,7 +57,7 @@ See section [[#Sound|Sound]] in ''settings.conf'' for more information.
  
 This driver is used by default.
  
-Dependency's:
+Dependencies:
  
   * [[http://sox.sourceforge.net/|Sox]] with opus support
 The Requirements are flexible, they depend on the configuration in settings.conf. 
@@ -66,7 +66,7 @@ The Requirements are flexible, they depend on the configuration in settings.conf
 
 if you prefer to use Gstreamer for sound output.
  
-Dependency's:
+Dependencies:
   * Gstreamer >= 1.x
   * Glibc
  
@@ -76,7 +76,7 @@ this is just for debugging, logs are output to the screen and logged as well.
  
 ===== Input Drivers =====
  
-Input drivers are to capture the shortcuts issued to the screen reader from the keyboard.\\
+Input drivers are to capture keyboard shortcuts issued to the screen reader \
 See section [[#Keyboard|Keyboard]] in ''settings.conf'' for more information.
  
 ==== Evdev ====
@@ -85,9 +85,9 @@ This driver is used by default.
  
 Evdev is the low level input device framework for Linux.
  
-Dependency's:
+Dependencies:
  
-  * Python-evdev >=0.6.3
+  * python-evdev >=0.6.3
   * pyudev
   * loaded uinput kernel module
   * exclusive access to the input devices
@@ -97,7 +97,7 @@ Read permission to the following files and services:
  
 ===== Screen Drivers =====
  
-The job of a screen driver is to get the information of the current screen.\\
+The job of a screen driver is to get the information of current screen content.\\
 See section [[#Screen|Screen]] in ''settings.conf'' for more information.
  
 ==== VCSA ====
@@ -105,7 +105,8 @@ See section [[#Screen|Screen]] in ''settings.conf'' for more information.
 This driver is used by default.
 For Linux VCSA devices. These exist on any current standard installation of Linux.
  
-Dependency's:
+Dependencie
+s:
  
   * python-dbus
 Read permission to the following files and services (or run as root):
@@ -120,12 +121,12 @@ Braille is currently a work in progress and is planned for the Fenrir 2.0 releas
 See section [[#Braille|Braille]] in ''settings.conf'' for more information.
 
  
-==== BrlTTY ====
+==== BRLTTY ====
  
 This driver is used by default.
 It uses [[brltty|BrlTTY]] to communicate with with a Braille device.
  
-Dependency's:
+Dependencies:
  
   * BrlTTY (configured and running, [[http://mielke.cc/brltty/doc/Manual-BRLTTY/English/BRLTTY.html|Documentation]])
   * python-brlapi (configured, [[http://mielke.cc/brltty/doc/Manual-BrlAPI/English/BrlAPI.html|Documentation]])
@@ -137,13 +138,13 @@ Support for further Systems are planned.
  
 ====== Installation ======
  
-Fenrir can run without installation. It just requires the dependencies to be installed first.
+Fenrir can run without installation. It just requires the dependencies are installed first.
  
 We recommend to try it out before installation to be sure everything works and prevent yourself from experiencing a non-talking environment.
  
 ===== Try Out =====
 Fenrir does not require installation. You can try it and make sure everything works before you decide to install. In this way you can be sure that your system doesnt break or stop talking.
-for that you can just grab the code and run as root ''src/fenrir/fenrir'' (in foreground) or ''src/fenrir/fenrir-daemon'' (in background, that one is used by systemd for autostart)
+for that you can just grab the code and run as root ''src/fenrir/fenrir'' (in foreground) or ''src/fenrir/fenrir-daemon'' (in background, used by systemd for autostart)
 
 ===== Install it =====
 
@@ -159,8 +160,8 @@ For Arch there are PKGBUILDs in the AUR:
  
   - Download the latest stable version from the [[https://linux-a11y.org/index.php?page=fenrir-screenreader|Fenrir-Project]] site.
   - Unpack the archive
-  - Check the needed Dependencys by running [[https://github.com/chrys87/fenrir/blob/master/check-dependencys.py|check-dependencys.py]] script
-  - install the needed missing dependencys an standard installation requires the following:
+  - Check the needed Dependencys by running [[https://github.com/chrys87/fenrir/blob/master/check-dependencies.py|check-dependencys.py]] script
+  - install the missing dependencies an standard installation requires the following:
     * python3 >= 3.3 (and all the following is needed for python3 )
     * python3-speechd (screen)
     * python3-dbus (screen)
@@ -173,16 +174,16 @@ For Arch there are PKGBUILDs in the AUR:
     * For an individual installation see [[#Support and Requirements|Support and Requirements]] or consult the [[https://github.com/chrys87/fenrir/blob/master/README.md|Readme]])
   - run "install.sh" as root
 
-this installs fenrir as the following
+this installs Fenrir as the following
     * Application:''/opt/fenrir''
     * Settings:''/etc/fenrir''
     * Sound Icons:''/usr/share/fenrir/''
  
-to remove fenrir just run deinstall.sh as root
+to remove Fenrir just run uninstall.sh as root
  
 ==== Git ====
  
-if you want to get the latest code you can just use git to get an development snapshot:
+if you want to get the latest code you can use git to get a development snapshot:
  
   git clone https://github.com/chrys87/fenrir.git
  
@@ -467,11 +468,11 @@ Fenrir provides a virtual cursor, with it you can navigate all over the screen w
  
 Using the review feature will open the review mode automatically. 
  
-The review cursor always starts at the text cursor.  Attention: after using the review mode, the review cursor will stay open until you use the ''exit review'' shortcut. 
+The review cursor always starts from the text cursor.  Attention: after using the review mode, the review cursor will stay open until you use the ''exit review'' shortcut. 
  
-Think about that when using clipboard operations and similar. The review cursor is always prefered over the text cursor.
+Think when using clipboard operations and similar. The review cursor is always prefered over the text cursor.
 
-Fenrir can bell a sound if the used review command jumped to an other line or end the screen.
+Fenrir sounds a bell sound if the used review command jumps to another line or end of screen.
 === exit review ===
 You can leave the review mode by pressing the ''exit review'' shortcut.
 === review bottom ===
@@ -528,8 +529,8 @@ Examples where you need marks are:
   * set window application
   * set bookmark 1 - X
 === Set mark ===
-How to set an mark:
-  - navigate with review or textcursor to the position you want to set the mark. Attention: if a review cursor is set, that one is prefered. If you want to use text cursor, be sure that you are not in review mode.
+How to set a mark:
+  - navigate with review or textcursor to the position you want to set the mark. Attention: if a review cursor is set, that is the prefered. If you want to use text cursor, be sure that you are not in review mode.
   - press shortcut for ''set mark''
 you can set two marks (begin and end). Some commands allow some simpler usecases just using the whole line if only one mark is set. you may want to try this out.
 === Get text between marks ===
@@ -538,34 +539,34 @@ To get the text that is currently between your marks press shortcut for ''marked
 You can remove all current marks by pressing the shortcut for ''remove marks''.
 Changing the screen also removes the marks.
 ==== Screen Interaction ====
-Fenrir provides several functionality to interact with the current screen.
+Fenrir provides several methods to interact with the current screen.
 === forward keypress ===
-This just forewarts the next shortcut to the screen whatever it is an Fenrir shortcut or not. This is useful if the currently pressed shortcut is also in use by Fenrir itself.
+This just forwards the next shortcut to the screen Fenrir shortcut or not. This is useful if the currently pressed shortcut is also in use by Fenrir.
 === Clipboard ===
-Fenrir provides an clipboard with multible slots, represented by an list. You navigate thought the list and paste the selected clipboard.
+Fenrir provides a clipboard with multible items represented by a list. You navigate throught the list and paste the selected clipboard.
 == copy marked to clipboard ==
-To copy somthing to the clipboard you need to set one or two marks. if you set one mark, the text between the mark and your current cursor is copied to clipboard. Setting two marks just copies the text between the marks into the clipboard. If you copy something it is always placed as first element in your clipboard list.
+To copy something to the clipboard you need to set one or two marks. if you set one mark, the text between the mark and your current cursor is copied to clipboard. Setting two marks just copies the text between the marks into the clipboard. If you copy something it is always placed as the first item on your clipboard.
 == clear clipboard ==
-You can remove all elements from the current clipboard list by ''clear clipboard'' functionalty.
+You can remove all items from the current clipboard by ''clear clipboard'' functionality.
 == first clipboard ==
-This moves quick to the first element of the clipboard list.
+This moves quick to the first item of the clipboard.
 == last clipboard ==
-This moves quick to the last element of the clipboard list.
+This moves quick to the last item of the clipboard.
 == previous clipboard ==
-Go to previous element in the clipboard list
+Go to previous item in the clipboard.
 == next clipboard ==
-Go to next element in the clipboard list
+Go to next item on the clipboard. 
 == read current clipboard ==
-Read the content of the current element of the clipboard list
+Read the content of the current item of the clipboard.
 == paste clipboard ==
-Past whatever element is currently selected by first, last, prev or next clipboard commands.
-if no special clipboard is selected the first one (last copied) is used.
+Pass whatever item is currently selected by first, last, prev or next clipboard commands.
+if no special clipboard is selected the (last copied) is used.
 == export clipboard to file ==
-This allows you to export the current clipboard to an configurable filepath. This is useful to share the clipboard with a graphical desktop.
+This allows you to export the current clipboard to a configurable filepath. This is useful to share the clipboard with a graphical desktop.
 == import clipboard from file ==
-Import a clipboard from an configurable file. This is useful to share the clipboard with a graphical desktop.
+Import a clipboard from a configurable file. This is useful to share the clipboard with a graphical desktop.
 ==== Quick Settings ====
-Fenrir provides some shortcuts to change settings temporarily and on the fly without need to permanently change the ''settings.conf'' file.
+Fenrir provides shortcuts to change settings temporarily and on the fly without the need to permanently change the ''settings.conf'' file.
 === toggle braille ===
 Enables and disables Braille. This is not persistent stored in your ''settings.conf'' but during run time.
 === toggle sound ===
@@ -573,7 +574,7 @@ Enables and disables sound. This is not persistent stored in your ''settings.con
 === toggle speech ===
 Enables and disables speech. This is not persistent stored in your ''settings.conf'' but during run time.
 === disable speech temporarily ===
-Disables the speech until next key press. it might be useful if you want to listen to music or similar. As soon as an key is pressed it is going to be enabled again.
+Disables the speech until next key press. it might be useful if you want to listen to music or similar. As soon as a key is pressed it is going to be enabled again.
 === toggle punctuation level ===
 Cycle between all available punctuation levels. This is not persistent stored in your ''settings.conf'' but during run time.
 === toggle auto spell check ===
@@ -581,9 +582,9 @@ Enables and disables automatic spellchecker (when typing). This is not persisten
 === toggle emoticons ===
 Enables and disables emoticons. This is not persistent stored in your ''settings.conf'' but during runtime.
 === toggle output ===
-Enables and disables all output at once (sound, braille, speech). This is not persistent stored in your ''settings.conf'' but during run time.
+Enables and disables all output at once (sound, Braille, speech). This is not persistent stored in your ''settings.conf'' but during run time.
 === toggle auto read ===
-Enables and disables that incoming is automatic spoken. This is not persistent stored in your ''settings.conf'' but during run time.
+Enables and disables what is automatically spoken. This is not persistent stored in your ''settings.conf'' but during run time.
 === toggle auto time ===
 Enables and disables auto time functionality. This is not persistent stored in your ''settings.conf'' but during run time.
 === toggle highlight tracking ===
@@ -627,13 +628,13 @@ This follows the text cursor. This is the typical way an application works. This
   * mutt
   * tintin++
 === Highlight Tracking ===
-In some applications there are no text cursors. In those applications cursor changes are represented by different colors or attributes (underlined or bold). This mode tracks and announce this changes for you. This is used by: 
+In some applications there are no text cursors. In those applications cursor changes are represented by different colors or attributes (underlined or bold). This mode tracks and announces these changes for you. This is used by: 
     * wifi-menu
     * dialog
     * alpine
 ==== Tutorial Mode ====
 Fenrir provides a Tutorial mode. 
-When you enter tutorial mode, sscreen reader commands are intercepted  and explained instead of executing them.
+When you enter tutorial mode, screen reader commands are intercepted  and explained instead of executing them. ''Arrow up'' and ''Arrow Down'' let you navigate through a list of all available commands with shortcuts and description. Pressing escape leaves the tutorial mode. 
 
 ==== Information ====
 === Time ===
@@ -641,9 +642,9 @@ Announces the current Time.
 === Date ===
 Announces the current Date.
 === Bookmarks ===
-Bookmarks provide quick access to part of the screen without the need to navigate to that area.
+Bookmarks provide quick access to part of the screen without the need to navigate to the area.
 By default Fenrir provides 10 bookmarks. Those can be set and accessed via shortcut.
-This is useful for status lines or other information that the position does not change.
+This is useful for status lines or other information where the position does not change.
 == set Bookmark X ==
 You need to set the bookmark first. For that you have to set one or two lines for use.
   - Set marks (one or two)
@@ -656,25 +657,25 @@ Afterward the bookmark is no longer available.
 === cursor position ===
 You can get information about the current cursor and its position by using the "cursor position" functionality.
 === indent current line ===
-Announce the current indention level of the current line. It represents the number of trailing spaces of the line.
+Announce the current indent level of the current line. It represents the number of trailing spaces of the line.
 === current screen ===
 Reads all the current screen from the beginning to the end.
 === current screen  before cursor ===
 Reads current screen from the beginning of the screen to the current cursor position.
 === current screen after cursor ===
-Read anything after current cursor postion to the end.
+Read anything after current cursor position to the end.
 === cursor read to end of line ===
 Read from the current cursor position to the end of the current line.
 === cursor column ===
-Read the current X postion of an cursor (column of the current line).
+Read the current X position of a cursor (column of the current line).
 === cursor line number ===
-Read the current Y postion of an cursor (line number).
+Read the current Y position of a cursor (line number).
 === present first line ===
 Reads just the first line. this is maybe useful for status information.
 === present last line ===
 Presets the last line. This is maybe useful for status information.
 === last incoming ===
-Repeat the last automatical inomming text.
+Repeat the last automatically incoming text.
 ===== Input =====
 ==== Echo ====
 Fenrir provides different methods of echoing content:
@@ -683,9 +684,9 @@ Fenrir provides different methods of echoing content:
   * Delete Character: speaks the character prior to the cursor when you push backspace
 ==== Silence on Key press ====
 ==== Spellchecker ====
-Fenrir has a build-in spellchecker, it can invoke automatically while typing or be called by a shortcut.
+Fenrir has a built-in spellchecker, it can invoke automatically while typing or be called by a shortcut.
 Commands to add or remove the current word to the dictionary are included. 
-As using the spellchecker is enhanced  usage. You will need dictionary aspell-<language>.
+As using the spellchecker is enhanced usage. You will need dictionary aspell-<language>.
 See section [[#General|General]] in ''settings.conf'' for more information.
 === spell check ===
 Invokes the spellcheck on the word that contains the Review or text cursor. 
@@ -697,11 +698,11 @@ Removes the word under the Review or Text cursor from the dictionary.
 ==== Emoticons ====
 If you want to replace ":)" emoticons with "smile" in speech you can use this feature.
 It can be toggled on or off.
-You can define emoticons in an dictionary, please see Emoticon Dictionary.
+You can define emoticons in a dictionary, please see Emoticon Dictionary.
 See section [[#General|General]] in ''settings.conf'' to see how to enable or disable this feature.
 
 ==== Time ====
-Announce the time in an periodic way. So you can track the time more easy.
+Announce the time at periodical increments, To track the time easily.
 You can define 2 different ways of time announcements.
   - periodic
   - on fix minutes
@@ -729,38 +730,38 @@ Example on fix minutes in an hour. example every quarter "delaySec=0" and "onMin
   announce=True
   interrupt=False      
 ==== Promoted List ====
-Promoted Lists are a nice feature if you are away from your computer or doing more longer tasks.
-you can define a list of words for that you want to hear a sound icon after an period of inactivity.
-Example if the word "chrys" appears after 120 Seconds of inactivity:
+Promoted Lists are a nice feature if you are away from your computer or performing more longer tasks.
+you can define a list of words which you want to hear a sound icon for after a period of inactivity.
+Example if the word "Chrys" appears after 120 Seconds of inactivity:
   [promote]
   enabled=True  
   inactiveTimeoutSec=120
-  list=chrys
+  list=Chrys
 See section [[#Promote|Promote]] in ''settings.conf'' for more information.
 ==== Punctuation ====
-Fenrir handles punctuation levels and names for you. 
-For that job it provides several dicts
+Fenrir handles punctuation levels and names for you with several provided dictionaries.
+
 See levelDict
 See punctuationDict
 ===== Braille =====
 Fenrir provides Braille support in Version >= 2.0.
 See section [[#Braille|Braille]] in ''settings.conf'' for more information.
 ==== braille flush ====
-If an message appers on the Braille device you can flush it to got back to the review- or system cursor
-==== braille pan left ====
-If an line is more longer than your braille device is you can move the view (called panning) to the left.
-So you can read stuff without need to move the review- or system cursor.
-==== braille pan right ====
-If an line is more longer than your braille device is you can move the view (called panning) to the right.
-So you can read stuff without need to move the review- or system cursor.
+If a message appears on the Braille device you can flush it to get back to the review- or system cursor
+==== Braille pan left ====
+If a line is longer than your Braille devices you can move the view (called panning) to the left.
+So you can read stuff without the need to move the review- or system cursor.
+==== Braille pan right ====
+If a line is longer than your Braille devices you can move the view (called panning) to the right.
+So you can read stuff without the need to move the review- or system cursor.
 ==== braille return to cursor ====
-If you finished with reading the line on its braille device using panning, the focus can be returned to the current used cursor by using "return to cursor" command.
+When you have finished reading the line on the Braille device using panning, the focus can be returned to the current used cursor by using "return to cursor" command.
 ===== Dictionary =====
-You can make use of different kinds of build-in dictionary's.
+You can make use of different kinds of built-in dictionary's.
 A dictionary has a name and list of keys and values separated by :===:
 Example:
   [customDict]
-  chrys:===:Chrys is cool
+  Chrys:===:Chrys is cool
   lollipop:===:lolli
 that means that every instance "chrys" is displayed, speech will say Chrys is cool.
 "lollipop" is spoken as "lolli".
@@ -776,7 +777,7 @@ the default one looks like this:
   all:===:!"#$%& \'()*+,-./:;<=>?@[\\]^_`{|}~
 the level "none" has no values. so it should not speak any punctuation (sadly this is not respected by every TTS system)
 if "some" is the current level the following are spoken: dot dash dollar tilde plus star slash backslash at.
-same for most and all. you can add new levels. if you cycle punctuation levels those are recognized. the default punctuation level is set in settings.conf. default is "some".
+same for most and all, you can add new levels. if you cycle punctuation levels they are recognized. the default punctuation level is set in settings.conf. The default is "some".
 === Punctuation ===
 The punctuation dictionary "[punctDict]" contains how the punctuation is spoken. 
 Example:
@@ -791,7 +792,7 @@ for question mark an ? is appended to the word that the TTS system can announce 
 The dict "[customDict]" is just for your own use, it just replace the key with the value without any special functionality. This might be used to fix incorrectly spoken words, make words more common, shorter or just for fun. :)
 ==== Emoticons ====
 The Emoticons dictionary "[emoticonDict]" by default contains some emoticons. it can replace ":)" with "smile" or "XD" with "loool" Making chat more colorful.
-A nice feature with this dictionary  is that you can toggle the substitution on or off during run time or in settings.conf. This is useful because while doing programming or other serious work you want to hear colons and parans not smiles.
+A nice feature with this dictionary  is that you can toggle the substitution on or off during run time or in settings.conf. This is useful because while doing programming or other serious work you want to hear colons and perryns not smiles.
 ====== Configuration ======
 You can configure Fenrir in the following places (ordered by priority):
   - Commandline Parameters ''-o'' see [[#Set settings coption|Set settings coption]]
@@ -799,26 +800,26 @@ You can configure Fenrir in the following places (ordered by priority):
   - <sourceTree>/config/settings/settings.conf see [[#Settings|Settigns]]
   - hard coded defaults
 ===== Commandline Arguments =====
-==== Set settings coption ====
-You can specify options that overwrites the setting.conf.
+==== Set settings option ====
+You can specify options that overwrite the setting.conf.
 This is done with ''-o <list of options>'' parameter.
-The list of options has the following syntax
+The list of options have the following syntax
   fenrir -o "section#setting=value;section#setting=value"
 
-For example change the sound driver to gstreamer and disable braille  
+For example changing the sound driver to gstreamer and disabling Braille  
   fenrir -o "sound#driver=gstreamerDriver;braille#enabled=False=False"
-or change debug level to verbose
+or change the debug level to verbose
   fenrir -o "general#debugLevel=3"
 You can find the available sections and variables here [[#Settings]]
 See Syntax [[#settings.conf syntax]]
 ==== settings.conf syntax ====
-the syntax of the [[#Settings|settings.conf]] is really simple and is similar to a "*.ini" file, there are 4 different elements. 
+the syntax of the [[#Settings|settings.conf]] is quite simple and similar to a "*.ini" file, there are 4 different elements. 
   - Sections
   - Settings
   - Values
   - Comments
 
-A comment starts with an # and is ignored by fenrir.
+A comment starts with a # and is ignored by Fenrir.
   # this is a comment
 To group settings we have sections.
 A section can look like this:
@@ -851,10 +852,10 @@ Available Drivers:
   * ''genericDriver'' using the generic driver, for Fenrir <1.5 just use ''generic''
   * ''gstreamerDriver'' using the gstreamer, for Fenrir <1.5 just use ''gstreamer''
 
-This is the pack of sounds used for sound icons.
+These are the pack of sounds used for sound icons.
   theme=default
 By default we ship two sound packs.
-  - ''default'' opus encoded, for newer sox versions
+  - ''default'' opus encoded, for newer Sox versions
   - ''default-wav'' wav encoded, just for compatibility
 Sound packs are located at /usr/share/sounds/fenrir/
 
@@ -881,7 +882,7 @@ Example genericPlayFileCommand (default)
 Example genericFrequencyCommand (default)
   genericFrequencyCommand=play -q -v fenrirVolume -n -c1 synth fenrirDuration sine fenrirFrequence
 ==== Speech ====
-The speech is configured in section ''[speech]''.
+Speech is configured in section ''[speech]''.
 Turn speech on or off:
   enabled=True
 Values: on=''True'', off=''False''
@@ -949,7 +950,7 @@ The following variables are substituted in ''genericSpeechCommand'':
 Example genericSpeechCommand (default):
   genericSpeechCommand=espeak -a fenrirVolume -s fenrirRate -p fenrirPitch -v fenrirVoice "fenrirText"
 
-Those are the minimum and maximum values of the TTS system that is used in genericSpeechCommand. They are needed to calculate the abstract range in volume, rate and pitch 0.0 - 1.0.
+These are the minimum and maximum values of the TTS system used in genericSpeechCommand. They are needed to calculate the abstract range in volume, rate and pitch 0.0 - 1.0.
 
   FenrirMinVolume=0
   fenrirMaxVolume=200
@@ -968,17 +969,17 @@ Turn braille on or off:
   enabled=False
 Values: on=''True'', off=''False''
 
-Select the driver used for communication with an braille device.
+Select the driver used for communication with a braille device.
   driver=brlapiDriver
 Values: Text, available Driver
 Available Drivers:
   * ''brlttyDriver'' using brltty for braille communication, for Fenrir <1.5 just use ''brltty''
 
-The braille layout can be configured here
+The Braille layout can be configured here
   layout=en
 Values: Text, see braille driver for layouts.
 
-To what should the flush timeout relate to 
+What should the flush timeout relate to 
   flushMode=word
 Values: Text, an flushMode
 Existing flushModes:
@@ -992,12 +993,12 @@ Seconds to flush (see flushMode)
 Values: Integer, in Seconds or ''-1'' = no automatic flush (manual via shortcut)
 The total flush time calculates in relation to flushMode.
 
-How should the braille cursor focused be tracked?
+How should the Braille cursor focus be tracked?
   cursorFocusMode=page
 Values: Text, an existing cursor focus mode
 Available cursor focus modes:
-  * ''page'' = if cursor cross the border move to next page and start at begin
-  * ''fixCell'' = ajust the cursor on an special cell where it is always placed. the display scroll here more smooth.
+  * ''page'' = if the cursor crosses the border move to next page and start at begin
+  * ''fixCell'' = ajust the cursor on a special cell where it is always placed. the display scroll here more smooth.
 
 
 Define the cell on the Braille device where Fenrir should scroll and keep the cursor
@@ -1007,7 +1008,7 @@ Values: Integer
   * ''-1'' = last cell on device 
   * ''>0'' = fix cell number
 
-What cursor should fenrir show on braille device
+What cursor should Fenrir show on the Braille device
   cursorFollowMode=review
 Values: Text, an exsiting cursor following mode.
 Existing cursor following mode:
@@ -1031,7 +1032,7 @@ The encoding of the screen
   encoding=cp850
 Values:''cp850'' is used for Western languages like USA or Europe.
 
-The driver updates Fenrir with changes upon the screen.
+The driver updates Fenrir with changes on the screen.
   screenUpdateDelay=0.05
 Values: in Seconds
 
@@ -1042,7 +1043,7 @@ Values: Depends on driver:
 Example ignore TTY1 and TTY2:
   suspendingScreen=1,2
 
-There is also the ability to let Fenrir auto detect screens that are running an X server. So Screens running an GUI are ignored.
+There is also the ability to let Fenrir auto detect screens that are running an X server. So Screens running an GUI can be ignored.
   autodetectSuspendingScreen=True
 Values: on=''True'', off=''False''
 
@@ -1058,7 +1059,7 @@ Available Drivers:
 You can let Fenrir know about what input devices are to be used.
   device=ALL
 Values: 
-  * ''ALL'' use all devices with key capabilitys.
+  * ''ALL'' use all devices with key capabilities.
   * ''NOMICE'' Exclude mices from handling.
   * ''<Device Name>'' just use the device with the given name.
   
@@ -1066,7 +1067,7 @@ Gives Fenrir exclusive access to the keyboard and lets it control keystrokes. Th
   grabDevices=True
 Values: on=''True'', off=''False''
 
-The following just make sense if you are using a second screenreader and just wanna have some hooked events. Fenrir ignores all shortcuts then. 
+The following makes sense if you are using a second screenreader and want to have some hooked events. Fenrir ignores all shortcuts then. 
   ignoreShortcuts=False
 Values: on=''True'', off=''False''
 
@@ -1090,7 +1091,7 @@ Interrupt speech on any keypress
   interruptOnKeyPress=False
 Values: on=''True'', off=''False''
 
-You can filter the keys on that the speech should interrupt 
+You can filter the keys that speech should interrupt 
   interruptOnKeyPressFilter=
 Values: (List) empty = all keys, otherwise interrupt with specified keys
 
@@ -1126,7 +1127,7 @@ The variable ''$user'' is replaced by the current logged username.
   clipboardExportPath=/tmp/fenrirClipboard
 Values: Text, Systemfilepath
 
-The number of available cipboards:
+The number of available clipboards:
   numberOfClipboards=10
 Values: Integer, 1 - 999
 
@@ -1134,7 +1135,7 @@ Replace emoticons like :) or ;) with text insertions:
   emoticons=True
 Values: on=''True'', off=''False''  
 
-Define the current fenrir keys:
+Define the current Fenrir keys:
   fenrirKeys=KEY_KP0,KEY_META,KEY_INSERT
 Values, Text list, separated by comma.
 
@@ -1162,7 +1163,7 @@ Folder Path for your scripts "scriptKey" functionality:
   scriptPath=/usr/share/fenrir/scripts
 Values: Text, Existing path on file system.
 
-Override commands or create new ones without changing Fenrir defaults:
+Override commands or create new ones without changing the Fenrir defaults:
   commandPath=/usr/share/fenrir/commands
 Values: Text, Existing path on file system.
 Subfolders in commandPath are:
@@ -1234,7 +1235,7 @@ Announce after a given period of seconds:
   delaySec=0
 Value: in Seconds, 0 = Deactivated  
 
-Announce after to fix minutes in an hour. if delaySec is >0 onMinutes is ignored:
+Announce after fixed minutes in an hour. if delaySec is >0 onMinutes is ignored:
   onMinutes=00,30
 Example every 15 minutes: 
   onMinutes=00,15,30,45
@@ -1253,7 +1254,7 @@ The script key is the applications key. Usually this key can be found on the key
 When you name a script, the key name appears in the script seperated by the sequence __-__. So, for example, if you have a python weather script you want assigned to the script key plus the letter w you would name the script /usr/share/fenrir/scripts/weather__-__key_w.py
 Then, to access the script, simply press the script key and the letter w.
 Scripts must be executable. So, make sure to chmod 755 your script when you place it in the scripts directory.
-The script gets some parameter from fenrir when it is executed. So that information is available in your script then.
+The script gets some parameters from fenrir when it is executed. So that information is available in your script then.
 
 ==== Parameterlist ====
 ^Parameter ^Content ^
@@ -1306,7 +1307,7 @@ the basic scheme for a command is as follows:
   - Use the latest Fenrir version
   - Make sure that Fenrir has permission to /dev/input/* and /dev/uinput (or run it as root)
 ===== No sound at all =====
-  - Run the script to configure pulseaudio once as root and once as your user. This will setup pulseaudio but require a restart of pulseaudio. The script is located in ''tools/configure_pulse.sh''
+  - Run the script to configure Pulseaudio once as root and once as your user. This will setup Pulseaudio but require a restart of Pulseaudio. The script is located in ''tools/configure_pulse.sh''
   - Use ALSA
   - [[https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/SystemWide/|Configure Pulse system wide]] (Not recommended)
   - Use gstreamerDriver: change ''settings.conf'' in the section ''sound'' the line ''driver=genericDriver'' to ''driver=gstreamerDriver''
@@ -1315,7 +1316,7 @@ the basic scheme for a command is as follows:
   - Try [[https://github.com/i-rinat/apulse|apulse]] (not tested by myself but might work). Please give me feedback if you try it out.
 ===== You get sound-icons but no speech =====
   - If you are using speech-dispatcher run "spd-conf" once as user and as root.
-  - You can test if speech-dispatcher works by invoke it as root\\  ''sudo spd-say "hello world"''
+  - You can test if speech-dispatcher works by invoking it as root\\  ''sudo spd-say "hello world"''
 ===== Bugreports and feature requests =====
 Please report Bugs and feature requests to:
 [[https://github.com/chrys87/fenrir/issues|https://github.com/chrys87/fenrir/issues]]
@@ -1324,7 +1325,7 @@ for bugs please provide a [[#Howto create a debug file|debug]] file that shows t
 ==== How-to create a debug file ====
   - Delete old debug stuff\\  ''sudo rm /var/log/fenrir.log''
   - Start fenrir in debug mode\\ ''sudo fenrir -d''
-  - Do your stuff/ reproduce the problem
+  - Do your stuff to reproduce the problem
   - Stop fenrir (''fenrirKey + q'')
 the debug file is located in ''/var/log/fenrir.log''
 
