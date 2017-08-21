@@ -1,20 +1,23 @@
 ToDo list for Fenrir Version 2.0 
 Things with not so deep knowledge needed are marekd wiht "(Easy for contribution)". so just start with that :).
+[] = ToDo
+[W] = WIP
+[X] = Done
 
 Cleanups:
 - split oldValues := newValues out to helper function (Easy for contribution)
-  - split it out
-  - use it in evdev driver
-- Migrate *Data.py to classes and use getter/setter (Easy for contribution)
-  commandsData.py
-  eventData.py  
-  generalData.py
-  inputData.py
-  outputData.py
-  punctuationData.py
-  runtimeData.py
-  screenData.py
-  settingsData -> defaultSettings.py
+  [] split it out
+  [] use it in vcsa driver
+[] Migrate *Data.py to classes and use getter/setter (Easy for contribution)
+  [] commandsData.py
+  [] eventData.py  
+  [] generalData.py
+  [] inputData.py
+  [] outputData.py
+  [] punctuationData.py
+  [] runtimeData.py
+  [] screenData.py
+  [] settingsData -> defaultSettings.py
 
 General:  
 - imporove attribute handling
@@ -24,48 +27,47 @@ General:
 [] configurable (by char, by word, none)
 
 - generic list or see Tutorial mode list (convert clipboard management) (Easy for contribution)
-    next item
-    pref item
-    curr item
-    first item
-    last item
+[] next item
+[] pref item
+[] curr item
+[] first item
+[] last item
   
-Braille Support:
-  brailleFocusMode:
-    - manual = no automatic toggle command used
-    - last = follow last used cursor
-  print cursor in review
-  print cursor in textmode
-  word wrapping (if word does not fit print it at next page)
-  command toggle used cursor (in manual brailleFocusMode)  
-  capture input from braile
-  make routing keys assignable by keyboard
-  make brailleTable configurable
-  pkg-config --variable=tablesdir liblouis
+- Braille Support:
+  [] brailleFocusMode:
+    [] manual = no automatic toggle command used
+    [] last = follow last used cursor
+  [] print cursor in review
+  [] print cursor in textmode
+  [] word wrapping (if word does not fit print it at next page)
+  [] command toggle used cursor (in manual brailleFocusMode)  
+  [] capture input from braile
+  [] make routing keys assignable by keyboard
+  [] make brailleTable configurable
+  [] pkg-config --variable=tablesdir liblouis
     returns on Arch:/usr/share/liblouis/tables
-  http://mielke.cc/brltty/doc/Manual-BrlAPI/English/BrlAPI.html
-  https://git.gnome.org/browse/orca/tree/src/orca/braille.py
-  https://wiki.gnome.org/Attic/LSR/ScratchPad/Braille/BrlAPI 
-  https://github.com/google/brailleback/blob/master/third_party/brltty/Bindings/Python/brlapi.pyx
+    http://mielke.cc/brltty/doc/Manual-BrlAPI/English/BrlAPI.html
+    https://git.gnome.org/browse/orca/tree/src/orca/braille.py
+    https://wiki.gnome.org/Attic/LSR/ScratchPad/Braille/BrlAPI 
+    https://github.com/google/brailleback/blob/master/third_party/brltty/Bindings/Python/brlapi.pyx
 
 Driver:
-- implement PTY Screen driver (to use gnome-terminal and other terminal emulators)
+[] PTY Screen driver (to use gnome-terminal and other terminal emulators)
   https://docs.python.org/3.2/library/pty.html
   http://sqizit.bartletts.id.au/2011/02/14/pseudo-terminals-in-python/
   https://blog.konpat.me/pythons-pseudo-terminal-pty-examples/
+[] talkey driver
+[] implement PTY Input driver  
 
-- implement PTY Input driver  
+[] ATK input driver (don't grab on graphical interface)
+  https://git.linux-a11y.org/AIT/pyatspi2/src/master/examples/keypress.py
 
-- ATK input driver (don't grab on graphical interface)
-https://git.linux-a11y.org/AIT/pyatspi2/src/master/examples/keypress.py
-
-- Dectalk SpeechDriver (Easy for contribution, device needed - i dont own one)
-https://github.com/tvraman/emacspeak/blob/master/servers/obsolete/python/dectalk.py
+[] Dectalk SpeechDriver (Easy for contribution, device needed - i dont own one)
+  https://github.com/tvraman/emacspeak/blob/master/servers/obsolete/python/dectalk.py
 
 Settings:
-- write settings (Easy for contribution)
-
-- menue for settings configuration (Easy for contribution)
+[] write settings (Easy for contribution)
+[] menue for settings configuration (Easy for contribution)
 
 Application Profiles (low priority):
 - reimplement process detection without subprocessing // this is started by chrys
