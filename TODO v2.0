@@ -32,8 +32,11 @@ General:
 [] curr item
 [] first item
 [] last item
+
+- make it runable via pypy3
+[] wrapper script for running fenrir that checks if pypy exists, use python3 as fallback.
   
-- Braille Support:
+Braille Support:
   [] brailleFocusMode:
     [] manual = no automatic toggle command used
     [] last = follow last used cursor
@@ -57,11 +60,9 @@ Driver:
   http://sqizit.bartletts.id.au/2011/02/14/pseudo-terminals-in-python/
   https://blog.konpat.me/pythons-pseudo-terminal-pty-examples/
 [] talkey driver
-[] implement PTY Input driver  
-
+[] PTY Input driver  
 [] ATK input driver (don't grab on graphical interface)
   https://git.linux-a11y.org/AIT/pyatspi2/src/master/examples/keypress.py
-
 [] Dectalk SpeechDriver (Easy for contribution, device needed - i dont own one)
   https://github.com/tvraman/emacspeak/blob/master/servers/obsolete/python/dectalk.py
 
