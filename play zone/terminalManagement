@@ -56,3 +56,30 @@ convert_to_text(t.dump())
 t.feed(b'ls\r')
 t.feed(o.read(10000))
 convert_to_text(t.dump())
+
+
+def HandleTerminal():
+    terminal, p_pid, p_out, master_fd = open_terminal()
+    while True:
+        try:    
+            r, w, x = select.select([p_out, master_fd],[],[],500000)
+            if r == []:
+                continue
+            for fd in r:
+                print(fd,r)
+                msg = fd.read(65536)
+                if fd == p_out:
+                    terminal.feed(msg)
+                    master_fd.write(msg)
+                if fd == master_fd:
+                    terminal.feed(msg)         
+                    p_out.write(msg
+                print(terminal.screen.display)
+        except Exception as e:  # Process died?
+            print(e)
+        #finally:
+        #    os.kill(p_pid, signal.SIGTERM)
+        #    p_out.close()
+
+if __name__ == "__main__":
+    HandleTerminal()
