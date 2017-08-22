@@ -26,6 +26,11 @@ General:
 [] beep on review by word (once for multiple, capital wins)
 [] configurable (by char, by word, none)
 
+- Improved Say all
+[] all the text of all pages
+[] command to stop and place review cursor at this position
+[] command to slow down speech on keypress
+
 - generic list or see Tutorial mode list (convert clipboard management) (Easy for contribution)
 [] next item
 [] prev item
