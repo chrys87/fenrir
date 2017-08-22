@@ -1,10 +1,12 @@
 import os
+import struct
+import sys
 import pty
+import tty
 import shlex
 import signal
+import select
 from pathlib import Path
-
-import asyncio
 
 import pyte
 
@@ -30,7 +32,7 @@ class Terminal:
         return {"c": (cursor.x, cursor.y), "lines": lines}
 
 
-def open_terminal(command="bash", columns=80, lines=24):
+def open_terminal(command="bash -i", columns=80, lines=24):
     p_pid, master_fd = pty.fork()
     if p_pid == 0:  # Child.
         argv = shlex.split(command)
@@ -41,6 +43,7 @@ def open_terminal(command="bash", columns=80, lines=24):
     p_out = os.fdopen(master_fd, "w+b", 0)
     return Terminal(columns, lines, p_out), p_pid, p_out
 
+
 def convert_to_text(dump):
     lines = dump['lines']
     strLines = ''
@@ -50,36 +53,54 @@ def convert_to_text(dump):
             strLines += c[0]
     return strLines
 
-t,p,o = open_terminal()
-t.feed(o.read(10000))
-convert_to_text(t.dump())
-t.feed(b'ls\r')
-t.feed(o.read(10000))
-convert_to_text(t.dump())
-
 
 def HandleTerminal():
-    terminal, p_pid, p_out, master_fd = open_terminal()
-    while True:
-        try:    
-            r, w, x = select.select([p_out, master_fd],[],[],500000)
-            if r == []:
-                continue
-            for fd in r:
-                print(fd,r)
-                msg = fd.read(65536)
-                if fd == p_out:
-                    terminal.feed(msg)
-                    master_fd.write(msg)
-                if fd == master_fd:
-                    terminal.feed(msg)         
-                    p_out.write(msg
-                print(terminal.screen.display)
-        except Exception as e:  # Process died?
-            print(e)
-        #finally:
-        #    os.kill(p_pid, signal.SIGTERM)
-        #    p_out.close()
+    try:
+        terminal, p_pid, p_out = open_terminal()
+        signal_pipe = os.pipe()
+        Running = True
+        tty.setraw(0)
+        while Running:
+            try:    
+                r, w, x = select.select([sys.stdin, p_out,signal_pipe[0]],[],[],0)
+                if r == []:
+                    continue
+                for fd in r:
+                    if fd == signal_pipe[0]:            
+                        msgBytes = os.read(signal_pipe[0], 1)
+                    if fd == sys.stdin:
+                        msgBytes = os.read(sys.stdin.fileno(), 65536)
+                        terminal.feed(msgBytes)
+                        p_out.write(msgBytes)
+                    if fd == p_out:
+                        try:
+                            msgBytes = p_out.read(65536)
+                        except (EOFError, OSError):
+                            sys.exit(0)                    
+                        terminal.feed(msgBytes)                    
+                        os.write(sys.stdout.fileno(), msgBytes)
+                        #print(terminal.screen.display)
+            except Exception as e:  # Process died?
+                print(e)
+                Running = False
+    except Exception as e:  # Process died?
+        print(e)
+        Running = False
+    finally:
+        p_out.close()            
+        os.kill(p_pid, signal.SIGTERM)
+
+def get_terminal_size(fd):
+    s = struct.pack('HHHH', 0, 0, 0, 0)
+    rows, cols, _, _ = struct.unpack('HHHH', fcntl.ioctl(fd, termios.TIOCGWINSZ, s))
+    return rows, cols
+
+def resize_terminal(fd):
+    s = struct.pack('HHHH', 0, 0, 0, 0)
+    s = fcntl.ioctl(0, termios.TIOCGWINSZ, s)
+    fcntl.ioctl(fd, termios.TIOCSWINSZ, s)
+    rows, cols, _, _ = struct.unpack('hhhh', s)
+    return rows, cols
 
 if __name__ == "__main__":
     HandleTerminal()
