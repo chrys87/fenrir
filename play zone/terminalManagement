@@ -6,7 +6,6 @@ import tty
 import shlex
 import signal
 import select
-from pathlib import Path
 
 import pyte
 
