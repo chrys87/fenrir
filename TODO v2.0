@@ -1,5 +1,5 @@
 ToDo list for Fenrir Version 2.0 
-Things with not so deep knowledge needed are marekd wiht "(Easy for contribution)". so just start with that :).
+Things needing little knowledge are marked with "(Easy for contribution)". so just start with those :).
 [] = ToDo
 [W] = WIP
 [X] = Done
@@ -20,21 +20,21 @@ Cleanups:
   [] settingsData -> defaultSettings.py
 
 General:  
-- imporove attribute handling
+- improve attribute handling
 [] add an attribute sound
 [] beep on cursor/ review by char (capital wins)
-[] beep on review by word (once for multible, captial wins)
+[] beep on review by word (once for multiple, capital wins)
 [] configurable (by char, by word, none)
 
 - generic list or see Tutorial mode list (convert clipboard management) (Easy for contribution)
 [] next item
-[] pref item
+[] prev item
 [] curr item
 [] first item
 [] last item
 
-- make it runable via pypy3
-[] wrapper script for running fenrir that checks if pypy exists, use python3 as fallback.
+- make it runnable via pypy3
+[] wrapper script for running Fenrir to check if pypy exists, use python3 as fallback.
   
 Braille Support:
   [] brailleFocusMode:
