@@ -57,12 +57,12 @@ def convert_to_text(dump):
 def HandleTerminal():
     debug = False
     running = True 
-    attr = termios.tcgetattr(sys.stdin.fileno())
+    #attr = termios.tcgetattr(sys.stdin.fileno())
     try:
         tty.setraw(0)
         terminal, p_pid, p_out = open_terminal()
-        termios.tcdrain(p_pid)
-        termios.tcdrain(0)
+        #termios.tcdrain(p_pid)
+        #termios.tcdrain(0)
         while running:
             r, w, x = select.select([sys.stdin, p_out],[],[],0)
             if r == []:
@@ -93,7 +93,7 @@ def HandleTerminal():
         print(e)
         running = False
     finally:
-        termios.tcsetattr(0, termios.TCSADRAIN, attr)        
+        #termios.tcsetattr(0, termios.TCSADRAIN, attr)        
         p_out.close()            
         os.kill(p_pid, signal.SIGTERM)
 
