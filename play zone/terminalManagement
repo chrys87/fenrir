@@ -32,8 +32,9 @@ class Terminal:
         return {"c": (cursor.x, cursor.y), "lines": lines}
 
 
-def open_terminal(command="bash", columns=80, lines=24):
+def open_terminal(command="bash", columns=25, lines=80):
     p_pid, master_fd = pty.fork()
+    print('PID',p_pid)
     if p_pid == 0:  # Child.
         argv = shlex.split(command)
         env = dict(TERM="linux", LC_ALL="de_DE.UTF-8",
@@ -42,17 +43,6 @@ def open_terminal(command="bash", columns=80, lines=24):
     # File-like object for I/O with the child process aka command.
     p_out = os.fdopen(master_fd, "w+b", 0)
     return Terminal(columns, lines, p_out), p_pid, p_out
-
-
-def convert_to_text(dump):
-    lines = dump['lines']
-    strLines = ''
-    for line in lines:
-        strLines += str(line[0])
-        for c in line[1]:
-            strLines += c[0]
-    return strLines
-
 
 def HandleTerminal():
     debug = False
@@ -64,38 +54,41 @@ def HandleTerminal():
         #termios.tcdrain(p_pid)
         #termios.tcdrain(0)
         while running:
-            r, w, x = select.select([sys.stdin, p_out],[],[],0)
+            time.sleep(0.04)
+            r, w, x = select.select([sys.stdin, p_out],[],[])
             if r == []:
                 continue
             if p_out in r:
                 if debug:
                     print('pre p_out')                                            
                 try:
-                    msgBytes = os.read(p_out.fileno(), 4096)
+                    msgBytes = os.read(p_out.fileno(), 4)                 
                     #p_out.read(4096)
                 except (EOFError, OSError):
                     running = False
-                    #sys.exit(0)                    
+                    #sys.exit(0)                               
                 terminal.feed(msgBytes)                    
                 os.write(sys.stdout.fileno(), msgBytes)
+                sys.stdout.flush()
                 #print(terminal.screen.display)
                 if debug:
                     print('after p_out')                    
             if sys.stdin in r:
                 if debug:
                     print('pre stdin')                        
-                msgBytes = os.read(sys.stdin.fileno(), 4096)
+                msgBytes = os.read(sys.stdin.fileno(), 1)
                 terminal.feed(msgBytes)
                 p_out.write(msgBytes)
+                p_out.flush()
                 if debug:
-                    print('after stdin')                                                                                    
+                    print('after stdin')                
     except Exception as e:  # Process died?
         print(e)
         running = False
     finally:
-        #termios.tcsetattr(0, termios.TCSADRAIN, attr)        
-        p_out.close()            
+        #termios.tcsetattr(0, termios.TCSADRAIN, attr)              
         os.kill(p_pid, signal.SIGTERM)
+        p_out.close()        
 
 def get_terminal_size(fd):
     s = struct.pack('HHHH', 0, 0, 0, 0)
