@@ -32,14 +32,13 @@ class Terminal:
         return {"c": (cursor.x, cursor.y), "lines": lines}
 
 
-def open_terminal(command="bash", columns=80, lines=25):
+def open_terminal(command="bash", columns=80, lines=24):
     p_pid, master_fd = pty.fork()
     print('PID',p_pid)
     if p_pid == 0:  # Child.
         argv = shlex.split(command)
-        env = dict(TERM="linux", LC_ALL=sys.stdout.encoding,
-                   COLUMNS=str(columns), LINES=str(lines))
-        #env = os.environ.copy()
+        env = os.environ.copy()
+        env["TERM"] = 'vt100'
         os.execvpe(argv[0], argv, env)
     # File-like object for I/O with the child process aka command.
     p_out = os.fdopen(master_fd, "w+b", 0)
@@ -116,11 +115,11 @@ def resize_terminal(fd):
     return rows, cols
 
 def read_all(fd):
-    bytes = os.read(fd, 4096)
+    bytes = os.read(fd, 65536)
     if bytes == b'':
         raise EOFError
     while has_more(fd):
-        data = os.read(fd, 4096)
+        data = os.read(fd, 65536)
         if data == b'':
             raise EOFError
         bytes += data
