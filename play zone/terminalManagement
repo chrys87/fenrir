@@ -34,7 +34,6 @@ class Terminal:
 
 def open_terminal(command="bash", columns=80, lines=24):
     p_pid, master_fd = pty.fork()
-    print('PID',p_pid)
     if p_pid == 0:  # Child.
         argv = shlex.split(command)
         env = os.environ.copy()
@@ -47,7 +46,6 @@ def open_terminal(command="bash", columns=80, lines=24):
 def HandleTerminal():
     debug = False
     running = True 
-    #attr = termios.tcgetattr(sys.stdin.fileno())
     try:
         old_attr = termios.tcgetattr(sys.stdin)    
         tty.setraw(0)
@@ -64,11 +62,9 @@ def HandleTerminal():
                     msgBytes = read_all(p_out.fileno())
                 except (EOFError, OSError):
                     running = False
-                    break
-                    #sys.exit(0)                                                      
+                    break    
+                terminal.feed(msgBytes)                                
                 os.write(sys.stdout.fileno(), msgBytes)
-                sys.stdout.flush()
-                #print(terminal.screen.display)
                 if debug:
                     print('after p_out')                    
             if sys.stdin in r:
@@ -79,7 +75,7 @@ def HandleTerminal():
                 except (EOFError, OSError):
                     running = False                    
                     break
-                terminal.feed(msgBytes)            
+                terminal.feed(msgBytes)                                
                 os.write(p_out.fileno(), msgBytes)
                 if debug:
                     print('after stdin')                
@@ -90,6 +86,7 @@ def HandleTerminal():
         os.kill(p_pid, signal.SIGTERM)
         p_out.close()    
         termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_attr)
+        sys.exit(0)
 
 def get_terminal_size(fd):
     s = struct.pack('HHHH', 0, 0, 0, 0)
