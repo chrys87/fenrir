@@ -37,7 +37,7 @@ def open_terminal(command="bash", columns=80, lines=25):
     print('PID',p_pid)
     if p_pid == 0:  # Child.
         argv = shlex.split(command)
-        env = dict(TERM="linux", LC_ALL="de_DE.UTF-8",
+        env = dict(TERM="linux", LC_ALL=sys.stdout.encoding,
                    COLUMNS=str(columns), LINES=str(lines))
         os.execvpe(argv[0], argv, env)
     # File-like object for I/O with the child process aka command.
@@ -49,6 +49,7 @@ def HandleTerminal():
     running = True 
     #attr = termios.tcgetattr(sys.stdin.fileno())
     try:
+        old_attr = termios.tcgetattr(sys.stdin)    
         tty.setraw(0)
         terminal, p_pid, p_out = open_terminal()
         std_out = os.fdopen(sys.stdout.fileno(), "w+b", 0)
@@ -69,6 +70,7 @@ def HandleTerminal():
                     #p_out.read(4096)
                 except (EOFError, OSError):
                     running = False
+                    break
                     #sys.exit(0)                                                      
                 os.write(sys.stdout.fileno(), msgBytes)
                 sys.stdout.flush()
@@ -78,7 +80,14 @@ def HandleTerminal():
             if sys.stdin in r:
                 if debug:
                     print('pre stdin')       
-                msgBytes = read_all(sys.stdin.fileno())
+                try:
+                    msgBytes = read_all(sys.stdin.fileno())
+                    #msgBytes = p_out.read(65536)
+                    #msgBytes = os.read(p_out.fileno(), 4)                 
+                    #p_out.read(4096)
+                except (EOFError, OSError):
+                    running = False                    
+                    break
                 #msgBytes = os.read(sys.stdin.fileno(), 1)
                 terminal.feed(msgBytes)            
                 os.write(p_out.fileno(), msgBytes)
@@ -90,7 +99,8 @@ def HandleTerminal():
     finally:
         #termios.tcsetattr(0, termios.TCSADRAIN, attr)              
         os.kill(p_pid, signal.SIGTERM)
-        p_out.close()        
+        p_out.close()    
+        termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_attr)
 
 def get_terminal_size(fd):
     s = struct.pack('HHHH', 0, 0, 0, 0)
