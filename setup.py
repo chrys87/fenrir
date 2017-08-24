@@ -52,6 +52,7 @@ setup(
     download_url = 'https://github.com/chrys87/fenrir/archive/' + fenrirVersion + '.tar.gz',	
     classifiers=[
         "Programming Language :: Python",        
+        "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",        
         "Development Status :: 5 - Production/Stable",
         "Topic :: Multimedia :: Sound/Audio :: Speech",
         "Environment :: Console",        
