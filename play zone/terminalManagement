@@ -39,13 +39,14 @@ def open_terminal(command="bash", columns=80, lines=25):
         argv = shlex.split(command)
         env = dict(TERM="linux", LC_ALL=sys.stdout.encoding,
                    COLUMNS=str(columns), LINES=str(lines))
+        #env = os.environ.copy()
         os.execvpe(argv[0], argv, env)
     # File-like object for I/O with the child process aka command.
     p_out = os.fdopen(master_fd, "w+b", 0)
     return Terminal(columns, lines, p_out), p_pid, p_out
 
 def HandleTerminal():
-    debug = False
+    debug = True
     running = True 
     #attr = termios.tcgetattr(sys.stdin.fileno())
     try:
@@ -89,7 +90,9 @@ def HandleTerminal():
                     running = False                    
                     break
                 #msgBytes = os.read(sys.stdin.fileno(), 1)
+                print('1')
                 terminal.feed(msgBytes)            
+                print('2')
                 os.write(p_out.fileno(), msgBytes)
                 if debug:
                     print('after stdin')                
