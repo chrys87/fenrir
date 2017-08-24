@@ -46,7 +46,7 @@ def open_terminal(command="bash", columns=80, lines=25):
     return Terminal(columns, lines, p_out), p_pid, p_out
 
 def HandleTerminal():
-    debug = True
+    debug = False
     running = True 
     #attr = termios.tcgetattr(sys.stdin.fileno())
     try:
@@ -57,7 +57,7 @@ def HandleTerminal():
         #termios.tcdrain(p_pid)
         #termios.tcdrain(0)
         while running:
-            time.sleep(0.04)
+            #time.sleep(0.04)
             r, w, x = select.select([sys.stdin, p_out],[],[])
             if r == []:
                 continue
@@ -90,9 +90,7 @@ def HandleTerminal():
                     running = False                    
                     break
                 #msgBytes = os.read(sys.stdin.fileno(), 1)
-                print('1')
                 terminal.feed(msgBytes)            
-                print('2')
                 os.write(p_out.fileno(), msgBytes)
                 if debug:
                     print('after stdin')                
