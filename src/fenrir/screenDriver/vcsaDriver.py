@@ -130,7 +130,6 @@ class driver():
             watchdog = select.epoll()
             watchdog.register(vcsa[currScreen], select.POLLPRI | select.POLLERR)
             watchdog.register(tty, select.POLLPRI | select.POLLERR)
-            lastScreenContent = b''
             while active.value == 1:
                 changes = watchdog.poll(2)
                 for change in changes:
@@ -155,23 +154,21 @@ class driver():
                                 vcsa[currScreen].seek(0)                        
                                 lastScreenContent = vcsa[currScreen].read() 
                             except:
-                                lastScreenContent = b'' 
+                                pass 
                     else:
                         self.env['runtime']['debug'].writeDebugOut('ScreenUpdate',debug.debugLevel.INFO)                                                 
                         vcsa[currScreen].seek(0)                                                
                         dirtyContent = vcsa[currScreen].read()
                         screenContent = b''
                         timeout = time.time()
-                        if dirtyContent != lastScreenContent:
-                            while screenContent != dirtyContent:
-                                screenContent = dirtyContent
-                                if time.time() - timeout >= 0.3:
-                                    break
-                                vcsa[currScreen].seek(0)                        
-                                dirtyContent = vcsa[currScreen].read()
-                                time.sleep(0.01)
-                            eventQueue.put({"Type":fenrirEventType.ScreenUpdate,"Data":None})
-                            lastScreenContent = screenContent              
+                        while screenContent != dirtyContent:
+                            screenContent = dirtyContent
+                            if time.time() - timeout >= 0.4:
+                                break
+                            time.sleep(0.03)                                                   
+                            vcsa[currScreen].seek(0)                             
+                            dirtyContent = vcsa[currScreen].read()
+                        eventQueue.put({"Type":fenrirEventType.ScreenUpdate,"Data":None})
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('VCSA:updateWatchdog:' + str(e),debug.debugLevel.ERROR)         
 

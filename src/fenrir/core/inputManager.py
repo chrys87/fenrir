@@ -22,7 +22,8 @@ class inputManager():
         self.env['input']['oldCapsLock'] = self.env['input']['newCapsLock']
         self.env['input']['newScrollLock'] = self.env['runtime']['inputDriver'].getLedState(2)
         self.env['input']['oldScrollLock'] = self.env['input']['newScrollLock']
-
+        self.lastDeepestInput = []
+        self.lastInputTime = time.time()
     def shutdown(self):
         self.removeAllDevices()
         self.env['runtime']['settingsManager'].shutdownDriver('inputDriver')
@@ -40,26 +41,25 @@ class inputManager():
                     if len(self.env['input']['currInput']) > 1:
                         self.env['input']['currInput'] = sorted(self.env['input']['currInput'])
                     elif len(self.env['input']['currInput']) == 0:
-                        self.env['input']['prevDeepestInput'] = []
                         self.env['input']['shortcutRepeat'] = 1 
                     self.setLedState = self.handleLedStates(mEvent)                                             
-                    self.env['input']['lastInputTime'] = time.time()                                                   
+                    self.lastInputTime = time.time()                                                   
             elif mEvent['EventState'] == 1:
                 if not mEvent['EventName'] in self.env['input']['currInput']:
                     self.env['input']['currInput'].append(mEvent['EventName'])
                     if len(self.env['input']['currInput']) > 1:
                         self.env['input']['currInput'] = sorted(self.env['input']['currInput'])
-                    if len(self.env['input']['prevDeepestInput']) < len(self.env['input']['currInput']):
-                        self.env['input']['prevDeepestInput'] = self.env['input']['currInput'].copy()
-                    elif self.env['input']['prevDeepestInput'] == self.env['input']['currInput']:
-                        if time.time() - self.env['input']['lastInputTime']  <= self.env['runtime']['settingsManager'].getSettingAsFloat('keyboard','doubleTapTimeout'):
+                    if len(self.lastDeepestInput) < len(self.env['input']['currInput']):
+                        self.setLastDeepestInput( self.env['input']['currInput'].copy())
+                    elif self.lastDeepestInput == self.env['input']['currInput']:
+                        if time.time() - self.lastInputTime <= self.env['runtime']['settingsManager'].getSettingAsFloat('keyboard','doubleTapTimeout'):
                             self.env['input']['shortcutRepeat'] += 1
                         else:
                             self.env['input']['shortcutRepeat'] = 1
                     self.setLedState = self.handleLedStates(mEvent)                                             
-                    self.env['input']['lastInputTime'] = time.time()                                               
+                    self.lastInputTime = time.time()                                               
             elif mEvent['EventState'] == 2:
-                self.env['input']['lastInputTime'] = time.time()                                                   
+                self.lastInputTime  = time.time()                                                   
             else:
                 pass  
             self.env['input']['oldNumLock'] = self.env['input']['newNumLock']
@@ -143,7 +143,14 @@ class inputManager():
 
     def clearEventBuffer(self):
         self.env['runtime']['inputDriver'].clearEventBuffer()
-          
+    def setLastDeepestInput(self, currentDeepestInput):
+        self.lastDeepestInput = currentDeepestInput
+    def clearLastDeepInput(self):
+        self.lastDeepestInput = []  
+    def getLastInputTime(self):
+        return self.lastInputTime           
+    def getLastDeepestInput(self):
+        return self.lastDeepestInput 
     def writeEventBuffer(self):
         try:
             if self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
@@ -157,10 +164,10 @@ class inputManager():
         return self.env['input']['currInput'] == []
     def isKeyPress(self):
         return (self.env['input']['prevInput'] == []) and (self.env['input']['currInput'] != [])
-    def getPrevDeepestInput(self):
+    def getPrevDeepestShortcut(self):
         shortcut = []
         shortcut.append(self.env['input']['shortcutRepeat'])
-        shortcut.append(self.env['input']['prevDeepestInput'])
+        shortcut.append(self.getLastDeepestInput())
         return str(shortcut)
         
     def getPrevShortcut(self):
@@ -186,7 +193,7 @@ class inputManager():
         return str(shortcut)
         
     def currKeyIsModifier(self):
-        if len(self.env['input']['prevDeepestInput']) != 1:
+        if len(self.getLastDeepestInput()) != 1:
             return False
         return (self.env['input']['currInput'][0] =='KEY_FENRIR') or (self.env['input']['currInput'][0] == 'KEY_SCRIPT')
     
