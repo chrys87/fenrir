@@ -15,19 +15,15 @@ class command():
         pass
     def getDescription(self):
         return ''        
-    
+
     def run(self):
-        if self.env['runtime']['inputManager'].noKeyPressed():
-            return   
         if self.env['screen']['newAttribDelta'] != '':
             return  
         if self.env['runtime']['screenManager'].isScreenChange():
             return
         if self.env['runtime']['cursorManager'].isCursorVerticalMove():
             return
-        if len(self.env['input']['currInput']) != 1:              
-            return
-        if not self.env['input']['currInput'][0] in ['KEY_UP','KEY_DOWN']:              
+        if not (self.env['runtime']['inputManager'].getLastDeepestInput() in [['KEY_UP'],['KEY_DOWN']]):
             return            
         prevLine = self.env['screen']['oldContentText'].split('\n')[self.env['screen']['newCursor']['y']]
         currLine = self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']]

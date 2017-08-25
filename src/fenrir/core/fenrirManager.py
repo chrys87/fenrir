@@ -51,6 +51,8 @@ class fenrirManager():
     def handleInput(self, event):
         #startTime = time.time()        
         eventReceived = self.environment['runtime']['inputManager'].getInputEvent()
+        if self.environment['runtime']['inputManager'].noKeyPressed(): 
+            self.environment['runtime']['inputManager'].clearLastDeepInput()        
         if eventReceived:
 
             if self.environment['runtime']['screenManager'].isSuspendingScreen():
@@ -106,11 +108,15 @@ class fenrirManager():
               self.environment['runtime']['applicationManager'].getPrevApplication(), \
               self.environment['runtime']['applicationManager'].getCurrentApplication())          
         '''
-        # has cursor changed?
+        # timout for the last keypress
+        if time.time() - self.environment['runtime']['inputManager'].getLastInputTime() >= 0.3:
+            self.environment['runtime']['inputManager'].clearLastDeepInput()        
+        # has cursor changed?            
         if self.environment['runtime']['cursorManager'].isCursorVerticalMove() or \
           self.environment['runtime']['cursorManager'].isCursorHorizontalMove():
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onCursorChange')        
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenUpdate')
+        self.environment['runtime']['inputManager'].clearLastDeepInput()
         #print('handleScreenUpdate:',time.time() - startTime)
     
     def handlePlugInputDevice(self, event):
@@ -128,7 +134,7 @@ class fenrirManager():
         else:
             if not self.environment['runtime']['inputManager'].noKeyPressed():
                 if self.singleKeyCommand:
-                    self.singleKeyCommand = len(self.environment['input']['prevDeepestInput']) == 1
+                    self.singleKeyCommand = len( self.environment['runtime']['inputManager'].getLastDeepestInput() ) == 1
         # key is already released. we need the old one
         if not( self.singleKeyCommand and self.environment['runtime']['inputManager'].noKeyPressed()):
             shortcut = self.environment['runtime']['inputManager'].getCurrShortcut()                
