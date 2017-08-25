@@ -165,7 +165,7 @@ class driver():
                         if dirtyContent != lastScreenContent:
                             while screenContent != dirtyContent:
                                 screenContent = dirtyContent
-                                if time.time() - timeout > 0.2:
+                                if time.time() - timeout >= 0.3:
                                     break
                                 vcsa[currScreen].seek(0)                        
                                 dirtyContent = vcsa[currScreen].read()
