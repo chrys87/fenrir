@@ -128,8 +128,8 @@ class driver():
             currScreen = str(tty.read()[3:-1])
             oldScreen = currScreen
             watchdog = select.epoll()
-            watchdog.register(vcsa[currScreen], select.EPOLLPRI)
-            watchdog.register(tty, select.EPOLLPRI)
+            watchdog.register(vcsa[currScreen], select.POLLPRI | select.POLLERR)
+            watchdog.register(tty, select.POLLPRI | select.POLLERR)
             lastScreenContent = b''
             while active.value == 1:
                 changes = watchdog.poll(2)
@@ -146,7 +146,7 @@ class driver():
                             except:
                                 pass
                             try:
-                                watchdog.register(vcsa[ currScreen ], select.EPOLLPRI)   
+                                watchdog.register(vcsa[ currScreen ], select.POLLPRI | select.POLLERR) 
                             except:
                                 pass
                             oldScreen = currScreen
@@ -158,9 +158,18 @@ class driver():
                                 lastScreenContent = b'' 
                     else:
                         self.env['runtime']['debug'].writeDebugOut('ScreenUpdate',debug.debugLevel.INFO)                                                 
-                        vcsa[currScreen].seek(0)
-                        screenContent = vcsa[currScreen].read()
-                        if screenContent != lastScreenContent:
+                        vcsa[currScreen].seek(0)                                                
+                        dirtyContent = vcsa[currScreen].read()
+                        screenContent = b''
+                        timeout = time.time()
+                        if dirtyContent != lastScreenContent:
+                            while screenContent != dirtyContent:
+                                screenContent = dirtyContent
+                                if time.time() - timeout > 0.2:
+                                    break
+                                vcsa[currScreen].seek(0)                        
+                                dirtyContent = vcsa[currScreen].read()
+                                time.sleep(0.01)
                             eventQueue.put({"Type":fenrirEventType.ScreenUpdate,"Data":None})
                             lastScreenContent = screenContent              
         except Exception as e:

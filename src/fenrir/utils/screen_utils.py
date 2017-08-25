@@ -7,6 +7,9 @@
 from core import debug
 from collections import Counter
 import string
+from select import select
+from select import epoll
+import select
 
 def removeNonprintable(text):
     # Get the difference of all ASCII characters from the set of printable characters
@@ -19,6 +22,16 @@ def insertNewlines(string, every=64):
 
 def splitEvery(toSplit, every=64):
     return list(toSplit[i:i+every] for i in range(0, len(toSplit), every))
+
+def hasMoreRead(fd):
+    r, w, e = select([fd], [], [], 0)
+    return (fd in r)
+
+def hasMorePollPri(fd):
+    p = epoll()
+    p.register(fd, select.POLLPRI | select.POLLERR)
+    r = p.poll(0)
+    return (fd in r)
 
 def trackHighlights(oldAttr, newAttr, text, lenght):
     result = ''
