@@ -24,9 +24,12 @@ class command():
         if self.env['runtime']['cursorManager'].isCursorVerticalMove():
             return
         if not (self.env['runtime']['inputManager'].getLastDeepestInput() in [['KEY_UP'],['KEY_DOWN']]):
-            return            
+            return 
         prevLine = self.env['screen']['oldContentText'].split('\n')[self.env['screen']['newCursor']['y']]
-        currLine = self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']]
+        currLine = self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']]            
+        if prevLine == currLine:
+            if self.env['screen']['newDelta'] != '':
+                return         
         if not currLine.isspace():
             currPrompt = currLine.find('$')
             rootPrompt = currLine.find('#')
