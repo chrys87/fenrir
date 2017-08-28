@@ -20,12 +20,10 @@ Cleanups:
   [] settingsData -> defaultSettings.py
 
 General:  
-<<<<<<< HEAD
-- improve attribute handling
-=======
+- commands
+[] place last spoken to clipboard
 - imporove attribute handling
 [] improve attributes_curr_char
->>>>>>> 1.5
 [] add an attribute sound
 [] beep on cursor/ review by char (capital wins)
 [] beep on review by word (once for multiple, capital wins)
