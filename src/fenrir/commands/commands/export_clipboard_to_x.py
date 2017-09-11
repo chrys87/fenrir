@@ -31,36 +31,32 @@ class command():
             
             if currClipboard < 0:
                 self.env['runtime']['outputManager'].presentText(_('clipboard empty'), interrupt=True)
-                print('1')
                 return
             if not self.env['commandBuffer']['clipboard']:
                 self.env['runtime']['outputManager'].presentText(_('clipboard empty'), interrupt=True)
-                print('2')
                 return
             if not self.env['commandBuffer']['clipboard'][currClipboard]:
                 self.env['runtime']['outputManager'].presentText(_('clipboard empty'), interrupt=True)
-                print('3')
                 return 
             if self.env['commandBuffer']['clipboard'][currClipboard] == '':
                 self.env['runtime']['outputManager'].presentText(_('clipboard empty'), interrupt=True)
-                print('4')
                 return                                         
-            print('doit')
-            p = Popen('su ' + self.env['general']['currUser'] + '  -c  "echo -n \"' + self.env['commandBuffer']['clipboard'][currClipboard] +'\" | xclip -d :0 -selection c"' , stdout=PIPE, stderr=PIPE, shell=True)
-            stdout, stderr = p.communicate()
-            self.env['runtime']['outputManager'].interruptOutput()
-            #screenEncoding = self.env['runtime']['settingsManager'].getSetting('screen', 'encoding')
-            stderr = stderr.decode('utf-8')
-            stdout = stdout.decode('utf-8')            
+            for display in range(10):
+                p = Popen('su ' + self.env['general']['currUser'] + ' -c  "echo -n \"' + self.env['commandBuffer']['clipboard'][currClipboard] +'\" | xclip -d :' + str(display) + ' -selection c"' , stdout=PIPE, stderr=PIPE, shell=True)
+                stdout, stderr = p.communicate()
+                self.env['runtime']['outputManager'].interruptOutput()
+                #screenEncoding = self.env['runtime']['settingsManager'].getSetting('screen', 'encoding')
+                stderr = stderr.decode('utf-8')
+                stdout = stdout.decode('utf-8')
+                if (stderr == ''):
+                    break           
             #stderr = stderr.decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
             #stdout = stdout.decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
-            print('test:',stderr,stdout)
             if stderr != '':
                 self.env['runtime']['outputManager'].presentText(stdout , soundIcon='', interrupt=False)
             else:
                 self.env['runtime']['outputManager'].presentText('export clipboard', soundIcon='PasteClipboardOnScreen', interrupt=True)                
         except Exception as e:
-                print(e)
                 self.env['runtime']['outputManager'].presentText(e , soundIcon='', interrupt=False)
         
     def setCallback(self, callback):
