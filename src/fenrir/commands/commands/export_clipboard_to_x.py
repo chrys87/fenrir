@@ -20,14 +20,11 @@ class command():
     def getDescription(self):
         return _('export the current fenrir clipboard to X clipboard')
     def run(self):                       
-       print('drin')
        _thread.start_new_thread(self._threadRun , ())
 
     def _threadRun(self):
-        print('jo')
         try:
             currClipboard = self.env['commandBuffer']['currClipboard']
-            print(currClipboard)
             
             if currClipboard < 0:
                 self.env['runtime']['outputManager'].presentText(_('clipboard empty'), interrupt=True)
@@ -53,7 +50,7 @@ class command():
             #stderr = stderr.decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
             #stdout = stdout.decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
             if stderr != '':
-                self.env['runtime']['outputManager'].presentText(stdout , soundIcon='', interrupt=False)
+                self.env['runtime']['outputManager'].presentText(stderr , soundIcon='', interrupt=False)
             else:
                 self.env['runtime']['outputManager'].presentText('export clipboard', soundIcon='PasteClipboardOnScreen', interrupt=True)                
         except Exception as e:
