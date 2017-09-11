@@ -46,12 +46,14 @@ class command():
                 print('4')
                 return                                         
             print('doit')
-            p = Popen('su -c "echo -n \"' + self.env['commandBuffer']['clipboard'][currClipboard] +'\" | xclip -d :0 -selection c' + self.env['general']['currUser'] , stdout=PIPE, stderr=PIPE, shell=True)
+            p = Popen('su ' + self.env['general']['currUser'] + '  -c  "echo -n \"' + self.env['commandBuffer']['clipboard'][currClipboard] +'\" | xclip -d :0 -selection c"' , stdout=PIPE, stderr=PIPE, shell=True)
             stdout, stderr = p.communicate()
             self.env['runtime']['outputManager'].interruptOutput()
-            screenEncoding = self.env['runtime']['settingsManager'].getSetting('screen', 'encoding')
-            stderr = stderr.decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
-            stdout = stdout.decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
+            #screenEncoding = self.env['runtime']['settingsManager'].getSetting('screen', 'encoding')
+            stderr = stderr.decode('utf-8')
+            stdout = stdout.decode('utf-8')            
+            #stderr = stderr.decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
+            #stdout = stdout.decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
             print('test:',stderr,stdout)
             if stderr != '':
                 self.env['runtime']['outputManager'].presentText(stdout , soundIcon='', interrupt=False)
