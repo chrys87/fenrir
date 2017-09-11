@@ -46,17 +46,14 @@ class command():
                 stderr = stderr.decode('utf-8')
                 stdout = stdout.decode('utf-8')
                 if (stderr == ''):
-                    break
-                else:
-                    print(stderr)           
+                    break      
             #stderr = stderr.decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
             #stdout = stdout.decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
             if stderr != '':
                 self.env['runtime']['outputManager'].presentText(stderr , soundIcon='', interrupt=False)
             else:
-                self.env['runtime']['outputManager'].presentText('export clipboard', soundIcon='PasteClipboardOnScreen', interrupt=True)                
+                self.env['runtime']['outputManager'].presentText('pasted to the X session or clipboard.', interrupt=True)                
         except Exception as e:
-            print(e)
             self.env['runtime']['outputManager'].presentText(e , soundIcon='', interrupt=False)
         
     def setCallback(self, callback):
