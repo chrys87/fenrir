@@ -39,7 +39,7 @@ class command():
                 self.env['runtime']['outputManager'].presentText(_('clipboard empty'), interrupt=True)
                 return                                         
             for display in range(10):
-                p = Popen('su ' + self.env['general']['currUser'] + ' -c  "echo -n \\\"' + self.env['commandBuffer']['clipboard'][currClipboard] +'\\\" | xclip -d :' + str(display) + ' -selection c"' , stdout=PIPE, stderr=PIPE, shell=True)
+                p = Popen('su ' + self.env['general']['currUser'] + ' -c  "echo -n \\\"' + self.env['commandBuffer']['clipboard'][currClipboard].replace('"','\\\\\\"')  +'\\\" | xclip -d :' + str(display) + ' -selection c"' , stdout=PIPE, stderr=PIPE, shell=True)
                 stdout, stderr = p.communicate()
                 self.env['runtime']['outputManager'].interruptOutput()
                 #screenEncoding = self.env['runtime']['settingsManager'].getSetting('screen', 'encoding')
@@ -52,7 +52,7 @@ class command():
             if stderr != '':
                 self.env['runtime']['outputManager'].presentText(stderr , soundIcon='', interrupt=False)
             else:
-                self.env['runtime']['outputManager'].presentText('pasted to the X session or clipboard.', interrupt=True)                
+                self.env['runtime']['outputManager'].presentText('exported to the X session.', interrupt=True)                
         except Exception as e:
             self.env['runtime']['outputManager'].presentText(e , soundIcon='', interrupt=False)
         
