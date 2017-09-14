@@ -105,7 +105,10 @@ class inputManager():
             self.env['runtime']['inputDriver'].grabAllDevices()
     
     def updateInputDevices(self):
-        self.env['runtime']['inputDriver'].updateInputDevices()  
+        try:
+            self.env['runtime']['inputDriver'].updateInputDevices()  
+        except:
+            pass
     
     def removeAllDevices(self):
         try:
