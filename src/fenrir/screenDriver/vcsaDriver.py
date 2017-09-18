@@ -165,7 +165,7 @@ class driver():
                             screenContent = dirtyContent
                             if time.time() - timeout >= 0.4:
                                 break
-                            time.sleep(0.03)                                                   
+                            time.sleep(0.005)                                                   
                             vcsa[currScreen].seek(0)                             
                             dirtyContent = vcsa[currScreen].read()
                         eventQueue.put({"Type":fenrirEventType.ScreenUpdate,"Data":None})
@@ -341,13 +341,18 @@ class driver():
                 if self.env['screen']['oldCursor']['x'] != self.env['screen']['newCursor']['x'] and \
                   self.env['screen']['oldCursor']['y'] == self.env['screen']['newCursor']['y'] and \
                   self.env['screen']['newContentText'][:cursorLineStart] == self.env['screen']['oldContentText'][:cursorLineStart]:
-
-                    oldScreenText = self.env['screen']['oldContentText'][cursorLineStart:cursorLineEnd] 
+                    cursorLineStartOffset = cursorLineStart
+                    cursorLineEndOffset = cursorLineEnd
+                    if (cursorLineStart - 4) > self.env['screen']['newCursor']['y'] * self.env['screen']['columns']:
+                        cursorLineStartOffset = (self.env['screen']['newCursor']['x'] - 4)
+                    if (cursorLineEndOffset + 4) < self.env['screen']['newCursor']['y'] * self.env['screen']['columns'] + self.env['screen']['columns']:
+                        cursorLineEndOffset = (self.env['screen']['newCursor']['x'] + 4)                                               
+                    oldScreenText = self.env['screen']['oldContentText'][cursorLineStartOffset:cursorLineEndOffset] 
                     oldScreenText = re.sub(' +',' ',oldScreenText)
-                    newScreenText = self.env['screen']['newContentText'][cursorLineStart:cursorLineEnd]
+                    newScreenText = self.env['screen']['newContentText'][cursorLineStartOffset:cursorLineEndOffset]
                     newScreenText = re.sub(' +',' ',newScreenText)
                     diff = difflib.ndiff(oldScreenText, newScreenText) 
-                    typing = True                      
+                    typing = True
                 else:
                     diff = difflib.ndiff( oldScreenText.split('\n'),\
                       newScreenText.split('\n'))
