@@ -337,16 +337,16 @@ class driver():
                 self.env['screen']['newDelta'] = newScreenText
             else:
                 cursorLineStart = self.env['screen']['newCursor']['y'] * self.env['screen']['columns'] + self.env['screen']['newCursor']['y']
-                cursorLineEnd = cursorLineStart  + self.env['screen']['columns']            
+                cursorLineEnd = cursorLineStart  + self.env['screen']['columns']         
                 if self.env['screen']['oldCursor']['x'] != self.env['screen']['newCursor']['x'] and \
                   self.env['screen']['oldCursor']['y'] == self.env['screen']['newCursor']['y'] and \
                   self.env['screen']['newContentText'][:cursorLineStart] == self.env['screen']['oldContentText'][:cursorLineStart]:
                     cursorLineStartOffset = cursorLineStart
                     cursorLineEndOffset = cursorLineEnd
-                    if (cursorLineStart - 4) > self.env['screen']['newCursor']['y'] * self.env['screen']['columns']:
-                        cursorLineStartOffset = (self.env['screen']['newCursor']['x'] - 4)
-                    if (cursorLineEndOffset + 4) < self.env['screen']['newCursor']['y'] * self.env['screen']['columns'] + self.env['screen']['columns']:
-                        cursorLineEndOffset = (self.env['screen']['newCursor']['x'] + 4)                                               
+                    if cursorLineStart < cursorLineStart + self.env['screen']['newCursor']['x'] - 4:
+                        cursorLineStartOffset = cursorLineStart + self.env['screen']['newCursor']['x'] - 4
+                    if cursorLineEnd > cursorLineStart + self.env['screen']['newCursor']['x'] + 4:
+                        cursorLineEndOffset = cursorLineStart + self.env['screen']['newCursor']['x'] + 4                                               
                     oldScreenText = self.env['screen']['oldContentText'][cursorLineStartOffset:cursorLineEndOffset] 
                     oldScreenText = re.sub(' +',' ',oldScreenText)
                     newScreenText = self.env['screen']['newContentText'][cursorLineStartOffset:cursorLineEndOffset]
