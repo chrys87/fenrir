@@ -330,15 +330,15 @@ class driver():
         oldScreenText = re.sub(' +',' ',self.env['runtime']['screenManager'].getWindowAreaInText(self.env['screen']['oldContentText']))
         newScreenText = re.sub(' +',' ',self.env['runtime']['screenManager'].getWindowAreaInText(self.env['screen']['newContentText']))        
         typing = False
-        if (self.env['screen']['oldContentText'] != self.env['screen']['newContentText']) and \
-          (self.env['screen']['newContentText'] != '' ):
-            if oldScreenText == '' and\
-              newScreenText != '':
-                self.env['screen']['newDelta'] = newScreenText
+        if (self.env['screen']['oldContentText'] != self.env['screen']['newContentText']):
+            if self.env['screen']['newContentText'] != '' and self.env['screen']['oldContentText'] == '':
+                if oldScreenText == '' and\
+                  newScreenText != '':
+                    self.env['screen']['newDelta'] = newScreenText
             else:
                 cursorLineStart = self.env['screen']['newCursor']['y'] * self.env['screen']['columns'] + self.env['screen']['newCursor']['y']
                 cursorLineEnd = cursorLineStart  + self.env['screen']['columns']         
-                if self.env['screen']['oldCursor']['x'] != self.env['screen']['newCursor']['x'] and \
+                if abs(self.env['screen']['oldCursor']['x'] - self.env['screen']['newCursor']['x']) == 1 and \
                   self.env['screen']['oldCursor']['y'] == self.env['screen']['newCursor']['y'] and \
                   self.env['screen']['newContentText'][:cursorLineStart] == self.env['screen']['oldContentText'][:cursorLineStart]:
                     cursorLineStartOffset = cursorLineStart
@@ -364,7 +364,7 @@ class driver():
                 else:
                     self.env['screen']['newDelta'] = ''.join(x[2:] for x in diffList if x[0] == '+')             
                 self.env['screen']['newNegativeDelta'] = ''.join(x[2:] for x in diffList if x[0] == '-')
-        
+
         # track highlighted
         if self.env['screen']['oldContentAttrib'] != self.env['screen']['newContentAttrib']:
             if self.env['runtime']['settingsManager'].getSettingAsBool('focus', 'highlight'):
