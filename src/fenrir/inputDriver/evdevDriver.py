@@ -202,7 +202,7 @@ class driver():
                 self.env['runtime']['debug'].writeDebugOut("Skip Inputdevice : " + deviceFile +' ' + str(e),debug.debugLevel.ERROR)                
         self.iDeviceNo = len(evdev.list_devices())
         self.updateMPiDevicesFD()
-        print(list(self.iDevicesFD))        
+
     def updateMPiDevicesFD(self):
         for fd in self.iDevices:
             if not fd in self.iDevicesFD:
