@@ -26,7 +26,7 @@ class command():
         if not self.env['runtime']['screenManager'].isDelta():
             return
         # big changes are no char (but the value is bigger than one maybe the differ needs longer than you can type, so a little strange random buffer for now)
-        if len(self.env['screen']['newDelta']) > 3:
+        if len(self.env['screen']['newDelta'].strip(' \n\t')) > 1:
             return        
         # filter unneded space on word begin
         currDelta = self.env['screen']['newDelta']
