@@ -64,6 +64,8 @@ class driver():
         while active.value == 1:
             devices = monitor.poll(2)
             if devices:
+                while monitor.poll(0.05):
+                    time.sleep(0.01)            
                 eventQueue.put({"Type":fenrirEventType.PlugInputDevice,"Data":None})
         return time.time()        
     def plugInputDeviceWatchdogTimer(self, active):
@@ -82,8 +84,7 @@ class driver():
             while r == []:
                 if active.value == 0:
                     return        
-                deviceFd = list(params['dev'])       
-                r, w, x = select(deviceFd, [], [], 2)                     
+                r, w, x = select(list(params['dev']), [], [], 0.3)                     
             self.watchDog.value = 0                    
         except:
             pass
@@ -144,8 +145,7 @@ class driver():
         if not self._initialized:
             return    
         uDevice.write_event(event)
-        uDevice.syn()  
-        time.sleep(0.00001)
+        uDevice.syn()
 
     def updateInputDevices(self, force = False, init = False):
         if init:
@@ -201,7 +201,8 @@ class driver():
             except Exception as e:
                 self.env['runtime']['debug'].writeDebugOut("Skip Inputdevice : " + deviceFile +' ' + str(e),debug.debugLevel.ERROR)                
         self.iDeviceNo = len(evdev.list_devices())
-        self.updateMPiDevicesFD()        
+        self.updateMPiDevicesFD()
+        print(list(self.iDevicesFD))        
     def updateMPiDevicesFD(self):
         for fd in self.iDevices:
             if not fd in self.iDevicesFD:
