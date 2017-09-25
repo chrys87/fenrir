@@ -23,8 +23,8 @@ class command():
         if not self.env['runtime']['screenManager'].isDelta():
             return      
         # this must be a keyecho or something      
-        if len(self.env['screen']['newDelta'].strip(' \n\t')) >= 1:
-            if abs(self.env['screen']['newCursor']['x'] - self.env['screen']['oldCursor']['x']) > 1:
+        if len(self.env['screen']['newDelta'].strip(' \n\t')) <= 1:
+            if abs(self.env['screen']['newCursor']['x'] - self.env['screen']['oldCursor']['x']) >= 1:
             # if len(self.env['screen']['newDelta'].strip(' \n\t0123456789')) <= 2:
                 return          
             if abs(self.env['screen']['newCursor']['y'] - self.env['screen']['oldCursor']['y']) == 1:
