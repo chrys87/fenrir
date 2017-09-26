@@ -45,10 +45,10 @@ class command():
         # navigate by word (i.e. CTRL + Arrow left/right)
         if abs(self.env['screen']['oldCursor']['x'] - self.env['screen']['newCursor']['x']) > 1:
             # at the start of a word        
-            if newContent[self.env['screen']['newCursor']['x']].isspace():
-                return         
-            if self.env['screen']['newCursor']['x'] != x:
-                return       
+             if (x + len(currWord) != self.env['screen']['newCursor']['x'])  and \
+              (self.env['screen']['newCursor']['x'] != x):
+                return     
+   
         # navigate by char (left/ right)
         else:
             # at the end of a word        

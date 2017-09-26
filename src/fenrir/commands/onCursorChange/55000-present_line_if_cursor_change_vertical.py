@@ -25,8 +25,7 @@ class command():
             return        
         # this leads to problems in vim -> status line change -> no announcement, so we do check the lengh as hack
         if self.env['runtime']['screenManager'].isDelta():
-            if len(self.env['screen']['newDelta']) > 4:  
-                return
+            return
             
         # is a vertical change?
         if not self.env['runtime']['cursorManager'].isCursorVerticalMove():
