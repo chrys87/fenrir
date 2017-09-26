@@ -29,23 +29,27 @@ class command():
         # for now no new line
         if self.env['runtime']['cursorManager'].isCursorVerticalMove():
             return
+        # currently writing
+        if self.env['runtime']['screenManager'].isDelta():
+            return            
+        
         # get the word            
         newContent = self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']]
         x, y, currWord, endOfScreen, lineBreak = \
           word_utils.getCurrentWord(self.env['screen']['newCursor']['x'], 0, newContent)                          
         
-        # currently writing
-        if self.env['runtime']['screenManager'].isDelta():
+        # is there a word?        
+        if currWord == '':
             return
 
         # navigate prev word
         if self.env['screen']['oldCursor']['x'] - self.env['screen']['newCursor']['x'] > 1:
-            # at the end of a word        
+            # at the start of a word        
             if newContent[self.env['screen']['newCursor']['x']].isspace():
                 return         
             if self.env['screen']['newCursor']['x'] != x:
                 return       
-        # next word
+        # navigate next word
         else:
             # at the end of a word        
             if not newContent[self.env['screen']['newCursor']['x']].isspace():
@@ -54,8 +58,7 @@ class command():
               (x + len(currWord) != self.env['screen']['newCursor']['x']-1):
                 return    
 
-        if currWord != '':
-            self.env['runtime']['outputManager'].presentText(currWord, interrupt=True, flush=False)
+        self.env['runtime']['outputManager'].presentText(currWord, interrupt=True, flush=False)
 
     def setCallback(self, callback):
         pass
