@@ -42,14 +42,14 @@ class command():
         if currWord == '':
             return
 
-        # navigate prev word
-        if self.env['screen']['oldCursor']['x'] - self.env['screen']['newCursor']['x'] > 1:
+        # navigate by word (i.e. CTRL + Arrow left/right)
+        if abs(self.env['screen']['oldCursor']['x'] - self.env['screen']['newCursor']['x']) > 1:
             # at the start of a word        
             if newContent[self.env['screen']['newCursor']['x']].isspace():
                 return         
             if self.env['screen']['newCursor']['x'] != x:
                 return       
-        # navigate next word
+        # navigate by char (left/ right)
         else:
             # at the end of a word        
             if not newContent[self.env['screen']['newCursor']['x']].isspace():

@@ -6,6 +6,7 @@
 
 from core import debug
 from utils import line_utils
+from utils import word_utils
 
 class command():
     def __init__(self):
@@ -21,7 +22,7 @@ class command():
         if not self.env['runtime']['settingsManager'].getSettingAsBool('focus', 'cursor'):
             return      
         if self.env['runtime']['screenManager'].isScreenChange():
-            return
+            return        
         # this leads to problems in vim -> status line change -> no announcement, so we do check the lengh as hack
         if self.env['runtime']['screenManager'].isDelta():
             if len(self.env['screen']['newDelta']) > 4:  
