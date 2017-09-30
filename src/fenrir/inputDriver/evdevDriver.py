@@ -181,8 +181,10 @@ class driver():
                 if mode in ['ALL','NOMICE']:
                     if eventType.EV_KEY in cap:
                         if 116 in cap[eventType.EV_KEY] and len(cap[eventType.EV_KEY]) < 10:
+                            self.env['runtime']['debug'].writeDebugOut('Device Skipped (has 116):' + self.iDevices[currDevice.fd].name,debug.debugLevel.INFO)                                                                
                             continue
                         if len(cap[eventType.EV_KEY]) < 30:
+                            self.env['runtime']['debug'].writeDebugOut('Device Skipped (< 30 keys):' + self.iDevices[currDevice.fd].name,debug.debugLevel.INFO)                                                                                        
                             continue                            
                         if mode == 'ALL':
                             self.iDevices[currDevice.fd] = currDevice
@@ -193,12 +195,14 @@ class driver():
                                 self.iDevices[currDevice.fd] = currDevice
                                 self.grabDevice(currDevice.fd)
                                 self.env['runtime']['debug'].writeDebugOut('Device added (NOMICE):' + self.iDevices[currDevice.fd].name,debug.debugLevel.INFO)                                                
+                            else:
+                                self.env['runtime']['debug'].writeDebugOut('Device Skipped (NOMICE):' + self.iDevices[currDevice.fd].name,debug.debugLevel.INFO)                                        
                 elif currDevice.name.upper() in mode.split(','):
                     self.iDevices[currDevice.fd] = currDevice
                     self.grabDevice(currDevice.fd)
-                    self.env['runtime']['debug'].writeDebugOut('Device added (Name):' + self.iDevices[currDevice.fd].name,debug.debugLevel.INFO)                                                        
+                    self.env['runtime']['debug'].writeDebugOut('Device added (Name):' + self.iDevices[currDevice.fd].name,debug.debugLevel.INFO)                                                                                                                                            
             except Exception as e:
-                self.env['runtime']['debug'].writeDebugOut("Skip Inputdevice : " + deviceFile +' ' + str(e),debug.debugLevel.ERROR)                
+                self.env['runtime']['debug'].writeDebugOut("Device Skipped (Exception): " + deviceFile +' ' + str(e),debug.debugLevel.ERROR)                
         self.iDeviceNo = len(evdev.list_devices())
         self.updateMPiDevicesFD()
 
