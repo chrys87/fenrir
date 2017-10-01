@@ -60,11 +60,11 @@ class driver():
         monitor = pyudev.Monitor.from_netlink(context)
         monitor.filter_by(subsystem='input')        
         monitor.start()
-        while active.value == 1:
+        while active.value:
             devices = monitor.poll(2)
             if devices:
-                while monitor.poll(0.05):
-                    time.sleep(0.01)            
+                while monitor.poll(0.5):
+                    time.sleep(0.2)            
                 eventQueue.put({"Type":fenrirEventType.PlugInputDevice,"Data":None})
         return time.time()        
     def plugInputDeviceWatchdogTimer(self, active):
@@ -181,10 +181,10 @@ class driver():
                 if mode in ['ALL','NOMICE']:
                     if eventType.EV_KEY in cap:
                         if 116 in cap[eventType.EV_KEY] and len(cap[eventType.EV_KEY]) < 10:
-                            self.env['runtime']['debug'].writeDebugOut('Device Skipped (has 116):' + self.iDevices[currDevice.fd].name,debug.debugLevel.INFO)                                                                
+                            self.env['runtime']['debug'].writeDebugOut('Device Skipped (has 116):' + currDevice.name,debug.debugLevel.INFO)                                                                
                             continue
                         if len(cap[eventType.EV_KEY]) < 30:
-                            self.env['runtime']['debug'].writeDebugOut('Device Skipped (< 30 keys):' + self.iDevices[currDevice.fd].name,debug.debugLevel.INFO)                                                                                        
+                            self.env['runtime']['debug'].writeDebugOut('Device Skipped (< 30 keys):' + currDevice.name,debug.debugLevel.INFO)                                                                                        
                             continue                            
                         if mode == 'ALL':
                             self.iDevices[currDevice.fd] = currDevice
@@ -196,13 +196,14 @@ class driver():
                                 self.grabDevice(currDevice.fd)
                                 self.env['runtime']['debug'].writeDebugOut('Device added (NOMICE):' + self.iDevices[currDevice.fd].name,debug.debugLevel.INFO)                                                
                             else:
-                                self.env['runtime']['debug'].writeDebugOut('Device Skipped (NOMICE):' + self.iDevices[currDevice.fd].name,debug.debugLevel.INFO)                                        
+                                self.env['runtime']['debug'].writeDebugOut('Device Skipped (NOMICE):' + currDevice.name,debug.debugLevel.INFO)                                        
                 elif currDevice.name.upper() in mode.split(','):
                     self.iDevices[currDevice.fd] = currDevice
                     self.grabDevice(currDevice.fd)
                     self.env['runtime']['debug'].writeDebugOut('Device added (Name):' + self.iDevices[currDevice.fd].name,debug.debugLevel.INFO)                                                                                                                                            
             except Exception as e:
-                self.env['runtime']['debug'].writeDebugOut("Device Skipped (Exception): " + deviceFile +' ' + str(e),debug.debugLevel.ERROR)                
+                print(e)
+                self.env['runtime']['debug'].writeDebugOut("Device Skipped (Exception): " + deviceFile +' ' + currDevice.name +' '+ str(e),debug.debugLevel.INFO)                
         self.iDeviceNo = len(evdev.list_devices())
         self.updateMPiDevicesFD()
 

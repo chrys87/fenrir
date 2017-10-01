@@ -322,17 +322,17 @@ class settingsManager():
             environment['runtime']['settingsManager'].loadDicts(self.getSetting('general','punctuationProfile'))
         
         if fenrirManager:
-            environment['runtime']['fenrirManager'] = fenrirManager         
+            environment['runtime']['fenrirManager'] = fenrirManager
         environment['runtime']['eventManager'] = eventManager.eventManager()
-        environment['runtime']['eventManager'].initialize(environment)
-        environment['runtime']['processManager'] = processManager.processManager()
-        environment['runtime']['processManager'].initialize(environment)           
-        environment['runtime']['inputManager'] = inputManager.inputManager()
-        environment['runtime']['inputManager'].initialize(environment)             
+        environment['runtime']['eventManager'].initialize(environment)            
+        environment['runtime']['processManager'] = processManager.processManager()  
+        environment['runtime']['processManager'].initialize(environment)                                                        
         environment['runtime']['outputManager'] = outputManager.outputManager()
         environment['runtime']['outputManager'].initialize(environment)             
         environment['runtime']['commandManager'] = commandManager.commandManager()
         environment['runtime']['commandManager'].initialize(environment)  
+        environment['runtime']['inputManager'] = inputManager.inputManager()
+        environment['runtime']['inputManager'].initialize(environment)   
         environment['runtime']['punctuationManager'] = punctuationManager.punctuationManager()
         environment['runtime']['punctuationManager'].initialize(environment)  
         environment['runtime']['cursorManager'] = cursorManager.cursorManager()
