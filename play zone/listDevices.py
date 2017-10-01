@@ -6,9 +6,8 @@ import time
 
 iDevices = map(evdev.InputDevice, (evdev.list_devices()))
 iDevices = {dev.fd: dev for dev in iDevices}
-
+print('----------------------')
 for fd in iDevices:
-    print('----------------------')
     dev = iDevices[fd]
     cap = dev.capabilities()
     print('Name: ' + str(dev.name))
