@@ -4,6 +4,7 @@ import os, glob
 from setuptools import find_packages
 from setuptools import setup
 fenrirVersion = '1.5'
+packageVersion = 'post4'
 
 data_files = []
 directories = glob.glob('config/*')
@@ -40,9 +41,9 @@ def read(fname):
 
 setup(
     # Application name:
-    name="fenrir",
-    # Version number (initial):
-    version=fenrirVersion,
+    name="fenrir-screenreader",
+    # Version number:
+    version=fenrirVersion + '.' + packageVersion,
     # description
     description="A TTY Screen Reader for Linux.",
     long_description=read('README.md'),
