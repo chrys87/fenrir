@@ -4,6 +4,10 @@
   
 - initial working setup.py
 
+- available via pip (python packet manager)
+sudo pip3 install fenrir-screenreader 
+https://pypi.python.org/pypi/fenrir-screenreader/1.5.post5
+
 - leave review on typing 
 
 - add dependency check (check-dependencys.py)
