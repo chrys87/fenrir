@@ -4,7 +4,7 @@ import os, glob
 from setuptools import find_packages
 from setuptools import setup
 fenrirVersion = '1.5'
-packageVersion = 'post4'
+packageVersion = 'post5'
 
 data_files = []
 directories = glob.glob('config/*')
