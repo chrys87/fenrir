@@ -338,15 +338,15 @@ class driver():
             else:
                 cursorLineStart = self.env['screen']['newCursor']['y'] * self.env['screen']['columns'] + self.env['screen']['newCursor']['y']
                 cursorLineEnd = cursorLineStart  + self.env['screen']['columns']         
-                if abs(self.env['screen']['oldCursor']['x'] - self.env['screen']['newCursor']['x']) >= 1 and \
+                if abs(self.env['screen']['oldCursor']['x'] - self.env['screen']['newCursor']['x']) == 1 and \
                   self.env['screen']['oldCursor']['y'] == self.env['screen']['newCursor']['y'] and \
                   self.env['screen']['newContentText'][:cursorLineStart] == self.env['screen']['oldContentText'][:cursorLineStart]:
                     cursorLineStartOffset = cursorLineStart
                     cursorLineEndOffset = cursorLineEnd
                     #if cursorLineStart < cursorLineStart + self.env['screen']['newCursor']['x'] - 4:
                     #    cursorLineStartOffset = cursorLineStart + self.env['screen']['newCursor']['x'] - 4
-                    if cursorLineEnd > cursorLineStart + self.env['screen']['newCursor']['x'] + 4:
-                        cursorLineEndOffset = cursorLineStart + self.env['screen']['newCursor']['x'] + 4                                               
+                    if cursorLineEnd > cursorLineStart + self.env['screen']['newCursor']['x'] + 3:
+                        cursorLineEndOffset = cursorLineStart + self.env['screen']['newCursor']['x'] + 3                                               
                     oldScreenText = self.env['screen']['oldContentText'][cursorLineStartOffset:cursorLineEndOffset] 
                     oldScreenText = re.sub(' +',' ',oldScreenText)
                     newScreenText = self.env['screen']['newContentText'][cursorLineStartOffset:cursorLineEndOffset]
