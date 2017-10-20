@@ -1,5 +1,6 @@
 __pycache__/
 *\.pyc
 fenrir.egg-info/
+fenrir_screenreader.egg-info/
 dist/
 build/
