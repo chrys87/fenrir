@@ -32,11 +32,11 @@ class punctuationManager():
                 pass
         return text.translate(currAllPunctNone)   
     
-    def useCustomDict(self, text, customDict):
+    def useCustomDict(self, text, customDict, seperator=''):
         resultText = str(text)
         if customDict:
             for key,item in customDict.items():
-                resultText = resultText.replace(str(key),str(item))
+                resultText = resultText.replace(str(key),seperator + str(item) + seperator)
         return resultText
     
     def usePunctuationDict(self, text, punctuationDict, punctuation):
@@ -59,7 +59,7 @@ class punctuationManager():
         resultText = text
         resultText = self.useCustomDict(resultText, self.env['punctuation']['CUSTOMDICT'])
         if self.env['runtime']['settingsManager'].getSettingAsBool('general', 'emoticons'):
-            resultText = self.useCustomDict(resultText, self.env['punctuation']['EMOTICONDICT'])
+            resultText = self.useCustomDict(resultText, self.env['punctuation']['EMOTICONDICT'], ' ')
         currPunctLevel = ''
         if not ignorePunctuation and self.env['runtime']['settingsManager'].getSetting('general', 'punctuationLevel').lower() in self.env['punctuation']['LEVELDICT']:
             currPunctLevel = self.env['punctuation']['LEVELDICT'][self.env['runtime']['settingsManager'].getSetting('general', 'punctuationLevel').lower()]
