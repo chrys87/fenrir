@@ -34,8 +34,7 @@ class driver():
             return
         if not queueable: 
             self.cancel()
-        self.server.sendline('tts_say ' + '\"' + text +'\"')
-        self.server.sendline('d')            
+        self.server.sendline('tts_say ' + '\"' + text.replace('"', '\\\"') +'\"')          
 
     def cancel(self):
         if not self._isInitialized:
@@ -48,7 +47,6 @@ class driver():
     def clear_buffer(self):
         if not self._isInitialized:
             return
-        print('SpeechDummyDriver: clear_buffer')    
 
     def setVoice(self, voice):
         if not self._isInitialized:
@@ -56,24 +54,18 @@ class driver():
         #self.server.sendline('s')
 
     def setPitch(self, pitch):
-        if not self._isInitialized:
-            return
-        #self.server.sendline('tts_set_speech_rate')
+        pass
 
     def setRate(self, rate):
         if not self._isInitialized:
             return
         self.server.sendline('tts_set_speech_rate' + str(rate))
     def setModule(self, module):
-        if not self._isInitialized:
-            return 
+        pass
 
     def setLanguage(self, language):
         if not self._isInitialized:
             return
-        #self.server.sendline('s')
 
     def setVolume(self, volume):
-        if not self._isInitialized:
-            return     
-        #self.server.sendline('s')
+        pass
