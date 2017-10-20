@@ -89,6 +89,7 @@ setup(
         "pyenchant",
         "pyudev",
         "setuptools",
+        "pexpect",
     ],
     
 )
