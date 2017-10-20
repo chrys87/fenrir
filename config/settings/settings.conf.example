@@ -1,0 +1,219 @@
+[sound]
+# Turn sound on or off:
+enabled=True
+
+# Select the driver used to play sounds, choices are genericDriver and gstreamerDriver.
+# Sox is the default.
+#driver=gstreamerDriver
+driver=genericDriver
+
+# Sound themes. These are the pack of sounds used for sound alerts.
+# Sound packs may be located at /usr/share/sounds
+# For system wide availability, or ~/.local/share/fenrir/sounds
+# For the current user.
+theme=default-wav
+
+# Sound volume controls how loud the sounds for your selected soundpack are.
+# 0 is quietest, 1.0 is loudest.
+volume=1.0
+
+# shell commands for generic sound driver
+# the folowing variable are substituted
+# fenrirVolume = the current volume setting
+# fenrirSoundFile = the soundfile for an soundicon
+# fenrirFrequence = the frequency to play
+# fenrirDuration = the duration of the frequency
+# the following command is used to play a soundfile
+genericPlayFileCommand=play -q -v fenrirVolume fenrirSoundFile
+#the following command is used to generate a frequency beep
+genericFrequencyCommand=play -q -v fenrirVolume -n -c1 synth fenrirDuration sine fenrirFrequence
+
+[speech]
+# Turn speech on or off:
+enabled=True
+
+# Select speech driver, options are speechdDriver (default), genericDriver or espeakDriver:
+driver=speechdDriver
+#driver=espeakDriver
+#driver=genericDriver
+
+
+# The rate selects how fast Fenrir will speak. Options range from 0, slowest, to 1.0, fastest.
+rate=0.65
+
+# Pitch controls the pitch of the voice, select from 0, lowest, to 1.0, highest.
+pitch=0.5
+# Pitch for capital letters
+capitalPitch=0.9
+
+# Volume controls the loudness of the voice, select from 0, quietest, to 1.0, loudest.
+volume=1.0
+
+# Module is used for Speech-dispatcher, to select the speech module you want to use.
+# Consult Speech-dispatcher's configuration and help Fenrir find out which modules are available.
+# The default is espeak.
+module=espeak
+
+# Voice selects the varient you want to use, for example, f5 will use the female voice #5 in Espeak,
+# or if using the Espeak module in Speech-dispatcher. To find out which voices are available, consult the documentation provided with your selected synthesizer.
+# This also sets the voice used in the generic driver.
+voice=
+
+# Select the language you want Fenrir to use.
+language=english-us
+
+# Read new text as it happens?
+autoReadIncoming=True
+
+# genericSpeechCommand is the command that is executed for talking
+# the following variables are replaced with values 
+# fenrirText = is the text that should be spoken
+# fenrirModule = may be the speech module like used in speech-dispatcher, not every TTY need this
+# fenrirLanguage = the language 
+# fenrirVoice = is the current voice that should be used. Set the voice variable above.
+# the current volume, pitch and rate is calculated like this
+# value = min + settingValue * (min - max )
+# fenrirVolume = is replaced with the current volume
+# fenrirPitch = is replaced with the current pitch
+# fenrirRate = is replaced with the current speed (speech rate)
+genericSpeechCommand=espeak -a fenrirVolume -s fenrirRate -p fenrirPitch -v fenrirVoice "fenrirText"
+
+# those are the min and max values of the TTS system that is used in genericSpeechCommand
+fenrirMinVolume=0
+fenrirMaxVolume=200
+fenrirMinPitch=0
+fenrirMaxPitch=99
+fenrirMinRate=80
+fenrirMaxRate=450
+
+[braille]
+enabled=False
+driver=dummyDriver
+layout=en
+# to what should the flush timeout relate to 
+# word = flush after (number of words to display) * seconds
+# char = flush after (number of chars to display) * seconds
+# fix = flush after X seconds
+# none = no automatic flush (manual via shortcut)
+flushMode=word
+# seconds to flush or
+# -1 = no automatic flush (manual via shortcut)
+flushTimeout=3
+# how should the cursor be focused?
+# page = if cursor cross the border move to next page and start at beginn
+# fixCell = ajust the cursor on an special cell where it is always placed. the display scroll here more smooth.
+cursorFocusMode=page
+# define the cell on the Braille device where fenrir should scroll and keep the cursor
+# 0 = first cell on device
+# -1 = last cell on device 
+# >0 = fix cell number
+fixCursorOnCell=-1
+#How should the braille follow the focus
+# none = no automatic toggle command used
+# review = priority to review
+# last = follow last used cursor
+cursorFollowMode=review
+# number of cells in panning (horizontal)
+# 0 = display size, >0 number of cells
+panSizeHorizontal=0
+
+[screen]
+driver=vcsaDriver
+encoding=auto
+screenUpdateDelay=0.05
+suspendingScreen=
+autodetectSuspendingScreen=True
+
+[keyboard]
+driver=evdevDriver
+# filter input devices NOMICE, ALL or a DEVICE NAME
+device=ALL
+# gives Fenrir exclusive access to the keyboard and lets it control keystrokes.
+grabDevices=True
+ignoreShortcuts=False
+# the current shortcut layout located in /etc/fenrir/keyboard
+keyboardLayout=desktop
+# echo chars while typing.
+charEcho=False
+# echo deleted chars
+charDeleteEcho=True
+# echo word after pressing space
+wordEcho=False
+# interrupt speech on any keypress
+interruptOnKeyPress=False
+# you can filter the keys on that the speech should interrupt (empty = all keys, otherwhise the given keys)
+interruptOnKeyPressFilter=
+# timeout for double tap in sec
+doubleTapTimeout=0.2
+
+[general]
+debugLevel=0
+# debugMode sets where the debug output should send to:
+# debugMode=File writes to /var/log/fenrir.log
+# debugMode=Print just prints on the screen
+debugMode=File
+punctuationProfile=default
+punctuationLevel=some
+respectPunctuationPause=True
+newLinePause=True
+numberOfClipboards=10
+# used path for "export_clipboard_to_file"
+# $user is replaced by username
+#clipboardExportPath=/home/$user/fenrirClipboard
+clipboardExportPath=/tmp/fenrirClipboard
+emoticons=True
+# define the current Fenrir key
+fenrirKeys=KEY_KP0,KEY_META,KEY_INSERT
+scriptKey=KEY_COMPOSE
+timeFormat=%H:%M:%P
+dateFormat=%A, %B %d, %Y
+autoSpellCheck=True
+spellCheckLanguage=en_US
+# path for your scripts "scriptKey" functionality
+scriptPath=/usr/share/fenrir/scripts
+# overload commands, and create new one without changing Fenrir default
+commandPath=
+#fenrirBGColor = the backgroundcolor
+#fenrirFGColor = the foregroundcolor
+#fenrirUnderline = speak the underline attribute
+#fenrirBold = speak the bold attribute
+#fenrirBlink = speak the blink attribute
+#fenrirFont = the font
+#fenrirFontSize = the fontsize
+attributeFormatString=Background fenrirBGColor,Foreground fenrirFGColor,fenrirUnderline,fenrirBold,fenrirBlink, Font fenrirFont,Fontsize fenrirFontSize
+
+[focus]
+#follow the text cursor
+cursor=True
+#follow highlighted text changes
+highlight=False
+  
+[review]
+lineBreak=True
+endOfScreen=True
+# leave the review when pressing a key
+leaveReviewOnCursorChange=True
+# leave the review when changing the screen
+leaveReviewOnScreenChange=True
+
+[promote]
+enabled=True
+inactiveTimeoutSec=120
+list=
+
+[time]
+# automatic time anouncement
+enabled=False
+# present time
+presentTime=True
+# present date (on change)
+presentDate=True
+# present time after a given period of seconds
+delaySec=0
+# present time after to given minutes example every 15 minutes: 00,15,30,45
+# if delaySec is >0 onMinutes is ignored
+onMinutes=00,30
+# announce via soundicon (not interrupting)
+announce=True
+# interrupt current speech for time announcement
+interrupt=False
