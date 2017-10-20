@@ -340,7 +340,8 @@ class driver():
                 cursorLineEnd = cursorLineStart  + self.env['screen']['columns']         
                 if abs(self.env['screen']['oldCursor']['x'] - self.env['screen']['newCursor']['x']) == 1 and \
                   self.env['screen']['oldCursor']['y'] == self.env['screen']['newCursor']['y'] and \
-                  self.env['screen']['newContentText'][:cursorLineStart] == self.env['screen']['oldContentText'][:cursorLineStart]:
+                  self.env['screen']['newContentText'][:cursorLineStart] == self.env['screen']['oldContentText'][:cursorLineStart] and \
+                  self.env['screen']['newContentText'][cursorLineEnd:] == self.env['screen']['oldContentText'][cursorLineEnd:]:
                     cursorLineStartOffset = cursorLineStart
                     cursorLineEndOffset = cursorLineEnd
                     #if cursorLineStart < cursorLineStart + self.env['screen']['newCursor']['x'] - 4:
