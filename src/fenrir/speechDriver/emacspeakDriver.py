@@ -75,6 +75,6 @@ class driver():
     def setLanguage(self, language):
         if not self._isInitialized:
             return
-
+        self.server.sendline('set_lang ' + language)
     def setVolume(self, volume):
         pass
