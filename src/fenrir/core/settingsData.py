@@ -18,6 +18,7 @@ settingsData = {
 'speech':{
   'enabled': True,
   'driver': 'speechdDriver',
+  'serverPath': '',
   'rate': 0.75,
   'pitch': 0.5,
   'capitalPitch':0.8,
