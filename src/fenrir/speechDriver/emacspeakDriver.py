@@ -15,12 +15,12 @@ class driver():
         pass
     def initialize(self, environment):
         self._isInitialized = False    
+        self.env = environment        
         try:
-            self.server = pexpect.spawnu('tclsh /home/chrys/Projekte/emacspeak/servers/espeak')   
+            self.server = pexpect.spawnu('tclsh +' self.env['runtime']['settingsManager'].getSetting('speech', 'serverPath'))   
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver:initialize:' + str(e),debug.debugLevel.ERROR)                
         self._isInitialized = True
-        self.env = environment
         
     def shutdown(self):
         if self.server:
@@ -40,6 +40,7 @@ class driver():
             #self.server.sendline('tts_say ' + '\"' + text.replace('"', '\\\"') +'\"') 
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver:speak:self.server.sendline():' + str(e),debug.debugLevel.ERROR)            
+    
     def cancel(self):
         if not self._isInitialized:
             return
@@ -47,8 +48,9 @@ class driver():
             self.server.sendline('s')  
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver:cancel:self.server.sendline():' + str(e),debug.debugLevel.ERROR)   
+    
     def setCallback(self, callback):
-        print('SpeechDummyDriver: setCallback')    
+        pass
 
     def clear_buffer(self):
         if not self._isInitialized:
@@ -57,7 +59,6 @@ class driver():
     def setVoice(self, voice):
         if not self._isInitialized:
             return
-        #self.server.sendline('s')
 
     def setPitch(self, pitch):
         pass
@@ -69,9 +70,9 @@ class driver():
             self.server.sendline('tts_set_speech_rate' + str(int(rate * 500)))
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver:setRate:self.server.sendline():' + str(e),debug.debugLevel.ERROR)  
+    
     def setModule(self, module):
         pass
-
     def setLanguage(self, language):
         if not self._isInitialized:
             return

@@ -32,11 +32,14 @@ genericFrequencyCommand=play -q -v fenrirVolume -n -c1 synth fenrirDuration sine
 # Turn speech on or off:
 enabled=True
 
-# Select speech driver, options are speechdDriver (default), genericDriver or espeakDriver:
+# Select speech driver, options are speechdDriver (default), genericDriver, emacspeak or espeakDriver:
 driver=speechdDriver
 #driver=espeakDriver
 #driver=genericDriver
+#driver=emacspeakDriver
 
+# server path for emacspeak
+serverPath=/home/chrys/Projekte/emacspeak/servers/espeak
 
 # The rate selects how fast Fenrir will speak. Options range from 0, slowest, to 1.0, fastest.
 rate=0.65

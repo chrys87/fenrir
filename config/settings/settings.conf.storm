@@ -11,6 +11,7 @@ genericFrequencyCommand=play -q -v fenrirVolume -n -c1 synth fenrirDuration sine
 enabled=True
 driver=speechdDriver
 #driver=genericDriver
+serverPath=
 rate=0.95
 pitch=0.5
 # Pitch for capital letters
