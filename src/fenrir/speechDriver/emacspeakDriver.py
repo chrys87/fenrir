@@ -17,7 +17,7 @@ class driver():
         self._isInitialized = False    
         self.env = environment        
         try:
-            self.server = pexpect.spawnu('tclsh +' self.env['runtime']['settingsManager'].getSetting('speech', 'serverPath'))   
+            self.server = pexpect.spawnu('tclsh ' + self.env['runtime']['settingsManager'].getSetting('speech', 'serverPath'))
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver:initialize:' + str(e),debug.debugLevel.ERROR)                
         self._isInitialized = True
