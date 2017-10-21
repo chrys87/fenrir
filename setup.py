@@ -1,13 +1,19 @@
 #!/bin/python
 #https://python-packaging.readthedocs.io/en/latest/minimal.html
-import os, glob
+import os, glob, sys
 import os.path
 from shutil import copyfile
 from setuptools import find_packages
 from setuptools import setup
 
 fenrirVersion = '1.5'
-packageVersion = 'post6'
+packageVersion = 'post8'
+
+# handle flags for package manager like yaourt and pacaur.
+forceSettings = False
+if "--force-settings" in sys.argv:
+    forceSettings = True
+    sys.argv.remove("--force-settings")
 
 data_files = []
 directories = glob.glob('config/*')
@@ -20,10 +26,11 @@ for directory in directories:
         destDir = '/etc/fenrir/keyboard'
     elif 'config/settings' in directory:
         destDir = '/etc/fenrir/settings'
-        try:
-            del(files[files.index('config/settings/settings.conf')])
-        except:
-            pass
+        if not forceSettings:
+            try:
+                del(files[files.index('config/settings/settings.conf')])
+            except:
+                pass
     elif 'config/scripts' in directory:
         destDir = '/usr/share/fenrir/scripts' 
     if destDir != '':
@@ -94,16 +101,18 @@ setup(
     
 )
 
-print('')
-# create settings file from example if not exist
-if not os.path.isfile('/etc/fenrir/settings/settings.conf'):
-    try:
-        copyfile('/etc/fenrir/settings/settings.conf.example', '/etc/fenrir/settings/settings.conf')
-        print('create settings file in /etc/fenrir/settings/settings.conf')
-    except:
-        pass
-else:
-    print('settings.conf file found. It is not overwritten automatical')
+if not forceSettings:
+    print('')
+    # create settings file from example if not exist
+    if not os.path.isfile('/etc/fenrir/settings/settings.conf'):
+        try:
+            copyfile('/etc/fenrir/settings/settings.conf.example', '/etc/fenrir/settings/settings.conf')
+            print('create settings file in /etc/fenrir/settings/settings.conf')
+        except:
+            pass
+    else:
+        print('settings.conf file found. It is not overwritten automatical')
+
 print('')
 print('To have Fenrir start at boot:')
 print('sudo systemctl enable fenrir')
