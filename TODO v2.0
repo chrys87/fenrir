@@ -69,6 +69,7 @@ Driver:
   http://sqizit.bartletts.id.au/2011/02/14/pseudo-terminals-in-python/
   https://blog.konpat.me/pythons-pseudo-terminal-pty-examples/
 [] talkey driver
+[W] emacspeak driver
 [W] PTY Input driver  
 [] ATK input driver (don't grab on graphical interface)
   https://git.linux-a11y.org/AIT/pyatspi2/src/master/examples/keypress.py
