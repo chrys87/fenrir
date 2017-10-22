@@ -37,7 +37,7 @@ class driver():
         try:
             self.server.sendline('tts_say ' + '\"' + text +'\"')   
             #print(text.replace('"', '\\\"'))      
-            #self.server.sendline('tts_say ' + '\"' + text.replace('"', '\\\"') +'\"') 
+            self.server.sendline('tts_say ' + '"' + text.replace('"', '\"') +'"') 
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver:speak:self.server.sendline():' + str(e),debug.debugLevel.ERROR)            
     
