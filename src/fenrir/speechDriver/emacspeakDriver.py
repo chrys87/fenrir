@@ -9,6 +9,7 @@ from core import debug
 from subprocess import Popen, PIPE
 import pexpect
 import sys
+import time
 
 class driver():
     def __init__(self):
@@ -35,9 +36,14 @@ class driver():
         if not queueable: 
             self.cancel()
         try:
-            self.server.sendline('tts_say ' + '\"' + text +'\"')   
+            cleanText = text.replace('}', '\}')
+            cleanText = cleanText.replace('{', '\{')  
+            cleanText = cleanText.replace('*', '\*')                                  
+            cleanText = cleanText.replace('"', '\"')                    
+            cleanText = cleanText.replace('\n', ' ')            
+            cleanText = cleanText.replace('[', '\[')
             #print(text.replace('"', '\\\"'))      
-            self.server.sendline('tts_say ' + '"' + text.replace('"', '\"') +'"') 
+            self.server.sendline('tts_say ' + '"' + cleanText +'"') 
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver:speak:self.server.sendline():' + str(e),debug.debugLevel.ERROR)            
     
@@ -45,7 +51,7 @@ class driver():
         if not self._isInitialized:
             return
         try:
-            self.server.sendline('s')  
+            self.server.sendline('s')
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver:cancel:self.server.sendline():' + str(e),debug.debugLevel.ERROR)   
     
@@ -67,7 +73,7 @@ class driver():
         if not self._isInitialized:
             return
         try:
-            self.server.sendline('tts_set_speech_rate' + str(int(rate * 500)))
+            self.server.sendline('tts_set_speech_rate ' + str(int(rate * 400)) + '')
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver:setRate:self.server.sendline():' + str(e),debug.debugLevel.ERROR)  
     
@@ -76,6 +82,6 @@ class driver():
     def setLanguage(self, language):
         if not self._isInitialized:
             return
-        self.server.sendline('set_lang ' + language)
+        self.server.sendline('set_lang ' + language + '')
     def setVolume(self, volume):
         pass
