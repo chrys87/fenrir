@@ -1,7 +1,6 @@
 Known Bugs (Problems with the logic ):
 - word echo triggers twice if there are two spaces after an word and you arrow over them
 - spellcheck triggers twice if there are two spaces after an word and you arrow over them
-- Wlan is disabled on Lenovo (LED is not synced?, needs debug bgid, i cannot reprodice it)
 
 Glitches (improve diff results):
 - currently None
