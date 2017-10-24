@@ -10,12 +10,12 @@ from subprocess import Popen, PIPE
 import pexpect
 import sys
 import time
+from core.speechDriver import speechDriver
 
-class driver():
+class driver(speechDriver):
     def __init__(self):
-        pass
+        speechDriver.__init__(self)
     def initialize(self, environment):
-        self._isInitialized = False    
         self.env = environment        
         try:
             self.server = pexpect.spawnu('tclsh ' + self.env['runtime']['settingsManager'].getSetting('speech', 'serverPath'))
@@ -55,20 +55,6 @@ class driver():
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver:cancel:self.server.sendline():' + str(e),debug.debugLevel.ERROR)   
     
-    def setCallback(self, callback):
-        pass
-
-    def clear_buffer(self):
-        if not self._isInitialized:
-            return
-
-    def setVoice(self, voice):
-        if not self._isInitialized:
-            return
-
-    def setPitch(self, pitch):
-        pass
-
     def setRate(self, rate):
         if not self._isInitialized:
             return
@@ -77,11 +63,7 @@ class driver():
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver:setRate:self.server.sendline():' + str(e),debug.debugLevel.ERROR)  
     
-    def setModule(self, module):
-        pass
     def setLanguage(self, language):
         if not self._isInitialized:
             return
         self.server.sendline('set_lang ' + language + '')
-    def setVolume(self, volume):
-        pass
