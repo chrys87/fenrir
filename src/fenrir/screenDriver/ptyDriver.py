@@ -28,10 +28,11 @@ from fcntl import ioctl
 from struct import unpack_from, unpack, pack
 from core import debug
 from core.eventData import fenrirEventType
+from core.screenDriver import screenDriver
 
-
-class driver():
+class driver(screenDriver):
     def __init__(self):
+        screenDriver.__init__(self)
         self.vcsaDevicePath = '/dev/vcsa'
         self.ListSessions = None
         self.charmap = {}
@@ -41,8 +42,6 @@ class driver():
     def initialize(self, environment):
         self.env = environment
         self.env['runtime']['processManager'].addCustomEventThread(self.updateWatchdog)        
-    def shutdown(self):
-        pass
     def getCurrScreen(self):
         self.env['screen']['oldTTY'] = self.env['screen']['newTTY']
         try:    
