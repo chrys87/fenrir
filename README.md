@@ -30,7 +30,7 @@ This software is licensed under the LGPL v3 .
     - read logind DBUS
 
 # Speech Drivers:
-1. "EspeakDriver" speech driver for Espeak:
+1. "EspeakDriver" speech driver for Espeak or Espeak-NG:
   - python-espeak
 - "speechdDriver" speech driver for Speech-dispatcher:
   - Speech-dispatcher
@@ -78,4 +78,4 @@ By default it uses:
 
 # Documentation
 You can see all information on the Wiki:
-https://wiki.linux-a11y.org/doku.php?id=fenrir_user_manual&s[]=fenrir
+https://wiki.linux-a11y.org/doku.php?id=fenrir_user_manual
