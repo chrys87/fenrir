@@ -9,6 +9,7 @@ from core import debug
 from threading import Thread, Lock
 from queue import Queue, Empty
 from subprocess import Popen
+from core.speechDriver import speechDriver
 
 class speakQueue(Queue):
     def clear(self):
@@ -18,8 +19,9 @@ class speakQueue(Queue):
         except Empty:
             pass
 
-class driver():
+class driver(speechDriver):
     def __init__(self):
+        speechDriver.__init__(self)
         self.proc = None
         self.speechThread = Thread(target=self.worker)
         self.lock = Lock()

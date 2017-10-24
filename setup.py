@@ -97,6 +97,7 @@ setup(
         "pyudev",
         "setuptools",
         "pexpect",
+        "pyttsx3",
     ],
     
 )
