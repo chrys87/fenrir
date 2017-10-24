@@ -94,8 +94,14 @@ Application Profiles (low priority):
 - per application shortcuts
 
 -----------DONE----------------
-General:      
+General:   
 Braille Support:
 Driver:
+[Done] inheritation for drivers
+  [Done] Speech (All)
+  [Done] Braille (All)
+  [Done] Sound (All)
+  [Done] Input (All)
+  [Done] Screen (All)
 Settings:
 Application Profiles:
