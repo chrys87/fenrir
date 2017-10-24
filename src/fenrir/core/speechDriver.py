@@ -34,7 +34,9 @@ class speechDriver():
             return     
 
     def setCallback(self, callback):
-        if not callback
+        if not self._isInitialized:
+            return        
+        if not callback:
             return
 
     def clear_buffer(self):
