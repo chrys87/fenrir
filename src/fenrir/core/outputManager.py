@@ -110,7 +110,7 @@ class outputManager():
             self.env['output']['messageOffset'] = {'x':0,'y':0}            
             self.env['output']['messageText'] = text
             displayText = self.getBrailleTextWithOffset(self.env['output']['messageText'], self.env['output']['messageOffset'])    
-            self.env['runtime']['brailleDriver'].writeText('flush'+displayText)         
+            self.env['runtime']['brailleDriver'].writeText('flush '+ displayText)         
         else:
             if self.env['output']['nextFlush'] < time.time():
                 if self.env['output']['messageText'] != '':
@@ -121,7 +121,7 @@ class outputManager():
                 x, y, self.env['output']['brlText'] = \
                   line_utils.getCurrentLine(cursor['x'], cursor['y'], self.env['screen']['newContentText'])                
                 displayText = self.getBrailleTextWithOffset(self.env['screen']['newContentText'], self.env['output']['cursorOffset'], cursor)    
-                self.env['runtime']['brailleDriver'].writeText('notflush'+displayText)                  
+                self.env['runtime']['brailleDriver'].writeText('notflush ' + displayText)                  
             else:
                 displayText = self.getBrailleTextWithOffset(self.env['output']['messageText'], self.env['output']['messageOffset'])    
                 self.env['runtime']['brailleDriver'].writeText('flush'+displayText)                          

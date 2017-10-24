@@ -43,8 +43,6 @@ class screenDriver():
         return ''
     def getFenrirFontSize(self, attribute):
         return ''
-    def getContent(self):
-        pass
     def update(self, trigger='onUpdate'):
         pass
                 

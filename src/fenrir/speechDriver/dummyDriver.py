@@ -7,6 +7,7 @@
 
 from core import debug
 from core.speechDriver import speechDriver
+
 class driver(speechDriver):
     def __init__(self):
         speechDriver.__init__(self)

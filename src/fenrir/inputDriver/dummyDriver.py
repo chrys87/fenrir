@@ -13,6 +13,6 @@ class driver(inputDriver):
         inputDriver.__init__(self)
                 
     def getInputEvent(self):
-        time.sleep(0.05)
+        time.sleep(0.1)
         if not self._initialized:
             return None

@@ -5,10 +5,11 @@
 # By Chrys, Storm Dragon, and contributers.
 
 from core import debug
+from core.brailleDriver import brailleDriver
 
-class driver():
+class driver(brailleDriver):
     def __init__(self):
-        self._isInitialized = False
+        brailleDriver.__init__(self)
         self._brl = None
 
     def initialize(self, environment):

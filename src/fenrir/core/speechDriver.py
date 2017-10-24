@@ -20,7 +20,8 @@ class speechDriver():
         self._isInitialized = True        
         
     def shutdown(self):
-        self.cancel()    
+        if self._isInitialized:
+            self.cancel()
         self._isInitialized = False            
 
     def speak(self,text, queueable=True):
@@ -28,7 +29,7 @@ class speechDriver():
             return
         if not queueable: 
             self.cancel()
-
+    
     def cancel(self):
         if not self._isInitialized:
             return     
@@ -46,16 +47,16 @@ class speechDriver():
     def setVoice(self, voice):
         if not self._isInitialized:
             return
-        if not voice:
+        if not isinstance(voice, float):
             return
-        if voice =='':
+        if voice == '':
             return            
         self.voice = voice 
 
     def setPitch(self, pitch):
         if not self._isInitialized:
             return
-        if not pitch:
+        if not isinstance(pitch, float):
             return
         if pitch < 0.0:
             retrun
@@ -65,7 +66,7 @@ class speechDriver():
     def setRate(self, rate):
         if not self._isInitialized:
             return
-        if not rate:
+        if not isinstance(rate, float):
             return
         if rate < 0.0:
             retrun
@@ -75,24 +76,24 @@ class speechDriver():
     def setModule(self, module):
         if not self._isInitialized:
             return
-        if not module:
+        if not isinstance(module, str):
             return
-        if module =='':
+        if module == '':
             return            
         self.module = module
 
     def setLanguage(self, language):
         if not self._isInitialized:
             return
-        if not language:
+        if not isinstance(language, str):
             return
-        if language =='':
+        if language == '':
             return            
         self.language = language 
     def setVolume(self, volume):
         if not self._isInitialized:
             return     
-        if not volume:
+        if not isinstance(volume,float):
             return
         if volume < 0.0:
             retrun
