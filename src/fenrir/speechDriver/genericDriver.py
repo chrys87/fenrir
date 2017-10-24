@@ -24,12 +24,6 @@ class driver():
         self.speechThread = Thread(target=self.worker)
         self.lock = Lock()
         self.textQueue = speakQueue()
-        self.volume = ''
-        self.rate = ''
-        self.pitch = ''
-        self.module = ''
-        self.language = ''        
-        self.voice = ''
     def initialize(self, environment):   
         self.env = environment  
         self.minVolume = self.env['runtime']['settingsManager'].getSettingAsInt('speech', 'fenrirMinVolume')
