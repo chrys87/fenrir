@@ -3,7 +3,6 @@
 
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
-# generic driver
 
 from core import debug
 
@@ -13,6 +12,9 @@ class speechDriver():
         self.language = None
         self.voice = None
         self.module = None
+        self.pitch = None
+        self.rate = None
+        self.volume = None
     def initialize(self, environment):
         self.env = environment
         self._isInitialized = True        
@@ -32,7 +34,8 @@ class speechDriver():
             return     
 
     def setCallback(self, callback):
-        pass
+        if not callback
+            return
 
     def clear_buffer(self):
         if not self._isInitialized:
@@ -41,6 +44,8 @@ class speechDriver():
     def setVoice(self, voice):
         if not self._isInitialized:
             return
+        if not voice:
+            return
         if voice =='':
             return            
         self.voice = voice 
@@ -48,13 +53,27 @@ class speechDriver():
     def setPitch(self, pitch):
         if not self._isInitialized:
             return
-
+        if not pitch:
+            return
+        if pitch < 0.0:
+            retrun
+        if pitch > 1.0:
+            return
+        self.pitch = pitch
     def setRate(self, rate):
         if not self._isInitialized:
             return
-
+        if not rate:
+            return
+        if rate < 0.0:
+            retrun
+        if rate > 1.0:
+            return
+        self.rate = rate
     def setModule(self, module):
         if not self._isInitialized:
+            return
+        if not module:
             return
         if module =='':
             return            
@@ -63,9 +82,18 @@ class speechDriver():
     def setLanguage(self, language):
         if not self._isInitialized:
             return
+        if not language:
+            return
         if language =='':
             return            
         self.language = language 
     def setVolume(self, volume):
         if not self._isInitialized:
             return     
+        if not volume:
+            return
+        if volume < 0.0:
+            retrun
+        if volume > 1.0:
+            return
+        self.volume = volume
