@@ -22,7 +22,7 @@ class screenDriver():
         self.env = environment
         self._isInitialized = True
     def shutdown(self):
-        pass
+        self._isInitialized = False
     def getCurrScreen(self):
         pass
     def getCurrApplication(self):
