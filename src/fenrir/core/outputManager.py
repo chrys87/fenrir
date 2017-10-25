@@ -10,7 +10,7 @@ import string, time
 
 class outputManager():
     def __init__(self):
-        pass
+        self.lastEcho = ''
     def initialize(self, environment):
         self.env = environment
         self.env['runtime']['settingsManager'].loadDriver(\
@@ -37,11 +37,12 @@ class outputManager():
         if toAnnounceCapital:
             if self.playSoundIcon('capital', False):
                 toAnnounceCapital = False         
-
+        self.lastEcho = text
         self.speakText(text, interrupt, ignorePunctuation,toAnnounceCapital)
         if flush:
             self.brailleText(text, flush)
-
+    def getLastEcho(self):
+        return self.lastEcho
     def speakText(self, text, interrupt=True, ignorePunctuation=False, announceCapital=False):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('speech', 'enabled'):
             self.env['runtime']['debug'].writeDebugOut("Speech disabled in outputManager.speakText",debug.debugLevel.INFO)
