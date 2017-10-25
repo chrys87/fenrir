@@ -26,8 +26,6 @@ Cleanups:
   [] settingsData -> defaultSettings.py
 
 General:  
-- commands
-  [] place last spoken to clipboard (Easy for contribution)
 - imporove attribute handling
   [] improve attributes_curr_char
   [] add an attribute sound (Easy for contribution)
@@ -101,7 +99,10 @@ Cleanups:
   [Done] Input (All)
   [Done] Screen (All)
 General:   
+- commands
+  [DONE] place last spoken to clipboard (Easy for contribution)
 Braille Support:
 Driver:
+[Done] pyttsx3 speech driver
 Settings:
 Application Profiles:
