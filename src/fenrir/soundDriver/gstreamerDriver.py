@@ -6,7 +6,7 @@
 
 from core import debug
 import time, threading
-
+from core.soundDriver import soundDriver
 
 _gstreamerAvailable = False
 try:
@@ -19,12 +19,11 @@ except Exception as e:
     _gstreamerAvailable = False
     _availableError = str(e)
 
-class driver:
+class driver(soundDriver):
     def __init__(self):
+        soundDriver.__init__(self)
         self._source = None
         self._sink = None
-        self.volume = 1
-        self._initialized = False
         
     def initialize(self, environment):
         self.env = environment
@@ -112,10 +111,3 @@ class driver:
             return
         self._player.set_state(Gst.State.NULL)
         self._pipeline.set_state(Gst.State.NULL)
-    def setVolume(self, volume):
-        if not self._initialized:
-            return    
-        self.volume = volume  
-
-
-

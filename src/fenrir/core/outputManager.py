@@ -10,7 +10,7 @@ import string, time
 
 class outputManager():
     def __init__(self):
-        pass
+        self.lastEcho = ''
     def initialize(self, environment):
         self.env = environment
         self.env['runtime']['settingsManager'].loadDriver(\
@@ -37,11 +37,12 @@ class outputManager():
         if toAnnounceCapital:
             if self.playSoundIcon('capital', False):
                 toAnnounceCapital = False         
-
+        self.lastEcho = text
         self.speakText(text, interrupt, ignorePunctuation,toAnnounceCapital)
         if flush:
             self.brailleText(text, flush)
-
+    def getLastEcho(self):
+        return self.lastEcho
     def speakText(self, text, interrupt=True, ignorePunctuation=False, announceCapital=False):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('speech', 'enabled'):
             self.env['runtime']['debug'].writeDebugOut("Speech disabled in outputManager.speakText",debug.debugLevel.INFO)
@@ -110,7 +111,7 @@ class outputManager():
             self.env['output']['messageOffset'] = {'x':0,'y':0}            
             self.env['output']['messageText'] = text
             displayText = self.getBrailleTextWithOffset(self.env['output']['messageText'], self.env['output']['messageOffset'])    
-            self.env['runtime']['brailleDriver'].writeText('flush'+displayText)         
+            self.env['runtime']['brailleDriver'].writeText('flush '+ displayText)         
         else:
             if self.env['output']['nextFlush'] < time.time():
                 if self.env['output']['messageText'] != '':
@@ -121,7 +122,7 @@ class outputManager():
                 x, y, self.env['output']['brlText'] = \
                   line_utils.getCurrentLine(cursor['x'], cursor['y'], self.env['screen']['newContentText'])                
                 displayText = self.getBrailleTextWithOffset(self.env['screen']['newContentText'], self.env['output']['cursorOffset'], cursor)    
-                self.env['runtime']['brailleDriver'].writeText('notflush'+displayText)                  
+                self.env['runtime']['brailleDriver'].writeText('notflush ' + displayText)                  
             else:
                 displayText = self.getBrailleTextWithOffset(self.env['output']['messageText'], self.env['output']['messageOffset'])    
                 self.env['runtime']['brailleDriver'].writeText('flush'+displayText)                          

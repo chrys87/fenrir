@@ -30,16 +30,16 @@ from ctypes import c_bool
 from core.eventData import fenrirEventType
 from core import inputData
 from core import debug
+from core.inputDriver import inputDriver
 
-
-class driver():
+class driver(inputDriver):
     def __init__(self):
+        inputDriver.__init__(self)
         self._manager = multiprocessing.Manager()
         self.iDevices = {}
         self.iDevicesFD = self._manager.list()
         self.uDevices = {}
         self.iDeviceNo = 0
-        self._initialized = False        
         self.watchDog = Value(c_bool, True)
     def initialize(self, environment):
         self.env = environment
@@ -70,9 +70,6 @@ class driver():
     def plugInputDeviceWatchdogTimer(self, active):
         time.sleep(2.5)
         return time.time()    
-    def shutdown(self):
-        if not self._initialized:
-            return  
     def inputWatchdog(self,active , params):
         try:        
             deviceFd = []
@@ -323,10 +320,6 @@ class driver():
             self.removeDevice(fd)
         self.iDevices.clear()
         self.uDevices.clear()
-        self.iDeviceNo = 0
-
-    def __del__(self):
-        if not self._initialized:
-            return      
+        self.iDeviceNo = 0 
 
 

@@ -5,10 +5,16 @@ Things needing little knowledge are marked with "(Easy for contribution)". so ju
 [X] = Done
 
 Cleanups:
-- split oldValues := newValues out to helper function (Easy for contribution)
+- generic list or see Tutorial mode list (convert clipboard management) (Easy for contribution)
+  [] next item
+  [] prev item
+  [] curr item
+  [] first item
+  [] last item
+- split oldValues := newValues out to helper function
   [] split it out
   [] use it in vcsa driver
-[] Migrate *Data.py to classes and use getter/setter (Easy for contribution)
+- Migrate *Data.py to classes and use getter/setter (Easy for contribution)
   [] commandsData.py
   [] eventData.py  
   [] generalData.py
@@ -21,29 +27,22 @@ Cleanups:
 
 General:  
 - commands
-[] place last spoken to clipboard
+  [] place last spoken to clipboard (Easy for contribution)
 - imporove attribute handling
-[] improve attributes_curr_char
-[] add an attribute sound
-[] beep on cursor/ review by char (capital wins)
-[] beep on review by word (once for multiple, capital wins)
-[] configurable (by char, by word, none)
-  https://github.com/jwilk/vcsapeek/blob/master/linuxvt.py
-
+  [] improve attributes_curr_char
+  [] add an attribute sound (Easy for contribution)
+  [] beep on cursor/ review by char (capital wins)
+  [] beep on review by word (once for multiple, capital wins)
+  [] configurable (by char, by word, none)
+    https://github.com/jwilk/vcsapeek/blob/master/linuxvt.py
 - Improved Say all
-[] all the text of all pages
-[] command to stop and place review cursor at this position
-[] command to slow down speech on keypress
-
-- generic list or see Tutorial mode list (convert clipboard management) (Easy for contribution)
-[] next item
-[] prev item
-[] curr item
-[] first item
-[] last item
-
+  [] speech callbacks
+  [] speech process by word
+  [] all the text of all pages
+  [] command to stop and place review cursor at this position
+  [] command to slow down speech on keypress
 - make it runnable via pypy3
-[] wrapper script for running Fenrir to check if pypy exists, use python3 as fallback.
+  [] wrapper script for running Fenrir to check if pypy exists, use python3 as fallback.
   
 Braille Support:
   [] brailleFocusMode:
@@ -77,11 +76,11 @@ Driver:
   https://github.com/tvraman/emacspeak/blob/master/servers/obsolete/python/dectalk.py
 
 Settings:
-[] write settings (Easy for contribution)
-[] menue for settings configuration (Easy for contribution)
+  [] write settings (Easy for contribution)
+  [] menue for settings configuration (Easy for contribution)
 
 Application Profiles (low priority):
-- reimplement process detection without subprocessing // this is started by chrys
+- reimplement process detection without subprocessing
 - fenrir is not able to detect the current application inside of screen.
     ps -e  -H -o pid,pgrp,ppid,tty,cmd
     http://stackoverflow.com/questions/24861351/how-to-detect-if-python-script-is-being-run-as-a-background-process/24862213
@@ -94,7 +93,14 @@ Application Profiles (low priority):
 - per application shortcuts
 
 -----------DONE----------------
-General:      
+Cleanups:
+- inheritation for drivers
+  [Done] Speech (All)
+  [Done] Braille (All)
+  [Done] Sound (All)
+  [Done] Input (All)
+  [Done] Screen (All)
+General:   
 Braille Support:
 Driver:
 Settings:

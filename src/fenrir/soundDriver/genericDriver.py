@@ -6,15 +6,15 @@
 
 from core import debug
 import subprocess
+from core.soundDriver import soundDriver
 
-class driver():
+class driver(soundDriver):
     def __init__(self):
+        soundDriver.__init__(self)
         self.proc = None
-        self.volume = 1.0
         self.soundType = ''
         self.soundFileCommand = ''
         self.frequenceCommand = ''
-        self._initialized = False        
     def initialize(self, environment):
         self.env = environment
         self.soundFileCommand = self.env['runtime']['settingsManager'].getSetting('sound', 'genericPlayFileCommand')
@@ -24,10 +24,7 @@ class driver():
         if self.frequenceCommand == '':
             self.frequenceCommand = 'play -q -v fenrirVolume -n -c1 synth fenrirDuration sine fenrirFrequence'
         self._initialized = True
-    def shutdown(self):
-        if not self._initialized:
-            return    
-        self.cancel()
+
     def playFrequence(self, frequence = 1000, duration = 0.3, adjustVolume = 0):
         if not self._initialized:
             return    
@@ -56,11 +53,4 @@ class driver():
             self.proc.kill()
         if self.soundType == 'frequence':
             self.proc.kill()            
-        self.soundType = ''
-    def setCallback(self, callback):
-        if not self._initialized:
-            return
-    def setVolume(self, volume):
-        if not self._initialized:
-            return    
-        self.volume = volume        
+        self.soundType = ''      

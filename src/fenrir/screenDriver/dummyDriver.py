@@ -5,8 +5,8 @@
 # By Chrys, Storm Dragon, and contributers.
 
 from core import debug
-from core.soundDriver import soundDriver
+from core.screenDriver import screenDriver
 
-class driver(soundDriver):
+class driver(screenDriver):
     def __init__(self):
-        soundDriver.__init__(self)
+        screenDriver.__init__(self)
