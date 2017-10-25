@@ -41,7 +41,13 @@ General:
   [] command to slow down speech on keypress
 - make it runnable via pypy3
   [] wrapper script for running Fenrir to check if pypy exists, use python3 as fallback.
-  
+- table review mode
+  [] toggle table mode
+  [] next cell
+  [] prev cell
+  [] current cell
+  [] select field separator
+
 Braille Support:
   [] brailleFocusMode:
     [] manual = no automatic toggle command used
