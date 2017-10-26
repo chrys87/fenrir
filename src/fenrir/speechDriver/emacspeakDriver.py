@@ -8,6 +8,7 @@
 from core import debug
 from subprocess import Popen, PIPE
 import pexpect
+import ptyprocess
 import sys
 import time
 from core.speechDriver import speechDriver
@@ -18,7 +19,8 @@ class driver(speechDriver):
     def initialize(self, environment):
         self.env = environment        
         try:
-            self.server = pexpect.spawnu('tclsh ' + self.env['runtime']['settingsManager'].getSetting('speech', 'serverPath'))
+            self.server = ptyprocess.PtyProcessUnicode.spawn(['tclsh ', self.env['runtime']['settingsManager'].getSetting('speech', 'serverPath')])
+            #self.server = pexpect.spawnu('tclsh ' + self.env['runtime']['settingsManager'].getSetting('speech', 'serverPath'))
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver:initialize:' + str(e),debug.debugLevel.ERROR)                
         self._isInitialized = True
@@ -43,7 +45,8 @@ class driver(speechDriver):
             cleanText = cleanText.replace('\n', ' ')            
             cleanText = cleanText.replace('[', '\[')
             #print(text.replace('"', '\\\"'))      
-            self.server.sendline('tts_say ' + '"' + cleanText +'"') 
+            self.server.write('tts_say ' + '"' + cleanText +'"\n')             
+            #self.server.sendline('tts_say ' + '"' + cleanText +'"') 
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver:speak:self.server.sendline():' + str(e),debug.debugLevel.ERROR)            
     
@@ -51,7 +54,8 @@ class driver(speechDriver):
         if not self._isInitialized:
             return
         try:
-            self.server.sendline('s')
+            self.server.write('s\n')            
+            #self.server.sendline('s')
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver:cancel:self.server.sendline():' + str(e),debug.debugLevel.ERROR)   
     
@@ -59,11 +63,13 @@ class driver(speechDriver):
         if not self._isInitialized:
             return
         try:
-            self.server.sendline('tts_set_speech_rate ' + str(int(rate * 400)) + '')
+            self.server.write('tts_set_speech_rate ' + str(int(rate * 400)) + '\n')            
+            #self.server.sendline('tts_set_speech_rate ' + str(int(rate * 400)) + '')
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver:setRate:self.server.sendline():' + str(e),debug.debugLevel.ERROR)  
     
     def setLanguage(self, language):
         if not self._isInitialized:
             return
-        self.server.sendline('set_lang ' + language + '')
+        self.server.write('set_lang ' + language + '\n')
+        #self.server.sendline('set_lang ' + language + '')
