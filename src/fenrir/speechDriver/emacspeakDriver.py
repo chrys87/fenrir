@@ -5,12 +5,12 @@
 # By Chrys, Storm Dragon, and contributers.
 # generic driver
 
-from core import debug
 from subprocess import Popen, PIPE
 import pexpect
 import ptyprocess
 import sys
 import time
+from core import debug
 from core.speechDriver import speechDriver
 
 class driver(speechDriver):
