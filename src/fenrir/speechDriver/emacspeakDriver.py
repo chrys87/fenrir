@@ -19,11 +19,12 @@ class driver(speechDriver):
     def initialize(self, environment):
         self.env = environment        
         try:
-            self.server = ptyprocess.PtyProcessUnicode.spawn(['tclsh ', self.env['runtime']['settingsManager'].getSetting('speech', 'serverPath')])
+            self.server = ptyprocess.PtyProcessUnicode.spawn(['/usr/bin/tclsh', self.env['runtime']['settingsManager'].getSetting('speech', 'serverPath')])
             #self.server = pexpect.spawnu('tclsh ' + self.env['runtime']['settingsManager'].getSetting('speech', 'serverPath'))
+            self._isInitialized = True            
         except Exception as e:
-            self.env['runtime']['debug'].writeDebugOut('speechDriver:initialize:' + str(e),debug.debugLevel.ERROR)                
-        self._isInitialized = True
+            self.env['runtime']['debug'].writeDebugOut('speechDriver:initialize:' + str(e),debug.debugLevel.ERROR)     
+            print(e)           
         
     def shutdown(self):
         if self.server:
@@ -44,8 +45,9 @@ class driver(speechDriver):
             cleanText = cleanText.replace('"', '\"')                    
             cleanText = cleanText.replace('\n', ' ')            
             cleanText = cleanText.replace('[', '\[')
-            #print(text.replace('"', '\\\"'))      
-            self.server.write('tts_say ' + '"' + cleanText +'"\n')             
+            print(text.replace('"', '\\\"'))      
+            self.server.write('tts_say ' + '"' + cleanText +'"\n')
+            print(self.server.read(1000))
             #self.server.sendline('tts_say ' + '"' + cleanText +'"') 
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver:speak:self.server.sendline():' + str(e),debug.debugLevel.ERROR)            
@@ -54,9 +56,12 @@ class driver(speechDriver):
         if not self._isInitialized:
             return
         try:
-            self.server.write('s\n')            
+            self.server.write('s\n')      
+            print('drin')
+            print(self.server.read(1000))                  
             #self.server.sendline('s')
         except Exception as e:
+            print(e)
             self.env['runtime']['debug'].writeDebugOut('speechDriver:cancel:self.server.sendline():' + str(e),debug.debugLevel.ERROR)   
     
     def setRate(self, rate):
