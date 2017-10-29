@@ -5,12 +5,12 @@ Things needing little knowledge are marked with "(Easy for contribution)". so ju
 [X] = Done
 
 Cleanups:
-- generic list or see Tutorial mode list (convert clipboard management) (Easy for contribution)
-  [] next item
-  [] prev item
-  [] curr item
-  [] first item
-  [] last item
+- generic list or see Tutorial mode list (convert clipboard management) (Easy for contribution) - core.memoryManager
+  [W] next item
+  [W] prev item
+  [W] curr item
+  [W] first item
+  [W] last item
 - split oldValues := newValues out to helper function
   [] split it out
   [] use it in vcsa driver
