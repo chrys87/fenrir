@@ -10,6 +10,7 @@ fenrirPath = os.path.dirname(currentdir)
 
 from configparser import ConfigParser
 from core import debugManager
+from core import memoryManager
 from core import processManager
 from core import eventManager
 from core import inputManager
@@ -323,6 +324,8 @@ class settingsManager():
         
         if fenrirManager:
             environment['runtime']['fenrirManager'] = fenrirManager
+        environment['runtime']['memoryManager'] = memoryManager.memoryManager()
+        environment['runtime']['memoryManager'].initialize(environment) 
         environment['runtime']['eventManager'] = eventManager.eventManager()
         environment['runtime']['eventManager'].initialize(environment)            
         environment['runtime']['processManager'] = processManager.processManager()  

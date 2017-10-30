@@ -7,15 +7,21 @@
 import time
 from core import debug
 
-class inputManager():
+class memoryManager():
     def __init__(self):
         self.listStorage = {}
     def initialize(self, environment):
         self.env = environment
+    def shutdown(self):
+        pass
     def addValueToFirstIndex(self, name, value):
         pass
     def addIndexList(self, name, maxLength = None, currList = [], currIndex = 0):
         self.listStorage[name] = {'list': currList, 'index': currIndex, 'maxLength': maxLength}
+    def isLastIndex(self, name):
+        return self.listStorage[name]['index'] == len(self.listStorage[name]['list']): 
+    def isFirstIndex(self, name):
+        return self.listStorage[name]['index'] == 0:    
     def getNextIndex(self, name):
         if self.isIndexListEmpty(name):
             self.listStorage[name]['index'] = -1
