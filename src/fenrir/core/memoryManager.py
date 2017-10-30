@@ -14,8 +14,12 @@ class memoryManager():
         self.env = environment
     def shutdown(self):
         pass
-    def addValueToFirstIndex(self, name, value):
-        pass
+    def addValueToFirstIndex(self, name, value, index = 0):
+        if self.listStorage[name]['maxLength'] != None:
+            self.listStorage[name]['list'] = [value] + self.listStorage[name]['list']
+        else:        
+            self.listStorage[name]['list'] = [value] + self.listStorage[name]['list'][:self.listStorage[name]['maxLength'] -1]
+        self.listStorage[name]['index'] = index
     def addIndexList(self, name, maxLength = None, currList = [], currIndex = 0):
         self.listStorage[name] = {'list': currList, 'index': currIndex, 'maxLength': maxLength}
     def isLastIndex(self, name):
