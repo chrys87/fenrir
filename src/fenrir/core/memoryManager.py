@@ -14,7 +14,17 @@ class memoryManager():
         self.env = environment
     def shutdown(self):
         pass
+    def listStorageValid(self,name, index = None):
+        try:
+            if index == None:
+                index = self.listStorage[name]['index']        
+            return self.listStorage[name]['list'][index] != None
+        except e as Exception:
+            self.env['runtime']['debug'].writeDebugOut("listStorageValid " + str(e),debug.debugLevel.ERROR)
+        return False                    
     def addValueToFirstIndex(self, name, value, index = 0):
+        if not self.listStorageValid(name, index):
+            return
         if self.listStorage[name]['maxLength'] != None:
             self.listStorage[name]['list'] = [value] + self.listStorage[name]['list']
         else:        
@@ -23,10 +33,16 @@ class memoryManager():
     def addIndexList(self, name, maxLength = None, currList = [], currIndex = 0):
         self.listStorage[name] = {'list': currList, 'index': currIndex, 'maxLength': maxLength}
     def isLastIndex(self, name):
-        return self.listStorage[name]['index'] == len(self.listStorage[name]['list']): 
+        if not self.listStorageValid(name):
+            return False    
+        return self.listStorage[name]['index'] == len(self.listStorage[name]['list'])
     def isFirstIndex(self, name):
-        return self.listStorage[name]['index'] == 0:    
+        if not self.listStorageValid(name):
+            return False       
+        return self.listStorage[name]['index'] == 0 
     def getNextIndex(self, name):
+        if not self.listStorageValid(name):
+            return False      
         if self.isIndexListEmpty(name):
             self.listStorage[name]['index'] = -1
             return False
@@ -35,25 +51,39 @@ class memoryManager():
             self.listStorage[name]['index'] = 0
         return True    
     def setPrefIndex(self, name):
+        if not self.listStorageValid(name):
+            return False     
         if self.isIndexListEmpty(name):
             self.listStorage[name]['index'] = -1
             return False
+        self.listStorage[name]['index'] += 1
+        if self.listStorage[name]['index'] < 0:
+            self.listStorage[name]['index'] = len(self.listStorage[name]['list']) -1
+        return True
     def setFirstIndex(self, name):
+        if not self.listStorageValid(name):
+            return False    
         if self.isIndexListEmpty(name):
             self.listStorage[name]['index'] = -1
             return False
         self.listStorage[name]['index'] = 0
         return True  
     def setLastIndex(self, name):
+        if not self.listStorageValid(name):
+            return False      
         if self.isIndexListEmpty(name):
             self.listStorage[name]['index'] = -1
             return False
         self.listStorage[name]['index'] = self.listStorage[name]['list'] -1 
         return True  
     def clearCurrentIndexList(self, name):
+        if not self.listStorageValid(name):
+            return False      
         self.listStorage[name]['index'] = []
         self.listStorage[name]['index'] = -1
     def getCurrentIndex(self,name):
+        if not self.listStorageValid(name):
+            return False    
         if self.isIndexListEmpty(name):
             self.listStorage[name]['index'] = -1
             return False        
@@ -62,6 +92,8 @@ class memoryManager():
         except:
             retrun -1
     def isIndexListEmpty(self, name):
+        if not self.listStorageValid(name):
+            return False      
         return len(self.listStorage[name]['list']) == 0
     def getIndexListElement(self, name):
         if self.isIndexListEmpty(name):
