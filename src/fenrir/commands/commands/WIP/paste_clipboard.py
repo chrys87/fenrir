@@ -12,6 +12,7 @@ class command():
         pass
     def initialize(self, environment):
         self.env = environment
+        self.env['runtime']['memoryManager'].addIndexList('clipboardHistory', self.env['runtime']['settingsManager'].getSettingAsInt('general', 'numberOfClipboards'))
     def shutdown(self):
         pass 
     def getDescription(self):

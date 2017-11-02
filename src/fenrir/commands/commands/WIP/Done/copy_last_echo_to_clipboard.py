@@ -19,9 +19,7 @@ class command():
     
     def run(self):
         lastEcho = self.env['runtime']['outputManager'].getLastEcho()
-        self.env['commandBuffer']['clipboard'] = [lastEcho] + self.env['commandBuffer']['clipboard'][:self.env['runtime']['settingsManager'].getSettingAsInt('general', 'numberOfClipboards') -1]
-        self.env['commandBuffer']['currClipboard'] = 0
-   
+        self.env['runtime']['memoryManager'].addValueToFirstIndex('clipboardHistory', lastEcho)
         self.env['runtime']['outputManager'].presentText(lastEcho, soundIcon='CopyToClipboard', interrupt=True)
 
     def setCallback(self, callback):

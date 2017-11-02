@@ -17,10 +17,11 @@ class command():
         return _('speaks the contents of the currently selected clipboard')       
 
     def run(self):
-        if len(self.env['commandBuffer']['clipboard']) == 0:
+        if self.env['runtime']['memoryManager'].isIndexListEmpty('clipboardHistory'):
             self.env['runtime']['outputManager'].presentText(_('clipboard empty'), interrupt=True)
             return 
-        self.env['runtime']['outputManager'].presentText(self.env['commandBuffer']['clipboard'][self.env['commandBuffer']['currClipboard']], interrupt=True)
+        clipboard = self.env['runtime']['memoryManager'].getIndexListElement('clipboardHistory')
+        self.env['runtime']['outputManager'].presentText(clipboard , interrupt=True)
                
     def setCallback(self, callback):
         pass

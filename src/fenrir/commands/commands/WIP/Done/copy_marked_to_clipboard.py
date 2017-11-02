@@ -29,12 +29,10 @@ class command():
         endMark = self.env['commandBuffer']['Marks']['2'].copy()         
         
         marked = mark_utils.getTextBetweenMarks(startMark, endMark, self.env['screen']['newContentText'])
-
-        self.env['commandBuffer']['clipboard'] = [marked] + self.env['commandBuffer']['clipboard'][:self.env['runtime']['settingsManager'].getSettingAsInt('general', 'numberOfClipboards') -1]
-        self.env['commandBuffer']['currClipboard'] = 0
+        self.env['runtime']['memoryManager'].addValueToFirstIndex('clipboardHistory', marked)
         # reset marks
-        self.env['runtime']['cursorManager'].clearMarks()
-        
+        self.env['runtime']['cursorManager'].clearMarks()      
+
         self.env['runtime']['outputManager'].presentText(marked, soundIcon='CopyToClipboard', interrupt=True)
 
     def setCallback(self, callback):
