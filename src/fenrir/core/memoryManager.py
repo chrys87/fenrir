@@ -118,7 +118,6 @@ class memoryManager():
         if currIndex == -1:
             return None
         try:       
-            print(self.listStorage[name]['list']) 
             return self.listStorage[name]['list'][currIndex]
         except:
             return None
