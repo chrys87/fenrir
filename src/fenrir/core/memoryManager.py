@@ -16,7 +16,6 @@ class memoryManager():
         pass
     def listStorageValid(self,name, checkIndex = False):
         try:
-            print(self.listStorage[name]['index'], self.listStorage[name]['list'])
             if checkIndex:
                 index = self.listStorage[name]['index']
                 if index == -1:
@@ -42,7 +41,7 @@ class memoryManager():
     def isLastIndex(self, name):
         if not self.listStorageValid(name):
             return False    
-        return self.listStorage[name]['index'] == len(self.listStorage[name]['list'])
+        return self.listStorage[name]['index'] == len(self.listStorage[name]['list']) - 1
     def isFirstIndex(self, name):
         if not self.listStorageValid(name):
             return False       
@@ -81,14 +80,14 @@ class memoryManager():
         if self.isIndexListEmpty(name):
             self.listStorage[name]['index'] = -1
             return 0          
-        return len(self.listStorage[name]['index'])
+        return len(self.listStorage[name])
     def setLastIndex(self, name):
         if not self.listStorageValid(name):
             return False      
         if self.isIndexListEmpty(name):
             self.listStorage[name]['index'] = -1
             return False
-        self.listStorage[name]['index'] = self.listStorage[name]['list'] -1 
+        self.listStorage[name]['index'] = len(self.listStorage[name]['list']) -1 
         return True  
     def clearCurrentIndexList(self, name):
         if not self.listStorageValid(name):

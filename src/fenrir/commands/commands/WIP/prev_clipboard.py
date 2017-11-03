@@ -28,7 +28,7 @@ class command():
             self.env['runtime']['outputManager'].presentText(_('First clipboard '), interrupt=True)   
         if isLast:
             self.env['runtime']['outputManager'].presentText(_('Last clipboard '), interrupt=True)                     
-        
+        print(isLast,isFirst)
         speechInterrupt = not(isLast or isFirst)
         self.env['runtime']['outputManager'].presentText(clipboard, interrupt = speechInterrupt)
               
