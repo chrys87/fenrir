@@ -14,25 +14,27 @@ class memoryManager():
         self.env = environment
     def shutdown(self):
         pass
-    def listStorageValid(self,name, index = None):
-        print(index,self.listStorage[name]['list'])
+    def listStorageValid(self,name, checkIndex = False):
         try:
-            if index == None:
+            print(self.listStorage[name]['index'], self.listStorage[name]['list'])
+            if checkIndex:
                 index = self.listStorage[name]['index']
-            if index == -1:
-                return self.listStorage[name]['list'] == []        
-            return self.listStorage[name]['list'][index] != None
+                if index == -1:
+                    return self.listStorage[name]['list'] == []        
+                return self.listStorage[name]['list'][index] != None
+            else:
+                return isinstance(self.listStorage[name]['list'],list)
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut("listStorageValid " + str(e),debug.debugLevel.ERROR)
         return False                    
     def addValueToFirstIndex(self, name, value):
         if not self.listStorageValid(name):
             return
-        if self.listStorage[name]['maxLength'] != None:
+        if self.listStorage[name]['maxLength'] == None:
             self.listStorage[name]['list'] = [value] + self.listStorage[name]['list']
         else:        
             self.listStorage[name]['list'] = [value] + self.listStorage[name]['list'][:self.listStorage[name]['maxLength'] -1]
-        self.listStorage[name]['index'] = index
+        self.listStorage[name]['index'] = 0
     def addIndexList(self, name, maxLength = None, currList = [], currIndex = -1):
         if len(currList) != 0 and (currIndex == -1):
             currIndex = 0
@@ -61,7 +63,7 @@ class memoryManager():
         if self.isIndexListEmpty(name):
             self.listStorage[name]['index'] = -1
             return False
-        self.listStorage[name]['index'] += 1
+        self.listStorage[name]['index'] -= 1
         if self.listStorage[name]['index'] < 0:
             self.listStorage[name]['index'] = len(self.listStorage[name]['list']) -1
         return True
@@ -108,9 +110,11 @@ class memoryManager():
             return False      
         return len(self.listStorage[name]['list']) == 0
     def getIndexListElement(self, name):
+        if not self.listStorageValid(name):
+            return None    
         if self.isIndexListEmpty(name):
             self.listStorage[name]['index'] = -1
-            return False        
+            return None        
         currIndex = self.getCurrentIndex(name)
         if currIndex == -1:
             return None
