@@ -11,11 +11,6 @@ import time
 # use this in your own commands
 commandBuffer = {
 'enableSpeechOnKeypress': False,
-'genericList':[],
-'genericListSource':'',
-'genericListSelection': 0,
-'clipboard':[],
-'currClipboard': 0,
 'Marks':{'1':None, '2':None},
 'bookMarks':{},
 'windowArea':{},

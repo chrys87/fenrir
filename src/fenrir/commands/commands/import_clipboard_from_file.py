@@ -7,7 +7,12 @@
 from core import debug
 from utils import mark_utils
 import os
-
+        if self.env['runtime']['memoryManager'].isIndexListEmpty('clipboardHistory'):
+            self.env['runtime']['outputManager'].presentText(_('clipboard empty'), interrupt=True)
+            return
+        self.env['runtime']['memoryManager'].isFirstIndex('clipboardHistory')     
+        clipboard = self.env['runtime']['memoryManager'].getIndexListElement('clipboardHistory')
+        self.env['runtime']['outputManager'].presentText(clipboard, interrupt=True)
 class command():
     def __init__(self):
         pass
