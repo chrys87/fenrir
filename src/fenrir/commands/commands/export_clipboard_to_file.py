@@ -28,10 +28,10 @@ class command():
                 self.env['runtime']['outputManager'].presentText(_('clipboard empty'), interrupt=True)
                 return 
             clipboard = self.env['runtime']['memoryManager'].getIndexListElement('clipboardHistory')                             
-                clipboardFile.write(clipboard)
-                clipboardFile.close()
-                os.chmod(clipboardFilePath, 0o666)
-                self.env['runtime']['outputManager'].presentText(_('clipboard exported to file'), interrupt=True)            
+            clipboardFile.write(clipboard)
+            clipboardFile.close()
+            os.chmod(clipboardFilePath, 0o666)
+            self.env['runtime']['outputManager'].presentText(_('clipboard exported to file'), interrupt=True)            
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('export_clipboard_to_file:run: Filepath:'+ clipboardFile +' trace:' + str(e),debug.debugLevel.ERROR)                                
         
