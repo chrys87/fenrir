@@ -38,9 +38,9 @@ class driver(speechDriver):
 
     def cancel(self):
         if not self._isInitialized:
-            return False
+            return
         self._es.cancel()
-        return True
+        return
 
     def setPitch(self, pitch):
         if not self._isInitialized:
@@ -50,7 +50,7 @@ class driver(speechDriver):
     def setRate(self, rate):
         if not self._isInitialized:
             return
-        return self._es.set_parameter(self._es.Parameter().Rate, int(rate * 500 + 100))
+        return self._es.set_parameter(self._es.Parameter().Rate, int(rate * 899 + 100))
 
     def setVolume(self, volume):
         if not self._isInitialized:
