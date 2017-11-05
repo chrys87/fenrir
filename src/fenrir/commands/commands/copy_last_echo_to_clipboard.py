@@ -15,7 +15,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return _('copies last presented text to the currently selected clipboard')    
+        return _('copies last presented text to the clipboard')    
     
     def run(self):
         lastEcho = self.env['runtime']['outputManager'].getLastEcho()
