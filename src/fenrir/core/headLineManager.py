@@ -29,7 +29,9 @@ class headLineManager():
             else:
                 newText += ' ' + str(int(numberOfChars / 2)) + ' ' + name + ' '
             lastPos = span[1]
-        newText += ' ' + text[lastPos:]
+        if lastPos != 0:
+            newText += ' '
+        newText += text[lastPos:]
         lastPos = 0     
         for match in self.regExSingle.finditer(newText):
             span = match.span()         
@@ -41,5 +43,7 @@ class headLineManager():
             else:
                 result += ' ' + str(int(numberOfChars / 2)) + ' ' + name + ' '        
             lastPos = span[1]
-        result += ' ' + newText[lastPos:]
+        if lastPos != 0:
+            result += ' '                   
+        result += newText[lastPos:]
         return result 
