@@ -92,11 +92,9 @@ class outputManager():
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)            
         
         try:
-            s = time.time()
             text = self.env['runtime']['headLineManager'].replaceHeadLines(text)        
             text = self.env['runtime']['punctuationManager'].proceedPunctuation(text,ignorePunctuation) 
             text = text.replace('\n',' , ')
-            print(time.time() -s)
             self.env['runtime']['speechDriver'].speak(text)
             self.env['runtime']['debug'].writeDebugOut("Speak: "+ text,debug.debugLevel.INFO)                
         except Exception as e:
