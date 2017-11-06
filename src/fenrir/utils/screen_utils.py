@@ -10,6 +10,7 @@ import string
 from select import select
 from select import epoll
 import select
+import re
 
 def removeNonprintable(text):
     # Get the difference of all ASCII characters from the set of printable characters
@@ -80,3 +81,37 @@ new = ((0,1,1,1),(1,1,1,1),(1,1,1,1),(1,1,1,1),(1,1,1,1),(1,1,0,0),(1,1,0,0),(1,
 
 trackHighlights(old,new,t,5)
 '''
+
+class headLineManipulation:
+    def __init__(self):
+        self.regExSingle = re.compile(r'(([^\w\s])\2{5,})')
+        self.regExDouble = re.compile(r'([^\w\s]{2,}){5,}')  
+    def replaceHeadLines(self, text):
+        result = ''
+        newText = ''
+        lastPos = 0
+        for match in self.regExDouble.finditer(text):
+            span = match.span()
+            newText += text[lastPos:span[0]]
+            numberOfChars = len(text[span[0]:span[1]])
+            name = text[span[0]:span[1]][:2]
+            if name.strip(name[0]) == '':
+                newText += ' ' + str(numberOfChars) + ' ' + name[0] + ' '
+            else:
+                newText += ' ' + str(int(numberOfChars / 2)) + ' ' + name + ' '
+            lastPos = span[1]
+        newText += ' ' + text[lastPos:]
+        lastPos = 0     
+        for match in self.regExSingle.finditer(newText):
+            span = match.span()         
+            result += text[lastPos:span[0]]
+            numberOfChars = len(newText[span[0]:span[1]])
+            name = newText[span[0]:span[1]][:2]
+            if name.strip(name[0]) == '':               
+                result += ' ' + str(numberOfChars) + ' ' + name[0] + ' '
+            else:
+                result += ' ' + str(int(numberOfChars / 2)) + ' ' + name + ' '        
+            lastPos = span[1]
+        result += ' ' + newText[lastPos:]
+        return result 
+

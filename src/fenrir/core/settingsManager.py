@@ -21,6 +21,7 @@ from core import punctuationManager
 from core import cursorManager
 from core import applicationManager
 from core import helpManager
+from core import headLineManager
 from core import environment 
 from core import inputData
 from core.settingsData import settingsData
@@ -344,6 +345,8 @@ class settingsManager():
         environment['runtime']['applicationManager'].initialize(environment)  
         environment['runtime']['helpManager'] = helpManager.helpManager()
         environment['runtime']['helpManager'].initialize(environment) 
+        environment['runtime']['headLineManager'] = headLineManager.headLineManager()
+        environment['runtime']['headLineManager'].initialize(environment)         
         if environment['runtime']['screenManager'] == None:
             environment['runtime']['screenManager'] = screenManager.screenManager()
             environment['runtime']['screenManager'].initialize(environment) 
