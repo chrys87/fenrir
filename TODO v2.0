@@ -27,8 +27,6 @@ General:
   [] beep on review by word (once for multiple, capital wins)
   [] configurable (by char, by word, none)
     https://github.com/jwilk/vcsapeek/blob/master/linuxvt.py
-- Improvend Headline Seperator and Multible Char Support
-  []read "13 #" insteed of ###################
 - Improved Say all
   [] speech callbacks
   [] speech process by word
@@ -113,7 +111,9 @@ Cleanups:
   [X] last item  
 General:   
 - commands
-  [DONE] place last spoken to clipboard (Easy for contribution)
+  [X] place last spoken to clipboard (Easy for contribution)
+- Improvend Headline Seperator and Multible Char Support
+  [X]read "13 #" insteed of ###################  
 Braille Support:
 Driver:
 [Done] pyttsx3 speech driver
