@@ -20,6 +20,7 @@ Cleanups:
   [] settingsData -> defaultSettings.py
 
 General:  
+- make fenrir runable without settingsfile. fallback to defaults
 - imporove attribute handling
   [] improve attributes_curr_char (Easy for contribution)
   [] add an attribute sound (Easy for contribution)
@@ -34,8 +35,6 @@ General:
   [] command to stop and place review cursor at this position
   [] command to slow down speech on keypress
   [] place say all at clipboard buffer
-- make it runnable via pypy3
-  [] wrapper script for running Fenrir to check if pypy exists, use python3 as fallback.
 - table review mode
   [] toggle table mode/ select headline
   [] next line
@@ -45,6 +44,8 @@ General:
   [] prev cell
   [] current cell
   [] select field separator
+- make it runnable via pypy3  (low priority)
+  [] wrapper script for running Fenrir to check if pypy exists, use python3 as fallback.
 
 Braille Support:
   [] brailleFocusMode:

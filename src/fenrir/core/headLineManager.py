@@ -5,7 +5,7 @@
 # By Chrys, Storm Dragon, and contributers.
 
 from core import debug
-import re
+import re, string
 
 class headLineManager():
     def __init__(self):
@@ -16,6 +16,12 @@ class headLineManager():
     def shutdown(self):
         pass              
     def replaceHeadLines(self, text):
+        # fast len check for bigger typing echo
+        if len(text) < 5:
+            return text
+        # more strong check, to not match if not needed:
+        if len(text.strip(string.ascii_letters+string.digits+string.whitespace)) < 5:
+            return text        
         result = ''
         newText = ''
         lastPos = 0
