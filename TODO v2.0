@@ -8,6 +8,7 @@ Cleanups:
 - split oldValues := newValues out to helper function
   [] split it out
   [] use it in vcsa driver
+  [] re.sub(' +,' ',text) -> text.lstrip()? check this?
 - Migrate *Data.py to classes and use getter/setter (Easy for contribution)
   [] commandsData.py
   [] eventData.py  
