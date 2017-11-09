@@ -12,6 +12,7 @@
 
 
 import difflib
+import re
 import subprocess
 import glob, os
 import termios
@@ -325,8 +326,8 @@ class driver(screenDriver):
         self.env['screen']['newAttribDelta'] = ''                           
 
         # changes on the screen
-        oldScreenText = self.env['runtime']['screenManager'].getWindowAreaInText(self.env['screen']['oldContentText'])
-        newScreenText = self.env['runtime']['screenManager'].getWindowAreaInText(self.env['screen']['newContentText'])    
+        oldScreenText = re.sub(' +',' ',self.env['runtime']['screenManager'].getWindowAreaInText(self.env['screen']['oldContentText']))
+        newScreenText = re.sub(' +',' ',self.env['runtime']['screenManager'].getWindowAreaInText(self.env['screen']['newContentText']))        
         typing = False
         if (self.env['screen']['oldContentText'] != self.env['screen']['newContentText']):
             if self.env['screen']['newContentText'] != '' and self.env['screen']['oldContentText'] == '':
@@ -342,10 +343,14 @@ class driver(screenDriver):
                   self.env['screen']['newContentText'][cursorLineEnd:] == self.env['screen']['oldContentText'][cursorLineEnd:]:
                     cursorLineStartOffset = cursorLineStart
                     cursorLineEndOffset = cursorLineEnd
+                    #if cursorLineStart < cursorLineStart + self.env['screen']['newCursor']['x'] - 4:
+                    #    cursorLineStartOffset = cursorLineStart + self.env['screen']['newCursor']['x'] - 4
                     if cursorLineEnd > cursorLineStart + self.env['screen']['newCursor']['x'] + 3:
                         cursorLineEndOffset = cursorLineStart + self.env['screen']['newCursor']['x'] + 3                                               
                     oldScreenText = self.env['screen']['oldContentText'][cursorLineStartOffset:cursorLineEndOffset] 
+                    oldScreenText = re.sub(' +',' ',oldScreenText)
                     newScreenText = self.env['screen']['newContentText'][cursorLineStartOffset:cursorLineEndOffset]
+                    newScreenText = re.sub(' +',' ',newScreenText)
                     diff = difflib.ndiff(oldScreenText, newScreenText) 
                     typing = True
                 else:
