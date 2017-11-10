@@ -66,8 +66,11 @@ class screenManager():
         if not self.env['screen']['oldTTY']:
             return False
         return self.env['screen']['newTTY'] != self.env['screen']['oldTTY']
-    def isDelta(self):    
-        return self.env['screen']['newDelta'] != ''
+    def isDelta(self, ignoreSpace=False):
+        newDelta = self.env['screen']['newDelta']
+        if ignoreSpace:
+            newDelta = newDelta.strip()                
+        return newDelta != ''
     def isNegativeDelta(self):    
         return self.env['screen']['newNegativeDelta'] != ''
     def getWindowAreaInText(self, text):

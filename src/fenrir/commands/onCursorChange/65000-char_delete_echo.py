@@ -24,8 +24,9 @@ class command():
             return 
 
         # More than just a deletion happend
-        if self.env['runtime']['screenManager'].isDelta():
+        if self.env['runtime']['screenManager'].isDelta(ignoreSpace=True):
             return
+
         # no deletion
         if not self.env['runtime']['screenManager'].isNegativeDelta():
             return           
@@ -33,7 +34,8 @@ class command():
         # too much for a single backspace...
         # word begin produce a diff wiht len == 2 |a | others with 1 |a|
         if len(self.env['screen']['newNegativeDelta']) > 2:
-            return           
+            return
+                       
         currNegativeDelta = self.env['screen']['newNegativeDelta']
         if len(currNegativeDelta.strip()) != len(currNegativeDelta) and \
           currNegativeDelta.strip() != '':

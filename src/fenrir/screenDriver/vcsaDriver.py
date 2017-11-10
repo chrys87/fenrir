@@ -348,9 +348,9 @@ class driver(screenDriver):
                     if cursorLineEnd > cursorLineStart + self.env['screen']['newCursor']['x'] + 3:
                         cursorLineEndOffset = cursorLineStart + self.env['screen']['newCursor']['x'] + 3                                               
                     oldScreenText = self.env['screen']['oldContentText'][cursorLineStartOffset:cursorLineEndOffset] 
-                    oldScreenText = re.sub(' +',' ',oldScreenText)
+                    # oldScreenText = re.sub(' +',' ',oldScreenText)
                     newScreenText = self.env['screen']['newContentText'][cursorLineStartOffset:cursorLineEndOffset]
-                    newScreenText = re.sub(' +',' ',newScreenText)
+                    #newScreenText = re.sub(' +',' ',newScreenText)
                     diff = difflib.ndiff(oldScreenText, newScreenText) 
                     typing = True
                 else:
