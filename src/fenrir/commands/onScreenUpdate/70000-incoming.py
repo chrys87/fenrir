@@ -20,16 +20,18 @@ class command():
         if not self.env['runtime']['settingsManager'].getSettingAsBool('speech', 'autoReadIncoming'):
             return
         # is there something to read?
-        if not self.env['runtime']['screenManager'].isDelta():
+        if not self.env['runtime']['screenManager'].isDelta(ignoreSpace=True):
             return      
         # this must be a keyecho or something      
-        if len(self.env['screen']['newDelta'].strip(' \n\t')) <= 1:
-            if abs(self.env['screen']['newCursor']['x'] - self.env['screen']['oldCursor']['x']) >= 1:
-            # if len(self.env['screen']['newDelta'].strip(' \n\t0123456789')) <= 2:
-                return          
-            if abs(self.env['screen']['newCursor']['y'] - self.env['screen']['oldCursor']['y']) == 1:
-            #   if len(self.env['screen']['newDelta'].strip(' \n\t0123456789')) <= 2:
-                return                        
+        #if len(self.env['screen']['newDelta'].strip(' \n\t')) <= 1:
+        xMove = abs(self.env['screen']['newCursor']['x'] - self.env['screen']['oldCursor']['x'])
+        yMove = abs(self.env['screen']['newCursor']['y'] - self.env['screen']['oldCursor']['y'])
+        if (xMove >= 1) and xMove == len(self.env['screen']['newDelta']):
+        # if len(self.env['screen']['newDelta'].strip(' \n\t0123456789')) <= 2:
+            return          
+        #if yMove == 1:
+        #   if len(self.env['screen']['newDelta'].strip(' \n\t0123456789')) <= 2:
+        #    return                        
         self.env['runtime']['outputManager'].presentText(self.env['screen']['newDelta'], interrupt=False, flush=False)
 
     def setCallback(self, callback):

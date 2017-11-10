@@ -33,6 +33,7 @@ class command():
         # is it a horizontal change?
         if not self.env['runtime']['cursorManager'].isCursorHorizontalMove():
             return
+       
         # echo word insteed of char 
         if self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'wordEcho'):
             if abs(self.env['screen']['oldCursor']['x'] - self.env['screen']['newCursor']['x']) != 1:
@@ -42,7 +43,7 @@ class command():
                   word_utils.getCurrentWord(self.env['screen']['newCursor']['x'], 0, newContent) 
                 if self.env['screen']['newCursor']['x'] == x:
                     return            
-        x, y, currChar = char_utils.getCurrentChar(self.env['screen']['newCursor']['x'], self.env['screen']['newCursor']['y'], self.env['screen']['newContentText'])
+        x, y, currChar = char_utils.getCurrentChar(self.env['screen']['newCursor']['x'], self.env['screen']['newCursor']['y'], self.env['screen']['newContentText'])     
         if not currChar.isspace():
             self.env['runtime']['outputManager'].presentText(currChar, interrupt=True, ignorePunctuation=True, announceCapital=True, flush=False)
     def setCallback(self, callback):

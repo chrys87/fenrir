@@ -337,7 +337,7 @@ class driver(screenDriver):
             else:
                 cursorLineStart = self.env['screen']['newCursor']['y'] * self.env['screen']['columns'] + self.env['screen']['newCursor']['y']
                 cursorLineEnd = cursorLineStart  + self.env['screen']['columns']         
-                if abs(self.env['screen']['oldCursor']['x'] - self.env['screen']['newCursor']['x']) == 1 and \
+                if abs(self.env['screen']['oldCursor']['x'] - self.env['screen']['newCursor']['x']) >= 1 and \
                   self.env['screen']['oldCursor']['y'] == self.env['screen']['newCursor']['y'] and \
                   self.env['screen']['newContentText'][:cursorLineStart] == self.env['screen']['oldContentText'][:cursorLineStart] and \
                   self.env['screen']['newContentText'][cursorLineEnd:] == self.env['screen']['oldContentText'][cursorLineEnd:]:
