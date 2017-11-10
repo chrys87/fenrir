@@ -30,7 +30,6 @@ class headLineManager():
             newText += text[lastPos:span[0]]
             numberOfChars = len(text[span[0]:span[1]])
             name = text[span[0]:span[1]][:2]
-            print(self.env['runtime']['punctuationManager'].proceedPunctuation(name, True))
             if name[0] == name[1]:
                 newText += ' ' + str(numberOfChars) + ' ' + self.env['runtime']['punctuationManager'].proceedPunctuation(name[0], True) + ' '
             else:
