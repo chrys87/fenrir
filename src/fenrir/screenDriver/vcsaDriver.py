@@ -355,9 +355,9 @@ class driver(screenDriver):
                     diff = difflib.ndiff(oldScreenText, newScreenText) 
                     diffList = list(diff)
                     tempNewDelta = ''.join(x[2:] for x in diffList if x[0] == '+')
-
-                    if tempNewDelta != ''.join(newScreenText[self.env['screen']['oldCursor']['x']:self.env['screen']['newCursor']['x']].rstrip()):
-                        diffList = ['+ ' + self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']]]
+                    if tempNewDelta.strip() != '':
+                        if tempNewDelta != ''.join(newScreenText[self.env['screen']['oldCursor']['x']:self.env['screen']['newCursor']['x']].rstrip()):
+                            diffList = ['+ ' + self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']]]
 
                     typing = True
                 else:
