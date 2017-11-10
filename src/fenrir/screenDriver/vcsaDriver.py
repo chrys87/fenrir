@@ -329,6 +329,7 @@ class driver(screenDriver):
         oldScreenText = re.sub(' +',' ',self.env['runtime']['screenManager'].getWindowAreaInText(self.env['screen']['oldContentText']))
         newScreenText = re.sub(' +',' ',self.env['runtime']['screenManager'].getWindowAreaInText(self.env['screen']['newContentText']))        
         typing = False
+        diffList = []        
         if (self.env['screen']['oldContentText'] != self.env['screen']['newContentText']):
             if self.env['screen']['newContentText'] != '' and self.env['screen']['oldContentText'] == '':
                 if oldScreenText == '' and\
@@ -337,7 +338,7 @@ class driver(screenDriver):
             else:
                 cursorLineStart = self.env['screen']['newCursor']['y'] * self.env['screen']['columns'] + self.env['screen']['newCursor']['y']
                 cursorLineEnd = cursorLineStart  + self.env['screen']['columns']         
-                if abs(self.env['screen']['oldCursor']['x'] - self.env['screen']['newCursor']['x']) == 1 and \
+                if abs(self.env['screen']['oldCursor']['x'] - self.env['screen']['newCursor']['x']) >= 1 and \
                   self.env['screen']['oldCursor']['y'] == self.env['screen']['newCursor']['y'] and \
                   self.env['screen']['newContentText'][:cursorLineStart] == self.env['screen']['oldContentText'][:cursorLineStart] and \
                   self.env['screen']['newContentText'][cursorLineEnd:] == self.env['screen']['oldContentText'][cursorLineEnd:]:
@@ -352,13 +353,19 @@ class driver(screenDriver):
                     newScreenText = self.env['screen']['newContentText'][cursorLineStartOffset:cursorLineEndOffset]
                     #newScreenText = re.sub(' +',' ',newScreenText)
                     diff = difflib.ndiff(oldScreenText, newScreenText) 
+                    diffList = list(diff)
+                    tempNewDelta = ''.join(x[2:] for x in diffList if x[0] == '+')
+                    print(tempNewDelta, newScreenText[self.env['screen']['oldCursor']['x'] :self.env['screen']['newCursor']['x'] ])
+                    if tempNewDelta != ''.join(newScreenText[self.env['screen']['oldCursor']['x']:self.env['screen']['newCursor']['x']]):
+                        diffList = [' +' + self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']]]
+                    print(diffList)
                     typing = True
                 else:
                     diff = difflib.ndiff( oldScreenText.split('\n'),\
                       newScreenText.split('\n'))
 
-                diffList = list(diff)
-                
+                    diffList = list(diff)
+
                 if self.env['runtime']['settingsManager'].getSetting('general', 'newLinePause') and not typing:
                     self.env['screen']['newDelta'] = '\n'.join(x[2:] for x in diffList if x[0] == '+')
                 else:
