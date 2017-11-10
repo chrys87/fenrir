@@ -8,6 +8,7 @@ Cleanups:
 - split oldValues := newValues out to helper function
   [] split it out
   [] use it in vcsa driver
+  [] re.sub(' +,' ',text) -> text.lstrip()? check this?
 - Migrate *Data.py to classes and use getter/setter (Easy for contribution)
   [] commandsData.py
   [] eventData.py  
@@ -54,6 +55,10 @@ Braille Support:
   [] print cursor in review
   [] print cursor in textmode
   [] word wrapping (if word does not fit print it at next page)
+  https://docs.python.org/2/library/textwrap.html#textwrap.TextWrapper
+  drop_whitespace = False
+  replace_whitespace = False
+  w.fill(i).split('\n')
   [] command toggle used cursor (in manual brailleFocusMode)  
   [] capture input from braile
   [] make routing keys assignable by keyboard
