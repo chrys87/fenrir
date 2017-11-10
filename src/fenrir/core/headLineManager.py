@@ -30,10 +30,10 @@ class headLineManager():
             newText += text[lastPos:span[0]]
             numberOfChars = len(text[span[0]:span[1]])
             name = text[span[0]:span[1]][:2]
-            if name.strip(name[0]) == '':
-                newText += ' ' + str(numberOfChars) + ' ' + name[0] + ' '
+            if name[0] == name[1]:
+                newText += ' ' + str(numberOfChars) + ' ' + self.env['runtime']['punctuationManager'].proceedPunctuation(name[0], True) + ' '
             else:
-                newText += ' ' + str(int(numberOfChars / 2)) + ' ' + name + ' '
+                newText += ' ' + str(int(numberOfChars / 2)) + ' ' + self.env['runtime']['punctuationManager'].proceedPunctuation(name, True) + ' '
             lastPos = span[1]
         if lastPos != 0:
             newText += ' '
@@ -44,10 +44,10 @@ class headLineManager():
             result += text[lastPos:span[0]]
             numberOfChars = len(newText[span[0]:span[1]])
             name = newText[span[0]:span[1]][:2]
-            if name.strip(name[0]) == '':               
-                result += ' ' + str(numberOfChars) + ' ' + name[0] + ' '
+            if name[0] == name[1]:
+                result += ' ' + str(numberOfChars) + ' ' + self.env['runtime']['punctuationManager'].proceedPunctuation(name[0], True) + ' '
             else:
-                result += ' ' + str(int(numberOfChars / 2)) + ' ' + name + ' '        
+                result += ' ' + str(int(numberOfChars / 2)) + ' ' + self.env['runtime']['punctuationManager'].proceedPunctuation(name, True) + ' '
             lastPos = span[1]
         if lastPos != 0:
             result += ' '                   
