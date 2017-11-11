@@ -47,8 +47,6 @@ class speechDriver():
     def setVoice(self, voice):
         if not self._isInitialized:
             return
-        if not isinstance(voice, float):
-            return
         if voice == '':
             return            
         self.voice = voice 
