@@ -17,6 +17,10 @@ class command():
         return 'No Description found'
 
     def run(self):
+        # big changes are no char (but the value is bigger than one maybe the differ needs longer than you can type, so a little strange random buffer for now)
+        xMove = abs(self.env['screen']['newCursor']['x'] - self.env['screen']['oldCursor']['x'])
+        if not xMove > 1:
+            return       
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'charEcho'):
             return
         # detect deletion or chilling 
@@ -25,10 +29,7 @@ class command():
         # is there any change?
         if not self.env['runtime']['screenManager'].isDelta():
             return
-        # big changes are no char (but the value is bigger than one maybe the differ needs longer than you can type, so a little strange random buffer for now)
-        xMove = abs(self.env['screen']['newCursor']['x'] - self.env['screen']['oldCursor']['x'])
-        if not( (xMove >= 1) and xMove == len(self.env['screen']['newDelta'])):
-            return        
+    
         # filter unneded space on word begin
         currDelta = self.env['screen']['newDelta']
         if len(currDelta.strip()) != len(currDelta) and \
