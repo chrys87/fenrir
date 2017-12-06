@@ -17,5 +17,31 @@ class tableManager():
     def initialize(self, environment):
         self.env = environment  
     def shutdown(self):
-        pass               
+        pass
+    def resetTableMode(self):
+        self.setHeadLine()
+    def setHeadColumnSep(self, columnSep = ''):
+        self.headColumnSep = columnSep                
+        if columnSep == '':
+            self.noOfHeadLineColumns = 0        
+        else:
+            self.counNoOfHeadColumns()
+    def counNoOfHeadColumns(self):
+        pass
+    def searchForHeadColumnSep(self, headLine):
+        if ' ' in headLine:
+            return ' '
+        return ''
+    def setRowColumnSep(self, columnSep = ''):
+        self.rowColumnSep = columnSep                
+        
+    def setHeadLine(self, headLine = ''):        
+        self.setHeadColumnSep()
+        self.setRowColumnSep()                    
+        if headLine != '':
+            sep = self.searchForHeadColumnSep(headLine)
+            if sep != '':
+                self.headLine = headLine
+                self.setHeadColumnSep(sep)
+                self.setRowColumnSep(sep)                 
             
