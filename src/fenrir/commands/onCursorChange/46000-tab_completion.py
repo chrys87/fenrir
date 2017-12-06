@@ -19,6 +19,9 @@ class command():
     def run(self):
         # try to detect the tab completion by cursor change
         xMove = abs(self.env['screen']['newCursor']['x'] - self.env['screen']['oldCursor']['x'])
+        yMove = abs(self.env['screen']['newCursor']['y'] - self.env['screen']['oldCursor']['y'])        
+        #if yMove > 0:
+        #    return        
         if xMove == 1:
             return
         # is there any change?
