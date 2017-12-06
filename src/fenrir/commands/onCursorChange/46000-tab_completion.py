@@ -35,7 +35,7 @@ class command():
         if len(currDelta.strip()) != len(currDelta) and \
           currDelta.strip() != '':
             currDelta = currDelta.strip()
-        self.env['runtime']['outputManager'].presentText(currDelta, interrupt=True, ignorePunctuation=True, announceCapital=True, flush=False)
+        self.env['runtime']['outputManager'].presentText(currDelta, interrupt=True, announceCapital=True, flush=False)
 
     def setCallback(self, callback):
         pass
