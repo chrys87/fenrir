@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2017-12-27 17:34+CET\n"
-"PO-Revision-Date: 2017-12-27 19:01+0100\n"
+"PO-Revision-Date: 2017-12-27 22:42+0100\n"
 "Last-Translator: Steffen Schultz <schulle3o@yahoo.de>\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -116,7 +116,7 @@ msgstr "Lesezeichen für Anwendung {0} nicht gesetzt"
 #: ../src/fenrir/commands/onCursorChange/55000-present_line_if_cursor_change_vertical.py:37
 #: ../src/fenrir/commands/onScreenUpdate/60000-history.py:49
 msgid "blank"
-msgstr "leer"
+msgstr "Leer"
 
 #: ../src/fenrir/commands/commands/braille_flush.py:17
 msgid "flush the braille device if a message is written on"
@@ -463,7 +463,7 @@ msgstr "Bildschirm-Cursor zum unteren Bildschirmrand bewegen"
 
 #: ../src/fenrir/commands/commands/review_bottom.py:21
 msgid "Bottom"
-msgstr "unten"
+msgstr "Unten"
 
 #: ../src/fenrir/commands/commands/review_curr_char.py:18
 msgid "presents the current character."
@@ -662,7 +662,7 @@ msgstr "Fenstermodus für Anwendung {0} eingeschaltet"
 
 #: ../src/fenrir/commands/commands/set_window_application.py:25
 msgid "Set window begin and end marks"
-msgstr "Setze Fenster-Anfangs- und Endmarken"
+msgstr "Setze Fensteranfangs- und -endmarken"
 
 #: ../src/fenrir/commands/commands/shut_up.py:17
 msgid "interrupts the current presentation"
@@ -748,7 +748,7 @@ msgstr "Automatische Zeitansage ausgeschaltet"
 
 #: ../src/fenrir/commands/commands/toggle_braille.py:17
 msgid "enables and disables output in braille"
-msgstr "Schaltet die Brail-Ausgabe ein oder aus"
+msgstr "Schaltet die Braille-Ausgabe ein oder aus"
 
 #: ../src/fenrir/commands/commands/toggle_braille.py:21
 msgid "braille disabled"
@@ -838,8 +838,8 @@ msgid ""
 "mode, press that shortcut again."
 msgstr ""
 "Lernmodus gestartet. In diesem Modus werden keine Befehle ausgeführt, jedoch "
-"die Funktion für jede Tastenkombination beschrieben. Zum Verlassen erneut "
-"diese Tastenkombination drücken."
+"wird die Funktion für jede Tastenkombination beschrieben. Zum Verlassen "
+"erneut diese Tastenkombination drücken."
 
 #: ../src/fenrir/commands/help/curr_help.py:17
 msgid "get current help message"
@@ -911,7 +911,7 @@ msgstr "blau"
 
 #: ../src/fenrir/screenDriver/vcsaDriver.py:38
 msgid "cyan"
-msgstr "kobaltblau"
+msgstr "türkis"
 
 #: ../src/fenrir/screenDriver/vcsaDriver.py:38
 msgid "green"
@@ -928,7 +928,7 @@ msgstr "weiß"
 #: ../src/fenrir/screenDriver/vcsaDriver.py:38
 #: ../src/fenrir/screenDriver/vcsaDriver.py:39
 msgid "Magenta"
-msgstr "Violett"
+msgstr "Magenta"
 
 #: ../src/fenrir/screenDriver/vcsaDriver.py:38
 #: ../src/fenrir/screenDriver/vcsaDriver.py:39
@@ -937,7 +937,7 @@ msgstr "braun/gelb"
 
 #: ../src/fenrir/screenDriver/vcsaDriver.py:39
 msgid "Black"
-msgstr "schwarz"
+msgstr "Schwarz"
 
 #: ../src/fenrir/screenDriver/vcsaDriver.py:39
 msgid "Blue"
@@ -945,7 +945,7 @@ msgstr "Blau"
 
 #: ../src/fenrir/screenDriver/vcsaDriver.py:39
 msgid "Cyan"
-msgstr "Kobaltblau"
+msgstr "Türkis"
 
 #: ../src/fenrir/screenDriver/vcsaDriver.py:39
 msgid "Dark gray"
@@ -961,7 +961,7 @@ msgstr "Hellblau"
 
 #: ../src/fenrir/screenDriver/vcsaDriver.py:39
 msgid "Light cyan"
-msgstr "Helles kobaltblau"
+msgstr "Helles türkis"
 
 #: ../src/fenrir/screenDriver/vcsaDriver.py:39
 msgid "Light gray"
@@ -969,7 +969,7 @@ msgstr "Hellgrau"
 
 #: ../src/fenrir/screenDriver/vcsaDriver.py:39
 msgid "Light magenta"
-msgstr "Hellviolett"
+msgstr "Helles Magenta"
 
 #: ../src/fenrir/screenDriver/vcsaDriver.py:39
 msgid "Light red"
