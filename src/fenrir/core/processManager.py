@@ -35,7 +35,7 @@ class processManager():
         return time.time()                          
     def addCustomEventThread(self, function, pargs = None, multiprocess = False, runOnce = False):      
         eventQueue = self.env['runtime']['eventManager'].getEventQueue()
-        if multiprocess:        
+        if True:        
             t = Process(target=self.customEventWorkerThread, args=(eventQueue, function, pargs, runOnce))
             self._Processes.append(t)                        
         else:# thread not implemented yet
