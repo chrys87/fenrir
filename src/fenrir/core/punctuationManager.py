@@ -18,7 +18,7 @@ class punctuationManager():
         #for char in [ord('`'),ord("'")]:
         #    self.allPunctNone[char] = None
         # dont restore the following (for announce correct pause)
-        for char in [ord('.'), ord(','), ord(';'), ord(':'), ord('?'), ord('!'), ord('-')]:
+        for char in [ord("'"),ord('.'), ord(','), ord(';'), ord(':'), ord('?'), ord('!'), ord('-')]:
             self.allPunctNone[char] = chr(char)
     def shutdown(self):
         pass
@@ -49,7 +49,7 @@ class punctuationManager():
                 if key in punctuation and key not in ' ':
                     if self.env['runtime']['settingsManager'].getSetting('general', 'respectPunctuationPause') and \
                       len(key) == 1 and \
-                      key in ",.;:?!":
+                      key in "',.;:?!":
                         resultText = resultText.replace(str(key),' ' +str(item) + str(key) + ' ')                    
                     else:
                         resultText = resultText.replace(str(key),' ' +str(item) + ' ')
@@ -66,7 +66,7 @@ class punctuationManager():
         else:
             currPunctLevel = string.punctuation +' §'
         resultText = self.usePunctuationDict(resultText, self.env['punctuation']['PUNCTDICT'], currPunctLevel)
-        #resultText = self.removeUnused(resultText, currPunctLevel)
+        resultText = self.removeUnused(resultText, currPunctLevel)
         return resultText
 
     def cyclePunctuation(self):
