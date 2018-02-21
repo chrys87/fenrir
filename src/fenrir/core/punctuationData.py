@@ -52,10 +52,18 @@ punctuationData = {
 'CUSTOMDICT':{
   }, 
 'EMOTICONDICT':{
-  ':)':'smiley',
-  ';)':'winking face',
-  'XD':'loool',
-  ':@':'angry face',
-  ':D':'lought'
+  ' >:)':'evil smiley',
+  ' >:-)':'evil smiley',
+  ' >:)}':'evil bearded smiley',
+  ' >:-)}':'evil bearded smiley',
+  ' :)':'smiley',
+  ' :-)':'smiley',
+  ' :)}':'bearded smiley',
+  ' :-)}':'bearded smiley',
+  ' ;)':'winking face',
+  ' ;-)':'winking face',
+  ' XD':'laughing smile',
+  ' :@':'angry face',
+  ':D':'laugh'
   },          
 }
