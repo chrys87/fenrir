@@ -5,7 +5,7 @@
 # By Chrys, Storm Dragon, and contributers.
 # speech-dispatcher driver
 
-from fenrir.core import debug
+from core import debug
 
 class driver():
     def __init__(self):

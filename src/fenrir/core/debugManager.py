@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # Debugger module for the Fenrir screen reader.
 
-from fenrir.core import debug
+from core import debug
 from datetime import datetime
 
 class debugManager():

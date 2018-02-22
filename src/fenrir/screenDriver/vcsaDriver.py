@@ -23,11 +23,11 @@ import fcntl
 from array import array
 import errno
 import sys
-from fenrir.utils import screen_utils
+from utils import screen_utils
 from fcntl import ioctl
 from struct import unpack_from, unpack, pack
-from fenrir.core import debug
-from fenrir.core.eventData import fenrirEventType
+from core import debug
+from core.eventData import fenrirEventType
 
 
 class driver():

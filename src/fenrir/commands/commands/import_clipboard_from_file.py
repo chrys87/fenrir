@@ -4,8 +4,8 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-from fenrir.core import debug
-from fenrir.utils import mark_utils
+from core import debug
+from utils import mark_utils
 import os
 
 class command():
