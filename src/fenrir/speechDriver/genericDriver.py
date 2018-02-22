@@ -5,7 +5,7 @@
 # By Chrys, Storm Dragon, and contributers.
 # generic driver
 
-from core import debug
+from fenrir.core import debug
 from threading import Thread, Lock
 from queue import Queue, Empty
 from subprocess import Popen

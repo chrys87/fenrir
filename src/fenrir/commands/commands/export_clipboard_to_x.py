@@ -4,7 +4,7 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-from core import debug
+from fenrir.core import debug
 import subprocess, os
 from subprocess import Popen, PIPE
 import _thread

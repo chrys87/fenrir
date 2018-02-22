@@ -4,7 +4,7 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-from core import debug
+from fenrir.core import debug
 import time, threading
 from core.soundDriver import soundDriver
 

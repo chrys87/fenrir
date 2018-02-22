@@ -9,6 +9,7 @@ currentdir = os.path.dirname(os.path.realpath(os.path.abspath(inspect.getfile(in
 fenrirPath = os.path.dirname(currentdir)
 
 from configparser import ConfigParser
+<<<<<<< HEAD
 from core import debugManager
 from core import memoryManager
 from core import processManager
@@ -28,6 +29,24 @@ from core import inputData
 from core.settingsData import settingsData
 from core import debug
 from utils import module_utils
+=======
+from fenrir.core import debugManager
+from fenrir.core import processManager
+from fenrir.core import eventManager
+from fenrir.core import inputManager
+from fenrir.core import outputManager
+from fenrir.core import commandManager
+from fenrir.core import screenManager
+from fenrir.core import punctuationManager
+from fenrir.core import cursorManager
+from fenrir.core import applicationManager
+from fenrir.core import helpManager
+from fenrir.core import environment
+from fenrir.core import inputData
+from fenrir.core.settingsData import settingsData
+from fenrir.core import debug
+from fenrir.utils import module_utils
+>>>>>>> 1.5
 
 class settingsManager():
     def __init__(self):

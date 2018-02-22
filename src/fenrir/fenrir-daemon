@@ -10,7 +10,7 @@ fenrirPath = os.path.dirname(os.path.realpath(os.path.abspath(inspect.getfile(in
 if not fenrirPath in sys.path:
     sys.path.append(fenrirPath)
 
-from core import fenrirManager
+from fenrir.core import fenrirManager
 from daemonize import Daemonize
 
 pidFile = "/run/fenrir.pid"

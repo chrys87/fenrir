@@ -8,8 +8,8 @@ import glob, os, time, inspect
 currentdir = os.path.dirname(os.path.realpath(os.path.abspath(inspect.getfile(inspect.currentframe()))))
 fenrirPath = os.path.dirname(currentdir)
 
-from core import debug
-from utils import module_utils
+from fenrir.core import debug
+from fenrir.utils import module_utils
 
 class commandManager():
     def __init__(self):

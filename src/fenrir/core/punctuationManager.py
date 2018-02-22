@@ -5,7 +5,7 @@
 # By Chrys, Storm Dragon, and contributers.
 
 import string
-from core import debug
+from fenrir.core import debug
 
 class punctuationManager():
     def __init__(self):

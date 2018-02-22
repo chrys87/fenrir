@@ -11,7 +11,7 @@
 #bold = 1 if attr & 16 else 0
 
 
-from core import debug
+from fenrir.core import debug
 
 class screenDriver():
     def __init__(self):
