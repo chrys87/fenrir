@@ -27,9 +27,9 @@ import multiprocessing
 from multiprocessing.sharedctypes import Value
 from ctypes import c_bool
 
-from core.eventData import fenrirEventType
-from core import inputData
-from core import debug
+from fenrir.core.eventData import fenrirEventType
+from fenrir.core import inputData
+from fenrir.core import debug
 
 
 class driver():

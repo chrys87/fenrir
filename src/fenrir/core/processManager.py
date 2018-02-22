@@ -4,8 +4,8 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-from core import debug
-from core.eventData import fenrirEventType
+from fenrir.core import debug
+from fenrir.core.eventData import fenrirEventType
 import time 
 from threading import Thread
 from multiprocessing import Process

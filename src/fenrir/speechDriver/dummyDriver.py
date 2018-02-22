@@ -5,7 +5,7 @@
 # By Chrys, Storm Dragon, and contributers.
 # generic driver
 
-from core import debug
+from fenrir.core import debug
 
 class driver():
     def __init__(self):

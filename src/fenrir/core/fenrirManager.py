@@ -6,10 +6,10 @@
 
 import os, sys, signal, time
 
-from core import i18n
-from core import settingsManager
-from core import debug
-from core.eventData import fenrirEventType
+from fenrir.core import i18n
+from fenrir.core import settingsManager
+from fenrir.core import debug
+from fenrir.core.eventData import fenrirEventType
 import argparse
 
 class fenrirManager():

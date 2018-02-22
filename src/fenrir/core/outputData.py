@@ -5,7 +5,7 @@
 # By Chrys, Storm Dragon, and contributers.
 
 import time
-from core import debug
+from fenrir.core import debug
 
 outputData = {
 'nextFlush': time.time(),
