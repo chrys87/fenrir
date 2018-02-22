@@ -12,7 +12,7 @@ Cleanups:
   [] commandsData.py
   [] eventData.py  
   [] generalData.py
-  [] inputData.py
+  [W] inputData.py
   [] outputData.py
   [] punctuationData.py
   [] runtimeData.py
@@ -101,7 +101,7 @@ Application Profiles (low priority):
 - per application shortcuts
 
 -----------DONE----------------
-Cleanups:
+Cleanups:	
   [X] re.sub(' +,' ',text) -> text.lstrip()? check this?
 - inheritation for drivers
   [X] Speech (All)
