@@ -86,32 +86,23 @@ class driver(inputDriver):
                     self.env['input']['eventBuffer'].append( [self.iDevices[fd], self.uDevices[fd], event])
                     if event.type == evdev.events.EV_KEY:
                         if event.code != 0:
-                            print(1)
                             currMapEvent = self.mapEvent(event)
                             if not currMapEvent:
-                                print(2)                            
                                 foreward = True                            
                                 event = self.iDevices[fd].read_one()                               
                                 continue
                             if not isinstance(currMapEvent['EventName'], str):
-                                print(3)                            
                                 foreward = True                            
                                 event = self.iDevices[fd].read_one()                               
                                 continue
                             if not foreward:
-                                print(4)                            
                                 if currMapEvent['EventState'] in [0,1,2]:
-                                    print(5)
                                     eventQueue.put({"Type":fenrirEventType.KeyboardInput,"Data":currMapEvent}) 
-                                    print(currMapEvent)                   
-                        print(6)
                     else:
-                        print(7)
                         if not event.type in [0,1,4]:
                             foreward = True
                     event = self.iDevices[fd].read_one()   
                 if foreward:
-                    print('hmmm')
                     self.writeEventBuffer()
                     self.clearEventBuffer() 
     def handleInputEvent(self, event):

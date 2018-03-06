@@ -32,8 +32,6 @@ class inputManager():
     def handleInputEvent(self, eventData):
         if not eventData:
             return
-        print(self.env['input']['currInput'])
-        print(eventData['EventState'])
         self.env['input']['prevInput'] = self.env['input']['currInput'].copy()
         if eventData['EventState'] == 0:
             if eventData['EventName'] in self.env['input']['currInput']:
