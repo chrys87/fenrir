@@ -66,7 +66,7 @@ class driver(inputDriver):
             if devices:
                 while monitor.poll(0.5):
                     time.sleep(0.08)            
-                #eventQueue.put({"Type":fenrirEventType.PlugInputDevice,"Data":None})
+                eventQueue.put({"Type":fenrirEventType.PlugInputDevice,"Data":None})
         return time.time()        
     def plugInputDeviceWatchdogTimer(self, active):
         time.sleep(2.5)
@@ -77,11 +77,11 @@ class driver(inputDriver):
             r, w, x = select(self.iDevices, [], [], 0.5)
             for fd in r:
                 event = None
+                foreward = False                                                                
                 try:
                     event = self.iDevices[fd].read_one()                              
                 except:
                     self.removeDevice(fd)
-                foreward = False                                                
                 while(event):
                     self.env['input']['eventBuffer'].append( [self.iDevices[fd], self.uDevices[fd], event])
                     if event.type == evdev.events.EV_KEY:
