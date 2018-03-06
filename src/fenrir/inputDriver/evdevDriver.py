@@ -106,11 +106,7 @@ class driver(inputDriver):
                     self.writeEventBuffer()
                     self.clearEventBuffer() 
     def handleInputEvent(self, event):
-                if not event:
-                    return
-                if foreward:
-                    self.writeEventBuffer()
-                    self.clearEventBuffer()        
+        return       
 
     def writeEventBuffer(self):
         if not self._initialized:
