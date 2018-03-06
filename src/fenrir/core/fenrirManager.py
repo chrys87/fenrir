@@ -49,18 +49,21 @@ class fenrirManager():
         self.environment['runtime']['eventManager'].startMainEventLoop()
         self.shutdown()
     def handleInput(self, event):
-        #startTime = time.time()        
-        eventReceived = self.environment['runtime']['inputManager'].getInputEvent()
+        #startTime = time.time
+        if not event['Data']:
+            event['Data'] = self.environment['runtime']['inputManager'].getInputEvent()
+        if event['Data']:        
+            event['Data']['EventName'] = self.environment['runtime']['inputManager'].convertEventName(event['Data']['EventName'])        
+            self.environment['runtime']['inputManager'].handleInputEvent(event['Data'])
         if self.environment['runtime']['inputManager'].noKeyPressed(): 
             self.environment['runtime']['inputManager'].clearLastDeepInput()        
-        if eventReceived:
-
+        if True:
             if self.environment['runtime']['screenManager'].isSuspendingScreen():
                 self.environment['runtime']['inputManager'].writeEventBuffer()            
             else: 
                 if self.environment['runtime']['helpManager'].isTutorialMode():
                     self.environment['runtime']['inputManager'].clearEventBuffer()               
-                
+                print('detect')
                 self.detectCommand()                       
 
                 if self.modifierInput:
@@ -82,6 +85,7 @@ class fenrirManager():
         if event['Data'] == '':
             return
         command = event['Data']
+        print('fire',command)
         if self.environment['runtime']['helpManager'].isTutorialMode():
             if self.environment['runtime']['commandManager'].commandExists( command, 'help'):
                 self.environment['runtime']['commandManager'].executeCommand( command, 'help')
@@ -143,10 +147,10 @@ class fenrirManager():
             if self.environment['runtime']['inputManager'].isKeyPress():
                 if self.command != '':
                     self.singleKeyCommand = True
-
+        print(self.singleKeyCommand,self.modifierInput)
         if not (self.singleKeyCommand or self.modifierInput):
             return
-                                
+        print(self.command,1)                       
         # fire event    
         if self.command != '':
             if self.modifierInput:                    
@@ -157,6 +161,7 @@ class fenrirManager():
                     if self.environment['runtime']['inputManager'].noKeyPressed():
                         self.environment['runtime']['eventManager'].putToEventQueue(fenrirEventType.ExecuteCommand, self.command)
                         self.command = ''
+        print(self.command,2)                       
     def shutdownRequest(self):
         try:
             self.environment['runtime']['eventManager'].stopMainEventLoop()
