@@ -80,7 +80,7 @@ class driver(inputDriver):
             while r == []:
                 if active.value == 0:
                     return        
-                r, w, x = select(list(params['dev']), [], [], 0.3)                     
+                r, w, x = select(list(params['dev']), [], [], 0.5)                     
             self.watchDog.value = 0                    
         except:
             pass
