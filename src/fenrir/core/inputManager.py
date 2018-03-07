@@ -30,6 +30,7 @@ class inputManager():
     def  getInputEvent(self):
          return self.env['runtime']['inputDriver'].getInputEvent()
     def handleInputEvent(self, eventData):
+        self.env['runtime']['debug'].writeDebugOut('DEBUG INPUT inputMan:'  + str(eventData),debug.debugLevel.INFO)                                               
         if not eventData:
             return
         self.env['input']['prevInput'] = self.env['input']['currInput'].copy()
