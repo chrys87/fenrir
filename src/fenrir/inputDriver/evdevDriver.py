@@ -77,7 +77,8 @@ class driver(inputDriver):
             r, w, x = select(self.iDevices, [], [], 0.5)
             for fd in r:
                 event = None
-                foreward = False                                                                
+                foreward = False
+                eventFired = False
                 try:
                     event = self.iDevices[fd].read_one()                              
                 except:
@@ -98,11 +99,12 @@ class driver(inputDriver):
                             if not foreward:
                                 if currMapEvent['EventState'] in [0,1,2]:
                                     eventQueue.put({"Type":fenrirEventType.KeyboardInput,"Data":currMapEvent}) 
+                                    eventFired = True
                     else:
                         if not event.type in [0,1,4]:
                             foreward = True
                     event = self.iDevices[fd].read_one()   
-                if foreward:
+                if foreward and not eventFired:
                     self.writeEventBuffer()
                     self.clearEventBuffer() 
     def handleInputEvent(self, event):
