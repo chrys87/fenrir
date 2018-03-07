@@ -50,6 +50,7 @@ class fenrirManager():
         self.shutdown()
     def handleInput(self, event):
         #startTime = time.time
+        self.environment['runtime']['debug'].writeDebugOut('DEBUG INPUT fenrirMan:'  + str(event),debug.debugLevel.INFO)                                                       
         if not event['Data']:
             event['Data'] = self.environment['runtime']['inputManager'].getInputEvent()
         if event['Data']:        
@@ -81,9 +82,7 @@ class fenrirManager():
             self.environment['runtime']['screenManager'].update('onInput')                            
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')       
         #print('handleInput:',time.time() - startTime)
-    def handleExecuteCommand(self, event):
-        self.env['runtime']['debug'].writeDebugOut('DEBUG INPUT fenrirMan:'  + str(event),debug.debugLevel.INFO)                                               
-        
+    def handleExecuteCommand(self, event):        
         if event['Data'] == '':
             return
         command = event['Data']
