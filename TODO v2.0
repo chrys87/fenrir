@@ -5,11 +5,6 @@ Things needing little knowledge are marked with "(Easy for contribution)". so ju
 [X] = Done
 
 Cleanups:
-- get information already in watchdogs insteed of mainloop
-  [X] InputDriver
-  [] ScreenDriver
-      [] split oldValues := newValues out to helper function
-      [] move processing of diff to watchdog
 - Migrate *Data.py to classes and use getter/setter (Easy for contribution)
   [] commandsData.py
   [] eventData.py  
@@ -22,6 +17,11 @@ Cleanups:
   [] settingsData -> defaultSettings.py
 
 General:  
+- get information already in watchdogs insteed of mainloop (use eventloop to transport)
+  [X] InputDriver
+  [] ScreenDriver
+      [] split oldValues := newValues out to helper function
+      [] move processing of diff to watchdog
 - make fenrir runable without settingsfile. fallback to defaults
 - imporove attribute handling
   [] improve attributes_curr_char (Easy for contribution)
