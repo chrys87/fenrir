@@ -96,7 +96,7 @@ class driver(inputDriver):
                                 foreward = True                            
                                 event = self.iDevices[fd].read_one()                               
                                 continue
-                            if not foreward:
+                            if not foreward or eventFired:
                                 if currMapEvent['EventState'] in [0,1,2]:
                                     eventQueue.put({"Type":fenrirEventType.KeyboardInput,"Data":currMapEvent}) 
                                     eventFired = True
