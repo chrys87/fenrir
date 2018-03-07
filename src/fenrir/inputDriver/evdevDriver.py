@@ -99,7 +99,7 @@ class driver(inputDriver):
                                 self.env['runtime']['debug'].writeDebugOut('DEBUG INPUT5:'  + str(currMapEvent),debug.debugLevel.INFO)                                                                               
                             if not foreward or eventFired:
                                 if currMapEvent['EventState'] in [0,1,2]:
-                                    eventQueue.put({"Type":fenrirEventType.KeyboardInput,"Data":currMapEvent}) 
+                                    eventQueue.put({"Type":fenrirEventType.KeyboardInput,"Data":currMapEvent.copy()}) 
                                     eventFired = True
                                     self.env['runtime']['debug'].writeDebugOut('DEBUG INPUT6:'  + str(currMapEvent),debug.debugLevel.INFO)                                               
                     else:
