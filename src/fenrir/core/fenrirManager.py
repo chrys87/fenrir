@@ -82,6 +82,8 @@ class fenrirManager():
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')       
         #print('handleInput:',time.time() - startTime)
     def handleExecuteCommand(self, event):
+        self.env['runtime']['debug'].writeDebugOut('DEBUG INPUT fenrirMan:'  + str(event),debug.debugLevel.INFO)                                               
+        
         if event['Data'] == '':
             return
         command = event['Data']
