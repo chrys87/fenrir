@@ -44,8 +44,7 @@ class inputManager():
                 self.lastInputTime = time.time()                                                   
         elif eventData['EventState'] == 1:
             if not eventData['EventName'] in self.env['input']['currInput']:
-                if not eventData['EventName'] == 'KEY_RESERVED':
-                    self.env['input']['currInput'].append(eventData['EventName'])
+                self.env['input']['currInput'].append(eventData['EventName'])
                 if len(self.env['input']['currInput']) > 1:
                     self.env['input']['currInput'] = sorted(self.env['input']['currInput'])
                 if len(self.lastDeepestInput) < len(self.env['input']['currInput']):
@@ -59,8 +58,7 @@ class inputManager():
                 self.lastInputTime = time.time()                                               
         elif eventData['EventState'] == 2:
             self.lastInputTime  = time.time()                                                   
-        else:
-            pass  
+
         self.env['input']['oldNumLock'] = self.env['input']['newNumLock']
         self.env['input']['newNumLock'] = self.env['runtime']['inputDriver'].getLedState()
         self.env['input']['oldCapsLock'] = self.env['input']['newCapsLock'] 
