@@ -5,9 +5,11 @@ Things needing little knowledge are marked with "(Easy for contribution)". so ju
 [X] = Done
 
 Cleanups:
-- split oldValues := newValues out to helper function
-  [] split it out
-  [] use it in vcsa driver
+- get information already in watchdogs insteed of mainloop
+  [X] InputDriver
+  [] ScreenDriver
+      [] split oldValues := newValues out to helper function
+      [] move processing of diff to watchdog
 - Migrate *Data.py to classes and use getter/setter (Easy for contribution)
   [] commandsData.py
   [] eventData.py  
