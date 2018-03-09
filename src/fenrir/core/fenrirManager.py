@@ -56,34 +56,32 @@ class fenrirManager():
         if event['Data']:        
             event['Data']['EventName'] = self.environment['runtime']['inputManager'].convertEventName(event['Data']['EventName'])        
             self.environment['runtime']['inputManager'].handleInputEvent(event['Data'])
-        else:
-            return
         if self.environment['runtime']['inputManager'].noKeyPressed(): 
             self.environment['runtime']['inputManager'].clearLastDeepInput()        
+        if True:
+            if self.environment['runtime']['screenManager'].isSuspendingScreen():
+                self.environment['runtime']['inputManager'].writeEventBuffer()            
+            else: 
+                if self.environment['runtime']['helpManager'].isTutorialMode():
+                    self.environment['runtime']['inputManager'].clearEventBuffer()               
 
-        if self.environment['runtime']['screenManager'].isSuspendingScreen():
-            self.environment['runtime']['inputManager'].writeEventBuffer()            
-        else: 
-            if self.environment['runtime']['helpManager'].isTutorialMode():
-                self.environment['runtime']['inputManager'].clearEventBuffer()               
+                self.detectCommand()                       
 
-            self.detectCommand()                       
-
-            if self.modifierInput:
-                self.environment['runtime']['inputManager'].clearEventBuffer()                   
-            if self.singleKeyCommand:
-                if self.environment['runtime']['inputManager'].noKeyPressed():
-                    self.environment['runtime']['inputManager'].clearEventBuffer() 
-            else:              
-                self.environment['runtime']['inputManager'].writeEventBuffer()                                      
-        if self.environment['runtime']['inputManager'].noKeyPressed():
-            self.modifierInput = False
-            self.singleKeyCommand = False  
-        if self.environment['input']['keyForeward'] > 0:
-            self.environment['input']['keyForeward'] -=1
-        self.environment['runtime']['screenManager'].update('onInput')                            
-        self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')       
-    #print('handleInput:',time.time() - startTime)
+                if self.modifierInput:
+                    self.environment['runtime']['inputManager'].clearEventBuffer()                   
+                if self.singleKeyCommand:
+                    if self.environment['runtime']['inputManager'].noKeyPressed():
+                        self.environment['runtime']['inputManager'].clearEventBuffer() 
+                else:              
+                    self.environment['runtime']['inputManager'].writeEventBuffer()                                      
+            if self.environment['runtime']['inputManager'].noKeyPressed():
+                self.modifierInput = False
+                self.singleKeyCommand = False  
+            if self.environment['input']['keyForeward'] > 0:
+                self.environment['input']['keyForeward'] -=1
+            self.environment['runtime']['screenManager'].update('onInput')                            
+            self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')       
+        #print('handleInput:',time.time() - startTime)
     def handleExecuteCommand(self, event):        
         if event['Data'] == '':
             return
