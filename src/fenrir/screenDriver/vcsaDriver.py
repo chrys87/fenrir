@@ -164,7 +164,7 @@ class driver(screenDriver):
                             screenContent = dirtyContent
                             if time.time() - timeout >= 0.4:
                                 break
-                            time.sleep(0.1)                                                   
+                            time.sleep(0.01)
                             vcsa[currScreen].seek(0)                             
                             dirtyContent = vcsa[currScreen].read()
                         eventQueue.put({"Type":fenrirEventType.ScreenUpdate,"Data":None})
