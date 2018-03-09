@@ -23,17 +23,12 @@ import fcntl
 from array import array
 import errno
 import sys
-from fenrir.utils import screen_utils
+from utils import screen_utils
 from fcntl import ioctl
 from struct import unpack_from, unpack, pack
-<<<<<<< HEAD
 from core import debug
 from core.eventData import fenrirEventType
 from core.screenDriver import screenDriver
-=======
-from fenrir.core import debug
-from fenrir.core.eventData import fenrirEventType
->>>>>>> 1.5
 
 class driver(screenDriver):
     def __init__(self):

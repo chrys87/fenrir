@@ -78,8 +78,8 @@ setup(
     author_email="chrysg@linux-a11y.org",
 
     # Packages
-    packages=find_packages('src'),
-    package_dir={'': 'src'},
+    packages=find_packages('src/fenrir'),
+    package_dir={'': 'src/fenrir'},
     scripts=['src/fenrir/fenrir','src/fenrir/fenrir-daemon'],
 
     # Include additional files into the package

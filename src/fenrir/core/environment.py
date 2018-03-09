@@ -4,15 +4,15 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-from fenrir.core import debug
-from fenrir.core.settingsData import settingsData
-from fenrir.core.runtimeData import runtimeData
-from fenrir.core.screenData import screenData
-from fenrir.core.outputData import outputData
-from fenrir.core.generalData import generalData
-from fenrir.core import commandData
-from fenrir.core.inputData import inputData
-from fenrir.core.punctuationData import punctuationData
+from core import debug
+from core.settingsData import settingsData
+from core.runtimeData import runtimeData
+from core.screenData import screenData
+from core.outputData import outputData
+from core.generalData import generalData
+from core import commandData
+from core.inputData import inputData
+from core.punctuationData import punctuationData
 
 environment = {
 'screen': screenData,

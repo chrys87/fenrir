@@ -28,16 +28,10 @@ import multiprocessing
 from multiprocessing.sharedctypes import Value
 from ctypes import c_bool
 
-<<<<<<< HEAD
 from core.eventData import fenrirEventType
 from core import inputData
 from core import debug
 from core.inputDriver import inputDriver
-=======
-from fenrir.core.eventData import fenrirEventType
-from fenrir.core import inputData
-from fenrir.core import debug
->>>>>>> 1.5
 
 class driver(inputDriver):
     def __init__(self):

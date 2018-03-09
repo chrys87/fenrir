@@ -1517,7 +1517,7 @@ Commands are python files with a special scheme. You can assign them to a shortc
 Good Examples: ["date.py"](https///github.com/chrys87/fenrir/blob/master/src/fenrir/commands/commands/date.py) (announce the Date), ["shut_up.py"](https///github.com/chrys87/fenrir/blob/master/src/fenrir/commands/commands/shut_up.py) (interrupt output)
 the basic scheme for a command is as follows:
 
-    from fenrir.core import debug
+    from core import debug
     
     class command():
       def __init__(self):

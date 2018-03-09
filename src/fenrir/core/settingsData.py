@@ -4,7 +4,7 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-from fenrir.core import debug
+from core import debug
 
 settingsData = {
 'sound': {

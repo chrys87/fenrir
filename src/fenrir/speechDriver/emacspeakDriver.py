@@ -5,10 +5,6 @@
 # By Chrys, Storm Dragon, and contributers.
 # generic driver
 
-<<<<<<< HEAD
-=======
-from fenrir.core import debug
->>>>>>> 1.5
 from subprocess import Popen, PIPE
 import pexpect
 import ptyprocess
