@@ -18,8 +18,11 @@ class inputDriver():
         self._isInitialized = False
     def getInputEvent(self):
         time.sleep(0.05)
+        return None
+    def handleInputEvent(self, event):
+        time.sleep(0.05)
         if not self._initialized:
-            return None
+            return
     def writeEventBuffer(self):
         if not self._initialized:
             return    

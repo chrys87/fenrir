@@ -5,9 +5,6 @@ Things needing little knowledge are marked with "(Easy for contribution)". so ju
 [X] = Done
 
 Cleanups:
-- split oldValues := newValues out to helper function
-  [] split it out
-  [] use it in vcsa driver
 - Migrate *Data.py to classes and use getter/setter (Easy for contribution)
   [] commandsData.py
   [] eventData.py  
@@ -20,7 +17,11 @@ Cleanups:
   [] settingsData -> defaultSettings.py
 
 General:  
-- make fenrir runable without settingsfile. fallback to defaults
+- get information already in watchdogs insteed of mainloop (use eventloop to transport)
+  [X] InputDriver
+  [] ScreenDriver
+      [] split oldValues := newValues out to helper function
+      [] move processing of diff to watchdog
 - imporove attribute handling
   [] improve attributes_curr_char (Easy for contribution)
   [] add an attribute sound (Easy for contribution)
@@ -46,6 +47,8 @@ General:
   [] select field separator
 - make it runnable via pypy3  (low priority)
   [] wrapper script for running Fenrir to check if pypy exists, use python3 as fallback.
+- make fenrir runnable without root permissions
+- make fenrir runable without settingsfile. fallback to defaults
 
 Braille Support:
   [] brailleFocusMode:

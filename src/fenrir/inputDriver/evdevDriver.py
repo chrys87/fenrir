@@ -12,6 +12,7 @@ try:
     import evdev
     from evdev import InputDevice, UInput
     _evdevAvailable = True
+
 except Exception as e:
     _evdevAvailableError = str(e)
 
@@ -60,7 +61,7 @@ class driver(inputDriver):
             self.env['runtime']['processManager'].addCustomEventThread(self.plugInputDeviceWatchdogUdev)        
         else:
             self.env['runtime']['processManager'].addSimpleEventThread(fenrirEventType.PlugInputDevice, self.plugInputDeviceWatchdogTimer)                
-        self.env['runtime']['processManager'].addSimpleEventThread(fenrirEventType.KeyboardInput, self.inputWatchdog, {'dev':self.iDevicesFD})
+        self.env['runtime']['processManager'].addCustomEventThread(self.inputWatchdog)
     def plugInputDeviceWatchdogUdev(self,active , eventQueue):
         context = pyudev.Context()
         monitor = pyudev.Monitor.from_netlink(context)
@@ -70,67 +71,55 @@ class driver(inputDriver):
             devices = monitor.poll(2)
             if devices:
                 while monitor.poll(0.5):
-                    time.sleep(0.2)            
+                    time.sleep(0.08)            
                 eventQueue.put({"Type":fenrirEventType.PlugInputDevice,"Data":None})
         return time.time()        
     def plugInputDeviceWatchdogTimer(self, active):
         time.sleep(2.5)
-        return time.time()    
-    def inputWatchdog(self,active , params):
-        try:        
-            deviceFd = []
-            while self.watchDog.value == 0:  
-                if active.value == 0:
-                    return
-            r = []
-            while r == []:
-                if active.value == 0:
-                    return        
-                r, w, x = select(list(params['dev']), [], [], 0.3)                     
-            self.watchDog.value = 0                    
-        except:
-            pass
-    def getInputEvent(self):
-        if not self.hasIDevices():
-            self.watchDog.value = 1
-            return None
-        event = None
-        r, w, x = select(self.iDevices, [], [], 0.00001)
-        if r != []:
+        return time.time() 
+         
+    def inputWatchdog(self,active , eventQueue):
+        while active.value:
+            r, w, x = select(self.iDevices, [], [], 0.5)
             for fd in r:
+                event = None
+                foreward = False
+                eventFired = False
                 try:
-                    event = self.iDevices[fd].read_one()            
+                    event = self.iDevices[fd].read_one()                              
                 except:
                     self.removeDevice(fd)
-                    self.watchDog.value = 1   
-                    return None
-                foreward = False
                 while(event):
+                    self.env['runtime']['debug'].writeDebugOut('DEBUG INPUT1:'  + str(event),debug.debugLevel.INFO)                                               
                     self.env['input']['eventBuffer'].append( [self.iDevices[fd], self.uDevices[fd], event])
                     if event.type == evdev.events.EV_KEY:
+                        self.env['runtime']['debug'].writeDebugOut('DEBUG INPUT2:'  + str(event),debug.debugLevel.INFO)                                                                                                       
                         if event.code != 0:
+                            self.env['runtime']['debug'].writeDebugOut('DEBUG INPUT3:'  + str(event),debug.debugLevel.INFO)                                                                               
                             currMapEvent = self.mapEvent(event)
                             if not currMapEvent:
                                 foreward = True                            
-                                event = self.iDevices[fd].read_one()                               
-                                continue
+                                self.env['runtime']['debug'].writeDebugOut('DEBUG INPUT4:'  + str(currMapEvent),debug.debugLevel.INFO)                                                                                                               
                             if not isinstance(currMapEvent['EventName'], str):
                                 foreward = True                            
-                                event = self.iDevices[fd].read_one()                               
-                                continue
-                            if not foreward:
+                                self.env['runtime']['debug'].writeDebugOut('DEBUG INPUT5:'  + str(currMapEvent),debug.debugLevel.INFO)                                                                               
+                            if not foreward or eventFired:
                                 if currMapEvent['EventState'] in [0,1,2]:
-                                    self.watchDog.value = 1                                
-                                    return currMapEvent
+                                    eventQueue.put({"Type":fenrirEventType.KeyboardInput,"Data":currMapEvent.copy()}) 
+                                    eventFired = True
+                                    self.env['runtime']['debug'].writeDebugOut('DEBUG INPUT6:'  + str(currMapEvent),debug.debugLevel.INFO)                                               
                     else:
-                        if not event.type in [0,1,4]:
+                        if not event.type in [0,4]:
                             foreward = True
+                            self.env['runtime']['debug'].writeDebugOut('DEBUG INPUT7:'  + str(currMapEvent),debug.debugLevel.INFO)                                               
+                          
                     event = self.iDevices[fd].read_one()   
-                if foreward:
+                if foreward and not eventFired:
                     self.writeEventBuffer()
-                    self.clearEventBuffer()        
-        self.watchDog.value = 1                                                                                     
-        return None
+                    self.clearEventBuffer() 
+                    
+    def handleInputEvent(self, event):
+        return       
 
     def writeEventBuffer(self):
         if not self._initialized:
@@ -230,6 +219,7 @@ class driver(inputDriver):
             mEvent['EventSec'] = event.sec
             mEvent['EventUsec'] = event.usec                
             mEvent['EventState'] = event.value
+            mEvent['EventType']  = event.type
             return mEvent
         except Exception as e:
             return None
