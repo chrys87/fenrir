@@ -84,19 +84,14 @@ class driver(inputDriver):
                 except:
                     self.removeDevice(fd)
                 while(event):
-                    self.env['runtime']['debug'].writeDebugOut('DEBUG INPUT1:'  + str(event),debug.debugLevel.INFO)                                               
                     self.env['input']['eventBuffer'].append( [self.iDevices[fd], self.uDevices[fd], event])
                     if event.type == evdev.events.EV_KEY:
-                        self.env['runtime']['debug'].writeDebugOut('DEBUG INPUT2:'  + str(event),debug.debugLevel.INFO)                                                                                                       
                         if event.code != 0:
-                            self.env['runtime']['debug'].writeDebugOut('DEBUG INPUT3:'  + str(event),debug.debugLevel.INFO)                                                                               
                             currMapEvent = self.mapEvent(event)
                             if not currMapEvent:
                                 foreward = True                            
-                                self.env['runtime']['debug'].writeDebugOut('DEBUG INPUT4:'  + str(currMapEvent),debug.debugLevel.INFO)                                                                                                               
                             if not isinstance(currMapEvent['EventName'], str):
                                 foreward = True                            
-                                self.env['runtime']['debug'].writeDebugOut('DEBUG INPUT5:'  + str(currMapEvent),debug.debugLevel.INFO)                                                                               
                             if not foreward or eventFired:
                                 if currMapEvent['EventState'] in [0,1,2]:
                                     eventQueue.put({"Type":fenrirEventType.KeyboardInput,"Data":currMapEvent.copy()}) 
@@ -105,7 +100,6 @@ class driver(inputDriver):
                     else:
                         if not event.type in [0,4]:
                             foreward = True
-                            self.env['runtime']['debug'].writeDebugOut('DEBUG INPUT7:'  + str(currMapEvent),debug.debugLevel.INFO)                                               
                           
                     event = self.iDevices[fd].read_one()   
                 if foreward and not eventFired:
