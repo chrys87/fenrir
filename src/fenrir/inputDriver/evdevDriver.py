@@ -96,7 +96,6 @@ class driver(inputDriver):
                                 if currMapEvent['EventState'] in [0,1,2]:
                                     eventQueue.put({"Type":fenrirEventType.KeyboardInput,"Data":currMapEvent.copy()}) 
                                     eventFired = True
-                                    self.env['runtime']['debug'].writeDebugOut('DEBUG INPUT6:'  + str(currMapEvent),debug.debugLevel.INFO)                                               
                     else:
                         if not event.type in [0,4]:
                             foreward = True
