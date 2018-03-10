@@ -3,7 +3,7 @@ Things needing little knowledge are marked with "(Easy for contribution)". so ju
 [] = ToDo
 [W] = WIP
 [X] = Done
-
+.
 Cleanups:
 - split oldValues := newValues out to helper function
   [] split it out
