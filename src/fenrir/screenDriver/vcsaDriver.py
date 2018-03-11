@@ -104,7 +104,7 @@ class driver(screenDriver):
                 if screen == '':
                     self.env['runtime']['debug'].writeDebugOut('No TTY found for session:' + session[4],debug.debugLevel.ERROR)               
                     return
-                if sessionType.upper() == 'X11':
+                if sessionType.upper() != 'TTY':
                     self.env['screen']['autoIgnoreScreens'].append(screen)
                 if screen == self.env['screen']['newTTY'] :
                     if self.env['general']['currUser'] != session[2]:
