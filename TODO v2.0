@@ -18,7 +18,6 @@ Cleanups:
 
 General:  
 - get information already in watchdogs insteed of mainloop (use eventloop to transport)
-  [X] InputDriver
   [] ScreenDriver
       [] split oldValues := newValues out to helper function
       [] move processing of diff to watchdog
@@ -47,7 +46,7 @@ General:
   [] select field separator
 - make it runnable via pypy3  (low priority)
   [] wrapper script for running Fenrir to check if pypy exists, use python3 as fallback.
-- make fenrir runnable without root permissions
+- [w] make fenrir runnable without root permissions
 - make fenrir runable without settingsfile. fallback to defaults
 
 Braille Support:
@@ -125,6 +124,9 @@ General:
   [X]read "13 #" insteed of ###################  
 Braille Support:
 Driver:
+[Done] make generic speech driver default
 [Done] pyttsx3 speech driver
+- get information already in watchdogs insteed of mainloop (use eventloop to transport)
+  [Done] InputDriver
 Settings:
 Application Profiles:
