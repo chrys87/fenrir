@@ -80,7 +80,6 @@ class fenrirManager():
             self.singleKeyCommand = False  
         if self.environment['input']['keyForeward'] > 0:
             self.environment['input']['keyForeward'] -=1
-        self.environment['runtime']['screenManager'].update('onInput')                            
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')       
         #print('handleInput:',time.time() - startTime)
     def handleExecuteCommand(self, event):        
@@ -93,8 +92,8 @@ class fenrirManager():
                 self.environment['runtime']['commandManager'].executeCommand( command, 'help')
                 return
         self.environment['runtime']['commandManager'].executeCommand( command, 'commands')            
-    def handleScreenChange(self, event):
-        self.environment['runtime']['screenManager'].update('onScreenChange')
+    def handleScreenChange(self, event):   
+        self.environment['runtime']['screenManager'].hanldeScreenChange(event['Data'])
         '''        
         if self.environment['runtime']['applicationManager'].isApplicationChange():
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onApplicationChange')
@@ -103,10 +102,10 @@ class fenrirManager():
               self.environment['runtime']['applicationManager'].getCurrentApplication())          
         '''        
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenChanged')             
-        self.environment['runtime']['screenManager'].update('onScreenChange')            
+        self.environment['runtime']['screenDriver'].getCurrScreen()        
     def handleScreenUpdate(self, event):
         #startTime = time.time()
-        self.environment['runtime']['screenManager'].update('onUpdate')
+        self.environment['runtime']['screenManager'].handleScreenUpdate(event['Data'])
         '''
         if self.environment['runtime']['applicationManager'].isApplicationChange():
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onApplicationChange')
@@ -120,7 +119,7 @@ class fenrirManager():
         # has cursor changed?            
         if self.environment['runtime']['cursorManager'].isCursorVerticalMove() or \
           self.environment['runtime']['cursorManager'].isCursorHorizontalMove():
-            self.environment['runtime']['commandManager'].executeDefaultTrigger('onCursorChange')        
+            self.environment['runtime']['commandManager'].executeDefaultTrigger('onCursorChange')
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenUpdate')
         self.environment['runtime']['inputManager'].clearLastDeepInput()
         #print('handleScreenUpdate:',time.time() - startTime)

@@ -116,6 +116,21 @@ class driver(screenDriver):
         #self.env['runtime']['debug'].writeDebugOut('getSessionInformation:'  + str(self.env['screen']['autoIgnoreScreens']) + ' ' + str(self.env['general'])  ,debug.debugLevel.INFO)                           
  
     def updateWatchdog(self,active , eventQueue):
+        screenData = {
+            'columns': 0,
+            'lines': 0,
+            'delta': '',
+            'negativeDelta': '',
+            'attribDelta': '',
+            'cursorAttrib':None,
+            'cursor':{'x':0,'y':0},
+            'Bytes': b'',
+            'Text': '',
+            'Attributes': None,
+            'Scren':'0',
+            'Application': '',
+            'screenUpdateTime': time.time(),
+        }
         try:
             vcsa = {}
             vcsaDevices = glob.glob('/dev/vcsa*')
@@ -148,12 +163,12 @@ class driver(screenDriver):
                             except:
                                 pass
                             oldScreen = currScreen
-                            eventQueue.put({"Type":fenrirEventType.ScreenChanged,"Data":''})  
                             try:
                                 vcsa[currScreen].seek(0)                        
                                 lastScreenContent = vcsa[currScreen].read() 
                             except:
-                                pass 
+                                pass                             
+                            eventQueue.put({"Type":fenrirEventType.ScreenChanged,"Data":lastScreenContent})  
                     else:
                         self.env['runtime']['debug'].writeDebugOut('ScreenUpdate',debug.debugLevel.INFO)                                                 
                         vcsa[currScreen].seek(0)                                                
@@ -167,7 +182,7 @@ class driver(screenDriver):
                             time.sleep(0.008)
                             vcsa[currScreen].seek(0)                             
                             dirtyContent = vcsa[currScreen].read()
-                        eventQueue.put({"Type":fenrirEventType.ScreenUpdate,"Data":None})
+                        eventQueue.put({"Type":fenrirEventType.ScreenUpdate,"Data":screenContent})
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('VCSA:updateWatchdog:' + str(e),debug.debugLevel.ERROR)         
 
@@ -272,20 +287,8 @@ class driver(screenDriver):
         return _('Default')
     def getFenrirFontSize(self, attribute):
         return _('Default')    
-    def update(self, trigger='onUpdate'):
-        if trigger == 'onInput': # no need for an update on input for VCSA
-            return
-        newContentBytes = b''       
-        try:
-            # read screen
-            vcsa = open(self.vcsaDevicePath + self.env['screen']['newTTY'],'rb',0)
-            newContentBytes = vcsa.read()
-            vcsa.close()
-            if len(newContentBytes) < 5:
-                return
-        except Exception as e:
-            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)   
-            return
+    def update(self, text, trigger='onUpdate'):
+        newContentBytes = text
         # set new "old" values
         self.env['screen']['oldContentBytes'] = self.env['screen']['newContentBytes']
         self.env['screen']['oldContentText'] = self.env['screen']['newContentText']
