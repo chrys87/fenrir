@@ -79,7 +79,7 @@ autoReadIncoming=True
 # fenrirVolume = is replaced with the current volume
 # fenrirPitch = is replaced with the current pitch
 # fenrirRate = is replaced with the current speed (speech rate)
-genericSpeechCommand=espeak -a fenrirVolume -s fenrirRate -p fenrirPitch -v fenrirVoice "fenrirText"
+genericSpeechCommand=espeak -a fenrirVolume -s fenrirRate -p fenrirPitch -v fenrirVoice -- "fenrirText"
 
 # those are the min and max values of the TTS system that is used in genericSpeechCommand
 fenrirMinVolume=0
