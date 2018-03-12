@@ -6,7 +6,7 @@
 
 from core import debug
 from utils import line_utils
-import string, time
+import string, time, re
 
 class outputManager():
     def __init__(self):
@@ -92,11 +92,12 @@ class outputManager():
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)            
         
         try:
-            text = self.env['runtime']['headLineManager'].replaceHeadLines(text)        
-            text = self.env['runtime']['punctuationManager'].proceedPunctuation(text,ignorePunctuation) 
-            text = text.replace('\n',' , ')
-            self.env['runtime']['speechDriver'].speak(text)
-            self.env['runtime']['debug'].writeDebugOut("Speak: "+ text,debug.debugLevel.INFO)                
+            cleanText = text.replace('\n',' , ')
+            cleanText = re.sub(' +$',' ', cleanText)            
+            cleanText = self.env['runtime']['headLineManager'].replaceHeadLines(cleanText)        
+            cleanText = self.env['runtime']['punctuationManager'].proceedPunctuation(cleanText, ignorePunctuation) 
+            self.env['runtime']['speechDriver'].speak(cleanText)
+            self.env['runtime']['debug'].writeDebugOut("Speak: "+ cleanText,debug.debugLevel.INFO)                
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut("\"speak\" in outputManager.speakText ",debug.debugLevel.ERROR)
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)            
