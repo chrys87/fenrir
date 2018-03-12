@@ -131,15 +131,40 @@ class driver(speechDriver):
                     return
             elif not isinstance(utterance, dict):
                 continue
-
-            for key in ['volume','module','language','voice','pitch','rate','text']:
-                if not key in utterance:
-                    utterance[key] = ''
-                if not isinstance(utterance[key],str):
-                    utterance[key] = ''
-                if key == 'text':
-                    if utterance[key] == '':
-                        continue
+            # no text means nothing to speak
+            if not 'text' in utterance:
+                continue
+            if not isinstance(utterance['text'],str):
+                continue            
+            if utterance['text'] == '':
+                continue
+            # check for valid data fields
+            if not isinstance(utterance['volume'],str):
+                utterance['volume'] = ''                    
+            if not 'volume' in utterance:
+                utterance['volume'] = ''
+            if not isinstance(utterance['volume'],str):
+                utterance['volume'] = ''
+            if not 'module' in utterance:
+                utterance['module'] = ''
+            if not isinstance(utterance['module'],str):
+                utterance['module'] = ''
+            if not 'language' in utterance:
+                utterance['language'] = ''
+            if not isinstance(utterance['language'],str):
+                utterance['language'] = ''
+            if not 'voice' in utterance:
+                utterance['voice'] = ''
+            if not isinstance(utterance['voice'],str):
+                utterance['voice'] = ''
+            if not 'pitch' in utterance:
+                utterance['pitch'] = ''
+            if not isinstance(utterance['pitch'],str):
+                utterance['pitch'] = ''
+            if not 'rate' in utterance:
+                utterance['rate'] = ''
+            if not isinstance(utterance['rate'],str):
+                utterance['rate'] = ''
 
             popenSpeechCommand = shlex.split(self.speechCommand)
             for idx, word in enumerate(popenSpeechCommand):
