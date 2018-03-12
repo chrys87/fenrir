@@ -127,6 +127,7 @@ class driver(screenDriver):
             tty = open('/sys/devices/virtual/tty/tty0/active','r')
             currScreen = str(tty.read()[3:-1])
             oldScreen = currScreen
+            screenContent = vcsa[currScreen].read()
             self.updateCharMap(currScreen)                                            
             watchdog = select.epoll()
             watchdog.register(vcsa[currScreen], select.POLLPRI | select.POLLERR)
@@ -152,24 +153,24 @@ class driver(screenDriver):
                             oldScreen = currScreen
                             try:
                                 vcsa[currScreen].seek(0)                        
-                                lastScreenContent = vcsa[currScreen].read() 
+                                screenContent = vcsa[currScreen].read() 
                             except:
                                 pass
                             self.updateCharMap(currScreen)                                
-                            screenEventData = self.createScreenEventData(currScreen, lastScreenContent)                                     
+                            screenEventData = self.createScreenEventData(currScreen, screenContent)                                     
                             eventQueue.put({"Type":fenrirEventType.ScreenChanged,"Data":screenEventData})  
                     else:
                         #s = time.time()
                         self.env['runtime']['debug'].writeDebugOut('ScreenUpdate',debug.debugLevel.INFO)                                                 
                         vcsa[currScreen].seek(0)                                                
                         dirtyContent = vcsa[currScreen].read()
-                        screenContent = b''
                         timeout = time.time()
                         while screenContent != dirtyContent:
+                            if not ( abs(dirtyContent[2] - screenContent[2]) in [1,2]):
+                                time.sleep(0.08)
                             screenContent = dirtyContent
                             if time.time() - timeout >= 0.4:
                                 break
-                            time.sleep(0.01)
                             vcsa[currScreen].seek(0)                             
                             dirtyContent = vcsa[currScreen].read()
                         screenEventData = self.createScreenEventData(currScreen, screenContent)     
@@ -191,8 +192,7 @@ class driver(screenDriver):
             'screen': screen,     
             'screenUpdateTime': time.time(),            
         }
-        encText, \
-          encAttr =\
+        encText, encAttr =\
           self.autoDecodeVCSA(content[4:], eventData['lines'], eventData['columns'])
         eventData['text'] = encText
         eventData['attributes'] = encAttr
