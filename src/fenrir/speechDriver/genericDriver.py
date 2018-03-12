@@ -8,6 +8,7 @@
 from core import debug
 from threading import Thread, Lock
 from queue import Queue, Empty
+import shlex
 from subprocess import Popen
 from core.speechDriver import speechDriver
 
@@ -37,7 +38,7 @@ class driver(speechDriver):
         
         self.speechCommand = self.env['runtime']['settingsManager'].getSetting('speech', 'genericSpeechCommand')
         if self.speechCommand == '':
-            self.speechCommand = 'espeak -a fenrirVolume -s fenrirRate -p fenrirPitch -v fenrirVoice "fenrirText"'
+            self.speechCommand = 'espeak -a fenrirVolume -s fenrirRate -p fenrirPitch -v fenrirVoice -- "fenrirText"'
         if False: #for debugging overwrite here
             #self.speechCommand = 'spd-say --wait -r 100 -i 100  "fenrirText"'  
             self.speechCommand = 'flite -t "fenrirText"'           
@@ -140,19 +141,21 @@ class driver(speechDriver):
                     if utterance[key] == '':
                         continue
 
-            popenSpeechCommand = self.speechCommand
-            popenSpeechCommand = popenSpeechCommand.replace('fenrirVolume', str(utterance['volume'] ).replace('"',''))
-            popenSpeechCommand = popenSpeechCommand.replace('fenrirModule', str(utterance['module']).replace('"',''))
-            popenSpeechCommand = popenSpeechCommand.replace('fenrirLanguage', str(utterance['language']).replace('"','')) 
-            popenSpeechCommand = popenSpeechCommand.replace('fenrirVoice', str(utterance['voice']).replace('"',''))
-            popenSpeechCommand = popenSpeechCommand.replace('fenrirPitch', str(utterance['pitch']).replace('"',''))               
-            popenSpeechCommand = popenSpeechCommand.replace('fenrirRate', str(utterance['rate']).replace('"',''))               
-            popenSpeechCommand = popenSpeechCommand.replace('fenrirText', str(utterance['text']).replace('"','').replace('\n',''))
+            popenSpeechCommand = shlex.split(self.speechCommand)
+            for idx, word in enumerate(popenSpeechCommand):
+                word = word.replace('fenrirVolume', str(utterance['volume'] ))
+                word = word.replace('fenrirModule', str(utterance['module']))
+                word = word.replace('fenrirLanguage', str(utterance['language']))
+                word = word.replace('fenrirVoice', str(utterance['voice']))
+                word = word.replace('fenrirPitch', str(utterance['pitch']))
+                word = word.replace('fenrirRate', str(utterance['rate']))
+                word = word.replace('fenrirText', str(utterance['text']))
+                popenSpeechCommand[idx] = word
 
             try:
-                self.env['runtime']['debug'].writeDebugOut('speechDriver:worker:' + popenSpeechCommand,debug.debugLevel.INFO)                                            
+                self.env['runtime']['debug'].writeDebugOut('speechDriver:worker:' + ' '.join(popenSpeechCommand),debug.debugLevel.INFO)                                            
                 self.lock.acquire(True)
-                self.proc = Popen(popenSpeechCommand, shell=True)
+                self.proc = Popen(popenSpeechCommand, shell=False)
                 self.lock.release()	
                 self.proc.wait()
             except Exception as e:
