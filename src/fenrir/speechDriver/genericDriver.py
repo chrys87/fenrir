@@ -139,8 +139,6 @@ class driver(speechDriver):
             if utterance['text'] == '':
                 continue
             # check for valid data fields
-            if not isinstance(utterance['volume'],str):
-                utterance['volume'] = ''                    
             if not 'volume' in utterance:
                 utterance['volume'] = ''
             if not isinstance(utterance['volume'],str):
