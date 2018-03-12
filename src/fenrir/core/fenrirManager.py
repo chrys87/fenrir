@@ -19,11 +19,13 @@ class fenrirManager():
         if not cliArgs:
             return        
         try:
+            original_sigint_handler = signal.signal(signal.SIGINT, signal.SIG_IGN)        
             self.environment = settingsManager.settingsManager().initFenrirConfig(cliArgs, self)
             if not self.environment:
                 raise RuntimeError('Cannot Initialize. Maybe the configfile is not available or not parseable')
         except RuntimeError:
             raise
+        signal.signal(signal.SIGINT, original_sigint_handler)            
         self.environment['runtime']['outputManager'].presentText(_("Start Fenrir"), soundIcon='ScreenReaderOn', interrupt=True)          
         signal.signal(signal.SIGINT, self.captureSignal)
         signal.signal(signal.SIGTERM, self.captureSignal)

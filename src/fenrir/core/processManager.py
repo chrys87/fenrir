@@ -22,16 +22,16 @@ class processManager():
         self.terminateAllProcesses()
         
     def terminateAllProcesses(self):
-        for p in self._Processes:
-            p.join()
-        for t in self._Threads:
-            t.join()
-            
         for proc in self._Processes:
             try:
                 proc.terminate()
-            except Exception as e:
-                print(e)            
+            except KeyboardInterrupt:
+                pass           
+            except:
+                pass
+            proc.join()                
+        for t in self._Threads:
+            t.join()                
     def heartBeatTimer(self, active):
         try:
             time.sleep(0.5)
