@@ -65,6 +65,7 @@ class eventManager():
         self.running.value =  0
         time.sleep(0.1)
     def stopMainEventLoop(self):
+        self.running.value =  0    
         self._eventQueue.put({"Type":fenrirEventType.StopMainLoop,"Data":None})                                
     def cleanEventQueue(self):
         if self._eventQueue.empty():
