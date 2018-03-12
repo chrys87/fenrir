@@ -53,3 +53,19 @@ screenData = {
 'timestamp': time.time(),
 }
 '''
+screenEventData = {
+    'columns': 0,
+    'lines': 0,
+    'delta': '',
+    'negativeDelta': '',
+    'attributeDelta': '',
+    'attributeCursor':None,
+    'textCursor':{'x':0,'y':0},
+    'bytes': b'',
+    'text': '',
+    'attributes': None,
+    'screen':'0',
+    'application': '',
+    'screenUpdateTime': time.time(),
+}
+

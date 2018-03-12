@@ -41,7 +41,7 @@ class driver(screenDriver):
         self.hichar = None        
     def initialize(self, environment):
         self.env = environment
-        self.env['runtime']['processManager'].addCustomEventThread(self.updateWatchdog)        
+        self.env['runtime']['processManager'].addCustomEventThread(self.updateWatchdog,multiprocess = True)        
     def getCurrScreen(self):
         self.env['screen']['oldTTY'] = self.env['screen']['newTTY']
         try:    
@@ -116,21 +116,7 @@ class driver(screenDriver):
         #self.env['runtime']['debug'].writeDebugOut('getSessionInformation:'  + str(self.env['screen']['autoIgnoreScreens']) + ' ' + str(self.env['general'])  ,debug.debugLevel.INFO)                           
  
     def updateWatchdog(self,active , eventQueue):
-        screenData = {
-            'columns': 0,
-            'lines': 0,
-            'delta': '',
-            'negativeDelta': '',
-            'attribDelta': '',
-            'cursorAttrib':None,
-            'cursor':{'x':0,'y':0},
-            'Bytes': b'',
-            'Text': '',
-            'Attributes': None,
-            'Scren':'0',
-            'Application': '',
-            'screenUpdateTime': time.time(),
-        }
+
         try:
             vcsa = {}
             vcsaDevices = glob.glob('/dev/vcsa*')
@@ -141,6 +127,7 @@ class driver(screenDriver):
             tty = open('/sys/devices/virtual/tty/tty0/active','r')
             currScreen = str(tty.read()[3:-1])
             oldScreen = currScreen
+            self.updateCharMap(currScreen)                                            
             watchdog = select.epoll()
             watchdog.register(vcsa[currScreen], select.POLLPRI | select.POLLERR)
             watchdog.register(tty, select.POLLPRI | select.POLLERR)
@@ -167,9 +154,12 @@ class driver(screenDriver):
                                 vcsa[currScreen].seek(0)                        
                                 lastScreenContent = vcsa[currScreen].read() 
                             except:
-                                pass                             
-                            eventQueue.put({"Type":fenrirEventType.ScreenChanged,"Data":lastScreenContent})  
+                                pass
+                            self.updateCharMap(currScreen)                                
+                            screenEventData = self.createScreenEventData(currScreen, lastScreenContent)                                     
+                            eventQueue.put({"Type":fenrirEventType.ScreenChanged,"Data":screenEventData})  
                     else:
+                        #s = time.time()
                         self.env['runtime']['debug'].writeDebugOut('ScreenUpdate',debug.debugLevel.INFO)                                                 
                         vcsa[currScreen].seek(0)                                                
                         dirtyContent = vcsa[currScreen].read()
@@ -179,13 +169,39 @@ class driver(screenDriver):
                             screenContent = dirtyContent
                             if time.time() - timeout >= 0.4:
                                 break
-                            time.sleep(0.02)
+                            time.sleep(0.01)
                             vcsa[currScreen].seek(0)                             
                             dirtyContent = vcsa[currScreen].read()
-                        eventQueue.put({"Type":fenrirEventType.ScreenUpdate,"Data":screenContent})
+                        screenEventData = self.createScreenEventData(currScreen, screenContent)     
+                        eventQueue.put({"Type":fenrirEventType.ScreenUpdate,"Data":screenEventData})
+                        #print(time.time() -s)
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('VCSA:updateWatchdog:' + str(e),debug.debugLevel.ERROR)         
-
+    def createScreenEventData(self, screen, content):
+        #self.updateCharMap(screen)                                
+        eventData = {
+            'bytes': content,
+            'lines': int( content[0]),
+            'columns': int( content[1]),
+            'textCursor': 
+                {
+                    'x': int( content[2]),
+                    'y': int( content[3])
+                },
+            'screen': screen,     
+            'screenUpdateTime': time.time(),            
+        }
+        encText, \
+          encAttr =\
+          self.autoDecodeVCSA(content[4:], eventData['lines'], eventData['columns'])
+        eventData['text'] = encText
+        eventData['attributes'] = encAttr
+        eventData['delta'] = ''
+        eventData['negativeDelta'] = ''
+        eventData['attributeCursor'] = None
+        eventData['attributeDelta'] = None
+        
+        return eventData
     def updateCharMap(self, screen):
         self.charmap = {}
         try:
@@ -287,8 +303,7 @@ class driver(screenDriver):
         return _('Default')
     def getFenrirFontSize(self, attribute):
         return _('Default')    
-    def update(self, text, trigger='onUpdate'):
-        newContentBytes = text
+    def update(self, eventData, trigger='onUpdate'):
         # set new "old" values
         self.env['screen']['oldContentBytes'] = self.env['screen']['newContentBytes']
         self.env['screen']['oldContentText'] = self.env['screen']['newContentText']
@@ -299,19 +314,16 @@ class driver(screenDriver):
         self.env['screen']['oldDelta'] = self.env['screen']['newDelta']
         self.env['screen']['oldAttribDelta'] = self.env['screen']['newAttribDelta']
         self.env['screen']['oldNegativeDelta'] = self.env['screen']['newNegativeDelta']
-        self.env['screen']['newContentBytes'] = newContentBytes
+        self.env['screen']['newContentBytes'] = eventData['bytes']
         # get metadata like cursor or screensize
-        self.env['screen']['lines'] = int( self.env['screen']['newContentBytes'][0])
-        self.env['screen']['columns'] = int( self.env['screen']['newContentBytes'][1])
-        self.env['screen']['newCursor']['x'] = int( self.env['screen']['newContentBytes'][2])
-        self.env['screen']['newCursor']['y'] = int( self.env['screen']['newContentBytes'][3])
-
+        self.env['screen']['lines'] = eventData['lines']
+        self.env['screen']['columns'] = eventData['columns']
+        self.env['screen']['newCursor']['x'] = eventData['textCursor']['x']
+        self.env['screen']['newCursor']['y'] = eventData['textCursor']['y']
+        self.env['screen']['newContentText'] = eventData['text']
+        self.env['screen']['newContentAttrib'] = eventData['attributes']
+        self.env['screen']['newTTY'] = eventData['screen']
         # analyze content
-        self.updateCharMap(str(self.env['screen']['newTTY'])) 
-        self.env['screen']['newContentText'], \
-          self.env['screen']['newContentAttrib'] =\
-          self.autoDecodeVCSA(self.env['screen']['newContentBytes'][4:], self.env['screen']['lines'], self.env['screen']['columns'])
-
         if self.env['screen']['newTTY'] != self.env['screen']['oldTTY']:
             self.env['screen']['oldContentBytes'] = b''
             self.env['screen']['oldContentAttrib'] = None
