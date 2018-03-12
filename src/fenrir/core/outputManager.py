@@ -93,9 +93,9 @@ class outputManager():
         
         try:
             cleanText = text.replace('\n',' , ')
-            cleanText = re.sub(' +$',' ', cleanText)            
             cleanText = self.env['runtime']['headLineManager'].replaceHeadLines(cleanText)        
             cleanText = self.env['runtime']['punctuationManager'].proceedPunctuation(cleanText, ignorePunctuation) 
+            cleanText = re.sub(' +$',' ', cleanText)            
             self.env['runtime']['speechDriver'].speak(cleanText)
             self.env['runtime']['debug'].writeDebugOut("Speak: "+ cleanText,debug.debugLevel.INFO)                
         except Exception as e:
