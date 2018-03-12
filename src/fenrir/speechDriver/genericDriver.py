@@ -129,6 +129,8 @@ class driver(speechDriver):
             if isinstance(utterance, int):
                 if utterance == -1:
                     return
+                else:
+                    continue
             elif not isinstance(utterance, dict):
                 continue
             # no text means nothing to speak
