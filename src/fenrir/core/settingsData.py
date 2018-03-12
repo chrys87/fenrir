@@ -48,7 +48,7 @@ settingsData = {
 },
 'screen':{
     'driver': 'vcsaDriver',
-    'encoding': 'cp850',
+    'encoding': 'auto',
     'screenUpdateDelay': 0.1,
     'suspendingScreen': '',
     'autodetectSuspendingScreen': False,
