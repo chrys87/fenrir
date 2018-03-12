@@ -22,6 +22,11 @@ class processManager():
         self.terminateAllProcesses()
         
     def terminateAllProcesses(self):
+        for p in self._Processes:
+            p.join()
+        for t in self._Threads:
+            t.join()
+            
         for proc in self._Processes:
             try:
                 proc.terminate()
