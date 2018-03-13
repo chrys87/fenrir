@@ -5,7 +5,7 @@
 # By Chrys, Storm Dragon, and contributers.
 
 from core import debug
-import time
+import time, os
 
 class screenManager():
     def __init__(self):
@@ -60,6 +60,14 @@ class screenManager():
         if self.env['runtime']['settingsManager'].getSettingAsBool('screen', 'autodetectSuspendingScreen'):
             ignoreScreens.extend(self.env['screen']['autoIgnoreScreens'])        
         self.env['runtime']['debug'].writeDebugOut('screenManager:isSuspendingScreen ' + str(ignoreScreens) + ' '+ str(self.env['screen']['newTTY']),debug.debugLevel.INFO) 
+        try:
+            ignoreFileName = self.env['runtime']['settingsManager'].getSetting('screen', 'suspendingScreenFile')
+            if ignoreFileName != '':
+                if os.access(ignoreFileName, os.R_OK):
+                    with open(ignoreFileName) as fp:
+                        ignoreScreens.extend(fp.read().replace('\n','').split(','))
+        except:
+            pass
         return (screen in ignoreScreens)
  
     def isScreenChange(self):
