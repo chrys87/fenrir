@@ -14,6 +14,7 @@
 import difflib
 import re
 import subprocess
+from multiprocessing import Queue
 import glob, os
 import termios
 import time
@@ -38,10 +39,13 @@ class driver(screenDriver):
         self.charmap = {}
         self.bgColorNames = {0: _('black'), 1: _('blue'), 2: _('green'), 3: _('cyan'), 4: _('red'), 5: _('Magenta'), 6: _('brown/yellow'), 7: _('white')}
         self.fgColorNames = {0: _('Black'), 1: _('Blue'), 2: _('Green'), 3: _('Cyan'), 4: _('Red'), 5: _('Magenta'), 6: _('brown/yellow'), 7: _('Light gray'), 8: _('Dark gray'), 9: _('Light blue'), 10: ('Light green'), 11: _('Light cyan'), 12: _('Light red'), 13: _('Light magenta'), 14: _('Light yellow'), 15: _('White')}
-        self.hichar = None        
+        self.hichar = None
+        self.screenQueue = Queue()
     def initialize(self, environment):
         self.env = environment
-        self.env['runtime']['processManager'].addCustomEventThread(self.updateWatchdog,multiprocess = True)        
+        self.env['runtime']['processManager'].addCustomEventThread(self.updateWatchdog, multiprocess = True)  
+        #self.env['runtime']['processManager'].addCustomEventThread(self.updateWatchdog, multiprocess = True)        
+
     def getCurrScreen(self):
         self.env['screen']['oldTTY'] = self.env['screen']['newTTY']
         try:    
@@ -116,7 +120,6 @@ class driver(screenDriver):
         #self.env['runtime']['debug'].writeDebugOut('getSessionInformation:'  + str(self.env['screen']['autoIgnoreScreens']) + ' ' + str(self.env['general'])  ,debug.debugLevel.INFO)                           
  
     def updateWatchdog(self,active , eventQueue):
-
         try:
             vcsa = {}
             vcsaDevices = glob.glob('/dev/vcsa*')
@@ -159,6 +162,7 @@ class driver(screenDriver):
                             self.updateCharMap(currScreen)                                
                             screenEventData = self.createScreenEventData(currScreen, screenContent)                                     
                             eventQueue.put({"Type":fenrirEventType.ScreenChanged,"Data":screenEventData})  
+                            #eventQueue.put({"Type":fenrirEventType.ScreenChanged,"screen":currScreen, "bytes": screenContent})                                                                   
                     else:
                         #s = time.time()
                         self.env['runtime']['debug'].writeDebugOut('ScreenUpdate',debug.debugLevel.INFO)                                                 
@@ -174,10 +178,26 @@ class driver(screenDriver):
                             vcsa[currScreen].seek(0)                             
                             dirtyContent = vcsa[currScreen].read()
                         screenEventData = self.createScreenEventData(currScreen, screenContent)     
-                        eventQueue.put({"Type":fenrirEventType.ScreenUpdate,"Data":screenEventData})
+                        eventQueue.put({"Type":fenrirEventType.ScreenUpdate,"Data":screenEventData}
+                        #eventQueue.put({"Type":fenrirEventType.ScreenUpdate,"screen":currScreen, "bytes": screenContent})                                       
                         #print(time.time() -s)
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('VCSA:updateWatchdog:' + str(e),debug.debugLevel.ERROR)         
+    def createScreenEventData(self, active, eventQueue, screenQueue):
+        self.updateCharMap(currScreen) 
+        lastEvent = None
+        while active.value == 1:
+            event = screenQueue.get()
+            if isinstance(event, int):
+                if event == -1:
+                    return
+                else:
+                    contineue
+            if event['type'] == fenrirEventType.ScreenChanged:
+                self.updateCharMap(event['screen']) 
+            screenEventData = self.createScreenEventData(event['screen'], event['bytes'])     
+            eventQueue.put({"Type": event['type'],"Data":screenEventData.copy()})  
+                                       
     def createScreenEventData(self, screen, content):
         #self.updateCharMap(screen)                                
         eventData = {
