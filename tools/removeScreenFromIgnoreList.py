@@ -1,7 +1,7 @@
 #!/bin/python
 import os
 
-def addScreenToIgnoreList(ignoreFileName = '/tmp/fenrirSuspend', screen = '1', useCurrentScreen = True):
+def removeScreenFromIgnoreList(ignoreFileName = '/tmp/fenrirSuspend', screen = '1', useCurrentScreen = True):
     if useCurrentScreen:
         tty = open('/sys/devices/virtual/tty/tty0/active','r')
         screen = str(tty.read()[3:-1])
@@ -23,4 +23,4 @@ def addScreenToIgnoreList(ignoreFileName = '/tmp/fenrirSuspend', screen = '1', u
             fp.write(ignoreScreensStr)                
                 
 if __name__ == "__main__":
-    addScreenToIgnoreList()
+    removeScreenFromIgnoreList()
