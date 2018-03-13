@@ -6,6 +6,7 @@
 
 from core import debug
 import subprocess
+import shlex
 from core.soundDriver import soundDriver
 
 class driver(soundDriver):
@@ -30,19 +31,25 @@ class driver(soundDriver):
             return    
         if interrupt:
             self.cancel()
-        popenFrequenceCommand = self.frequenceCommand.replace('fenrirVolume', str(self.volume + adjustVolume ))
-        popenFrequenceCommand = popenFrequenceCommand.replace('fenrirFreqDuration', str(duration))
-        popenFrequenceCommand = popenFrequenceCommand.replace('fenrirFrequence', str(frequence))        
-        self.proc = subprocess.Popen(popenFrequenceCommand, shell=True)
+        popenFrequenceCommand = shlex.split(self.frequenceCommand)
+        for idx, word in enumerate(popenFrequenceCommand):
+            word = word.replace('fenrirVolume', str(self.volume + adjustVolume ))
+            word = word.replace('fenrirFreqDuration', str(duration))
+            word = word.replace('fenrirFrequence', str(frequence))
+            popenFrequenceCommand[idx] = word        
+        self.proc = subprocess.Popen(popenFrequenceCommand, shell=False)
         self.soundType = 'frequence'
     def playSoundFile(self, filePath, interrupt = True):
         if not self._initialized:
             return    
         if interrupt:
             self.cancel()
-        popenSoundFileCommand = self.soundFileCommand.replace('fenrirVolume', str(self.volume ))
-        popenSoundFileCommand = popenSoundFileCommand.replace('fenrirSoundFile', filePath)
-        self.proc = subprocess.Popen(popenSoundFileCommand, shell=True)
+        popenSoundFileCommand = shlex.split(self.soundFileCommand)
+        for idx, word in enumerate(popenSoundFileCommand):
+            word = word.replace('fenrirVolume', str(self.volume ))
+            word = word.replace('fenrirSoundFile', str(filePath))
+            popenSoundFileCommand[idx] = word                
+        self.proc = subprocess.Popen(popenSoundFileCommand, shell=False)
         self.soundType = 'file'
     def cancel(self):
         if not self._initialized:

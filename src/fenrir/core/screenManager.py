@@ -5,7 +5,7 @@
 # By Chrys, Storm Dragon, and contributers.
 
 from core import debug
-import time
+import time, os
 
 class screenManager():
     def __init__(self):
@@ -19,18 +19,18 @@ class screenManager():
         
     def shutdown(self):
         self.env['runtime']['settingsManager'].shutdownDriver('screenDriver')
-
-    def update(self, trigger='onUpdate'):
-        self.env['runtime']['screenDriver'].getCurrScreen()                                    
-
-        if trigger == 'onScreenChange':
-            self.env['runtime']['screenDriver'].getSessionInformation()
-
-        self.env['screen']['oldApplication'] = self.env['screen']['newApplication']            
+    def hanldeScreenChange(self, eventData):
+        self.env['runtime']['screenDriver'].getCurrScreen()
+        self.env['runtime']['screenDriver'].getSessionInformation()
         if self.isScreenChange():                 
-            self.changeBrailleScreen()                                          
+            self.changeBrailleScreen()              
         if not self.isSuspendingScreen(self.env['screen']['newTTY']):       
-            self.env['runtime']['screenDriver'].update(trigger)
+            self.env['runtime']['screenDriver'].update(eventData, 'onScreenChange')
+            self.env['screen']['lastScreenUpdate'] = time.time()            
+    def handleScreenUpdate(self, eventData):
+        self.env['screen']['oldApplication'] = self.env['screen']['newApplication']                                                    
+        if not self.isSuspendingScreen(self.env['screen']['newTTY']):       
+            self.env['runtime']['screenDriver'].update(eventData, 'onScreenUpdate')
             #if trigger == 'onUpdate' or self.isScreenChange() \
             #  or len(self.env['screen']['newDelta']) > 6:
             #    self.env['runtime']['screenDriver'].getCurrApplication() 
@@ -60,6 +60,14 @@ class screenManager():
         if self.env['runtime']['settingsManager'].getSettingAsBool('screen', 'autodetectSuspendingScreen'):
             ignoreScreens.extend(self.env['screen']['autoIgnoreScreens'])        
         self.env['runtime']['debug'].writeDebugOut('screenManager:isSuspendingScreen ' + str(ignoreScreens) + ' '+ str(self.env['screen']['newTTY']),debug.debugLevel.INFO) 
+        try:
+            ignoreFileName = self.env['runtime']['settingsManager'].getSetting('screen', 'suspendingScreenFile')
+            if ignoreFileName != '':
+                if os.access(ignoreFileName, os.R_OK):
+                    with open(ignoreFileName) as fp:
+                        ignoreScreens.extend(fp.read().replace('\n','').split(','))
+        except:
+            pass
         return (screen in ignoreScreens)
  
     def isScreenChange(self):
