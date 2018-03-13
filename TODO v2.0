@@ -117,16 +117,17 @@ Cleanups:
   [X] curr item
   [X] first item
   [X] last item  
-General:   
+General:
+- [X] read ignorescreens from an file to be able to halt fenrir from outside
 - commands
   [X] place last spoken to clipboard (Easy for contribution)
 - Improvend Headline Seperator and Multible Char Support
   [X]read "13 #" insteed of ###################  
 Braille Support:
 Driver:
-[Done] make generic speech driver default
-[Done] pyttsx3 speech driver
+[X] make generic speech driver default
+[X] pyttsx3 speech driver
 - get information already in watchdogs insteed of mainloop (use eventloop to transport)
-  [Done] InputDriver
+  [X] InputDriver
 Settings:
 Application Profiles:
