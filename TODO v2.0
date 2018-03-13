@@ -5,37 +5,45 @@ Things needing little knowledge are marked with "(Easy for contribution)". so ju
 [X] = Done
 
 Cleanups:
-- Migrate *Data.py to classes and use getter/setter (Easy for contribution)
-  [] commandsData.py
-  [] eventData.py  
-  [] generalData.py
-  [] inputData.py
-  [] outputData.py
-  [] punctuationData.py
-  [] runtimeData.py
-  [] screenData.py
-  [] settingsData -> defaultSettings.py
+  [] Migrate *Data.py to classes and use getter/setter (Easy for contribution)
+    [] commandsData.py
+    [] eventData.py  
+    [] generalData.py
+    [] inputData.py
+    [] outputData.py
+    [] punctuationData.py
+    [] runtimeData.py
+    [] screenData.py
+    [] settingsData -> defaultSettings.py
 
 General:  
-- get information already in watchdogs insteed of mainloop (use eventloop to transport)
-  [] ScreenDriver
+  [] wrapper script for running Fenrir to check if pypy3 exists, use python3 as fallback.
+  [w] make fenrir runnable without root permissions
+  [] make fenrir runable without settingsfile. fallback to defaults
+
+Get information already in watchdogs insteed of mainloop (use eventloop to transport)
+  [W] ScreenDriver
       [] split oldValues := newValues out to helper function
-      [] move processing of diff to watchdog
-- imporove attribute handling
+      [W] move processing of diff to own thread
+      [W] move processing of encoding to own thread      
+
+Imporove attribute handling
   [] improve attributes_curr_char (Easy for contribution)
   [] add an attribute sound (Easy for contribution)
   [] beep on cursor/ review by char (capital wins)
   [] beep on review by word (once for multiple, capital wins)
   [] configurable (by char, by word, none)
     https://github.com/jwilk/vcsapeek/blob/master/linuxvt.py
-- Improved Say all
+
+Improved Say all
   [] speech callbacks
   [] speech process by word
   [] all the text of all pages
   [] command to stop and place review cursor at this position
   [] command to slow down speech on keypress
   [] place say all at clipboard buffer
-- table review mode
+
+Table review mode
   [] toggle table mode/ select headline
   [] next line
   [] prev line
@@ -44,10 +52,6 @@ General:
   [] prev cell
   [] current cell
   [] select field separator
-- make it runnable via pypy3  (low priority)
-  [] wrapper script for running Fenrir to check if pypy exists, use python3 as fallback.
-- [w] make fenrir runnable without root permissions
-- make fenrir runable without settingsfile. fallback to defaults
 
 Braille Support:
   [] brailleFocusMode:
@@ -71,17 +75,19 @@ Braille Support:
     https://wiki.gnome.org/Attic/LSR/ScratchPad/Braille/BrlAPI 
     https://github.com/google/brailleback/blob/master/third_party/brltty/Bindings/Python/brlapi.pyx
 
-Driver:
+Driver (screen, input):
 [W] PTY Screen driver (to use gnome-terminal and other terminal emulators)
   https://docs.python.org/3.2/library/pty.html
   http://sqizit.bartletts.id.au/2011/02/14/pseudo-terminals-in-python/
   https://blog.konpat.me/pythons-pseudo-terminal-pty-examples/
+[W] PTY Input driver    
+[] ATK input driver (don't grab on graphical interface)
+  https://git.linux-a11y.org/AIT/pyatspi2/src/master/examples/keypress.py
+
+Driver (speech):
 [] talkey driver
 [W] emacspeak driver
   https://pypi.python.org/pypi/ptyprocess#downloads 
-[W] PTY Input driver  
-[] ATK input driver (don't grab on graphical interface)
-  https://git.linux-a11y.org/AIT/pyatspi2/src/master/examples/keypress.py
 [] Dectalk SpeechDriver (Easy for contribution, device needed - i dont own one)
   https://github.com/tvraman/emacspeak/blob/master/servers/obsolete/python/dectalk.py
 
@@ -125,7 +131,7 @@ General:
 Braille Support:
 Driver:
 [Done] make generic speech driver default
-[Done] pyttsx3 speech driver
+[Done] pyttsx3 speech driver (slow -> pyttsx3 framework)
 - get information already in watchdogs insteed of mainloop (use eventloop to transport)
   [Done] InputDriver
 Settings:
