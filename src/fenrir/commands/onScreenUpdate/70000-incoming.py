@@ -30,6 +30,8 @@ class command():
         self.env['runtime']['debug'].writeDebugOut('newY:' + str(self.env['screen']['newCursor']['y']) + 'oldY:' + str(self.env['screen']['oldCursor']['y']),debug.debugLevel.INFO)                 
         self.env['runtime']['debug'].writeDebugOut('xMove:'+ str(xMove)+' yMove:'+str(yMove),debug.debugLevel.INFO)                 
         self.env['runtime']['debug'].writeDebugOut('NewDeltaLen:'+len(self.env['screen']['newDelta']),debug.debugLevel.INFO)                         
+        self.env['runtime']['debug'].writeDebugOut(str(self.env['screen']),debug.debugLevel.INFO)                         
+        
         if (xMove >= 1) and xMove == len(self.env['screen']['newDelta']):
         # if len(self.env['screen']['newDelta'].strip(' \n\t0123456789')) <= 2:
             return          
