@@ -78,8 +78,8 @@ setup(
     author_email="chrysg@linux-a11y.org",
 
     # Packages
-    packages=find_packages('src/fenrirscreenreader'),
-    package_dir={'': 'src/fenrirscreenreader'},
+    packages=find_packages('src/'),
+    package_dir={'': 'src/'},
     scripts=['src/fenrir','src/fenrir-daemon'],
 
     # Include additional files into the package
@@ -107,8 +107,8 @@ if not forceSettings:
     # create settings file from example if not exist
     if not os.path.isfile('/etc/fenrirscreenreader/settings/settings.conf'):
         try:
-            copyfile('/etc/fenrirscreenreader/settings/settings.conf.example', '/etc/fenrir/settings/settings.conf')
-            print('create settings file in /etc/fenrir/settings/settings.conf')
+            copyfile('/etc/fenrirscreenreader/settings/settings.conf.example', '/etc/fenrirscreenreader/settings/settings.conf')
+            print('create settings file in /etc/fenrirscreenreader/settings/settings.conf')
         except:
             pass
     else:
