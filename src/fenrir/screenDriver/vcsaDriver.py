@@ -340,6 +340,8 @@ class driver(screenDriver):
                 if oldScreenText == '' and\
                   newScreenText != '':
                     self.env['screen']['newDelta'] = newScreenText
+                    self.env['runtime']['debug'].writeDebugOut('VCSA 1',debug.debugLevel.INFO)        
+                    
             else:
                 cursorLineStart = self.env['screen']['newCursor']['y'] * self.env['screen']['columns'] + self.env['screen']['newCursor']['y']
                 cursorLineEnd = cursorLineStart  + self.env['screen']['columns']         
@@ -363,16 +365,18 @@ class driver(screenDriver):
                     if tempNewDelta.strip() != '':
                         if tempNewDelta != ''.join(newScreenText[self.env['screen']['oldCursor']['x']:self.env['screen']['newCursor']['x']].rstrip()):
                             diffList = ['+ ' + self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']]]
-
+                    self.env['runtime']['debug'].writeDebugOut('VCSA 2',debug.debugLevel.INFO)        
                     typing = True
                 else:
                     diff = difflib.ndiff( oldScreenText.split('\n'),\
                       newScreenText.split('\n'))
 
                     diffList = list(diff)
+                    self.env['runtime']['debug'].writeDebugOut('VCSA 3',debug.debugLevel.INFO)        
 
                 if self.env['runtime']['settingsManager'].getSetting('general', 'newLinePause') and not typing:
                     self.env['screen']['newDelta'] = '\n'.join(x[2:] for x in diffList if x[0] == '+')
+                    self.env['runtime']['debug'].writeDebugOut('VCSA whoops' + str(typing),debug.debugLevel.INFO)                            
                 else:
                     self.env['screen']['newDelta'] = ''.join(x[2:] for x in diffList if x[0] == '+')             
                 self.env['screen']['newNegativeDelta'] = ''.join(x[2:] for x in diffList if x[0] == '-')
