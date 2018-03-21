@@ -16,7 +16,6 @@ Cleanups:
     [] runtimeData.py
     [] screenData.py
     [] settingsData -> defaultSettings.py
-    [] find . -iname "*.py" -exec sed 's/from \(core.*\) import/from fenrir-screenreader.\1 import/g' {} \;
 General (Easy for contribution)
   [] wrapper script for running Fenrir to check if pypy3 exists, use python3 as fallback.
   [w] make fenrir runnable without root permissions
@@ -146,3 +145,5 @@ Fixes:
 - handle thread and process shutdown more gracefully
 - cleanup
 - a lot more fixes
+[X] (not conflict with other applications) find . -iname "*.py" -exec sed 's/from \(core.*\) import/from fenrir-screenreader.\1 import/g' {} \;
+
