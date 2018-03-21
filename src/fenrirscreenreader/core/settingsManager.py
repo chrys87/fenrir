@@ -259,7 +259,7 @@ class settingsManager():
     def initFenrirConfig(self, cliArgs, fenrirManager = None, environment = environment.environment):
         settingsRoot = '/etc/fenrirscreenreader/'
         settingsFile = cliArgs.setting
-        soundRoot = '/usr/share/sounds/fenrir/'
+        soundRoot = '/usr/share/sounds/fenrirscreenreader/'
         environment['runtime']['debug'] = debugManager.debugManager()
         environment['runtime']['debug'].initialize(environment)
         # get fenrir settings root
