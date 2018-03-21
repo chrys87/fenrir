@@ -15,6 +15,7 @@ class screenManager():
         self.env['runtime']['settingsManager'].loadDriver(\
           self.env['runtime']['settingsManager'].getSetting('screen', 'driver'), 'screenDriver')    
         self.env['runtime']['screenDriver'].getCurrScreen()
+        self.env['runtime']['screenDriver'].getCurrScreen()        
         self.env['runtime']['screenDriver'].getSessionInformation()
         
     def shutdown(self):
