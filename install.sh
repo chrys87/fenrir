@@ -3,54 +3,54 @@
 read -p "This will install Fenrir. Press ctrl+C to cancel, or enter to continue." continue
 
 # Fenrir main application
-install -m755 -d /opt/fenrir
-cp -af src/fenrir/* /opt/fenrir
+install -m755 -d /opt/fenrirscreenreader
+cp -af src/* /opt/fenrirscreenreader
 install -m644 -D "autostart/systemd/fenrir.service" /usr/lib/systemd/system/fenrir.service
-ln -fs /opt/fenrir/fenrir-daemon /usr/bin/fenrir-daemon
-ln -fs /opt/fenrir/fenrir /usr/bin/fenrir
+ln -fs /opt/fenrirscreenreader/fenrir-daemon /usr/bin/fenrir-daemon
+ln -fs /opt/fenrirscreenreader/fenrir /usr/bin/fenrir
 # tools
-install -m755 -d /usr/share/fenrir/tools
-cp -af tools/* /usr/share/fenrir/tools
+install -m755 -d /usr/share/fenrirscreenreader/tools
+cp -af tools/* /usr/share/fenrirscreenreader/tools
 
 # scripts
-install -m755 -d /usr/share/fenrir/scripts
-cp -af "config/scripts/wlan__-__key_y.sh" /usr/share/fenrir/scripts/
+install -m755 -d /usr/share/fenrirscreenreader/scripts
+cp -af "config/scripts/wlan__-__key_y.sh" /usr/share/fenrirscreenreader/scripts/
 
 # keyboard
-install -m644 -D "config/keyboard/desktop.conf" /etc/fenrir/keyboard/desktop.conf
-install -m644 -D "config/keyboard/laptop.conf" /etc/fenrir/keyboard/laptop.conf
+install -m644 -D "config/keyboard/desktop.conf" /etc/fenrirscreenreader/keyboard/desktop.conf
+install -m644 -D "config/keyboard/laptop.conf" /etc/fenrirscreenreader/keyboard/laptop.conf
 
 # punctuation
-install -m755 -d /etc/fenrir/punctuation 
-cp -af config/punctuation/* /etc/fenrir/punctuation 
+install -m755 -d /etc/fenrirscreenreader/punctuation 
+cp -af config/punctuation/* /etc/fenrirscreenreader/punctuation 
 
 # sound
-install -d /usr/share/sounds/fenrir
-cp -af config/sound/default /usr/share/sounds/fenrir/default
-cp -af config/sound/default-wav /usr/share/sounds/fenrir/default-wav
-cp -af config/sound/template /usr/share/sounds/fenrir/template
+install -d /usr/share/sounds/fenrirscreenreader
+cp -af config/sound/default /usr/share/sounds/fenrirscreenreader/default
+cp -af config/sound/default-wav /usr/share/sounds/fenrirscreenreader/default-wav
+cp -af config/sound/template /usr/share/sounds/fenrirscreenreader/template
 
 # config
-if [ -f "/etc/fenrir/settings/settings.conf" ]; then
+if [ -f "/etc/fenrirscreenreader/settings/settings.conf" ]; then
     echo "Do you want to overwrite your current global settings? (y/n)"
     read yn
     if [ $yn = "Y" -o $yn = "y" ]; then
-      mv /etc/fenrir/settings/settings.conf /etc/fenrir/settings/settings.conf.bak
+      mv /etc/fenrirscreenreader/settings/settings.conf /etc/fenrirscreenreader/settings/settings.conf.bak
       echo "Your old settings.conf has been backed up to settings.conf.bak."
-      install -m644 -D "config/settings/settings.conf" /etc/fenrir/settings/settings.conf
+      install -m644 -D "config/settings/settings.conf" /etc/fenrirscreenreader/settings/settings.conf
     else
-      install -m644 -D "config/settings/settings.conf" /etc/fenrir/settings/settings.conf.current    
+      install -m644 -D "config/settings/settings.conf" /etc/fenrirscreenreader/settings/settings.conf.current    
     fi
 else
-    install -m644 -D "config/settings/settings.conf" /etc/fenrir/settings/settings.conf    
+    install -m644 -D "config/settings/settings.conf" /etc/fenrirscreenreader/settings/settings.conf    
 fi    
 
 
 # end message
 cat << EOF
 Installation complete.
-install path:/opt/fenrir
-settings path:/etc/fenrir
+install path:/opt/fenrirscreenreader
+settings path:/etc/fenrirscreenreader
 
 To test Fenrir
 sudo systemctl start fenrir
@@ -58,6 +58,6 @@ To have Fenrir start on system boot:
 sudo systemctl enable fenrir
 
 Pulseaudio users may want to run
-/usr/share/fenrir/tools/configure_pulse.sh
+/usr/share/fenrirscreenreader/tools/configure_pulse.sh
 once from their user account, then once from the root.
 EOF

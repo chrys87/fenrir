@@ -6,8 +6,8 @@ from shutil import copyfile
 from setuptools import find_packages
 from setuptools import setup
 
-fenrirVersion = '1.5'
-packageVersion = 'post11'
+fenrirVersion = '1.6'
+packageVersion = 'post1'
 
 # handle flags for package manager like yaourt and pacaur.
 forceSettings = False
@@ -21,32 +21,32 @@ for directory in directories:
     files = glob.glob(directory+'/*') 
     destDir = ''
     if 'config/punctuation' in directory :
-        destDir = '/etc/fenrir/punctuation'
+        destDir = '/etc/fenrirscreenreader/punctuation'
     elif 'config/keyboard' in directory:
-        destDir = '/etc/fenrir/keyboard'
+        destDir = '/etc/fenrirscreenreader/keyboard'
     elif 'config/settings' in directory:
-        destDir = '/etc/fenrir/settings'
+        destDir = '/etc/fenrirscreenreader/settings'
         if not forceSettings:
             try:
                 del(files[files.index('config/settings/settings.conf')])
             except:
                 pass
     elif 'config/scripts' in directory:
-        destDir = '/usr/share/fenrir/scripts' 
+        destDir = '/usr/share/fenrirscreenreader/scripts' 
     if destDir != '':
         data_files.append((destDir, files))
 
 files = glob.glob('config/sound/default-wav/*')         
-destDir = '/usr/share/sounds/fenrir/default-wav'
+destDir = '/usr/share/sounds/fenrirscreenreader/default-wav'
 data_files.append((destDir, files))        
 files = glob.glob('config/sound/default/*')                 
-destDir = '/usr/share/sounds/fenrir/default'            
+destDir = '/usr/share/sounds/fenrirscreenreader/default'            
 data_files.append((destDir, files))
 files = glob.glob('config/sound//template/*')                 
-destDir = '/usr/share/sounds/fenrir/template'
+destDir = '/usr/share/sounds/fenrirscreenreader/template'
 data_files.append((destDir, files))
 files = glob.glob('tools/*') 
-data_files.append(('/usr/share/fenrir/tools', files))
+data_files.append(('/usr/share/fenrirscreenreader/tools', files))
 data_files.append(('/usr/lib/systemd/system', ['autostart/systemd/fenrir.service']))
 data_files.append(('/usr/share/man/man1', ['docu/fenrir.1']))
 
@@ -78,9 +78,9 @@ setup(
     author_email="chrysg@linux-a11y.org",
 
     # Packages
-    packages=find_packages('src/fenrir'),
-    package_dir={'': 'src/fenrir'},
-    scripts=['src/fenrir/fenrir','src/fenrir/fenrir-daemon'],
+    packages=find_packages('src/fenrirscreenreader'),
+    package_dir={'': 'src/fenrirscreenreader'},
+    scripts=['src/fenrir','src/fenrir-daemon'],
 
     # Include additional files into the package
     include_package_data=True,
@@ -105,9 +105,9 @@ setup(
 if not forceSettings:
     print('')
     # create settings file from example if not exist
-    if not os.path.isfile('/etc/fenrir/settings/settings.conf'):
+    if not os.path.isfile('/etc/fenrirscreenreader/settings/settings.conf'):
         try:
-            copyfile('/etc/fenrir/settings/settings.conf.example', '/etc/fenrir/settings/settings.conf')
+            copyfile('/etc/fenrirscreenreader/settings/settings.conf.example', '/etc/fenrir/settings/settings.conf')
             print('create settings file in /etc/fenrir/settings/settings.conf')
         except:
             pass
@@ -118,7 +118,7 @@ print('')
 print('To have Fenrir start at boot:')
 print('sudo systemctl enable fenrir')
 print('Pulseaudio users may want to run:')
-print('/usr/share/fenrir/tools/configure_pulse.sh')
+print('/usr/share/fenrirscreenreader/tools/configure_pulse.sh')
 print('once as their user account and once as root to configure Pulseaudio.')
 print('Please install the following packages manually:')
 print('- Speech-dispatcher: for the default speech driver')
