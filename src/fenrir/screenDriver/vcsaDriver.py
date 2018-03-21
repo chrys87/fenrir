@@ -311,7 +311,7 @@ class driver(screenDriver):
         self.env['screen']['newContentText'], \
           self.env['screen']['newContentAttrib'] =\
           self.autoDecodeVCSA(self.env['screen']['newContentBytes'][4:], self.env['screen']['lines'], self.env['screen']['columns'])
-
+        self.env['runtime']['debug'].writeDebugOut('OldTTY'+str(self.env['screen']['oldTTY'])+ ' newTTY:'+str(self.env['screen']['newTTY']),debug.debugLevel.INFO)                
         if self.env['screen']['newTTY'] != self.env['screen']['oldTTY']:
             self.env['screen']['oldContentBytes'] = b''
             self.env['screen']['oldContentAttrib'] = None
