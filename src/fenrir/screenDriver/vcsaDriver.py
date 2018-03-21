@@ -323,9 +323,13 @@ class driver(screenDriver):
             self.env['screen']['oldCursorAttrib'] = None
             self.env['screen']['newCursorAttrib'] = None            
             self.env['screen']['oldNegativeDelta'] = ''
-        # initialize current deltas
+        # fallback
         if self.env['screen']['oldTTY'] == None:
             self.env['screen']['oldTTY'] = self.env['screen']['newTTY']
+        # first run
+        if self.env['screen']['oldTTY'] == 0:
+            self.env['screen']['oldTTY'] = self.env['screen']['newTTY']            
+        # initialize current deltas
         self.env['screen']['newNegativeDelta'] = ''
         self.env['screen']['newDelta'] = ''
         self.env['screen']['newAttribDelta'] = ''                           
