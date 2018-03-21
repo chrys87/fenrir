@@ -257,7 +257,7 @@ class settingsManager():
             self.setOptionArgDict(section, option, value)
 
     def initFenrirConfig(self, cliArgs, fenrirManager = None, environment = environment.environment):
-        settingsRoot = '/etc/fenrir/'
+        settingsRoot = '/etc/fenrirscreenreader/'
         settingsFile = cliArgs.setting
         soundRoot = '/usr/share/sounds/fenrir/'
         environment['runtime']['debug'] = debugManager.debugManager()
