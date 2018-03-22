@@ -58,6 +58,7 @@ class fenrirManager():
             self.environment['runtime']['inputManager'].handleInputEvent(event['Data'])
         else:
             return
+
         if self.environment['runtime']['inputManager'].noKeyPressed(): 
             self.environment['runtime']['inputManager'].clearLastDeepInput()        
         if self.environment['runtime']['screenManager'].isSuspendingScreen():
@@ -144,6 +145,7 @@ class fenrirManager():
         if not( self.singleKeyCommand and self.environment['runtime']['inputManager'].noKeyPressed()):
             shortcut = self.environment['runtime']['inputManager'].getCurrShortcut()                
             self.command = self.environment['runtime']['inputManager'].getCommandForShortcut(shortcut)                    
+            
         if not self.modifierInput:
             if self.environment['runtime']['inputManager'].isKeyPress():
                 if self.command != '':

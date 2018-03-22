@@ -23,6 +23,7 @@ class inputManager():
         self.env['input']['newScrollLock'] = self.env['runtime']['inputDriver'].getLedState(2)
         self.env['input']['oldScrollLock'] = self.env['input']['newScrollLock']
         self.lastDeepestInput = []
+        self.env['input']['shortcutRepeat'] = 1
         self.lastInputTime = time.time()
     def shutdown(self):
         self.removeAllDevices()
