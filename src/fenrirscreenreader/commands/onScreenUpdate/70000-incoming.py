@@ -20,17 +20,19 @@ class command():
         if not self.env['runtime']['settingsManager'].getSettingAsBool('speech', 'autoReadIncoming'):
             return
         # is there something to read?
+        self.env['runtime']['debug'].writeDebugOut('isDelta:' + str(self.env['runtime']['screenManager'].isDelta(ignoreSpace=True)),debug.debugLevel.INFO)         
+        
         if not self.env['runtime']['screenManager'].isDelta(ignoreSpace=True):
             return      
         # this must be a keyecho or something      
         #if len(self.env['screen']['newDelta'].strip(' \n\t')) <= 1:
         xMove = abs(self.env['screen']['newCursor']['x'] - self.env['screen']['oldCursor']['x'])
         yMove = abs(self.env['screen']['newCursor']['y'] - self.env['screen']['oldCursor']['y'])
-        #self.env['runtime']['debug'].writeDebugOut('newX:' + str(self.env['screen']['newCursor']['x']) + 'oldX:' + str(self.env['screen']['oldCursor']['x']),debug.debugLevel.INFO)         
-        #self.env['runtime']['debug'].writeDebugOut('newY:' + str(self.env['screen']['newCursor']['y']) + 'oldY:' + str(self.env['screen']['oldCursor']['y']),debug.debugLevel.INFO)                 
-        #self.env['runtime']['debug'].writeDebugOut('xMove:'+ str(xMove)+' yMove:'+str(yMove),debug.debugLevel.INFO)                 
-        #self.env['runtime']['debug'].writeDebugOut('NewDeltaLen:'+str(len(self.env['screen']['newDelta'])),debug.debugLevel.INFO)                         
-        #self.env['runtime']['debug'].writeDebugOut(str(self.env['screen']),debug.debugLevel.INFO)                         
+        self.env['runtime']['debug'].writeDebugOut('newX:' + str(self.env['screen']['newCursor']['x']) + 'oldX:' + str(self.env['screen']['oldCursor']['x']),debug.debugLevel.INFO)         
+        self.env['runtime']['debug'].writeDebugOut('newY:' + str(self.env['screen']['newCursor']['y']) + 'oldY:' + str(self.env['screen']['oldCursor']['y']),debug.debugLevel.INFO)                 
+        self.env['runtime']['debug'].writeDebugOut('xMove:'+ str(xMove)+' yMove:'+str(yMove),debug.debugLevel.INFO)                 
+        self.env['runtime']['debug'].writeDebugOut('NewDeltaLen:'+str(len(self.env['screen']['newDelta'])),debug.debugLevel.INFO)                         
+        self.env['runtime']['debug'].writeDebugOut(str(self.env['screen']),debug.debugLevel.INFO)                         
         self.env['runtime']['debug'].writeDebugOut('NewDelta:'+str(self.env['screen']['newDelta']),debug.debugLevel.INFO)        
         if (xMove >= 1) and xMove == len(self.env['screen']['newDelta']):
         # if len(self.env['screen']['newDelta'].strip(' \n\t0123456789')) <= 2:
