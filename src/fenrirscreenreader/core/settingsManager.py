@@ -260,8 +260,6 @@ class settingsManager():
         settingsRoot = '/etc/fenrirscreenreader/'
         settingsFile = cliArgs.setting
         soundRoot = '/usr/share/sounds/fenrirscreenreader/'
-        environment['runtime']['debug'] = debugManager.debugManager()
-        environment['runtime']['debug'].initialize(environment)
         # get fenrir settings root
         if not os.path.exists(settingsRoot):
             if os.path.exists(fenrirPath +'/../../config/'):
@@ -285,6 +283,9 @@ class settingsManager():
         validConfig = environment['runtime']['settingsManager'].loadSettings(settingsFile)
         if not validConfig:
             return None
+
+        environment['runtime']['debug'] = debugManager.debugManager(self.env['runtime']['settingsManager'].getSetting('general','debugFile'))
+        environment['runtime']['debug'].initialize(environment)
         
         if cliArgs.options != '':
             self.parseSettingArgs(cliArgs.options)

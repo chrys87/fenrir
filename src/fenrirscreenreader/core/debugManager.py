@@ -3,12 +3,13 @@
 
 from fenrirscreenreader.core import debug
 from datetime import datetime
+import pathlib, os
 
 class debugManager():
-    def __init__(self,  fileName='/var/log/fenrir.log'):
-        self._fileName = fileName
+    def __init__(self, fileName = '/var/log/fenrirscreenreader/fenrir.log'):
         self._file = None
         self._fileOpened = False
+        self._fileName = fileName
     def initialize(self, environment):
         self.env = environment    
     def shutdown(self):
@@ -24,6 +25,9 @@ class debugManager():
         if fileName != '':
             self._fileName = fileName
         if self._fileName != '':
+            directory = os.path.dirname(self._fileName)
+            if not os.path.exists(directory):
+                pathlib.Path(directory).mkdir(parents=True, exist_ok=True)         
             self._file = open(self._fileName,'a')
             self._fileOpened = True
 

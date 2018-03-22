@@ -57,6 +57,7 @@ settingsData = {
 'general':{
   'debugLevel': debug.debugLevel.DEACTIVE,
   'debugMode': 'FILE',
+  'debugFile': '/var/log/fenrirscreenreader/fenrir.log',
   'punctuationProfile':'default',
   'punctuationLevel': 'some',
   'respectPunctuationPause':True,
