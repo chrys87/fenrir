@@ -147,6 +147,8 @@ class settingsManager():
     def loadSettings(self, settingConfigPath):
         if not os.path.exists(settingConfigPath):
             return False
+        if not os.access(settingConfigPath, os.R_OK):
+            return False
         self.env['settings'] = ConfigParser()
         self.env['settings'].read(settingConfigPath)
         return True
