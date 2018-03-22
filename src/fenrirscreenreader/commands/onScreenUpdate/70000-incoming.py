@@ -36,7 +36,8 @@ class command():
         self.env['runtime']['debug'].writeDebugOut('NewDelta:'+str(self.env['screen']['newDelta']),debug.debugLevel.INFO)        
         if (xMove >= 1) and xMove == len(self.env['screen']['newDelta']):
         # if len(self.env['screen']['newDelta'].strip(' \n\t0123456789')) <= 2:
-            return          
+            if not '\n' in self.env['screen']['newDelta']:
+                return          
         #if yMove == 1:
         #   if len(self.env['screen']['newDelta'].strip(' \n\t0123456789')) <= 2:
         #    return                        
