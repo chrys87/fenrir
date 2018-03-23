@@ -8,6 +8,13 @@ fi
 
 # This script checks for, and creates if needed, the fenrirscreenreader user.
 
+# Find out which group to use for uinput
+uinput="$(stat -c '%G' /dev/uinput | grep -v root)"
+if ! [[ "$uinput" =~ ^[a-zA-Z]+$ ]]; then
+    groupadd -r uinput
+    chown root:uinput /dev/uinput
+fi
+
 # find out which group to use for /dev/input.
 input="$(stat -c '%G' /dev/input/* | grep -v root | head -1)"
 if ! [[ "$input" =~ ^[a-zA-Z]+$ ]]; then
@@ -28,7 +35,7 @@ fi
 
 # Add fenrirscreenreader
 id fenrirscreenreader &> /dev/null || {
-    useradd -m -d /var/fenrirscreenreader -r -G $input,$tty -s /bin/nologin -U fenrirscreenreader;
+    useradd -m -d /var/fenrirscreenreader -r -G $input,$tty,$uinput -s /bin/nologin -U fenrirscreenreader;
     sudo -u fenrirscreenreader mkdir -p /var/fenrirscreenreader/.config/pulse;
     sudo -u fenrirscreenreader echo -e '.include /etc/pulse/default.pa\nload-module module-switch-on-connect\nload-module module-native-protocol-unix auth-anonymous=1 socket=/tmp/pulse.sock' > /var/fenrirscreenreader/.config/pulse/default.pa;
 }
