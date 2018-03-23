@@ -4,7 +4,7 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-#from core import debug
+#from fenrirscreenreader.core import debug
 import string
 #  X   Y Word  END BREAK
 # -1, -1, '', True False

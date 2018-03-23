@@ -11,10 +11,10 @@ read -p "This will remove Fenrir and its settings from your system,, press ctrl+
 # do it
 unlink /usr/bin/fenrir
 unlink /usr/bin/fenrir-daemon
-rm -rf /opt/fenrir
-rm -rf /usr/share/fenrir
-rm -rf /etc/fenrir
-rm -rf /usr/share/sounds/fenrir
+rm -rf /opt/fenrirscreenreader
+rm -rf /usr/share/fenrirscreenreader
+rm -rf /etc/fenrirscreenreader
+rm -rf /usr/share/sounds/fenrirscreenreader
 rm -f /usr/lib/systemd/system/fenrir.service
 
 # success message

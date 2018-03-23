@@ -8,8 +8,8 @@ PIDFile=/var/run/fenrir.pid
 ExecStart=/usr/bin/fenrir-daemon
 ExecReload=/usr/bin/kill -HUP $MAINPID
 Restart=always
-#Group=fenrir
-#User=fenrir
+#Group=fenrirscreenreader
+#User=fenrirscreenreader
 
 [Install]
 WantedBy=sound.target
