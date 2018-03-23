@@ -5,6 +5,7 @@
 # By Chrys, Storm Dragon, and contributers.
 
 from fenrirscreenreader.core import debug
+from fenrirscreenreader.utils import screen_utils
 import time, os, re, difflib
 
 class screenManager():

@@ -18,7 +18,6 @@ import select
 import dbus
 import fcntl
 from array import array
-from fenrirscreenreader.utils import screen_utils
 from fcntl import ioctl
 from struct import unpack_from, unpack, pack
 from fenrirscreenreader.core import debug
