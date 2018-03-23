@@ -28,7 +28,6 @@ from fenrirscreenreader.core.screenDriver import screenDriver
 class driver(screenDriver):
     def __init__(self):
         screenDriver.__init__(self)
-        self.vcsaDevicePath = '/dev/vcsa'
         self.ListSessions = None
         self.charmap = {}
         self.bgColorNames = {0: _('black'), 1: _('blue'), 2: _('green'), 3: _('cyan'), 4: _('red'), 5: _('Magenta'), 6: _('brown/yellow'), 7: _('white')}
@@ -53,32 +52,6 @@ class driver(screenDriver):
             for c in text:
                 fcntl.ioctl(fd, termios.TIOCSTI, c)
                 
-    def getCurrApplication(self):
-        apps = []
-        try:
-            currScreen = self.env['screen']['newTTY']
-            apps = subprocess.Popen('ps -t tty' + currScreen + ' -o comm,tty,stat', shell=True, stdout=subprocess.PIPE).stdout.read().decode()[:-1].split('\n')
-        except Exception as e:
-            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)         
-            return
-        try:
-            for i in apps:
-                i = i.upper()
-                i = i.split()
-                i[0] = i[0]
-                i[1] = i[1]
-                if '+' in i[2]:
-                    if i[0] != '':
-                        if not "GREP" == i[0] and \
-                          not "SH" == i[0] and \
-                          not "PS" == i[0]:
-                            if "TTY"+currScreen in i[1]:
-                                if self.env['screen']['newApplication'] != i[0]:
-                                    self.env['screen']['newApplication'] = i[0]                        
-                                return
-        except Exception as e:
-            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)    
-
     def getSessionInformation(self):
         try:
             bus = dbus.SystemBus()
@@ -291,3 +264,29 @@ class driver(screenDriver):
         return _('Default')
     def getFenrirFontSize(self, attribute):
         return _('Default')              
+    def getCurrApplication(self):
+        apps = []
+        try:
+            currScreen = self.env['screen']['newTTY']
+            apps = subprocess.Popen('ps -t tty' + currScreen + ' -o comm,tty,stat', shell=True, stdout=subprocess.PIPE).stdout.read().decode()[:-1].split('\n')
+        except Exception as e:
+            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)         
+            return
+        try:
+            for i in apps:
+                i = i.upper()
+                i = i.split()
+                i[0] = i[0]
+                i[1] = i[1]
+                if '+' in i[2]:
+                    if i[0] != '':
+                        if not "GREP" == i[0] and \
+                          not "SH" == i[0] and \
+                          not "PS" == i[0]:
+                            if "TTY"+currScreen in i[1]:
+                                if self.env['screen']['newApplication'] != i[0]:
+                                    self.env['screen']['newApplication'] = i[0]                        
+                                return
+        except Exception as e:
+            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)    
+        
