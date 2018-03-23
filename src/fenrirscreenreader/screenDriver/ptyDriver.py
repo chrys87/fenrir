@@ -10,9 +10,6 @@
 #blink = 5 if attr & 1 else 0
 #bold = 1 if attr & 16 else 0
 
-
-import difflib
-import re
 import subprocess
 import glob, os
 import termios
@@ -21,8 +18,6 @@ import select
 import dbus
 import fcntl
 from array import array
-import errno
-import sys
 from fenrirscreenreader.utils import screen_utils
 from fcntl import ioctl
 from struct import unpack_from, unpack, pack
@@ -33,7 +28,6 @@ from fenrirscreenreader.core.screenDriver import screenDriver
 class driver(screenDriver):
     def __init__(self):
         screenDriver.__init__(self)
-        self.vcsaDevicePath = '/dev/vcsa'
         self.ListSessions = None
         self.charmap = {}
         self.bgColorNames = {0: _('black'), 1: _('blue'), 2: _('green'), 3: _('cyan'), 4: _('red'), 5: _('Magenta'), 6: _('brown/yellow'), 7: _('white')}
@@ -58,32 +52,6 @@ class driver(screenDriver):
             for c in text:
                 fcntl.ioctl(fd, termios.TIOCSTI, c)
                 
-    def getCurrApplication(self):
-        apps = []
-        try:
-            currScreen = self.env['screen']['newTTY']
-            apps = subprocess.Popen('ps -t tty' + currScreen + ' -o comm,tty,stat', shell=True, stdout=subprocess.PIPE).stdout.read().decode()[:-1].split('\n')
-        except Exception as e:
-            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)         
-            return
-        try:
-            for i in apps:
-                i = i.upper()
-                i = i.split()
-                i[0] = i[0]
-                i[1] = i[1]
-                if '+' in i[2]:
-                    if i[0] != '':
-                        if not "GREP" == i[0] and \
-                          not "SH" == i[0] and \
-                          not "PS" == i[0]:
-                            if "TTY"+currScreen in i[1]:
-                                if self.env['screen']['newApplication'] != i[0]:
-                                    self.env['screen']['newApplication'] = i[0]                        
-                                return
-        except Exception as e:
-            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)    
-
     def getSessionInformation(self):
         try:
             bus = dbus.SystemBus()
@@ -104,7 +72,7 @@ class driver(screenDriver):
                 if screen == '':
                     self.env['runtime']['debug'].writeDebugOut('No TTY found for session:' + session[4],debug.debugLevel.ERROR)               
                     return
-                if sessionType.upper() == 'X11':
+                if sessionType.upper() != 'TTY':
                     self.env['screen']['autoIgnoreScreens'].append(screen)
                 if screen == self.env['screen']['newTTY'] :
                     if self.env['general']['currUser'] != session[2]:
@@ -113,8 +81,8 @@ class driver(screenDriver):
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('getSessionInformation: Maybe no LoginD:' + str(e),debug.debugLevel.ERROR)               
             self.env['screen']['autoIgnoreScreens'] = []     
-        self.env['runtime']['debug'].writeDebugOut('getSessionInformation:'  + str(self.env['screen']['autoIgnoreScreens']) + ' ' + str(self.env['general'])  ,debug.debugLevel.INFO)                           
- 
+        #self.env['runtime']['debug'].writeDebugOut('getSessionInformation:'  + str(self.env['screen']['autoIgnoreScreens']) + ' ' + str(self.env['general'])  ,debug.debugLevel.INFO)                           
+
     def updateWatchdog(self,active , eventQueue):
         try:
             vcsa = {}
@@ -148,12 +116,14 @@ class driver(screenDriver):
                             except:
                                 pass
                             oldScreen = currScreen
-                            eventQueue.put({"Type":fenrirEventType.ScreenChanged,"Data":''})  
                             try:
                                 vcsa[currScreen].seek(0)                        
                                 lastScreenContent = vcsa[currScreen].read() 
                             except:
-                                pass 
+                                pass                             
+                            eventQueue.put({"Type":fenrirEventType.ScreenChanged,
+                                "Data":self.createScreenEventData(currScreen,lastScreenContent)                            
+                            })  
                     else:
                         self.env['runtime']['debug'].writeDebugOut('ScreenUpdate',debug.debugLevel.INFO)                                                 
                         vcsa[currScreen].seek(0)                                                
@@ -164,13 +134,35 @@ class driver(screenDriver):
                             screenContent = dirtyContent
                             if time.time() - timeout >= 0.4:
                                 break
-                            time.sleep(0.007)                                                   
+                            time.sleep(0.02)
                             vcsa[currScreen].seek(0)                             
                             dirtyContent = vcsa[currScreen].read()
-                        eventQueue.put({"Type":fenrirEventType.ScreenUpdate,"Data":None})
+                        eventQueue.put({"Type":fenrirEventType.ScreenUpdate,
+                            "Data":self.createScreenEventData(currScreen,screenContent)
+                        })
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('VCSA:updateWatchdog:' + str(e),debug.debugLevel.ERROR)         
+            
 
+    def createScreenEventData(self, screen, content):
+        self.updateCharMap(screen)                                
+        eventData = {
+            'bytes': content,
+            'lines': int( content[0]),
+            'columns': int( content[1]),
+            'textCursor': 
+                {
+                    'x': int( content[2]),
+                    'y': int( content[3])
+                },
+            'screen': screen,     
+            'screenUpdateTime': time.time(),            
+        }
+        encText, encAttr =\
+          self.autoDecodeVCSA(content[4:], eventData['lines'], eventData['columns'])
+        eventData['text'] = encText
+        eventData['attributes'] = encAttr
+        return eventData.copy()     
     def updateCharMap(self, screen):
         self.charmap = {}
         try:
@@ -271,102 +263,30 @@ class driver(screenDriver):
     def getFenrirFont(self, attribute):
         return _('Default')
     def getFenrirFontSize(self, attribute):
-        return _('Default')    
-    def update(self, trigger='onUpdate'):
-        if trigger == 'onInput': # no need for an update on input for VCSA
-            return
-        newContentBytes = b''       
+        return _('Default')              
+    def getCurrApplication(self):
+        apps = []
         try:
-            # read screen
-            vcsa = open(self.vcsaDevicePath + self.env['screen']['newTTY'],'rb',0)
-            newContentBytes = vcsa.read()
-            vcsa.close()
-            if len(newContentBytes) < 5:
-                return
+            currScreen = self.env['screen']['newTTY']
+            apps = subprocess.Popen('ps -t tty' + currScreen + ' -o comm,tty,stat', shell=True, stdout=subprocess.PIPE).stdout.read().decode()[:-1].split('\n')
         except Exception as e:
-            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)   
+            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)         
             return
-        # set new "old" values
-        self.env['screen']['oldContentBytes'] = self.env['screen']['newContentBytes']
-        self.env['screen']['oldContentText'] = self.env['screen']['newContentText']
-        self.env['screen']['oldContentAttrib'] = self.env['screen']['newContentAttrib']
-        self.env['screen']['oldCursor'] = self.env['screen']['newCursor'].copy()
-        if self.env['screen']['newCursorAttrib']:
-            self.env['screen']['oldCursorAttrib'] = self.env['screen']['newCursorAttrib'].copy()        
-        self.env['screen']['oldDelta'] = self.env['screen']['newDelta']
-        self.env['screen']['oldAttribDelta'] = self.env['screen']['newAttribDelta']
-        self.env['screen']['oldNegativeDelta'] = self.env['screen']['newNegativeDelta']
-        self.env['screen']['newContentBytes'] = newContentBytes
-        # get metadata like cursor or screensize
-        self.env['screen']['lines'] = int( self.env['screen']['newContentBytes'][0])
-        self.env['screen']['columns'] = int( self.env['screen']['newContentBytes'][1])
-        self.env['screen']['newCursor']['x'] = int( self.env['screen']['newContentBytes'][2])
-        self.env['screen']['newCursor']['y'] = int( self.env['screen']['newContentBytes'][3])
-
-        # analyze content
-        self.updateCharMap(str(self.env['screen']['newTTY'])) 
-        self.env['screen']['newContentText'], \
-          self.env['screen']['newContentAttrib'] =\
-          self.autoDecodeVCSA(self.env['screen']['newContentBytes'][4:], self.env['screen']['lines'], self.env['screen']['columns'])
-
-        if self.env['screen']['newTTY'] != self.env['screen']['oldTTY']:
-            self.env['screen']['oldContentBytes'] = b''
-            self.env['screen']['oldContentAttrib'] = None
-            self.env['screen']['oldContentText'] = ''
-            self.env['screen']['oldCursor']['x'] = 0
-            self.env['screen']['oldCursor']['y'] = 0
-            self.env['screen']['oldDelta'] = ''
-            self.env['screen']['oldAttribDelta'] = ''            
-            self.env['screen']['oldCursorAttrib'] = None
-            self.env['screen']['newCursorAttrib'] = None            
-            self.env['screen']['oldNegativeDelta'] = ''
-        # initialize current deltas
-        self.env['screen']['newNegativeDelta'] = ''
-        self.env['screen']['newDelta'] = ''
-        self.env['screen']['newAttribDelta'] = ''                           
-
-        # changes on the screen
-        oldScreenText = re.sub(' +',' ',self.env['runtime']['screenManager'].getWindowAreaInText(self.env['screen']['oldContentText']))
-        newScreenText = re.sub(' +',' ',self.env['runtime']['screenManager'].getWindowAreaInText(self.env['screen']['newContentText']))        
-        typing = False
-        if (self.env['screen']['oldContentText'] != self.env['screen']['newContentText']):
-            if self.env['screen']['newContentText'] != '' and self.env['screen']['oldContentText'] == '':
-                if oldScreenText == '' and\
-                  newScreenText != '':
-                    self.env['screen']['newDelta'] = newScreenText
-            else:
-                cursorLineStart = self.env['screen']['newCursor']['y'] * self.env['screen']['columns'] + self.env['screen']['newCursor']['y']
-                cursorLineEnd = cursorLineStart  + self.env['screen']['columns']         
-                if abs(self.env['screen']['oldCursor']['x'] - self.env['screen']['newCursor']['x']) == 1 and \
-                  self.env['screen']['oldCursor']['y'] == self.env['screen']['newCursor']['y'] and \
-                  self.env['screen']['newContentText'][:cursorLineStart] == self.env['screen']['oldContentText'][:cursorLineStart] and \
-                  self.env['screen']['newContentText'][cursorLineEnd:] == self.env['screen']['oldContentText'][cursorLineEnd:]:
-                    cursorLineStartOffset = cursorLineStart
-                    cursorLineEndOffset = cursorLineEnd
-                    #if cursorLineStart < cursorLineStart + self.env['screen']['newCursor']['x'] - 4:
-                    #    cursorLineStartOffset = cursorLineStart + self.env['screen']['newCursor']['x'] - 4
-                    if cursorLineEnd > cursorLineStart + self.env['screen']['newCursor']['x'] + 3:
-                        cursorLineEndOffset = cursorLineStart + self.env['screen']['newCursor']['x'] + 3                                               
-                    oldScreenText = self.env['screen']['oldContentText'][cursorLineStartOffset:cursorLineEndOffset] 
-                    oldScreenText = re.sub(' +',' ',oldScreenText)
-                    newScreenText = self.env['screen']['newContentText'][cursorLineStartOffset:cursorLineEndOffset]
-                    newScreenText = re.sub(' +',' ',newScreenText)
-                    diff = difflib.ndiff(oldScreenText, newScreenText) 
-                    typing = True
-                else:
-                    diff = difflib.ndiff( oldScreenText.split('\n'),\
-                      newScreenText.split('\n'))
-
-                diffList = list(diff)
-                
-                if self.env['runtime']['settingsManager'].getSetting('general', 'newLinePause') and not typing:
-                    self.env['screen']['newDelta'] = '\n'.join(x[2:] for x in diffList if x[0] == '+')
-                else:
-                    self.env['screen']['newDelta'] = ''.join(x[2:] for x in diffList if x[0] == '+')             
-                self.env['screen']['newNegativeDelta'] = ''.join(x[2:] for x in diffList if x[0] == '-')
-
-        # track highlighted
-        if self.env['screen']['oldContentAttrib'] != self.env['screen']['newContentAttrib']:
-            if self.env['runtime']['settingsManager'].getSettingAsBool('focus', 'highlight'):
-                self.env['screen']['newAttribDelta'], self.env['screen']['newCursorAttrib'] = screen_utils.trackHighlights(self.env['screen']['oldContentAttrib'], self.env['screen']['newContentAttrib'], self.env['screen']['newContentText'], self.env['screen']['columns'])
-                
+        try:
+            for i in apps:
+                i = i.upper()
+                i = i.split()
+                i[0] = i[0]
+                i[1] = i[1]
+                if '+' in i[2]:
+                    if i[0] != '':
+                        if not "GREP" == i[0] and \
+                          not "SH" == i[0] and \
+                          not "PS" == i[0]:
+                            if "TTY"+currScreen in i[1]:
+                                if self.env['screen']['newApplication'] != i[0]:
+                                    self.env['screen']['newApplication'] = i[0]                        
+                                return
+        except Exception as e:
+            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)    
+        
