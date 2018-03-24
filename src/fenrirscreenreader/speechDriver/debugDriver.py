@@ -10,7 +10,7 @@ from fenrirscreenreader.core.speechDriver import speechDriver
 
 class driver(speechDriver):
     def __init__(self):
-        speechDriver.__init__(self
+        speechDriver.__init__(self)
     def initialize(self, environment):
         self._isInitialized = True
         self.env = environment
