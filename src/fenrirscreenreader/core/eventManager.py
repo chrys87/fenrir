@@ -45,7 +45,6 @@ class eventManager():
             pass            
         elif event['Type'] == fenrirEventType.PlugInputDevice:
             self.env['runtime']['fenrirManager'].handlePlugInputDevice(event)
-            pass
         elif event['Type'] == fenrirEventType.BrailleFlush:
             pass            
         elif event['Type'] == fenrirEventType.ScreenChanged:
@@ -54,6 +53,8 @@ class eventManager():
             self.env['runtime']['fenrirManager'].handleHeartBeat(event)
         elif event['Type'] == fenrirEventType.ExecuteCommand:
             self.env['runtime']['fenrirManager'].handleExecuteCommand(event)
+        elif event['Type'] == fenrirEventType.ByteInput:
+            self.env['runtime']['fenrirManager'].handleByteInput(event)            
     def isMainEventLoopRunning(self):
         return self.running.value == 1
     def startMainEventLoop(self):

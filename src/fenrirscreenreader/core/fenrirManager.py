@@ -83,6 +83,10 @@ class fenrirManager():
             self.environment['input']['keyForeward'] -=1
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')       
         #print('handleInput:',time.time() - startTime)
+    def handleByteInput(self, event):
+        if event['Data'] == b'':
+            return   
+        self.detectByteCommand(event['Data'])
     def handleExecuteCommand(self, event):        
         if event['Data'] == '':
             return
@@ -131,7 +135,12 @@ class fenrirManager():
     def handleHeartBeat(self, event):
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onHeartBeat',force=True)  
         #self.environment['runtime']['outputManager'].brailleText(flush=False)                        
-    
+    def detectByteCommand(self, escapeSequence):
+        command = ''
+        if escapeSequence == b'a':
+            command = 'TIME'
+        self.environment['runtime']['eventManager'].putToEventQueue(fenrirEventType.ExecuteCommand, command)
+        
     def detectCommand(self):    
         if self.environment['input']['keyForeward'] > 0:
             return

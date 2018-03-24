@@ -150,6 +150,9 @@ class driver(screenDriver):
                         print('pre stdin')       
                     try:
                         msgBytes = self.readAll(sys.stdin.fileno())
+                        eventQueue.put({"Type":fenrirEventType.ByteInput,
+                            "Data":msgBytes
+                        })
                     except (EOFError, OSError):
                         running = False                    
                         break
