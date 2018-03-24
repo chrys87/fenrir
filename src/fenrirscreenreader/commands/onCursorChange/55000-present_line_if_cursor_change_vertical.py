@@ -42,13 +42,9 @@ class command():
                 self.lastIdent = currIdent
             doInterrupt = True                
             if self.env['runtime']['settingsManager'].getSettingAsBool('general', 'autoPresentIndent'):
-                if self.lastIdent < currIdent: 
-                    self.env['runtime']['outputManager'].presentText(_('indented ') + str(currIdent - self.lastIdent) + ' ', interrupt=doInterrupt, flush=False)
+                if self.lastIdent != currIdent: 
+                    self.env['runtime']['outputManager'].presentText(_('indented ') + str(currIdent) + ' ', interrupt=doInterrupt, flush=False)
                     doInterrupt = False                    
-                elif self.lastIdent > currIdent: 
-                    self.env['runtime']['outputManager'].presentText(_('outdented ') + str(self.lastIdent - currIdent) + ' ', interrupt=doInterrupt, flush=False)
-                    doInterrupt = False                    
-
             self.env['runtime']['outputManager'].presentText(currLine, interrupt=doInterrupt, flush=False)
             self.lastIdent = currIdent
     def setCallback(self, callback):

@@ -41,7 +41,12 @@ class Terminal:
                     for char in (line[x] for x in range(self.screen.columns))]            
             allAttributes.append((attributes))
         self.screen.dirty.clear()
-        return {"cursor": (cursor.x, cursor.y), "lines": text, 'attributes': allAttributes}.copy()
+        return {"cursor": (cursor.x, cursor.y),
+            'lines': self.screen.lines,
+            'columns': self.screen.columns,
+            "text": text, 
+            'attributes': allAttributes
+        }.copy()
 
 class driver(screenDriver):
     def __init__(self):
@@ -54,8 +59,8 @@ class driver(screenDriver):
         self.env = environment
         self.env['runtime']['processManager'].addCustomEventThread(self.terminalEmulation)        
     def getCurrScreen(self):
-        self.env['screen']['oldTTY'] = str(1)
-        self.env['screen']['newTTY'] = str(1)
+        self.env['screen']['oldTTY'] = '1'
+        self.env['screen']['newTTY'] = '1'
  
     def injectTextToScreen(self, text, screen = None):
         pass
@@ -164,16 +169,15 @@ class driver(screenDriver):
     def createScreenEventData(self, content):
         eventData = {
             'bytes': content,
-            'lines': int( 37),
-            'columns': int( 138
-            ),
+            'lines': content['lines'],
+            'columns': content['columns'],
             'textCursor': 
                 {
                     'x': int( content['cursor'][0]),
                     'y': int( content['cursor'][1])
                 },
             'screen': '1',
-            'text': content['lines'],
+            'text': content['text'],
             'attributes': content['attributes'],
             'screenUpdateTime': time.time(),            
         }
