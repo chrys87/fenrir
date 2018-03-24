@@ -86,7 +86,6 @@ class screenManager():
                 if oldScreenText == '' and\
                   newScreenText != '':
                     self.env['screen']['newDelta'] = newScreenText
-                    print(1)                    
             else:
                 cursorLineStart = self.env['screen']['newCursor']['y'] * self.env['screen']['columns'] + self.env['screen']['newCursor']['y']
                 cursorLineEnd = cursorLineStart  + self.env['screen']['columns']         
@@ -111,12 +110,10 @@ class screenManager():
                         if tempNewDelta != ''.join(newScreenText[self.env['screen']['oldCursor']['x']:self.env['screen']['newCursor']['x']].rstrip()):
                             diffList = ['+ ' + self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']]]
                     typing = True
-                    print(2)
                 else:
                     diff = difflib.ndiff( oldScreenText.split('\n'),\
                       newScreenText.split('\n'))
                     diffList = list(diff)
-                    print(3)
 
                 if self.env['runtime']['settingsManager'].getSetting('general', 'newLinePause') and not typing:
                     self.env['screen']['newDelta'] = '\n'.join(x[2:] for x in diffList if x[0] == '+')
