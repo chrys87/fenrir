@@ -63,7 +63,7 @@ class driver(screenDriver):
             bytes += data
         return bytes
     def has_more(self,fd):
-        r, w, e = select.select([fd], [], [], 0)
+        r, w, e = select.select([fd], [], [], 0.02)
         return (fd in r)        
     def open_terminal(self,command="bash", columns=80, lines=24):
         p_pid, master_fd = pty.fork()
@@ -117,7 +117,6 @@ class driver(screenDriver):
                     except (EOFError, OSError):
                         running = False                    
                         break
-                    terminal.feed(msgBytes)                                
                     os.write(p_out.fileno(), msgBytes)
                     if debug:
                         print('after stdin')                
@@ -149,10 +148,13 @@ class driver(screenDriver):
         #encText, encAttr =\
         #  self.autoDecodeVCSA(content[4:], eventData['lines'], eventData['columns'])
         #print(content['lines'][0])
+        #print('pre',eventData['text'])        
         for line in content['lines']:
+            #print('line',line)
             for e in line:
-                eventData['text'] += ''.join(e[0])
-        print(eventData['text'])
+                #print('loop|',e,'|')
+                eventData['text'] += e[0]
+        #print('post',eventData['text'])
         #eventData['text'] = ''
         return eventData.copy()     
 
