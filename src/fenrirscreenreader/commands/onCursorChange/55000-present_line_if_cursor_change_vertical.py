@@ -10,7 +10,7 @@ from fenrirscreenreader.utils import word_utils
 
 class command():
     def __init__(self):
-        pass
+        self.lastIdent = -1
     def initialize(self, environment):
         self.env = environment
     def shutdown(self):
@@ -22,6 +22,7 @@ class command():
         if not self.env['runtime']['settingsManager'].getSettingAsBool('focus', 'cursor'):
             return      
         if self.env['runtime']['screenManager'].isScreenChange():
+            self.lastIdent = 0        
             return        
         # this leads to problems in vim -> status line change -> no announcement, so we do check the lengh as hack
         if self.env['runtime']['screenManager'].isDelta():
@@ -36,11 +37,21 @@ class command():
         if currLine.isspace():
             self.env['runtime']['outputManager'].presentText(_("blank"), soundIcon='EmptyLine', interrupt=True, flush=False)
         else:
+            currIdent = len(currLine) - len(currLine.lstrip())
+            if self.lastIdent == -1:
+                self.lastIdent = currIdent
             if self.env['runtime']['settingsManager'].getSettingAsBool('general', 'autoPresentIndent'):
-                if oldIndent < newIndent: self.env['runtime']['outputManager'].presentText('indented ' + str(oldIndent - newIndent), interrupt=True, flush=False)
-                if oldIndent > newIndent: self.env['runtime']['outputManager'].presentText('outdented ' + str(newIndent - oldIndent), interrupt=True, flush=False)
-            self.env['runtime']['outputManager'].presentText(currLine, interrupt=True, flush=False)
- 
+                doInterrupt = True
+                if self.lastIdent < currIdent: 
+                    self.env['runtime']['outputManager'].presentText(_('indented ') + str(currIdent - self.lastIdent) + ' ', interrupt=doInterrupt, flush=False)
+                    doInterrupt = False                    
+                if self.lastIdent > currIdent: 
+                    self.env['runtime']['outputManager'].presentText(_('outdented ') + str(self.lastIdent - currIdent) + ' ', interrupt=doInterrupt, flush=False)
+                    doInterrupt = False                    
+                self.env['runtime']['outputManager'].presentText(currLine, interrupt=doInterrupt, flush=False)                                
+            else:
+                self.env['runtime']['outputManager'].presentText(currLine, interrupt=True, flush=False)
+            self.lastIdent = currIdent
     def setCallback(self, callback):
         pass
 
