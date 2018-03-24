@@ -152,6 +152,7 @@ class driver(screenDriver):
             for e in line:
                 #print('loop|',e,'|')
                 eventData['text'] += e[0]
+        print(len(eventData['text']), type(eventData['text']))
         #print('post',eventData['text'])
         #eventData['text'] = ''
         return eventData.copy()     
