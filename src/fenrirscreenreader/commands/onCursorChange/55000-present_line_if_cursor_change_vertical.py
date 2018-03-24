@@ -40,17 +40,16 @@ class command():
             currIdent = len(currLine) - len(currLine.lstrip())
             if self.lastIdent == -1:
                 self.lastIdent = currIdent
+            doInterrupt = True                
             if self.env['runtime']['settingsManager'].getSettingAsBool('general', 'autoPresentIndent'):
-                doInterrupt = True
                 if self.lastIdent < currIdent: 
                     self.env['runtime']['outputManager'].presentText(_('indented ') + str(currIdent - self.lastIdent) + ' ', interrupt=doInterrupt, flush=False)
                     doInterrupt = False                    
-                if self.lastIdent > currIdent: 
+                elif self.lastIdent > currIdent: 
                     self.env['runtime']['outputManager'].presentText(_('outdented ') + str(self.lastIdent - currIdent) + ' ', interrupt=doInterrupt, flush=False)
                     doInterrupt = False                    
-                self.env['runtime']['outputManager'].presentText(currLine, interrupt=doInterrupt, flush=False)                                
-            else:
-                self.env['runtime']['outputManager'].presentText(currLine, interrupt=True, flush=False)
+
+            self.env['runtime']['outputManager'].presentText(currLine, interrupt=doInterrupt, flush=False)
             self.lastIdent = currIdent
     def setCallback(self, callback):
         pass
