@@ -136,7 +136,6 @@ class fenrirManager():
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onHeartBeat',force=True)  
         #self.environment['runtime']['outputManager'].brailleText(flush=False)                        
     def detectByteCommand(self, escapeSequence):
-        print(escapeSequence)
         command = ''
         try:
             commands = {            
