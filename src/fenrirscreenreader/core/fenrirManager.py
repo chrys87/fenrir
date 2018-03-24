@@ -136,11 +136,49 @@ class fenrirManager():
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onHeartBeat',force=True)  
         #self.environment['runtime']['outputManager'].brailleText(flush=False)                        
     def detectByteCommand(self, escapeSequence):
+        print(escapeSequence)
         command = ''
-        if escapeSequence == b'a':
-            command = 'TIME'
-        self.environment['runtime']['eventManager'].putToEventQueue(fenrirEventType.ExecuteCommand, command)
-        
+        try:
+            commands = {            
+            b'^[h':'toggle_tutorial_mode',
+            b'^[/': 'shut_up',
+            b'^[O': 'review_bottom',
+            b'^[U': 'review_top',
+            b'^[i': 'review_curr_line',
+            b'^[u': 'review_prev_line',
+            b'^[o': 'review_next_line',
+            b'^[J': 'review_line_begin',
+            b'^[L': 'review_line_end',
+            b'^[j': 'review_line_first_char',
+            b'^[L': 'review_line_last_char',
+            b'^[k': 'review_curr_word',
+            b'\x1bj': 'review_prev_word',
+            b'^[l': 'review_next_word',
+            b'^[,': 'review_curr_char',
+            b'^[m': 'review_prev_char',
+            b'^[.': 'review_next_char',
+            b'^[<': 'curr_char_phonetic',
+            b'^[M': 'prev_char_phonetic',
+            b'^[>': 'next_char_phonetic',
+            b'^[OR': 'toggle_sound',
+            b'^[OS': 'toggle_speech',
+            b'^[8': 'toggle_highlight_tracking',
+            b'^[q': 'quit_fenrir',
+            b'^[t': 'time',
+            b'^[y': 'date',
+            b'^[[5~': 'prev_clipboard',
+            b'^[[6~': 'next_clipboard',
+            b'^[C': 'curr_clipboard',
+            b'^[c': 'copy_marked_to_clipboard',
+            b'^[v': 'paste_clipboard',
+            b'^[[15~': 'import_clipboard_from_file',
+            b'^[X': 'remove_marks',
+            b'^[x': 'set_mark',            
+            }
+            command = commands[escapeSequence].upper()
+            self.environment['runtime']['eventManager'].putToEventQueue(fenrirEventType.ExecuteCommand, command)
+        except:
+            pass    
     def detectCommand(self):    
         if self.environment['input']['keyForeward'] > 0:
             return
