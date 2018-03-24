@@ -21,17 +21,15 @@ class Terminal:
         self.stream.feed(data)
     def dump(self):
         cursor = self.screen.cursor
-        lines = []
-        data = '\n'.join(self.screen.display)
-        #print(len(data))
-        #for y in range(self.screen.lines):
-        #    line = self.screen.buffer[y]
-        #    #data = [(char.data, char.reverse, char.fg, char.bg)
-        #    #        for char in (line[x] for x in range(self.screen.columns))]            
-        #    lines.append((data))
-        #print(self.screen.lines)            
+        allAttributes = []
+        text = '\n'.join(self.screen.display)
+        for y in range(self.screen.lines):
+            line = self.screen.buffer[y]
+            attributes = [(char.reverse, char.fg, char.bg, char.bold, char.italics, char.underscore, char.strikethrough)
+                    for char in (line[x] for x in range(self.screen.columns))]            
+            allAttributes.append((attributes))
         self.screen.dirty.clear()
-        return {"cursor": (cursor.x, cursor.y), "lines": data}.copy()
+        return {"cursor": (cursor.x, cursor.y), "lines": text, 'attributes': allAttributes}.copy()
 
 class driver(screenDriver):
     def __init__(self):
@@ -144,7 +142,7 @@ class driver(screenDriver):
                 },
             'screen': '1',
             'text': content['lines'],
-            'attributes': None,
+            'attributes': content['attributes'],
             'screenUpdateTime': time.time(),            
         }
         #print(content['lines'][0])
