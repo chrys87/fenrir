@@ -24,7 +24,7 @@ class outputManager():
         self.env['runtime']['settingsManager'].shutdownDriver('speechDriver')
         self.env['runtime']['settingsManager'].shutdownDriver('brailleDriver')
         
-    def presentText(self, text, interrupt=True, soundIcon = '', ignorePunctuation=False, announceCapital=False, flush=True):
+    def presentText(self, text, interrupt=True, soundIcon = '', ignorePunctuation=False, announceCapital=False, flush=True, brailleAlternative = ''):
         if text == '':
             return
         self.env['runtime']['debug'].writeDebugOut("presentText:\nsoundIcon:'"+soundIcon+"'\nText:\n" + text ,debug.debugLevel.INFO)
@@ -40,7 +40,11 @@ class outputManager():
         self.lastEcho = text
         self.speakText(text, interrupt, ignorePunctuation,toAnnounceCapital)
         if flush:
-            self.brailleText(text, flush)
+            if brailleAlternative != '':
+                brlText = brailleAlternative
+            else:
+                brlText = text
+            self.brailleText(brlText, flush)
     def getLastEcho(self):
         return self.lastEcho
     def speakText(self, text, interrupt=True, ignorePunctuation=False, announceCapital=False):
