@@ -104,7 +104,6 @@ class driver(screenDriver):
                     eventQueue.put({"Type":fenrirEventType.ScreenUpdate,
                         "Data":self.createScreenEventData(terminal.dump())
                     })
-                    #_ = self.createScreenEventData(terminal.dump())
                     if debug:
                         print('after p_out')                    
                 # input
@@ -145,16 +144,6 @@ class driver(screenDriver):
             'attributes': content['attributes'],
             'screenUpdateTime': time.time(),            
         }
-        #print(content['lines'][0])
-        #print('pre',eventData['text'])        
-        #for line in content['lines']:
-        #    #print('line',line)
-        #    for e in line:
-        #        #print('loop|',e,'|')
-        #        eventData['text'] += e[0]
-        #print(len(eventData['text']), type(eventData['text']))
-        #print(eventData['text'])
-        #eventData['text'] = ''
         return eventData.copy()     
 
     def getFenrirBGColor(self, attribute):

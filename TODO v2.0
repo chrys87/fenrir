@@ -77,10 +77,24 @@ Braille Support:
 
 Driver (screen, input):
 [W] PTY Screen driver (to use gnome-terminal and other terminal emulators)
+  [X] emulation
+  [X] basic reading
+  [W] attributes
+  [] detect colum/ lines
+  [] resize on colum / line change
+  [] make shell command configurable (or detect it)
+  [] stop emulation properly
+  [] make pasteing text work again
   https://docs.python.org/3.2/library/pty.html
   http://sqizit.bartletts.id.au/2011/02/14/pseudo-terminals-in-python/
   https://blog.konpat.me/pythons-pseudo-terminal-pty-examples/
-[W] PTY Input driver    
+[W] PTY Input driver
+  [W] new event for byte shortcuts (escape sequences)
+  [] create driver, set flag that it is used in emulation
+  [] handle byte shortcuts
+  [] detect shortcuts
+  [] write/ consume them (controll it at all)
+  [] create keyboard layout  
 [] ATK input driver (don't grab on graphical interface)
   https://git.linux-a11y.org/AIT/pyatspi2/src/master/examples/keypress.py
 
