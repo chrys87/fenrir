@@ -19,8 +19,8 @@ class Terminal:
         self.stream.attach(self.screen)
     def feed(self, data):
         self.stream.feed(data)
-    def resize(self, rows, columns):
-        self.screen.resize(rows, columns)
+    def resize(self, lines, columns):
+        self.screen.resize(lines, columns)
         self.setCursor()
     def setCursor(self, x = -1, y = -1):
         xPos = x
@@ -49,7 +49,7 @@ class driver(screenDriver):
         self.bgColorNames = {0: _('black'), 1: _('blue'), 2: _('green'), 3: _('cyan'), 4: _('red'), 5: _('Magenta'), 6: _('brown/yellow'), 7: _('white')}
         self.fgColorNames = {0: _('Black'), 1: _('Blue'), 2: _('Green'), 3: _('Cyan'), 4: _('Red'), 5: _('Magenta'), 6: _('brown/yellow'), 7: _('Light gray'), 8: _('Dark gray'), 9: _('Light blue'), 10: ('Light green'), 11: _('Light cyan'), 12: _('Light red'), 13: _('Light magenta'), 14: _('Light yellow'), 15: _('White')}
         self.signalPipe = os.pipe()
-        signal.signal(signal.SIGWINCH, self.handle_sigwinch)                
+        signal.signal(signal.SIGWINCH, self.handleSigwinch)                
     def initialize(self, environment):
         self.env = environment
         self.env['runtime']['processManager'].addCustomEventThread(self.terminalEmulation)        
@@ -64,20 +64,20 @@ class driver(screenDriver):
         self.env['screen']['autoIgnoreScreens'] = []
         self.env['general']['prevUser'] = 'chrys'
         self.env['general']['currUser'] = 'chrys'
-    def read_all(self,fd):
+    def readAll(self,fd):
         bytes = os.read(fd, 65536)
         if bytes == b'':
             raise EOFError
-        while self.has_more(fd):
+        while self.hasMore(fd):
             data = os.read(fd, 65536)
             if data == b'':
                 raise EOFError
             bytes += data
         return bytes
-    def has_more(self,fd):
+    def hasMore(self,fd):
         r, w, e = select.select([fd], [], [], 0.02)
         return (fd in r)        
-    def open_terminal(self,command="bash", columns=138, lines=37):
+    def openTerminal(self, columns, lines, command="bash"):
         p_pid, master_fd = pty.fork()
         if p_pid == 0:  # Child.
             argv = shlex.split(command)
@@ -87,17 +87,17 @@ class driver(screenDriver):
         # File-like object for I/O with the child process aka command.
         p_out = os.fdopen(master_fd, "w+b", 0)
         return Terminal(columns, lines, p_out), p_pid, p_out
-    def resize_terminal(self,fd):
+    def resizeTerminal(self,fd):
         s = struct.pack('HHHH', 0, 0, 0, 0)
         s = fcntl.ioctl(0, termios.TIOCGWINSZ, s)
         fcntl.ioctl(fd, termios.TIOCSWINSZ, s)
-        rows, columns, _, _ = struct.unpack('hhhh', s)
-        return rows, columns
-    def get_terminal_size(self, fd):
+        lines, columns, _, _ = struct.unpack('hhhh', s)
+        return lines, columns
+    def getTerminalSize(self, fd):
         s = struct.pack('HHHH', 0, 0, 0, 0)
-        rows, columns, _, _ = struct.unpack('HHHH', fcntl.ioctl(fd, termios.TIOCGWINSZ, s))
-        return rows, columns
-    def handle_sigwinch(self, *args):
+        lines, columns, _, _ = struct.unpack('HHHH', fcntl.ioctl(fd, termios.TIOCGWINSZ, s))
+        return lines, columns
+    def handleSigwinch(self, *args):
         os.write(self.signalPipe[1], b'w')        
     def terminalEmulation(self,active , eventQueue):
         debug = False
@@ -105,7 +105,8 @@ class driver(screenDriver):
         try:
             old_attr = termios.tcgetattr(sys.stdin)    
             tty.setraw(0)
-            terminal, p_pid, p_out = self.open_terminal()
+            lines, columns = self.getTerminalSize(0)
+            terminal, p_pid, p_out = self.openTerminal(columns, lines)
             std_out = os.fdopen(sys.stdout.fileno(), "w+b", 0)
         
             while active:
@@ -116,14 +117,14 @@ class driver(screenDriver):
                 # signals
                 if self.signalPipe[0] in r:
                     os.read(self.signalPipe[0], 1)
-                    rows, columns = self.resize_terminal(p_out)
-                    terminal.resize(rows, columns)         
+                    lines, columns = self.resizeTerminal(p_out)
+                    terminal.resize(lines, columns)         
                 # output
                 if p_out in r:
                     if debug:
                         print('pre p_out')                                            
                     try:
-                        msgBytes = self.read_all(p_out.fileno())
+                        msgBytes = self.readAll(p_out.fileno())
                     except (EOFError, OSError):
                         running = False
                         break    
@@ -143,7 +144,7 @@ class driver(screenDriver):
                     if debug:
                         print('pre stdin')       
                     try:
-                        msgBytes = self.read_all(sys.stdin.fileno())
+                        msgBytes = self.readAll(sys.stdin.fileno())
                     except (EOFError, OSError):
                         running = False                    
                         break
