@@ -143,6 +143,7 @@ General:
   [X] place last spoken to clipboard (Easy for contribution)
 - Improvend Headline Seperator and Multible Char Support
   [X]read "13 #" insteed of ###################  
+- autospeak indentation changes (useful for python programming)  
 Braille Support:
 Driver:
 [X] make generic speech driver default
