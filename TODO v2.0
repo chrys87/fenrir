@@ -81,7 +81,7 @@ Driver (screen, input):
   [X] basic reading
   [W] attributes
   [] detect colum/ lines
-  [] resize on colum / line change
+  [X] resize on colum / line change
   [] make shell command configurable (or detect it)
   [] stop emulation properly
   [] make pasteing text work again

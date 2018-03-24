@@ -4,7 +4,7 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-import os, struct, sys, pty, tty, termios, shlex, signal, select, pyte, time
+import os, struct, sys, pty, tty, termios, shlex, signal, select, pyte, time, fcntl
 from fenrirscreenreader.core import debug
 from fenrirscreenreader.core.eventData import fenrirEventType
 from fenrirscreenreader.core.screenDriver import screenDriver
@@ -19,6 +19,18 @@ class Terminal:
         self.stream.attach(self.screen)
     def feed(self, data):
         self.stream.feed(data)
+    def resize(self, rows, columns):
+        self.screen.resize(rows, columns)
+        self.setCursor()
+    def setCursor(self, x = -1, y = -1):
+        xPos = x
+        yPos = y
+        if xPos == -1:
+            xPos = self.screen.cursor.x
+        if yPos == -1:
+            yPos = self.screen.cursor.y
+        self.screen.cursor.x = min(self.screen.cursor.x, self.screen.columns - 1)
+        self.screen.cursor.y = min(self.screen.cursor.y, self.screen.lines - 1)            
     def dump(self):
         cursor = self.screen.cursor
         allAttributes = []
@@ -36,6 +48,8 @@ class driver(screenDriver):
         screenDriver.__init__(self)
         self.bgColorNames = {0: _('black'), 1: _('blue'), 2: _('green'), 3: _('cyan'), 4: _('red'), 5: _('Magenta'), 6: _('brown/yellow'), 7: _('white')}
         self.fgColorNames = {0: _('Black'), 1: _('Blue'), 2: _('Green'), 3: _('Cyan'), 4: _('Red'), 5: _('Magenta'), 6: _('brown/yellow'), 7: _('Light gray'), 8: _('Dark gray'), 9: _('Light blue'), 10: ('Light green'), 11: _('Light cyan'), 12: _('Light red'), 13: _('Light magenta'), 14: _('Light yellow'), 15: _('White')}
+        self.signalPipe = os.pipe()
+        signal.signal(signal.SIGWINCH, self.handle_sigwinch)                
     def initialize(self, environment):
         self.env = environment
         self.env['runtime']['processManager'].addCustomEventThread(self.terminalEmulation)        
@@ -73,6 +87,18 @@ class driver(screenDriver):
         # File-like object for I/O with the child process aka command.
         p_out = os.fdopen(master_fd, "w+b", 0)
         return Terminal(columns, lines, p_out), p_pid, p_out
+    def resize_terminal(self,fd):
+        s = struct.pack('HHHH', 0, 0, 0, 0)
+        s = fcntl.ioctl(0, termios.TIOCGWINSZ, s)
+        fcntl.ioctl(fd, termios.TIOCSWINSZ, s)
+        rows, columns, _, _ = struct.unpack('hhhh', s)
+        return rows, columns
+    def get_terminal_size(self, fd):
+        s = struct.pack('HHHH', 0, 0, 0, 0)
+        rows, columns, _, _ = struct.unpack('HHHH', fcntl.ioctl(fd, termios.TIOCGWINSZ, s))
+        return rows, columns
+    def handle_sigwinch(self, *args):
+        os.write(self.signalPipe[1], b'w')        
     def terminalEmulation(self,active , eventQueue):
         debug = False
         running = True 
@@ -81,11 +107,17 @@ class driver(screenDriver):
             tty.setraw(0)
             terminal, p_pid, p_out = self.open_terminal()
             std_out = os.fdopen(sys.stdout.fileno(), "w+b", 0)
+        
             while active:
-                r, w, x = select.select([sys.stdin, p_out],[],[],1)
+                r, w, x = select.select([sys.stdin, p_out, self.signalPipe[0]],[],[],1)
                 # none
                 if r == []:
                     continue
+                # signals
+                if self.signalPipe[0] in r:
+                    os.read(self.signalPipe[0], 1)
+                    rows, columns = self.resize_terminal(p_out)
+                    terminal.resize(rows, columns)         
                 # output
                 if p_out in r:
                     if debug:
