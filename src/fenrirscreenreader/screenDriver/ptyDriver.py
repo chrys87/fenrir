@@ -22,22 +22,22 @@ class Terminal:
     def dump(self):
         cursor = self.screen.cursor
         lines = []
-        for y in self.screen.dirty:
-            line = self.screen.buffer[y]
-            data = [(char.data, char.reverse, char.fg, char.bg)
-                    for char in (line[x] for x in range(self.screen.columns))]
-            lines.append((data))
+        data = '\n'.join(self.screen.display)
+        #print(len(data))
+        #for y in range(self.screen.lines):
+        #    line = self.screen.buffer[y]
+        #    #data = [(char.data, char.reverse, char.fg, char.bg)
+        #    #        for char in (line[x] for x in range(self.screen.columns))]            
+        #    lines.append((data))
+        #print(self.screen.lines)            
         self.screen.dirty.clear()
-        return {"cursor": (cursor.x, cursor.y), "lines": lines}     
+        return {"cursor": (cursor.x, cursor.y), "lines": data}.copy()
 
 class driver(screenDriver):
     def __init__(self):
         screenDriver.__init__(self)
-        self.ListSessions = None
-        self.charmap = {}
         self.bgColorNames = {0: _('black'), 1: _('blue'), 2: _('green'), 3: _('cyan'), 4: _('red'), 5: _('Magenta'), 6: _('brown/yellow'), 7: _('white')}
         self.fgColorNames = {0: _('Black'), 1: _('Blue'), 2: _('Green'), 3: _('Cyan'), 4: _('Red'), 5: _('Magenta'), 6: _('brown/yellow'), 7: _('Light gray'), 8: _('Dark gray'), 9: _('Light blue'), 10: ('Light green'), 11: _('Light cyan'), 12: _('Light red'), 13: _('Light magenta'), 14: _('Light yellow'), 15: _('White')}
-        self.hichar = None        
     def initialize(self, environment):
         self.env = environment
         self.env['runtime']['processManager'].addCustomEventThread(self.terminalEmulation)        
@@ -65,7 +65,7 @@ class driver(screenDriver):
     def has_more(self,fd):
         r, w, e = select.select([fd], [], [], 0.02)
         return (fd in r)        
-    def open_terminal(self,command="bash", columns=80, lines=24):
+    def open_terminal(self,command="bash", columns=138, lines=37):
         p_pid, master_fd = pty.fork()
         if p_pid == 0:  # Child.
             argv = shlex.split(command)
@@ -106,6 +106,7 @@ class driver(screenDriver):
                     eventQueue.put({"Type":fenrirEventType.ScreenUpdate,
                         "Data":self.createScreenEventData(terminal.dump())
                     })
+                    #_ = self.createScreenEventData(terminal.dump())
                     if debug:
                         print('after p_out')                    
                 # input
@@ -133,27 +134,28 @@ class driver(screenDriver):
     def createScreenEventData(self, content):
         eventData = {
             'bytes': content,
-            'lines': int( 24),
-            'columns': int( 80),
+            'lines': int( 37),
+            'columns': int( 138
+            ),
             'textCursor': 
                 {
                     'x': int( content['cursor'][0]),
                     'y': int( content['cursor'][1])
                 },
             'screen': '1',
-            'text': '',
+            'text': content['lines'],
             'attributes': None,
             'screenUpdateTime': time.time(),            
         }
         #print(content['lines'][0])
         #print('pre',eventData['text'])        
-        for line in content['lines']:
-            #print('line',line)
-            for e in line:
-                #print('loop|',e,'|')
-                eventData['text'] += e[0]
-        print(len(eventData['text']), type(eventData['text']))
-        #print('post',eventData['text'])
+        #for line in content['lines']:
+        #    #print('line',line)
+        #    for e in line:
+        #        #print('loop|',e,'|')
+        #        eventData['text'] += e[0]
+        #print(len(eventData['text']), type(eventData['text']))
+        #print(eventData['text'])
         #eventData['text'] = ''
         return eventData.copy()     
 
