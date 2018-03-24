@@ -81,9 +81,8 @@ class screenManager():
         typing = False
         diffList = []        
         
-        
-        cursorLineStart = self.env['screen']['newCursor']['y'] * self.env['screen']['columns'] + self.env['screen']['newCursor']['y']
-        cursorLineEnd = cursorLineStart  + self.env['screen']['columns']
+        #cursorLineStart = self.env['screen']['newCursor']['y'] * self.env['screen']['columns'] + self.env['screen']['newCursor']['y']
+        #cursorLineEnd = cursorLineStart  + self.env['screen']['columns']
         #print(cursorLineStart,cursorLineEnd)
         #print(3,abs(self.env['screen']['oldCursor']['x'] - self.env['screen']['newCursor']['x']) >= 1)
         #print(4,self.env['screen']['oldCursor']['y'] == self.env['screen']['newCursor']['y'])
