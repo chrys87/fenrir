@@ -81,22 +81,11 @@ class screenManager():
         typing = False
         diffList = []        
         
-        #cursorLineStart = self.env['screen']['newCursor']['y'] * self.env['screen']['columns'] + self.env['screen']['newCursor']['y']
-        #cursorLineEnd = cursorLineStart  + self.env['screen']['columns']
-        #print(cursorLineStart,cursorLineEnd)
-        #print(3,abs(self.env['screen']['oldCursor']['x'] - self.env['screen']['newCursor']['x']) >= 1)
-        #print(4,self.env['screen']['oldCursor']['y'] == self.env['screen']['newCursor']['y'])
-        #print(5,self.env['screen']['newContentText'][:cursorLineStart] == self.env['screen']['oldContentText'][:cursorLineStart])
-        #print(5.2,self.env['screen']['newContentText'][:cursorLineStart],'||||',self.env['screen']['oldContentText'][:cursorLineStart])
-        #print(5.3,len(self.env['screen']['newContentText'][:cursorLineStart]),len(self.env['screen']['oldContentText'][:cursorLineStart]))
-        #print(6,self.env['screen']['newContentText'][cursorLineEnd:] == self.env['screen']['oldContentText'][cursorLineEnd:])
-        
         if (self.env['screen']['oldContentText'] != self.env['screen']['newContentText']):
             if self.env['screen']['newContentText'] != '' and self.env['screen']['oldContentText'] == '':
                 if oldScreenText == '' and\
                   newScreenText != '':
                     self.env['screen']['newDelta'] = newScreenText
-                    #print(1)                    
             else:
                 cursorLineStart = self.env['screen']['newCursor']['y'] * self.env['screen']['columns'] + self.env['screen']['newCursor']['y']
                 cursorLineEnd = cursorLineStart  + self.env['screen']['columns']         
@@ -121,11 +110,9 @@ class screenManager():
                         if tempNewDelta != ''.join(newScreenText[self.env['screen']['oldCursor']['x']:self.env['screen']['newCursor']['x']].rstrip()):
                             diffList = ['+ ' + self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']]]
                     typing = True
-                    #print(2)
                 else:
                     diff = difflib.ndiff( oldScreenText.split('\n'),\
                       newScreenText.split('\n'))
-                    #print(3)
                     diffList = list(diff)
 
                 if self.env['runtime']['settingsManager'].getSetting('general', 'newLinePause') and not typing:
