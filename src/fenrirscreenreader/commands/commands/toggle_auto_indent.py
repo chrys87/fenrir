@@ -13,14 +13,14 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return _('enables or disables automatic reading of idention level changes')        
+        return _('enables or disables automatic reading of indentation level changes')        
     
     def run(self):
         self.env['runtime']['settingsManager'].setSetting('general', 'autoPresentIndent', str(not self.env['runtime']['settingsManager'].getSettingAsBool('general', 'autoPresentIndent')))
         if self.env['runtime']['settingsManager'].getSettingAsBool('general', 'autoPresentIndent'): 
-            self.env['runtime']['outputManager'].presentText(_("autoident enabled"), soundIcon='', interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_("autoindent enabled"), soundIcon='', interrupt=True)
         else:
-            self.env['runtime']['outputManager'].presentText(_("autoident disabled"), soundIcon='', interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_("autoindent disabled"), soundIcon='', interrupt=True)
     
     def setCallback(self, callback):
         pass
