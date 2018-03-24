@@ -131,6 +131,7 @@ commandPath=
 #fenrirFont = the font
 #fenrirFontSize = the fontsize
 attributeFormatString=Background fenrirBGColor,Foreground fenrirFGColor,fenrirUnderline,fenrirBold,fenrirBlink, Font fenrirFont,Fontsize fenrirFontSize
+autoPresentIndent=False
 
 [focus]
 #follow the text cursor
