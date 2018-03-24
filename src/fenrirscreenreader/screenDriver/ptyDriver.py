@@ -145,8 +145,6 @@ class driver(screenDriver):
             'attributes': None,
             'screenUpdateTime': time.time(),            
         }
-        #encText, encAttr =\
-        #  self.autoDecodeVCSA(content[4:], eventData['lines'], eventData['columns'])
         #print(content['lines'][0])
         #print('pre',eventData['text'])        
         for line in content['lines']:
