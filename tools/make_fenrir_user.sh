@@ -89,3 +89,10 @@ mkdir -p /var/log/fenrirscreenreader /etc/fenrirscreenreader
 chown -R fenrirscreenreader:fenrirscreenreader /var/log/fenrirscreenreader
 chmod -R 755 /var/log/fenrirscreenreader
 chown -R root:fenrirscreenreader /etc/fenrirscreenreader
+
+# Fix permissions on tty#s
+for i in /dev/tty[0-9]* ; do
+    chmod 660 "$i"
+done
+
+exit 0
