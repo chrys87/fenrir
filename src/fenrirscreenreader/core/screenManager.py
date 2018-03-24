@@ -56,11 +56,9 @@ class screenManager():
         self.env['screen']['newCursor']['x'] = int( eventData['textCursor']['x'])
         self.env['screen']['newCursor']['y'] = int( eventData['textCursor']['y'])
         self.env['screen']['newTTY'] = eventData['screen']
-        # analyze content
-        #self.updateCharMap(str(self.env['screen']['newTTY'])) 
         self.env['screen']['newContentText'] = eventData['text']
         self.env['screen']['newContentAttrib'] = eventData['attributes']
-
+        # screen change
         if self.env['screen']['newTTY'] != self.env['screen']['oldTTY']:
             self.env['screen']['oldContentBytes'] = b''
             self.env['screen']['oldContentAttrib'] = None

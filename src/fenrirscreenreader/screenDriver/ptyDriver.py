@@ -98,7 +98,7 @@ class driver(screenDriver):
                         running = False
                         break    
                     if debug:
-                        print('after p_out read')                                 
+                        print('after p_out read',msgBytes)                                 
                     terminal.feed(msgBytes)                                
                     os.write(sys.stdout.fileno(), msgBytes)
                     if debug:
@@ -106,8 +106,6 @@ class driver(screenDriver):
                     eventQueue.put({"Type":fenrirEventType.ScreenUpdate,
                         "Data":self.createScreenEventData(terminal.dump())
                     })
-                    #print(terminal.dump())
-                    #self.createScreenEventData(terminal.dump())
                     if debug:
                         print('after p_out')                    
                 # input
@@ -143,7 +141,7 @@ class driver(screenDriver):
                     'x': int( content['cursor'][0]),
                     'y': int( content['cursor'][1])
                 },
-            'screen': 1,
+            'screen': '1',
             'text': '',
             'attributes': None,
             'screenUpdateTime': time.time(),            
@@ -154,7 +152,7 @@ class driver(screenDriver):
         for line in content['lines']:
             for e in line:
                 eventData['text'] += ''.join(e[0])
-        #print(eventData['text'])
+        print(eventData['text'])
         #eventData['text'] = ''
         return eventData.copy()     
 
