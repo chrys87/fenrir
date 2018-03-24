@@ -36,6 +36,9 @@ class command():
         if currLine.isspace():
             self.env['runtime']['outputManager'].presentText(_("blank"), soundIcon='EmptyLine', interrupt=True, flush=False)
         else:
+            if self.env['runtime']['settingsManager'].getSettingAsBool('general', 'autoPresentIndent'):
+                if oldIndent < newIndent: self.env['runtime']['outputManager'].presentText('indented ' + str(oldIndent - newIndent), interrupt=True, flush=False)
+                if oldIndent > newIndent: self.env['runtime']['outputManager'].presentText('outdented ' + str(newIndent - oldIndent), interrupt=True, flush=False)
             self.env['runtime']['outputManager'].presentText(currLine, interrupt=True, flush=False)
  
     def setCallback(self, callback):
