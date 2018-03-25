@@ -31,6 +31,8 @@ class fenrirManager():
         self.modifierInput = False
         self.singleKeyCommand = False
         self.command = ''
+        self.controlMode = True
+        self.switchCtrlModeOnce = 0
     def handleArgs(self):
         args = None
         parser = argparse.ArgumentParser(description="Fenrir Help")
@@ -84,9 +86,21 @@ class fenrirManager():
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')       
         #print('handleInput:',time.time() - startTime)
     def handleByteInput(self, event):
+        if not event['Data']:
+            return
         if event['Data'] == b'':
-            return   
-        self.detectByteCommand(event['Data'])
+            return
+        self.handleControlMode(event['Data'])
+        if self.controlMode and not self.switchCtrlModeOnce == 1 or\
+          not self.controlMode and self.switchCtrlModeOnce == 1:
+            self.detectByteCommand(event['Data'])
+    def handleControlMode(self, escapeSequence): 
+        self.switchCtrlModeOnce -= 1
+        if escapeSequence == b'a':
+            self.controlMode = not self.controlMode
+        if escapeSequence == b'b':
+            self.switchCtrlModeOnce = 2
+        
     def handleExecuteCommand(self, event):        
         if event['Data'] == '':
             return
