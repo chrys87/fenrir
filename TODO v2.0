@@ -88,6 +88,7 @@ Driver (screen, input):
   [W]set flag that it is used in emulation
   [W] handle byte shortcuts
   [W] detect shortcuts
+  [] Load escape sequence shortcuts
   [] write/ consume them (controll it at all)
   [W] create keyboard layout  
   [X] controll modes (vim like mode to not collide with application shortcuts)

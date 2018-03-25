@@ -23,6 +23,7 @@ from fenrirscreenreader.core import applicationManager
 from fenrirscreenreader.core import helpManager
 from fenrirscreenreader.core import headLineManager
 from fenrirscreenreader.core import tableManager
+from fenrirscreenreader.core import byteManager
 from fenrirscreenreader.core import environment 
 from fenrirscreenreader.core import inputData
 from fenrirscreenreader.core.settingsData import settingsData
@@ -33,6 +34,7 @@ class settingsManager():
     def __init__(self):
         self.settings = settingsData
         self.settingArgDict = {}
+        self.shortcutType = 'KEY'
     def initialize(self, environment):
         self.env = environment
     def shutdown(self):
@@ -81,7 +83,26 @@ class settingsManager():
         kbConfig.close()
         # fix bindings 
         self.env['bindings'][str([1, ['KEY_F1', 'KEY_FENRIR']])] = 'TOGGLE_TUTORIAL_MODE'
-
+    def loadByteShortcuts(self, kbConfigPath=fenrirPath + '/../../config/keyboard/pty.conf'):
+        kbConfig = open(kbConfigPath,"r")
+        while(True):
+            line = kbConfig.readline()
+            if not line:
+                break
+            line = line.replace('\n','')
+            if line.replace(" ","") == '':
+                continue            
+            if line.replace(" ","").startswith("#"):
+                continue
+            if line.count("=") != 1:
+                continue
+            Values = line.split('=')
+            shortcut = bytes(Values[0],'UTF-8')
+            commandName = Values[1].upper()
+            self.env['bindings'][shortcut] = commandName   
+            self.env['runtime']['debug'].writeDebugOut("Byte Shortcut: "+ str(shortcut) + ' command:' +commandName ,debug.debugLevel.INFO, onAnyLevel=True)    
+        kbConfig.close()
+        
     def loadSoundIcons(self, soundIconPath):
         siConfig = open(soundIconPath + '/soundicons.conf',"r")
         while(True):
@@ -285,7 +306,6 @@ class settingsManager():
         validConfig = environment['runtime']['settingsManager'].loadSettings(settingsFile)
         if not validConfig:
             return None
-
         if cliArgs.options != '':
             self.parseSettingArgs(cliArgs.options)
         if cliArgs.debug:
@@ -296,23 +316,38 @@ class settingsManager():
         if cliArgs.emulation:
             self.setOptionArgDict('screen', 'driver', 'ptyDriver')  
             self.setOptionArgDict('keyboard', 'driver', 'ptyDriver')  
+            # TODO needs cleanup use dict
+            #self.setOptionArgDict('keyboard', 'keyboardLayout', 'pty')
+            self.setSetting('keyboard', 'keyboardLayout', 'pty')
+            self.shortcutType = 'BYTE'
             self.setOptionArgDict('general', 'debugFile', '/tmp/fenrir-pty.log')              
         self.setFenrirKeys(self.getSetting('general','fenrirKeys'))
         self.setScriptKeys(self.getSetting('general','scriptKeys'))      
 
         environment['runtime']['debug'] = debugManager.debugManager(self.env['runtime']['settingsManager'].getSetting('general','debugFile'))
         environment['runtime']['debug'].initialize(environment)
-        
-        if not os.path.exists(self.getSetting('keyboard','keyboardLayout')):
-            if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout')):  
-                self.setSetting('keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout'))
+
+        if self.shortcutType == 'KEY':
+            if not os.path.exists(self.getSetting('keyboard','keyboardLayout')):
+                if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout')):  
+                    self.setSetting('keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout'))
+                    environment['runtime']['settingsManager'].loadShortcuts(self.getSetting('keyboard','keyboardLayout'))
+                if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout') + '.conf'):  
+                    self.setSetting('keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout') + '.conf')
+                    environment['runtime']['settingsManager'].loadShortcuts(self.getSetting('keyboard','keyboardLayout'))
+            else:
                 environment['runtime']['settingsManager'].loadShortcuts(self.getSetting('keyboard','keyboardLayout'))
-            if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout') + '.conf'):  
-                self.setSetting('keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout') + '.conf')
-                environment['runtime']['settingsManager'].loadShortcuts(self.getSetting('keyboard','keyboardLayout'))
-        else:
-            environment['runtime']['settingsManager'].loadShortcuts(self.getSetting('keyboard','keyboardLayout'))
-        
+        elif self.shortcutType == 'BYTE':
+            if not os.path.exists(self.getSetting('keyboard','keyboardLayout')):
+                if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout')):  
+                    self.setSetting('keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout'))
+                    environment['runtime']['settingsManager'].loadByteShortcuts(self.getSetting('keyboard','keyboardLayout'))
+                if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout') + '.conf'):  
+                    self.setSetting('keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout') + '.conf')
+                    environment['runtime']['settingsManager'].loadByteShortcuts(self.getSetting('keyboard','keyboardLayout'))
+            else:
+                environment['runtime']['settingsManager'].loadByteShortcuts(self.getSetting('keyboard','keyboardLayout'))
+                
         if not os.path.exists(self.getSetting('sound','theme') + '/soundicons.conf'):
             if os.path.exists(soundRoot + self.getSetting('sound','theme')):  
                 self.setSetting('sound', 'theme', soundRoot + self.getSetting('sound','theme'))
@@ -330,9 +365,11 @@ class settingsManager():
                 environment['runtime']['settingsManager'].loadDicts(self.getSetting('general','punctuationProfile'))
         else:
             environment['runtime']['settingsManager'].loadDicts(self.getSetting('general','punctuationProfile'))
+
         
         if fenrirManager:
             environment['runtime']['fenrirManager'] = fenrirManager
+
         environment['runtime']['memoryManager'] = memoryManager.memoryManager()
         environment['runtime']['memoryManager'].initialize(environment) 
         environment['runtime']['eventManager'] = eventManager.eventManager()
@@ -340,9 +377,11 @@ class settingsManager():
         environment['runtime']['processManager'] = processManager.processManager()  
         environment['runtime']['processManager'].initialize(environment)
         environment['runtime']['commandManager'] = commandManager.commandManager()
-        environment['runtime']['commandManager'].initialize(environment)            
+        environment['runtime']['commandManager'].initialize(environment)
         environment['runtime']['inputManager'] = inputManager.inputManager()
-        environment['runtime']['inputManager'].initialize(environment)         
+        environment['runtime']['inputManager'].initialize(environment)      
+        environment['runtime']['byteManager'] = byteManager.byteManager()
+        environment['runtime']['byteManager'].initialize(environment)            
         environment['runtime']['outputManager'] = outputManager.outputManager()
         environment['runtime']['outputManager'].initialize(environment)             
         environment['runtime']['punctuationManager'] = punctuationManager.punctuationManager()

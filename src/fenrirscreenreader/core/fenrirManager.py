@@ -100,7 +100,7 @@ class fenrirManager():
             self.detectByteCommand(event['Data'])
     
     def handleControlMode(self, escapeSequence): 
-        convertedEscapeSequence = self.unifyEscapeSeq(escapeSequence)
+        convertedEscapeSequence = self.environment['runtime']['byteManager'].unifyEscapeSeq(escapeSequence)
         if self.switchCtrlModeOnce > 0:
             self.switchCtrlModeOnce -= 1
         if convertedEscapeSequence == b'^[R':
@@ -162,15 +162,12 @@ class fenrirManager():
     def handleHeartBeat(self, event):
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onHeartBeat',force=True)  
         #self.environment['runtime']['outputManager'].brailleText(flush=False)                        
-    def unifyEscapeSeq(self, escapeSequence):   
-        convertedEscapeSequence = escapeSequence
-        if convertedEscapeSequence[0] == 27:
-            convertedEscapeSequence = b'^[' + convertedEscapeSequence[1:]  
-        return convertedEscapeSequence
+
     def detectByteCommand(self, escapeSequence):
-        convertedEscapeSequence = self.unifyEscapeSeq(escapeSequence)
+        convertedEscapeSequence = self.environment['runtime']['byteManager'].unifyEscapeSeq(escapeSequence)
         command = ''
         try:
+            '''
             commands = {            
             b'^[h':'toggle_tutorial_mode',
             b'^[/': 'shut_up',
@@ -207,7 +204,9 @@ class fenrirManager():
             b'^[X': 'remove_marks',
             b'^[x': 'set_mark',            
             }
-            command = commands[convertedEscapeSequence].upper()
+            '''
+            command = self.environment['runtime']['inputManager'].getCommandForShortcut(convertedEscapeSequence)
+            print(convertedEscapeSequence,command)
             self.environment['runtime']['eventManager'].putToEventQueue(fenrirEventType.ExecuteCommand, command)
         except:
             pass    
@@ -223,7 +222,7 @@ class fenrirManager():
         # key is already released. we need the old one
         if not( self.singleKeyCommand and self.environment['runtime']['inputManager'].noKeyPressed()):
             shortcut = self.environment['runtime']['inputManager'].getCurrShortcut()                
-            self.command = self.environment['runtime']['inputManager'].getCommandForShortcut(shortcut)                    
+            self.command = self.environment['runtime']['inputManager'].getCommandForShortcut(shortcut)
             
         if not self.modifierInput:
             if self.environment['runtime']['inputManager'].isKeyPress():
