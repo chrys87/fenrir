@@ -206,7 +206,6 @@ class fenrirManager():
             }
             '''
             command = self.environment['runtime']['inputManager'].getCommandForShortcut(convertedEscapeSequence)
-            print(convertedEscapeSequence,command)
             self.environment['runtime']['eventManager'].putToEventQueue(fenrirEventType.ExecuteCommand, command)
         except:
             pass    
