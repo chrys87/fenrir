@@ -23,7 +23,7 @@ General (Easy for contribution)
 
 Get information already in watchdogs insteed of mainloop (use eventloop to transport)
   [W] ScreenDriver
-      [] split oldValues := newValues out to helper function
+      [W] split oldValues := newValues out to helper function
       [W] move processing of diff to own thread
       [W] move processing of encoding to own thread      
 
@@ -89,12 +89,12 @@ Driver (screen, input):
   http://sqizit.bartletts.id.au/2011/02/14/pseudo-terminals-in-python/
   https://blog.konpat.me/pythons-pseudo-terminal-pty-examples/
 [W] PTY Input driver
-  [W] new event for byte shortcuts (escape sequences)
+  [X] new event for byte shortcuts (escape sequences)
   [] create driver, set flag that it is used in emulation
-  [] handle byte shortcuts
-  [] detect shortcuts
+  [W] handle byte shortcuts
+  [W] detect shortcuts
   [] write/ consume them (controll it at all)
-  [] create keyboard layout  
+  [W] create keyboard layout  
 [] ATK input driver (don't grab on graphical interface)
   https://git.linux-a11y.org/AIT/pyatspi2/src/master/examples/keypress.py
 
