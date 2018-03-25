@@ -54,9 +54,10 @@ class driver(screenDriver):
         self.bgColorNames = {0: _('black'), 1: _('blue'), 2: _('green'), 3: _('cyan'), 4: _('red'), 5: _('Magenta'), 6: _('brown/yellow'), 7: _('white')}
         self.fgColorNames = {0: _('Black'), 1: _('Blue'), 2: _('Green'), 3: _('Cyan'), 4: _('Red'), 5: _('Magenta'), 6: _('brown/yellow'), 7: _('Light gray'), 8: _('Dark gray'), 9: _('Light blue'), 10: ('Light green'), 11: _('Light cyan'), 12: _('Light red'), 13: _('Light magenta'), 14: _('Light yellow'), 15: _('White')}
         self.signalPipe = os.pipe()
-        signal.signal(signal.SIGWINCH, self.handleSigwinch)                
+        signal.signal(signal.SIGWINCH, self.handleSigwinch)
     def initialize(self, environment):
         self.env = environment
+        self.command = self.env['runtime']['settingsManager'].getSetting('general','shell')
         self.env['runtime']['processManager'].addCustomEventThread(self.terminalEmulation)
     def getCurrScreen(self):
         self.env['screen']['oldTTY'] = '1'
@@ -65,7 +66,47 @@ class driver(screenDriver):
     def injectTextToScreen(self, msgBytes, screen = None):
         #os.write(p_out.fileno(), msgBytes)
         pass
-                
+    def getShell(self):
+        shell = ''
+        try:
+            if self.command != '':
+                shell = self.command
+                if os.path.isfile(shell):                                                        
+                    return shell
+        except:
+            pass 
+        try:
+            shell = os.environ["FENRIRSHELL"]
+            if os.path.isfile(shell):                                        
+                return shell
+        except:
+            pass        
+        try:
+            shell = os.environ["SHELL"]
+            if os.path.isfile(shell):                                        
+                return shell
+        except:
+            pass
+        try:
+            if os.acess('/etc/passwd'):
+                with open('/etc/passwd') as f:
+                    users = f.readlines()
+                    for user in users:
+                        (username, encrypwd, uid, gid, gecos, homedir, shell) = user.split(':')
+                        shell = shell.replace('\n','')
+                        if username == getpass.getuser():
+                            if shell != '':
+                                if os.path.isfile(shell):                            
+                                    return shell
+        except:
+            pass
+        try:
+            if os.path.isfile('/bin/bash'):
+                shell = '/bin/bash'
+                return shell
+        except:
+            pass
+        return '/bin/sh'
     def getSessionInformation(self):
         self.env['screen']['autoIgnoreScreens'] = []
         self.env['general']['prevUser'] = getpass.getuser()
@@ -83,7 +124,7 @@ class driver(screenDriver):
     def hasMore(self,fd):
         r, w, e = select.select([fd], [], [], 0.02)
         return (fd in r)        
-    def openTerminal(self, columns, lines, command="bash"):
+    def openTerminal(self, columns, lines, command):
         p_pid, master_fd = pty.fork()
         if p_pid == 0:  # Child.
             argv = shlex.split(command)
@@ -112,7 +153,8 @@ class driver(screenDriver):
             old_attr = termios.tcgetattr(sys.stdin)    
             tty.setraw(0)
             lines, columns = self.getTerminalSize(0)
-            terminal, p_pid, p_out = self.openTerminal(columns, lines)
+            shell = self.getShell()
+            terminal, p_pid, p_out = self.openTerminal(columns, lines, shell)
             std_out = os.fdopen(sys.stdout.fileno(), "w+b", 0)
         
             while active.value:

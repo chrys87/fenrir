@@ -74,6 +74,7 @@ settingsData = {
   'commandPath': '/usr/share/fenrir/commands',
   'attributeFormatString': 'Background fenrirBGColor,Foreground fenrirFGColor,fenrirUnderline,fenrirBold,fenrirBlink, Font fenrirFont,Fontsize fenrirFontSize',
   'autoPresentIndent': False,
+  'shell': '',
 },
 'focus':{
   'cursor': True,
