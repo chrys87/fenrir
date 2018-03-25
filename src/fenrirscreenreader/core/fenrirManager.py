@@ -90,10 +90,13 @@ class fenrirManager():
             return
         if event['Data'] == b'':
             return
+        
         self.handleControlMode(event['Data'])
+        
         if self.controlMode and not self.switchCtrlModeOnce == 1 or\
           not self.controlMode and self.switchCtrlModeOnce == 1:
             self.detectByteCommand(event['Data'])
+    
     def handleControlMode(self, escapeSequence): 
         if self.switchCtrlModeOnce > 0:
             self.switchCtrlModeOnce -= 1
