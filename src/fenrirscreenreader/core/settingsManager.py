@@ -292,7 +292,11 @@ class settingsManager():
             self.setOptionArgDict('general', 'debugLevel', 3)   
         if cliArgs.print:
             self.setOptionArgDict('general', 'debugLevel', 3)  
-            self.setOptionArgDict('general', 'debugMode', 'PRINT')                                               
+            self.setOptionArgDict('general', 'debugMode', 'PRINT')
+        if cliArgs.emulation:
+            self.setOptionArgDict('screen', 'driver', 'ptyDriver')  
+            self.setOptionArgDict('keyboard', 'driver', 'dummyDriver')  
+            self.setOptionArgDict('general', 'debugFile', '/tmp/fenrir-pty.log')              
         self.setFenrirKeys(self.getSetting('general','fenrirKeys'))
         self.setScriptKeys(self.getSetting('general','scriptKeys'))      
 
