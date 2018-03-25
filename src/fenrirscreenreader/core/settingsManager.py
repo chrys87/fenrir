@@ -286,9 +286,6 @@ class settingsManager():
         if not validConfig:
             return None
 
-        environment['runtime']['debug'] = debugManager.debugManager(self.env['runtime']['settingsManager'].getSetting('general','debugFile'))
-        environment['runtime']['debug'].initialize(environment)
-        
         if cliArgs.options != '':
             self.parseSettingArgs(cliArgs.options)
         if cliArgs.debug:
@@ -298,6 +295,9 @@ class settingsManager():
             self.setOptionArgDict('general', 'debugMode', 'PRINT')                                               
         self.setFenrirKeys(self.getSetting('general','fenrirKeys'))
         self.setScriptKeys(self.getSetting('general','scriptKeys'))      
+
+        environment['runtime']['debug'] = debugManager.debugManager(self.env['runtime']['settingsManager'].getSetting('general','debugFile'))
+        environment['runtime']['debug'].initialize(environment)
         
         if not os.path.exists(self.getSetting('keyboard','keyboardLayout')):
             if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout')):  

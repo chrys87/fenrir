@@ -28,9 +28,11 @@ class debugManager():
             directory = os.path.dirname(self._fileName)
             if not os.path.exists(directory):
                 pathlib.Path(directory).mkdir(parents=True, exist_ok=True)         
-            self._file = open(self._fileName,'a')
-            self._fileOpened = True
-
+            try:
+                self._file = open(self._fileName,'a')
+                self._fileOpened = True
+            except Exception as e:
+                print(e)
     def writeDebugOut(self, text, level = debug.debugLevel.DEACTIVE, onAnyLevel=False):
     
         mode = self.env['runtime']['settingsManager'].getSetting('general','debugMode')
@@ -57,13 +59,18 @@ class debugManager():
             if printMode:
                 print(msg)
             if fileMode:
-                self._file.write(msg + '\n')            
-
+                try:
+                    self._file.write(msg + '\n')            
+                except Exception as e:
+                    print(e)
     def closeDebugFile(self):
         if not self._fileOpened:
             return False
         if self._file != None:
-            self._file.close()
+            try:
+                self._file.close()
+            except Exception as e:
+                print(e)                
         self._fileOpened = False
         return True
 
