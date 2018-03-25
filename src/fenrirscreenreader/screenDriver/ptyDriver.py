@@ -57,7 +57,7 @@ class driver(screenDriver):
         signal.signal(signal.SIGWINCH, self.handleSigwinch)                
     def initialize(self, environment):
         self.env = environment
-        self.env['runtime']['processManager'].addCustomEventThread(self.terminalEmulation)        
+        self.env['runtime']['processManager'].addCustomEventThread(self.terminalEmulation)
     def getCurrScreen(self):
         self.env['screen']['oldTTY'] = '1'
         self.env['screen']['newTTY'] = '1'

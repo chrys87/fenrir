@@ -6,7 +6,7 @@
 
 from fenrirscreenreader.core import debug
 from fenrirscreenreader.core.eventData import fenrirEventType
-import time 
+import time, signal
 from threading import Thread
 from multiprocessing import Process
 
@@ -25,8 +25,13 @@ class processManager():
         for proc in self._Processes:
             try:
                 proc.terminate()
-            except Exception as e:
-                print(e)            
+            except KeyboardInterrupt:
+                pass           
+            except:
+                pass
+            proc.join()                
+        for t in self._Threads:
+            t.join()         
     def heartBeatTimer(self, active):
         try:
             time.sleep(0.5)
@@ -35,6 +40,7 @@ class processManager():
         return time.time()                          
     def addCustomEventThread(self, function, pargs = None, multiprocess = False, runOnce = False):      
         eventQueue = self.env['runtime']['eventManager'].getEventQueue()
+        original_sigint_handler = signal.signal(signal.SIGINT, signal.SIG_IGN)                 
         if multiprocess:        
             t = Process(target=self.customEventWorkerThread, args=(eventQueue, function, pargs, runOnce))
             self._Processes.append(t)                        
@@ -42,8 +48,9 @@ class processManager():
             t = Thread(target=self.customEventWorkerThread, args=(eventQueue, function, pargs, runOnce))        
             self._Threads.append(t)                                
         t.start()
-
+        signal.signal(signal.SIGINT, original_sigint_handler)             
     def addSimpleEventThread(self, event, function, pargs = None, multiprocess = False, runOnce = False):
+        original_sigint_handler = signal.signal(signal.SIGINT, signal.SIG_IGN)             
         if multiprocess:
             t = Process(target=self.simpleEventWorkerThread, args=(event, function, pargs, runOnce))
             self._Processes.append(t)            
@@ -51,7 +58,7 @@ class processManager():
             t = Thread(target=self.simpleEventWorkerThread, args=(event, function, pargs, runOnce))                    
             self._Threads.append(t)                        
         t.start()
-
+        signal.signal(signal.SIGINT, original_sigint_handler)             
     def customEventWorkerThread(self, eventQueue, function, pargs = None, runOnce = False):      
         #if not isinstance(eventQueue, Queue):
         #    return

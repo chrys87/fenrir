@@ -34,7 +34,7 @@ class driver(screenDriver):
         self.hichar = None        
     def initialize(self, environment):
         self.env = environment
-        self.env['runtime']['processManager'].addCustomEventThread(self.updateWatchdog)        
+        self.env['runtime']['processManager'].addCustomEventThread(self.updateWatchdog, multiprocess=True)        
     def getCurrScreen(self):
         self.env['screen']['oldTTY'] = self.env['screen']['newTTY']
         try:    

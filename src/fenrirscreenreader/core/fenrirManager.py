@@ -19,7 +19,7 @@ class fenrirManager():
         if not cliArgs:
             return        
         try:
-            self.environment = settingsManager.settingsManager().initFenrirConfig(cliArgs, self)
+            self.environment = settingsManager.settingsManager().initFenrirConfig(cliArgs, self)            
             if not self.environment:
                 raise RuntimeError('Cannot Initialize. Maybe the configfile is not available or not parseable')
         except RuntimeError:
