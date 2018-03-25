@@ -106,7 +106,7 @@ class fenrirManager():
             if self.controlMode:
                 self.environment['runtime']['outputManager'].presentText(_('Sticky Mode On'), soundIcon='Accept', interrupt=True, flush=True)
             else:
-                self.environment['runtime']['outputManager'].presentText(_('Sticky Mode On'), soundIcon='Accept', interrupt=True, flush=True)
+                self.environment['runtime']['outputManager'].presentText(_('Sticky Mode On'), soundIcon='Cancel', interrupt=True, flush=True)
         if escapeSequence in [b'\x1b:', b'^[:']:
             self.switchCtrlModeOnce = 2
             self.environment['runtime']['outputManager'].presentText(_('bypass'), soundIcon='PTYBypass', interrupt=True, flush=True)
