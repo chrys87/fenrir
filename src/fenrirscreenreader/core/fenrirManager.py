@@ -97,9 +97,10 @@ class fenrirManager():
     def handleControlMode(self, escapeSequence): 
         if self.switchCtrlModeOnce > 1:
             self.switchCtrlModeOnce -= 1
-        if escapeSequence == b'\x1bR':
+        if escapeSequence in [b'\x1bR', b'^[R']:
             self.controlMode = not self.controlMode
-        if escapeSequence == b'\x1b:':
+            self.switchCtrlModeOnce = 0
+        if escapeSequence in [b'\x1b:', b'^[:']:
             self.switchCtrlModeOnce = 2
         
     def handleExecuteCommand(self, event):        
