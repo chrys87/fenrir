@@ -84,7 +84,8 @@ Driver (screen, input):
   https://blog.konpat.me/pythons-pseudo-terminal-pty-examples/
 [W] PTY Input driver
   [X] new event for byte shortcuts (escape sequences)
-  [] create driver, set flag that it is used in emulation
+  [X] create driver
+  [W]set flag that it is used in emulation
   [W] handle byte shortcuts
   [W] detect shortcuts
   [] write/ consume them (controll it at all)
