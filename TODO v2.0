@@ -21,12 +21,6 @@ General (Easy for contribution)
   [w] make fenrir runnable without root permissions
   [] make fenrir runable without settingsfile. fallback to defaults
 
-Get information already in watchdogs insteed of mainloop (use eventloop to transport)
-  [W] ScreenDriver
-      [W] split oldValues := newValues out to helper function
-      [W] move processing of diff to own thread
-      [W] move processing of encoding to own thread      
-
 Imporove attribute handling
   [] improve attributes_curr_char (Easy for contribution)
   [] add an attribute sound (Easy for contribution)
