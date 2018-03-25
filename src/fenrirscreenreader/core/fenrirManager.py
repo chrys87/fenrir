@@ -99,16 +99,17 @@ class fenrirManager():
             self.detectByteCommand(event['Data'])
     
     def handleControlMode(self, escapeSequence): 
+        convertedEscapeSequence = self.unifyEscapeSeq(escapeSequence)
         if self.switchCtrlModeOnce > 0:
             self.switchCtrlModeOnce -= 1
-        if escapeSequence in [b'\x1bR', b'^[R']:
+        if convertedEscapeSequence == b'^[R':
             self.controlMode = not self.controlMode
             self.switchCtrlModeOnce = 0
             if self.controlMode:
                 self.environment['runtime']['outputManager'].presentText(_('Sticky Mode On'), soundIcon='Accept', interrupt=True, flush=True)
             else:
                 self.environment['runtime']['outputManager'].presentText(_('Sticky Mode On'), soundIcon='Cancel', interrupt=True, flush=True)
-        if escapeSequence in [b'\x1b:', b'^[:']:
+        if convertedEscapeSequence == b'^[:':
             self.switchCtrlModeOnce = 2
             self.environment['runtime']['outputManager'].presentText(_('bypass'), soundIcon='PTYBypass', interrupt=True, flush=True)
         
@@ -160,46 +161,52 @@ class fenrirManager():
     def handleHeartBeat(self, event):
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onHeartBeat',force=True)  
         #self.environment['runtime']['outputManager'].brailleText(flush=False)                        
+    def unifyEscapeSeq(self, escapeSequence):   
+        convertedEscapeSequence = escapeSequence
+        if convertedEscapeSequence[0] == 27:
+            convertedEscapeSequence = b'^[' + convertedEscapeSequence[1:]  
+        return convertedEscapeSequence
     def detectByteCommand(self, escapeSequence):
+        convertedEscapeSequence = self.unifyEscapeSeq(escapeSequence)
         command = ''
         try:
             commands = {            
-            b'\x1bh':'toggle_tutorial_mode',
-            b'\x1b/': 'shut_up',
-            b'\x1bO': 'review_bottom',
-            b'\x1bU': 'review_top',
-            b'\x1bi': 'review_curr_line',
-            b'\x1bu': 'review_prev_line',
-            b'\x1bo': 'review_next_line',
-            b'\x1bJ': 'review_line_begin',
-            b'\x1bL': 'review_line_end',
-            b'\x1bj': 'review_line_first_char',
-            b'\x1bL': 'review_line_last_char',
-            b'\x1bk': 'review_curr_word',
-            b'\x1bj': 'review_prev_word',
-            b'\x1bl': 'review_next_word',
-            b'\x1b,': 'review_curr_char',
-            b'\x1bm': 'review_prev_char',
-            b'\x1b.': 'review_next_char',
-            b'\x1b<': 'curr_char_phonetic',
-            b'\x1bM': 'prev_char_phonetic',
-            b'\x1b>': 'next_char_phonetic',
-            b'\x1bOR': 'toggle_sound',
-            b'\x1bOS': 'toggle_speech',
-            b'\x1b8': 'toggle_highlight_tracking',
-            b'\x1bq': 'quit_fenrir',
-            b'\x1bt': 'time',
-            b'\x1by': 'date',
-            b'\x1b[5~': 'prev_clipboard',
-            b'\x1b[6~': 'next_clipboard',
-            b'\x1bC': 'curr_clipboard',
-            b'\x1bc': 'copy_marked_to_clipboard',
-            b'\x1bv': 'paste_clipboard',
-            b'\x1b[15~': 'import_clipboard_from_file',
-            b'\x1bX': 'remove_marks',
-            b'\x1bx': 'set_mark',            
+            b'^[h':'toggle_tutorial_mode',
+            b'^[/': 'shut_up',
+            b'^[O': 'review_bottom',
+            b'^[U': 'review_top',
+            b'^[i': 'review_curr_line',
+            b'^[u': 'review_prev_line',
+            b'^[o': 'review_next_line',
+            b'^[J': 'review_line_begin',
+            b'^[L': 'review_line_end',
+            b'^[j': 'review_line_first_char',
+            b'^[L': 'review_line_last_char',
+            b'^[k': 'review_curr_word',
+            b'^[j': 'review_prev_word',
+            b'^[l': 'review_next_word',
+            b'^[,': 'review_curr_char',
+            b'^[m': 'review_prev_char',
+            b'^[.': 'review_next_char',
+            b'^[<': 'curr_char_phonetic',
+            b'^[M': 'prev_char_phonetic',
+            b'^[>': 'next_char_phonetic',
+            b'^[OR': 'toggle_sound',
+            b'^[OS': 'toggle_speech',
+            b'^[8': 'toggle_highlight_tracking',
+            b'^[q': 'quit_fenrir',
+            b'^[t': 'time',
+            b'^[y': 'date',
+            b'^[[5~': 'prev_clipboard',
+            b'^[[6~': 'next_clipboard',
+            b'^[C': 'curr_clipboard',
+            b'^[c': 'copy_marked_to_clipboard',
+            b'^[v': 'paste_clipboard',
+            b'^[[15~': 'import_clipboard_from_file',
+            b'^[X': 'remove_marks',
+            b'^[x': 'set_mark',            
             }
-            command = commands[escapeSequence].upper()
+            command = commands[convertedEscapeSequence].upper()
             self.environment['runtime']['eventManager'].putToEventQueue(fenrirEventType.ExecuteCommand, command)
         except:
             pass    
