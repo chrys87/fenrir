@@ -103,8 +103,13 @@ class fenrirManager():
         if escapeSequence in [b'\x1bR', b'^[R']:
             self.controlMode = not self.controlMode
             self.switchCtrlModeOnce = 0
+            if self.controlMode:
+                self.environment['runtime']['outputManager'].presentText(_('Sticky Mode On'), soundIcon='Accept', interrupt=True, flush=True)
+            else:
+                self.environment['runtime']['outputManager'].presentText(_('Sticky Mode On'), soundIcon='Accept', interrupt=True, flush=True)
         if escapeSequence in [b'\x1b:', b'^[:']:
             self.switchCtrlModeOnce = 2
+            self.environment['runtime']['outputManager'].presentText(_('bypass'), soundIcon='PTYBypass', interrupt=True, flush=True)
         
     def handleExecuteCommand(self, event):        
         if event['Data'] == '':
