@@ -4,7 +4,7 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-import os, struct, sys, pty, tty, termios, shlex, signal, select, pyte, time, fcntl
+import os, struct, sys, pty, tty, termios, shlex, signal, select, pyte, time, fcntl ,getpass
 from fenrirscreenreader.core import debug
 from fenrirscreenreader.core.eventData import fenrirEventType
 from fenrirscreenreader.core.screenDriver import screenDriver
@@ -62,13 +62,14 @@ class driver(screenDriver):
         self.env['screen']['oldTTY'] = '1'
         self.env['screen']['newTTY'] = '1'
  
-    def injectTextToScreen(self, text, screen = None):
+    def injectTextToScreen(self, msgBytes, screen = None):
+        #os.write(p_out.fileno(), msgBytes)
         pass
                 
     def getSessionInformation(self):
         self.env['screen']['autoIgnoreScreens'] = []
-        self.env['general']['prevUser'] = 'chrys'
-        self.env['general']['currUser'] = 'chrys'
+        self.env['general']['prevUser'] = getpass.getuser()
+        self.env['general']['currUser'] = getpass.getuser()
     def readAll(self,fd):
         bytes = os.read(fd, 65536)
         if bytes == b'':
@@ -114,7 +115,7 @@ class driver(screenDriver):
             terminal, p_pid, p_out = self.openTerminal(columns, lines)
             std_out = os.fdopen(sys.stdout.fileno(), "w+b", 0)
         
-            while active:
+            while active.value:
                 r, w, x = select.select([sys.stdin, p_out, self.signalPipe[0]],[],[],1)
                 # none
                 if r == []:

@@ -77,7 +77,7 @@ Driver (screen, input):
   [X] detect colum/ lines
   [X] resize on colum / line change
   [W] make shell command configurable (or detect it)
-  [W] stop emulation properly
+  [X] stop emulation properly
   [] make pasteing text work again
   https://docs.python.org/3.2/library/pty.html
   http://sqizit.bartletts.id.au/2011/02/14/pseudo-terminals-in-python/
