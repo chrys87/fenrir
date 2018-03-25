@@ -95,6 +95,7 @@ Driver (screen, input):
   [W] detect shortcuts
   [] write/ consume them (controll it at all)
   [W] create keyboard layout  
+  [X] controll modes (vim like mode to not collide with application shortcuts)
 [] ATK input driver (don't grab on graphical interface)
   https://git.linux-a11y.org/AIT/pyatspi2/src/master/examples/keypress.py
 
