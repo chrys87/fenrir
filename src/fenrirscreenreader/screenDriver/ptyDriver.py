@@ -78,11 +78,13 @@ class driver(screenDriver):
         self.env['screen']['autoIgnoreScreens'] = []
         self.env['general']['prevUser'] = getpass.getuser()
         self.env['general']['currUser'] = getpass.getuser()
-    def readAll(self,fd):
+    def readAll(self,fd, timeout = 9999999):
         bytes = os.read(fd, 65536)
         if bytes == b'':
             raise EOFError
-        while screen_utils.hasMore(fd,0.0002):
+        starttime = time.time()
+        # respect timeout but wait a little bit of time to see if something more is here
+        while screen_utils.hasMore(fd,0.000001) and (time.time() - starttime) >= timeout:
             data = os.read(fd, 65536)
             if data == b'':
                 raise EOFError
@@ -151,7 +153,7 @@ class driver(screenDriver):
                     if debug:
                         print('pre p_out')                                            
                     try:
-                        msgBytes = self.readAll(self.p_out.fileno())
+                        msgBytes = self.readAll(self.p_out.fileno(), timeout=0.2)
                     except (EOFError, OSError):
                         active.value = False
                         break    
