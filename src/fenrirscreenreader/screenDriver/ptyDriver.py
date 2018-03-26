@@ -57,9 +57,11 @@ class driver(screenDriver):
         self.fgColorNames = {0: _('Black'), 1: _('Blue'), 2: _('Green'), 3: _('Cyan'), 4: _('Red'), 5: _('Magenta'), 6: _('brown/yellow'), 7: _('Light gray'), 8: _('Dark gray'), 9: _('Light blue'), 10: ('Light green'), 11: _('Light cyan'), 12: _('Light red'), 13: _('Light magenta'), 14: _('Light yellow'), 15: _('White')}
         self.signalPipe = os.pipe()
         self.p_out = None
+        self.
         signal.signal(signal.SIGWINCH, self.handleSigwinch)
     def initialize(self, environment):
         self.env = environment
+        self.ShortcutType = self.env['runtime']['inputManager'].getShortcutType()
         self.command = self.env['runtime']['settingsManager'].getSetting('general','shell')
         self.env['runtime']['processManager'].addCustomEventThread(self.terminalEmulation)
     def getCurrScreen(self):
@@ -84,7 +86,7 @@ class driver(screenDriver):
             raise EOFError
         starttime = time.time()
         # respect timeout but wait a little bit of time to see if something more is here
-        while screen_utils.hasMore(fd,0.000001) and (time.time() - starttime) >= timeout:
+        while screen_utils.hasMore(fd,0.0000001) and (time.time() - starttime) >= timeout:
             data = os.read(fd, 65536)
             if data == b'':
                 raise EOFError
@@ -136,13 +138,18 @@ class driver(screenDriver):
                 if sys.stdin in r:
                     try:
                         msgBytes = self.readAll(sys.stdin.fileno())
-                        eventQueue.put({"Type":fenrirEventType.ByteInput,
-                            "Data":msgBytes
-                        })
                     except (EOFError, OSError):
                         active.value = False                    
-                        break
-                    #self.injectTextToScreen(msgBytes)
+                        break                  
+                    if self.ShortcutType == 'KEY':
+                        try:
+                            self.injectTextToScreen(msgBytes)
+                        except:
+                            active.value = False                    
+                            break
+                    else:    
+                        eventQueue.put({"Type":fenrirEventType.ByteInput,
+                            "Data":msgBytes })                     
                 # output
                 if self.p_out in r:
                     try:
