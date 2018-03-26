@@ -41,7 +41,6 @@ class fenrirManager():
         parser.add_argument('-d', '--debug',  action='store_true', help='Turns on Debugmode') 
         parser.add_argument('-p', '--print',  action='store_true', help='Print debug messages on screen')                                         
         parser.add_argument('-e', '--emulation',  action='store_true', help='Use PTY emulation')                                                 
-        parser.add_argument('-f', '--femulation', metavar='SHELL', default='', help='Use PTY emulation')        
         try:
             args = parser.parse_args()
         except Exception as e:
