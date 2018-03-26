@@ -4,13 +4,12 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-import os, sys, signal, time
+import signal, time, argparse
 
 from fenrirscreenreader.core import i18n
 from fenrirscreenreader.core import settingsManager
 from fenrirscreenreader.core import debug
 from fenrirscreenreader.core.eventData import fenrirEventType
-import argparse
 
 class fenrirManager():
     def __init__(self):
