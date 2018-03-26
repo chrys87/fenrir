@@ -222,7 +222,7 @@ class settingsManager():
             #self.setOptionArgDict('keyboard', 'keyboardLayout', 'pty')
             self.setSetting('keyboard', 'keyboardLayout', 'pty')
             self.setOptionArgDict('general', 'debugFile', '/tmp/fenrir-pty.log')
-        if cliArgs.evemulation:            
+        if cliArgs.emulated-evdev:            
             self.setOptionArgDict('screen', 'driver', 'ptyDriver')  
             self.setOptionArgDict('keyboard', 'driver', 'evdevDriver')  
 
