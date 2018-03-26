@@ -83,14 +83,14 @@ class fenrirManager():
             self.singleKeyCommand = False  
         if self.environment['input']['keyForeward'] > 0:
             self.environment['input']['keyForeward'] -=1
-        self.environment['runtime']['commandManager'].executeDefaultTrigger('onInput')       
+        self.environment['runtime']['commandManager'].executeDefaultTrigger('onKeyInput')       
         #print('handleInput:',time.time() - startTime)
     def handleByteInput(self, event):
         if not event['Data']:
             return
         if event['Data'] == b'':
             return
-            
+        self.environment['runtime']['commandManager'].executeDefaultTrigger('onByteInput')                   
         isCommand = False
         if self.controlMode and not self.switchCtrlModeOnce == 1 or\
           not self.controlMode and self.switchCtrlModeOnce == 1:
