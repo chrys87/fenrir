@@ -91,16 +91,24 @@ class fenrirManager():
         if event['Data'] == b'':
             return
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onByteInput')                   
-        isCommand = False
+       
+        if self.switchCtrlModeOnce > 0:
+            self.switchCtrlModeOnce -= 1       
+       
+        isControlMode = False
+        if self.controlMode and not self.switchCtrlModeOnce == 1 or\
+          not self.controlMode:
+            isControlMode = self.handleControlMode(event['Data'])
+        
+        isCommand = False                
         if self.controlMode and not self.switchCtrlModeOnce == 1 or\
           not self.controlMode and self.switchCtrlModeOnce == 1:
             isCommand = self.detectByteCommand(event['Data'])
-        if not isCommand:
+        if not (isCommand or isControlMode):
             self.environment['runtime']['screenManager'].injectTextToScreen(event['Data'])
     def handleControlMode(self, escapeSequence): 
         convertedEscapeSequence = self.environment['runtime']['byteManager'].unifyEscapeSeq(escapeSequence)
-        if self.switchCtrlModeOnce > 0:
-            self.switchCtrlModeOnce -= 1
+        
         if convertedEscapeSequence == b'^[R':
             self.controlMode = not self.controlMode
             self.switchCtrlModeOnce = 0
@@ -165,8 +173,7 @@ class fenrirManager():
 
     def detectByteCommand(self, escapeSequence):
         convertedEscapeSequence = self.environment['runtime']['byteManager'].unifyEscapeSeq(escapeSequence)
-        if self.handleControlMode(convertedEscapeSequence):
-            return True
+
         self.command = self.environment['runtime']['inputManager'].getCommandForShortcut(convertedEscapeSequence)
         self.environment['runtime']['eventManager'].putToEventQueue(fenrirEventType.ExecuteCommand, self.command)
         if self.command != '':
