@@ -39,16 +39,29 @@ def createScreenEventData(content):
 def hasMore(fd, timetout=0.2):
     r, _, _ = select.select([fd], [], [], timetout)
     return (fd in r) 
+def isValidShell(shell = ''):
+    if not isinstance(shell, str):
+        return False
+    if shell == '':
+        return False
+    try:
+        if not os.path.isfile(shell):
+            return False
+        if not os.access(shell,os.X_OK)
+            return False
+    except:
+            return False
+    return True
 def getShell():
     try:
         shell = os.environ["FENRIRSHELL"]
-        if os.path.isfile(shell):                                        
+        if isValidShell(shell):                                        
             return shell
     except:
         pass        
     try:
         shell = os.environ["SHELL"]
-        if os.path.isfile(shell):                                        
+        if isValidShell(shell):
             return shell
     except:
         pass
@@ -60,17 +73,12 @@ def getShell():
                     (username, encrypwd, uid, gid, gecos, homedir, shell) = user.split(':')
                     shell = shell.replace('\n','')
                     if username == getpass.getuser():
-                        if shell != '':
-                            if os.path.isfile(shell):                            
-                                return shell
+                        if isValidShell(shell):                            
+                            return shell
     except:
         pass
-    try:
-        if os.path.isfile('/bin/bash'):
-            shell = '/bin/bash'
-            return shell
-    except:
-        pass
+    if isValidShell('/bin/bash'):
+        return '/bin/bash'
     return '/bin/sh'
 def trackHighlights(oldAttr, newAttr, text, lenght):
     result = ''
