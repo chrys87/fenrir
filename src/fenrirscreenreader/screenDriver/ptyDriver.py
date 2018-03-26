@@ -113,7 +113,6 @@ class driver(screenDriver):
     def handleSigwinch(self, *args):
         os.write(self.signalPipe[1], b'w')        
     def terminalEmulation(self,active , eventQueue):
-        debug = False
         try:
             old_attr = termios.tcgetattr(sys.stdin)    
             tty.setraw(0)
@@ -135,8 +134,6 @@ class driver(screenDriver):
                     terminal.resize(lines, columns)   
                 # input
                 if sys.stdin in r:
-                    if debug:
-                        print('pre stdin')       
                     try:
                         msgBytes = self.readAll(sys.stdin.fileno())
                         eventQueue.put({"Type":fenrirEventType.ByteInput,
@@ -146,28 +143,18 @@ class driver(screenDriver):
                         active.value = False                    
                         break
                     #self.injectTextToScreen(msgBytes)
-                    if debug:
-                        print('after stdin')                              
                 # output
                 if self.p_out in r:
-                    if debug:
-                        print('pre p_out')                                            
                     try:
                         msgBytes = self.readAll(self.p_out.fileno(), timeout=0.2)
                     except (EOFError, OSError):
                         active.value = False
                         break    
-                    if debug:
-                        print('after p_out read',msgBytes)                                 
                     terminal.feed(msgBytes)                                
                     os.write(sys.stdout.fileno(), msgBytes)
-                    if debug:
-                        print('after p_out write')                             
                     eventQueue.put({"Type":fenrirEventType.ScreenUpdate,
                         "Data":screen_utils.createScreenEventData(terminal.dump())
                     })
-                    if debug:
-                        print('after p_out')                                
         except Exception as e:  # Process died?
             print(e)
             active.value = False
