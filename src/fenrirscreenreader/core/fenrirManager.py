@@ -163,11 +163,8 @@ class fenrirManager():
 
     def detectByteCommand(self, escapeSequence):
         convertedEscapeSequence = self.environment['runtime']['byteManager'].unifyEscapeSeq(escapeSequence)
-        try:
-            command = self.environment['runtime']['inputManager'].getCommandForShortcut(convertedEscapeSequence)
-            self.environment['runtime']['eventManager'].putToEventQueue(fenrirEventType.ExecuteCommand, command)
-        except:
-            pass 
+        command = self.environment['runtime']['inputManager'].getCommandForShortcut(convertedEscapeSequence)
+        self.environment['runtime']['eventManager'].putToEventQueue(fenrirEventType.ExecuteCommand, command)
         if self.command != '':
             self.command = ''
     def detectCommand(self):    
