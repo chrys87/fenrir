@@ -8,6 +8,7 @@ import os, struct, sys, pty, tty, termios, shlex, signal, select, pyte, time, fc
 from fenrirscreenreader.core import debug
 from fenrirscreenreader.core.eventData import fenrirEventType
 from fenrirscreenreader.core.screenDriver import screenDriver
+from fenrirscreenreader.utils import screen_utils
 
 class Terminal:
     def __init__(self, columns, lines, p_in):
@@ -45,7 +46,8 @@ class Terminal:
             'lines': self.screen.lines,
             'columns': self.screen.columns,
             "text": text, 
-            'attributes': allAttributes
+            'attributes': allAttributes,
+            'screen': '1'            
         }.copy()
 
 class driver(screenDriver):
@@ -66,47 +68,7 @@ class driver(screenDriver):
     def injectTextToScreen(self, msgBytes, screen = None):
         #os.write(p_out.fileno(), msgBytes)
         pass
-    def getShell(self):
-        shell = ''
-        try:
-            if self.command != '':
-                shell = self.command
-                if os.path.isfile(shell):                                                        
-                    return shell
-        except:
-            pass 
-        try:
-            shell = os.environ["FENRIRSHELL"]
-            if os.path.isfile(shell):                                        
-                return shell
-        except:
-            pass        
-        try:
-            shell = os.environ["SHELL"]
-            if os.path.isfile(shell):                                        
-                return shell
-        except:
-            pass
-        try:
-            if os.acess('/etc/passwd'):
-                with open('/etc/passwd') as f:
-                    users = f.readlines()
-                    for user in users:
-                        (username, encrypwd, uid, gid, gecos, homedir, shell) = user.split(':')
-                        shell = shell.replace('\n','')
-                        if username == getpass.getuser():
-                            if shell != '':
-                                if os.path.isfile(shell):                            
-                                    return shell
-        except:
-            pass
-        try:
-            if os.path.isfile('/bin/bash'):
-                shell = '/bin/bash'
-                return shell
-        except:
-            pass
-        return '/bin/sh'
+
     def getSessionInformation(self):
         self.env['screen']['autoIgnoreScreens'] = []
         self.env['general']['prevUser'] = getpass.getuser()
@@ -115,15 +77,12 @@ class driver(screenDriver):
         bytes = os.read(fd, 65536)
         if bytes == b'':
             raise EOFError
-        while self.hasMore(fd):
+        while screen_utils.hasMore(fd,0.0002):
             data = os.read(fd, 65536)
             if data == b'':
                 raise EOFError
             bytes += data
-        return bytes
-    def hasMore(self,fd):
-        r, w, e = select.select([fd], [], [], 0.02)
-        return (fd in r)        
+        return bytes      
     def openTerminal(self, columns, lines, command):
         p_pid, master_fd = pty.fork()
         if p_pid == 0:  # Child.
@@ -148,17 +107,17 @@ class driver(screenDriver):
         os.write(self.signalPipe[1], b'w')        
     def terminalEmulation(self,active , eventQueue):
         debug = False
-        running = True 
         try:
             old_attr = termios.tcgetattr(sys.stdin)    
             tty.setraw(0)
             lines, columns = self.getTerminalSize(0)
-            shell = self.getShell()
-            terminal, p_pid, p_out = self.openTerminal(columns, lines, shell)
-            std_out = os.fdopen(sys.stdout.fileno(), "w+b", 0)
-        
+            if self.command == '':
+                self.command = screen_utils.getShell()
+            terminal, p_pid, p_out = self.openTerminal(columns, lines, self.command)
+            lines, columns = self.resizeTerminal(p_out)
+            terminal.resize(lines, columns)            
             while active.value:
-                r, w, x = select.select([sys.stdin, p_out, self.signalPipe[0]],[],[],1)
+                r, _, _ = select.select([sys.stdin, p_out, self.signalPipe[0]],[],[],1)
                 # none
                 if r == []:
                     continue
@@ -174,7 +133,7 @@ class driver(screenDriver):
                     try:
                         msgBytes = self.readAll(p_out.fileno())
                     except (EOFError, OSError):
-                        running = False
+                        active.value = False
                         break    
                     if debug:
                         print('after p_out read',msgBytes)                                 
@@ -183,7 +142,7 @@ class driver(screenDriver):
                     if debug:
                         print('after p_out write')                             
                     eventQueue.put({"Type":fenrirEventType.ScreenUpdate,
-                        "Data":self.createScreenEventData(terminal.dump())
+                        "Data":screen_utils.createScreenEventData(terminal.dump())
                     })
                     if debug:
                         print('after p_out')                    
@@ -197,37 +156,20 @@ class driver(screenDriver):
                             "Data":msgBytes
                         })
                     except (EOFError, OSError):
-                        running = False                    
+                        active.value = False                    
                         break
                     os.write(p_out.fileno(), msgBytes)
                     if debug:
                         print('after stdin')                
         except Exception as e:  # Process died?
             print(e)
-            running = False
+            active.value = False
         finally:
             os.kill(p_pid, signal.SIGTERM)
             p_out.close()    
             termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_attr)
             eventQueue.put({"Type":fenrirEventType.StopMainLoop,"Data":None}) 
             sys.exit(0)
-
-    def createScreenEventData(self, content):
-        eventData = {
-            'bytes': content,
-            'lines': content['lines'],
-            'columns': content['columns'],
-            'textCursor': 
-                {
-                    'x': int( content['cursor'][0]),
-                    'y': int( content['cursor'][1])
-                },
-            'screen': '1',
-            'text': content['text'],
-            'attributes': content['attributes'],
-            'screenUpdateTime': time.time(),            
-        }
-        return eventData.copy()     
 
     def getFenrirBGColor(self, attribute):
         try:

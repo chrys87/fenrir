@@ -6,11 +6,7 @@
 
 from fenrirscreenreader.core import debug
 from collections import Counter
-import string
-from select import select
-from select import epoll
-import select
-import re
+import getpass, time, re, string, select, os
 
 def removeNonprintable(text):
     # Get the difference of all ASCII characters from the set of printable characters
@@ -23,17 +19,59 @@ def insertNewlines(string, every=64):
 
 def splitEvery(toSplit, every=64):
     return list(toSplit[i:i+every] for i in range(0, len(toSplit), every))
+def createScreenEventData(content):
+    eventData = {
+        'bytes': content,
+        'lines': content['lines'],
+        'columns': content['columns'],
+        'textCursor': 
+            {
+                'x': int( content['cursor'][0]),
+                'y': int( content['cursor'][1])
+            },
+        'screen': content['screen'],
+        'text': content['text'],
+        'attributes': content['attributes'],
+        'screenUpdateTime': time.time(),            
+    }
+    return eventData.copy() 
 
-def hasMoreRead(fd):
-    r, w, e = select([fd], [], [], 0)
-    return (fd in r)
-
-def hasMorePollPri(fd):
-    p = epoll()
-    p.register(fd, select.POLLPRI | select.POLLERR)
-    r = p.poll(0)
-    return (fd in r)
-
+def hasMore(fd, timetout=0.2):
+    r, _, _ = select.select([fd], [], [], timetout)
+    return (fd in r) 
+def getShell():
+    try:
+        shell = os.environ["FENRIRSHELL"]
+        if os.path.isfile(shell):                                        
+            return shell
+    except:
+        pass        
+    try:
+        shell = os.environ["SHELL"]
+        if os.path.isfile(shell):                                        
+            return shell
+    except:
+        pass
+    try:
+        if os.acess('/etc/passwd'):
+            with open('/etc/passwd') as f:
+                users = f.readlines()
+                for user in users:
+                    (username, encrypwd, uid, gid, gecos, homedir, shell) = user.split(':')
+                    shell = shell.replace('\n','')
+                    if username == getpass.getuser():
+                        if shell != '':
+                            if os.path.isfile(shell):                            
+                                return shell
+    except:
+        pass
+    try:
+        if os.path.isfile('/bin/bash'):
+            shell = '/bin/bash'
+            return shell
+    except:
+        pass
+    return '/bin/sh'
 def trackHighlights(oldAttr, newAttr, text, lenght):
     result = ''
     currCursor = None
