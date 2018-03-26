@@ -222,6 +222,10 @@ class settingsManager():
             #self.setOptionArgDict('keyboard', 'keyboardLayout', 'pty')
             self.setSetting('keyboard', 'keyboardLayout', 'pty')
             self.setOptionArgDict('general', 'debugFile', '/tmp/fenrir-pty.log')
+        if cliArgs.evemulation:            
+            self.setOptionArgDict('screen', 'driver', 'ptyDriver')  
+            self.setOptionArgDict('keyboard', 'driver', 'evdevDriver')  
+
         self.setFenrirKeys(self.getSetting('general','fenrirKeys'))
         self.setScriptKeys(self.getSetting('general','scriptKeys'))      
 

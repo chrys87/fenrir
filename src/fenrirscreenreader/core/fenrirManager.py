@@ -39,7 +39,8 @@ class fenrirManager():
         parser.add_argument('-o', '--options', metavar='SECTION#SETTING=VALUE,..', default='', help='Overwrite options in given settings file')       
         parser.add_argument('-d', '--debug',  action='store_true', help='Turns on Debugmode') 
         parser.add_argument('-p', '--print',  action='store_true', help='Print debug messages on screen')                                         
-        parser.add_argument('-e', '--emulation',  action='store_true', help='Use PTY emulation')                                                 
+        parser.add_argument('-e', '--emulation',  action='store_true', help='Use PTY emulation and escape sequences for input')                                                 
+        parser.add_argument('-E', '--evemulation',  action='store_true', help='Use PTY emulation and evdev for input (single instance)')                                                         
         try:
             args = parser.parse_args()
         except Exception as e:
