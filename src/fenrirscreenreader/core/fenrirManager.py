@@ -69,7 +69,7 @@ class fenrirManager():
             if self.environment['runtime']['helpManager'].isTutorialMode():
                 self.environment['runtime']['inputManager'].clearEventBuffer()               
 
-            self.detectCommand()                       
+            self.detectShortcutCommand()                       
 
             if self.modifierInput:
                 self.environment['runtime']['inputManager'].clearEventBuffer()                   
@@ -167,7 +167,7 @@ class fenrirManager():
         self.environment['runtime']['eventManager'].putToEventQueue(fenrirEventType.ExecuteCommand, command)
         if self.command != '':
             self.command = ''
-    def detectCommand(self):    
+    def detectShortcutCommand(self):    
         if self.environment['input']['keyForeward'] > 0:
             return
         if self.environment['runtime']['inputManager'].isKeyPress():

@@ -7,7 +7,7 @@
 from fenrirscreenreader.core import debug
 from fenrirscreenreader.core.eventData import fenrirEventType
 from queue import Empty
-import time 
+import time, platform
 from multiprocessing import Queue
 from multiprocessing.sharedctypes import Value
 from ctypes import c_bool
@@ -28,7 +28,12 @@ class eventManager():
         self.eventDispatcher(event)
         #print('NET loop ' + str(time.time() - st))        
     def eventDispatcher(self, event):
-        self.env['runtime']['debug'].writeDebugOut('eventManager:eventDispatcher:start: event:' + str(event['Type']) + ' QueueSize:' + str( self._eventQueue.qsize()),debug.debugLevel.INFO)         
+        if platform.system() == 'Darwin':
+            self.env['runtime']['debug'].writeDebugOut('eventManager:eventDispatcher:start: event:' + str(event['Type']) + ' QueueSize:Not Implemented',debug.debugLevel.INFO)                 
+        else:
+            self.env['runtime']['debug'].writeDebugOut('eventManager:eventDispatcher:start: event:' + str(event['Type']) + ' QueueSize:' + str( self._eventQueue.qsize()),debug.debugLevel.INFO)         
+
+        
         if not event:
             return
         if not event['Type']:

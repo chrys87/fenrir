@@ -33,7 +33,6 @@ class settingsManager():
     def __init__(self):
         self.settings = settingsData
         self.settingArgDict = {}
-        self.shortcutType = 'KEY'
     def initialize(self, environment):
         self.env = environment
     def shutdown(self):
@@ -222,8 +221,7 @@ class settingsManager():
             # TODO needs cleanup use dict
             #self.setOptionArgDict('keyboard', 'keyboardLayout', 'pty')
             self.setSetting('keyboard', 'keyboardLayout', 'pty')
-            self.shortcutType = 'BYTE'
-            self.setOptionArgDict('general', 'debugFile', '/tmp/fenrir-pty.log')              
+            self.setOptionArgDict('general', 'debugFile', '/tmp/fenrir-pty.log')
         self.setFenrirKeys(self.getSetting('general','fenrirKeys'))
         self.setScriptKeys(self.getSetting('general','scriptKeys'))      
 
@@ -268,7 +266,7 @@ class settingsManager():
         environment['runtime']['byteManager'] = byteManager.byteManager()
         environment['runtime']['byteManager'].initialize(environment) 
 
-        if self.shortcutType == 'KEY':
+        if environment['runtime']['inputManager'].getShortcutType() == 'KEY':
             if not os.path.exists(self.getSetting('keyboard','keyboardLayout')):
                 if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout')):  
                     self.setSetting('keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout'))
@@ -278,7 +276,7 @@ class settingsManager():
                     environment['runtime']['inputManager'].loadShortcuts(self.getSetting('keyboard','keyboardLayout'))
             else:
                 environment['runtime']['inputManager'].loadShortcuts(self.getSetting('keyboard','keyboardLayout'))
-        elif self.shortcutType == 'BYTE':
+        elif environment['runtime']['inputManager'].getShortcutType() == 'BYTE':
             if not os.path.exists(self.getSetting('keyboard','keyboardLayout')):
                 if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout')):  
                     self.setSetting('keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout'))

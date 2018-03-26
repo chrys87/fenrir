@@ -13,6 +13,13 @@ fenrirPath = os.path.dirname(currentdir)
 class inputManager():
     def __init__(self):
         self.setLedState = True
+        self.shortcutType = 'KEY'
+        
+    def setShortcutType(self, shortcutType = 'KEY'):
+        if shortcutType in ['KEY', 'BYTE']:
+            self.shortcutType = shortcutType
+    def getShortcutType(self):
+        return self.shortcutType
     def initialize(self, environment):
         self.env = environment
         self.env['runtime']['settingsManager'].loadDriver(\
