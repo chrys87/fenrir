@@ -215,14 +215,14 @@ class settingsManager():
         if cliArgs.print:
             self.setOptionArgDict('general', 'debugLevel', 3)  
             self.setOptionArgDict('general', 'debugMode', 'PRINT')
-        if cliArgs.emulation:
+        if cliArgs.emulated_pty:
             self.setOptionArgDict('screen', 'driver', 'ptyDriver')  
             self.setOptionArgDict('keyboard', 'driver', 'ptyDriver')  
             # TODO needs cleanup use dict
             #self.setOptionArgDict('keyboard', 'keyboardLayout', 'pty')
             self.setSetting('keyboard', 'keyboardLayout', 'pty')
             self.setOptionArgDict('general', 'debugFile', '/tmp/fenrir-pty.log')
-        if cliArgs.emulated-evdev:            
+        if cliArgs.emulated_evdev:            
             self.setOptionArgDict('screen', 'driver', 'ptyDriver')  
             self.setOptionArgDict('keyboard', 'driver', 'evdevDriver')  
 
