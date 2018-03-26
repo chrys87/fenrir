@@ -39,69 +39,6 @@ class settingsManager():
         self.env = environment
     def shutdown(self):
         pass
-    def loadShortcuts(self, kbConfigPath=fenrirPath + '/../../config/keyboard/desktop.conf'):
-        kbConfig = open(kbConfigPath,"r")
-        while(True):
-            invalid = False
-            line = kbConfig.readline()
-            if not line:
-                break
-            line = line.replace('\n','')
-            if line.replace(" ","") == '':
-                continue            
-            if line.replace(" ","").startswith("#"):
-                continue
-            if line.count("=") != 1:
-                continue
-            sepLine = line.split('=')
-            commandName = sepLine[1].upper()
-            sepLine[0] = sepLine[0].replace(" ","")
-            sepLine[0] = sepLine[0].replace("'","")
-            sepLine[0] = sepLine[0].replace('"',"")
-            keys = sepLine[0].split(',')
-            shortcutKeys = []
-            shortcutRepeat = 1
-            shortcut = []
-            for key in keys:
-                try:
-                    shortcutRepeat = int(key)
-                except:
-                    if not self.isValidKey(key.upper()):
-                        self.env['runtime']['debug'].writeDebugOut("invalid key : "+ key.upper() + ' command:' +commandName ,debug.debugLevel.WARNING)                    
-                        invalid = True
-                        break
-                    shortcutKeys.append(key.upper()) 
-            if invalid:
-                continue
-            shortcut.append(shortcutRepeat)
-            shortcut.append(sorted(shortcutKeys))
-            if len(shortcutKeys) != 1 and not 'KEY_FENRIR' in shortcutKeys:
-                self.env['runtime']['debug'].writeDebugOut("invalid shortcut (missing KEY_FENRIR): "+ str(shortcut) + ' command:' +commandName ,debug.debugLevel.ERROR)                    
-                continue            
-            self.env['runtime']['debug'].writeDebugOut("Shortcut: "+ str(shortcut) + ' command:' +commandName ,debug.debugLevel.INFO, onAnyLevel=True)    
-            self.env['bindings'][str(shortcut)] = commandName   
-        kbConfig.close()
-        # fix bindings 
-        self.env['bindings'][str([1, ['KEY_F1', 'KEY_FENRIR']])] = 'TOGGLE_TUTORIAL_MODE'
-    def loadByteShortcuts(self, kbConfigPath=fenrirPath + '/../../config/keyboard/pty.conf'):
-        kbConfig = open(kbConfigPath,"r")
-        while(True):
-            line = kbConfig.readline()
-            if not line:
-                break
-            line = line.replace('\n','')
-            if line.replace(" ","") == '':
-                continue            
-            if line.replace(" ","").startswith("#"):
-                continue
-            if line.count("=") != 1:
-                continue
-            Values = line.split('=')
-            shortcut = bytes(Values[0],'UTF-8')
-            commandName = Values[1].upper()
-            self.env['bindings'][shortcut] = commandName   
-            self.env['runtime']['debug'].writeDebugOut("Byte Shortcut: "+ str(shortcut) + ' command:' +commandName ,debug.debugLevel.INFO, onAnyLevel=True)    
-        kbConfig.close()
         
     def loadSoundIcons(self, soundIconPath):
         siConfig = open(soundIconPath + '/soundicons.conf',"r")
@@ -131,40 +68,7 @@ class settingsManager():
             self.env['soundIcons'][soundIcon] = soundIconFile
             self.env['runtime']['debug'].writeDebugOut("SoundIcon: " + soundIcon + '.' + soundIconFile, debug.debugLevel.INFO, onAnyLevel=True)               
         siConfig.close()
-    def isValidKey(self, key):
-        return key in inputData.keyNames
     
-    def loadDicts(self, dictConfigPath=fenrirPath + '/../../config/punctuation/default.conf'):
-        dictConfig = open(dictConfigPath,"r")
-        currDictName = ''
-        while(True):
-            line = dictConfig.readline()
-            if not line:
-                break
-            line = line.replace('\n','')
-            if line.replace(" ","") == '':
-                continue
-            if line.replace(" ","").startswith("#"):
-                continue
-            if line.replace(" ","").upper().startswith("[") and \
-              line.replace(" ","").upper().endswith("DICT]"):
-                currDictName = line[line.find('[') + 1 :line.upper().find('DICT]') + 4].upper()
-            else:
-                if currDictName == '':
-                    continue
-                if not ":===:" in line:
-                    continue
-                sepLine = line.split(':===:')
-                if len(sepLine) == 1:
-                    sepLine.append('')
-                elif len(sepLine) < 1:
-                    continue
-                elif len(sepLine) > 2:
-                    sepLine[1] = ':===:'
-                self.env['punctuation'][currDictName][sepLine[0]] = sepLine[1]
-                self.env['runtime']['debug'].writeDebugOut("Punctuation: " + currDictName + '.' + str(sepLine[0]) + ' :' + sepLine[1] ,debug.debugLevel.INFO, onAnyLevel=True)    
-        dictConfig.close()
-
     def loadSettings(self, settingConfigPath):
         if not os.path.exists(settingConfigPath):
             return False
@@ -327,27 +231,6 @@ class settingsManager():
         environment['runtime']['debug'] = debugManager.debugManager(self.env['runtime']['settingsManager'].getSetting('general','debugFile'))
         environment['runtime']['debug'].initialize(environment)
 
-        if self.shortcutType == 'KEY':
-            if not os.path.exists(self.getSetting('keyboard','keyboardLayout')):
-                if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout')):  
-                    self.setSetting('keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout'))
-                    environment['runtime']['settingsManager'].loadShortcuts(self.getSetting('keyboard','keyboardLayout'))
-                if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout') + '.conf'):  
-                    self.setSetting('keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout') + '.conf')
-                    environment['runtime']['settingsManager'].loadShortcuts(self.getSetting('keyboard','keyboardLayout'))
-            else:
-                environment['runtime']['settingsManager'].loadShortcuts(self.getSetting('keyboard','keyboardLayout'))
-        elif self.shortcutType == 'BYTE':
-            if not os.path.exists(self.getSetting('keyboard','keyboardLayout')):
-                if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout')):  
-                    self.setSetting('keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout'))
-                    environment['runtime']['settingsManager'].loadByteShortcuts(self.getSetting('keyboard','keyboardLayout'))
-                if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout') + '.conf'):  
-                    self.setSetting('keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout') + '.conf')
-                    environment['runtime']['settingsManager'].loadByteShortcuts(self.getSetting('keyboard','keyboardLayout'))
-            else:
-                environment['runtime']['settingsManager'].loadByteShortcuts(self.getSetting('keyboard','keyboardLayout'))
-                
         if not os.path.exists(self.getSetting('sound','theme') + '/soundicons.conf'):
             if os.path.exists(soundRoot + self.getSetting('sound','theme')):  
                 self.setSetting('sound', 'theme', soundRoot + self.getSetting('sound','theme'))
@@ -356,15 +239,18 @@ class settingsManager():
         else:
             environment['runtime']['settingsManager'].loadSoundIcons(self.getSetting('sound','theme'))
 
+        environment['runtime']['punctuationManager'] = punctuationManager.punctuationManager()
+        environment['runtime']['punctuationManager'].initialize(environment)  
+
         if not os.path.exists(self.getSetting('general','punctuationProfile')):
             if os.path.exists(settingsRoot + 'punctuation/' + self.getSetting('general','punctuationProfile')):  
                 self.setSetting('general', 'punctuationProfile', settingsRoot + 'punctuation/' + self.getSetting('general','punctuationProfile'))
-                environment['runtime']['settingsManager'].loadDicts(self.getSetting('general','punctuationProfile'))
+                environment['runtime']['punctuationManager'].loadDicts(self.getSetting('general','punctuationProfile'))
             if os.path.exists(settingsRoot + 'punctuation/' + self.getSetting('general','punctuationProfile') + '.conf'):  
                 self.setSetting('general', 'punctuationProfile', settingsRoot + 'punctuation/' + self.getSetting('general','punctuationProfile') + '.conf')
-                environment['runtime']['settingsManager'].loadDicts(self.getSetting('general','punctuationProfile'))
+                environment['runtime']['punctuationManager'].loadDicts(self.getSetting('general','punctuationProfile'))
         else:
-            environment['runtime']['settingsManager'].loadDicts(self.getSetting('general','punctuationProfile'))
+            environment['runtime']['punctuationManager'].loadDicts(self.getSetting('general','punctuationProfile'))
 
         
         if fenrirManager:
@@ -381,11 +267,32 @@ class settingsManager():
         environment['runtime']['inputManager'] = inputManager.inputManager()
         environment['runtime']['inputManager'].initialize(environment)      
         environment['runtime']['byteManager'] = byteManager.byteManager()
-        environment['runtime']['byteManager'].initialize(environment)            
+        environment['runtime']['byteManager'].initialize(environment) 
+
+        if self.shortcutType == 'KEY':
+            if not os.path.exists(self.getSetting('keyboard','keyboardLayout')):
+                if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout')):  
+                    self.setSetting('keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout'))
+                    environment['runtime']['inputManager'].loadShortcuts(self.getSetting('keyboard','keyboardLayout'))
+                if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout') + '.conf'):  
+                    self.setSetting('keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout') + '.conf')
+                    environment['runtime']['inputManager'].loadShortcuts(self.getSetting('keyboard','keyboardLayout'))
+            else:
+                environment['runtime']['inputManager'].loadShortcuts(self.getSetting('keyboard','keyboardLayout'))
+        elif self.shortcutType == 'BYTE':
+            if not os.path.exists(self.getSetting('keyboard','keyboardLayout')):
+                if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout')):  
+                    self.setSetting('keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout'))
+                    environment['runtime']['byteManager'].loadByteShortcuts(self.getSetting('keyboard','keyboardLayout'))
+                if os.path.exists(settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout') + '.conf'):  
+                    self.setSetting('keyboard', 'keyboardLayout', settingsRoot + 'keyboard/' + self.getSetting('keyboard','keyboardLayout') + '.conf')
+                    environment['runtime']['byteManager'].loadByteShortcuts(self.getSetting('keyboard','keyboardLayout'))
+            else:
+                environment['runtime']['byteManager'].loadByteShortcuts(self.getSetting('keyboard','keyboardLayout'))
+               
+                   
         environment['runtime']['outputManager'] = outputManager.outputManager()
         environment['runtime']['outputManager'].initialize(environment)             
-        environment['runtime']['punctuationManager'] = punctuationManager.punctuationManager()
-        environment['runtime']['punctuationManager'].initialize(environment)  
         environment['runtime']['cursorManager'] = cursorManager.cursorManager()
         environment['runtime']['cursorManager'].initialize(environment)  
         environment['runtime']['applicationManager'] = applicationManager.applicationManager()

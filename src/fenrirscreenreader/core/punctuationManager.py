@@ -6,6 +6,9 @@
 
 import string
 from fenrirscreenreader.core import debug
+import os, inspect, re
+currentdir = os.path.dirname(os.path.realpath(os.path.abspath(inspect.getfile(inspect.currentframe()))))
+fenrirPath = os.path.dirname(currentdir)
 
 class punctuationManager():
     def __init__(self):
@@ -81,3 +84,33 @@ class punctuationManager():
         currLevel = punctList[currIndex]
         self.env['runtime']['settingsManager'].setSetting('general', 'punctuationLevel', currLevel.lower())
         return True
+    def loadDicts(self, dictConfigPath=fenrirPath + '/../../config/punctuation/default.conf'):
+        dictConfig = open(dictConfigPath,"r")
+        currDictName = ''
+        while(True):
+            line = dictConfig.readline()
+            if not line:
+                break
+            line = line.replace('\n','')
+            if line.replace(" ","") == '':
+                continue
+            if line.replace(" ","").startswith("#"):
+                continue
+            if line.replace(" ","").upper().startswith("[") and \
+              line.replace(" ","").upper().endswith("DICT]"):
+                currDictName = line[line.find('[') + 1 :line.upper().find('DICT]') + 4].upper()
+            else:
+                if currDictName == '':
+                    continue
+                if not ":===:" in line:
+                    continue
+                sepLine = line.split(':===:')
+                if len(sepLine) == 1:
+                    sepLine.append('')
+                elif len(sepLine) < 1:
+                    continue
+                elif len(sepLine) > 2:
+                    sepLine[1] = ':===:'
+                self.env['punctuation'][currDictName][sepLine[0]] = sepLine[1]
+                self.env['runtime']['debug'].writeDebugOut("Punctuation: " + currDictName + '.' + str(sepLine[0]) + ' :' + sepLine[1] ,debug.debugLevel.INFO, onAnyLevel=True)    
+        dictConfig.close()        

@@ -4,8 +4,11 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-import time
 from fenrirscreenreader.core import debug
+from fenrirscreenreader.core import inputData
+import os, inspect, time
+currentdir = os.path.dirname(os.path.realpath(os.path.abspath(inspect.getfile(inspect.currentframe()))))
+fenrirPath = os.path.dirname(currentdir)
 
 class inputManager():
     def __init__(self):
@@ -211,3 +214,49 @@ class inputManager():
 
     def shortcutExists(self, shortcut):
         return(shortcut in self.env['bindings'])
+    def loadShortcuts(self, kbConfigPath=fenrirPath + '/../../config/keyboard/desktop.conf'):
+        kbConfig = open(kbConfigPath,"r")
+        while(True):
+            invalid = False
+            line = kbConfig.readline()
+            if not line:
+                break
+            line = line.replace('\n','')
+            if line.replace(" ","") == '':
+                continue            
+            if line.replace(" ","").startswith("#"):
+                continue
+            if line.count("=") != 1:
+                continue
+            sepLine = line.split('=')
+            commandName = sepLine[1].upper()
+            sepLine[0] = sepLine[0].replace(" ","")
+            sepLine[0] = sepLine[0].replace("'","")
+            sepLine[0] = sepLine[0].replace('"',"")
+            keys = sepLine[0].split(',')
+            shortcutKeys = []
+            shortcutRepeat = 1
+            shortcut = []
+            for key in keys:
+                try:
+                    shortcutRepeat = int(key)
+                except:
+                    if not self.isValidKey(key.upper()):
+                        self.env['runtime']['debug'].writeDebugOut("invalid key : "+ key.upper() + ' command:' +commandName ,debug.debugLevel.WARNING)                    
+                        invalid = True
+                        break
+                    shortcutKeys.append(key.upper()) 
+            if invalid:
+                continue
+            shortcut.append(shortcutRepeat)
+            shortcut.append(sorted(shortcutKeys))
+            if len(shortcutKeys) != 1 and not 'KEY_FENRIR' in shortcutKeys:
+                self.env['runtime']['debug'].writeDebugOut("invalid shortcut (missing KEY_FENRIR): "+ str(shortcut) + ' command:' +commandName ,debug.debugLevel.ERROR)                    
+                continue            
+            self.env['runtime']['debug'].writeDebugOut("Shortcut: "+ str(shortcut) + ' command:' +commandName ,debug.debugLevel.INFO, onAnyLevel=True)    
+            self.env['bindings'][str(shortcut)] = commandName   
+        kbConfig.close()
+        # fix bindings 
+        self.env['bindings'][str([1, ['KEY_F1', 'KEY_FENRIR']])] = 'TOGGLE_TUTORIAL_MODE'
+    def isValidKey(self, key):
+        return key in inputData.keyNames        
