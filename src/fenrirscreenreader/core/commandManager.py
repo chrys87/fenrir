@@ -115,7 +115,7 @@ class commandManager():
                 shortcutKeys = []
                 shortcut = []
                 for key in keys:
-                    if not self.env['runtime']['settingsManager'].isValidKey(key.upper()):
+                    if not self.env['runtime']['inputManager'].isValidKey(key.upper()):
                         self.env['runtime']['debug'].writeDebugOut("invalid key : "+ key.upper() + ' command:' +commandName ,debug.debugLevel.WARNING)                    
                         invalid = True
                         break                

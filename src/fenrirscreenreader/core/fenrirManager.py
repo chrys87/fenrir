@@ -90,13 +90,13 @@ class fenrirManager():
             return
         if event['Data'] == b'':
             return
-        
-        self.handleControlMode(event['Data'])
-        
+            
+        isCommand = False
         if self.controlMode and not self.switchCtrlModeOnce == 1 or\
           not self.controlMode and self.switchCtrlModeOnce == 1:
-            self.detectByteCommand(event['Data'])
-    
+            isCommand = self.detectByteCommand(event['Data'])
+        if not isCommand:
+            self.environment['runtime']['screenManager'].injectTextToScreen(event['Data'])
     def handleControlMode(self, escapeSequence): 
         convertedEscapeSequence = self.environment['runtime']['byteManager'].unifyEscapeSeq(escapeSequence)
         if self.switchCtrlModeOnce > 0:
@@ -108,10 +108,12 @@ class fenrirManager():
                 self.environment['runtime']['outputManager'].presentText(_('Sticky Mode On'), soundIcon='Accept', interrupt=True, flush=True)
             else:
                 self.environment['runtime']['outputManager'].presentText(_('Sticky Mode On'), soundIcon='Cancel', interrupt=True, flush=True)
+            return True                
         if convertedEscapeSequence == b'^[:':
             self.switchCtrlModeOnce = 2
             self.environment['runtime']['outputManager'].presentText(_('bypass'), soundIcon='PTYBypass', interrupt=True, flush=True)
-        
+            return True
+        return False        
     def handleExecuteCommand(self, event):        
         if event['Data'] == '':
             return
@@ -163,10 +165,14 @@ class fenrirManager():
 
     def detectByteCommand(self, escapeSequence):
         convertedEscapeSequence = self.environment['runtime']['byteManager'].unifyEscapeSeq(escapeSequence)
-        command = self.environment['runtime']['inputManager'].getCommandForShortcut(convertedEscapeSequence)
-        self.environment['runtime']['eventManager'].putToEventQueue(fenrirEventType.ExecuteCommand, command)
+        if self.handleControlMode(convertedEscapeSequence):
+            return True
+        self.command = self.environment['runtime']['inputManager'].getCommandForShortcut(convertedEscapeSequence)
+        self.environment['runtime']['eventManager'].putToEventQueue(fenrirEventType.ExecuteCommand, self.command)
         if self.command != '':
             self.command = ''
+            return True
+        return False
     def detectShortcutCommand(self):    
         if self.environment['input']['keyForeward'] > 0:
             return

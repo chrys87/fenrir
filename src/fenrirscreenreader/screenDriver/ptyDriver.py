@@ -56,6 +56,7 @@ class driver(screenDriver):
         self.bgColorNames = {0: _('black'), 1: _('blue'), 2: _('green'), 3: _('cyan'), 4: _('red'), 5: _('Magenta'), 6: _('brown/yellow'), 7: _('white')}
         self.fgColorNames = {0: _('Black'), 1: _('Blue'), 2: _('Green'), 3: _('Cyan'), 4: _('Red'), 5: _('Magenta'), 6: _('brown/yellow'), 7: _('Light gray'), 8: _('Dark gray'), 9: _('Light blue'), 10: ('Light green'), 11: _('Light cyan'), 12: _('Light red'), 13: _('Light magenta'), 14: _('Light yellow'), 15: _('White')}
         self.signalPipe = os.pipe()
+        self.p_out = None
         signal.signal(signal.SIGWINCH, self.handleSigwinch)
     def initialize(self, environment):
         self.env = environment
@@ -66,8 +67,12 @@ class driver(screenDriver):
         self.env['screen']['newTTY'] = '1'
  
     def injectTextToScreen(self, msgBytes, screen = None):
-        #os.write(p_out.fileno(), msgBytes)
-        pass
+        if not screen:
+            screen = self.p_out.fileno()
+        if isinstance(msgBytes, str):
+            msgBytes = bytes(msgBytes, 'UTF-8')
+        os.write(screen, msgBytes)
+        #print(str(msgBytes))
 
     def getSessionInformation(self):
         self.env['screen']['autoIgnoreScreens'] = []
@@ -113,25 +118,25 @@ class driver(screenDriver):
             lines, columns = self.getTerminalSize(0)
             if self.command == '':
                 self.command = screen_utils.getShell()
-            terminal, p_pid, p_out = self.openTerminal(columns, lines, self.command)
-            lines, columns = self.resizeTerminal(p_out)
+            terminal, p_pid, self.p_out = self.openTerminal(columns, lines, self.command)
+            lines, columns = self.resizeTerminal(self.p_out)
             terminal.resize(lines, columns)            
             while active.value:
-                r, _, _ = select.select([sys.stdin, p_out, self.signalPipe[0]],[],[],1)
+                r, _, _ = select.select([sys.stdin, self.p_out, self.signalPipe[0]],[],[],1)
                 # none
                 if r == []:
                     continue
                 # signals
                 if self.signalPipe[0] in r:
                     os.read(self.signalPipe[0], 1)
-                    lines, columns = self.resizeTerminal(p_out)
+                    lines, columns = self.resizeTerminal(self.p_out)
                     terminal.resize(lines, columns)         
                 # output
-                if p_out in r:
+                if self.p_out in r:
                     if debug:
                         print('pre p_out')                                            
                     try:
-                        msgBytes = self.readAll(p_out.fileno())
+                        msgBytes = self.readAll(self.p_out.fileno())
                     except (EOFError, OSError):
                         active.value = False
                         break    
@@ -158,7 +163,7 @@ class driver(screenDriver):
                     except (EOFError, OSError):
                         active.value = False                    
                         break
-                    os.write(p_out.fileno(), msgBytes)
+                    #self.injectTextToScreen(msgBytes)
                     if debug:
                         print('after stdin')                
         except Exception as e:  # Process died?
@@ -166,7 +171,7 @@ class driver(screenDriver):
             active.value = False
         finally:
             os.kill(p_pid, signal.SIGTERM)
-            p_out.close()    
+            self.p_out.close()    
             termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_attr)
             eventQueue.put({"Type":fenrirEventType.StopMainLoop,"Data":None}) 
             sys.exit(0)

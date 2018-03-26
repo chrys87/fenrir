@@ -255,14 +255,19 @@ class settingsManager():
 
         environment['runtime']['memoryManager'] = memoryManager.memoryManager()
         environment['runtime']['memoryManager'].initialize(environment) 
+        
         environment['runtime']['eventManager'] = eventManager.eventManager()
         environment['runtime']['eventManager'].initialize(environment)            
+        
         environment['runtime']['processManager'] = processManager.processManager()  
-        environment['runtime']['processManager'].initialize(environment)
-        environment['runtime']['commandManager'] = commandManager.commandManager()
-        environment['runtime']['commandManager'].initialize(environment)
+        environment['runtime']['processManager'].initialize(environment)        
+        
         environment['runtime']['inputManager'] = inputManager.inputManager()
         environment['runtime']['inputManager'].initialize(environment)      
+
+        environment['runtime']['commandManager'] = commandManager.commandManager()        
+        environment['runtime']['commandManager'].initialize(environment)
+        
         environment['runtime']['byteManager'] = byteManager.byteManager()
         environment['runtime']['byteManager'].initialize(environment) 
 
