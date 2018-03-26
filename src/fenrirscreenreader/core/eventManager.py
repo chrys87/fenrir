@@ -28,7 +28,7 @@ class eventManager():
         self.eventDispatcher(event)
         #print('NET loop ' + str(time.time() - st))        
     def eventDispatcher(self, event):
-        self.env['runtime']['debug'].writeDebugOut('eventManager:eventDispatcher:start: event:' + str(event['Type']) + ' QueueSize:Not Implemented',debug.debugLevel.INFO)
+        self.env['runtime']['debug'].writeDebugOut('eventManager:eventDispatcher:start: event: ' + str(event['Type']),debug.debugLevel.INFO)
         
         if not event:
             return
