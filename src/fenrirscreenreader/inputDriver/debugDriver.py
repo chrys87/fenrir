@@ -14,6 +14,7 @@ class driver(inputDriver):
         
     def initialize(self, environment):
         self.env = environment
+        self.env['runtime']['inputManager'].setShortcutType('KEY')        
         self._initialized = True        
         print('Input Debug Driver: Initialized')    
         

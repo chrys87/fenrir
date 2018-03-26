@@ -44,6 +44,7 @@ class driver(inputDriver):
         self.watchDog = Value(c_bool, True)
     def initialize(self, environment):
         self.env = environment
+        self.env['runtime']['inputManager'].setShortcutType('KEY')        
         global _evdevAvailable
         global _udevAvailable        
         self._initialized = _evdevAvailable

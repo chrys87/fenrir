@@ -11,6 +11,7 @@ class inputDriver():
         self._initialized = False
     def initialize(self, environment):
         self.env = environment
+        self.env['runtime']['inputManager'].setShortcutType('KEY')        
         self._isInitialized = True
     def shutdown(self):
         if self._initialized:
