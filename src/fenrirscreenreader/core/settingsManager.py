@@ -25,7 +25,6 @@ from fenrirscreenreader.core import headLineManager
 from fenrirscreenreader.core import tableManager
 from fenrirscreenreader.core import byteManager
 from fenrirscreenreader.core import environment 
-from fenrirscreenreader.core import inputData
 from fenrirscreenreader.core.settingsData import settingsData
 from fenrirscreenreader.core import debug
 from fenrirscreenreader.utils import module_utils

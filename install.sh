@@ -27,7 +27,6 @@ cp -af config/punctuation/* /etc/fenrirscreenreader/punctuation
 # sound
 install -d /usr/share/sounds/fenrirscreenreader
 cp -af config/sound/default /usr/share/sounds/fenrirscreenreader/default
-cp -af config/sound/default-wav /usr/share/sounds/fenrirscreenreader/default-wav
 cp -af config/sound/template /usr/share/sounds/fenrirscreenreader/template
 
 # config

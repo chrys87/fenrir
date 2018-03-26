@@ -36,9 +36,6 @@ for directory in directories:
     if destDir != '':
         data_files.append((destDir, files))
 
-files = glob.glob('config/sound/default-wav/*')         
-destDir = '/usr/share/sounds/fenrirscreenreader/default-wav'
-data_files.append((destDir, files))        
 files = glob.glob('config/sound/default/*')                 
 destDir = '/usr/share/sounds/fenrirscreenreader/default'            
 data_files.append((destDir, files))
