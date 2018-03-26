@@ -47,7 +47,7 @@ def isValidShell(shell = ''):
     try:
         if not os.path.isfile(shell):
             return False
-        if not os.access(shell,os.X_OK)
+        if not os.access(shell,os.X_OK):
             return False
     except:
             return False
