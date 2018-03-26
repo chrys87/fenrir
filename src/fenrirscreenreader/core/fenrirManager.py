@@ -108,7 +108,8 @@ class fenrirManager():
             self.environment['runtime']['screenManager'].injectTextToScreen(event['Data'])
     def handleControlMode(self, escapeSequence): 
         convertedEscapeSequence = self.environment['runtime']['byteManager'].unifyEscapeSeq(escapeSequence)
-        
+        if len(convertedEscapeSequence) > 1:
+            print(chr(convertedEscapeSequence[0]),chr(convertedEscapeSequence[1]))
         if convertedEscapeSequence == b'^[R':
             self.controlMode = not self.controlMode
             self.switchCtrlModeOnce = 0

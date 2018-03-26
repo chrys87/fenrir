@@ -19,7 +19,10 @@ class byteManager():
     def unifyEscapeSeq(self, escapeSequence):   
         convertedEscapeSequence = escapeSequence
         if convertedEscapeSequence[0] == 27:
-            convertedEscapeSequence = b'^[' + convertedEscapeSequence[1:]  
+            convertedEscapeSequence = b'^[' + convertedEscapeSequence[1:]
+        if len(convertedEscapeSequence) > 1:
+            if convertedEscapeSequence[0] == 94 and convertedEscapeSequence[1] ==91:
+                convertedEscapeSequence = b'^[' + convertedEscapeSequence[2:]            
         return convertedEscapeSequence        
     def loadByteShortcuts(self, kbConfigPath=fenrirPath + '/../../config/keyboard/pty.conf'):
         kbConfig = open(kbConfigPath,"r")
