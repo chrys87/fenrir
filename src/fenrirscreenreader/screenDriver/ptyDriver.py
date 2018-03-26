@@ -57,12 +57,11 @@ class driver(screenDriver):
         self.fgColorNames = {0: _('Black'), 1: _('Blue'), 2: _('Green'), 3: _('Cyan'), 4: _('Red'), 5: _('Magenta'), 6: _('brown/yellow'), 7: _('Light gray'), 8: _('Dark gray'), 9: _('Light blue'), 10: ('Light green'), 11: _('Light cyan'), 12: _('Light red'), 13: _('Light magenta'), 14: _('Light yellow'), 15: _('White')}
         self.signalPipe = os.pipe()
         self.p_out = None
-        self.
         signal.signal(signal.SIGWINCH, self.handleSigwinch)
     def initialize(self, environment):
         self.env = environment
-        self.ShortcutType = self.env['runtime']['inputManager'].getShortcutType()
         self.command = self.env['runtime']['settingsManager'].getSetting('general','shell')
+        self.shortcutType = self.env['runtime']['inputManager'].getShortcutType()
         self.env['runtime']['processManager'].addCustomEventThread(self.terminalEmulation)
     def getCurrScreen(self):
         self.env['screen']['oldTTY'] = '1'
@@ -74,7 +73,6 @@ class driver(screenDriver):
         if isinstance(msgBytes, str):
             msgBytes = bytes(msgBytes, 'UTF-8')
         os.write(screen, msgBytes)
-        #print(str(msgBytes))
 
     def getSessionInformation(self):
         self.env['screen']['autoIgnoreScreens'] = []
@@ -141,7 +139,7 @@ class driver(screenDriver):
                     except (EOFError, OSError):
                         active.value = False                    
                         break                  
-                    if self.ShortcutType == 'KEY':
+                    if self.shortcutType == 'KEY':
                         try:
                             self.injectTextToScreen(msgBytes)
                         except:
