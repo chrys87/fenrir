@@ -95,6 +95,7 @@ setup(
         "setuptools",
         "pexpect",
         "pyttsx3",
+        "pyte',
     ],
     
 )

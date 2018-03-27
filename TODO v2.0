@@ -82,16 +82,7 @@ Driver (screen, input):
   https://docs.python.org/3.2/library/pty.html
   http://sqizit.bartletts.id.au/2011/02/14/pseudo-terminals-in-python/
   https://blog.konpat.me/pythons-pseudo-terminal-pty-examples/
-[W] PTY Input driver
-  [X] new event for byte shortcuts (escape sequences)
-  [X] create driver
-  [X] handle byte shortcuts
-  [X] detect shortcuts
-  [X] Load escape sequence shortcuts
-  [X] controll modes (vim like mode to not collide with application shortcuts)
-  [X] create keyboard layout  
-  [X]set flag that it is used in emulation
-  [X] write/ consume them (controll it at all)
+
 [] ATK input driver (don't grab on graphical interface)
   https://git.linux-a11y.org/AIT/pyatspi2/src/master/examples/keypress.py
 
@@ -143,6 +134,16 @@ General:
 - autospeak indentation changes (useful for python programming)  
 Braille Support:
 Driver:
+[X] PTY Input driver
+  [X] new event for byte shortcuts (escape sequences)
+  [X] create driver
+  [X] handle byte shortcuts
+  [X] detect shortcuts
+  [X] Load escape sequence shortcuts
+  [X] controll modes (vim like mode to not collide with application shortcuts)
+  [X] create keyboard layout  
+  [X]set flag that it is used in emulation
+  [X] write/ consume them (controll it at all)
 [X] make generic speech driver default
 [X] pyttsx3 speech driver
 - get information already in watchdogs insteed of mainloop (use eventloop to transport)
@@ -158,4 +159,5 @@ Fixes:
 - cleanup
 - a lot more fixes
 [X] (not conflict with other applications) find . -iname "*.py" -exec sed 's/from \(core.*\) import/from fenrir-screenreader.\1 import/g' {} \;
+
 
