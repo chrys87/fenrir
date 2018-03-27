@@ -36,7 +36,8 @@ class Terminal:
         cursor = self.screen.cursor
         allAttributes = []
         text = '\n'.join(self.screen.display)
-        start = time.time()
+        
+        #start = time.time()        
         #for y in range(self.screen.lines):
         #    line = self.screen.buffer[y]
         #    attributes = [(char.reverse, char.fg, char.bg, char.bold, char.italics, char.underscore, char.strikethrough)
