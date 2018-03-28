@@ -73,7 +73,6 @@ class driver(speechDriver):
         if not self._isInitialized:
             return
         self._engine.stop()
-        self._engine.proxy.stop()
 
     def setPitch(self, pitch):
         if not self._isInitialized:
