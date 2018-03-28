@@ -126,6 +126,8 @@ Cleanups:
   [X] first item
   [X] last item  
 General:
+- [X] make it runable using pypy3
+
 - [X] read ignorescreens from an file to be able to halt fenrir from outside
 - commands
   [X] place last spoken to clipboard (Easy for contribution)
