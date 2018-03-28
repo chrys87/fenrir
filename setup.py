@@ -77,7 +77,7 @@ setup(
     # Packages
     packages=find_packages('src/'),
     package_dir={'': 'src/'},
-    scripts=['src/fenrir','src/fenrir-daemon'],
+    scripts=['src/fenrir','src/fenrir-daemon','src/fenrir-pypy','src/fenrir-daemon-pypy'],
 
     # Include additional files into the package
     include_package_data=True,
