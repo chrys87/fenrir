@@ -32,7 +32,7 @@ from fenrirscreenreader.core.eventData import fenrirEventType
 from fenrirscreenreader.core import inputData
 from fenrirscreenreader.core import debug
 from fenrirscreenreader.core.inputDriver import inputDriver
-asdasd
+
 class driver(inputDriver):
     def __init__(self):
         inputDriver.__init__(self)
