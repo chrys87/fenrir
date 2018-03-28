@@ -6,7 +6,7 @@ from shutil import copyfile
 from setuptools import find_packages
 from setuptools import setup
 
-fenrirVersion = '1.'
+fenrirVersion = '1.8'
 packageVersion = 'post1'
 
 # handle flags for package manager like yaourt and pacaur.
