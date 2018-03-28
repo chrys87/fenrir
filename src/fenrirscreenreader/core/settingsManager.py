@@ -141,11 +141,15 @@ class settingsManager():
             self.env['runtime'][driverType].initialize(self.env)
             self.env['runtime']['debug'].writeDebugOut('Loading Driver '  + driverType + ' (' + driverName +") OK",debug.debugLevel.INFO, onAnyLevel=True)             
         except Exception as e:
-            driver_mod = module_utils.importModule(driverName,
-              fenrirPath + "/" + driverType + '/dummyDriver.py')
-            self.env['runtime'][driverType] = driver_mod.driver()
-            self.env['runtime'][driverType].initialize(self.env)
-            self.env['runtime']['debug'].writeDebugOut('Loading Driver '  + driverType + ' (' + driverName +") FAILED:"+ str(e), debug.debugLevel.ERROR)
+            self.env['runtime']['debug'].writeDebugOut('Loading Driver '  + driverType + ' (' + driverName +") FAILED:"+ str(e), debug.debugLevel.ERROR)        
+            try:
+                driver_mod = module_utils.importModule(driverName,
+                  fenrirPath + "/" + driverType + '/dummyDriver.py')
+                self.env['runtime'][driverType] = driver_mod.driver()
+                self.env['runtime'][driverType].initialize(self.env)
+            except Exception as e:
+                self.env['runtime']['debug'].writeDebugOut('(fallback) Loading Driver '  + driverType + ' (dummyDriver) FAILED:'+ str(e), debug.debugLevel.ERROR)
+            
     def shutdownDriver(self, driverType):
         if self.env['runtime'][driverType] == None:
             return
