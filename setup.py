@@ -6,7 +6,7 @@ from shutil import copyfile
 from setuptools import find_packages
 from setuptools import setup
 
-fenrirVersion = '1.7'
+fenrirVersion = '1.'
 packageVersion = 'post1'
 
 # handle flags for package manager like yaourt and pacaur.
@@ -77,7 +77,7 @@ setup(
     # Packages
     packages=find_packages('src/'),
     package_dir={'': 'src/'},
-    scripts=['src/fenrir','src/fenrir-daemon','src/fenrir-pypy','src/fenrir-daemon-pypy'],
+    scripts=['src/fenrir','src/fenrir-daemon'],
 
     # Include additional files into the package
     include_package_data=True,
