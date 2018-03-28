@@ -52,7 +52,7 @@ class fenrirManager():
         self.environment['runtime']['eventManager'].startMainEventLoop()
         self.shutdown()
     def handleInput(self, event):
-        #startTime = time.time
+        #startTime = time.time()
         self.environment['runtime']['debug'].writeDebugOut('DEBUG INPUT fenrirMan:'  + str(event),debug.debugLevel.INFO)                                                       
         if not event['Data']:
             event['Data'] = self.environment['runtime']['inputManager'].getInputEvent()

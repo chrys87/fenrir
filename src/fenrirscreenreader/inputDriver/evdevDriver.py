@@ -60,17 +60,19 @@ class driver(inputDriver):
     def plugInputDeviceWatchdogUdev(self,active , eventQueue):
         context = pyudev.Context()
         monitor = pyudev.Monitor.from_netlink(context)
-        monitor.filter_by(subsystem='input')        
+        monitor.filter_by(subsystem='input')
+        # wait until start process finished
+        time.sleep(8) 
         monitor.start()
         while active.value:
             devices = monitor.poll(2)
             if devices:
-                while monitor.poll(0.5):
-                    time.sleep(0.2)            
+                while monitor.poll(0.2):
+                    time.sleep(0.1)
                 eventQueue.put({"Type":fenrirEventType.PlugInputDevice,"Data":None})
         return time.time()        
     def plugInputDeviceWatchdogTimer(self, active):
-        time.sleep(2.5)
+        time.sleep(10)
         return time.time() 
          
     def inputWatchdog(self,active , eventQueue):
