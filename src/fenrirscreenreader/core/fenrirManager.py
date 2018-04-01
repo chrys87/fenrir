@@ -225,7 +225,7 @@ class fenrirManager():
         self.environment['runtime']['eventManager'].stopMainEventLoop()        
         self.environment['runtime']['outputManager'].presentText(_("Quit Fenrir"), soundIcon='ScreenReaderOff', interrupt=True)       
         self.environment['runtime']['eventManager'].cleanEventQueue()
-        time.sleep(1)        
+        time.sleep(0.6)
         for currManager in self.environment['general']['managerList']:
             if self.environment['runtime'][currManager]:
                 self.environment['runtime'][currManager].shutdown()   
