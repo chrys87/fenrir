@@ -122,8 +122,7 @@ class commandManager():
                     shortcutKeys.append(key.upper())
                 if invalid:
                     continue                    
-                if not 'KEY_<
-                SCRIPT' in shortcutKeys:
+                if not 'KEY_SCRIPT' in shortcutKeys:
                     shortcutKeys.append('KEY_SCRIPT')                
                 shortcut.append(1)
                 shortcut.append(sorted(shortcutKeys)) 
