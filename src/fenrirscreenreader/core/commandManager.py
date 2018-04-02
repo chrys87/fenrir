@@ -116,19 +116,20 @@ class commandManager():
                 shortcut = []
                 for key in keys:
                     if not self.env['runtime']['inputManager'].isValidKey(key.upper()):
-                        self.env['runtime']['debug'].writeDebugOut("invalid key : "+ key.upper() + ' command:' +commandName ,debug.debugLevel.WARNING)                    
+                        self.env['runtime']['debug'].writeDebugOut("invalid key : "+ key.upper() + ' script:' + fileName ,debug.debugLevel.WARNING)                    
                         invalid = True
                         break                
                     shortcutKeys.append(key.upper())
                 if invalid:
                     continue                    
-                if not 'KEY_SCRIPT' in shortcutKeys:
+                if not 'KEY_<
+                SCRIPT' in shortcutKeys:
                     shortcutKeys.append('KEY_SCRIPT')                
                 shortcut.append(1)
                 shortcut.append(sorted(shortcutKeys)) 
                 self.env['bindings'][str(shortcut)] = fileName.upper()                     
             except Exception as e:
-                self.env['runtime']['debug'].writeDebugOut("Loading script:" + command ,debug.debugLevel.ERROR)
+                self.env['runtime']['debug'].writeDebugOut("Loading script:" + fileName ,debug.debugLevel.ERROR)
                 self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)                
                 continue
     def shutdownCommands(self, section):
