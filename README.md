@@ -19,6 +19,8 @@ This software is licensed under the LGPL v3 .
   - ReadWrite permission 
     - /dev/input
     - /dev/uinput
+- "ptyDriver" terminal emulation input driver
+  - python-pyte
 
 # Screen Drivers:
 1. "vcsaDriver" screen driver for linux VCSA devices
@@ -28,28 +30,36 @@ This software is licensed under the LGPL v3 .
     - /dev/tty[1-64]
     - /dev/vcsa[1-64]
     - read logind DBUS
-
+- "ptyDriver" terminal emulation driver
+  - python-pyte
+- "dummyDriver" just a dummy
+  
 # Speech Drivers:
-1. "EspeakDriver" speech driver for Espeak or Espeak-NG:
+- "genericDriver" (default) sound driver for sound as subprocess:
+  - espeak or espeak-ng
+- "espeakDriver" speech driver for Espeak or Espeak-NG:
   - python-espeak
 - "speechdDriver" speech driver for Speech-dispatcher:
   - Speech-dispatcher
   - python-speechd
-2. "dummyDriver" speech driver for debugging
+- "dummyDriver" no speech
+- "debugDriver" speech driver for debugging
 
 # Braille Drivers:
-1. "BrlttyDriver" braille driver (WIP):
+- "BrlttyDriver" braille driver (WIP):
   - brltty (configured and running)
   - python-brlapi
-2. "dummyDriver" Braille driver for debugging
+- "dummyDriver" (default) no braille
+- "debugDriver" Braille driver for debugging
 
 # Sound Drivers:
-1. "genericDriver" sound driver for sound as subprocess:
+- "genericDriver" (default) sound driver for sound as subprocess:
   - Sox
 2. "gstreamerDriver" sound driver for gstreamer
   - gstreamer >=1.0
   - GLib
-3. "dummyDriver" sound driver for debugging
+- "dummyDriver" no sound
+- "debugDriver" sound driver for debugging
 
 # Extras:
 1. spellchecker
