@@ -14,12 +14,12 @@ This software is licensed under the LGPL v3 .
 1. "evdevDriver" input driver for linux evdev
   - python-evdev >=0.6.3
   - python-pyudev
-- This is commonly referred to as python3-evdev by your distribution
+2. This is commonly referred to as python3-evdev by your distribution
   - loaded uinput kernel module
   - ReadWrite permission 
     - /dev/input
     - /dev/uinput
-- "ptyDriver" terminal emulation input driver
+3. "ptyDriver" terminal emulation input driver
   - python-pyte
 
 # Screen Drivers:
@@ -30,36 +30,36 @@ This software is licensed under the LGPL v3 .
     - /dev/tty[1-64]
     - /dev/vcsa[1-64]
     - read logind DBUS
-- "ptyDriver" terminal emulation driver
+2. "ptyDriver" terminal emulation driver
   - python-pyte
-- "dummyDriver" just a dummy
+3. "dummyDriver" just a dummy
   
 # Speech Drivers:
-- "genericDriver" (default) sound driver for sound as subprocess:
+1. "genericDriver" (default) sound driver for sound as subprocess:
   - espeak or espeak-ng
-- "espeakDriver" speech driver for Espeak or Espeak-NG:
+2. "espeakDriver" speech driver for Espeak or Espeak-NG:
   - python-espeak
-- "speechdDriver" speech driver for Speech-dispatcher:
+3. "speechdDriver" speech driver for Speech-dispatcher:
   - Speech-dispatcher
   - python-speechd
-- "dummyDriver" no speech
-- "debugDriver" speech driver for debugging
+4. "dummyDriver" no speech
+5. "debugDriver" speech driver for debugging
 
 # Braille Drivers:
-- "BrlttyDriver" braille driver (WIP):
+1. "BrlttyDriver" braille driver (WIP):
   - brltty (configured and running)
   - python-brlapi
-- "dummyDriver" (default) no braille
-- "debugDriver" Braille driver for debugging
+2. "dummyDriver" (default) no braille
+3. "debugDriver" Braille driver for debugging
 
 # Sound Drivers:
-- "genericDriver" (default) sound driver for sound as subprocess:
+1. "genericDriver" (default) sound driver for sound as subprocess:
   - Sox
 2. "gstreamerDriver" sound driver for gstreamer
   - gstreamer >=1.0
   - GLib
-- "dummyDriver" no sound
-- "debugDriver" sound driver for debugging
+3. "dummyDriver" no sound
+4. "debugDriver" sound driver for debugging
 
 # Extras:
 1. spellchecker
@@ -82,7 +82,7 @@ Settings "settings.conf" is located in the "config" directory or after installat
 Take care to use drivers from the config matching your installed drivers. 
 By default it uses:
 - sound driver: genericDriver (via sox, could configured in settings.conf)
-- speech driver: speechdDriver
+- speech driver: genericDriver (via espeak or espeak-ng, could configured in settings.conf)
 - braille driver: brlttyDriver (WIP)
 - input driver: evdevDriver
 
