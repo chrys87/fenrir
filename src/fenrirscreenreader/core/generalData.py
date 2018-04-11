@@ -11,8 +11,8 @@ generalData = {
 'tutorialMode': False,
 'currUser':'',
 'prevUser':'',
-'managerList':[ 'punctuationManager', 'byteManager', 'cursorManager', 'applicationManager', 'commandManager'
-  , 'screenManager', 'inputManager','outputManager', 'helpManager', 'memoryManager', 'eventManager','processManager', 'debug'],
+'managerList':['processManager', 'punctuationManager', 'byteManager', 'cursorManager', 'applicationManager', 'commandManager'
+  , 'screenManager', 'inputManager','outputManager', 'helpManager', 'memoryManager', 'eventManager', 'debug'],
 'commandFolderList':['commands','onKeyInput', 'onByteInput', 'onCursorChange', 'onScreenUpdate','onScreenChanged','onHeartBeat', 'onPlugInputDevice'
   ,'onApplicationChange','onSwitchApplicationProfile','help',],
 }
