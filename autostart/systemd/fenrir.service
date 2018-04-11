@@ -12,4 +12,7 @@ Restart=always
 #User=fenrirscreenreader
 
 [Install]
-WantedBy=sound.target
+# start as early as possible in boot process
+#WantedBy=sound.target
+# start as soon the login prompt is available
+WantedBy=getty.target
