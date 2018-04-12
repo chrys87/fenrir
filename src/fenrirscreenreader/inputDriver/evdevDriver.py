@@ -52,7 +52,6 @@ class driver(inputDriver):
             global _evdevAvailableError
             self.env['runtime']['debug'].writeDebugOut('InputDriver: ' + _evdevAvailableError,debug.debugLevel.ERROR)         
             return  
-        self.updateInputDevices()
         if _udevAvailable:
             self.env['runtime']['processManager'].addCustomEventThread(self.plugInputDeviceWatchdogUdev)        
         else:
@@ -62,12 +61,14 @@ class driver(inputDriver):
         context = pyudev.Context()
         monitor = pyudev.Monitor.from_netlink(context)
         monitor.filter_by(subsystem='input')
+        # wait until start process finished
+        time.sleep(8) 
         monitor.start()
         while active.value:
             devices = monitor.poll(2)
             if devices:
                 while monitor.poll(0.2):
-                    time.sleep(0.2)
+                    time.sleep(0.1)
                 eventQueue.put({"Type":fenrirEventType.PlugInputDevice,"Data":None})
         return time.time()        
     def plugInputDeviceWatchdogTimer(self, active):
