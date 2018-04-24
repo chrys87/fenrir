@@ -180,7 +180,7 @@ class driver(speechDriver):
             try:
                 self.env['runtime']['debug'].writeDebugOut('speechDriver:worker:' + ' '.join(popenSpeechCommand),debug.debugLevel.INFO)                                            
                 self.lock.acquire(True)
-                self.proc = Popen(popenSpeechCommand, stdin=None, stdout=None, stderr=None shell=False)
+                self.proc = Popen(popenSpeechCommand, stdin=None, stdout=None, stderr=None, shell=False)
                 self.lock.release()	
                 self.proc.wait()
             except Exception as e:
