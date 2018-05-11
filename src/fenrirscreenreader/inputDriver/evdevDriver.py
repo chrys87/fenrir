@@ -247,13 +247,14 @@ class driver(inputDriver):
             self.uDevices[fd] = None
             return
         try:        
-            self.uDevices[fd] = UInput.from_device(self.iDevices[fd].fn)
+            self.uDevices[fd] = UInput.from_device(self.iDevices[fd])            
         except Exception as e:
             try:
                 self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: compat fallback:  ' + str(e),debug.debugLevel.WARNING)         
                 dev = self.iDevices[fd]
                 cap = dev.capabilities()
                 del cap[0]
+                print(e)
                 self.uDevices[fd] = UInput(
                   cap,
                   dev.name,
