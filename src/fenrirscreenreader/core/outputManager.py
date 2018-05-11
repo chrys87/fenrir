@@ -228,8 +228,11 @@ class outputManager():
         offsetText = offsetText[offsetStart: offsetEnd]        
         return offsetText
     def interruptOutput(self):
-        self.env['runtime']['speechDriver'].cancel()
-        self.env['runtime']['debug'].writeDebugOut("Interrupt speech",debug.debugLevel.INFO)       
+        try:
+            self.env['runtime']['speechDriver'].cancel()
+            self.env['runtime']['debug'].writeDebugOut("Interrupt speech",debug.debugLevel.INFO)       
+        except:
+            pass            
 
     def clearFlushTime(self):
         self.setFlushTime(0.0)

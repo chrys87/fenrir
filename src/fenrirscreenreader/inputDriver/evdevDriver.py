@@ -40,6 +40,7 @@ class driver(inputDriver):
         self.iDevices = {}
         self.iDevicesFD = self._manager.list()
         self.uDevices = {}
+        self.gDevices = {}
         self.iDeviceNo = 0
         self.watchDog = Value(c_bool, True)
     def initialize(self, environment):
@@ -116,8 +117,12 @@ class driver(inputDriver):
     def writeEventBuffer(self):
         if not self._initialized:
             return    
-        for iDevice, uDevice, event in self.env['input']['eventBuffer']:           
-            self.writeUInput(uDevice, event)
+        for iDevice, uDevice, event in self.env['input']['eventBuffer']:
+            try:
+                if self.gDevices[iDevice.fd]:
+                    self.writeUInput(uDevice, event)
+            except Exception as e:
+                pass           
 
     def clearEventBuffer(self):
         if not self._initialized:
@@ -240,7 +245,7 @@ class driver(inputDriver):
         if not self._initialized:
             return
         for fd in self.iDevices:
-            self.grabDevice(fd)
+            self.grabDevice(fd)            
     def ungrabAllDevices(self):
         if not self._initialized:
             return          
@@ -267,6 +272,7 @@ class driver(inputDriver):
                 return                  
         try:
             self.iDevices[fd].grab()
+            self.gDevices[fd] = True            
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: grabing not possible:  ' + str(e),debug.debugLevel.ERROR)         
     def ungrabDevices(self,fd):
@@ -274,6 +280,7 @@ class driver(inputDriver):
             return      
         try:
             self.iDevices[fd].ungrab()
+            self.gDevices[fd] = False            
         except:
             pass    
     def removeDevice(self,fd):
@@ -298,7 +305,11 @@ class driver(inputDriver):
             del(self.uDevices[fd])
         except:
             pass  
-        self.updateMPiDevicesFD()
+        try:
+            del(self.gDevices[fd])
+        except:
+            pass              
+        self.MPiDevicesFD()
                  
     def hasIDevices(self):
         if not self._initialized:

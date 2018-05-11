@@ -10,7 +10,8 @@ import time, os, re, difflib
 
 class screenManager():
     def __init__(self):
-        pass
+        self.currScreenIgnored = False
+        self.prevScreenIgnored = False
     def initialize(self, environment):
         self.env = environment
         self.env['runtime']['settingsManager'].loadDriver(\
@@ -40,15 +41,28 @@ class screenManager():
             self.update(eventData, 'onScreenChange')
             self.env['screen']['lastScreenUpdate'] = time.time()            
     def handleScreenUpdate(self, eventData):
-        self.env['screen']['oldApplication'] = self.env['screen']['newApplication']                                                    
-        if not self.isSuspendingScreen(self.env['screen']['newTTY']):       
+        self.env['screen']['oldApplication'] = self.env['screen']['newApplication'] 
+        self.updateScreenIgnored() 
+        if self.getCurrScreenIgnored() != self.getPrevScreenIgnored():
+            if self.getCurrScreenIgnored():
+                self.env['runtime']['inputManager'].ungrabAllDevices()
+                self.env['runtime']['outputManager'].interruptOutput()
+            else:
+                self.env['runtime']['inputManager'].grabAllDevices()            
+        if not self.getCurrScreenIgnored():       
             self.update(eventData, 'onScreenUpdate')
             #if trigger == 'onUpdate' or self.isScreenChange() \
             #  or len(self.env['screen']['newDelta']) > 6:
             #    self.env['runtime']['screenDriver'].getCurrApplication() 
             self.env['screen']['lastScreenUpdate'] = time.time()
+    def getCurrScreenIgnored(self):
+        return self.currScreenIgnored
+    def getPrevScreenIgnored(self):
+        return self.prevScreenIgnored      
+    def updateScreenIgnored(self):
+        self.prevScreenIgnored = self.currScreenIgnored              
+        self.currScreenIgnored = self.isSuspendingScreen(self.env['screen']['newTTY'])                            
     def update(self, eventData, trigger='onUpdate'):
-        
         # set new "old" values
         self.env['screen']['oldContentBytes'] = self.env['screen']['newContentBytes']
         self.env['screen']['oldContentText'] = self.env['screen']['newContentText']
@@ -60,6 +74,7 @@ class screenManager():
         self.env['screen']['oldAttribDelta'] = self.env['screen']['newAttribDelta']
         self.env['screen']['oldNegativeDelta'] = self.env['screen']['newNegativeDelta']
         self.env['screen']['newContentBytes'] = eventData['bytes']
+
         # get metadata like cursor or screensize
         self.env['screen']['lines'] = int( eventData['lines'])
         self.env['screen']['columns'] = int( eventData['columns'])
@@ -135,7 +150,7 @@ class screenManager():
         if self.env['screen']['oldContentAttrib'] != self.env['screen']['newContentAttrib']:
             if self.env['runtime']['settingsManager'].getSettingAsBool('focus', 'highlight'):
                 self.env['screen']['newAttribDelta'], self.env['screen']['newCursorAttrib'] = screen_utils.trackHighlights(self.env['screen']['oldContentAttrib'], self.env['screen']['newContentAttrib'], self.env['screen']['newContentText'], self.env['screen']['columns'])
-            
+
     def formatAttributes(self, attribute, attributeFormatString = None):
         if not attributeFormatString:
             attributeFormatString = self.env['runtime']['settingsManager'].getSetting('general', 'attributeFormatString')
