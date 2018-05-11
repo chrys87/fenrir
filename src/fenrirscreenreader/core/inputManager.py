@@ -109,10 +109,16 @@ class inputManager():
 
     def grabAllDevices(self):
         if self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
-            self.env['runtime']['inputDriver'].grabAllDevices()
+            try:
+                self.env['runtime']['inputDriver'].grabAllDevices()
+            except Exception as e:
+                pass                
     def ungrabAllDevices(self):
         if self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
-            self.env['runtime']['inputDriver'].ungrabAllDevices()
+            try:
+                self.env['runtime']['inputDriver'].ungrabAllDevices()
+            except Exception as e:
+                pass  
         
     def updateInputDevices(self):
         try:
@@ -155,7 +161,10 @@ class inputManager():
         return eventName
 
     def clearEventBuffer(self):
-        self.env['runtime']['inputDriver'].clearEventBuffer()
+        try:
+            self.env['runtime']['inputDriver'].clearEventBuffer()
+        except Exception as e:
+            pass              
     def setLastDeepestInput(self, currentDeepestInput):
         self.lastDeepestInput = currentDeepestInput
     def clearLastDeepInput(self):
