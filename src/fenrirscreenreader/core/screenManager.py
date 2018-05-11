@@ -158,13 +158,16 @@ class screenManager():
             return ''
         if attributeFormatString == '':
             return ''
-        attributeFormatString = attributeFormatString.replace('fenrirBGColor', self.env['runtime']['screenDriver'].getFenrirBGColor(attribute))
-        attributeFormatString = attributeFormatString.replace('fenrirFGColor', self.env['runtime']['screenDriver'].getFenrirFGColor(attribute))
-        attributeFormatString = attributeFormatString.replace('fenrirUnderline', self.env['runtime']['screenDriver'].getFenrirUnderline(attribute))
-        attributeFormatString = attributeFormatString.replace('fenrirBold', self.env['runtime']['screenDriver'].getFenrirBold(attribute))
-        attributeFormatString = attributeFormatString.replace('fenrirBlink', self.env['runtime']['screenDriver'].getFenrirBlink(attribute))
-        attributeFormatString = attributeFormatString.replace('fenrirFontSize', self.env['runtime']['screenDriver'].getFenrirFontSize(attribute))                        
-        attributeFormatString = attributeFormatString.replace('fenrirFont', self.env['runtime']['screenDriver'].getFenrirFont(attribute))        
+        try:
+            attributeFormatString = attributeFormatString.replace('fenrirBGColor', self.env['runtime']['screenDriver'].getFenrirBGColor(attribute))
+            attributeFormatString = attributeFormatString.replace('fenrirFGColor', self.env['runtime']['screenDriver'].getFenrirFGColor(attribute))
+            attributeFormatString = attributeFormatString.replace('fenrirUnderline', self.env['runtime']['screenDriver'].getFenrirUnderline(attribute))
+            attributeFormatString = attributeFormatString.replace('fenrirBold', self.env['runtime']['screenDriver'].getFenrirBold(attribute))
+            attributeFormatString = attributeFormatString.replace('fenrirBlink', self.env['runtime']['screenDriver'].getFenrirBlink(attribute))
+            attributeFormatString = attributeFormatString.replace('fenrirFontSize', self.env['runtime']['screenDriver'].getFenrirFontSize(attribute))                        
+            attributeFormatString = attributeFormatString.replace('fenrirFont', self.env['runtime']['screenDriver'].getFenrirFont(attribute))        
+        except Exception as e:
+            pass              
         return attributeFormatString
     def isSuspendingScreen(self, screen = None):
         if screen == None:
@@ -212,7 +215,6 @@ class screenManager():
         try:
             self.env['runtime']['screenDriver'].injectTextToScreen(text, screen) 
         except Exception as e:
-            print(e)
             self.env['runtime']['debug'].writeDebugOut('screenManager:injectTextToScreen ' + str(e),debug.debugLevel.ERROR) 
             
     def changeBrailleScreen(self):
