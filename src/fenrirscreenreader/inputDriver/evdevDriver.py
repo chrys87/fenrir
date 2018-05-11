@@ -40,6 +40,7 @@ class driver(inputDriver):
         self.iDevices = {}
         self.iDevicesFD = self._manager.list()
         self.uDevices = {}
+        self.gDevices = {}
         self.iDeviceNo = 0
         self.watchDog = Value(c_bool, True)
     def initialize(self, environment):
@@ -75,46 +76,53 @@ class driver(inputDriver):
         return time.time() 
          
     def inputWatchdog(self,active , eventQueue):
-        while active.value:
-            r, w, x = select(self.iDevices, [], [], 0.5)
-            for fd in r:
-                event = None
-                foreward = False
-                eventFired = False
-                try:
-                    event = self.iDevices[fd].read_one()                              
-                except:
-                    self.removeDevice(fd)
-                while(event):
-                    self.env['input']['eventBuffer'].append( [self.iDevices[fd], self.uDevices[fd], event])
-                    if event.type == evdev.events.EV_KEY:
-                        if event.code != 0:
-                            currMapEvent = self.mapEvent(event)
-                            if not currMapEvent:
-                                foreward = True                            
-                            if not isinstance(currMapEvent['EventName'], str):
-                                foreward = True                            
-                            if not foreward or eventFired:
-                                if currMapEvent['EventState'] in [0,1,2]:
-                                    eventQueue.put({"Type":fenrirEventType.KeyboardInput,"Data":currMapEvent.copy()}) 
-                                    eventFired = True
-                    else:
-                        if not event.type in [0,4]:
-                            foreward = True
-                          
-                    event = self.iDevices[fd].read_one()   
-                if foreward and not eventFired:
-                    self.writeEventBuffer()
-                    self.clearEventBuffer() 
-                    
+        try:
+            while active.value:
+                r, w, x = select(self.iDevices, [], [], 0.5)
+                for fd in r:
+                    event = None
+                    foreward = False
+                    eventFired = False
+                    try:
+                        event = self.iDevices[fd].read_one()                              
+                    except:
+                        self.removeDevice(fd)
+                    while(event):
+                        self.env['input']['eventBuffer'].append( [self.iDevices[fd], self.uDevices[fd], event])
+                        if event.type == evdev.events.EV_KEY:
+                            if event.code != 0:
+                                currMapEvent = self.mapEvent(event)
+                                if not currMapEvent:
+                                    foreward = True                            
+                                if not isinstance(currMapEvent['EventName'], str):
+                                    foreward = True                            
+                                if not foreward or eventFired:
+                                    if currMapEvent['EventState'] in [0,1,2]:
+                                        eventQueue.put({"Type":fenrirEventType.KeyboardInput,"Data":currMapEvent.copy()}) 
+                                        eventFired = True
+                        else:
+                            if not event.type in [0,4]:
+                                foreward = True
+                              
+                        event = self.iDevices[fd].read_one()   
+                    if foreward and not eventFired:
+                        self.writeEventBuffer()
+                        self.clearEventBuffer() 
+        except Exception as e:
+            self.env['runtime']['debug'].writeDebugOut("INPUT WATCHDOG CRASH: "+str(e),debug.debugLevel.ERROR)                
+         
     def handleInputEvent(self, event):
         return       
 
     def writeEventBuffer(self):
         if not self._initialized:
             return    
-        for iDevice, uDevice, event in self.env['input']['eventBuffer']:           
-            self.writeUInput(uDevice, event)
+        for iDevice, uDevice, event in self.env['input']['eventBuffer']:
+            try:
+                if self.gDevices[iDevice.fd]:
+                    self.writeUInput(uDevice, event)
+            except Exception as e:
+                pass           
 
     def clearEventBuffer(self):
         if not self._initialized:
@@ -184,7 +192,6 @@ class driver(inputDriver):
                     self.grabDevice(currDevice.fd)
                     self.env['runtime']['debug'].writeDebugOut('Device added (Name):' + self.iDevices[currDevice.fd].name,debug.debugLevel.INFO)                                                                                                                                            
             except Exception as e:
-                print(e)
                 self.env['runtime']['debug'].writeDebugOut("Device Skipped (Exception): " + deviceFile +' ' + currDevice.name +' '+ str(e),debug.debugLevel.INFO)                
         self.iDeviceNo = len(evdev.list_devices())
         self.updateMPiDevicesFD()
@@ -238,14 +245,18 @@ class driver(inputDriver):
         if not self._initialized:
             return
         for fd in self.iDevices:
-            self.grabDevice(fd)
-
+            self.grabDevice(fd)            
+    def ungrabAllDevices(self):
+        if not self._initialized:
+            return          
+        for fd in self.iDevices:
+            self.ungrabDevices(fd)
     def grabDevice(self, fd):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
             self.uDevices[fd] = None
             return
         try:        
-            self.uDevices[fd] = UInput.from_device(self.iDevices[fd].fn)
+            self.uDevices[fd] = UInput.from_device(self.iDevices[fd])            
         except Exception as e:
             try:
                 self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: compat fallback:  ' + str(e),debug.debugLevel.WARNING)         
@@ -261,13 +272,21 @@ class driver(inputDriver):
                 return                  
         try:
             self.iDevices[fd].grab()
+            self.gDevices[fd] = True            
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: grabing not possible:  ' + str(e),debug.debugLevel.ERROR)         
-
+    def ungrabDevices(self,fd):
+        if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
+            return      
+        try:
+            self.iDevices[fd].ungrab()
+            self.gDevices[fd] = False            
+        except:
+            pass    
     def removeDevice(self,fd):
         self.clearEventBuffer()
         try:
-            self.iDevices[fd].ungrab()
+            self.ungrabDevices(fd)
         except:
             pass
         try:
@@ -286,7 +305,11 @@ class driver(inputDriver):
             del(self.uDevices[fd])
         except:
             pass  
-        self.updateMPiDevicesFD()
+        try:
+            del(self.gDevices[fd])
+        except:
+            pass              
+        self.MPiDevicesFD()
                  
     def hasIDevices(self):
         if not self._initialized:

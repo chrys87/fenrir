@@ -71,7 +71,7 @@ class processManager():
                 else:
                     function(self.running, eventQueue)
             except Exception as e:
-                self.env['runtime']['debug'].writeDebugOut('processManager:customEventWorkerThread:function():' + str(e),debug.debugLevel.ERROR) 
+                self.env['runtime']['debug'].writeDebugOut('processManager:customEventWorkerThread:function('+str(function)+'):' + str(e),debug.debugLevel.ERROR) 
             if runOnce:
                 break
 
@@ -88,7 +88,7 @@ class processManager():
                 else:
                     Data = function(self.running)
             except Exception as e:
-                self.env['runtime']['debug'].writeDebugOut('processManager:simpleEventWorkerThread:function():' + str(e),debug.debugLevel.ERROR) 
+                self.env['runtime']['debug'].writeDebugOut('processManager:simpleEventWorkerThread:function('+str(function)+'):' + str(e),debug.debugLevel.ERROR) 
             self.env['runtime']['eventManager'].putToEventQueue(event, Data)
             if runOnce:
                 break

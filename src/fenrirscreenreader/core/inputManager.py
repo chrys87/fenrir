@@ -110,7 +110,10 @@ class inputManager():
     def grabAllDevices(self):
         if self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
             self.env['runtime']['inputDriver'].grabAllDevices()
-    
+    def ungrabAllDevices(self):
+        if self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
+            self.env['runtime']['inputDriver'].ungrabAllDevices()
+        
     def updateInputDevices(self):
         try:
             self.env['runtime']['inputDriver'].updateInputDevices()  

@@ -37,7 +37,7 @@ class driver(soundDriver):
             word = word.replace('fenrirFreqDuration', str(duration))
             word = word.replace('fenrirFrequence', str(frequence))
             popenFrequenceCommand[idx] = word        
-        self.proc = subprocess.Popen(popenFrequenceCommand, shell=False)
+        self.proc = subprocess.Popen(popenFrequenceCommand, stdin=None, stdout=None, stderr=None, shell=False)
         self.soundType = 'frequence'
     def playSoundFile(self, filePath, interrupt = True):
         if not self._initialized:
