@@ -15,15 +15,25 @@ class screenManager():
         self.env = environment
         self.env['runtime']['settingsManager'].loadDriver(\
           self.env['runtime']['settingsManager'].getSetting('screen', 'driver'), 'screenDriver')    
-        self.env['runtime']['screenDriver'].getCurrScreen()
-        self.env['runtime']['screenDriver'].getCurrScreen()        
-        self.env['runtime']['screenDriver'].getSessionInformation()
-        
+        self.getCurrScreen()  
+        self.getCurrScreen()
+        self.getSessionInformation()              
+    def getCurrScreen(self):
+        try:
+            self.env['runtime']['screenDriver'].getCurrScreen()
+        except:
+            pass
+    def getSessionInformation(self):
+        try:    
+            self.env['runtime']['screenDriver'].getSessionInformation()
+        except:
+            pass        
+            
     def shutdown(self):
         self.env['runtime']['settingsManager'].shutdownDriver('screenDriver')
     def hanldeScreenChange(self, eventData):
-        self.env['runtime']['screenDriver'].getCurrScreen()
-        self.env['runtime']['screenDriver'].getSessionInformation()
+        self.getCurrScreen()
+        self.getSessionInformation()
         if self.isScreenChange():                 
             self.changeBrailleScreen()              
         if not self.isSuspendingScreen(self.env['screen']['newTTY']):       
