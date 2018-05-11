@@ -241,7 +241,11 @@ class driver(inputDriver):
             return
         for fd in self.iDevices:
             self.grabDevice(fd)
-
+    def ungrabAllDevices(self):
+        if not self._initialized:
+            return          
+        for fd in self.iDevices:
+            self.ungrabDevices(fd)
     def grabDevice(self, fd):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
             self.uDevices[fd] = None
@@ -254,7 +258,6 @@ class driver(inputDriver):
                 dev = self.iDevices[fd]
                 cap = dev.capabilities()
                 del cap[0]
-                print(e)
                 self.uDevices[fd] = UInput(
                   cap,
                   dev.name,
@@ -266,11 +269,17 @@ class driver(inputDriver):
             self.iDevices[fd].grab()
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: grabing not possible:  ' + str(e),debug.debugLevel.ERROR)         
-
+    def ungrabDevices(self,fd):
+        if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
+            return      
+        try:
+            self.iDevices[fd].ungrab()
+        except:
+            pass    
     def removeDevice(self,fd):
         self.clearEventBuffer()
         try:
-            self.iDevices[fd].ungrab()
+            self.ungrabDevices(fd)
         except:
             pass
         try:
