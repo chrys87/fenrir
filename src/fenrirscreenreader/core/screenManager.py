@@ -42,6 +42,8 @@ class screenManager():
             self.update(eventData, 'onScreenChange')
             self.env['screen']['lastScreenUpdate'] = time.time()            
     def handleDeviceGrab(self):
+        if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
+            return          
         if self.getCurrScreenIgnored() != self.getPrevScreenIgnored():
             self.toggleDeviceGrab = True
         if self.toggleDeviceGrab:
