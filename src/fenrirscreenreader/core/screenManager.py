@@ -47,11 +47,13 @@ class screenManager():
         if self.toggleDeviceGrab:
             if self.env['runtime']['inputManager'].noKeyPressed():
                 if self.getCurrScreenIgnored():
+                    print('ungrab')
                     self.env['runtime']['inputManager'].ungrabAllDevices()
                     self.env['runtime']['outputManager'].interruptOutput()
                 else:
                     self.env['runtime']['inputManager'].grabAllDevices()            
-                self.toggleDeviceGrab = True  
+                    print('grab')
+                self.toggleDeviceGrab = False  
                 
     def handleScreenUpdate(self, eventData):
         self.env['screen']['oldApplication'] = self.env['screen']['newApplication'] 
