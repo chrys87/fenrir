@@ -134,7 +134,6 @@ class driver(inputDriver):
             return    
         uDevice.write_event(event)
         uDevice.syn()
-        time.sleep(0.00001)
 
     def updateInputDevices(self, force = False, init = False):
         if init:
@@ -173,8 +172,8 @@ class driver(inputDriver):
                         if 116 in cap[eventType.EV_KEY] and len(cap[eventType.EV_KEY]) < 10:
                             self.env['runtime']['debug'].writeDebugOut('Device Skipped (has 116):' + currDevice.name,debug.debugLevel.INFO)                                                                
                             continue
-                        if len(cap[eventType.EV_KEY]) < 30:
-                            self.env['runtime']['debug'].writeDebugOut('Device Skipped (< 30 keys):' + currDevice.name,debug.debugLevel.INFO)                                                                                        
+                        if len(cap[eventType.EV_KEY]) < 60:
+                            self.env['runtime']['debug'].writeDebugOut('Device Skipped (< 60 keys):' + currDevice.name,debug.debugLevel.INFO)                                                                                        
                             continue                            
                         if mode == 'ALL':
                             self.iDevices[currDevice.fd] = currDevice
