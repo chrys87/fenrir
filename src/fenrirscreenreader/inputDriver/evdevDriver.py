@@ -260,7 +260,7 @@ class driver(inputDriver):
             return
         except KeyError:
             pass
-        if not self.uDevices[fd]:
+        if self.uDevices[fd] != None:
             return
         try:      
             self.uDevices[fd] = UInput.from_device(self.iDevices[fd])            
