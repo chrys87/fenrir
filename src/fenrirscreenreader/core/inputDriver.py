@@ -41,13 +41,16 @@ class inputDriver():
     def toggleLedState(self, led = 0):
         if not self._initialized:
             return None
-    def grabDevices(self):
+    def grabAllDevices(self):
         if not self._initialized:
             return None
-    def releaseDevices(self):
+    def ungrabAllDevices(self):
         if not self._initialized:
             return None
+    def removeAllDevices(self):
+        if not self._initialized:
+            return None 
     def __del__(self):
         if not self._initialized:
             return None        
-        self.releaseDevices()
+        self.removeAllDevices()
