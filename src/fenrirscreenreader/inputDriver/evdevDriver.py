@@ -67,7 +67,7 @@ class driver(inputDriver):
         while active.value:
             devices = monitor.poll(2)
             if devices:
-                while monitor.poll(0.1):
+                while monitor.poll(1):
                     pass
                 eventQueue.put({"Type":fenrirEventType.PlugInputDevice,"Data":None})
         return time.time()        
