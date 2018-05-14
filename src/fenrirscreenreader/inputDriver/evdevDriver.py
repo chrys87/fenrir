@@ -177,19 +177,16 @@ class driver(inputDriver):
                             self.env['runtime']['debug'].writeDebugOut('Device Skipped (< 60 keys):' + currDevice.name,debug.debugLevel.INFO)                                                                                        
                             continue                            
                         if mode == 'ALL':
-                            self.iDevices[currDevice.fd] = currDevice
-                            self.addDevice(currDevice.fd)
+                            self.addDevice(currDevice)
                             self.env['runtime']['debug'].writeDebugOut('Device added (ALL):' + self.iDevices[currDevice.fd].name, debug.debugLevel.INFO)                           
                         elif mode == 'NOMICE':
                             if not ((eventType.EV_REL in cap) or (eventType.EV_ABS in cap)):
-                                self.iDevices[currDevice.fd] = currDevice
-                                self.addDevice(currDevice.fd)
+                                self.addDevice(currDevice)
                                 self.env['runtime']['debug'].writeDebugOut('Device added (NOMICE):' + self.iDevices[currDevice.fd].name,debug.debugLevel.INFO)                                                
                             else:
                                 self.env['runtime']['debug'].writeDebugOut('Device Skipped (NOMICE):' + currDevice.name,debug.debugLevel.INFO)                                        
                 elif currDevice.name.upper() in mode.split(','):
-                    self.iDevices[currDevice.fd] = currDevice
-                    self.addDevice(currDevice.fd)
+                    self.addDevice(currDevice)
                     self.env['runtime']['debug'].writeDebugOut('Device added (Name):' + self.iDevices[currDevice.fd].name,debug.debugLevel.INFO)                                                                                                                                            
             except Exception as e:
                 self.env['runtime']['debug'].writeDebugOut("Device Skipped (Exception): " + deviceFile +' ' + currDevice.name +' '+ str(e),debug.debugLevel.INFO)                
@@ -259,7 +256,7 @@ class driver(inputDriver):
             test = self.uDevices[fd]
             return
         except KeyError:
-            pass
+            self.uDevices[fd] = None
         if self.uDevices[fd] != None:
             return
         try:      
@@ -277,7 +274,8 @@ class driver(inputDriver):
             except Exception as e:
                 self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: init Uinput not possible:  ' + str(e),debug.debugLevel.ERROR)         
                 return               
-    def addDevice(self, fd):
+    def addDevice(self, newDevice, fd):
+        self.iDevices[newDevice.fd] = newDevice    
         self.createUInputDev(fd)
         self.grabDevice(fd)
     def grabDevice(self, fd):
@@ -292,8 +290,8 @@ class driver(inputDriver):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
             return      
         try:
+            self.gDevices[fd] = False                    
             self.iDevices[fd].ungrab()
-            self.gDevices[fd] = False            
         except:
             pass    
     def removeDevice(self,fd):
@@ -322,7 +320,7 @@ class driver(inputDriver):
             del(self.gDevices[fd])
         except:
             pass              
-        self.MPiDevicesFD()
+        self.updateMPiDevicesFD()
                  
     def hasIDevices(self):
         if not self._initialized:
