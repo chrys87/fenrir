@@ -20,7 +20,7 @@ class driver(inputDriver):
         
     def shutdown(self):
         if self._initialized:
-            self.releaseDevices()       
+            self.removeAllDevices()       
         self._initialized = False    
         print('Input Debug Driver: Shutdown')
         
@@ -51,17 +51,22 @@ class driver(inputDriver):
         if not self._initialized:
             return    
         print('Input Debug Driver: toggleLedState')
-    def grabDevices(self):
+    def grabAllDevices(self):
         if not self._initialized:
             return    
-        print('Input Debug Driver: grabDevices')
-    def releaseDevices(self):
+        print('Input Debug Driver: grabAllDevices')
+    def ungrabAllDevices(self):
         if not self._initialized:
             return    
-        print('Input Debug Driver: releaseDevices')
+        print('Input Debug Driver: ungrabAllDevices')
+        
+    def removeAllDevices(self):
+        if not self._initialized:
+            return    
+        print('Input Debug Driver: removeAllDevices')
     def __del__(self):
         if self._initialized:
-            self.releaseDevices()
+            self.removeAllDevices()
         print('Input Debug Driver: __del__')        
 
 
