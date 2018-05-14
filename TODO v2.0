@@ -129,9 +129,9 @@ Cleanups:
   [X] first item
   [X] last item  
 General:
-- [X] make it runable using pypy3
-
-- [X] read ignorescreens from an file to be able to halt fenrir from outside
+  [X] make it runable using pypy3
+  [X] interrupt speech while entering an ignored screen
+  [X] read ignorescreens from an file to be able to halt fenrir from outside
 - commands
   [X] place last spoken to clipboard (Easy for contribution)
 - Improvend Headline Seperator and Multible Char Support
@@ -139,6 +139,8 @@ General:
 - autospeak indentation changes (useful for python programming)  
 Braille Support:
 Driver:
+[X] evdev InputDriver
+  [X] grab/ ungrab devices on ignored screens
 [X] PTY Input driver
   [X] new event for byte shortcuts (escape sequences)
   [X] create driver

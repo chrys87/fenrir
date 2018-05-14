@@ -17,5 +17,7 @@ for fd in iDevices:
         print('No. of keys: ' + str(len(cap[evdev.events.EV_KEY])))
         print('has Key 116: ' + str(116 in cap[evdev.events.EV_KEY]))
     print('Is Mouse: ' + str(((evdev.events.EV_REL in cap) or (evdev.events.EV_ABS in cap))))
+    print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+    print(dev.capabilities(verbose=True))
     print('----------------------')
 

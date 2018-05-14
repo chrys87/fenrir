@@ -12,6 +12,7 @@ class screenManager():
     def __init__(self):
         self.currScreenIgnored = False
         self.prevScreenIgnored = False
+        self.toggleDeviceGrab = False
     def initialize(self, environment):
         self.env = environment
         self.env['runtime']['settingsManager'].loadDriver(\
@@ -40,15 +41,24 @@ class screenManager():
         if not self.isSuspendingScreen(self.env['screen']['newTTY']):       
             self.update(eventData, 'onScreenChange')
             self.env['screen']['lastScreenUpdate'] = time.time()            
+    def handleDeviceGrab(self):
+        if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
+            return          
+        if self.getCurrScreenIgnored() != self.getPrevScreenIgnored():
+            self.toggleDeviceGrab = True
+        if self.toggleDeviceGrab:
+            if self.env['runtime']['inputManager'].noKeyPressed():
+                if self.getCurrScreenIgnored():
+                    self.env['runtime']['inputManager'].ungrabAllDevices()
+                    self.env['runtime']['outputManager'].interruptOutput()
+                else:
+                    self.env['runtime']['inputManager'].grabAllDevices()            
+                self.toggleDeviceGrab = False  
+                
     def handleScreenUpdate(self, eventData):
         self.env['screen']['oldApplication'] = self.env['screen']['newApplication'] 
         self.updateScreenIgnored() 
-        if self.getCurrScreenIgnored() != self.getPrevScreenIgnored():
-            if self.getCurrScreenIgnored():
-                self.env['runtime']['inputManager'].ungrabAllDevices()
-                self.env['runtime']['outputManager'].interruptOutput()
-            else:
-                self.env['runtime']['inputManager'].grabAllDevices()            
+        self.handleDeviceGrab()     
         if not self.getCurrScreenIgnored():       
             self.update(eventData, 'onScreenUpdate')
             #if trigger == 'onUpdate' or self.isScreenChange() \
@@ -158,13 +168,34 @@ class screenManager():
             return ''
         if attributeFormatString == '':
             return ''
-        attributeFormatString = attributeFormatString.replace('fenrirBGColor', self.env['runtime']['screenDriver'].getFenrirBGColor(attribute))
-        attributeFormatString = attributeFormatString.replace('fenrirFGColor', self.env['runtime']['screenDriver'].getFenrirFGColor(attribute))
-        attributeFormatString = attributeFormatString.replace('fenrirUnderline', self.env['runtime']['screenDriver'].getFenrirUnderline(attribute))
-        attributeFormatString = attributeFormatString.replace('fenrirBold', self.env['runtime']['screenDriver'].getFenrirBold(attribute))
-        attributeFormatString = attributeFormatString.replace('fenrirBlink', self.env['runtime']['screenDriver'].getFenrirBlink(attribute))
-        attributeFormatString = attributeFormatString.replace('fenrirFontSize', self.env['runtime']['screenDriver'].getFenrirFontSize(attribute))                        
-        attributeFormatString = attributeFormatString.replace('fenrirFont', self.env['runtime']['screenDriver'].getFenrirFont(attribute))        
+        try:
+            attributeFormatString = attributeFormatString.replace('fenrirBGColor', self.env['runtime']['screenDriver'].getFenrirBGColor(attribute))
+        except Exception as e:
+            pass               
+        try:
+            attributeFormatString = attributeFormatString.replace('fenrirFGColor', self.env['runtime']['screenDriver'].getFenrirFGColor(attribute))
+        except Exception as e:
+            pass               
+        try:
+            attributeFormatString = attributeFormatString.replace('fenrirUnderline', self.env['runtime']['screenDriver'].getFenrirUnderline(attribute))
+        except Exception as e:
+            pass               
+        try:
+            attributeFormatString = attributeFormatString.replace('fenrirBold', self.env['runtime']['screenDriver'].getFenrirBold(attribute))
+        except Exception as e:
+            pass               
+        try:
+            attributeFormatString = attributeFormatString.replace('fenrirBlink', self.env['runtime']['screenDriver'].getFenrirBlink(attribute))
+        except Exception as e:
+            pass               
+        try:
+            attributeFormatString = attributeFormatString.replace('fenrirFontSize', self.env['runtime']['screenDriver'].getFenrirFontSize(attribute))                        
+        except Exception as e:
+            pass               
+        try:
+            attributeFormatString = attributeFormatString.replace('fenrirFont', self.env['runtime']['screenDriver'].getFenrirFont(attribute))        
+        except Exception as e:
+            pass              
         return attributeFormatString
     def isSuspendingScreen(self, screen = None):
         if screen == None:
@@ -212,7 +243,6 @@ class screenManager():
         try:
             self.env['runtime']['screenDriver'].injectTextToScreen(text, screen) 
         except Exception as e:
-            print(e)
             self.env['runtime']['debug'].writeDebugOut('screenManager:injectTextToScreen ' + str(e),debug.debugLevel.ERROR) 
             
     def changeBrailleScreen(self):

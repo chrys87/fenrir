@@ -4,7 +4,7 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-import signal, time, argparse
+import signal, time, argparse, sys
 
 from fenrirscreenreader.core import i18n
 from fenrirscreenreader.core import settingsManager
@@ -32,6 +32,7 @@ class fenrirManager():
         self.command = ''
         self.controlMode = True
         self.switchCtrlModeOnce = 0
+        self.setProcessName()
     def handleArgs(self):
         args = None
         parser = argparse.ArgumentParser(description="Fenrir Help")
@@ -212,7 +213,32 @@ class fenrirManager():
                     if self.environment['runtime']['inputManager'].noKeyPressed():
                         self.environment['runtime']['eventManager'].putToEventQueue(fenrirEventType.ExecuteCommand, self.command)
                         self.command = ''
+    def setProcessName(self, name = 'fenrir'):
+        """Attempts to set the process name to 'fenrir'."""
 
+        #sys.argv[0] = name
+
+        # Disabling the import error of setproctitle.
+        # pylint: disable-msg=F0401
+        try:
+            from setproctitle import setproctitle
+        except ImportError:
+            pass
+        else:
+            setproctitle(name)
+            return True
+
+        try:
+            from ctypes import cdll, byref, create_string_buffer
+            libc = cdll.LoadLibrary('libc.so.6')
+            stringBuffer = create_string_buffer(len(name) + 1)
+            stringBuffer.value = bytes(name, 'UTF-8')
+            libc.prctl(15, byref(stringBuffer), 0, 0, 0)
+            return True
+        except:
+            pass
+
+        return False
     def shutdownRequest(self):
         try:
             self.environment['runtime']['eventManager'].stopMainEventLoop()

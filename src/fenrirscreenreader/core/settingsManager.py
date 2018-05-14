@@ -153,7 +153,10 @@ class settingsManager():
     def shutdownDriver(self, driverType):
         if self.env['runtime'][driverType] == None:
             return
-        self.env['runtime'][driverType].shutdown()
+        try:
+            self.env['runtime'][driverType].shutdown()
+        except Exception as e:
+            pass              
         del self.env['runtime'][driverType]          
 
     def setFenrirKeys(self, keys):
