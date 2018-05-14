@@ -274,10 +274,10 @@ class driver(inputDriver):
             except Exception as e:
                 self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: init Uinput not possible:  ' + str(e),debug.debugLevel.ERROR)         
                 return               
-    def addDevice(self, newDevice, fd):
+    def addDevice(self, newDevice):
         self.iDevices[newDevice.fd] = newDevice    
-        self.createUInputDev(fd)
-        self.grabDevice(fd)
+        self.createUInputDev(newDevice.fd)
+        self.grabDevice(newDevice.fd)
     def grabDevice(self, fd):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
             return
