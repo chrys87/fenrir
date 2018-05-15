@@ -51,7 +51,7 @@ else:
 if available:
     currentInstallation.append('vcsaDriver')
 # pty emulation (screen driver)
-print('ptyDriver (screen)')
+print('ptyDriver')
 available = True
 try:
     import pyte
@@ -60,7 +60,7 @@ except:
     print('pyte: FAIL')
     available = available and False    
 if available:
-    currentInstallation.append('ptyDriver') 
+    currentInstallation.append('ptyDriver (screen)') 
     
 # BRAILLE
 print('')
@@ -99,7 +99,7 @@ except:
 if available:
     currentInstallation.append('evdevDriver')
 # pty emulation (input driver)
-print('ptyDriver (Input)')
+print('ptyDriver')
 available = True
 try:
     import pyte
@@ -108,7 +108,7 @@ except:
     print('pyte: FAIL')
     available = available and False    
 if available:
-    currentInstallation.append('ptyDriver')     
+    currentInstallation.append('ptyDriver (Input)')     
 # SOUND
 print('')
 print('sound driver')
