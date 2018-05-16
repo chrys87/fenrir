@@ -295,6 +295,7 @@ class driver(inputDriver):
         except:
             pass    
     def removeDevice(self,fd):
+        self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: device removed:  ' + str(fd) + ' ' +str(self.iDevices[fd]),debug.debugLevel.ERROR)         
         self.clearEventBuffer()
         try:
             self.ungrabDevice(fd)
