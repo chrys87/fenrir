@@ -54,8 +54,8 @@ class driver(inputDriver):
             self.env['runtime']['debug'].writeDebugOut('InputDriver: ' + _evdevAvailableError,debug.debugLevel.ERROR)         
             return  
         self.updateInputDevices()
-        #if _udevAvailable:
-        #    self.env['runtime']['processManager'].addCustomEventThread(self.plugInputDeviceWatchdogUdev)        
+        if _udevAvailable:
+            self.env['runtime']['processManager'].addCustomEventThread(self.plugInputDeviceWatchdogUdev)        
         #else:
         #    self.env['runtime']['processManager'].addSimpleEventThread(fenrirEventType.PlugInputDevice, self.plugInputDeviceWatchdogTimer)                
         self.env['runtime']['processManager'].addCustomEventThread(self.inputWatchdog)
@@ -65,11 +65,18 @@ class driver(inputDriver):
         monitor.filter_by(subsystem='input')
         monitor.start()
         while active.value:
-            devices = monitor.poll(2)
-            if devices:
-                while monitor.poll(1):
+            validDevice = False
+            device = monitor.poll(1)
+            while device:
+                try:
+                    if not '/sys/devices/virtual/input/' in device.sys_path:
+                        validDevice = True
+                    device = monitor.poll(0.7)
+                except:                    
                     pass
+            if validDevice:
                 eventQueue.put({"Type":fenrirEventType.PlugInputDevice,"Data":None})
+                print('fired',device)
         return time.time()        
     def plugInputDeviceWatchdogTimer(self, active):
         time.sleep(10)
@@ -192,6 +199,7 @@ class driver(inputDriver):
                 self.env['runtime']['debug'].writeDebugOut("Device Skipped (Exception): " + deviceFile +' ' + currDevice.name +' '+ str(e),debug.debugLevel.INFO)                
         self.iDeviceNo = len(evdev.list_devices())
         self.updateMPiDevicesFD()
+        print(self.gDevices)
 
     def updateMPiDevicesFD(self):
         try:
