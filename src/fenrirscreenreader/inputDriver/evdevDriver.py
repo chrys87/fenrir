@@ -84,7 +84,7 @@ class driver(inputDriver):
     def inputWatchdog(self,active , eventQueue):
         try:
             while active.value:
-                r, w, x = select(self.iDevices, [], [], 0.5)
+                r, w, x = select(self.iDevices, [], [], 0.7)
                 for fd in r:
                     event = None
                     foreward = False
