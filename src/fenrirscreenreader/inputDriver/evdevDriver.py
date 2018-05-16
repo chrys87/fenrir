@@ -288,6 +288,7 @@ class driver(inputDriver):
                 self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: init Uinput not possible:  ' + str(e),debug.debugLevel.ERROR)         
                 return               
     def addDevice(self, newDevice):
+        self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: device added:  ' + str(newDevice.fd) + ' ' +str(newDevice),debug.debugLevel.INFO)      
         self.iDevices[newDevice.fd] = newDevice  
         self.gDevices[newDevice.fd] = False                      
         self.createUInputDev(newDevice.fd)
@@ -308,7 +309,7 @@ class driver(inputDriver):
         except:
             pass    
     def removeDevice(self,fd):
-        self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: device removed:  ' + str(fd) + ' ' +str(self.iDevices[fd]),debug.debugLevel.ERROR)         
+        self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: device removed:  ' + str(fd) + ' ' +str(self.iDevices[fd]),debug.debugLevel.INFO)         
         self.clearEventBuffer()
         try:
             self.ungrabDevice(fd)
