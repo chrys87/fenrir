@@ -172,6 +172,8 @@ class driver(inputDriver):
                 currDevice = evdev.InputDevice(deviceFile)
                 if currDevice.name.upper() in ['','SPEAKUP','PY-EVDEV-UINPUT']:
                     continue
+                if currDevice.phys.upper() in ['','SPEAKUP','PY-EVDEV-UINPUT']:
+                    continue                    
                 if 'BRLTTY' in  currDevice.name.upper():
                     continue                    
                 cap = currDevice.capabilities()
@@ -286,6 +288,7 @@ class driver(inputDriver):
                 self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: init Uinput not possible:  ' + str(e),debug.debugLevel.ERROR)         
                 return               
     def addDevice(self, newDevice):
+        print(newDevice.fd,newDevice)
         self.iDevices[newDevice.fd] = newDevice  
         self.gDevices[newDevice.fd] = False                      
         self.createUInputDev(newDevice.fd)
