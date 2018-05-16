@@ -71,12 +71,11 @@ class driver(inputDriver):
                 try:
                     if not '/sys/devices/virtual/input/' in device.sys_path:
                         validDevice = True
-                    device = monitor.poll(0.7)
+                    device = monitor.poll(0.5)
                 except:                    
                     pass
             if validDevice:
                 eventQueue.put({"Type":fenrirEventType.PlugInputDevice,"Data":None})
-                print('fired',device)
         return time.time()        
     def plugInputDeviceWatchdogTimer(self, active):
         time.sleep(10)
@@ -255,12 +254,14 @@ class driver(inputDriver):
         if not self._initialized:
             return
         for fd in self.iDevices:
-            self.grabDevice(fd)            
+            self.grabDevice(fd)  
+
     def ungrabAllDevices(self):
         if not self._initialized:
             return          
         for fd in self.iDevices:
             self.ungrabDevice(fd)
+
     def createUInputDev(self, fd):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
             self.uDevices[fd] = None
