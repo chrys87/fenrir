@@ -200,7 +200,6 @@ class driver(inputDriver):
                 self.env['runtime']['debug'].writeDebugOut("Device Skipped (Exception): " + deviceFile +' ' + currDevice.name +' '+ str(e),debug.debugLevel.INFO)                
         self.iDeviceNo = len(evdev.list_devices())
         self.updateMPiDevicesFD()
-        print(self.gDevices)
 
     def updateMPiDevicesFD(self):
         try:
@@ -289,11 +288,9 @@ class driver(inputDriver):
                 self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: init Uinput not possible:  ' + str(e),debug.debugLevel.ERROR)         
                 return               
     def addDevice(self, newDevice):
-        print(newDevice.fd,newDevice)
         self.iDevices[newDevice.fd] = newDevice  
         self.gDevices[newDevice.fd] = False                      
         self.createUInputDev(newDevice.fd)
-        #self.grabDevice(newDevice.fd)
     def grabDevice(self, fd):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
             return
