@@ -194,12 +194,15 @@ class driver(inputDriver):
         self.updateMPiDevicesFD()
 
     def updateMPiDevicesFD(self):
-        for fd in self.iDevices:
-            if not fd in self.iDevicesFD:
-                self.iDevicesFD.append(fd)
-        for fd in self.iDevicesFD:
-            if not fd in self.iDevices:
-                self.iDevicesFD.remove(fd)  
+        try:
+            for fd in self.iDevices:
+                if not fd in self.iDevicesFD:
+                    self.iDevicesFD.append(fd)
+            for fd in self.iDevicesFD:
+                if not fd in self.iDevices:
+                    self.iDevicesFD.remove(fd)  
+        except:
+            pass
     def mapEvent(self, event):
         if not self._initialized:
             return None    
@@ -275,9 +278,10 @@ class driver(inputDriver):
                 self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: init Uinput not possible:  ' + str(e),debug.debugLevel.ERROR)         
                 return               
     def addDevice(self, newDevice):
-        self.iDevices[newDevice.fd] = newDevice    
+        self.iDevices[newDevice.fd] = newDevice  
+        self.gDevices[newDevice.fd] = False                      
         self.createUInputDev(newDevice.fd)
-        self.grabDevice(newDevice.fd)
+        #self.grabDevice(newDevice.fd)
     def grabDevice(self, fd):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
             return
@@ -340,6 +344,5 @@ class driver(inputDriver):
             self.removeDevice(fd)
         self.iDevices.clear()
         self.uDevices.clear()
+        self.gDevices.clear()        
         self.iDeviceNo = 0 
-
-
