@@ -206,7 +206,6 @@ class screenManager():
             ignoreScreens.extend(fixIgnoreScreens.split(',')) 
         if self.env['runtime']['settingsManager'].getSettingAsBool('screen', 'autodetectSuspendingScreen'):
             ignoreScreens.extend(self.env['screen']['autoIgnoreScreens'])        
-        self.env['runtime']['debug'].writeDebugOut('screenManager:isSuspendingScreen ' + str(ignoreScreens) + ' '+ str(self.env['screen']['newTTY']),debug.debugLevel.INFO) 
         try:
             ignoreFileName = self.env['runtime']['settingsManager'].getSetting('screen', 'suspendingScreenFile')
             if ignoreFileName != '':
@@ -215,6 +214,7 @@ class screenManager():
                         ignoreScreens.extend(fp.read().replace('\n','').split(','))
         except:
             pass
+        self.env['runtime']['debug'].writeDebugOut('screenManager:isSuspendingScreen ' + str(ignoreScreens) + ' current:'+ str(self.env['screen']['newTTY']),debug.debugLevel.INFO)         
         return (screen in ignoreScreens)
  
     def isScreenChange(self):
