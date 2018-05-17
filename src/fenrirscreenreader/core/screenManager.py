@@ -136,7 +136,7 @@ class screenManager():
                       newScreenText.split('\n'))
                     diffList = list(diff)
 
-                if self.env['runtime']['settingsManager'].getSetting('general', 'newLinePause') and not typing:
+                if self.env['runtime']['settingsManager'].getSettingAsBool('general', 'newLinePause') and not typing:
                     self.env['screen']['newDelta'] = '\n'.join(x[2:] for x in diffList if x[0] == '+')
                 else:
                     self.env['screen']['newDelta'] = ''.join(x[2:] for x in diffList if x[0] == '+')             

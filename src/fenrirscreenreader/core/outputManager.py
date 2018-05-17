@@ -96,7 +96,11 @@ class outputManager():
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)            
         
         try:
-            cleanText = text.replace('\n',' , ')
+            if self.env['runtime']['settingsManager'].getSettingAsBool('general', 'newLinePause'):        
+                cleanText = text.replace('\n',' , ')
+            else:
+                cleanText = text.replace('\n',' ')
+
             cleanText = self.env['runtime']['headLineManager'].replaceHeadLines(cleanText)        
             cleanText = self.env['runtime']['punctuationManager'].proceedPunctuation(cleanText, ignorePunctuation) 
             cleanText = re.sub(' +$',' ', cleanText)            
