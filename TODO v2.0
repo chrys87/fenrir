@@ -130,6 +130,7 @@ Cleanups:
   [X] last item  
 General:
   [X] make it runable using pypy3
+  [X] play sound on plugging device
   [X] interrupt speech while entering an ignored screen
   [X] read ignorescreens from an file to be able to halt fenrir from outside
 - commands
@@ -165,6 +166,7 @@ Fixes:
 - handle thread and process shutdown more gracefully
 - cleanup
 - a lot more fixes
+- better device detection
 [X] (not conflict with other applications) find . -iname "*.py" -exec sed 's/from \(core.*\) import/from fenrir-screenreader.\1 import/g' {} \;
 
 
