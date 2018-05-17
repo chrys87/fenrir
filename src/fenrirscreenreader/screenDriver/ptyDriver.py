@@ -67,8 +67,8 @@ class driver(screenDriver):
         self.shortcutType = self.env['runtime']['inputManager'].getShortcutType()
         self.env['runtime']['processManager'].addCustomEventThread(self.terminalEmulation)
     def getCurrScreen(self):
-        self.env['screen']['oldTTY'] = '1'
-        self.env['screen']['newTTY'] = '1'
+        self.env['screen']['oldTTY'] = 'pty'
+        self.env['screen']['newTTY'] = 'pty'
  
     def injectTextToScreen(self, msgBytes, screen = None):
         if not screen:
