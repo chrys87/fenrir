@@ -12,7 +12,6 @@ class screenManager():
     def __init__(self):
         self.currScreenIgnored = False
         self.prevScreenIgnored = False
-        self.toggleDeviceGrab = False
     def initialize(self, environment):
         self.env = environment
         self.env['runtime']['settingsManager'].loadDriver(\
@@ -40,25 +39,12 @@ class screenManager():
             self.changeBrailleScreen()              
         if not self.isSuspendingScreen(self.env['screen']['newTTY']):       
             self.update(eventData, 'onScreenChange')
-            self.env['screen']['lastScreenUpdate'] = time.time()            
-    def handleDeviceGrab(self):
-        if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
-            return          
-        if self.getCurrScreenIgnored() != self.getPrevScreenIgnored():
-            self.toggleDeviceGrab = True
-        if self.toggleDeviceGrab:
-            if self.env['runtime']['inputManager'].noKeyPressed():
-                if self.getCurrScreenIgnored():
-                    self.env['runtime']['inputManager'].ungrabAllDevices()
-                    self.env['runtime']['outputManager'].interruptOutput()
-                else:
-                    self.env['runtime']['inputManager'].grabAllDevices()            
-                self.toggleDeviceGrab = False  
+            self.env['screen']['lastScreenUpdate'] = time.time()             
                 
     def handleScreenUpdate(self, eventData):
         self.env['screen']['oldApplication'] = self.env['screen']['newApplication'] 
         self.updateScreenIgnored() 
-        self.handleDeviceGrab()     
+        self.env['runtime']['inputManager'].handleDeviceGrab()     
         if not self.getCurrScreenIgnored():       
             self.update(eventData, 'onScreenUpdate')
             #if trigger == 'onUpdate' or self.isScreenChange() \

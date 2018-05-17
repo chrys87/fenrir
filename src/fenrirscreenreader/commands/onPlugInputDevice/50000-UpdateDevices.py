@@ -16,6 +16,6 @@ class command():
     def getDescription(self):
         return 'No description found'         
     def run(self):
-        pass 
+        self.env['runtime']['inputManager'].updateInputDevices()
     def setCallback(self, callback):
         pass

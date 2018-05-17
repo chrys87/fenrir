@@ -14,7 +14,7 @@ class inputManager():
     def __init__(self):
         self.setLedState = True
         self.shortcutType = 'KEY'
-        
+        self.toggleDeviceGrab = False        
     def setShortcutType(self, shortcutType = 'KEY'):
         if shortcutType in ['KEY', 'BYTE']:
             self.shortcutType = shortcutType
@@ -39,6 +39,23 @@ class inputManager():
         self.env['runtime']['settingsManager'].shutdownDriver('inputDriver')
     def  getInputEvent(self):
          return self.env['runtime']['inputDriver'].getInputEvent()
+    def handleDeviceGrab(self, useCurrentScreen = False):
+        if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
+            return
+        if useCurrentScreen:
+            self.toggleDeviceGrab = True
+        else:        
+            if self.env['runtime']['screenManager'].getCurrScreenIgnored() != self.env['runtime']['screenManager'].getPrevScreenIgnored():
+                self.toggleDeviceGrab = True
+            
+        if self.toggleDeviceGrab:
+            if self.noKeyPressed():
+                if self.env['runtime']['screenManager'].getCurrScreenIgnored():
+                    self.ungrabAllDevices()
+                    self.env['runtime']['outputManager'].interruptOutput()
+                else:
+                    self.grabAllDevices()            
+                self.toggleDeviceGrab = False 
     def handleInputEvent(self, eventData):
         self.env['runtime']['debug'].writeDebugOut('DEBUG INPUT inputMan:'  + str(eventData),debug.debugLevel.INFO)                                               
         if not eventData:
@@ -118,14 +135,14 @@ class inputManager():
             try:
                 self.env['runtime']['inputDriver'].ungrabAllDevices()
             except Exception as e:
-                pass  
+                pass
         
     def updateInputDevices(self):
         try:
             self.env['runtime']['inputDriver'].updateInputDevices()  
         except:
             pass
-    
+        self.handleDeviceGrab(True)         
     def removeAllDevices(self):
         try:
             self.env['runtime']['inputDriver'].removeAllDevices()

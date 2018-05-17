@@ -200,7 +200,6 @@ class driver(inputDriver):
                 self.env['runtime']['debug'].writeDebugOut("Device Skipped (Exception): " + deviceFile +' ' + currDevice.name +' '+ str(e),debug.debugLevel.INFO)                
         self.iDeviceNo = len(evdev.list_devices())
         self.updateMPiDevicesFD()
-
     def updateMPiDevicesFD(self):
         try:
             for fd in self.iDevices:
@@ -297,6 +296,8 @@ class driver(inputDriver):
             return
         try:
             self.iDevices[fd].grab()
+            self.gDevices[fd] = True                        
+        except IOError:            
             self.gDevices[fd] = True            
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: grabing not possible:  ' + str(e),debug.debugLevel.ERROR)         
@@ -305,7 +306,7 @@ class driver(inputDriver):
             return      
         try:
             self.gDevices[fd] = False                    
-            self.iDevices[fd].ungrab()
+            self.iDevices[fd].ungrab()            
         except:
             pass    
     def removeDevice(self,fd):
