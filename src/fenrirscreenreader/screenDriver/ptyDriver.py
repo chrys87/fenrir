@@ -50,7 +50,7 @@ class Terminal:
             'columns': self.screen.columns,
             "text": text, 
             'attributes': allAttributes,
-            'screen': '1'            
+            'screen': 'pty'            
         }.copy()
 
 class driver(screenDriver):
