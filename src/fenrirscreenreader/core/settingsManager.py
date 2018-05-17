@@ -282,6 +282,9 @@ class settingsManager():
         environment['runtime']['commandManager'] = commandManager.commandManager()        
         environment['runtime']['commandManager'].initialize(environment)
         
+        environment['runtime']['helpManager'] = helpManager.helpManager()
+        environment['runtime']['helpManager'].initialize(environment)         
+        
         environment['runtime']['byteManager'] = byteManager.byteManager()
         environment['runtime']['byteManager'].initialize(environment) 
 
@@ -313,8 +316,6 @@ class settingsManager():
         environment['runtime']['cursorManager'].initialize(environment)  
         environment['runtime']['applicationManager'] = applicationManager.applicationManager()
         environment['runtime']['applicationManager'].initialize(environment)  
-        environment['runtime']['helpManager'] = helpManager.helpManager()
-        environment['runtime']['helpManager'].initialize(environment) 
         environment['runtime']['headLineManager'] = headLineManager.headLineManager()
         environment['runtime']['headLineManager'].initialize(environment)      
         environment['runtime']['tableManager'] = tableManager.tableManager()
