@@ -166,6 +166,7 @@ class fenrirManager():
         #print('handleScreenUpdate:',time.time() - startTime)
     
     def handlePlugInputDevice(self, event):
+        self.env['runtime']['inputManager'].updateInputDevices(event)
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onPlugInputDevice', force=True)   
     
     def handleHeartBeat(self, event):
