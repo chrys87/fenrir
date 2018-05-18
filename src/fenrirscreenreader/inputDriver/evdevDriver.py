@@ -79,7 +79,7 @@ class driver(inputDriver):
         return time.time()       
     def plugInputDeviceWatchdogTimer(self, active):
         time.sleep(10)
-        return time.time() 
+        return None
          
     def inputWatchdog(self,active , eventQueue):
         try:
