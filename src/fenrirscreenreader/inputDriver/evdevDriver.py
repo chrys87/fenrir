@@ -142,22 +142,29 @@ class driver(inputDriver):
         uDevice.write_event(event)
         uDevice.syn()
 
-    def updateInputDevices(self, force = False, init = False):
+    def updateInputDevices(self, newDevices = None, init = False):
         if init:
             self.removeAllDevices()
-        deviceFileList = evdev.list_devices()
-        if not force and False:
+        
+        print(newDevices)
+        if newDevices and not init:
+            deviceFileList = newDevices
+        else:
+            deviceFileList = evdev.list_devices()
             if len(deviceFileList) == self.iDeviceNo:
-                return
+                return            
         mode = self.env['runtime']['settingsManager'].getSetting('keyboard', 'device').upper()
         iDevicesFiles = []
         for device in self.iDevices:
             iDevicesFiles.append(self.iDevices[device].fn)
-        if len(iDevicesFiles) == len(deviceFileList):
-            return
+
         eventType = evdev.events
         for deviceFile in deviceFileList:
             try:
+                if not deviceFile:
+                    continue
+                if deviceFile == '':
+                    continue
                 if deviceFile in iDevicesFiles:
                     continue        
                 try:
