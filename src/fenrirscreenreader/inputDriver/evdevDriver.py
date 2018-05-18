@@ -147,13 +147,19 @@ class driver(inputDriver):
             self.removeAllDevices()
         
         print(newDevices)
+        deviceFileList = None
+        
         if newDevices and not init:
             deviceFileList = newDevices
         else:
             deviceFileList = evdev.list_devices()
             if len(deviceFileList) == self.iDeviceNo:
-                return            
+                return  
+        if not deviceFileList:
+            return
+        
         mode = self.env['runtime']['settingsManager'].getSetting('keyboard', 'device').upper()
+        
         iDevicesFiles = []
         for device in self.iDevices:
             iDevicesFiles.append(self.iDevices[device].fn)
