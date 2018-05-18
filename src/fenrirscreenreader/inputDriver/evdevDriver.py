@@ -65,18 +65,18 @@ class driver(inputDriver):
         monitor.filter_by(subsystem='input')
         monitor.start()
         while active.value:
-            validDevice = False
+            validDevices = []
             device = monitor.poll(1)
             while device:
                 try:
                     if not '/sys/devices/virtual/input/' in device.sys_path:
-                        validDevice = True
-                    device = monitor.poll(0.5)
+                        validDevices.append(str(device.device_path))
+                    device = monitor.poll(0.2)
                 except:                    
                     pass
-            if validDevice:
-                eventQueue.put({"Type":fenrirEventType.PlugInputDevice,"Data":None})
-        return time.time()        
+            if validDevices:
+                eventQueue.put({"Type":fenrirEventType.PlugInputDevice,"Data":validDevices})
+        return time.time()       
     def plugInputDeviceWatchdogTimer(self, active):
         time.sleep(10)
         return time.time() 
