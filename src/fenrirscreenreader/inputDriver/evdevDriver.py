@@ -195,7 +195,8 @@ class driver(inputDriver):
                     if currDevice.phys.upper() in ['','SPEAKUP','PY-EVDEV-UINPUT']:
                         continue                    
                     if 'BRLTTY' in  currDevice.name.upper():
-                        continue                             
+                        continue
+                    self.env['runtime']['debug'].writeDebugOut('loaded name:'+ str(currDevice.name),debug.debugLevel.ERROR)                                                       
                 except:
                     pass
                 self.env['runtime']['debug'].writeDebugOut('cap = currDevice.capabilities()',debug.debugLevel.ERROR)        
@@ -203,7 +204,7 @@ class driver(inputDriver):
                 self.env['runtime']['debug'].writeDebugOut('cap = currDevice.capabilities() fin',debug.debugLevel.ERROR)                   
                 if mode in ['ALL','NOMICE']:
                     if eventType.EV_KEY in cap:
-                        self.env['runtime']['debug'].writeDebugOut('eventType.EV_KEY in cap',debug.debugLevel.ERROR)                            
+                        self.env['runtime']['debug'].writeDebugOut('eventType.EV_KEY in cap NoOfCaps: '+ str(cap) ,debug.debugLevel.ERROR)                            
                         if 116 in cap[eventType.EV_KEY] and len(cap[eventType.EV_KEY]) < 10:
                             self.env['runtime']['debug'].writeDebugOut('Device Skipped (has 116):' + currDevice.name,debug.debugLevel.INFO)                                                                
                             continue
