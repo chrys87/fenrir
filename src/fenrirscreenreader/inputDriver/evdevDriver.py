@@ -167,18 +167,14 @@ class driver(inputDriver):
         eventType = evdev.events
         for deviceFile in deviceFileList:
             try:
-                self.env['runtime']['debug'].writeDebugOut('Debug: not deviceFile',debug.debugLevel.ERROR)             
                 if not deviceFile:
                     continue
-                self.env['runtime']['debug'].writeDebugOut('Debug: deviceFile == '' ',debug.debugLevel.ERROR)                        
                 if deviceFile == '':
                     continue
-                self.env['runtime']['debug'].writeDebugOut('Debug: deviceFile in iDevicesFiles ',debug.debugLevel.ERROR)                        
                 if deviceFile in iDevicesFiles:
                     continue
                 
                 try:
-                    self.env['runtime']['debug  '].writeDebugOut('Debug: open(deviceFile)',debug.debugLevel.ERROR)                  
                     open(deviceFile)
                 except Exception as e:
                     self.env['runtime']['debug'].writeDebugOut("Not readable Inputdevice : " + deviceFile +' ' + str(e),debug.debugLevel.ERROR)                                
@@ -188,7 +184,6 @@ class driver(inputDriver):
                 # 1 Keys
 
                 try:
-                    self.env['runtime']['debug  '].writeDebugOut('Debug: currDevice = evdev.InputDevice(deviceFile)',debug.debugLevel.ERROR)                   
                     currDevice = evdev.InputDevice(deviceFile)
                 except:
                     continue
@@ -199,23 +194,20 @@ class driver(inputDriver):
                     if currDevice.phys.upper() in ['','SPEAKUP','PY-EVDEV-UINPUT']:
                         continue                    
                     if 'BRLTTY' in  currDevice.name.upper():
-                        continue  
-                    self.env['runtime']['debug  '].writeDebugOut('Debug: namecheck',debug.debugLevel.ERROR)                                                      
+                        continue                             
                 except:
                     pass
 
                 cap = currDevice.capabilities()
-                self.env['runtime']['debug  '].writeDebugOut('Debug: cap = currDevice.capabilities()',debug.debugLevel.ERROR)                   
                 if mode in ['ALL','NOMICE']:
                     if eventType.EV_KEY in cap:
-                        self.env['runtime']['debug  '].writeDebugOut('Debug: eventType.EV_KEY in cap',debug.debugLevel.ERROR)                     
                         if 116 in cap[eventType.EV_KEY] and len(cap[eventType.EV_KEY]) < 10:
                             self.env['runtime']['debug'].writeDebugOut('Device Skipped (has 116):' + currDevice.name,debug.debugLevel.INFO)                                                                
                             continue
                         if len(cap[eventType.EV_KEY]) < 60:
                             self.env['runtime']['debug'].writeDebugOut('Device Skipped (< 60 keys):' + currDevice.name,debug.debugLevel.INFO)                                                                                        
                             continue                                                   
-                        if mode == 'ALL':                        
+                        if mode == 'ALL':
                             self.addDevice(currDevice)
                             self.env['runtime']['debug'].writeDebugOut('Device added (ALL):' + self.iDevices[currDevice.fd].name, debug.debugLevel.INFO)                           
                         elif mode == 'NOMICE':
