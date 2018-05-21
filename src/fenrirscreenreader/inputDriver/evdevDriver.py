@@ -167,13 +167,14 @@ class driver(inputDriver):
         eventType = evdev.events
         for deviceFile in deviceFileList:
             try:
+                self.env['runtime']['debug'].writeDebugOut('loop start',debug.debugLevel.ERROR)                    
                 if not deviceFile:
                     continue
                 if deviceFile == '':
                     continue
                 if deviceFile in iDevicesFiles:
                     continue
-                
+                self.env['runtime']['debug'].writeDebugOut('open(deviceFile)',debug.debugLevel.ERROR)                
                 try:
                     open(deviceFile)
                 except Exception as e:
@@ -182,12 +183,12 @@ class driver(inputDriver):
                 # 3 pos absolute
                 # 2 pos relative
                 # 1 Keys
-
+                self.env['runtime']['debug'].writeDebugOut('currDevice = evdev.InputDevice(deviceFile)',debug.debugLevel.ERROR)          
                 try:
                     currDevice = evdev.InputDevice(deviceFile)
                 except:
                     continue
-
+                self.env['runtime']['debug'].writeDebugOut('naming',debug.debugLevel.ERROR)  
                 try:
                     if currDevice.name.upper() in ['','SPEAKUP','PY-EVDEV-UINPUT']:
                         continue                
@@ -197,10 +198,12 @@ class driver(inputDriver):
                         continue                             
                 except:
                     pass
-
+                self.env['runtime']['debug'].writeDebugOut('cap = currDevice.capabilities()',debug.debugLevel.ERROR)        
                 cap = currDevice.capabilities()
+                self.env['runtime']['debug'].writeDebugOut('cap = currDevice.capabilities() fin',debug.debugLevel.ERROR)                   
                 if mode in ['ALL','NOMICE']:
                     if eventType.EV_KEY in cap:
+                        self.env['runtime']['debug'].writeDebugOut('eventType.EV_KEY in cap',debug.debugLevel.ERROR)                            
                         if 116 in cap[eventType.EV_KEY] and len(cap[eventType.EV_KEY]) < 10:
                             self.env['runtime']['debug'].writeDebugOut('Device Skipped (has 116):' + currDevice.name,debug.debugLevel.INFO)                                                                
                             continue
@@ -218,7 +221,8 @@ class driver(inputDriver):
                                 self.env['runtime']['debug'].writeDebugOut('Device Skipped (NOMICE):' + currDevice.name,debug.debugLevel.INFO)                                        
                 elif currDevice.name.upper() in mode.split(','):
                     self.addDevice(currDevice)
-                    self.env['runtime']['debug'].writeDebugOut('Device added (Name):' + self.iDevices[currDevice.fd].name,debug.debugLevel.INFO)                                                                                                                                            
+                    self.env['runtime']['debug'].writeDebugOut('Device added (Name):' + self.iDevices[currDevice.fd].name,debug.debugLevel.INFO) 
+                self.env['runtime']['debug'].writeDebugOut('loop end',debug.debugLevel.ERROR)                                                                                                                                                                 
             except Exception as e:
                 self.env['runtime']['debug'].writeDebugOut("Device Skipped (Exception): " + deviceFile +' ' + currDevice.name +' '+ str(e),debug.debugLevel.INFO)
         self.iDeviceNo = len(evdev.list_devices())
