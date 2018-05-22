@@ -18,7 +18,10 @@ class screenManager():
           self.env['runtime']['settingsManager'].getSetting('screen', 'driver'), 'screenDriver')    
         self.getCurrScreen()  
         self.getCurrScreen()
-        self.getSessionInformation()              
+        self.getSessionInformation()        
+        self.updateScreenIgnored()
+        self.updateScreenIgnored()        
+
     def getCurrScreen(self):
         try:
             self.env['runtime']['screenDriver'].getCurrScreen()
@@ -32,18 +35,27 @@ class screenManager():
             
     def shutdown(self):
         self.env['runtime']['settingsManager'].shutdownDriver('screenDriver')
+    def isCurrScreenIgnoredChanged(self):
+        return self.getCurrScreenIgnored() != self.getPrevScreenIgnored()
     def hanldeScreenChange(self, eventData):
         self.getCurrScreen()
-        self.getSessionInformation()
+        self.updateScreenIgnored()         
+        if self.isCurrScreenIgnoredChanged():
+            self.env['runtime']['inputManager'].setExecuteDeviceGrab()
+        self.env['runtime']['inputManager'].handleDeviceGrab()        
+        self.getSessionInformation()  
+              
         if self.isScreenChange():                 
             self.changeBrailleScreen()              
         if not self.isSuspendingScreen(self.env['screen']['newTTY']):       
             self.update(eventData, 'onScreenChange')
-            self.env['screen']['lastScreenUpdate'] = time.time()             
-                
+            self.env['screen']['lastScreenUpdate'] = time.time()
+                 
     def handleScreenUpdate(self, eventData):
         self.env['screen']['oldApplication'] = self.env['screen']['newApplication'] 
         self.updateScreenIgnored() 
+        if self.isCurrScreenIgnoredChanged():
+            self.env['runtime']['inputManager'].setExecuteDeviceGrab()
         self.env['runtime']['inputManager'].handleDeviceGrab()     
         if not self.getCurrScreenIgnored():       
             self.update(eventData, 'onScreenUpdate')

@@ -275,18 +275,24 @@ class settingsManager():
         
         environment['runtime']['processManager'] = processManager.processManager()  
         environment['runtime']['processManager'].initialize(environment)        
+
+        environment['runtime']['outputManager'] = outputManager.outputManager()
+        environment['runtime']['outputManager'].initialize(environment) 
+
+        environment['runtime']['byteManager'] = byteManager.byteManager()
+        environment['runtime']['byteManager'].initialize(environment) 
         
         environment['runtime']['inputManager'] = inputManager.inputManager()
         environment['runtime']['inputManager'].initialize(environment)      
+
+        environment['runtime']['screenManager'] = screenManager.screenManager()
+        environment['runtime']['screenManager'].initialize(environment) 
 
         environment['runtime']['commandManager'] = commandManager.commandManager()        
         environment['runtime']['commandManager'].initialize(environment)
         
         environment['runtime']['helpManager'] = helpManager.helpManager()
         environment['runtime']['helpManager'].initialize(environment)         
-        
-        environment['runtime']['byteManager'] = byteManager.byteManager()
-        environment['runtime']['byteManager'].initialize(environment) 
 
         if environment['runtime']['inputManager'].getShortcutType() == 'KEY':
             if not os.path.exists(self.getSetting('keyboard','keyboardLayout')):
@@ -308,10 +314,7 @@ class settingsManager():
                     environment['runtime']['byteManager'].loadByteShortcuts(self.getSetting('keyboard','keyboardLayout'))
             else:
                 environment['runtime']['byteManager'].loadByteShortcuts(self.getSetting('keyboard','keyboardLayout'))
-               
-                   
-        environment['runtime']['outputManager'] = outputManager.outputManager()
-        environment['runtime']['outputManager'].initialize(environment)             
+                              
         environment['runtime']['cursorManager'] = cursorManager.cursorManager()
         environment['runtime']['cursorManager'].initialize(environment)  
         environment['runtime']['applicationManager'] = applicationManager.applicationManager()
@@ -320,9 +323,6 @@ class settingsManager():
         environment['runtime']['headLineManager'].initialize(environment)      
         environment['runtime']['tableManager'] = tableManager.tableManager()
         environment['runtime']['tableManager'].initialize(environment)       
-        if environment['runtime']['screenManager'] == None:
-            environment['runtime']['screenManager'] = screenManager.screenManager()
-            environment['runtime']['screenManager'].initialize(environment) 
             
         environment['runtime']['debug'].writeDebugOut('\/-------environment-------\/',debug.debugLevel.INFO, onAnyLevel=True)        
         environment['runtime']['debug'].writeDebugOut(str(environment), debug.debugLevel.INFO, onAnyLevel=True)

@@ -14,7 +14,7 @@ class inputManager():
     def __init__(self):
         self.setLedState = True
         self.shortcutType = 'KEY'
-        self.toggleDeviceGrab = False        
+        self.executeDeviceGrab = False        
     def setShortcutType(self, shortcutType = 'KEY'):
         if shortcutType in ['KEY', 'BYTE']:
             self.shortcutType = shortcutType
@@ -24,6 +24,8 @@ class inputManager():
         self.env = environment
         self.env['runtime']['settingsManager'].loadDriver(\
           self.env['runtime']['settingsManager'].getSetting('keyboard', 'driver'), 'inputDriver')
+        self.updateInputDevices()
+
         # init LEDs with current state
         self.env['input']['newNumLock'] = self.env['runtime']['inputDriver'].getLedState()
         self.env['input']['oldNumLock'] = self.env['input']['newNumLock']
@@ -39,27 +41,25 @@ class inputManager():
         self.env['runtime']['settingsManager'].shutdownDriver('inputDriver')
     def  getInputEvent(self):
          return self.env['runtime']['inputDriver'].getInputEvent()
-    def handleDeviceGrab(self, useCurrentScreen = False):
-        if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
+    def setExecuteDeviceGrab(self, newExecuteDeviceGrab = True):
+        self.executeDeviceGrab = newExecuteDeviceGrab
+    def handleDeviceGrab(self):
+        if not self.executeDeviceGrab:
             return
-        if useCurrentScreen:
-            self.toggleDeviceGrab = True
-        else:        
-            if self.env['runtime']['screenManager'].getCurrScreenIgnored() != self.env['runtime']['screenManager'].getPrevScreenIgnored():
-                self.toggleDeviceGrab = True
-            
-        if self.toggleDeviceGrab:
-            if self.noKeyPressed():
-                if self.env['runtime']['screenManager'].getCurrScreenIgnored():
-                    self.ungrabAllDevices()
-                    self.env['runtime']['outputManager'].interruptOutput()
-                else:
-                    self.grabAllDevices()            
-                self.toggleDeviceGrab = False 
+        if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
+            return            
+        if not self.noKeyPressed():
+            return
+        if self.env['runtime']['screenManager'].getCurrScreenIgnored():
+            self.ungrabAllDevices()
+            self.env['runtime']['outputManager'].interruptOutput()
+        else:
+            self.grabAllDevices()            
+        self.executeDeviceGrab = False 
     def handleInputEvent(self, eventData):
-        self.env['runtime']['debug'].writeDebugOut('DEBUG INPUT inputMan:'  + str(eventData),debug.debugLevel.INFO)                                               
         if not eventData:
             return
+        self.handleDeviceGrab()
         self.env['input']['prevInput'] = self.env['input']['currInput'].copy()
         if eventData['EventState'] == 0:
             if eventData['EventName'] in self.env['input']['currInput']:
@@ -97,6 +97,8 @@ class inputManager():
         if self.noKeyPressed():
             self.env['input']['prevInput'] = []
             self.setLedState = True
+        else:
+            self.handleDeviceGrab()
 
     def handleLedStates(self, mEvent):
         if not self.setLedState:
@@ -144,7 +146,9 @@ class inputManager():
             self.env['runtime']['inputDriver'].updateInputDevices(newDevice)  
         except:
             pass
-        self.handleDeviceGrab(True)         
+        self.setExecuteDeviceGrab()
+        if newDevice:
+            self.handleDeviceGrab()
     def removeAllDevices(self):
         try:
             self.env['runtime']['inputDriver'].removeAllDevices()
