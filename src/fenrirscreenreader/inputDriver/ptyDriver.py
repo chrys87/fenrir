@@ -10,6 +10,7 @@ from fenrirscreenreader.core.inputDriver import inputDriver
 
 class driver(inputDriver):
     def __init__(self):
+        self._isInitialized = False    
         inputDriver.__init__(self)
     def initialize(self, environment):
         self.env = environment
