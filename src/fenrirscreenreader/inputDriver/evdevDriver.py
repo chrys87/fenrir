@@ -327,8 +327,8 @@ class driver(inputDriver):
             return
         try:
             self.iDevices[fd].grab()
-            self.env['runtime']['debug'].writeDebugOut("Device grabbed: " + self.iDevices[fd].name, debug.debugLevel.INFO)
-            self.gDevices[fd] = True                        
+            self.gDevices[fd] = True
+            self.env['runtime']['debug'].writeDebugOut("Device grabbed: " + self.iDevices[fd].name, debug.debugLevel.INFO)                                    
         except IOError:            
             self.gDevices[fd] = True            
         except Exception as e:
