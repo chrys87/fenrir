@@ -326,7 +326,6 @@ class driver(inputDriver):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
             return
         try:
-            print('grab')
             self.iDevices[fd].grab()
             self.gDevices[fd] = True
             self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: grab device ('+ str(self.iDevices[fd].name) + ')',debug.debugLevel.INFO)            
@@ -338,7 +337,6 @@ class driver(inputDriver):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
             return      
         try:
-            print('ungrab')
             self.gDevices[fd] = False                    
             self.iDevices[fd].ungrab()
             self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: ungrab device ('+ str(self.iDevices[fd].name) + ')',debug.debugLevel.INFO)
