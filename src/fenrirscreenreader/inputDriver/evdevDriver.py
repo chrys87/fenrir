@@ -327,7 +327,6 @@ class driver(inputDriver):
             return
         try:
             self.iDevices[fd].grab()
-            self.env['runtime']['debug'].writeDebugOut("Device grabbed: " + self.iDevices[fd].name, debug.debugLevel.INFO)
             self.gDevices[fd] = True                        
         except IOError:            
             self.gDevices[fd] = True            
@@ -338,8 +337,7 @@ class driver(inputDriver):
             return      
         try:
             self.gDevices[fd] = False                    
-            self.iDevices[fd].ungrab()   
-            self.env['runtime']['debug'].writeDebugOut("Device ungrabbed: " + self.iDevices[fd].name, debug.debugLevel.INFO)                     
+            self.iDevices[fd].ungrab()            
         except:
             pass    
     def removeDevice(self,fd):
