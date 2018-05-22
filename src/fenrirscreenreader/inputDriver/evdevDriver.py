@@ -287,7 +287,7 @@ class driver(inputDriver):
 
     def ungrabAllDevices(self):
         if not self._initialized:
-            return          
+            return
         for fd in self.iDevices:
             self.ungrabDevice(fd)
 
@@ -326,8 +326,10 @@ class driver(inputDriver):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
             return
         try:
+            print('grab')
             self.iDevices[fd].grab()
-            self.gDevices[fd] = True                        
+            self.gDevices[fd] = True
+            self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: grab device ('+ str(self.iDevices[fd].name) + ')',debug.debugLevel.INFO)            
         except IOError:            
             self.gDevices[fd] = True            
         except Exception as e:
@@ -336,8 +338,10 @@ class driver(inputDriver):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
             return      
         try:
+            print('ungrab')
             self.gDevices[fd] = False                    
-            self.iDevices[fd].ungrab()            
+            self.iDevices[fd].ungrab()
+            self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: ungrab device ('+ str(self.iDevices[fd].name) + ')',debug.debugLevel.INFO)
         except:
             pass    
     def removeDevice(self,fd):
