@@ -65,21 +65,22 @@ class driver(inputDriver):
         monitor.filter_by(subsystem='input')
         monitor.start()
         while active.value:
-            validDevice = False
+            validDevices = []
             device = monitor.poll(1)
             while device:
                 try:
                     if not '/sys/devices/virtual/input/' in device.sys_path:
-                        validDevice = True
-                    device = monitor.poll(0.5)
+                        if device.device_node:
+                            validDevices.append(str(device.device_node))
+                    device = monitor.poll(0.1)
                 except:                    
                     pass
-            if validDevice:
-                eventQueue.put({"Type":fenrirEventType.PlugInputDevice,"Data":None})
-        return time.time()        
+            if validDevices:
+                eventQueue.put({"Type":fenrirEventType.PlugInputDevice,"Data":validDevices})
+        return time.time()       
     def plugInputDeviceWatchdogTimer(self, active):
         time.sleep(10)
-        return time.time() 
+        return None
          
     def inputWatchdog(self,active , eventQueue):
         try:
@@ -142,24 +143,38 @@ class driver(inputDriver):
         uDevice.write_event(event)
         uDevice.syn()
 
-    def updateInputDevices(self, force = False, init = False):
+    def updateInputDevices(self, newDevices = None, init = False):
         if init:
             self.removeAllDevices()
-        deviceFileList = evdev.list_devices()
-        if not force and False:
+
+        deviceFileList = None
+
+        if newDevices and not init:
+            deviceFileList = newDevices
+        else:
+            deviceFileList = evdev.list_devices()
             if len(deviceFileList) == self.iDeviceNo:
-                return
+                return  
+        if not deviceFileList:
+            return
+
         mode = self.env['runtime']['settingsManager'].getSetting('keyboard', 'device').upper()
+        
         iDevicesFiles = []
         for device in self.iDevices:
             iDevicesFiles.append(self.iDevices[device].fn)
-        if len(iDevicesFiles) == len(deviceFileList):
-            return
+
         eventType = evdev.events
         for deviceFile in deviceFileList:
             try:
+                self.env['runtime']['debug'].writeDebugOut('loop start',debug.debugLevel.ERROR)                    
+                if not deviceFile:
+                    continue
+                if deviceFile == '':
+                    continue
                 if deviceFile in iDevicesFiles:
-                    continue        
+                    continue
+                self.env['runtime']['debug'].writeDebugOut('open(deviceFile)',debug.debugLevel.ERROR)                
                 try:
                     open(deviceFile)
                 except Exception as e:
@@ -168,22 +183,34 @@ class driver(inputDriver):
                 # 3 pos absolute
                 # 2 pos relative
                 # 1 Keys
-                currDevice = evdev.InputDevice(deviceFile)
-                if currDevice.name.upper() in ['','SPEAKUP','PY-EVDEV-UINPUT']:
+                self.env['runtime']['debug'].writeDebugOut('currDevice = evdev.InputDevice(deviceFile)',debug.debugLevel.ERROR)          
+                try:
+                    currDevice = evdev.InputDevice(deviceFile)
+                except:
                     continue
-                if currDevice.phys.upper() in ['','SPEAKUP','PY-EVDEV-UINPUT']:
-                    continue                    
-                if 'BRLTTY' in  currDevice.name.upper():
-                    continue                    
+                self.env['runtime']['debug'].writeDebugOut('naming',debug.debugLevel.ERROR)  
+                try:
+                    if currDevice.name.upper() in ['','SPEAKUP','PY-EVDEV-UINPUT']:
+                        continue                
+                    if currDevice.phys.upper() in ['','SPEAKUP','PY-EVDEV-UINPUT']:
+                        continue                    
+                    if 'BRLTTY' in  currDevice.name.upper():
+                        continue
+                    self.env['runtime']['debug'].writeDebugOut('loaded name:'+ str(currDevice.name),debug.debugLevel.ERROR)                                                       
+                except:
+                    pass
+                self.env['runtime']['debug'].writeDebugOut('cap = currDevice.capabilities()',debug.debugLevel.ERROR)        
                 cap = currDevice.capabilities()
+                self.env['runtime']['debug'].writeDebugOut('cap = currDevice.capabilities() fin',debug.debugLevel.ERROR)                   
                 if mode in ['ALL','NOMICE']:
                     if eventType.EV_KEY in cap:
+                        self.env['runtime']['debug'].writeDebugOut('eventType.EV_KEY in cap NoOfCaps: '+ str(cap) ,debug.debugLevel.ERROR)                            
                         if 116 in cap[eventType.EV_KEY] and len(cap[eventType.EV_KEY]) < 10:
                             self.env['runtime']['debug'].writeDebugOut('Device Skipped (has 116):' + currDevice.name,debug.debugLevel.INFO)                                                                
                             continue
                         if len(cap[eventType.EV_KEY]) < 60:
                             self.env['runtime']['debug'].writeDebugOut('Device Skipped (< 60 keys):' + currDevice.name,debug.debugLevel.INFO)                                                                                        
-                            continue                            
+                            continue                                                   
                         if mode == 'ALL':
                             self.addDevice(currDevice)
                             self.env['runtime']['debug'].writeDebugOut('Device added (ALL):' + self.iDevices[currDevice.fd].name, debug.debugLevel.INFO)                           
@@ -192,14 +219,18 @@ class driver(inputDriver):
                                 self.addDevice(currDevice)
                                 self.env['runtime']['debug'].writeDebugOut('Device added (NOMICE):' + self.iDevices[currDevice.fd].name,debug.debugLevel.INFO)                                                
                             else:
-                                self.env['runtime']['debug'].writeDebugOut('Device Skipped (NOMICE):' + currDevice.name,debug.debugLevel.INFO)                                        
+                                self.env['runtime']['debug'].writeDebugOut('Device Skipped (NOMICE):' + currDevice.name,debug.debugLevel.INFO)      
+                    else:
+                        self.env['runtime']['debug'].writeDebugOut('Device Skipped (no EV_KEY):' + currDevice.name,debug.debugLevel.INFO)                                                                                       
                 elif currDevice.name.upper() in mode.split(','):
                     self.addDevice(currDevice)
-                    self.env['runtime']['debug'].writeDebugOut('Device added (Name):' + self.iDevices[currDevice.fd].name,debug.debugLevel.INFO)                                                                                                                                            
+                    self.env['runtime']['debug'].writeDebugOut('Device added (Name):' + self.iDevices[currDevice.fd].name,debug.debugLevel.INFO) 
+                self.env['runtime']['debug'].writeDebugOut('loop end',debug.debugLevel.ERROR)                                                                                                                                                                 
             except Exception as e:
-                self.env['runtime']['debug'].writeDebugOut("Device Skipped (Exception): " + deviceFile +' ' + currDevice.name +' '+ str(e),debug.debugLevel.INFO)                
+                self.env['runtime']['debug'].writeDebugOut("Device Skipped (Exception): " + deviceFile +' ' + currDevice.name +' '+ str(e),debug.debugLevel.INFO)
         self.iDeviceNo = len(evdev.list_devices())
         self.updateMPiDevicesFD()
+
     def updateMPiDevicesFD(self):
         try:
             for fd in self.iDevices:

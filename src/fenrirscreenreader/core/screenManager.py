@@ -136,16 +136,19 @@ class screenManager():
                       newScreenText.split('\n'))
                     diffList = list(diff)
 
-                if self.env['runtime']['settingsManager'].getSettingAsBool('general', 'newLinePause') and not typing:
+                if not typing:
                     self.env['screen']['newDelta'] = '\n'.join(x[2:] for x in diffList if x[0] == '+')
                 else:
                     self.env['screen']['newDelta'] = ''.join(x[2:] for x in diffList if x[0] == '+')             
                 self.env['screen']['newNegativeDelta'] = ''.join(x[2:] for x in diffList if x[0] == '-')
 
         # track highlighted
-        if self.env['screen']['oldContentAttrib'] != self.env['screen']['newContentAttrib']:
-            if self.env['runtime']['settingsManager'].getSettingAsBool('focus', 'highlight'):
-                self.env['screen']['newAttribDelta'], self.env['screen']['newCursorAttrib'] = screen_utils.trackHighlights(self.env['screen']['oldContentAttrib'], self.env['screen']['newContentAttrib'], self.env['screen']['newContentText'], self.env['screen']['columns'])
+        try:
+            if self.env['screen']['oldContentAttrib'] != self.env['screen']['newContentAttrib']:
+                if self.env['runtime']['settingsManager'].getSettingAsBool('focus', 'highlight'):
+                    self.env['screen']['newAttribDelta'], self.env['screen']['newCursorAttrib'] = screen_utils.trackHighlights(self.env['screen']['oldContentAttrib'], self.env['screen']['newContentAttrib'], self.env['screen']['newContentText'], self.env['screen']['columns'])
+        except Exception as e:
+            self.env['runtime']['debug'].writeDebugOut('screenManager:update:highlight: ' + str(e),debug.debugLevel.ERROR) 
 
     def formatAttributes(self, attribute, attributeFormatString = None):
         if not attributeFormatString:

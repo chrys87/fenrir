@@ -136,10 +136,12 @@ class inputManager():
                 self.env['runtime']['inputDriver'].ungrabAllDevices()
             except Exception as e:
                 pass
-        
-    def updateInputDevices(self):
+    def handlePlugInputDevice(self, eventData):
+        self.env['runtime']['inputManager'].updateInputDevices(eventData)
+            
+    def updateInputDevices(self, newDevice = None):
         try:
-            self.env['runtime']['inputDriver'].updateInputDevices()  
+            self.env['runtime']['inputDriver'].updateInputDevices(newDevice)  
         except:
             pass
         self.handleDeviceGrab(True)         
