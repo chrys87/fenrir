@@ -62,7 +62,7 @@ class driver(inputDriver):
     def plugInputDeviceWatchdogUdev(self,active , eventQueue):
         context = pyudev.Context()
         monitor = pyudev.Monitor.from_netlink(context)
-        monitor.filter_by(subsystem='input')
+        #monitor.filter_by(subsystem='input')
         monitor.start()
         while active.value:
             validDevices = []
