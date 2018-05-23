@@ -71,7 +71,8 @@ class driver(inputDriver):
                 try:
                     if not '/sys/devices/virtual/input/' in device.sys_path:
                         if device.device_node:
-                            validDevices.append(str(device.device_node))
+                            if device.sys_name.startswith('event'):                            
+                                validDevices.append(str(device.device_node))
                     device = monitor.poll(0.1)
                 except:                    
                     pass
