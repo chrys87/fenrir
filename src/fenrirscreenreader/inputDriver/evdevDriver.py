@@ -182,7 +182,8 @@ class driver(inputDriver):
                     continue
                 self.env['runtime']['debug'].writeDebugOut('open(deviceFile)',debug.debugLevel.ERROR)                
                 try:
-                    open(deviceFile)
+                    with open(deviceFile) as f:
+                        pass
                 except Exception as e:
                     self.env['runtime']['debug'].writeDebugOut("Not readable Inputdevice : " + deviceFile +' ' + str(e),debug.debugLevel.ERROR)                                
                     continue
