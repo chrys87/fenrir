@@ -36,14 +36,12 @@ class Terminal:
         cursor = self.screen.cursor
         allAttributes = []
         text = '\n'.join(self.screen.display)
-        
-        #start = time.time()        
-        #for y in range(self.screen.lines):
-        #    line = self.screen.buffer[y]
-        #    attributes = [(char.reverse, char.fg, char.bg, char.bold, char.italics, char.underscore, char.strikethrough)
-        #            for char in (line[x] for x in range(self.screen.columns))]            
-        #    allAttributes.append((attributes))
-        #print(time.time() -start)
+        start = time.time()        
+        for y in range(self.screen.lines):
+            line = self.screen.buffer[y]    
+            attributes = [char[1:] for char in (line[x] for x in range(self.screen.columns)),False, 'default', 'default']              
+            allAttributes.append((attributes))
+        print(time.time() -start)
         self.screen.dirty.clear()
         return {"cursor": (cursor.x, cursor.y),
             'lines': self.screen.lines,
