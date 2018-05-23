@@ -29,8 +29,8 @@ class driver(screenDriver):
         screenDriver.__init__(self)
         self.ListSessions = None
         self.charmap = {}
-        self.bgColorNames = {0: _('black'), 1: _('blue'), 2: _('green'), 3: _('cyan'), 4: _('red'), 5: _('Magenta'), 6: _('brown/yellow'), 7: _('white')}
-        self.fgColorNames = {0: _('Black'), 1: _('Blue'), 2: _('Green'), 3: _('Cyan'), 4: _('Red'), 5: _('Magenta'), 6: _('brown/yellow'), 7: _('Light gray'), 8: _('Dark gray'), 9: _('Light blue'), 10: ('Light green'), 11: _('Light cyan'), 12: _('Light red'), 13: _('Light magenta'), 14: _('Light yellow'), 15: _('White')}
+        self.bgColorValues = {0: 'black', 1: 'blue', 2: 'green', 3: 'cyan', 4: 'red', 5: 'magenta', 6: 'brown/yellow', 7: 'white'}
+        self.fgColorValues = {0: 'black', 1: 'blue', 2: 'green', 3: 'cyan', 4: 'red', 5: 'magenta', 6: 'brown/yellow', 7: 'light gray', 8: 'dark gray', 9: 'light blue', 10: 'light green', 11: 'light cyan', 12: 'light red', 13: 'light magenta', 14: 'light yellow', 15: 'white'}
         self.hichar = None        
     def initialize(self, environment):
         self.env = environment
@@ -72,7 +72,7 @@ class driver(screenDriver):
                     self.env['runtime']['debug'].writeDebugOut('No TTY found for session:' + session[4],debug.debugLevel.ERROR)               
                     return
                 if sessionType.upper() != 'TTY':
-                    self.env['screen']['autoIgnoreScreens'].append(screen)
+                    self.env['screen']['autoIgnoreScreens'] += screen
                 if screen == self.env['screen']['newTTY'] :
                     if self.env['general']['currUser'] != session[2]:
                         self.env['general']['prevUser'] = self.env['general']['currUser']
@@ -206,8 +206,18 @@ class driver(screenDriver):
                     #attr = 7
                     #ink = 7
                     #paper = 0
-                    #ch = ' '
-                    lineAttrib.append((7,15,0,0,0,0)) # attribute, ink, paper, blink, bold, underline
+                    #ch = ' ' 
+                    lineAttrib += (
+                    self.fgColorValues[15], # fg
+                    self.bgColorValues[0], # bg
+                    False, # bold
+                    False, # italics
+                    False, # underscore
+                    False, # strikethrough
+                    False, # reverse
+                    False, # blink
+                    'default', # fontsize
+                    'default') # fontfamily
                     lineText += ' '
                     continue
                 (sh,) = unpack("=H", data)
@@ -231,7 +241,17 @@ class driver(screenDriver):
                     lineText += self.charmap[ch]            
                 except KeyError:
                     lineText += '?'
-                lineAttrib.append((attr,ink, paper,blink,bold,0)) # attribute, ink, paper, blink, bold, underline
+                    lineAttrib += (
+                    self.fgColorValues[ink],
+                    self.bgColorValues[paper],
+                    bold == 1, # bold
+                    False, # italics
+                    False, # underscore
+                    False, # strikethrough
+                    False, # reverse
+                    blink == 0, # blink
+                    'default', # fontsize
+                    'default') # fontfamily                    
             allText += lineText + '\n'
             allAttrib += lineAttrib
         return str(allText), allAttrib
@@ -240,29 +260,7 @@ class driver(screenDriver):
             return self.bgColorNames[attribute[2]]
         except Exception as e:
             print(e)
-            return ''
-    def getFenrirFGColor(self, attribute):
-        try:
-            return self.fgColorNames[attribute[1]]
-        except Exception as e:
-            print(e)        
-            return ''
-    def getFenrirUnderline(self, attribute):
-        if attribute[5] == 1:
-            return _('underlined')
-        return ''    
-    def getFenrirBold(self, attribute):
-        if attribute[4] == 1:
-            return _('bold')    
-        return ''    
-    def getFenrirBlink(self, attribute):
-        if attribute[3] == 1:
-            return _('blink')    
-        return ''    
-    def getFenrirFont(self, attribute):
-        return _('Default')
-    def getFenrirFontSize(self, attribute):
-        return _('Default')              
+            return ''        
     def getCurrApplication(self):
         apps = []
         try:
