@@ -48,16 +48,19 @@ class driver(inputDriver):
         self.env['runtime']['inputManager'].setShortcutType('KEY')        
         global _evdevAvailable
         global _udevAvailable        
-        self._initialized = _evdevAvailable
+        self._initialized = _evdevAvailable and _udevAvailable
         if not self._initialized:
             global _evdevAvailableError
-            self.env['runtime']['debug'].writeDebugOut('InputDriver: ' + _evdevAvailableError,debug.debugLevel.ERROR)         
+            global _udevAvailableError            
+            currError = ' '
+            if not _evdevAvailable:
+                currError += _evdevAvailableError
+            if not _udevAvailable:
+                currError += ' ' + _udevAvailableError            
+            self.env['runtime']['debug'].writeDebugOut('InputDriver:' + currError, debug.debugLevel.ERROR)         
             return  
 
-        if _udevAvailable:
-            self.env['runtime']['processManager'].addCustomEventThread(self.plugInputDeviceWatchdogUdev)        
-        #else:
-        #    self.env['runtime']['processManager'].addSimpleEventThread(fenrirEventType.PlugInputDevice, self.plugInputDeviceWatchdogTimer)                
+        self.env['runtime']['processManager'].addCustomEventThread(self.plugInputDeviceWatchdogUdev)        
         self.env['runtime']['processManager'].addCustomEventThread(self.inputWatchdog)
     def plugInputDeviceWatchdogUdev(self,active , eventQueue):
         context = pyudev.Context()
@@ -72,9 +75,12 @@ class driver(inputDriver):
                     if not '/sys/devices/virtual/input/' in device.sys_path:
                         if device.device_node:
                             validDevices.append(str(device.device_node))
-                    device = monitor.poll(0.1)
                 except:                    
                     pass
+                try:
+                    device = monitor.poll(0.1)                
+                except:                    
+                    device = None
             if validDevices:
                 eventQueue.put({"Type":fenrirEventType.PlugInputDevice,"Data":validDevices})
         return time.time()       
