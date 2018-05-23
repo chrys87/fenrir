@@ -145,8 +145,11 @@ class inputManager():
         except:
             pass
         self.setExecuteDeviceGrab()
-        if newDevice:
-            self.handleDeviceGrab()
+        try:
+            if self.env['runtime']['screenManager']:
+                self.handleDeviceGrab()
+        except:
+            pass
     def removeAllDevices(self):
         try:
             self.env['runtime']['inputDriver'].removeAllDevices()
