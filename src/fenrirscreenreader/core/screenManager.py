@@ -215,7 +215,7 @@ class screenManager():
                         ignoreScreens.extend(fp.read().replace('\n','').split(','))
         except:
             pass
-        self.env['runtime']['debug'].writeDebugOut('screenManager:isSuspendingScreen ' + str(ignoreScreens) + ' current:'+ str(self.env['screen']['newTTY']),debug.debugLevel.INFO)         
+        self.env['runtime']['debug'].writeDebugOut('screenManager:isSuspendingScreen ignore:' + str(ignoreScreens) + ' current:'+ str(screen ), debug.debugLevel.INFO)         
         return (screen in ignoreScreens)
  
     def isScreenChange(self):
