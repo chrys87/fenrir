@@ -46,10 +46,10 @@ class inputManager():
     def handleDeviceGrab(self):
         if not self.executeDeviceGrab:
             return
+        if not self.noKeyPressed():
+            return        
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
             return            
-        if not self.noKeyPressed():
-            return
         if self.env['runtime']['screenManager'].getCurrScreenIgnored():
             self.ungrabAllDevices()
             self.env['runtime']['outputManager'].interruptOutput()
@@ -59,7 +59,6 @@ class inputManager():
     def handleInputEvent(self, eventData):
         if not eventData:
             return
-        self.handleDeviceGrab()
         self.env['input']['prevInput'] = self.env['input']['currInput'].copy()
         if eventData['EventState'] == 0:
             if eventData['EventName'] in self.env['input']['currInput']:
@@ -97,9 +96,8 @@ class inputManager():
         if self.noKeyPressed():
             self.env['input']['prevInput'] = []
             self.setLedState = True
-        else:
-            self.handleDeviceGrab()
-
+            self.handleDeviceGrab()           
+            
     def handleLedStates(self, mEvent):
         if not self.setLedState:
             return self.setLedState
