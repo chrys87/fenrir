@@ -19,7 +19,7 @@ class command():
     def run(self):
         cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
         attributes = screen_utils.splitEvery(self.env['screen']['newContentAttrib'], self.env['screen']['columns'])
-        attributes = attributes[cursorPos['y']][cursorPos['x']]
+        attributes = self.env['screen']['newContentAttrib'][cursorPos['y']][cursorPos['x']]
         attributeFormatString = self.env['runtime']['settingsManager'].getSetting('general', 'attributeFormatString')
         attributeFormatString = self.env['runtime']['screenManager'].formatAttributes(attributes, attributeFormatString)
         self.env['runtime']['outputManager'].presentText(attributeFormatString, soundIcon='', interrupt=True)

@@ -185,6 +185,7 @@ class screenManager():
         # "fontfamily" 
         if not attributeFormatString:
             attributeFormatString = self.env['runtime']['settingsManager'].getSetting('general', 'attributeFormatString')
+        print('call')
         if not attributeFormatString:
             return ''
         if attributeFormatString == '':
@@ -192,6 +193,7 @@ class screenManager():
         if not attribute:
             return ''
         if len(attribute) != 10:
+            print('out',len(attribute),attribute)
             return ''
         # 0 FG color (name)
         try:
@@ -264,7 +266,7 @@ class screenManager():
         except Exception as e:
             pass
         attributeFormatString = attributeFormatString.replace('fenrirFont', _('default'))
-                 
+        print(attributeFormatString)                 
         return attributeFormatString
     
     def isSuspendingScreen(self, screen = None):

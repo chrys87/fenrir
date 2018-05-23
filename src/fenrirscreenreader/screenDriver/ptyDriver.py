@@ -39,8 +39,8 @@ class Terminal:
         start = time.time()        
         for y in range(self.screen.lines):
             line = self.screen.buffer[y]    
-            attributes = [char[1:] for char in (line[x] for x in range(self.screen.columns)),False, 'default', 'default']              
-            allAttributes += (attributes)
+            attributes = [list(char[1:]) + [False, 'default', 'default'] for char in (line[x] for x in range(self.screen.columns))]
+            allAttributes.append(attributes)
         print(time.time() -start)
         self.screen.dirty.clear()
         return {"cursor": (cursor.x, cursor.y),

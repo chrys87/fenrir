@@ -207,7 +207,7 @@ class driver(screenDriver):
                     #ink = 7
                     #paper = 0
                     #ch = ' ' 
-                    lineAttrib += (
+                    charAttrib = (
                     self.fgColorValues[15], # fg
                     self.bgColorValues[0], # bg
                     False, # bold
@@ -218,6 +218,7 @@ class driver(screenDriver):
                     False, # blink
                     'default', # fontsize
                     'default') # fontfamily
+                    lineAttrib.append(charAttrib)
                     lineText += ' '
                     continue
                 (sh,) = unpack("=H", data)
@@ -241,19 +242,20 @@ class driver(screenDriver):
                     lineText += self.charmap[ch]            
                 except KeyError:
                     lineText += '?'
-                    lineAttrib += (
-                    self.fgColorValues[ink],
-                    self.bgColorValues[paper],
-                    bold == 1, # bold
-                    False, # italics
-                    False, # underscore
-                    False, # strikethrough
-                    False, # reverse
-                    blink == 0, # blink
-                    'default', # fontsize
-                    'default') # fontfamily                    
+                charAttrib = (
+                self.fgColorValues[ink],
+                self.bgColorValues[paper],
+                bold == 1, # bold
+                False, # italics
+                False, # underscore
+                False, # strikethrough
+                False, # reverse
+                blink == 1, # blink
+                'default', # fontsize
+                'default') # fontfamily
+                lineAttrib.append(charAttrib)
             allText += lineText + '\n'
-            allAttrib += lineAttrib
+            allAttrib.append(lineAttrib)
         return str(allText), allAttrib
     def getFenrirBGColor(self, attribute):
         try:
