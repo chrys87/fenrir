@@ -40,7 +40,12 @@ class inputManager():
         self.removeAllDevices()
         self.env['runtime']['settingsManager'].shutdownDriver('inputDriver')
     def  getInputEvent(self):
-         return self.env['runtime']['inputDriver'].getInputEvent()
+        event =  None
+        try:
+            event = self.env['runtime']['inputDriver'].getInputEvent()
+        except:
+            pass
+        return event
     def setExecuteDeviceGrab(self, newExecuteDeviceGrab = True):
         self.executeDeviceGrab = newExecuteDeviceGrab
     def handleDeviceGrab(self):
