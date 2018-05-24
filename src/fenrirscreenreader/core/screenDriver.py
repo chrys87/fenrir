@@ -3,13 +3,6 @@
 
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
-#attrib:
-#http://rampex.ihep.su/Linux/linux_howto/html/tutorials/mini/Colour-ls-6.html
-#0 = black, 1 = blue, 2 = green, 3 = cyan, 4 = red, 5 = purple, 6 = brown/yellow, 7 = white. 
-#https://github.com/jwilk/vcsapeek/blob/master/linuxvt.py
-#blink = 5 if attr & 1 else 0
-#bold = 1 if attr & 16 else 0
-
 
 from fenrirscreenreader.core import debug
 
@@ -25,22 +18,9 @@ class screenDriver():
         self._isInitialized = False
     def getCurrScreen(self):
         pass
+    def injectTextToScreen(self, text, screen = None):
+        pass
     def getCurrApplication(self):
         pass
     def getSessionInformation(self):
-        pass                
-    def getFenrirBGColor(self, attribute):
-        return ''
-    def getFenrirFGColor(self, attribute):
-        return ''
-    def getFenrirUnderline(self, attribute):
-        return ''   
-    def getFenrirBold(self, attribute):
-        return ''
-    def getFenrirBlink(self, attribute):
-        return ''
-    def getFenrirFont(self, attribute):
-        return ''
-    def getFenrirFontSize(self, attribute):
-        return ''
-                
+        pass
