@@ -15,13 +15,14 @@ class command():
     def shutdown(self):
         pass
     def getDescription(self):
-        return 'No description found'         
+        return _('Reads attributes of current cursor position')         
     def run(self):
         cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
-        attributes = screen_utils.splitEvery(self.env['screen']['newContentAttrib'], self.env['screen']['columns'])
+        
         attributes = self.env['screen']['newContentAttrib'][cursorPos['y']][cursorPos['x']]
         attributeFormatString = self.env['runtime']['settingsManager'].getSetting('general', 'attributeFormatString')
-        attributeFormatString = self.env['runtime']['screenManager'].formatAttributes(attributes, attributeFormatString)
+        attributeFormatString = self.env['runtime']['attributeManager'].formatAttributes(attributes, attributeFormatString)
+        
         self.env['runtime']['outputManager'].presentText(attributeFormatString, soundIcon='', interrupt=True)
     def setCallback(self, callback):
         pass
