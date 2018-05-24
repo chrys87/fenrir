@@ -24,6 +24,7 @@ from fenrirscreenreader.core import helpManager
 from fenrirscreenreader.core import headLineManager
 from fenrirscreenreader.core import tableManager
 from fenrirscreenreader.core import byteManager
+from fenrirscreenreader.core import attributeManager
 from fenrirscreenreader.core import environment 
 from fenrirscreenreader.core.settingsData import settingsData
 from fenrirscreenreader.core import debug
@@ -269,6 +270,9 @@ class settingsManager():
 
         environment['runtime']['memoryManager'] = memoryManager.memoryManager()
         environment['runtime']['memoryManager'].initialize(environment) 
+        
+        environment['runtime']['attributeManager'] = attributeManager.attributeManager()
+        environment['runtime']['attributeManager'].initialize(environment)         
         
         environment['runtime']['eventManager'] = eventManager.eventManager()
         environment['runtime']['eventManager'].initialize(environment)            
