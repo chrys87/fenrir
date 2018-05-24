@@ -15,23 +15,19 @@ class inputDriver():
         self._isInitialized = True
     def shutdown(self):
         if self._initialized:
-            self.releaseDevices()    
+            self.removeAllDevices()    
         self._isInitialized = False
     def getInputEvent(self):
-        time.sleep(0.05)
+        time.sleep(0.1)
         return None
-    def handleInputEvent(self, event):
-        time.sleep(0.05)
-        if not self._initialized:
-            return
     def writeEventBuffer(self):
         if not self._initialized:
             return    
     def clearEventBuffer(self):
         if not self._initialized:
             return    
-        del self.env['input']['eventBuffer'][:]            
-    def updateInputDevices(self, force = False, init = False):
+        del self.env['input']['eventBuffer'][:]           
+    def updateInputDevices(self, newDevices = None, init = False)
         if not self._initialized:
             return    
     def getLedState(self, led = 0):
@@ -47,10 +43,17 @@ class inputDriver():
     def ungrabAllDevices(self):
         if not self._initialized:
             return
+    def hasIDevices(self):
+        if not self._initialized:
+            return False
+        return False
     def removeAllDevices(self):
         if not self._initialized:
             return 
     def __del__(self):
         if not self._initialized:
-            return        
-        self.removeAllDevices()
+            return     
+        try:
+            self.removeAllDevices()
+        except:
+            pass
