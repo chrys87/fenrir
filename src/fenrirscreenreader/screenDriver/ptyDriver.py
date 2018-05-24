@@ -36,7 +36,10 @@ class Terminal:
         cursor = self.screen.cursor
         allAttributes = []
         text = '\n'.join(self.screen.display)
-        start = time.time()        
+        start = time.time()   
+        #buffer self.screen.buffer
+        #buffer = [[[1,1],[1,2]], [[2,1],[2,2]], [[3,1],[3,2]]]
+        #[buffer[x][y] for x in xrange(0,2) for y in xrange(0,1)]
         for y in range(self.screen.lines):
             line = self.screen.buffer[y]    
             attributes = [list(char[1:])  + [False, 'default', 'default'] for char in (line[x] for x in range(self.screen.columns))]
