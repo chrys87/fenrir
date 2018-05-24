@@ -138,11 +138,6 @@ class driver(inputDriver):
             except Exception as e:
                 pass           
 
-    def clearEventBuffer(self):
-        if not self._initialized:
-            return    
-        del self.env['input']['eventBuffer'][:]
-                        
     def writeUInput(self, uDevice, event):
         if not self._initialized:
             return    
