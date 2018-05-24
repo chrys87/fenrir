@@ -37,13 +37,17 @@ class Terminal:
         allAttributes = []
         text = '\n'.join(self.screen.display)
         start = time.time()   
-        #buffer self.screen.buffer
+        buffer self.screen.buffer
         #buffer = [[[1,1],[1,2]], [[2,1],[2,2]], [[3,1],[3,2]]]
         #[buffer[x][y] for x in xrange(0,2) for y in xrange(0,1)]
-        for y in range(self.screen.lines):
-            line = self.screen.buffer[y]    
-            attributes = [list(char[1:])  + [False, 'default', 'default'] for char in (line[x] for x in range(self.screen.columns))]
-            allAttributes.append(attributes)
+        #columns = 2
+        #rows = 3
+        #[buffer[x][0] + [False, 'default', 'default'] for line in (buffer[x] for x in range(columns))]        
+        allAttributes = [[attribute[1:] + [False, 'default', 'default'] for attribute in line] for line in buffer]
+        #for y in range(self.screen.lines):
+        #    line = self.screen.buffer[y]    
+        #    attributes = [list(char[1:])  + [False, 'default', 'default'] for char in (line[x] for x in range(self.screen.columns))]
+        #    allAttributes.append(attributes)
         print(time.time() -start)
         self.screen.dirty.clear()
         return {"cursor": (cursor.x, cursor.y),
