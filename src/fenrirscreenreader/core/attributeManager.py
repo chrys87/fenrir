@@ -8,14 +8,14 @@ from fenrirscreenreader.core import debug
 
 class attributeManager():
     def __init__(self):
-        pass
+        self.setDefaultAttributes()
     def initialize(self, environment):
         self.env = environment  
     def shutdown(self):
         pass
-    def isDefaultAttribute(attribute):
-        defaultAttributes = []
-        defaultAttributes.append((
+    def setDefaultAttributes(self):
+        self.defaultAttributes = []
+        self.defaultAttributes.append((
             'white', # fg
             'black', # bg
             False, # bold
@@ -27,7 +27,7 @@ class attributeManager():
             'default', # fontsize
             'default' # fontfamily
         )) #end attribute
-        defaultAttributes.append((
+        self.defaultAttributes.append((
             'default', # fg
             'default', # bg
             False, # bold
@@ -38,8 +38,9 @@ class attributeManager():
             False, # blink
             'default', # fontsize
             'default' # fontfamily
-        )) #end attribute            
-        return attribute in defaultAttributes
+        )) #end attribute         
+    def isDefaultAttribute(self,attribute):           
+        return attribute in self.defaultAttributes
     def formatAttributes(self, attribute, attributeFormatString = None):
         # "black",
         # "red",
