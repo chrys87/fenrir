@@ -43,11 +43,11 @@ class Terminal:
         #columns = 2
         #rows = 3
         #[buffer[x][0] + [False, 'default', 'default'] for line in (buffer[x] for x in range(columns))]        
-        allAttributes = [[attribute[1:] + [False, 'default', 'default'] for attribute in line] for line in buffer]
-        #for y in range(self.screen.lines):
-        #    line = self.screen.buffer[y]    
-        #    attributes = [list(char[1:])  + [False, 'default', 'default'] for char in (line[x] for x in range(self.screen.columns))]
-        #    allAttributes.append(attributes)
+        #allAttributes = [[attribute[1:] + [False, 'default', 'default'] for attribute in line] for line in buffer]
+        for y in range(self.screen.lines):
+            line = self.screen.buffer[y]    
+            attributes = [list(char[1:])  + [False, 'default', 'default'] for char in (line[x] for x in range(self.screen.columns))]
+            allAttributes.append(attributes)
         print(time.time() -start)
         self.screen.dirty.clear()
         return {"cursor": (cursor.x, cursor.y),
