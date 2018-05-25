@@ -37,7 +37,7 @@ class Terminal:
         allAttributes = []
         text = '\n'.join(self.screen.display)
         start = time.time()   
-        buffer self.screen.buffer
+        buffer = self.screen.buffer
         #buffer = [[[1,1],[1,2]], [[2,1],[2,2]], [[3,1],[3,2]]]
         #[buffer[x][y] for x in xrange(0,2) for y in xrange(0,1)]
         #columns = 2
