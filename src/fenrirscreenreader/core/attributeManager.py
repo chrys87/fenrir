@@ -8,7 +8,7 @@ from fenrirscreenreader.core import debug
 
 class attributeManager():
     def __init__(self):
-      pass
+        pass
     def initialize(self, environment):
         self.env = environment  
     def shutdown(self):
