@@ -48,4 +48,4 @@ class attributeManager():
             attributeFormatString = attributeFormatString.replace('fenrirFont', self.env['runtime']['screenDriver'].getFenrirFont(attribute))        
         except Exception as e:
             pass              
-return attributeFormatString
+        return attributeFormatString
