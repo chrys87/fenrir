@@ -26,8 +26,7 @@ class inputDriver():
     def clearEventBuffer(self):
         if not self._initialized:
             return    
-        del self.env['input']['eventBuffer'][:]           
-    def updateInputDevices(self, newDevices = None, init = False)
+    def updateInputDevices(self, newDevices = None, init = False):
         if not self._initialized:
             return    
     def getLedState(self, led = 0):
