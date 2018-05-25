@@ -13,17 +13,6 @@ class attributeManager():
         self.env = environment  
     def shutdown(self):
         pass
-                    charAttrib = (
-                    'white', # fg
-                    'black', # bg
-                    False, # bold
-                    False, # italics
-                    False, # underscore
-                    False, # strikethrough
-                    False, # reverse
-                    False, # blink
-                    'default', # fontsize
-                    'default') # fontfamily
     def isDefaultAttribute(attribute):
         defaultAttributes = []
         defaultAttributes.append((
