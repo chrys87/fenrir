@@ -13,6 +13,44 @@ class attributeManager():
         self.env = environment  
     def shutdown(self):
         pass
+                    charAttrib = (
+                    'white', # fg
+                    'black', # bg
+                    False, # bold
+                    False, # italics
+                    False, # underscore
+                    False, # strikethrough
+                    False, # reverse
+                    False, # blink
+                    'default', # fontsize
+                    'default') # fontfamily
+    def isDefaultAttribute(attribute):
+        defaultAttributes = []
+        defaultAttributes.append((
+            'white', # fg
+            'black', # bg
+            False, # bold
+            False, # italics
+            False, # underscore
+            False, # strikethrough
+            False, # reverse
+            False, # blink
+            'default', # fontsize
+            'default' # fontfamily
+        )) #end attribute
+        defaultAttributes.append((
+            'default', # fg
+            'default', # bg
+            False, # bold
+            False, # italics
+            False, # underscore
+            False, # strikethrough
+            False, # reverse
+            False, # blink
+            'default', # fontsize
+            'default' # fontfamily
+        )) #end attribute            
+        return attribute in defaultAttributes
     def formatAttributes(self, attribute, attributeFormatString = None):
         if not attributeFormatString:
             attributeFormatString = self.env['runtime']['settingsManager'].getSetting('general', 'attributeFormatString')
