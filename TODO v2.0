@@ -17,7 +17,6 @@ Cleanups:
     [] screenData.py
     [] settingsData -> defaultSettings.py
 General (Easy for contribution)
-  [] wrapper script for running Fenrir to check if pypy3 exists, use python3 as fallback.
   [w] make fenrir runnable without root permissions
   [] make fenrir runable without settingsfile. fallback to defaults
   [] Detect progressbars and just present percent
