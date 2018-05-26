@@ -229,11 +229,11 @@ class driver(screenDriver):
                 ink = attr & 0x0F
                 paper = (attr>>4) & 0x0F
                 blink = 0
-                #if attr & 1: 
-                #    blink = 1
+                if attr & 1: 
+                    blink = 1
                 bold = 0 
-                #if attr & 16:
-                #    bold = 1
+                if attr & 16:
+                    bold = 1
                 #if (ink != 7) or (paper != 0):
                 #    print(ink,paper)
                 if sh & self.hichar:
@@ -257,12 +257,7 @@ class driver(screenDriver):
             allText += lineText + '\n'
             allAttrib.append(lineAttrib)
         return str(allText), allAttrib
-    def getFenrirBGColor(self, attribute):
-        try:
-            return self.bgColorNames[attribute[2]]
-        except Exception as e:
-            print(e)
-            return ''        
+      
     def getCurrApplication(self):
         apps = []
         try:
