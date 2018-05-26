@@ -122,10 +122,7 @@ class driver(inputDriver):
                         self.writeEventBuffer()
                         self.clearEventBuffer() 
         except Exception as e:
-            self.env['runtime']['debug'].writeDebugOut("INPUT WATCHDOG CRASH: "+str(e),debug.debugLevel.ERROR)                
-         
-    def handleInputEvent(self, event):
-        return       
+            self.env['runtime']['debug'].writeDebugOut("INPUT WATCHDOG CRASH: "+str(e),debug.debugLevel.ERROR)  
 
     def writeEventBuffer(self):
         if not self._initialized:
