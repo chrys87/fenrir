@@ -20,12 +20,10 @@ class inputDriver():
     def getInputEvent(self):
         time.sleep(0.1)
         return None
-    def writeEventBuffer(self):
-        if not self._initialized:
-            return    
     def clearEventBuffer(self):
         if not self._initialized:
             return    
+        del self.env['input']['eventBuffer'][:]
     def updateInputDevices(self, newDevices = None, init = False):
         if not self._initialized:
             return    
@@ -45,7 +43,7 @@ class inputDriver():
     def hasIDevices(self):
         if not self._initialized:
             return False
-        return False
+        return True
     def removeAllDevices(self):
         if not self._initialized:
             return 
