@@ -25,7 +25,7 @@ class driver(inputDriver):
         print('Input Debug Driver: Shutdown')
         
     def getInputEvent(self):
-        time.sleep(0.05)
+        time.sleep(0.1)
         if not self._initialized:
             return None
         print('Input Debug Driver: getInputEvent')
@@ -39,7 +39,7 @@ class driver(inputDriver):
             return    
         del self.env['input']['eventBuffer'][:]            
         print('Input Debug Driver: clearEventBuffer')
-    def updateInputDevices(self, force = False, init = False):
+    def updateInputDevices(self, newDevices = None, init = False):
         if not self._initialized:
             return    
         print('Input Debug Driver: updateInputDevices') 
