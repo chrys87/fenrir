@@ -5,6 +5,7 @@
 # By Chrys, Storm Dragon, and contributers.
 
 from fenrirscreenreader.core import debug
+from collections import Counter
 
 class attributeManager():
     def __init__(self):
@@ -155,3 +156,43 @@ class attributeManager():
         attributeFormatString = attributeFormatString.replace('fenrirFont', _('default'))
                  
         return attributeFormatString
+    def trackHighlights(self, oldAttr, newAttr, text, lenght):
+        result = ''
+        currCursor = None
+        if oldAttr == newAttr:
+            return result,  currCursor
+        if len(newAttr) == 0:
+            return result,  currCursor
+        if len(oldAttr) != len(newAttr):
+            return result,  currCursor         
+            
+        textLines = text.split('\n')
+
+        if len(textLines) - 1 != len(newAttr):
+            return result,  currCursor
+
+        background = []
+        try:
+            bgStat = Counter(newAttr).most_common(3)
+            #for i in bgStat:
+            #    print(i)
+            #background.append(bgStat[0][0])
+            # if there is a third color add a secondary background (for dialogs for example)
+            #if len(bgStat) > 2:
+            #    if bgStat[1][1] > 40:
+            #        background.append(bgStat[1][0])
+        except Exception as e:
+            print(e)
+        #background.append((7,7,0,0,0,0))
+        for line in range(len(newAttr)):
+            if oldAttr[line] != newAttr[line]:
+                for column in range(len(newAttr[line])):
+                    if oldAttr[line][column] != newAttr[line][column]:
+                        if not self.isDefaultAttribute(newAttr[line][column]):
+                            if not currCursor:
+                                currCursor = {}
+                                currCursor['x'] = column
+                                currCursor['y'] = line
+                            result += textLines[line][column]
+                result += ' '
+        return result, currCursor         

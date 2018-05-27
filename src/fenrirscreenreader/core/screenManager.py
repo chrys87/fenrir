@@ -159,8 +159,9 @@ class screenManager():
         try:
             if self.env['screen']['oldContentAttrib'] != self.env['screen']['newContentAttrib']:
                 if self.env['runtime']['settingsManager'].getSettingAsBool('focus', 'highlight'):
-                    self.env['screen']['newAttribDelta'], self.env['screen']['newCursorAttrib'] = screen_utils.trackHighlights(self.env['screen']['oldContentAttrib'], self.env['screen']['newContentAttrib'], self.env['screen']['newContentText'], self.env['screen']['columns'])
+                    self.env['screen']['newAttribDelta'], self.env['screen']['newCursorAttrib'] = self.env['runtime']['attributeManager'].trackHighlights(self.env['screen']['oldContentAttrib'], self.env['screen']['newContentAttrib'], self.env['screen']['newContentText'], self.env['screen']['columns'])
         except Exception as e:
+            print(e)
             self.env['runtime']['debug'].writeDebugOut('screenManager:update:highlight: ' + str(e),debug.debugLevel.ERROR) 
 
     def isSuspendingScreen(self, screen = None):
