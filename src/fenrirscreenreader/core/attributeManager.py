@@ -170,14 +170,15 @@ class attributeManager():
         textLines = text.split('\n')
 
         if len(textLines) != len(newAttr):
-            print(len(textLines), len(newAttr))        
             return result,  currCursor
-        print(len(textLines), len(newAttr))
-        background = []
+        #print(len(textLines), len(newAttr))
+        #background = []
 
         try:
-            allAttrib = [line for line in newAttr]
-            print(allAttrib)
+            pass
+            #llAttrib = [line for line in newAttr]
+            
+            #print(Counter(allAttrib[0]).most_common())
             #from collections import Counter
             #import random
 
@@ -188,7 +189,7 @@ class attributeManager():
             #random.shuffle(values)
             #print(values[0])
                     
-            bgStat = Counter(newAttr).most_common(3)              
+            #bgStat = Counter(newAttr).most_common(3)              
             #for i in bgStat:
             #    print(i)
             #background.append(bgStat[0][0])
@@ -198,16 +199,23 @@ class attributeManager():
             #        background.append(bgStat[1][0])
         except Exception as e:
             print(e)
+        print('start')
         #background.append((7,7,0,0,0,0))
         for line in range(len(newAttr)):
+            print(len(textLines[line]))
+            #print(line,len(newAttr), len(oldAttr))
             if oldAttr[line] != newAttr[line]:
                 for column in range(len(newAttr[line])):
+                    #print(column,len(newAttr[line]))
+                    print(len(oldAttr[line]), len(newAttr[line]))
                     if oldAttr[line][column] != newAttr[line][column]:
-                        if not self.isDefaultAttribute(newAttr[line][column]):
-                            if not currCursor:
-                                currCursor = {}
-                                currCursor['x'] = column
-                                currCursor['y'] = line
-                            result += textLines[line][column]
+                        print('jo')
+                        #if not self.isDefaultAttribute(newAttr[line][column]):
+                            #if not currCursor:
+                                #currCursor = {}
+                                #currCursor['x'] = column
+                                #currCursor['y'] = line
+                            #result += textLines[line][column]
                 result += ' '
+        print('end')
         return result, currCursor         
