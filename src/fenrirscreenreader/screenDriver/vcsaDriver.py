@@ -195,7 +195,8 @@ class driver(screenDriver):
     def autoDecodeVCSA(self, allData, rows, cols):
         allText = ''
         allAttrib = []
-        i = 0        
+        i = 0
+        print(rows)
         for y in range(rows):
             lineText = ''
             lineAttrib = []
@@ -254,7 +255,9 @@ class driver(screenDriver):
                 'default', # fontsize
                 'default') # fontfamily
                 lineAttrib.append(charAttrib)
-            allText += lineText + '\n'
+            allText += lineText
+            if y + 1 < rows:
+                allText += '\n'
             allAttrib.append(lineAttrib)
         return str(allText), allAttrib
       

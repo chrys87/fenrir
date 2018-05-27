@@ -159,21 +159,37 @@ class attributeManager():
     def trackHighlights(self, oldAttr, newAttr, text, lenght):
         result = ''
         currCursor = None
-        if oldAttr == newAttr:
-            return result,  currCursor
+        #if oldAttr == newAttr:
+        #    return result,  currCursor
         if len(newAttr) == 0:
+            print('len')
             return result,  currCursor
         if len(oldAttr) != len(newAttr):
+            print('ON len')
             return result,  currCursor         
-            
+        
         textLines = text.split('\n')
 
-        if len(textLines) - 1 != len(newAttr):
+        if len(textLines) != len(newAttr):
+            print(len(textLines), len(newAttr))        
             return result,  currCursor
-
+        print(len(textLines), len(newAttr))
         background = []
+
         try:
-            bgStat = Counter(newAttr).most_common(3)
+            allAttrib = [line for line in newAttr]
+            print(allAttrib)
+            #from collections import Counter
+            #import random
+
+            #tups = [ (1,2), (3,4), (5,6), (1,2), (3,4) ]
+            #lst = Counter(tups).most_common()
+            #highest_count = max([i[1] for i in lst])
+            #values = [i[0] for i in lst if i[1] == highest_count]
+            #random.shuffle(values)
+            #print(values[0])
+                    
+            bgStat = Counter(newAttr).most_common(3)              
             #for i in bgStat:
             #    print(i)
             #background.append(bgStat[0][0])
