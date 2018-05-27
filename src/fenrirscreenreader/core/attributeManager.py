@@ -156,16 +156,15 @@ class attributeManager():
         attributeFormatString = attributeFormatString.replace('fenrirFont', _('default'))
                  
         return attributeFormatString
-    def trackHighlights(self, oldAttr, newAttr, text, lenght):
+    def trackHighlights(self, oldAttr, newAttr, text):
         result = ''
         currCursor = None
-        #if oldAttr == newAttr:
-        #    return result,  currCursor
+        
+        if oldAttr == newAttr:
+            return result,  currCursor
         if len(newAttr) == 0:
-            print('len')
             return result,  currCursor
         if len(oldAttr) != len(newAttr):
-            print('ON len')
             return result,  currCursor         
         
         textLines = text.split('\n')
