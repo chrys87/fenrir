@@ -17,6 +17,9 @@ class command():
     def getDescription(self):
         return _('Reads attributes of current cursor position')         
     def run(self):
+        # is it enabled?    
+        if not self.env['runtime']['settingsManager'].getSettingAsBool('general', 'hasAttributes'):
+            return    
         # is a vertical change?
         if not (self.env['runtime']['cursorManager'].isCursorVerticalMove() or\
           self.env['runtime']['cursorManager'].isCursorHorizontalMove()):

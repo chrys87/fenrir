@@ -24,8 +24,8 @@ General (Easy for contribution)
      [=================>          ] 100%
      ########################           100%
 Imporove attribute handling
-  [W] improve attributes_curr_char (Easy for contribution)
-  [] add an attribute sound (Easy for contribution)
+  [X] improve attributes_curr_char (Easy for contribution)
+  [W] add an attribute sound (Easy for contribution)
   [] beep on cursor/ review by char (capital wins) (Easy for contribution)
   [] beep on review by word (once for multiple, capital wins) (Easy for contribution)
   [] configurable (by char, by word, none) (Easy for contribution)
@@ -79,8 +79,8 @@ Driver (screen, input):
   [X] resize on colum / line change
   [X] make shell command configurable (or detect it)
   [X] stop emulation properly
-  [W] attributes
-  [W] unify hilgight tracking
+  [X] attributes
+  [X] unify hilgight tracking
   [X] make pasteing text work again
   https://docs.python.org/3.2/library/pty.html
   http://sqizit.bartletts.id.au/2011/02/14/pseudo-terminals-in-python/

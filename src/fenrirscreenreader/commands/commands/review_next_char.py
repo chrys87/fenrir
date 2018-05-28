@@ -28,6 +28,13 @@ class command():
                 self.env['runtime']['outputManager'].presentText(_('end of screen'), interrupt=True, soundIcon='EndOfScreen')                 
         if lineBreak:
             if self.env['runtime']['settingsManager'].getSettingAsBool('review', 'lineBreak'):        
-                self.env['runtime']['outputManager'].presentText(_('line break'), interrupt=False, soundIcon='EndOfLine')        
+                self.env['runtime']['outputManager'].presentText(_('line break'), interrupt=False, soundIcon='EndOfLine')      
+        # is has attribute it enabled?    
+        if self.env['runtime']['settingsManager'].getSettingAsBool('general', 'hasAttributes'):
+            cursorPos = self.env['screen']['newCursorReview']
+            
+            if not self.env['runtime']['attributeManager'].hasAttributes(cursorPos):
+                return
+            self.env['runtime']['outputManager'].presentText('has attribute', soundIcon='HasAttributes', interrupt=False)                     
     def setCallback(self, callback):
         pass
