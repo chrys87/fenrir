@@ -9,7 +9,9 @@ from collections import Counter
 
 class attributeManager():
     def __init__(self):
-        self.setDefaultAttributes()
+        self.currAttributes = None
+        self.prevAttributes = None
+        self.setDefaultAttributes()        
     def initialize(self, environment):
         self.env = environment  
     def shutdown(self):
@@ -165,9 +167,12 @@ class attributeManager():
         # no change
         if oldAttr == newAttr:
             return result,  currCursor
+        # error case
+        if newAttr == None:
+            return result,  currCursor                  
         # special case for pty if not text exists.
         if len(newAttr) == 0:
-            return result,  currCursor
+            return result,  currCursor        
        
         textLines = text.split('\n')
 
