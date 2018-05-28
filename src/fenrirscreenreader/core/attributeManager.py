@@ -16,6 +16,9 @@ class attributeManager():
         self.env = environment  
     def shutdown(self):
         pass
+    def updateAttributeData(self, prevAttributes, currAttributes):
+        self.prevAttributes = prevAttributes                                    
+        self.currAttributes = currAttributes
     def setDefaultAttributes(self):
         self.defaultAttributes = []
         self.defaultAttributes.append((
