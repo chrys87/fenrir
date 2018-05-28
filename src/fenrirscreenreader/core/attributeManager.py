@@ -19,6 +19,10 @@ class attributeManager():
         self.env = environment  
     def shutdown(self):
         pass
+    def getCurrAttributeCursor(self):
+        return self.currAttributeCursor
+    def isAttributeCursorActive(self):
+        return self.currAttributeCursor != None
     def isAttributeChange(self):
         if not self.prevAttributes: 
             return False

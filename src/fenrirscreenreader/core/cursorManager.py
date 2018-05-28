@@ -64,10 +64,8 @@ class cursorManager():
         if not self.env['screen']['newCursorReview']:
             self.env['screen']['newCursorReview'] = self.env['screen']['newCursor'].copy()
             if self.env['runtime']['settingsManager'].getSettingAsBool('focus', 'highlight') and \
-              self.env['screen']['newCursorAttrib'] != None:
-                if self.env['screen']['newCursorAttrib']['x'] != 0 and \
-                  self.env['screen']['newCursorAttrib']['y'] != 0:
-                    self.env['screen']['newCursorReview'] = self.env['screen']['newCursorAttrib'].copy()            
+              self.env['runtime']['attributeManager'].isAttributeCursorActive():
+                  self.env['screen']['newCursorReview'] = self.env['screen']['newCursorAttrib'].copy()            
 
     def setReviewCursorPosition(self, x, y):
         if not self.isReviewMode():
