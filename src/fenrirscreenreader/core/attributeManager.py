@@ -25,10 +25,16 @@ class attributeManager():
         self.resetAttributeCursor()
     def resetAttributeDelta(self):
         self.currAttributeDelta = ''
-        self.prevAttributeDelta = ''        
+        self.prevAttributeDelta = ''       
+    def updateAttributeDelta(self, currAttributeDelta):
+        self.prevAttributeDelta = self.currAttributeDelta          
+        self.currAttributeDelta = currAttributeDelta
     def resetAttributeCursor(self):
         self.currAttributeCursor = None
         self.prefAttributeCursor = None
+    def updateAttributeCursor(self, currAttributeCursor):
+        self.prefAttributeCursor = self.currAttributeCursor        
+        self.currAttributeCursor = currAttributeCursor        
     def resetAttributeData(self, currAttributes):
         self.prevAttributes = None                                    
         self.currAttributes = currAttributes        
