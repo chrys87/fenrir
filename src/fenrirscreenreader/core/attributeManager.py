@@ -11,6 +11,10 @@ class attributeManager():
     def __init__(self):
         self.currAttributes = None
         self.prevAttributes = None
+        self.currAttribDelta = ''
+        self.prevAttribDelta = ''
+        self.currAttribCursor = None
+        self.prefAttribCursor = None
         self.setDefaultAttributes()        
     def initialize(self, environment):
         self.env = environment  
@@ -19,6 +23,14 @@ class attributeManager():
     def updateAttributeData(self, prevAttributes, currAttributes):
         self.prevAttributes = prevAttributes                                    
         self.currAttributes = currAttributes
+    def getAttributeByXY(self, x, y):
+        if not self.currAttributes:
+            return None
+        if len(self.currAttributes) < y:
+            return None
+        if len(self.currAttributes[y]) < x:
+            return None        
+        return self.currAttributes[y][x]
     def setDefaultAttributes(self):
         self.defaultAttributes = []
         self.defaultAttributes.append((
