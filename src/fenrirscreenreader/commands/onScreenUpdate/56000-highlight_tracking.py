@@ -18,7 +18,8 @@ class command():
     def run(self):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('focus', 'highlight'):
             return
-        self.env['runtime']['outputManager'].presentText(self.env['screen']['newAttribDelta'], soundIcon='', interrupt=True, flush=False)                          
+        attributeDelta = self.env['runtime']['attributeManager'].getAttributeDelta()
+        self.env['runtime']['outputManager'].presentText(attributeDelta, soundIcon='', interrupt=True, flush=False)                          
     
     def setCallback(self, callback):
         pass

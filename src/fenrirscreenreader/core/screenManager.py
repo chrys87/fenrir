@@ -12,6 +12,8 @@ class screenManager():
     def __init__(self):
         self.currScreenIgnored = False
         self.prevScreenIgnored = False
+        self.prevScreenText = ''
+        self.currScreenText = ''
     def initialize(self, environment):
         self.env = environment
         self.env['runtime']['settingsManager'].loadDriver(\
@@ -20,8 +22,15 @@ class screenManager():
         self.getCurrScreen()
         self.getSessionInformation()        
         self.updateScreenIgnored()
-        self.updateScreenIgnored()        
-
+        self.updateScreenIgnored()      
+    def resetScreenText(self, screenText):
+        self.prevScreenText = ''
+        self.currScreenText = screenText          
+    def setScreenText(self, screenText):
+        self.prevScreenText = self.currScreenText
+        self.currScreenText = screenText
+    def getScreenText(self):
+        return self.currScreenText
     def getCurrScreen(self):
         try:
             self.env['runtime']['screenDriver'].getCurrScreen()
@@ -75,12 +84,8 @@ class screenManager():
         # set new "old" values
         self.env['screen']['oldContentBytes'] = self.env['screen']['newContentBytes']
         self.env['screen']['oldContentText'] = self.env['screen']['newContentText']
-        self.env['screen']['oldContentAttrib'] = self.env['screen']['newContentAttrib']
-        self.env['screen']['oldCursor'] = self.env['screen']['newCursor'].copy()
-        if self.env['screen']['newCursorAttrib']:
-            self.env['screen']['oldCursorAttrib'] = self.env['screen']['newCursorAttrib'].copy()        
+        self.env['screen']['oldCursor'] = self.env['screen']['newCursor'].copy()   
         self.env['screen']['oldDelta'] = self.env['screen']['newDelta']
-        self.env['screen']['oldAttribDelta'] = self.env['screen']['newAttribDelta']
         self.env['screen']['oldNegativeDelta'] = self.env['screen']['newNegativeDelta']
         self.env['screen']['newContentBytes'] = eventData['bytes']
 
@@ -91,23 +96,25 @@ class screenManager():
         self.env['screen']['newCursor']['y'] = int( eventData['textCursor']['y'])
         self.env['screen']['newTTY'] = eventData['screen']
         self.env['screen']['newContentText'] = eventData['text']
-        self.env['screen']['newContentAttrib'] = eventData['attributes']
+
         # screen change
-        if self.env['screen']['newTTY'] != self.env['screen']['oldTTY']:
+        if self.isScreenChange():
             self.env['screen']['oldContentBytes'] = b''
-            self.env['screen']['oldContentAttrib'] = None
+            self.resetScreenText(eventData['text'])            
+            self.env['runtime']['attributeManager'].resetAttributes(eventData['attributes'])
+            self.env['runtime']['attributeManager'].resetAttributeCursor()            
             self.env['screen']['oldContentText'] = ''
             self.env['screen']['oldCursor']['x'] = 0
             self.env['screen']['oldCursor']['y'] = 0
-            self.env['screen']['oldDelta'] = ''
-            self.env['screen']['oldAttribDelta'] = ''            
-            self.env['screen']['oldCursorAttrib'] = None
-            self.env['screen']['newCursorAttrib'] = None            
-            self.env['screen']['oldNegativeDelta'] = ''          
+            self.env['screen']['oldDelta'] = ''          
+            self.env['screen']['oldNegativeDelta'] = '' 
+        else:
+            self.setScreenText(eventData['text'])        
+            self.env['runtime']['attributeManager'].setAttributes(eventData['attributes'])
         # initialize current deltas
         self.env['screen']['newNegativeDelta'] = ''
         self.env['screen']['newDelta'] = ''
-        self.env['screen']['newAttribDelta'] = ''                           
+        self.env['runtime']['attributeManager'].resetAttributeDelta()
 
         # changes on the screen
         oldScreenText = re.sub(' +',' ',self.env['runtime']['screenManager'].getWindowAreaInText(self.env['screen']['oldContentText']))
@@ -157,9 +164,12 @@ class screenManager():
 
         # track highlighted
         try:
-            if self.env['screen']['oldContentAttrib'] != self.env['screen']['newContentAttrib']:
+            if self.env['runtime']['attributeManager'].isAttributeChange():
                 if self.env['runtime']['settingsManager'].getSettingAsBool('focus', 'highlight'):
-                    self.env['screen']['newAttribDelta'], self.env['screen']['newCursorAttrib'] = self.env['runtime']['attributeManager'].trackHighlights(self.env['screen']['oldContentAttrib'], self.env['screen']['newContentAttrib'], self.env['screen']['newContentText'])
+                    attributeDelta, attributeCursor = self.env['runtime']['attributeManager'].trackHighlights()
+                    if attributeCursor:                    
+                        self.env['runtime']['attributeManager'].setAttributeCursor(attributeCursor)
+                        self.env['runtime']['attributeManager'].setAttributeDelta(attributeDelta)                    
         except Exception as e:
             print(e)
             self.env['runtime']['debug'].writeDebugOut('screenManager:update:highlight: ' + str(e),debug.debugLevel.ERROR) 

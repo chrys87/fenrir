@@ -12,7 +12,6 @@ class attributeManager():
         self.currAttributes = None
         self.prevAttributes = None
         self.currAttributeDelta = ''
-        self.prevAttributeDelta = ''
         self.currAttributeCursor = None
         self.prefAttributeCursor = None
         self.setDefaultAttributes()        
@@ -20,25 +19,29 @@ class attributeManager():
         self.env = environment  
     def shutdown(self):
         pass
+    def isAttributeChange(self):
+        if not self.prevAttributes: 
+            return False
+        return self.currAttributes != self.prevAttributes
     def resetAttributeAll(self):
         self.resetAttributeDelta()
         self.resetAttributeCursor()
+    def getAttributeDelta(self):       
+        return self.currAttributeDelta        
     def resetAttributeDelta(self):
-        self.currAttributeDelta = ''
-        self.prevAttributeDelta = ''       
-    def updateAttributeDelta(self, currAttributeDelta):
-        self.prevAttributeDelta = self.currAttributeDelta          
+        self.currAttributeDelta = ''    
+    def setAttributeDelta(self, currAttributeDelta):       
         self.currAttributeDelta = currAttributeDelta
     def resetAttributeCursor(self):
         self.currAttributeCursor = None
         self.prefAttributeCursor = None
-    def updateAttributeCursor(self, currAttributeCursor):
+    def setAttributeCursor(self, currAttributeCursor):
         self.prefAttributeCursor = self.currAttributeCursor        
-        self.currAttributeCursor = currAttributeCursor        
-    def resetAttributeData(self, currAttributes):
+        self.currAttributeCursor = currAttributeCursor.copy()
+    def resetAttributes(self, currAttributes):
         self.prevAttributes = None                                    
         self.currAttributes = currAttributes        
-    def updateAttributeData(self, currAttributes):
+    def setAttributes(self, currAttributes):
         self.prevAttributes = self.currAttributes                                    
         self.currAttributes = currAttributes.copy()
     def getAttributeByXY(self, x, y):
@@ -46,23 +49,18 @@ class attributeManager():
             return None
         if len(self.currAttributes) < y:
             return None
-        if len(self.currAttributes[y]) < x:
-            return None        
-        return self.currAttributes[y][x]
+        if len(self.currAttributes[y]) < x - 1:
+            return None    
+        try:    
+            return self.currAttributes[y][x].copy()
+        except KeyError:
+            try:
+                return self.defaultAttributes[0]
+            except:
+                pass
+        return None
     def setDefaultAttributes(self):
         self.defaultAttributes = []
-        self.defaultAttributes.append((
-            'white', # fg
-            'black', # bg
-            False, # bold
-            False, # italics
-            False, # underscore
-            False, # strikethrough
-            False, # reverse
-            False, # blink
-            'default', # fontsize
-            'default' # fontfamily
-        )) #end attribute
         self.defaultAttributes.append((
             'default', # fg
             'default', # bg
@@ -74,7 +72,19 @@ class attributeManager():
             False, # blink
             'default', # fontsize
             'default' # fontfamily
-        )) #end attribute         
+        )) #end attribute             
+        self.defaultAttributes.append((
+            'white', # fg
+            'black', # bg
+            False, # bold
+            False, # italics
+            False, # underscore
+            False, # strikethrough
+            False, # reverse
+            False, # blink
+            'default', # fontsize
+            'default' # fontfamily
+        )) #end attribute    
     def isDefaultAttribute(self,attribute):           
         return attribute in self.defaultAttributes
     def formatAttributes(self, attribute, attributeFormatString = None):
@@ -191,25 +201,26 @@ class attributeManager():
         attributeFormatString = attributeFormatString.replace('fenrirFont', _('default'))
                  
         return attributeFormatString
-    def trackHighlights(self, oldAttr, newAttr, text):
+    def trackHighlights(self):
+        
         result = ''
         currCursor = None
         # screen change
-        if oldAttr == None:
+        if self.prevAttributes == None:
             return result,  currCursor                
         # no change
-        if oldAttr == newAttr:
+        if self.prevAttributes == self.currAttributes:
             return result,  currCursor
         # error case
-        if newAttr == None:
+        if self.currAttributes == None:
             return result,  currCursor                  
         # special case for pty if not text exists.
-        if len(newAttr) == 0:
+        if len(self.currAttributes) == 0:
             return result,  currCursor        
-       
+        text = self.env['runtime']['screenManager'].getScreenText()
         textLines = text.split('\n')
 
-        if len(textLines) != len(newAttr):
+        if len(textLines) != len(self.currAttributes):
             return result,  currCursor
         #print(len(textLines), len(newAttr))
         #background = []
@@ -240,11 +251,11 @@ class attributeManager():
         except Exception as e:
             print(e)
         #background.append((7,7,0,0,0,0))
-        for line in range(len(oldAttr)):
-            if oldAttr[line] != newAttr[line]:
-                for column in range(len(oldAttr[line])):
-                    if oldAttr[line][column] != newAttr[line][column]:
-                        if not self.isDefaultAttribute(newAttr[line][column]):
+        for line in range(len(self.prevAttributes)):
+            if self.prevAttributes[line] != self.currAttributes[line]:
+                for column in range(len(self.prevAttributes[line])):
+                    if self.prevAttributes[line][column] != self.currAttributes[line][column]:
+                        if not self.isDefaultAttribute(self.currAttributes[line][column]):
                             if not currCursor:
                                 currCursor = {'x': column, 'y': line}
                             result += textLines[line][column]

@@ -19,7 +19,8 @@ class command():
     def run(self):
         cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
         
-        attributes = self.env['screen']['newContentAttrib'][cursorPos['y']][cursorPos['x']]
+        attributes = self.env['runtime']['attributeManager'].getAttributeByXY( cursorPos['x'], cursorPos['y'])
+
         attributeFormatString = self.env['runtime']['settingsManager'].getSetting('general', 'attributeFormatString')
         attributeFormatString = self.env['runtime']['attributeManager'].formatAttributes(attributes, attributeFormatString)
         
