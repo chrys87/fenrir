@@ -29,7 +29,7 @@ class attributeManager():
     def resetAttributeCursor(self):
         self.currAttributeCursor = None
         self.prefAttributeCursor = None
-    def resetAttributeData(self, prevAttributes, currAttributes):
+    def resetAttributeData(self, currAttributes):
         self.prevAttributes = None                                    
         self.currAttributes = currAttributes        
     def updateAttributeData(self, currAttributes):
