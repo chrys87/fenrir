@@ -14,7 +14,7 @@ Cleanups:
     [] outputData.py
     [] punctuationData.py
     [] runtimeData.py
-    [] screenData.py
+    [w] screenData.py
     [] settingsData -> defaultSettings.py
 General (Easy for contribution)
   [w] make fenrir runnable without root permissions
