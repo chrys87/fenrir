@@ -20,6 +20,9 @@ class attributeManager():
         self.env = environment  
     def shutdown(self):
         pass
+    def resetAttributeAll(self):
+        self.resetAttributeDelta()
+        self.resetAttributeCursor()
     def resetAttributeDelta(self):
         self.currAttributeDelta = ''
         self.prevAttributeDelta = ''        
