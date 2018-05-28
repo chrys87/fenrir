@@ -159,14 +159,16 @@ class attributeManager():
     def trackHighlights(self, oldAttr, newAttr, text):
         result = ''
         currCursor = None
-        
+        # screen change
+        if oldAttr == None:
+            return result,  currCursor                
+        # no change
         if oldAttr == newAttr:
             return result,  currCursor
+        # special case for pty if not text exists.
         if len(newAttr) == 0:
             return result,  currCursor
-        if len(oldAttr) != len(newAttr):
-            return result,  currCursor         
-        
+       
         textLines = text.split('\n')
 
         if len(textLines) != len(newAttr):
@@ -200,7 +202,7 @@ class attributeManager():
         except Exception as e:
             print(e)
         #background.append((7,7,0,0,0,0))
-        for line in range(len(newAttr)):
+        for line in range(len(oldAttr)):
             if oldAttr[line] != newAttr[line]:
                 for column in range(len(oldAttr[line])):
                     if oldAttr[line][column] != newAttr[line][column]:
