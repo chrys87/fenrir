@@ -208,9 +208,7 @@ class attributeManager():
                     if oldAttr[line][column] != newAttr[line][column]:
                         if not self.isDefaultAttribute(newAttr[line][column]):
                             if not currCursor:
-                                currCursor = {}
-                                currCursor['x'] = column
-                                currCursor['y'] = line
+                                currCursor = {'x': column, 'y': line}
                             result += textLines[line][column]
                 result += ' '
         return result, currCursor         
