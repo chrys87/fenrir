@@ -11,18 +11,27 @@ class attributeManager():
     def __init__(self):
         self.currAttributes = None
         self.prevAttributes = None
-        self.currAttribDelta = ''
-        self.prevAttribDelta = ''
-        self.currAttribCursor = None
-        self.prefAttribCursor = None
+        self.currAttributeDelta = ''
+        self.prevAttributeDelta = ''
+        self.currAttributeCursor = None
+        self.prefAttributeCursor = None
         self.setDefaultAttributes()        
     def initialize(self, environment):
         self.env = environment  
     def shutdown(self):
         pass
-    def updateAttributeData(self, prevAttributes, currAttributes):
-        self.prevAttributes = prevAttributes                                    
-        self.currAttributes = currAttributes
+    def resetAttributeDelta(self):
+        self.currAttributeDelta = ''
+        self.prevAttributeDelta = ''        
+    def resetAttributeCursor(self):
+        self.currAttributeCursor = None
+        self.prefAttributeCursor = None
+    def resetAttributeData(self, prevAttributes, currAttributes):
+        self.prevAttributes = None                                    
+        self.currAttributes = currAttributes        
+    def updateAttributeData(self, currAttributes):
+        self.prevAttributes = self.currAttributes                                    
+        self.currAttributes = currAttributes.copy()
     def getAttributeByXY(self, x, y):
         if not self.currAttributes:
             return None
