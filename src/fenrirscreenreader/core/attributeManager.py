@@ -199,23 +199,16 @@ class attributeManager():
             #        background.append(bgStat[1][0])
         except Exception as e:
             print(e)
-        print('start')
         #background.append((7,7,0,0,0,0))
         for line in range(len(newAttr)):
-            print(len(textLines[line]))
-            #print(line,len(newAttr), len(oldAttr))
             if oldAttr[line] != newAttr[line]:
-                for column in range(len(newAttr[line])):
-                    #print(column,len(newAttr[line]))
-                    print(len(oldAttr[line]), len(newAttr[line]))
+                for column in range(len(oldAttr[line])):
                     if oldAttr[line][column] != newAttr[line][column]:
-                        print('jo')
-                        #if not self.isDefaultAttribute(newAttr[line][column]):
-                            #if not currCursor:
-                                #currCursor = {}
-                                #currCursor['x'] = column
-                                #currCursor['y'] = line
-                            #result += textLines[line][column]
+                        if not self.isDefaultAttribute(newAttr[line][column]):
+                            if not currCursor:
+                                currCursor = {}
+                                currCursor['x'] = column
+                                currCursor['y'] = line
+                            result += textLines[line][column]
                 result += ' '
-        print('end')
         return result, currCursor         

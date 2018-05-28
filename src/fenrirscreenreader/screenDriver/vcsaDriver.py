@@ -196,7 +196,6 @@ class driver(screenDriver):
         allText = ''
         allAttrib = []
         i = 0
-        print(rows)
         for y in range(rows):
             lineText = ''
             lineAttrib = []
