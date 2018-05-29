@@ -80,7 +80,7 @@ class driver(screenDriver):
         if bytes == b'':
             raise EOFError
         # respect timeout but wait a little bit of time to see if something more is here
-        while screen_utils.hasMore(fd,0.01):
+        while screen_utils.hasMore(fd,0.001):
             # exit on stuff like input available
             if interruptFdList:
                 r, _, _ = select.select(interruptFdList, [], [], 0)
@@ -156,7 +156,7 @@ class driver(screenDriver):
                 # output
                 if self.p_out in r:
                     try:
-                        msgBytes = self.readAll(self.p_out.fileno(), timeout=0.05, interruptFdList=[sys.stdin])
+                        msgBytes = self.readAll(self.p_out.fileno(), timeout=0.02, interruptFdList=[sys.stdin])
                     except (EOFError, OSError):
                         active.value = False
                         break    
