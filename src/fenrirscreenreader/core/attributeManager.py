@@ -111,7 +111,7 @@ class attributeManager():
         try:
             attribute = self.getAttributeByXY( cursorPos['x'], cursorPos['y'])
 
-              if self.isDefaultAttribute(attribute):
+            if self.isDefaultAttribute(attribute):
                 return False
             if update:
                 self.setLastCursorAttribute(attribute)            

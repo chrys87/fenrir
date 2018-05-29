@@ -101,7 +101,7 @@ class fenrirManager():
         if self.controlMode and not self.switchCtrlModeOnce == 1 or\
           not self.controlMode:
             isControlMode = self.handleControlMode(event['Data'])
-        
+
         isCommand = False                
         if self.controlMode and not self.switchCtrlModeOnce == 1 or\
           not self.controlMode and self.switchCtrlModeOnce == 1:
