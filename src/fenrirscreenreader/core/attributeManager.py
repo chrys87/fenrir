@@ -103,23 +103,18 @@ class attributeManager():
             'default' # fontfamily
         )) #end attribute    
     def isDefaultAttribute(self,attribute):
-        useAttribute = None
-        if not attribute:
-            useAttribute = self.currAttributes
-        else:
-            useAttribute = attribute
-        return useAttribute in self.defaultAttributes
+        return attribute in self.defaultAttributes
     def hasAttributes(self, cursor, update=True):
         if not cursor:
             return False
         cursorPos = cursor.copy()
         try:
-            attributes = self.getAttributeByXY( cursorPos['x'], cursorPos['y'])
+            attribute = self.getAttributeByXY( cursorPos['x'], cursorPos['y'])
 
-            if self.isDefaultAttribute(attributes):
+            if self.isDefaultAttribute(attribute):
                 return False
             if update:
-                self.setLastCursorAttribute(attributes)            
+                self.setLastCursorAttribute(attribute)            
             if not self.isLastCursorAttributeChange():
                 return False
         except Exception as e:
