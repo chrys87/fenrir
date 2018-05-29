@@ -119,8 +119,9 @@ class driver(screenDriver):
             terminal, p_pid, self.p_out = self.openTerminal(columns, lines, self.command)
             lines, columns = self.resizeTerminal(self.p_out)
             terminal.resize(lines, columns)            
+            fdList = [sys.stdin, self.p_out, self.signalPipe[0]]
             while active.value:
-                r, _, _ = select.select([sys.stdin, self.p_out, self.signalPipe[0]],[],[],1)
+                r, _, _ = select.select(fdList, [], [], 1)
                 # none
                 if r == []:
                     continue
@@ -148,7 +149,7 @@ class driver(screenDriver):
                 # output
                 if self.p_out in r:
                     try:
-                        msgBytes = self.readAll(self.p_out.fileno(), timeout=0.005)
+                        msgBytes = self.readAll(self.p_out.fileno(), timeout=0.02)
                     except (EOFError, OSError):
                         active.value = False
                         break    
