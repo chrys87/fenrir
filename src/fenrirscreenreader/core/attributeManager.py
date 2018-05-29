@@ -77,8 +77,8 @@ class attributeManager():
                 pass
         return None
     def setDefaultAttributes(self):
-        self.defaultAttributes = []
-        self.defaultAttributes.append((
+        self.defaultAttributes = [None]
+        self.defaultAttributes.append([
             'default', # fg
             'default', # bg
             False, # bold
@@ -89,8 +89,8 @@ class attributeManager():
             False, # blink
             'default', # fontsize
             'default' # fontfamily
-        )) #end attribute             
-        self.defaultAttributes.append((
+        ]) #end attribute             
+        self.defaultAttributes.append([
             'white', # fg
             'black', # bg
             False, # bold
@@ -101,7 +101,7 @@ class attributeManager():
             False, # blink
             'default', # fontsize
             'default' # fontfamily
-        )) #end attribute    
+        ]) #end attribute    
     def isDefaultAttribute(self,attribute):
         return attribute in self.defaultAttributes
     def hasAttributes(self, cursor, update=True):
@@ -110,7 +110,9 @@ class attributeManager():
         cursorPos = cursor.copy()
         try:
             attribute = self.getAttributeByXY( cursorPos['x'], cursorPos['y'])
-
+            print(attribute)
+            if isinstance(attribute, tuple):
+                attribute = list(attribute)
             if self.isDefaultAttribute(attribute):
                 return False
             if update:
