@@ -10,6 +10,7 @@ import time, os, re, difflib
 
 class screenManager():
     def __init__(self):
+        self.differ = difflib.Differ()
         self.currScreenIgnored = False
         self.prevScreenIgnored = False
         self.prevScreenText = ''
@@ -144,7 +145,8 @@ class screenManager():
                     # oldScreenText = re.sub(' +',' ',oldScreenText)
                     newScreenText = self.env['screen']['newContentText'][cursorLineStartOffset:cursorLineEndOffset]
                     #newScreenText = re.sub(' +',' ',newScreenText)
-                    diff = difflib.ndiff(oldScreenText, newScreenText) 
+                    diff = self.differ.compare(oldScreenText, newScreenText) 
+                    #diff = difflib.ndiff(oldScreenText, newScreenText) 
                     diffList = list(diff)
                     tempNewDelta = ''.join(x[2:] for x in diffList if x[0] == '+')
                     if tempNewDelta.strip() != '':
@@ -152,8 +154,10 @@ class screenManager():
                             diffList = ['+ ' + self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']]]
                     typing = True
                 else:
-                    diff = difflib.ndiff( oldScreenText.split('\n'),\
-                      newScreenText.split('\n'))
+                    diff = self.differ.compare(oldScreenText.split('\n'),\
+                      newScreenText.split('\n'))                    
+                    #diff = difflib.ndiff( oldScreenText.split('\n'),\
+                    #  newScreenText.split('\n'))
                     diffList = list(diff)
 
                 if not typing:
