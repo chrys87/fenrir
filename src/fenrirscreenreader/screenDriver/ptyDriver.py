@@ -33,11 +33,11 @@ class Terminal:
         self.screen.cursor.x = min(self.screen.cursor.x, self.screen.columns - 1)
         self.screen.cursor.y = min(self.screen.cursor.y, self.screen.lines - 1)            
     def dump(self):
-        self.screen.dirty.clear()    
         cursor = self.screen.cursor
         text = '\n'.join(self.screen.display)
         buffer = self.screen.buffer
         attributes = [[list(attribute[1:]) + [False, 'default', 'default'] for attribute in line.values()] for line in buffer.values()]
+        self.screen.dirty.clear()            
         return {"cursor": (cursor.x, cursor.y),
             'lines': self.screen.lines,
             'columns': self.screen.columns,
