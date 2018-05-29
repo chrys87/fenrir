@@ -25,10 +25,11 @@ General (Easy for contribution)
      ########################           100%
 Imporove attribute handling
   [X] improve attributes_curr_char (Easy for contribution)
-  [W] add an attribute sound (Easy for contribution)
-  [] beep on cursor/ review by char (capital wins) (Easy for contribution)
-  [] beep on review by word (once for multiple, capital wins) (Easy for contribution)
-  [] configurable (by char, by word, none) (Easy for contribution)
+  [X] add an attribute sound (Easy for contribution)
+  [W] beep on cursor/ review by char (capital wins) (Easy for contribution)
+  [W] beep on review by word (once for multiple, capital wins) (Easy for contribution)
+  [W] configurable (by char, by word, none) (Easy for contribution)
+  [W] make heiglight tracking more accurate
     https://github.com/jwilk/vcsapeek/blob/master/linuxvt.py
 
 Improved Say all
