@@ -30,8 +30,6 @@ class fenrirManager():
         self.modifierInput = False
         self.singleKeyCommand = False
         self.command = ''
-        self.controlMode = True
-        self.switchCtrlModeOnce = 0
         self.setProcessName()
     def handleArgs(self):
         args = None
