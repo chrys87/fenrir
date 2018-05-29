@@ -12,6 +12,8 @@ from fenrirscreenreader.utils import screen_utils
 
 class Terminal:
     def __init__(self, columns, lines, p_in):
+        self.text = ''
+        self.attributes = []
         self.screen = pyte.HistoryScreen(columns, lines)
         self.screen.set_mode(pyte.modes.LNM)
         self.screen.write_process_input = \
@@ -32,17 +34,17 @@ class Terminal:
             yPos = self.screen.cursor.y
         self.screen.cursor.x = min(self.screen.cursor.x, self.screen.columns - 1)
         self.screen.cursor.y = min(self.screen.cursor.y, self.screen.lines - 1)            
-    def dump(self):
+    def GetScreenContent(self):
         cursor = self.screen.cursor
-        text = '\n'.join(self.screen.display)
+        self.text = '\n'.join(self.screen.display)
         buffer = self.screen.buffer
-        attributes = [[list(attribute[1:]) + [False, 'default', 'default'] for attribute in line.values()] for line in buffer.values()]
+        self.attributes = [[list(attribute[1:]) + [False, 'default', 'default'] for attribute in line.values()] for line in buffer.values()]
         self.screen.dirty.clear()            
         return {"cursor": (cursor.x, cursor.y),
             'lines': self.screen.lines,
             'columns': self.screen.columns,
-            "text": text, 
-            'attributes': attributes.copy(),
+            "text": self.text, 
+            'attributes': self.attributes.copy(),
             'screen': 'pty'            
         }.copy()
 
@@ -156,7 +158,7 @@ class driver(screenDriver):
                     terminal.feed(msgBytes)                                
                     os.write(sys.stdout.fileno(), msgBytes)
                     eventQueue.put({"Type":fenrirEventType.ScreenUpdate,
-                        "Data":screen_utils.createScreenEventData(terminal.dump())
+                        "Data":screen_utils.createScreenEventData(terminal.GetScreenContent())
                     })
         except Exception as e:  # Process died?
             print(e)
