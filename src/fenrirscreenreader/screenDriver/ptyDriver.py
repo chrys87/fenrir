@@ -76,7 +76,7 @@ class driver(screenDriver):
         self.env['general']['currUser'] = getpass.getuser()
     def readAll(self,fd, timeout = 9999999, interruptFdList = None):
         starttime = time.time()    
-        bytes = os.read(fd, 200)
+        bytes = os.read(fd, 4096)
         if bytes == b'':
             raise EOFError
         # respect timeout but wait a little bit of time to see if something more is here
@@ -88,7 +88,7 @@ class driver(screenDriver):
                     break
             if (time.time() - starttime) >= timeout:
                 break
-            data = os.read(fd, 100)
+            data = os.read(fd, 4096)
             if data == b'':
                 raise EOFError
             bytes += data
@@ -156,7 +156,7 @@ class driver(screenDriver):
                 # output
                 if self.p_out in r:
                     try:
-                        msgBytes = self.readAll(self.p_out.fileno(), timeout=0.1, interruptFdList=[sys.stdin])
+                        msgBytes = self.readAll(self.p_out.fileno(), timeout=0.05, interruptFdList=[sys.stdin])
                     except (EOFError, OSError):
                         active.value = False
                         break    

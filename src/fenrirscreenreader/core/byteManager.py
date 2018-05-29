@@ -5,13 +5,19 @@
 # By Chrys, Storm Dragon, and contributers.
 
 from fenrirscreenreader.core import debug
-import os, inspect, re
+from fenrirscreenreader.core.eventData import fenrirEventType
+import os, inspect, re, time
 currentdir = os.path.dirname(os.path.realpath(os.path.abspath(inspect.getfile(inspect.currentframe()))))
 fenrirPath = os.path.dirname(currentdir)
 
 class byteManager():
     def __init__(self):
-        pass
+        self.command = ''
+        self.switchCtrlModeOnce = 0 
+        self.controlMode = True
+        self.repeat = 1
+        self.lastInputTime = time.time()
+        self.lastByteKey = b''
     def initialize(self, environment):
         self.env = environment  
     def shutdown(self):
@@ -23,7 +29,63 @@ class byteManager():
         if len(convertedEscapeSequence) > 1:
             if convertedEscapeSequence[0] == 94 and convertedEscapeSequence[1] ==91:
                 convertedEscapeSequence = b'^[' + convertedEscapeSequence[2:]            
-        return convertedEscapeSequence        
+        return convertedEscapeSequence
+    def handleByteInput(self, eventData):
+        if not eventData:
+            return
+        if eventData == b'':
+            return
+
+        convertedEscapeSequence = self.unifyEscapeSeq(eventData)            
+
+        if self.switchCtrlModeOnce > 0:
+            self.switchCtrlModeOnce -= 1       
+       
+        isControlMode = False
+        if self.controlMode and not self.switchCtrlModeOnce == 1 or\
+          not self.controlMode:
+            isControlMode = self.handleControlMode(eventData)
+        shortcutData = convertedEscapeSequence
+        if self.lastByteKey == convertedEscapeSequence:
+            if time.time() - self.lastInputTime <= self.env['runtime']['settingsManager'].getSettingAsFloat('keyboard','doubleTapTimeout'):
+                self.repeat += 1
+                shortcutData = shortcutData + convertedEscapeSequence
+        isCommand = False                
+        if self.controlMode and not self.switchCtrlModeOnce == 1 or\
+          not self.controlMode and self.switchCtrlModeOnce == 1:
+            isCommand = self.detectByteCommand(shortcutData)
+            if not isCommand:
+                isCommand = self.detectByteCommand(convertedEscapeSequence) 
+                self.repeat = 1                                               
+        if not (isCommand or isControlMode):
+            self.env['runtime']['screenManager'].injectTextToScreen(eventData)
+        if not isCommand:
+            self.repeat = 1                    
+        self.lastByteKey = convertedEscapeSequence
+        self.lastInputTime = time.time()
+    def handleControlMode(self, escapeSequence): 
+        convertedEscapeSequence = self.unifyEscapeSeq(escapeSequence)
+        if convertedEscapeSequence == b'^[R':
+            self.controlMode = not self.controlMode
+            self.switchCtrlModeOnce = 0
+            if self.controlMode:
+                self.env['runtime']['outputManager'].presentText(_('Sticky Mode On'), soundIcon='Accept', interrupt=True, flush=True)
+            else:
+                self.env['runtime']['outputManager'].presentText(_('Sticky Mode On'), soundIcon='Cancel', interrupt=True, flush=True)
+            return True                
+        if convertedEscapeSequence == b'^[:':
+            self.switchCtrlModeOnce = 2
+            self.env['runtime']['outputManager'].presentText(_('bypass'), soundIcon='PTYBypass', interrupt=True, flush=True)
+            return True
+        return False          
+    def detectByteCommand(self, escapeSequence):
+        convertedEscapeSequence = self.unifyEscapeSeq(escapeSequence)
+        self.command = self.env['runtime']['inputManager'].getCommandForShortcut(convertedEscapeSequence)
+        if self.command != '':        
+            self.env['runtime']['eventManager'].putToEventQueue(fenrirEventType.ExecuteCommand, self.command)
+            self.command = ''
+            return True
+        return False        
     def loadByteShortcuts(self, kbConfigPath=fenrirPath + '/../../config/keyboard/pty.conf'):
         kbConfig = open(kbConfigPath,"r")
         while(True):
