@@ -110,10 +110,8 @@ class attributeManager():
         cursorPos = cursor.copy()
         try:
             attribute = self.getAttributeByXY( cursorPos['x'], cursorPos['y'])
-            print(attribute)
-            if isinstance(attribute, tuple):
-                attribute = list(attribute)
-            if self.isDefaultAttribute(attribute):
+
+              if self.isDefaultAttribute(attribute):
                 return False
             if update:
                 self.setLastCursorAttribute(attribute)            
