@@ -16,6 +16,7 @@ Cleanups:
     [] runtimeData.py
     [w] screenData.py
     [] settingsData -> defaultSettings.py
+    [] Unify Key Forewarding and Sticky mode for keyboard and bytecode inputDrivers.
 General (Easy for contribution)
   [w] make fenrir runnable without root permissions
   [] make fenrir runable without settingsfile. fallback to defaults
