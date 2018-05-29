@@ -45,14 +45,15 @@ class byteManager():
         if self.controlMode and not self.switchCtrlModeOnce == 1 or\
           not self.controlMode:
             isControlMode = self.handleControlMode(eventData)
-        shortcutData = convertedEscapeSequence
-        if self.lastByteKey == convertedEscapeSequence:
-            if time.time() - self.lastInputTime <= self.env['runtime']['settingsManager'].getSettingAsFloat('keyboard','doubleTapTimeout'):
-                self.repeat += 1
-                shortcutData = shortcutData + convertedEscapeSequence
+
         isCommand = False                
         if self.controlMode and not self.switchCtrlModeOnce == 1 or\
           not self.controlMode and self.switchCtrlModeOnce == 1:
+            shortcutData = convertedEscapeSequence
+            if self.lastByteKey == convertedEscapeSequence:
+                if time.time() - self.lastInputTime <= self.env['runtime']['settingsManager'].getSettingAsFloat('keyboard','doubleTapTimeout'):
+                    self.repeat += 1
+                    shortcutData = shortcutData + convertedEscapeSequence          
             isCommand = self.detectByteCommand(shortcutData)
             if not isCommand:
                 isCommand = self.detectByteCommand(convertedEscapeSequence) 
