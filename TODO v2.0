@@ -85,6 +85,7 @@ Driver (screen, input):
   [X] attributes
   [X] unify hilgight tracking
   [X] make pasteing text work again
+  [X] make double tap work again
   https://docs.python.org/3.2/library/pty.html
   http://sqizit.bartletts.id.au/2011/02/14/pseudo-terminals-in-python/
   https://blog.konpat.me/pythons-pseudo-terminal-pty-examples/
