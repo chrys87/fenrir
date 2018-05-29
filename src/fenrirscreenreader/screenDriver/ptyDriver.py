@@ -78,7 +78,7 @@ class driver(screenDriver):
         if bytes == b'':
             raise EOFError
         # respect timeout but wait a little bit of time to see if something more is here
-        while screen_utils.hasMore(fd,0.0000001):
+        while screen_utils.hasMore(fd,0.001):
             if (time.time() - starttime) >= timeout:
                 break
             data = os.read(fd, 65536)
