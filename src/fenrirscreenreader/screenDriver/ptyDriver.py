@@ -45,7 +45,8 @@ class Terminal:
             'columns': self.screen.columns,
             "text": self.text, 
             'attributes': self.attributes.copy(),
-            'screen': 'pty'            
+            'screen': 'pty'        
+            'screenUpdateTime': time.time(),                            
         }.copy()
 
 class driver(screenDriver):
