@@ -38,6 +38,13 @@ def createScreenEventData(content):
 def hasMore(fd, timetout=0.2):
     r, _, _ = select.select([fd], [], [], timetout)
     return (fd in r) 
+def hasMoreWaht(fdList, timetout=0.2):
+    if not isinstance(fdList, list):
+        return [], False    
+    if fdList = []:
+        return [], False
+    r, _, _ = select.select(fdList, [], [], timetout)
+    return r, (fd in r)
 def isValidShell(shell = ''):
     if not isinstance(shell, str):
         return False
