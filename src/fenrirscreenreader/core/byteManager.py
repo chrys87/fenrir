@@ -49,15 +49,17 @@ class byteManager():
         isCommand = False                
         if self.controlMode and not self.switchCtrlModeOnce == 1 or\
           not self.controlMode and self.switchCtrlModeOnce == 1:
-            shortcutData = convertedEscapeSequence
             if self.lastByteKey == convertedEscapeSequence:
                 if time.time() - self.lastInputTime <= self.env['runtime']['settingsManager'].getSettingAsFloat('keyboard','doubleTapTimeout'):
                     self.repeat += 1
-                    shortcutData = shortcutData + convertedEscapeSequence          
+            shortcutData = b''
+            for i to range(self.repeat):
+                shortcutData = shortcutData + convertedEscapeSequence          
             isCommand = self.detectByteCommand(shortcutData)
+            # fall back to single stroke - do we want this?
             if not isCommand:
                 isCommand = self.detectByteCommand(convertedEscapeSequence) 
-                self.repeat = 1                                               
+                self.repeat = 1                    
         if not (isCommand or isControlMode):
             self.env['runtime']['screenManager'].injectTextToScreen(eventData)
         if not isCommand:
