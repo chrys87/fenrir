@@ -85,7 +85,7 @@ class driver(screenDriver):
         if interruptFd:
             fdList += [interruptFd]
         while True:
-            r = screen_utils.hasMoreWaht(fdList,0.1):
+            r = screen_utils.hasMoreWhat(fdList,0.1):
             hasmore = fd in r
             if not hasmore:
                 break
