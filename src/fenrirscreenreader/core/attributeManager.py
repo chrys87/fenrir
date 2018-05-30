@@ -120,7 +120,7 @@ class attributeManager():
         except Exception as e:
             return False
         return True
-    def formatAttributes(self, attribute, attributeFormatString = None):
+    def formatAttributes(self, attribute, attributeFormatString = ''):
         # "black",
         # "red",
         # "green",
@@ -141,7 +141,7 @@ class attributeManager():
         # "blink"   
         # "fontsieze"
         # "fontfamily" 
-        if not attributeFormatString:
+        if attributeFormatString == '':
             attributeFormatString = self.env['runtime']['settingsManager'].getSetting('general', 'attributeFormatString')
         if not attributeFormatString:
             return ''
