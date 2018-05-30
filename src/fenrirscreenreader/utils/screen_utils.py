@@ -41,7 +41,7 @@ def hasMore(fd, timetout=0.2):
 def hasMoreWhat(fdList, timetout=0.2):
     if not isinstance(fdList, list):
         return []  
-    if fdList == []:
+    elif fdList == []:
         return []
     r, _, _ = select.select(fdList, [], [], timetout)
     return r
