@@ -5,7 +5,7 @@
 # By Chrys, Storm Dragon, and contributers.
 
 from fenrirscreenreader.core import debug
-import getpass, time, re, string, select, os
+import getpass, time, string, select, os
 
 def removeNonprintable(text):
     # Get the difference of all ASCII characters from the set of printable characters
