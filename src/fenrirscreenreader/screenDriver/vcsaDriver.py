@@ -157,10 +157,8 @@ class driver(screenDriver):
             'screen': screen,     
             'screenUpdateTime': time.time(),            
         }
-        encText, encAttr =\
+        eventData['text'], eventData['attributes'] =\
           self.autoDecodeVCSA(content[4:], eventData['lines'], eventData['columns'])
-        eventData['text'] = encText
-        eventData['attributes'] = encAttr
         return eventData.copy()     
     def updateCharMap(self, screen):
         self.charmap = {}
