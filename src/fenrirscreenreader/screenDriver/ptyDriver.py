@@ -40,7 +40,7 @@ class Terminal:
         buffer = self.screen.buffer
         self.attributes = [[list(attribute[1:]) + [False, 'default', 'default'] for attribute in line.values()] for line in buffer.values()]
         self.screen.dirty.clear()            
-        return {"cursor": (cursor.x, cursor.y),
+        return {"textCursor": (cursor.x, cursor.y),
             'lines': self.screen.lines,
             'columns': self.screen.columns,
             "text": self.text, 
