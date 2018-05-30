@@ -35,10 +35,10 @@ def createScreenEventData(content):
     }
     return eventData.copy() 
 
-def hasMore(fd, timetout=0.2):
+def hasMore(fd, timetout=0.1):
     r, _, _ = select.select([fd], [], [], timetout)
     return (fd in r) 
-def hasMoreWhat(fdList, timetout=0.2):
+def hasMoreWhat(fdList, timetout=0.1):
     if not isinstance(fdList, list):
         return []  
     elif fdList == []:
