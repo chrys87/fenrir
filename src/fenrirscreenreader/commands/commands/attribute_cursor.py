@@ -18,9 +18,10 @@ class command():
         return _('Reads attributes of current cursor position')         
     def run(self):
         cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
-        
-        attributes = self.env['runtime']['attributeManager'].getAttributeByXY( cursorPos['x'], cursorPos['y'])
-
+        try:
+            attributes = self.env['runtime']['attributeManager'].getAttributeByXY( cursorPos['x'], cursorPos['y'])
+        except Exception as e:
+            print(e)        
         attributeFormatString = self.env['runtime']['settingsManager'].getSetting('general', 'attributeFormatString')
         attributeFormatString = self.env['runtime']['attributeManager'].formatAttributes(attributes, attributeFormatString)
         

@@ -3,7 +3,14 @@ Things needing little knowledge are marked with "(Easy for contribution)". so ju
 [] = ToDo
 [W] = WIP
 [X] = Done
+[S] = Stopped
 
+BUGS:
+[] Sometimes Numblock hangs and make shortcuts not detect (critical)
+[] PTY attribtues not all available at beginning just to current curser (normal)
+[] review can run out of screen in PTY pressing next char (normal)
+[W] Hilight Tracking not accurate
+[W] make PTY better react to shortcuts when a lot of output apears
 
 Cleanups:
   [] Migrate *Data.py to classes and use getter/setter (Easy for contribution)
@@ -28,7 +35,7 @@ General (Easy for contribution)
 Imporove attribute handling
   [X] improve attributes_curr_char (Easy for contribution)
   [X] add an attribute sound (Easy for contribution)
-  [W] beep on cursor/ review by char (capital wins) (Easy for contribution)
+  [X] beep on cursor/ review by char (capital wins) (Easy for contribution)
   [W] beep on review by word (once for multiple, capital wins) (Easy for contribution)
   [W] configurable (by char, by word, none) (Easy for contribution)
   [W] make heiglight tracking more accurate
@@ -74,28 +81,12 @@ Braille Support:
     https://wiki.gnome.org/Attic/LSR/ScratchPad/Braille/BrlAPI 
     https://github.com/google/brailleback/blob/master/third_party/brltty/Bindings/Python/brlapi.pyx
 
-Driver (screen, input):
-[W] PTY Screen driver (to use gnome-terminal and other terminal emulators)
-  [X] emulation
-  [X] basic reading
-  [X] detect colum/ lines
-  [X] resize on colum / line change
-  [X] make shell command configurable (or detect it)
-  [X] stop emulation properly
-  [X] attributes
-  [X] unify hilgight tracking
-  [X] make pasteing text work again
-  [X] make double tap work again
-  https://docs.python.org/3.2/library/pty.html
-  http://sqizit.bartletts.id.au/2011/02/14/pseudo-terminals-in-python/
-  https://blog.konpat.me/pythons-pseudo-terminal-pty-examples/
-
 [] ATK input driver (don't grab on graphical interface)
   https://git.linux-a11y.org/AIT/pyatspi2/src/master/examples/keypress.py
 
 Driver (speech):
-[] talkey driver
-[W] emacspeak driver
+[S] talkey driver ( verry unresponsive for espeak in linux)
+[S] emacspeak driver (breaks for a whole screen)
   https://pypi.python.org/pypi/ptyprocess#downloads 
 [] Dectalk SpeechDriver (Easy for contribution, device needed - i dont own one)
   https://github.com/tvraman/emacspeak/blob/master/servers/obsolete/python/dectalk.py
@@ -103,19 +94,6 @@ Driver (speech):
 Settings:
   [] write settings (Easy for contribution)
   [] menue for settings configuration (Easy for contribution)
-
-Application Profiles (low priority):
-- reimplement process detection without subprocessing
-- fenrir is not able to detect the current application inside of screen.
-    ps -e  -H -o pid,pgrp,ppid,tty,cmd
-    http://stackoverflow.com/questions/24861351/how-to-detect-if-python-script-is-being-run-as-a-background-process/24862213
-    fd = os.open("/dev/tty5", os.O_RDONLY )
-    os.tcgetpgrp(fd)
-- add perApplicationTrigger trigger
-    per application commands
-    per application onScreenChange
-    per application onInput
-- per application shortcuts
 
 -----------DONE----------------
 Cleanups:
@@ -146,7 +124,18 @@ Braille Support:
 Driver:
 [X] evdev InputDriver
   [X] grab/ ungrab devices on ignored screens
-[X] PTY Input driver
+  Driver (screen, input):
+[X] PTY Screen driver (to use gnome-terminal and other terminal emulators)
+  [X] emulation
+  [X] basic reading
+  [X] detect colum/ lines
+  [X] resize on colum / line change
+  [X] make shell command configurable (or detect it)
+  [X] stop emulation properly
+  [X] attributes
+  [X] unify hilgight tracking
+  [X] make pasteing text work again
+  [X] make double tap work again
   [X] new event for byte shortcuts (escape sequences)
   [X] create driver
   [X] handle byte shortcuts
@@ -155,7 +144,11 @@ Driver:
   [X] controll modes (vim like mode to not collide with application shortcuts)
   [X] create keyboard layout  
   [X]set flag that it is used in emulation
-  [X] write/ consume them (controll it at all)
+  [X] write/ consume them (controll it at all)  
+  https://docs.python.org/3.2/library/pty.html
+  http://sqizit.bartletts.id.au/2011/02/14/pseudo-terminals-in-python/
+  https://blog.konpat.me/pythons-pseudo-terminal-pty-examples/
+
 [X] make generic speech driver default
 [X] pyttsx3 speech driver
 - get information already in watchdogs insteed of mainloop (use eventloop to transport)
