@@ -21,4 +21,4 @@ class command():
         self.env['runtime']['attributeManager'].resetLastCursorAttribute()
 
     def setCallback(self, callback):
-pass
+        pass
