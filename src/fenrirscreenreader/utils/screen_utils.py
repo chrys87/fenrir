@@ -38,7 +38,7 @@ def createScreenEventData(content):
 def hasMore(fd, timetout=0.2):
     r, _, _ = select.select([fd], [], [], timetout)
     return (fd in r) 
-def hasMoreWaht(fdList, timetout=0.2):
+def hasMoreWhat(fdList, timetout=0.2):
     if not isinstance(fdList, list):
         return []  
     if fdList == []:
