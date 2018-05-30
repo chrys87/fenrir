@@ -12,7 +12,6 @@ fenrirPath = os.path.dirname(currentdir)
 
 class byteManager():
     def __init__(self):
-        self.command = ''
         self.switchCtrlModeOnce = 0 
         self.controlMode = True
         self.repeat = 1
@@ -83,10 +82,10 @@ class byteManager():
         return False          
     def detectByteCommand(self, escapeSequence):
         convertedEscapeSequence = self.unifyEscapeSeq(escapeSequence)
-        self.command = self.env['runtime']['inputManager'].getCommandForShortcut(convertedEscapeSequence)
-        if self.command != '':        
-            self.env['runtime']['eventManager'].putToEventQueue(fenrirEventType.ExecuteCommand, self.command)
-            self.command = ''
+        command = self.env['runtime']['inputManager'].getCommandForShortcut(convertedEscapeSequence)
+        if command != '':        
+            self.env['runtime']['eventManager'].putToEventQueue(fenrirEventType.ExecuteCommand, command)
+            command = ''
             return True
         return False        
     def loadByteShortcuts(self, kbConfigPath=fenrirPath + '/../../config/keyboard/pty.conf'):
