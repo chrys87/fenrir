@@ -84,14 +84,14 @@ class driver(screenDriver):
         fdList = [fd]        
         if interruptFd:
             fdList += [interruptFd]
-        hasmore = True
-        while hasmore:
-            r, hasmore =screen_utils.hasMoreWaht(fdList,0.01):
+        while True:
+            r = screen_utils.hasMoreWaht(fdList,0.1):
+            hasmore = fd in r
             if not hasmore:
                 break
-            # exit on stuff like input available
+            # exit on interrupt available
             if interruptFd in r:
-                    break
+                break
             if (time.time() - starttime) >= timeout:
                 break
             data = os.read(fd, 4096)
