@@ -160,7 +160,7 @@ class driver(screenDriver):
                 # output
                 if self.p_out in r:
                     try:
-                        msgBytes = self.readAll(self.p_out.fileno(), timeout=1, interruptFd=sys.stdin.fileno())
+                        msgBytes = self.readAll(self.p_out.fileno(), timeout=0.5, interruptFd=sys.stdin.fileno())
                     except (EOFError, OSError):
                         active.value = False
                         break    
