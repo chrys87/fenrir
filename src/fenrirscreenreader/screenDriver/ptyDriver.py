@@ -75,11 +75,9 @@ class driver(screenDriver):
         self.env['screen']['autoIgnoreScreens'] = []
         self.env['general']['prevUser'] = getpass.getuser()
         self.env['general']['currUser'] = getpass.getuser()
-    def readAll(self,fd, timeout = 9999999, interruptFd = None):
+    def readAll(self,fd, timeout = 9999999, interruptFd = None, len = 4096):
+        bytes = b'' 
         starttime = time.time()    
-        bytes = os.read(fd, 4096)
-        if bytes == b'':
-            raise EOFError
         # respect timeout but wait a little bit of time to see if something more is here
         fdList = [fd]        
         if interruptFd:
@@ -94,7 +92,7 @@ class driver(screenDriver):
                 break
             if (time.time() - starttime) >= timeout:
                 break
-            data = os.read(fd, 4096)
+            data = os.read(fd, len)
             if data == b'':
                 raise EOFError
             bytes += data
