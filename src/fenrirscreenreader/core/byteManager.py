@@ -52,7 +52,7 @@ class byteManager():
                 if time.time() - self.lastInputTime <= self.env['runtime']['settingsManager'].getSettingAsFloat('keyboard','doubleTapTimeout'):
                     self.repeat += 1
             shortcutData = b''
-            for i to range(self.repeat):
+            for i in range(self.repeat):
                 shortcutData = shortcutData + convertedEscapeSequence          
             isCommand = self.detectByteCommand(shortcutData)
             # fall back to single stroke - do we want this?

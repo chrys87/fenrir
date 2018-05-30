@@ -40,12 +40,12 @@ class Terminal:
         buffer = self.screen.buffer
         self.attributes = [[list(attribute[1:]) + [False, 'default', 'default'] for attribute in line.values()] for line in buffer.values()]
         self.screen.dirty.clear()            
-        return {"textCursor": (cursor.x, cursor.y),
+        return {"cursor": (cursor.x, cursor.y),
             'lines': self.screen.lines,
             'columns': self.screen.columns,
             "text": self.text, 
             'attributes': self.attributes.copy(),
-            'screen': 'pty'        
+            'screen': 'pty',        
             'screenUpdateTime': time.time(),                            
         }.copy()
 
@@ -75,9 +75,10 @@ class driver(screenDriver):
         self.env['screen']['autoIgnoreScreens'] = []
         self.env['general']['prevUser'] = getpass.getuser()
         self.env['general']['currUser'] = getpass.getuser()
-    def readAll(self,fd, timeout = 9999999, interruptFd = None, len = 4096):
+    def readAll(self, fd, timeout = 9999999, interruptFd = None, len = 4096):
         bytes = b'' 
-        fdList = [fd]        
+        fdList = []
+        fdList += [fd]        
         if interruptFd:
             fdList += [interruptFd]
         starttime = time.time()    
@@ -85,12 +86,13 @@ class driver(screenDriver):
             # respect timeout but wait a little bit of time to see if something more is here
             if (time.time() - starttime) >= timeout:
                 break            
-            r = screen_utils.hasMoreWhat(fdList,0.05):
+            r = screen_utils.hasMoreWhat(fdList,0)
             hasmore = fd in r
             if not hasmore:
                 break
             # exit on interrupt available
             if interruptFd in r:
+                print('i')
                 break
             data = os.read(fd, len)
             if data == b'':
@@ -160,7 +162,7 @@ class driver(screenDriver):
                 # output
                 if self.p_out in r:
                     try:
-                        msgBytes = self.readAll(self.p_out.fileno(), timeout=0.5, interruptFd=sys.stdin.fileno())
+                        msgBytes = self.readAll(self.p_out.fileno(), timeout=0.2, interruptFd=sys.stdin)
                     except (EOFError, OSError):
                         active.value = False
                         break    
