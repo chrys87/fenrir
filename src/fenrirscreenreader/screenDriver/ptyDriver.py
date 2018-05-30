@@ -77,20 +77,20 @@ class driver(screenDriver):
         self.env['general']['currUser'] = getpass.getuser()
     def readAll(self,fd, timeout = 9999999, interruptFd = None, len = 4096):
         bytes = b'' 
-        starttime = time.time()    
-        # respect timeout but wait a little bit of time to see if something more is here
         fdList = [fd]        
         if interruptFd:
             fdList += [interruptFd]
+        starttime = time.time()    
         while True:
-            r = screen_utils.hasMoreWhat(fdList,0.1):
+            # respect timeout but wait a little bit of time to see if something more is here
+            if (time.time() - starttime) >= timeout:
+                break            
+            r = screen_utils.hasMoreWhat(fdList,0.05):
             hasmore = fd in r
             if not hasmore:
                 break
             # exit on interrupt available
             if interruptFd in r:
-                break
-            if (time.time() - starttime) >= timeout:
                 break
             data = os.read(fd, len)
             if data == b'':
@@ -160,7 +160,7 @@ class driver(screenDriver):
                 # output
                 if self.p_out in r:
                     try:
-                        msgBytes = self.readAll(self.p_out.fileno(), timeout=0.5, interruptFd=sys.stdin)
+                        msgBytes = self.readAll(self.p_out.fileno(), timeout=1, interruptFd=sys.stdin.fileno())
                     except (EOFError, OSError):
                         active.value = False
                         break    
