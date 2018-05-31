@@ -102,7 +102,20 @@ class byteManager():
             if line.count("=") != 1:
                 continue
             Values = line.split('=')
-            shortcut = bytes(Values[0],'UTF-8')
+            cleanShortcut = bytes(Values[0],'UTF-8')
+            repeat = 1
+            if len(cleanShortcut) > 2:
+                if chr(cleanShortcut[1]) == ',':
+                    try:
+                        repeat = int(chr(cleanShortcut[0]))
+                        cleanShortcut = cleanShortcut[2:]
+                    except:
+                        repeat = 1
+                        cleanShortcut = cleanShortcut
+                    print(repeat,cleanShortcut)
+            shortcut = b''                    
+            for i in range(repeat):
+                shortcut += cleanShortcut
             commandName = Values[1].upper()
             self.env['bindings'][shortcut] = commandName   
             self.env['runtime']['debug'].writeDebugOut("Byte Shortcut: "+ str(shortcut) + ' command:' +commandName ,debug.debugLevel.INFO, onAnyLevel=True)    
