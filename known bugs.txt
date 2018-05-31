@@ -7,6 +7,7 @@ Known Bugs (Problems with the logic ):
 [W] Hilight Tracking not accurate (normal)
 [W] make PTY better react to shortcuts when a lot of output apears (normal)
 [] Numlock/ Capslock is sometimes out of Sync (normal)
+[] nodm is not autodedetected by screen ignore
 
 Glitches (improve diff results):
 - currently None
