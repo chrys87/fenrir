@@ -112,7 +112,6 @@ class byteManager():
                     except:
                         repeat = 1
                         cleanShortcut = cleanShortcut
-                    print(repeat,cleanShortcut)
             shortcut = b''                    
             for i in range(repeat):
                 shortcut += cleanShortcut
