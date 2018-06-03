@@ -9,6 +9,7 @@ Known Bugs (Problems with the logic ):
 [] Numlock/ Capslock is sometimes out of Sync (normal)
 [] nodm is not autodedetected by screen ignore
 After switching back from X sometimes  modifier keys are stuck. ( control or alt)
+X is not being autodetected.
 
 Glitches (improve diff results):
 - currently None
