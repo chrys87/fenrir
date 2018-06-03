@@ -51,6 +51,8 @@ class inputManager():
     def handleDeviceGrab(self):
         if not self.executeDeviceGrab:
             return
+        if self.env['input']['eventBuffer'] != []:
+            return
         if not self.noKeyPressed():
             return        
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
