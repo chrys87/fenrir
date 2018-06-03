@@ -15,7 +15,6 @@ class command():
         pass
     def getDescription(self):
         return ''        
-
     def run(self):
         if self.env['screen']['newAttribDelta'] != '':
             return  
@@ -23,8 +22,13 @@ class command():
             return
         if self.env['runtime']['cursorManager'].isCursorVerticalMove():
             return
-        if not (self.env['runtime']['inputManager'].getLastDeepestInput() in [['KEY_UP'],['KEY_DOWN']]):
-            return 
+        if self.env['runtime']['inputManager'].getShortcutType() in ['KEY']:
+            if not (self.env['runtime']['inputManager'].getLastDeepestInput() in [['KEY_UP'],['KEY_DOWN']]):
+                return 
+        if self.env['runtime']['inputManager'].getShortcutType() in ['BYTE']:
+            if not (self.env['runtime']['byteManager'].getLastByteKey() in [b'^[[A',b'^[[B']):
+                return 
+                
         prevLine = self.env['screen']['oldContentText'].split('\n')[self.env['screen']['newCursor']['y']]
         currLine = self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']]            
         if prevLine == currLine:

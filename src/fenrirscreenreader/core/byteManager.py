@@ -65,6 +65,8 @@ class byteManager():
             self.repeat = 1                    
         self.lastByteKey = convertedEscapeSequence
         self.lastInputTime = time.time()
+    def getLastByteKey(self):
+        return self.lastByteKey
     def handleControlMode(self, escapeSequence): 
         convertedEscapeSequence = self.unifyEscapeSeq(escapeSequence)
         if convertedEscapeSequence == b'^[R':
