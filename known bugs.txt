@@ -10,7 +10,7 @@ Known Bugs (Problems with the logic ):
 [W] Hilight Tracking not accurate (normal)
 [W] make PTY better react to shortcuts when a lot of output apears (normal)
 [] Numlock/ Capslock is sometimes out of Sync (normal)
-[] Bash history does not work with PTY (reads hole line) (normal)
+[X] Bash history does not work with PTY (reads hole line) (normal)
 
 Glitches (improve diff results):
 - currently None
