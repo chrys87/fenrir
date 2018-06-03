@@ -2,14 +2,14 @@ Known Bugs (Problems with the logic ):
 - word echo triggers twice if there are two spaces after an word and you arrow over them
 - spellcheck triggers twice if there are two spaces after an word and you arrow over them
 [] Sometimes Numblock hangs and make shortcuts not detect (critical)
+[] nodm is not autodedetected by screen ignore (critical)
+[] After switching back from X sometimes  modifier keys are stuck. ( control or alt) (critical)
+[] X is not being autodetected. (critical)
 [] PTY attribtues not all available at beginning just to current curser (normal)
 [] review can run out of screen in PTY pressing next char (normal)
 [W] Hilight Tracking not accurate (normal)
 [W] make PTY better react to shortcuts when a lot of output apears (normal)
 [] Numlock/ Capslock is sometimes out of Sync (normal)
-[] nodm is not autodedetected by screen ignore
-[] After switching back from X sometimes  modifier keys are stuck. ( control or alt)
-[] X is not being autodetected.
 
 Glitches (improve diff results):
 - currently None
