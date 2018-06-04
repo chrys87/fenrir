@@ -5,15 +5,14 @@ Known Bugs (Problems with the logic ):
 [] X is not being autodetected. (critical)
 [W] After switching back from X sometimes  modifier keys are stuck. ( control or alt) (critical)
 [] PTY attribtues not all available at beginning just to current curser (normal)
-[] review can run out of screen in PTY pressing next char (normal)
-[W] Hilight Tracking not accurate (normal)
-[W] make PTY better react to shortcuts when a lot of output apears (normal)
 [] Numlock/ Capslock is sometimes out of Sync (normal)
 [X] Bash history does not work with PTY (reads hole line) (normal)
 [X] space has different attributes on VCSA (normal)
+[X] review can run out of screen in PTY pressing next char (normal)
 
 Glitches (improve diff results):
-- currently None
+[W] Hilight Tracking not accurate (normal)
+[W] make PTY better react to shortcuts when a lot of output apears (normal)
 
 wishes:
 - whole status line in irssi is spoken insteed of just the changes (lilmike)

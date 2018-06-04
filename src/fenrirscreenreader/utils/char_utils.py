@@ -86,7 +86,7 @@ def getNextChar(currX,currY, currText):
     x = currX
     y = currY
     if x + 1 == len(wrappedLines[y]):
-        if y + 1 < len(wrappedLines) - 1:
+        if y + 1 <= len(wrappedLines) - 1:
             y += 1
             x = 0
             lineBreak = True
@@ -97,7 +97,8 @@ def getNextChar(currX,currY, currText):
         x += 1    
     currChar = ''
     if not endOfScreen:
-        currChar = wrappedLines[y][x]                 
+        currChar = wrappedLines[y][x]  
+
     return x, y, currChar, endOfScreen, lineBreak
 
 def getPhonetic(currChar):
