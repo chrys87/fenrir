@@ -28,6 +28,7 @@ class driver(screenDriver):
     def __init__(self):
         screenDriver.__init__(self)
         self.ListSessions = None
+        self.sysBus = None
         self.charmap = {}
         self.bgColorValues = {0: 'black', 1: 'blue', 2: 'green', 3: 'cyan', 4: 'red', 5: 'magenta', 6: 'brown/yellow', 7: 'white'}
         self.fgColorValues = {0: 'black', 1: 'blue', 2: 'green', 3: 'cyan', 4: 'red', 5: 'magenta', 6: 'brown/yellow', 7: 'light gray', 8: 'dark gray', 9: 'light blue', 10: 'light green', 11: 'light cyan', 12: 'light red', 13: 'light magenta', 14: 'light yellow', 15: 'white'}
@@ -64,34 +65,34 @@ class driver(screenDriver):
                 fcntl.ioctl(fd, termios.TIOCSTI, c)
                 
     def getSessionInformation(self):
+        self.env['screen']['autoIgnoreScreens'] = []         
         try:
-            bus = dbus.SystemBus()
-            if not self.ListSessions:
-                obj  = bus.get_object('org.freedesktop.login1', '/org/freedesktop/login1')
+            if not self.sysBus:
+                self.sysBus = dbus.SystemBus()            
+                obj  = self.sysBus.get_object('org.freedesktop.login1', '/org/freedesktop/login1')
                 inf = dbus.Interface(obj, 'org.freedesktop.login1.Manager')
                 self.ListSessions = inf.get_dbus_method('ListSessions')
             sessions = self.ListSessions()
-            self.env['screen']['autoIgnoreScreens'] = []
+
             for session in sessions:
-                obj = bus.get_object('org.freedesktop.login1', session[4])
+                obj = self.sysBus.get_object('org.freedesktop.login1', session[4])
                 inf = dbus.Interface(obj, 'org.freedesktop.DBus.Properties')
                 sessionType = inf.Get('org.freedesktop.login1.Session', 'Type')
-                screen = str(inf.Get('org.freedesktop.login1.Session', 'VTNr'))                                                            
+                screen = str(inf.Get('org.freedesktop.login1.Session', 'VTNr'))
                 if screen == '':  
-                    screen = str(inf.Get('org.freedesktop.login1.Session', 'TTY'))                                                         
+                    screen = str(inf.Get('org.freedesktop.login1.Session', 'TTY'))
                     screen = screen[screen.upper().find('TTY') + 3:]
                 if screen == '':
                     self.env['runtime']['debug'].writeDebugOut('No TTY found for session:' + session[4],debug.debugLevel.ERROR)               
                     return
                 if sessionType.upper() != 'TTY':
-                    self.env['screen']['autoIgnoreScreens'] += screen
+                    self.env['screen']['autoIgnoreScreens'] += [screen]
                 if screen == self.env['screen']['newTTY'] :
                     if self.env['general']['currUser'] != session[2]:
                         self.env['general']['prevUser'] = self.env['general']['currUser']
                         self.env['general']['currUser'] = session[2]                                                                
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('getSessionInformation: Maybe no LoginD:' + str(e),debug.debugLevel.ERROR)               
-            self.env['screen']['autoIgnoreScreens'] = []     
         #self.env['runtime']['debug'].writeDebugOut('getSessionInformation:'  + str(self.env['screen']['autoIgnoreScreens']) + ' ' + str(self.env['general'])  ,debug.debugLevel.INFO)                           
 
     def updateWatchdog(self,active , eventQueue):
