@@ -14,7 +14,7 @@ class attributeManager():
         self.currAttributeDelta = ''
         self.currAttributeCursor = None
         self.prefAttributeCursor = None
-        self.setDefaultAttributes()    
+        self.initDefaultAttributes()    
         self.prevLastCursorAttribute = None            
         self.currLastCursorAttribute = None            
         
@@ -30,7 +30,7 @@ class attributeManager():
         self.currLastCursorAttribute = None   
     def isLastCursorAttributeChange(self):
         if self.prevLastCursorAttribute == None:
-            return True
+            return False
         return self.prevLastCursorAttribute != self.currLastCursorAttribute
     def getCurrAttributeCursor(self):
         return self.currAttributeCursor
@@ -76,7 +76,13 @@ class attributeManager():
             except:
                 pass
         return None
-    def setDefaultAttributes(self):
+    def appendDefaultAttributes(self, attribute):
+        if not attribute:
+            return
+        if len(attribute) != 10:
+            return
+        self.defaultAttributes.append(attribute)     
+    def initDefaultAttributes(self):
         self.defaultAttributes = [None]
         self.defaultAttributes.append([
             'default', # fg
@@ -89,19 +95,7 @@ class attributeManager():
             False, # blink
             'default', # fontsize
             'default' # fontfamily
-        ]) #end attribute             
-        self.defaultAttributes.append([
-            'white', # fg
-            'black', # bg
-            False, # bold
-            False, # italics
-            False, # underscore
-            False, # strikethrough
-            False, # reverse
-            False, # blink
-            'default', # fontsize
-            'default' # fontfamily
-        ]) #end attribute    
+        ]) #end attribute              
     def isDefaultAttribute(self,attribute):
         return attribute in self.defaultAttributes
     def hasAttributes(self, cursor, update=True):
@@ -110,16 +104,19 @@ class attributeManager():
         cursorPos = cursor.copy()
         try:
             attribute = self.getAttributeByXY( cursorPos['x'], cursorPos['y'])
-
-            if self.isDefaultAttribute(attribute):
-                return False
+            
             if update:
                 self.setLastCursorAttribute(attribute)            
             if not self.isLastCursorAttributeChange():
                 return False
+
+            if self.isDefaultAttribute(attribute):
+                return False
+
         except Exception as e:
             return False
         return True
+
     def formatAttributes(self, attribute, attributeFormatString = ''):
         # "black",
         # "red",

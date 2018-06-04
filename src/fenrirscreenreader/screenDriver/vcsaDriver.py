@@ -34,6 +34,18 @@ class driver(screenDriver):
         self.hichar = None        
     def initialize(self, environment):
         self.env = environment
+        self.env['runtime']['attributeManager'].appendDefaultAttributes([
+            self.fgColorValues[7], # fg
+            self.bgColorValues[0], # bg
+            False, # bold
+            False, # italics
+            False, # underscore
+            False, # strikethrough
+            False, # reverse
+            False, # blink
+            'default', # fontsize
+            'default' # fontfamily
+        ]) #end attribute   )
         self.env['runtime']['processManager'].addCustomEventThread(self.updateWatchdog, multiprocess=True)        
     def getCurrScreen(self):
         self.env['screen']['oldTTY'] = self.env['screen']['newTTY']
@@ -205,8 +217,8 @@ class driver(screenDriver):
                     #ink = 7
                     #paper = 0
                     #ch = ' ' 
-                    charAttrib = (
-                    self.fgColorValues[15], # fg
+                    charAttrib = [
+                    self.fgColorValues[7], # fg
                     self.bgColorValues[0], # bg
                     False, # bold
                     False, # italics
@@ -215,7 +227,7 @@ class driver(screenDriver):
                     False, # reverse
                     False, # blink
                     'default', # fontsize
-                    'default') # fontfamily
+                    'default'] # fontfamily
                     lineAttrib.append(charAttrib)
                     lineText += ' '
                     continue
@@ -229,6 +241,8 @@ class driver(screenDriver):
                 blink = 0
                 if attr & 1: 
                     blink = 1
+                # blink seems to be set always, ignore for now
+                blink = 0 
                 bold = 0 
                 if attr & 16:
                     bold = 1
@@ -240,7 +254,7 @@ class driver(screenDriver):
                     lineText += self.charmap[ch]            
                 except KeyError:
                     lineText += '?'
-                charAttrib = (
+                charAttrib = [
                 self.fgColorValues[ink],
                 self.bgColorValues[paper],
                 bold == 1, # bold
@@ -250,7 +264,7 @@ class driver(screenDriver):
                 False, # reverse
                 blink == 1, # blink
                 'default', # fontsize
-                'default') # fontfamily
+                'default'] # fontfamily
                 lineAttrib.append(charAttrib)
             allText += lineText
             if y + 1 < rows:

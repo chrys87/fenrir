@@ -175,7 +175,6 @@ class screenManager():
                         self.env['runtime']['attributeManager'].setAttributeCursor(attributeCursor)
                         self.env['runtime']['attributeManager'].setAttributeDelta(attributeDelta)                    
         except Exception as e:
-            print(e)
             self.env['runtime']['debug'].writeDebugOut('screenManager:update:highlight: ' + str(e),debug.debugLevel.ERROR) 
 
     def isSuspendingScreen(self, screen = None):
