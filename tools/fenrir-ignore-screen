@@ -19,6 +19,9 @@ def addScreenToIgnoreList(ignoreFileName = '/tmp/fenrirSuspend', screen = '1', u
 
         if not screen in ignoreScreens:
             ignoreScreens.extend(screen)
+            print('Add screen {0} to ignore file:{1}'.format(screen, ignoreFileName))
+        else:
+            print('Screen {0} already exists in ignore file:{1}'.format(screen, ignoreFileName))            
         ignoreScreensStr = ','.join(ignoreScreens)
            
         with open(ignoreFileName, 'w') as fp:
