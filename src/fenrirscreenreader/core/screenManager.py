@@ -49,11 +49,11 @@ class screenManager():
         return self.getCurrScreenIgnored() != self.getPrevScreenIgnored()
     def hanldeScreenChange(self, eventData):
         self.getCurrScreen()
+        self.getSessionInformation()        
         self.updateScreenIgnored()         
         if self.isCurrScreenIgnoredChanged():
             self.env['runtime']['inputManager'].setExecuteDeviceGrab()
         self.env['runtime']['inputManager'].handleDeviceGrab()        
-        self.getSessionInformation()  
               
         if self.isScreenChange():                 
             self.changeBrailleScreen() 
