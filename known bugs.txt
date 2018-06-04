@@ -1,7 +1,7 @@
 Known Bugs (Problems with the logic ):
 - word echo triggers twice if there are two spaces after an word and you arrow over them
 - spellcheck triggers twice if there are two spaces after an word and you arrow over them
-[] Sometimes Numblock hangs and make shortcuts not detect (critical)
+[] Sometimes Numblock hangs and make shortcuts not detect (critical) (workaround - press numlock again until shortcuts are working again)
 [] Numlock/ Capslock is sometimes out of Sync (normal)
 [] lag when stopping speech for speechd speech driver
 [] lag when start speaking with generic speech driver
