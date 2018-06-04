@@ -4,8 +4,5 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-import os, sys
-import __main__
-
-version = 1.5
+version = 1.8
 codename = 'gampert'
