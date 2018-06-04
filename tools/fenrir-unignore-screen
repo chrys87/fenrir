@@ -16,17 +16,20 @@ def removeScreenFromIgnoreList(ignoreFileName = '/tmp/fenrirSuspend', screen = '
                     ignoreScreens = fp.read().split(',')#.replace('\n','').split(',')
                 except Exception as e:
                    print(e)
-
+        removed = False
         if screen in ignoreScreens:
             ignoreScreens.remove(screen)
-            print('Remove screen {0} to ignore file:{1}'.format(screen, ignoreFileName))
-        else:
-            print('Screen {0} does not exists in ignore file:{1}'.format(screen, ignoreFileName))                  
+            removed = True
+                 
         ignoreScreensStr = ','.join(ignoreScreens)
            
         with open(ignoreFileName, 'w') as fp:
             fp.write(ignoreScreensStr)
-                
+            if removed:
+                print('Remove screen {0} to ignore file:{1}'.format(screen, ignoreFileName))
+            else:
+                print('Screen {0} does not exists in ignore file:{1}'.format(screen, ignoreFileName)) 
+                            
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Unignore screens in fenrir to make it active again. If no screen is given use current screen.')
     parser.add_argument('-s', '--screen', metavar='SCREEN', default=None, help='Ignore a given screen. Use current screen as default.')
