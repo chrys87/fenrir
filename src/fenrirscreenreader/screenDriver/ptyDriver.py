@@ -102,6 +102,7 @@ class driver(screenDriver):
         fdList += [fd]        
         if interruptFd:
             fdList += [interruptFd]
+        starttime = time.time()
         while True:
             # respect timeout but wait a little bit of time to see if something more is here
             if (time.time() - starttime) >= timeout:
