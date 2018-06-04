@@ -96,7 +96,7 @@ class driver(screenDriver):
         self.env['screen']['autoIgnoreScreens'] = []
         self.env['general']['prevUser'] = getpass.getuser()
         self.env['general']['currUser'] = getpass.getuser()
-    def readAll(self, fd, timeout = 9999999, interruptFd = None, len = 4096):
+    def readAll(self, fd, timeout = 9999999, interruptFd = None, len = 2048):
         bytes = b'' 
         fdList = []
         fdList += [fd]        
@@ -182,7 +182,7 @@ class driver(screenDriver):
                 # output
                 if self.p_out in r:
                     try:
-                        msgBytes = self.readAll(self.p_out.fileno(), timeout=0.2, interruptFd=sys.stdin)
+                        msgBytes = self.readAll(self.p_out.fileno(), timeout=0.1, interruptFd=sys.stdin)
                     except (EOFError, OSError):
                         active.value = False
                         break    
