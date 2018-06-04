@@ -1,5 +1,5 @@
 # Fenrir
-A modern screenreader.
+A modern, modular, flexible and fast console screenreader.
 It should run on any operating system. If you want to help, or write drivers to make it work on other systems, just let me know. 
 This software is licensed under the LGPL v3.
 
