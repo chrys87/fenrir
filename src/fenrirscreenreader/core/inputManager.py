@@ -60,7 +60,7 @@ class inputManager():
         if self.env['runtime']['screenManager'].getCurrScreenIgnored():
             self.ungrabAllDevices()
         else:
-            self.grabAllDevices()            
+            self.grabAllDevices()
         self.executeDeviceGrab = False 
     def handleInputEvent(self, eventData):
         if not eventData:
