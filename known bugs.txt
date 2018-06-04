@@ -11,6 +11,7 @@ Known Bugs (Problems with the logic ):
 [W] make PTY better react to shortcuts when a lot of output apears (normal)
 [] Numlock/ Capslock is sometimes out of Sync (normal)
 [X] Bash history does not work with PTY (reads hole line) (normal)
+[X] space has different attributes on VCSA (normal)
 
 Glitches (improve diff results):
 - currently None
