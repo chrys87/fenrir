@@ -13,7 +13,7 @@ from fenrirscreenreader.utils import screen_utils
 class Terminal:
     def __init__(self, columns, lines, p_in):
         self.text = ''
-        self.attributes = []
+        self.attributes = None
         self.screen = pyte.HistoryScreen(columns, lines)
         self.screen.set_mode(pyte.modes.LNM)
         self.screen.write_process_input = \
@@ -22,9 +22,31 @@ class Terminal:
         self.stream.attach(self.screen)
     def feed(self, data):
         self.stream.feed(data)
+            
+    def updateAttributes(self, initialize = False):
+        buffer = self.screen.buffer    
+        lines = None
+        if not initialize:
+            lines = self.screen.dirty
+        else:
+            lines = range(self.screen.lines)
+            self.attributes = [[list(attribute[1:]) + [False, 'default', 'default'] for attribute in line.values()] for line in buffer.values()]            
+            
+        for y in lines:
+            try:
+                t = self.attributes[y]
+            except:
+                self.attributes.append([])
+
+            self.attributes[y] = [list(attribute[1:]) + [False, 'default', 'default'] for attribute in (buffer[y].values())]
+            if len(self.attributes[y]) < self.screen.columns:
+                diff = self.screen.columns - len(self.attributes[y])
+                self.attributes[y] += [['default', 'default', False, False, False, False, False, False, 'default', 'default']]   * diff
+
     def resize(self, lines, columns):
         self.screen.resize(lines, columns)
         self.setCursor()
+        self.updateAttributes(True)
     def setCursor(self, x = -1, y = -1):
         xPos = x
         yPos = y
@@ -37,8 +59,7 @@ class Terminal:
     def GetScreenContent(self):
         cursor = self.screen.cursor
         self.text = '\n'.join(self.screen.display)
-        buffer = self.screen.buffer
-        self.attributes = [[list(attribute[1:]) + [False, 'default', 'default'] for attribute in line.values()] for line in buffer.values()]
+        self.updateAttributes(self.attributes == None)
         self.screen.dirty.clear()            
         return {"cursor": (cursor.x, cursor.y),
             'lines': self.screen.lines,
@@ -92,7 +113,6 @@ class driver(screenDriver):
                 break
             # exit on interrupt available
             if interruptFd in r:
-                print('i')
                 break
             data = os.read(fd, len)
             if data == b'':
