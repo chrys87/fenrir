@@ -2,9 +2,9 @@ Known Bugs (Problems with the logic ):
 - word echo triggers twice if there are two spaces after an word and you arrow over them
 - spellcheck triggers twice if there are two spaces after an word and you arrow over them
 [] Sometimes Numblock hangs and make shortcuts not detect (critical)
-[] X is not being autodetected. (critical)
-[W] After switching back from X sometimes  modifier keys are stuck. ( control or alt) (critical)
+[W] X is not being autodetected. (critical)
 [] Numlock/ Capslock is sometimes out of Sync (normal)
+[W] After switching back from X sometimes  modifier keys are stuck. ( control or alt) (critical)
 [X] PTY attribtues not all available at beginning just to current curser (normal)
 [X] Bash history does not work with PTY (reads hole line) (normal)
 [X] space has different attributes on VCSA (normal)
