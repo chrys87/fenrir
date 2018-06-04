@@ -1,10 +1,14 @@
 # Fenrir
-A TTY screenreader for Linux.
-In theory it's not just limited to Linux. but i currently only provide drivers for that since I do not have another system here. If you want to help, or write drivers to make it work on other systems, just let me know.
-This software is licensed under the LGPL v3 .
+A modern screenreader.
+It should run on any operating system. If you want to help, or write drivers to make it work on other systems, just let me know. 
+This software is licensed under the LGPL v3.
 
 # Requirements (core)
-- Linux (currently only screen and input drivers available)
+- Linux (ptyDriver, vcsaDriver, evdevDriver)
+- macOS (ptyDriver)
+- BSD (ptyDriver)
+- Windows (ptyDriver)
+
 - python3 >= 3.3
 - python-configargparse
 - screen, input, speech, sound or braille drivers see "Features, Drivers, Extras".
