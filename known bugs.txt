@@ -2,7 +2,6 @@ Known Bugs (Problems with the logic ):
 - word echo triggers twice if there are two spaces after an word and you arrow over them
 - spellcheck triggers twice if there are two spaces after an word and you arrow over them
 [] Sometimes Numblock hangs and make shortcuts not detect (critical)
-[W] X is not being autodetected. (critical)
 [] Numlock/ Capslock is sometimes out of Sync (normal)
 
 Glitches (improve diff results):
