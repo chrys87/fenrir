@@ -61,6 +61,8 @@ class screenManager():
         if not self.isSuspendingScreen(self.env['screen']['newTTY']):       
             self.update(eventData, 'onScreenChange')
             self.env['screen']['lastScreenUpdate'] = time.time()
+        else:
+            self.env['runtime']['outputManager'].interruptOutput()        
                  
     def handleScreenUpdate(self, eventData):
         self.env['screen']['oldApplication'] = self.env['screen']['newApplication'] 
@@ -74,6 +76,8 @@ class screenManager():
             #  or len(self.env['screen']['newDelta']) > 6:
             #    self.env['runtime']['screenDriver'].getCurrApplication() 
             self.env['screen']['lastScreenUpdate'] = time.time()
+        elif self.isCurrScreenIgnoredChanged():        
+            self.env['runtime']['outputManager'].interruptOutput()              
     def getCurrScreenIgnored(self):
         return self.currScreenIgnored
     def getPrevScreenIgnored(self):

@@ -33,7 +33,6 @@ if __name__ == "__main__":
         ignoreFileName = args.file
         useCurrentScreen = False
         screen = None
-        print(args.file)
         if args.screen:
             screen = args.screen
         else:

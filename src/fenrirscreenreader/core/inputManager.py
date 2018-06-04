@@ -59,7 +59,6 @@ class inputManager():
             return            
         if self.env['runtime']['screenManager'].getCurrScreenIgnored():
             self.ungrabAllDevices()
-            self.env['runtime']['outputManager'].interruptOutput()
         else:
             self.grabAllDevices()            
         self.executeDeviceGrab = False 
