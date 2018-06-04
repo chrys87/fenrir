@@ -102,7 +102,6 @@ class driver(screenDriver):
         fdList += [fd]        
         if interruptFd:
             fdList += [interruptFd]
-        starttime = time.time()    
         while True:
             # respect timeout but wait a little bit of time to see if something more is here
             if (time.time() - starttime) >= timeout:
@@ -182,7 +181,7 @@ class driver(screenDriver):
                 # output
                 if self.p_out in r:
                     try:
-                        msgBytes = self.readAll(self.p_out.fileno(), timeout=0.1, interruptFd=sys.stdin)
+                        msgBytes = self.readAll(self.p_out.fileno(), timeout=0.001, interruptFd=sys.stdin)
                     except (EOFError, OSError):
                         active.value = False
                         break    
