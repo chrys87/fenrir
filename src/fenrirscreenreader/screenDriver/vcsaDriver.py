@@ -106,6 +106,7 @@ class driver(screenDriver):
             tty = open('/sys/devices/virtual/tty/tty0/active','r')
             currScreen = str(tty.read()[3:-1])
             oldScreen = currScreen
+            self.updateCharMap(currScreen)
             watchdog = select.epoll()
             watchdog.register(vcsa[currScreen], select.POLLPRI | select.POLLERR)
             watchdog.register(tty, select.POLLPRI | select.POLLERR)
@@ -127,6 +128,7 @@ class driver(screenDriver):
                                 watchdog.register(vcsa[ currScreen ], select.POLLPRI | select.POLLERR) 
                             except:
                                 pass
+                            self.updateCharMap(currScreen)                            
                             oldScreen = currScreen
                             try:
                                 vcsa[currScreen].seek(0)                        
@@ -157,7 +159,6 @@ class driver(screenDriver):
             
 
     def createScreenEventData(self, screen, content):
-        self.updateCharMap(screen)                                
         eventData = {
             'bytes': content,
             'lines': int( content[0]),
