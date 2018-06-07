@@ -90,7 +90,6 @@ setup(
         "evdev",
         "daemonize",
         "dbus-python",
-        "pyenchant",
         "pyudev",
         "setuptools",
         "pexpect",
