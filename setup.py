@@ -6,8 +6,8 @@ from shutil import copyfile
 from setuptools import find_packages
 from setuptools import setup
 
-fenrirVersion = '1.8'
-packageVersion = 'post1'
+fenrirVersion = '1.9'
+packageVersion = 'post2'
 
 # handle flags for package manager like yaourt and pacaur.
 forceSettings = False
@@ -90,7 +90,6 @@ setup(
         "evdev",
         "daemonize",
         "dbus-python",
-        "pyenchant",
         "pyudev",
         "setuptools",
         "pexpect",

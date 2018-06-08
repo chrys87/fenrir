@@ -15,6 +15,12 @@ class screenManager():
         self.prevScreenIgnored = False
         self.prevScreenText = ''
         self.currScreenText = ''
+        self.colums = None
+        self.rows = None
+    def getRows(self):
+        return self.rows
+    def getColumns(self):
+        return self.colums
     def initialize(self, environment):
         self.env = environment
         self.env['runtime']['settingsManager'].loadDriver(\
@@ -97,6 +103,8 @@ class screenManager():
         # get metadata like cursor or screensize
         self.env['screen']['lines'] = int( eventData['lines'])
         self.env['screen']['columns'] = int( eventData['columns'])
+        self.colums = int( eventData['columns'])
+        self.rows = int( eventData['lines'])        
         self.env['screen']['newCursor']['x'] = int( eventData['textCursor']['x'])
         self.env['screen']['newCursor']['y'] = int( eventData['textCursor']['y'])
         self.env['screen']['newTTY'] = eventData['screen']

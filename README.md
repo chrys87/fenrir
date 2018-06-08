@@ -39,7 +39,7 @@ This software is licensed under the LGPL v3.
 3. "dummyDriver" just a dummy
   
 # Speech Drivers:
-1. "genericDriver" (default) sound driver for sound as subprocess:
+1. "genericDriver" (default) speech driver for sound as subprocess:
   - espeak or espeak-ng
 2. "espeakDriver" speech driver for Espeak or Espeak-NG:
   - python-espeak

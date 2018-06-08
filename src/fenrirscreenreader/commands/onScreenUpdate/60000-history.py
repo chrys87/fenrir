@@ -22,6 +22,9 @@ class command():
             return
         if self.env['runtime']['cursorManager'].isCursorVerticalMove():
             return
+        if self.env['screen']['newCursor']['x'] == == self.env['runtime']['screenManager'].getColums() - 1 and\
+          self.env['screen']['newCursor']['y'] == self.env['runtime']['screenManager'].getRows() - 1):
+            return
         if self.env['runtime']['inputManager'].getShortcutType() in ['KEY']:
             if not (self.env['runtime']['inputManager'].getLastDeepestInput() in [['KEY_UP'],['KEY_DOWN']]):
                 return 
