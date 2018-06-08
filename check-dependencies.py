@@ -6,7 +6,7 @@ import os, sys
 # speech: speech-dispatcher
 # sound: sox
 # braille: brltty:
-defaultInstallation = ['FenrirCore','vcsaDriver','brlapiDriver','evdevDriver','speechdDriver', 'genericDriver']
+defaultInstallation = ['FenrirCore','vcsaDriver','brlapiDriver','evdevDriver','genericDriver (speech)', 'genericDriver (sound)']
 currentInstallation = []
 
 print('checking dependencys...')
@@ -32,7 +32,7 @@ if available:
     currentInstallation.append('FenrirCore')
     
 # SCREEN
-print('')
+print('--------------------')
 print('screen driver')
 # VCSA (screen driver)
 print('vcsaDriver')
@@ -50,6 +50,7 @@ else:
     available = available and False    
 if available:
     currentInstallation.append('vcsaDriver')
+print('')
 # pty emulation (screen driver)
 print('ptyDriver')
 available = True
@@ -63,7 +64,7 @@ if available:
     currentInstallation.append('ptyDriver (screen)') 
     
 # BRAILLE
-print('')
+print('--------------------')
 print('braille driver')
 # brltty (braille driver)
 print('brlapiDriver')
@@ -78,7 +79,7 @@ except:
 if available:
     currentInstallation.append('brlapiDriver')
 # INPUT
-print('')
+print('--------------------')
 print('input driver')
 # evdev (input driver)
 print('evdevDriver')
@@ -99,6 +100,7 @@ except:
 if available:
     currentInstallation.append('evdevDriver')
 # pty emulation (input driver)
+print('')
 print('ptyDriver')
 available = True
 try:
@@ -110,7 +112,7 @@ except:
 if available:
     currentInstallation.append('ptyDriver (Input)')     
 # SOUND
-print('')
+print('--------------------')
 print('sound driver')
 print('genericDriver (uses sox by default)')
 available = True
@@ -120,7 +122,8 @@ else:
     print('sox: FAIL')
     available = available and False    
 if available:
-    currentInstallation.append('genericDriver')
+    currentInstallation.append('genericDriver (sound)')
+print('')
 # gstreamer (sound driver)
 print('gstreamerDriver')
 available = True
@@ -147,7 +150,7 @@ if available:
     currentInstallation.append('gstreamerDriver')
 
 # SPEECH
-print('')
+print('--------------------')
 print('speech driver')
 # speechd (speech driver)
 print('speechdDriver')
@@ -160,6 +163,7 @@ except:
     available = available and False    
 if available:
     currentInstallation.append('speechdDriver')
+print('')
 # espeak (speech driver)
 print('espeakDriver')
 available = True
@@ -171,9 +175,18 @@ except:
     available = available and False    
 if available:
     currentInstallation.append('espeakDriver')    
+print('genericDriver (uses espeak by default)')
+available = True
+if os.path.exists('/usr/bin/espeak') or os.path.exists('/bin/espeak'):
+    print('espeak: OK')
+else:
+    print('espeak: FAIL')
+    available = available and False    
+if available:
+    currentInstallation.append('genericDriver (speech)')    
 
 # SUMMERY
-print('')
+print('====================')
 available = True
 missing = []
 for element in  defaultInstallation:
