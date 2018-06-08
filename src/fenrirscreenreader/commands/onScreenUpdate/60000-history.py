@@ -22,6 +22,8 @@ class command():
             return
         if self.env['runtime']['cursorManager'].isCursorVerticalMove():
             return
+        # hack for pdmenu and maybe other dialog apps that place the cursor at last cell/row
+        # this is not to be identified as history
         if self.env['screen']['newCursor']['x'] == == self.env['runtime']['screenManager'].getColums() - 1 and\
           self.env['screen']['newCursor']['y'] == self.env['runtime']['screenManager'].getRows() - 1):
             return
