@@ -26,8 +26,10 @@ for directory in directories:
         destDir = '/etc/fenrirscreenreader/keyboard'
     elif 'config/settings' in directory:
         destDir = '/etc/fenrirscreenreader/settings'
+        print(forceSettings)
         if not forceSettings:
             try:
+                print('delete')            
                 del(files[files.index('config/settings/settings.conf')])
             except:
                 pass
