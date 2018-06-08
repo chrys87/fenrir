@@ -7,7 +7,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 fenrirVersion = '1.9'
-packageVersion = 'post1'
+packageVersion = 'post2'
 
 # handle flags for package manager like yaourt and pacaur.
 forceSettings = False
@@ -26,10 +26,8 @@ for directory in directories:
         destDir = '/etc/fenrirscreenreader/keyboard'
     elif 'config/settings' in directory:
         destDir = '/etc/fenrirscreenreader/settings'
-        print(forceSettings)
         if not forceSettings:
             try:
-                print('delete')            
                 del(files[files.index('config/settings/settings.conf')])
             except:
                 pass
