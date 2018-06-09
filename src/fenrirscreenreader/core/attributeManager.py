@@ -283,10 +283,32 @@ class attributeManager():
         for line in range(len(self.prevAttributes)):
             if self.prevAttributes[line] != self.currAttributes[line]:
                 for column in range(len(self.prevAttributes[line])):
-                    if self.prevAttributes[line][column] != self.currAttributes[line][column]:
-                        if not self.isDefaultAttribute(self.currAttributes[line][column]):
-                            if not currCursor:
-                                currCursor = {'x': column, 'y': line}
-                            result += textLines[line][column]
+                    if self.prevAttributes[line][column] == self.currAttributes[line][column]:
+                        continue
+                    if self.isUsefulForTracking(line, column, self.currAttributes, self.prevAttributes):
+                        if not currCursor:
+                            currCursor = {'x': column, 'y': line}
+                        result += textLines[line][column]
                 result += ' '
-        return result, currCursor         
+        return result, currCursor
+    def isUsefulForTracking(self, line, column, currAttributes, prevAttributes, attribute=1):
+        if len(currAttributes) <= 3:
+            return False
+        if line < 0:
+            return False   
+        if line > len(currAttributes):
+            return False                     
+        useful = False
+        # non default tracking
+        #useful = not self.isDefaultAttribute(currAttributes[line][column])
+        
+        # arround me tracking for bg
+        if line == 0:
+            useful = (currAttributes[line][column][attribute] != currAttributes[line + 1][column][attribute]) and (currAttributes[line][column][attribute] != currAttributes[line + 2][column][attribute])
+        elif line >= len(prevAttributes):
+            useful = (currAttributes[line][column][attribute] != currAttributes[line - 1][column][attribute]) and (currAttributes[line][column][attribute] != currAttributes[line - 2][column][attribute])        
+        else:
+            useful = (currAttributes[line][column][attribute] != currAttributes[line + 1][column][attribute]) and (currAttributes[line][column][attribute] != currAttributes[line - 1][column][attribute])         
+        
+        return useful
+        
