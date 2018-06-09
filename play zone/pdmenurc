@@ -1,0 +1,154 @@
+#!/usr/bin/pdmenu
+#
+# Note that the above bang-path isn't required, but it lets you run this
+# file directly as a sort of pdmenu script.
+
+# F123 menu
+
+title:Welcome to F123
+
+# Define the main menu.
+menu:main:F123 Main Menu:Please make a selection
+	show:_Games Menu..::games
+	show:_Internet menu..::internet
+	show:_Media menu..::media
+	show:_Office menu..::office
+	show:_System Configuration Menu..::configuration
+	show:_Tools Menu..::tools
+	nop
+	show:_Power Options..::power
+	nop
+	exit:_Exit
+
+
+# Submenu for games.
+menu:games:Games:Command line games
+	exec:_Adventure::clear;adventure
+	exec:_Arithmetic::clear;arithmetic
+	exec:_Air Traffic Controler (Not screen reader friendly)::clear;atc
+	exec:_Backgammon (Not screen reader friendly)::clear;backgammon
+	exec:_Battlestar::clear;battlestar
+	exec:_Boggle (Not screen reader friendly)::clear;boggle
+	exec:_Canfield (Not screen reader friendly)::clear;canfield
+	exec:_Cribbage (Not screen reader friendly)::clear;cribbage
+	exec:_Go Fish:pause:clear;go-fish
+	exec:_Gomoku::clear;gomoku
+	exec:_Hangman::clear;hangman
+	exec:_Hunt (Not screen reader friendly)::clear;hunt
+	exec:_Mille Bornes::clear;mille
+	exec:_Number::clear;number
+	exec:_Phantasia::clear;phantasia
+	exec:_Phase of the Moon:pause:clear;pom
+	exec:_Primes::clear;primes
+	exec:_Robots (Not screen reader friendly)::clear;robots
+	exec:_Sail::clear;sail
+	exec:_Snake (Not screen reader friendly)::clear;snake
+	exec:_Tetris (Not screen reader friendly)::clear;tetris-bsd
+	exec:_Trek::clear;trek
+	exec:_Worm (Not screen reader friendly)::clear;worm
+	exec:_Wumpus::clear;wump
+
+	nop
+	exit:_Main menu..
+
+# submenu for internet applications.
+menu:internet:Internet:Internet programs
+	exec:_E-Mail::clear;mutt
+	exec:_Basic Web Browser (W3M)::clear;w3m -v
+	group:Full _Web browser (Firefox)
+        exec:::clear
+        exec:::python /usr/share/fenrirscreenreader/tools/fenrir-ignore-screen
+        exec:::startx /usr/lib/F123-wrappers/xlauncher firefox
+        exec:::python /usr/share/fenrirscreenreader/tools/fenrir-unignore-screen
+    endgroup
+	group:_Mumble Voice Chat
+        exec:::clear
+        exec:::python /usr/share/fenrirscreenreader/tools/fenrir-ignore-screen
+        exec:::startx /usr/lib/F123-wrappers/xlauncher mumble
+        exec:::python /usr/share/fenrirscreenreader/tools/fenrir-unignore-screen
+    endgroup
+	nop
+	exit:_Main menu..
+
+menu:media:Media:Multi-media applications
+	exec:_CD Audio Ripper (ripit)::ripit
+	exec:_Music Player (cmus)::cmus
+	exec:_Youtube (audio only)::youtube-viewer -novideo
+	group:Youtube (full _video)
+        exec:::clear
+        exec:::python /usr/share/fenrirscreenreader/tools/fenrir-ignore-screen
+        exec:::startx /usr/lib/F123-wrappers/xlauncher lxterminal -e youtube-viewer
+        exec:::python /usr/share/fenrirscreenreader/tools/fenrir-unignore-screen
+    endgroup
+	nop
+	exit:_Main menu..
+
+menu:office:Office:Word processing, calendar, etc
+	exec:_Month Calendar:pause:clear;ncal
+	exec:_Year Calendar:pause:clear;ncal -y
+	exec:Text Editor::clear;${EDITOR:-nano}
+	nop:Office Suite
+	group:Database
+        exec:::clear
+        exec:::python /usr/share/fenrirscreenreader/tools/fenrir-ignore-screen
+        exec:::startx /usr/lib/F123-wrappers/xlauncher lobase
+        exec:::python /usr/share/fenrirscreenreader/tools/fenrir-unignore-screen
+    endgroup
+	group:Diagrams
+        exec:::clear
+        exec:::python /usr/share/fenrirscreenreader/tools/fenrir-ignore-screen
+        exec:::startx /usr/lib/F123-wrappers/xlauncher lodraw
+        exec:::python /usr/share/fenrirscreenreader/tools/fenrir-unignore-screen
+    endgroup
+	group:Formula Editor
+        exec:::clear
+        exec:::python /usr/share/fenrirscreenreader/tools/fenrir-ignore-screen
+        exec:::startx /usr/lib/F123-wrappers/xlauncher lomath
+        exec:::python /usr/share/fenrirscreenreader/tools/fenrir-unignore-screen
+    endgroup
+	group:Presentation
+        exec:::clear
+        exec:::python /usr/share/fenrirscreenreader/tools/fenrir-ignore-screen
+        exec:::startx /usr/lib/F123-wrappers/xlauncher loimpress
+        exec:::python /usr/share/fenrirscreenreader/tools/fenrir-unignore-screen
+    endgroup
+	group:Spreadsheet
+        exec:::clear
+        exec:::python /usr/share/fenrirscreenreader/tools/fenrir-ignore-screen
+        exec:::startx /usr/lib/F123-wrappers/xlauncher localc
+        exec:::python /usr/share/fenrirscreenreader/tools/fenrir-unignore-screen
+    endgroup
+	group:Word Processor
+        exec:::clear
+        exec:::python /usr/share/fenrirscreenreader/tools/fenrir-ignore-screen
+        exec:::startx /usr/lib/F123-wrappers/xlauncher lowriter
+        exec:::python /usr/share/fenrirscreenreader/tools/fenrir-unignore-screen
+    endgroup
+	nop
+	exit:_Main menu..
+
+# submenu for configuring the computer.
+menu:configuration:Configuration:System Configuration
+	exec:_Change Passwords::clear;/usr/lib/F123-wrappers/configure-passwords
+	exec:_Email Configuration::clear;fleacollar
+	exec:_Security Configuration::clear;/usr/lib/F123-wrappers/configure-security
+	exec:_Wireless Internet Connection::clear;sudo configure-wifi
+	nop
+	exit:_Main menu..
+
+menu:tools:Tools:System Tools
+	group:Bluetooth manager
+        exec:::clear
+        exec:::python /usr/share/fenrirscreenreader/tools/fenrir-ignore-screen
+        exec:::startx /usr/lib/F123-wrappers/xlauncher blueman-assistant
+        exec:::python /usr/share/fenrirscreenreader/tools/fenrir-unignore-screen
+    endgroup
+exec:_Search:edit,pause:recoll -t ~Search for what? :~
+	nop
+	exit:_Main menu..
+
+menu:power:Shutdown or Restart Your Computer:Shutdown or restart your computer
+	exec:_Power Off::poweroff
+	exec:_Restart::reboot
+	nop
+	exit:_Main menu..
