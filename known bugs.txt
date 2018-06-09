@@ -6,7 +6,7 @@ Known Bugs (Problems with the logic ):
 [] lag when stopping speech for speechd speech driver
 [] lag when start speaking with generic speech driver
 Glitches (improve diff results):
-[W] Hilight Tracking not accurate (normal)
+currently None
 
 wishes:
 - whole status line in irssi is spoken insteed of just the changes (lilmike)
