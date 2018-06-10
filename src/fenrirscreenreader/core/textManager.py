@@ -24,11 +24,15 @@ class textManager():
         if line[:offset + 1].count('│') > line[offset + 1:].count('│'):
             offset = xCursor - 1
         start = line[:offset + 1].rfind('│') + 1
-        end = line[offset + 1:].find('│') + offset + 1
+        end = line[offset + 1:].find('│')
+        if start == end:
+            return line
         if start == -1:
             return line
         if end == -1:
             return line
+        else:
+            end +=  offset + 1
         if not self.hasBarrier(start, end):
             return line 
         return line[start:end]
