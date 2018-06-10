@@ -101,7 +101,7 @@ class outputManager():
             else:
                 cleanText = text.replace('\n',' ')
 
-            cleanText = self.env['runtime']['headLineManager'].replaceHeadLines(cleanText)        
+            cleanText = self.env['runtime']['textManager'].replaceHeadLines(cleanText)        
             cleanText = self.env['runtime']['punctuationManager'].proceedPunctuation(cleanText, ignorePunctuation) 
             cleanText = re.sub(' +$',' ', cleanText)            
             self.env['runtime']['speechDriver'].speak(cleanText)

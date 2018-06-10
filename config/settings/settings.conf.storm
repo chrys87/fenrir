@@ -142,6 +142,7 @@ shell=
 cursor=True
 #follow highlighted text changes
 highlight=False
+barrier=True
 
 [review]
 lineBreak=True

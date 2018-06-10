@@ -33,10 +33,10 @@ class command():
             return   
        
         x, y, currLine = line_utils.getCurrentLine(self.env['screen']['newCursor']['x'], self.env['screen']['newCursor']['y'], self.env['screen']['newContentText'])
-
         if currLine.isspace():
             self.env['runtime']['outputManager'].presentText(_("blank"), soundIcon='EmptyLine', interrupt=True, flush=False)
         else:
+            # ident
             currIdent = len(currLine) - len(currLine.lstrip())
             if self.lastIdent == -1:
                 self.lastIdent = currIdent
@@ -44,8 +44,13 @@ class command():
             if self.env['runtime']['settingsManager'].getSettingAsBool('general', 'autoPresentIndent'):
                 if self.lastIdent != currIdent: 
                     self.env['runtime']['outputManager'].presentText(_('indented ') + str(currIdent) + ' ', interrupt=doInterrupt, flush=False)
-                    doInterrupt = False                    
-            self.env['runtime']['outputManager'].presentText(currLine, interrupt=doInterrupt, flush=False)
+                    doInterrupt = False    
+            # barrier
+            sayLine = currLine        
+            if self.env['runtime']['settingsManager'].getSettingAsBool('focus', 'barrier'):
+                sayLine = self.env['runtime']['textManager'].getBarrierText(sayLine, self.env['screen']['newCursor']['x'])
+            # output
+            self.env['runtime']['outputManager'].presentText(sayLine, interrupt=doInterrupt, flush=False)
             self.lastIdent = currIdent
     def setCallback(self, callback):
         pass

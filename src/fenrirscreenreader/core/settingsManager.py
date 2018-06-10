@@ -21,7 +21,7 @@ from fenrirscreenreader.core import punctuationManager
 from fenrirscreenreader.core import cursorManager
 from fenrirscreenreader.core import applicationManager
 from fenrirscreenreader.core import helpManager
-from fenrirscreenreader.core import headLineManager
+from fenrirscreenreader.core import textManager
 from fenrirscreenreader.core import tableManager
 from fenrirscreenreader.core import byteManager
 from fenrirscreenreader.core import attributeManager
@@ -323,8 +323,8 @@ class settingsManager():
         environment['runtime']['cursorManager'].initialize(environment)  
         environment['runtime']['applicationManager'] = applicationManager.applicationManager()
         environment['runtime']['applicationManager'].initialize(environment)  
-        environment['runtime']['headLineManager'] = headLineManager.headLineManager()
-        environment['runtime']['headLineManager'].initialize(environment)      
+        environment['runtime']['textManager'] = textManager.textManager()
+        environment['runtime']['textManager'].initialize(environment)      
         environment['runtime']['tableManager'] = tableManager.tableManager()
         environment['runtime']['tableManager'].initialize(environment)       
             

@@ -80,6 +80,7 @@ settingsData = {
 'focus':{
   'cursor': True,
   'highlight': False,
+  'barrier': True,
 },
 'review':{
   'lineBreak': True,

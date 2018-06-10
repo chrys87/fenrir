@@ -24,8 +24,7 @@ class command():
             return
         # hack for pdmenu and maybe other dialog apps that place the cursor at last cell/row
         # this is not to be identified as history
-        if self.env['screen']['newCursor']['x'] == == self.env['runtime']['screenManager'].getColums() - 1 and\
-          self.env['screen']['newCursor']['y'] == self.env['runtime']['screenManager'].getRows() - 1):
+        if (self.env['screen']['newCursor']['x'] == self.env['runtime']['screenManager'].getColumns() - 1) and (self.env['screen']['newCursor']['y'] == self.env['runtime']['screenManager'].getRows() - 1):
             return
         if self.env['runtime']['inputManager'].getShortcutType() in ['KEY']:
             if not (self.env['runtime']['inputManager'].getLastDeepestInput() in [['KEY_UP'],['KEY_DOWN']]):
