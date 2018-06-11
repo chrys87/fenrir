@@ -18,7 +18,7 @@ class command():
     def shutdown(self):
         pass
     def getDescription(self):
-        return _('imports the current X clipboard to Fenrir's clipboard')
+        return _("imports the current X clipboard to Fenrir's clipboard")
     def run(self):                       
        _thread.start_new_thread(self._threadRun , ())
 
@@ -39,7 +39,7 @@ class command():
             else:
                 self.env['runtime']['memoryManager'].addValueToFirstIndex('clipboardHistory', xClipboard)
                 self.env['runtime']['outputManager'].presentText('Import to Clipboard', soundIcon='CopyToClipboard', interrupt=True)
-        self.env['runtime']['outputManager'].presentText(imported, soundIcon='', interrupt=False)               
+                self.env['runtime']['outputManager'].presentText(xClipboard, soundIcon='', interrupt=False)               
         except Exception as e:
             self.env['runtime']['outputManager'].presentText(e , soundIcon='', interrupt=False)
         
