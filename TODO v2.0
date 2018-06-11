@@ -29,9 +29,9 @@ Imporove attribute handling
   [X] improve attributes_curr_char (Easy for contribution)
   [X] add an attribute sound (Easy for contribution)
   [X] beep on cursor/ review by char (capital wins) (Easy for contribution)
+  [X] make heiglight tracking more accurate  
   [] beep on review by word (once for multiple, capital wins) (Easy for contribution)
   [] configurable (by char, by word, none) (Easy for contribution)
-  [W] make heiglight tracking more accurate
     https://github.com/jwilk/vcsapeek/blob/master/linuxvt.py
     
 [W] Barrier Mode

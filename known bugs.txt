@@ -5,6 +5,8 @@ Known Bugs (Problems with the logic ):
 [] Numlock/ Capslock is sometimes out of Sync (normal)
 [] lag when stopping speech for speechd speech driver
 [] lag when start speaking with generic speech driver
+[W] setup.py fails on raspian
+
 Glitches (improve diff results):
 currently None
 
