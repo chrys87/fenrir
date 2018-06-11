@@ -29,7 +29,7 @@ class command():
                 return 
             clipboard = self.env['runtime']['memoryManager'].getIndexListElement('clipboardHistory')                               
             for display in range(10):
-                p = Popen('su ' + self.env['general']['currUser'] + ' -c  "echo -n \\\"' + clipboard.replace('"','\\\\\\"')  +'\\\" | xclip -d :' + str(display) + ' -selection c"' , stdout=PIPE, stderr=PIPE, shell=True)
+                p = Popen('su ' + self.env['general']['currUser'] + ' -c  "echo -n \\\"' + clipboard.replace('"','\\\\\\"')  +'\\\" | xclip -d :' + str(display) + ' -o"' , stdout=PIPE, stderr=PIPE, shell=True)
                 stdout, stderr = p.communicate()
                 self.env['runtime']['outputManager'].interruptOutput()
                 #screenEncoding = self.env['runtime']['settingsManager'].getSetting('screen', 'encoding')
@@ -42,7 +42,7 @@ class command():
             if stderr != '':
                 self.env['runtime']['outputManager'].presentText(stderr , soundIcon='', interrupt=False)
             else:
-                self.env['runtime']['outputManager'].presentText('exported to the X session.', interrupt=True)                
+                self.env['runtime']['outputManager'].presentText('imported from the X session.', interrupt=True)                
         except Exception as e:
             self.env['runtime']['outputManager'].presentText(e , soundIcon='', interrupt=False)
         
