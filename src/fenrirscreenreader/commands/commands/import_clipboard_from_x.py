@@ -24,22 +24,25 @@ class command():
 
     def _threadRun(self):
         try:
-            xClipboard = ''
+            if self.env['runtime']['memoryManager'].isIndexListEmpty('clipboardHistory'):
+                self.env['runtime']['outputManager'].presentText(_('clipboard empty'), interrupt=True)
+                return 
+            clipboard = self.env['runtime']['memoryManager'].getIndexListElement('clipboardHistory')                               
             for display in range(10):
                 p = Popen('su ' + self.env['general']['currUser'] + ' -c  "echo -n \\\"' + clipboard.replace('"','\\\\\\"')  +'\\\" | xclip -d :' + str(display) + ' -o"' , stdout=PIPE, stderr=PIPE, shell=True)
                 stdout, stderr = p.communicate()
                 self.env['runtime']['outputManager'].interruptOutput()
+                #screenEncoding = self.env['runtime']['settingsManager'].getSetting('screen', 'encoding')
                 stderr = stderr.decode('utf-8')
-                xClipboard = stdout.decode('utf-8')
+                stdout = stdout.decode('utf-8')
                 if (stderr == ''):
                     break      
-
+            #stderr = stderr.decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
+            #stdout = stdout.decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
             if stderr != '':
                 self.env['runtime']['outputManager'].presentText(stderr , soundIcon='', interrupt=False)
             else:
-                self.env['runtime']['memoryManager'].addValueToFirstIndex('clipboardHistory', xClipboard)
-                self.env['runtime']['outputManager'].presentText('Import to Clipboard', soundIcon='CopyToClipboard', interrupt=True)
-        self.env['runtime']['outputManager'].presentText(imported, soundIcon='', interrupt=False)               
+                self.env['runtime']['outputManager'].presentText('imported from the X session.', interrupt=True)                
         except Exception as e:
             self.env['runtime']['outputManager'].presentText(e , soundIcon='', interrupt=False)
         
