@@ -26,7 +26,7 @@ class command():
         try:
             xClipboard = ''
             for display in range(10):
-                p = Popen('su ' + self.env['general']['currUser'] + ' -c  "echo -n \\\"' + clipboard.replace('"','\\\\\\"')  +'\\\" | xclip -d :' + str(display) + ' -o"' , stdout=PIPE, stderr=PIPE, shell=True)
+                p = Popen('su ' + self.env['general']['currUser'] + ' -c  "xclip -d :0 -o"' , stdout=PIPE, stderr=PIPE, shell=True)
                 stdout, stderr = p.communicate()
                 self.env['runtime']['outputManager'].interruptOutput()
                 stderr = stderr.decode('utf-8')
