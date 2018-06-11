@@ -44,7 +44,7 @@ destDir = '/usr/share/sounds/fenrirscreenreader/template'
 data_files.append((destDir, files))
 files = glob.glob('tools/*') 
 data_files.append(('/usr/share/fenrirscreenreader/tools', files))
-data_files.append(('/usr/lib/systemd/system', ['autostart/systemd/fenrir.service']))
+data_files.append(('/etc/systemd/system', ['autostart/systemd/fenrir.service']))
 data_files.append(('/usr/share/man/man1', ['docu/fenrir.1']))
 
 def read(fname):
