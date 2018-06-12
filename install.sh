@@ -5,7 +5,7 @@ read -p "This will install Fenrir. Press ctrl+C to cancel, or enter to continue.
 # Fenrir main application
 install -m755 -d /opt/fenrirscreenreader
 cp -af src/* /opt/fenrirscreenreader
-install -m644 -D "autostart/systemd/fenrir.service" /usr/lib/systemd/system/fenrir.service
+install -m644 -D "autostart/systemd/fenrir.service" /etc/systemd/system/fenrir.service
 ln -fs /opt/fenrirscreenreader/fenrir-daemon /usr/bin/fenrir-daemon
 ln -fs /opt/fenrirscreenreader/fenrir /usr/bin/fenrir
 # tools
