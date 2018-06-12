@@ -36,6 +36,7 @@ Imporove attribute handling
     
 [W] Barrier Mode
   - [X] Initial barrier mode
+  - [X] add command to toggle barrier mode
   - [] Soundicon on barrier detection
   - [] Barrier detection in hilight tracking
   - [] valid barriers by window edges
