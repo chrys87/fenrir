@@ -15,7 +15,7 @@ rm -rf /opt/fenrirscreenreader
 rm -rf /usr/share/fenrirscreenreader
 rm -rf /etc/fenrirscreenreader
 rm -rf /usr/share/sounds/fenrirscreenreader
-rm -f /usr/lib/systemd/system/fenrir.service
+rm -f /etc/systemd/system/fenrir.service
 
 # success message
 cat << EOF
