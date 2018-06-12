@@ -232,7 +232,6 @@ class attributeManager():
                  
         return attributeFormatString
     def trackHighlights(self):
-        
         result = ''
         currCursor = None
         # screen change
@@ -252,34 +251,6 @@ class attributeManager():
 
         if len(textLines) != len(self.currAttributes):
             return result,  currCursor
-        #print(len(textLines), len(newAttr))
-        #background = []
-
-        try:
-            pass
-            #llAttrib = [line for line in newAttr]
-            
-            #print(Counter(allAttrib[0]).most_common())
-            #from collections import Counter
-            #import random
-
-            #tups = [ (1,2), (3,4), (5,6), (1,2), (3,4) ]
-            #lst = Counter(tups).most_common()
-            #highest_count = max([i[1] for i in lst])
-            #values = [i[0] for i in lst if i[1] == highest_count]
-            #random.shuffle(values)
-            #print(values[0])
-                    
-            #bgStat = Counter(newAttr).most_common(3)              
-            #for i in bgStat:
-            #    print(i)
-            #background.append(bgStat[0][0])
-            # if there is a third color add a secondary background (for dialogs for example)
-            #if len(bgStat) > 2:
-            #    if bgStat[1][1] > 40:
-            #        background.append(bgStat[1][0])
-        except Exception as e:
-            print(e)
         for line in range(len(self.prevAttributes)):
             if self.prevAttributes[line] != self.currAttributes[line]:
                 for column in range(len(self.prevAttributes[line])):
@@ -291,7 +262,7 @@ class attributeManager():
                         result += textLines[line][column]
                 result += ' '
         return result, currCursor
-    def isUsefulForTracking(self, line, column, currAttributes, prevAttributes, attribute=1):
+    def isUsefulForTracking(self, line, column, currAttributes, prevAttributes, attribute=1 , mode = 'zaxe'):
         if len(currAttributes) <= 3:
             return False
         if line < 0:
@@ -299,16 +270,20 @@ class attributeManager():
         if line > len(currAttributes):
             return False                     
         useful = False
-        # non default tracking
-        #useful = not self.isDefaultAttribute(currAttributes[line][column])
-        
-        # arround me tracking for bg
-        if line == 0:
-            useful = (currAttributes[line][column][attribute] != currAttributes[line + 1][column][attribute]) and (currAttributes[line][column][attribute] != currAttributes[line + 2][column][attribute])
-        elif line >= len(prevAttributes):
-            useful = (currAttributes[line][column][attribute] != currAttributes[line - 1][column][attribute]) and (currAttributes[line][column][attribute] != currAttributes[line - 2][column][attribute])        
-        else:
-            useful = (currAttributes[line][column][attribute] != currAttributes[line + 1][column][attribute]) and (currAttributes[line][column][attribute] != currAttributes[line - 1][column][attribute])         
-        
+        if mode == 'default':
+            # non default tracking
+            useful = not self.isDefaultAttribute(currAttributes[line][column])
+        elif (mode == 'zaxe') or (mode == ''):
+            # arround me tracking for bg
+            if line == 0:
+                useful = (currAttributes[line][column][attribute] != currAttributes[line + 1][column][attribute]) and (currAttributes[line][column][attribute] != currAttributes[line + 2][column][attribute])
+            elif line >= len(prevAttributes):
+                useful = (currAttributes[line][column][attribute] != currAttributes[line - 1][column][attribute]) and (currAttributes[line][column][attribute] != currAttributes[line - 2][column][attribute])        
+            else:
+                useful = (currAttributes[line][column][attribute] != currAttributes[line + 1][column][attribute]) and (currAttributes[line][column][attribute] != currAttributes[line - 1][column][attribute])         
+        elif mode == 'barrier':
+            # to be implement
+            useful = True
+            
         return useful
         
