@@ -158,18 +158,16 @@ class screenManager():
                     newScreenText = self.env['screen']['newContentText'][cursorLineStartOffset:cursorLineEndOffset]
                     #newScreenText = re.sub(' +',' ',newScreenText)
                     diff = self.differ.compare(oldScreenText, newScreenText) 
-                    #diff = difflib.ndiff(oldScreenText, newScreenText) 
                     diffList = list(diff)
+                    typing = True                    
                     tempNewDelta = ''.join(x[2:] for x in diffList if x[0] == '+')
                     if tempNewDelta.strip() != '':
                         if tempNewDelta != ''.join(newScreenText[self.env['screen']['oldCursor']['x']:self.env['screen']['newCursor']['x']].rstrip()):
-                            diffList = ['+ ' + self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']]]
-                    typing = True
+                            diffList = ['+ ' + self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']] +'\n']
+                            typing = False
                 else:
                     diff = self.differ.compare(oldScreenText.split('\n'),\
                       newScreenText.split('\n'))                    
-                    #diff = difflib.ndiff( oldScreenText.split('\n'),\
-                    #  newScreenText.split('\n'))
                     diffList = list(diff)
 
                 if not typing:

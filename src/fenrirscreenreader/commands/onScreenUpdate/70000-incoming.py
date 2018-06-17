@@ -27,13 +27,12 @@ class command():
         #if len(self.env['screen']['newDelta'].strip(' \n\t')) <= 1:
         xMove = abs(self.env['screen']['newCursor']['x'] - self.env['screen']['oldCursor']['x'])
         yMove = abs(self.env['screen']['newCursor']['y'] - self.env['screen']['oldCursor']['y'])
+        
         if (xMove >= 1) and xMove == len(self.env['screen']['newDelta']):
         # if len(self.env['screen']['newDelta'].strip(' \n\t0123456789')) <= 2:
             if not '\n' in self.env['screen']['newDelta']:
                 return          
-        #if yMove == 1:
-        #   if len(self.env['screen']['newDelta'].strip(' \n\t0123456789')) <= 2:
-        #    return                        
+        #print(xMove, yMove, len(self.env['screen']['newDelta']), len(self.env['screen']['newNegativeDelta']))
         self.env['runtime']['outputManager'].presentText(self.env['screen']['newDelta'], interrupt=False, flush=False)
 
     def setCallback(self, callback):

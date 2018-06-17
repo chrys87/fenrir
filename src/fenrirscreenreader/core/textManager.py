@@ -15,27 +15,6 @@ class textManager():
         self.env = environment  
     def shutdown(self):
         pass    
-    def hasBarrier(self, start, end):
-        # check for corners here
-        return True
-    def getBarrierText(self, line, xCursor):
-        offset = xCursor     
-        # is the cursor at the begin or end of an entry:   
-        if line[:offset + 1].count('│') > line[offset + 1:].count('│'):
-            offset = xCursor - 1
-        start = line[:offset + 1].rfind('│') + 1
-        end = line[offset + 1:].find('│')
-        if start == end:
-            return line
-        if start == -1:
-            return line
-        if end == -1:
-            return line
-        else:
-            end +=  offset + 1
-        if not self.hasBarrier(start, end):
-            return line 
-        return line[start:end]
 
     def replaceHeadLines(self, text):
         # fast len check for bigger typing echo
