@@ -1,0 +1,18 @@
+[Unit]
+Description=Fenrir screenreader
+Wants=systemd-udev-settle.service
+After=systemd-udev-settle.service sound.target
+[Service]
+Type=forking
+PIDFile=/var/run/fenrir.pid
+ExecStart=/usr/bin/fenrir-daemon
+ExecReload=/usr/bin/kill -HUP $MAINPID
+Restart=always
+#Group=fenrirscreenreader
+#User=fenrirscreenreader
+
+[Install]
+# start as early as possible in boot process
+#WantedBy=sound.target
+# start as soon the login prompt is available
+WantedBy=getty.target
