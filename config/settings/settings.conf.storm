@@ -120,7 +120,7 @@ timeFormat=%H:%M:%P
 dateFormat="%A, %B %d, %Y"
 autoSpellCheck=True
 spellCheckLanguage=en_US
-scriptPath=/usr/share/fenrir/scripts
+scriptPath=/usr/share/fenrirscreenreader/scripts
 # overload commands, and create new one without changing Fenrir default
 commandPath=
 #fenrirBGColor = the backgroundcolor

@@ -176,7 +176,7 @@ timeFormat=%H:%M:%P
 dateFormat=%A, %B %d, %Y
 autoSpellCheck=True
 spellCheckLanguage=en_US
-scriptPath=/usr/share/fenrir/scripts
+scriptPath=/usr/share/fenrirscreenreader/scripts
 
 [focus]
 #follow the text cursor

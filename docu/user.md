@@ -224,7 +224,7 @@ this installs Fenrir as the following
 
     * Application:''/opt/fenrir''
     * Settings:''/etc/fenrir''
-    * Sound Icons:''/usr/share/fenrir/''
+    * Sound Icons:''/usr/share/fenrirscreenreader/''
  
 to remove Fenrir just run uninstall.sh as root
  
@@ -1044,7 +1044,7 @@ These are the pack of sounds used for sound icons.
 By default we ship two sound packs.
  1.  ''default'' opus encoded, for newer Sox versions
  2.  ''default-wav'' wav encoded, just for compatibility
-Sound packs are located at /usr/share/sounds/fenrir/
+Sound packs are located at /usr/share/sounds/fenrirscreenreader/
 
 Sound volume controls how loud the sounds for your selected sound pack are.
     volume=1.0
@@ -1391,11 +1391,11 @@ The use of the dictionary with spellcheck:
 Values: Text, see aspell dictionary's.
 
 Folder Path for your scripts "scriptKey" functionality: 
-    scriptPath=/usr/share/fenrir/scripts
+    scriptPath=/usr/share/fenrirscreenreader/scripts
 Values: Text, Existing path on file system.
 
 Override commands or create new ones without changing the Fenrir defaults:
-    commandPath=/usr/share/fenrir/commands
+    commandPath=/usr/share/fenrirscreenreader/commands
 Values: Text, Existing path on file system.
 Subfolders in commandPath are:
 
@@ -1489,9 +1489,9 @@ Values: on=''True'', off=''False''
 # Customization
 
 ## Scripting
-Scripts can be in any language, bash, python, sh or others. Place your scripts in the directory /usr/share/fenrir/scripts/ (the path is configurable in settings.conf).
+Scripts can be in any language, bash, python, sh or others. Place your scripts in the directory /usr/share/fenrirscreenreader/scripts/ (the path is configurable in settings.conf).
 The script key is the applications key. Usually this key can be found on the keyboard located just left of the right most control key.
-When you name a script, the key name appears in the script seperated by the sequence __-__. So, for example, if you have a python weather script you want assigned to the script key plus the letter w you would name the script /usr/share/fenrir/scripts/weather__-__key_w.py
+When you name a script, the key name appears in the script seperated by the sequence __-__. So, for example, if you have a python weather script you want assigned to the script key plus the letter w you would name the script /usr/share/fenrirscreenreader/scripts/weather__-__key_w.py
 Then, to access the script, simply press the script key and the letter w.
 Scripts must be executable. So, make sure to chmod 755 your script when you place it in the scripts directory.
 The script gets some parameters from fenrir when it is executed. So that information is available in your script then.
@@ -1505,14 +1505,14 @@ The script gets some parameters from fenrir when it is executed. So that informa
 ### Examples
 
 Script that just speaks the current username when pressing ScriptKey + H.\\
-File: ''/usr/share/fenrir/scripts/helloWorld__-__key_h.sh'':
+File: ''/usr/share/fenrirscreenreader/scripts/helloWorld__-__key_h.sh'':
     #!/bin/bash
     echo $1
 
 
 ## Commands
 
-You can place your own commands in "/usr/share/fenrir/commands" (path is configurable in settings.conf).
+You can place your own commands in "/usr/share/fenrirscreenreader/commands" (path is configurable in settings.conf).
 Commands are python files with a special scheme. You can assign them to a shortcut using the filename without an extension or place them in a hook trigger like OnInput or OnScreenChange. For further information see developer guide.
 Good Examples: ["date.py"](https///github.com/chrys87/fenrir/blob/master/src/fenrir/commands/commands/date.py) (announce the Date), ["shut_up.py"](https///github.com/chrys87/fenrir/blob/master/src/fenrir/commands/commands/shut_up.py) (interrupt output)
 the basic scheme for a command is as follows:
