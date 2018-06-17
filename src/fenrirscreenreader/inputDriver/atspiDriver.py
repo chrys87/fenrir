@@ -45,9 +45,8 @@ class driver(inputDriver):
     def initialize(self, environment):
         self.env = environment
         self.env['runtime']['inputManager'].setShortcutType('KEY')        
-        global _available
-     
-        self._initialized = _availableError
+        global _available  
+        self._initialized = _available
         if not self._initialized:
             global _availableError            
             currError = ' '
