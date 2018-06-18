@@ -30,7 +30,7 @@ class barrierManager():
         #if self.isBarrierChange():
         if isBarrier:
             if output:
-                self.env['runtime']['outputManager'].playSoundIcon(soundIcon='SpeechOn', interrupt=doInterrupt)  
+                self.env['runtime']['outputManager'].playSoundIcon(soundIcon='BarrierFound', interrupt=doInterrupt)  
         return sayLine               
               
     def hasBarrier(self, start, end):
