@@ -111,7 +111,7 @@ class driver(screenDriver):
             watchdog.register(vcsa[currScreen], select.POLLPRI | select.POLLERR)
             watchdog.register(tty, select.POLLPRI | select.POLLERR)
             while active.value == 1:
-                changes = watchdog.poll(2)
+                changes = watchdog.poll(1)
                 for change in changes:
                     fileno = change[0]
                     event = change[1]
