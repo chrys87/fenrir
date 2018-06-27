@@ -114,7 +114,8 @@ class driver(inputDriver):
                                         eventQueue.put({"Type":fenrirEventType.KeyboardInput,"Data":currMapEvent.copy()}) 
                                         eventFired = True
                         else:
-                            if not event.type in [0,4]:
+                            pass
+                            if event.type in [2,3]:
                                 foreward = True
                               
                         event = self.iDevices[fd].read_one()   
@@ -262,12 +263,13 @@ class driver(inputDriver):
             return False    
         ledState = self.getLedState(led)
         for i in self.iDevices:
-            # 17 LEDs
-            if 17 in self.iDevices[i].capabilities():            
-                if ledState == 1:
-                    self.iDevices[i].set_led(led , 0)
-                else:
-                    self.iDevices[i].set_led(led , 1)
+            if self.gDevices[i]:
+                # 17 LEDs
+                if 17 in self.iDevices[i].capabilities():            
+                    if ledState == 1:
+                        self.iDevices[i].set_led(led , 0)
+                    else:
+                        self.iDevices[i].set_led(led , 1)
     def grabAllDevices(self):
         if not self._initialized:
             return
