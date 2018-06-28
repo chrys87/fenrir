@@ -84,18 +84,16 @@ class driver(inputDriver):
             if validDevices:
                 eventQueue.put({"Type":fenrirEventType.PlugInputDevice,"Data":validDevices})
         return time.time()       
-    def plugInputDeviceWatchdogTimer(self, active):
-        time.sleep(10)
-        return None
          
     def inputWatchdog(self,active , eventQueue):
         try:
             while active.value:
-                r, w, x = select(self.iDevices, [], [], 0.7)
-                for fd in r:
-                    event = None
-                    foreward = False
-                    eventFired = False
+                r, w, x = select(self.iDevices, [], [], 0.8)
+                event = None                        
+                foundKeyInSequence = False
+                foreward = False
+                eventFired = False                
+                for fd in r:            
                     try:
                         event = self.iDevices[fd].read_one()                              
                     except:
@@ -103,24 +101,26 @@ class driver(inputDriver):
                     while(event):
                         self.env['input']['eventBuffer'].append( [self.iDevices[fd], self.uDevices[fd], event])
                         if event.type == evdev.events.EV_KEY:
+                            if not foundKeyInSequence:
+                                foundKeyInSequence = True
                             if event.code != 0:
                                 currMapEvent = self.mapEvent(event)
                                 if not currMapEvent:
-                                    foreward = True                            
+                                    continue                            
                                 if not isinstance(currMapEvent['EventName'], str):
-                                    foreward = True                            
-                                if not foreward or eventFired:
-                                    if currMapEvent['EventState'] in [0,1,2]:
-                                        eventQueue.put({"Type":fenrirEventType.KeyboardInput,"Data":currMapEvent.copy()}) 
-                                        eventFired = True
+                                    continue                           
+                                if currMapEvent['EventState'] in [0,1,2]:
+                                    eventQueue.put({"Type":fenrirEventType.KeyboardInput,"Data":currMapEvent.copy()}) 
+                                    eventFired = True
                         else:
-                            if not event.type in [0,4]:
+                            if event.type in [2,3]:
                                 foreward = True
                               
                         event = self.iDevices[fd].read_one()   
-                    if foreward and not eventFired:
-                        self.writeEventBuffer()
-                        self.clearEventBuffer() 
+                    if not foundKeyInSequence:
+                        if foreward and not eventFired:
+                            self.writeEventBuffer()
+                            self.clearEventBuffer() 
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut("INPUT WATCHDOG CRASH: "+str(e),debug.debugLevel.ERROR)  
 
@@ -262,12 +262,13 @@ class driver(inputDriver):
             return False    
         ledState = self.getLedState(led)
         for i in self.iDevices:
-            # 17 LEDs
-            if 17 in self.iDevices[i].capabilities():            
-                if ledState == 1:
-                    self.iDevices[i].set_led(led , 0)
-                else:
-                    self.iDevices[i].set_led(led , 1)
+            if self.gDevices[i]:
+                # 17 LEDs
+                if 17 in self.iDevices[i].capabilities():            
+                    if ledState == 1:
+                        self.iDevices[i].set_led(led , 0)
+                    else:
+                        self.iDevices[i].set_led(led , 1)
     def grabAllDevices(self):
         if not self._initialized:
             return

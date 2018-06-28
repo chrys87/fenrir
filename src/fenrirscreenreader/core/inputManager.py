@@ -12,7 +12,6 @@ fenrirPath = os.path.dirname(currentdir)
 
 class inputManager():
     def __init__(self):
-        self.setLedState = True
         self.shortcutType = 'KEY'
         self.executeDeviceGrab = False        
     def setShortcutType(self, shortcutType = 'KEY'):
@@ -63,8 +62,15 @@ class inputManager():
             self.grabAllDevices()
         self.executeDeviceGrab = False 
     def handleInputEvent(self, eventData):
+        #print(eventData)
         if not eventData:
             return
+        # a hang apears.. try to fix
+        if self.env['input']['eventBuffer'] == []:
+            if self.env['input']['currInput'] != []:
+                self.env['input']['currInput'] = []        
+                self.env['input']['shortcutRepeat'] = 1                
+        
         self.env['input']['prevInput'] = self.env['input']['currInput'].copy()
         if eventData['EventState'] == 0:
             if eventData['EventName'] in self.env['input']['currInput']:
@@ -73,7 +79,6 @@ class inputManager():
                     self.env['input']['currInput'] = sorted(self.env['input']['currInput'])
                 elif len(self.env['input']['currInput']) == 0:
                     self.env['input']['shortcutRepeat'] = 1 
-                self.setLedState = self.handleLedStates(eventData)                                             
                 self.lastInputTime = time.time()                                                   
         elif eventData['EventState'] == 1:
             if not eventData['EventName'] in self.env['input']['currInput']:
@@ -87,7 +92,7 @@ class inputManager():
                         self.env['input']['shortcutRepeat'] += 1
                     else:
                         self.env['input']['shortcutRepeat'] = 1
-                self.setLedState = self.handleLedStates(eventData)      
+                self.handleLedStates(eventData)      
                 self.lastInputTime = time.time()
         elif eventData['EventState'] == 2:
             self.lastInputTime  = time.time()     
@@ -101,35 +106,18 @@ class inputManager():
         self.env['runtime']['debug'].writeDebugOut("currInput " + str(self.env['input']['currInput'] ) ,debug.debugLevel.INFO)
         if self.noKeyPressed():
             self.env['input']['prevInput'] = []
-            self.setLedState = True
             self.handleDeviceGrab()
             
     def handleLedStates(self, mEvent):
-        if not self.setLedState:
-            return self.setLedState
-        if mEvent['EventName'] == 'KEY_NUMLOCK':
-            if mEvent['EventState'] == 1 and not self.env['input']['newNumLock'] == 1:
-                self.env['runtime']['inputDriver'].toggleLedState() 
-                return False
-            if mEvent['EventState'] == 0 and not self.env['input']['newNumLock'] == 0:
-                self.env['runtime']['inputDriver'].toggleLedState()                                                                        
-                return False
-        if mEvent['EventName'] == 'KEY_CAPSLOCK':   
-            if mEvent['EventState'] == 1 and not self.env['input']['newCapsLock'] == 1:
-                self.env['runtime']['inputDriver'].toggleLedState(1)              
-                return False
-            if mEvent['EventState'] == 0 and not self.env['input']['newCapsLock'] == 0:
-                self.env['runtime']['inputDriver'].toggleLedState(1)                                                                         
-                return False                                      
-        if mEvent['EventName'] == 'KEY_SCROLLLOCK':  
-            if mEvent['EventState'] == 1 and not self.env['input']['newScrollLock'] == 1:
-                self.env['runtime']['inputDriver'].toggleLedState(2)              
-                return False
-            if mEvent['EventState'] == 0 and not self.env['input']['newScrollLock'] == 0:
-                self.env['runtime']['inputDriver'].toggleLedState(2)                                                                       
-                return False
-        return self.setLedState
-
+        try:
+            if mEvent['EventName'] == 'KEY_NUMLOCK':
+                self.env['runtime']['inputDriver'].toggleLedState()             
+            elif mEvent['EventName'] == 'KEY_CAPSLOCK':   
+                self.env['runtime']['inputDriver'].toggleLedState(1)                           
+            elif mEvent['EventName'] == 'KEY_SCROLLLOCK':  
+                self.env['runtime']['inputDriver'].toggleLedState(2)               
+        except:
+            pass
     def grabAllDevices(self):
         if self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
             try:
