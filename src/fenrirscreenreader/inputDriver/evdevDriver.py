@@ -88,11 +88,12 @@ class driver(inputDriver):
     def inputWatchdog(self,active , eventQueue):
         try:
             while active.value:
-                r, w, x = select(self.iDevices, [], [], 0.7)
-                for fd in r:
-                    event = None
-                    foreward = False
-                    eventFired = False
+                r, w, x = select(self.iDevices, [], [], 0.8)
+                event = None                        
+                foundKeyInSequence = False
+                foreward = False
+                eventFired = False                
+                for fd in r:            
                     try:
                         event = self.iDevices[fd].read_one()                              
                     except:
@@ -100,25 +101,26 @@ class driver(inputDriver):
                     while(event):
                         self.env['input']['eventBuffer'].append( [self.iDevices[fd], self.uDevices[fd], event])
                         if event.type == evdev.events.EV_KEY:
+                            if not foundKeyInSequence:
+                                foundKeyInSequence = True
                             if event.code != 0:
                                 currMapEvent = self.mapEvent(event)
                                 if not currMapEvent:
-                                    foreward = True                            
+                                    continue                            
                                 if not isinstance(currMapEvent['EventName'], str):
-                                    foreward = True                            
-                                if not foreward or eventFired:
-                                    if currMapEvent['EventState'] in [0,1,2]:
-                                        eventQueue.put({"Type":fenrirEventType.KeyboardInput,"Data":currMapEvent.copy()}) 
-                                        eventFired = True
+                                    continue                           
+                                if currMapEvent['EventState'] in [0,1,2]:
+                                    eventQueue.put({"Type":fenrirEventType.KeyboardInput,"Data":currMapEvent.copy()}) 
+                                    eventFired = True
                         else:
-                            pass
                             if event.type in [2,3]:
                                 foreward = True
                               
                         event = self.iDevices[fd].read_one()   
-                    if foreward and not eventFired:
-                        self.writeEventBuffer()
-                        self.clearEventBuffer() 
+                    if not foundKeyInSequence:
+                        if foreward and not eventFired:
+                            self.writeEventBuffer()
+                            self.clearEventBuffer() 
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut("INPUT WATCHDOG CRASH: "+str(e),debug.debugLevel.ERROR)  
 
