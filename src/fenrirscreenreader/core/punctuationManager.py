@@ -57,7 +57,8 @@ class punctuationManager():
                     else:
                         resultText = resultText.replace(str(key),' ' +str(item) + ' ')
         return resultText
-    
+    def isPuctuation(self, char):
+        return char in self.env['punctuation']['PUNCTDICT']
     def proceedPunctuation(self, text, ignorePunctuation=False):
         resultText = text
         resultText = self.useCustomDict(resultText, self.env['punctuation']['CUSTOMDICT'])

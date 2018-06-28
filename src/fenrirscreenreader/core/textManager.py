@@ -31,6 +31,9 @@ class textManager():
             newText += text[lastPos:span[0]]
             numberOfChars = len(text[span[0]:span[1]])
             name = text[span[0]:span[1]][:2]
+            if not self.env['runtime']['punctuationManager'].isPuctuation(name[0]):  
+                lastPos = span[1]
+                continue          
             if name[0] == name[1]:
                 newText += ' ' + str(numberOfChars) + ' ' + self.env['runtime']['punctuationManager'].proceedPunctuation(name[0], True) + ' '
             else:
@@ -45,6 +48,9 @@ class textManager():
             result += text[lastPos:span[0]]
             numberOfChars = len(newText[span[0]:span[1]])
             name = newText[span[0]:span[1]][:2]
+            if not self.env['runtime']['punctuationManager'].isPuctuation(name[0]):  
+                lastPos = span[1]            
+                continue               
             if name[0] == name[1]:
                 result += ' ' + str(numberOfChars) + ' ' + self.env['runtime']['punctuationManager'].proceedPunctuation(name[0], True) + ' '
             else:
