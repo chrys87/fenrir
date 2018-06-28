@@ -67,7 +67,10 @@ class inputManager():
             return
         # a hang apears.. try to fix
         if self.env['input']['eventBuffer'] == []:
-            self.env['input']['currInput'] = []        
+            if self.env['input']['currInput'] != []:
+                self.env['input']['currInput'] = []        
+                self.env['input']['shortcutRepeat'] = 1                
+        
         self.env['input']['prevInput'] = self.env['input']['currInput'].copy()
         if eventData['EventState'] == 0:
             if eventData['EventName'] in self.env['input']['currInput']:
