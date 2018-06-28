@@ -66,7 +66,7 @@ class inputManager():
         if not eventData:
             return
         # a hang apears.. try to fix
-        if self.env['input']['eventBuffer'] != []:
+        if self.env['input']['eventBuffer'] == []:
             self.env['input']['currInput'] = []        
         self.env['input']['prevInput'] = self.env['input']['currInput'].copy()
         if eventData['EventState'] == 0:
