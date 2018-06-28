@@ -6,7 +6,7 @@ Known Bugs (Problems with the logic ):
 [W] setup.py fails on raspian
 
 Glitches (improve diff results):
-currently None
+[] full line is spoken on pressing 2 keys at same time 
 
 wishes:
 - whole status line in irssi is spoken insteed of just the changes (lilmike)
