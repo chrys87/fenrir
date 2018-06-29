@@ -9,6 +9,7 @@ import re, string
 
 class textManager():
     def __init__(self):
+        # https://regex101.com/
         self.regExSingle = re.compile(r'(([^\w\s])\2{5,})')
         self.regExDouble = re.compile(r'([^\w\s]{2,}){5,}')  
     def initialize(self, environment):
