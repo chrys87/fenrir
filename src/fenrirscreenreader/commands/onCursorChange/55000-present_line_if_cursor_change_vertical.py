@@ -47,7 +47,7 @@ class command():
                     doInterrupt = False    
             # barrier
             sayLine = currLine        
-            if self.env['runtime']['settingsManager'].getSettingAsBool('focus', 'barrier'):
+            if self.env['runtime']['settingsManager'].getSettingAsBool('barrier','enabled'):
                 sayLine = self.env['runtime']['barrierManager'].handleLineBarrier(sayLine, self.env['screen']['newCursor']['x'])
             # output
             self.env['runtime']['outputManager'].presentText(sayLine, interrupt=doInterrupt, flush=False)

@@ -80,7 +80,12 @@ settingsData = {
 'focus':{
   'cursor': True,
   'highlight': False,
-  'barrier': True,
+
+},
+'barrier':{
+  'enabled': True,
+  'leftBarriers': '│,└,┌,─',
+  'rightBarriers': '│,┘,┐,─',
 },
 'review':{
   'lineBreak': True,

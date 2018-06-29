@@ -40,6 +40,10 @@ Imporove attribute handling
   - [X] Soundicon on barrier detection
   - [] Barrier detection in hilight tracking
   - [] valid barriers by window edges
+  - [] make barrirs configurable
+  - [] enter barrier mode detection
+  - [] leave barrier mode detection
+  - [] soundicon barrier start/end
 
 Improved Say all
   [] speech callbacks
