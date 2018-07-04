@@ -33,27 +33,69 @@ class barrierManager():
                 self.env['runtime']['outputManager'].playSoundIcon(soundIcon='BarrierFound', interrupt=doInterrupt)  
         return sayLine               
               
-    def hasBarrier(self, start, end):
+    def hasBorder(self, text, xCursor, yCursor, validBorder):
         # check for corners here
+        lastLineNo = len(text) - 1
+        if yCursor <= 0:
+            if not (text[0][xCursor] in validBorder):
+                return False    
+            if len(text) > 1:
+                if not (text[1][xCursor] in validBorder):            
+                    return False    
+            if len(text) > 2:
+                if not (text[2][xCursor] in validBorder):            
+                    return False                      
+        elif yCursor >= lastLineNo:
+            if not (text[lastLineNo][xCursor] in validBorder):
+                return False    
+            if len(text) > 1:
+                if not (text[lastLineNo - 1][xCursor] in validBorder):            
+                    return False    
+            if len(text) > 2:
+                if not (text[lastLineNo - 2][xCursor] in validBorder):            
+                    return False          
+        else:
+            if not (text[yCursor][xCursor] in validBorder):
+                return False    
+            if not (text[yCursor - 1][xCursor] in validBorder):            
+                return False    
+            if not (text[yCursor + 1][xCursor] in validBorder):            
+                return False           
         return True
-    def getBarrierText(self, line, xCursor):
-        offset = xCursor     
+    def getBarrierText(self, text, xCursor, yCursor):
+        line = text[yCursor]
+        if not self.env['runtime']['settingsManager'].getSettingAsBool('barrier', 'enabled'):
+            return False, line             
+        offset = xCursor   
+
+        leftBarriers = self.env['runtime']['settingsManager'].getSetting('barrier', 'barrier')
+        rightBarriers = self.env['runtime']['settingsManager'].getSetting('barrier', 'grabDevices')        
         # is the cursor at the begin or end of an entry:   
         #print(line[:offset + 1].count('│'),line[offset:].count('│'))
-        if line[:offset + 1].count('│') > line[offset:].count('│'):
-            offset = xCursor - 1
-            
-        start = line[:offset + 1].rfind('│') + 1
-        end = line[offset + 1:].find('│')
+        # start
+        for b in leftBarriers: 
+            if line[:offset + 1].count(b) > line[offset:].count(b):
+                offset = xCursor - 1
+                
+            start = line[:offset + 1].rfind(b) + 1
+            if start != -1:
+                if not self.hasBorder(text, xCursor, yCursor):
+                    start = -1                
+                break
+        if start == -1:
+            return False, line                
+        # end
+        for b in rightBarriers:                 
+            end = line[offset + 1:].find(b)
+            if end != -1:
+                if not self.hasBorder(text, xCursor, yCursor):
+                    end = -1
+                break
+        if end == -1:
+            return False, line                            
         if start == end:
             return False, line
-        if start == -1:
-            return False, line
-        if end == -1:
-            return False, line
-        else:
-            end +=  offset + 1
-        if not self.hasBarrier(start, end):
-            return False, line
+        end +=  offset + 1
+
         return True, line[start:end]
 
