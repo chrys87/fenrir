@@ -87,28 +87,27 @@ class barrierManager():
         for b in leftBarriers: 
             if line[:offset + 1].count(b) > line[offset:].count(b):
                 offset = xCursor - 1
-            start = line[:offset + 1].rfind(b)
+            start = line[:offset].rfind(b)
             if start != -1:
                 if not self.hasBorder(text, xCursor, yCursor, leftBarriers, start):
                     start = -1  
                 else:
-                    start += 1              
+                    start += 1  
                 break
         if start == -1:
             return False, line                
         # end
         for b in rightBarriers:                 
-            end = line[start + 1:].find(b)
+            end = line[start:].find(b)
             if end != -1:
-                end = start + end
-                if not self.hasBorder(text, xCursor, yCursor,rightBarriers, end + 1):
+                end = start + end  
+                if not self.hasBorder(text, xCursor, yCursor,rightBarriers, end):
                     end = -1
                 break
         if end == -1:
             return False, line                            
         if start == end:
             return False, line
-        end +=  offset + 1
 
         return True, line[start:end]
 
