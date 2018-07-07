@@ -48,7 +48,9 @@ class command():
             # barrier
             sayLine = currLine        
             if self.env['runtime']['settingsManager'].getSettingAsBool('barrier','enabled'):
-                sayLine = self.env['runtime']['barrierManager'].handleLineBarrier(sayLine, self.env['screen']['newCursor']['x'])
+                isBarrier, barrierLine = self.env['runtime']['barrierManager'].handleLineBarrier(self.env['screen']['newContentText'].split('\n'), self.env['screen']['newCursor']['x'],self.env['screen']['newCursor']['y'])
+                if isBarrier:
+                    sayLine = barrierLine
             # output
             self.env['runtime']['outputManager'].presentText(sayLine, interrupt=doInterrupt, flush=False)
             self.lastIdent = currIdent
