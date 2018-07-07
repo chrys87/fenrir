@@ -84,8 +84,8 @@ settingsData = {
 },
 'barrier':{
   'enabled': True,
-  'leftBarriers': '│,└,┌,─',
-  'rightBarriers': '│,┘,┐,─',
+  'leftBarriers': '│└┌─',
+  'rightBarriers': '│┘┐─',
 },
 'review':{
   'lineBreak': True,
