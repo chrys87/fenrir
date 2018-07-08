@@ -9,10 +9,10 @@ genericFrequencyCommand=play -q -v fenrirVolume -n -c1 synth fenrirDuration sine
 
 [speech]
 enabled=True
-driver=speechdDriver
-#driver=genericDriver
+#driver=speechdDriver
+driver=genericDriver
 serverPath=
-rate=0.95
+rate=0.80
 pitch=0.5
 # Pitch for capital letters
 capitalPitch=0.9
@@ -133,7 +133,7 @@ commandPath=
 attributeFormatString=Background fenrirBGColor,Foreground fenrirFGColor,fenrirUnderline,fenrirBold,fenrirBlink, Font fenrirFont,Fontsize fenrirFontSize
 autoPresentIndent=False
 # play a sound when attributes are changeing
-hasAttributes=True
+hasAttributes=False
 # shell for PTY emulatiun (empty = default shell)
 shell=
 
