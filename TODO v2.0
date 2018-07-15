@@ -34,13 +34,6 @@ Imporove attribute handling
   [] configurable (by char, by word, none) (Easy for contribution)
     https://github.com/jwilk/vcsapeek/blob/master/linuxvt.py
     
-[W] Barrier Mode
-  - [X] Initial barrier mode
-  - [X] add command to toggle barrier mode
-  - [X] Soundicon on barrier detection
-  - [] Barrier detection in hilight tracking
-  - [] valid barriers by window edges
-
 Improved Say all
   [] speech callbacks
   [] speech process by word
