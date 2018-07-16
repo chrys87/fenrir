@@ -133,6 +133,7 @@ class screenManager():
 
         typing = False
         diffList = []     
+        # fix start
         oldScreenText = self.env['screen']['oldContentText']
         newScreenText = self.env['screen']['newContentText']                
         
@@ -145,6 +146,8 @@ class screenManager():
         else:
             self.env['screen']['newDelta'] = ''.join(x[2:] for x in diffList if x[0] == '+')             
         self.env['screen']['newNegativeDelta'] = ''.join(x[2:] for x in diffList if x[0] == '-')           
+        # fix end
+        
         '''        
         if (oldScreenText != newScreenText):
             if newScreenText != '' and oldScreenText == '':
