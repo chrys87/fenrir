@@ -20,7 +20,7 @@ class command():
         if not self.env['runtime']['settingsManager'].getSettingAsBool('barrier','enabled'):
             return
 
-        self.env['runtime']['barrierManager'].handleLineBarrier(self.env['screen']['newContentText'].split('\n'), self.env['screen']['newCursor']['x'],self.env['screen']['newCursor']['y'])
+        self.env['runtime']['barrierManager'].handleLineBarrier(self.env['screen']['newContentText'], self.env['screen']['newCursor']['x'],self.env['screen']['newCursor']['y'])
 
     def setCallback(self, callback):
         pass
