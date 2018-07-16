@@ -204,15 +204,15 @@ class driver(screenDriver):
             if self.charmap.get(b) is None:
                 self.charmap[b] = chr(u)
 
-    def autoDecodeVCSA(self, allData, rows, cols):
-        allText = ''
-        allAttrib = []
+    def autoDecodeVCSA(self, screenData, rows, cols):
+        screenText = []
+        screenAttrib = []
         i = 0
         for y in range(rows):
             lineText = ''
             lineAttrib = []
             for x in range(cols):
-                data = allData[i: i + 2]
+                data = screenData[i: i + 2]
                 i += 2            
                 if data == b' \x07':
                     #attr = 7
@@ -268,11 +268,9 @@ class driver(screenDriver):
                 'default', # fontsize
                 'default'] # fontfamily
                 lineAttrib.append(charAttrib)
-            allText += lineText
-            if y + 1 < rows:
-                allText += '\n'
-            allAttrib.append(lineAttrib)
-        return str(allText), allAttrib
+            screenText.append(lineText)
+            screenAttrib.append(lineAttrib)
+        return screenText, screenAttrib
       
     def getCurrApplication(self):
         apps = []

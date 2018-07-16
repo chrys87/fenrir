@@ -247,10 +247,7 @@ class attributeManager():
         if len(self.currAttributes) == 0:
             return result,  currCursor        
         text = self.env['runtime']['screenManager'].getScreenText()
-        textLines = text.split('\n')
 
-        if len(textLines) != len(self.currAttributes):
-            return result,  currCursor
         for line in range(len(self.prevAttributes)):
             if self.prevAttributes[line] != self.currAttributes[line]:
                 for column in range(len(self.prevAttributes[line])):
@@ -259,7 +256,7 @@ class attributeManager():
                     if self.isUsefulForTracking(line, column, self.currAttributes, self.prevAttributes):
                         if not currCursor:
                             currCursor = {'x': column, 'y': line}
-                        result += textLines[line][column]
+                        result += text[line][column]
                 result += ' '
         return result, currCursor
     def isUsefulForTracking(self, line, column, currAttributes, prevAttributes, attribute=1 , mode = 'zaxe'):

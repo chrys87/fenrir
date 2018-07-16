@@ -63,7 +63,7 @@ class command():
             return
             
         # get the word (just for speedup only look at current line
-        newContent = self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']]
+        newContent = self.env['screen']['newContentText'][self.env['screen']['newCursor']['y']]
         x, y, currWord, endOfScreen, lineBreak = word_utils.getCurrentWord(self.env['screen']['newCursor']['x'], 0, newContent)                  
         # was this a typed word?
         if self.env['runtime']['screenManager'].isDelta():

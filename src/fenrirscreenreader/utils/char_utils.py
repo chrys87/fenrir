@@ -9,9 +9,9 @@ from fenrirscreenreader.core import debug
 def getPrevChar(currX,currY, currText):
     lineBreak = False       
     endOfScreen = False
-    if currText == '':
+    if currText == []:
         return -1, -1, '', endOfScreen, lineBreak
-    wrappedLines = currText.split('\n')         
+    wrappedLines = currText        
     x = currX
     y = currY  
     if x - 1 < 0:
@@ -30,17 +30,17 @@ def getPrevChar(currX,currY, currText):
     return x, y, currChar, endOfScreen, lineBreak
 
 def getCurrentChar(currX,currY, currText):
-    if currText == '':
+    if currText == []:
         return -1, -1, ''
-    wrappedLines = currText.split('\n')         
+    wrappedLines = currText     
     currChar = wrappedLines[currY][currX]
     return currX, currY, currChar
 
 def getUpChar(currX,currY, currText):
     endOfScreen = False
-    if currText == '':
+    if currText == []:
         return -1, -1, '', endOfScreen
-    wrappedLines = currText.split('\n')   
+    wrappedLines = currText
     currY -= 1
     if currY < 0:
         currY = 0 
@@ -53,9 +53,9 @@ def getUpChar(currX,currY, currText):
 
 def getDownChar(currX,currY, currText):
     endOfScreen = False
-    if currText == '':
+    if currText == []:
         return -1, -1, '', endOfScreen
-    wrappedLines = currText.split('\n')   
+    wrappedLines = currText
     currY += 1
     if currY >= len(wrappedLines):
         currY = len(wrappedLines) -1
@@ -68,9 +68,9 @@ def getDownChar(currX,currY, currText):
 
 def getLastCharInLine(currY, currText):
     endOfScreen = False    
-    if currText == '':
+    if currText == []:
         return -1, -1, ''
-    wrappedLines = currText.split('\n')         
+    wrappedLines = currText
     currX = len(wrappedLines[currY].rstrip())-1
     if currX < 0:
         currX = 0
@@ -80,9 +80,9 @@ def getLastCharInLine(currY, currText):
 def getNextChar(currX,currY, currText):
     lineBreak = False        
     endOfScreen = False    
-    if currText == '':
+    if currText == []:
         return -1, -1, '', endOfScreen, lineBreak
-    wrappedLines = currText.split('\n')         
+    wrappedLines = currText
     x = currX
     y = currY
     if x + 1 == len(wrappedLines[y]):

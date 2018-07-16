@@ -36,7 +36,7 @@ class command():
             return            
         
         # get the word            
-        newContent = self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']]
+        newContent = self.env['screen']['newContentText'][self.env['screen']['newCursor']['y']]
         x, y, currWord, endOfScreen, lineBreak = \
           word_utils.getCurrentWord(self.env['screen']['newCursor']['x'], 0, newContent)                          
         

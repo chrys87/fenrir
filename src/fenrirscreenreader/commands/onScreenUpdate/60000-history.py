@@ -35,8 +35,8 @@ class command():
             if not (self.env['runtime']['byteManager'].getLastByteKey() in [b'^[[A',b'^[[B']):
                 return 
                 
-        prevLine = self.env['screen']['oldContentText'].split('\n')[self.env['screen']['newCursor']['y']]
-        currLine = self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']]            
+        prevLine = self.env['screen']['oldContentText'][self.env['screen']['newCursor']['y']]
+        currLine = self.env['screen']['newContentText'][self.env['screen']['newCursor']['y']]            
         if prevLine == currLine:
             if self.env['screen']['newDelta'] != '':
                 return         

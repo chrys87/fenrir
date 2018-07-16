@@ -44,7 +44,7 @@ class command():
         cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
             
         # get the word
-        newContent = self.env['screen']['newContentText'].split('\n')[cursorPos['y']]
+        newContent = self.env['screen']['newContentText'][cursorPos['y']]
         x, y, currWord, endOfScreen, lineBreak = word_utils.getCurrentWord(cursorPos['x'], 0, newContent)                  
 
         if not currWord.isspace():

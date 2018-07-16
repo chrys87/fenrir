@@ -10,14 +10,12 @@ import string
 def getCurrentWord(currX,currY, currText):
     lineBreak = False    
     endOfScreen = False
-    if currText == '':
+    if currText == []:
         return -1, -1, '', endOfScreen, lineBreak
-    if currText.strip( string.whitespace) == '':
-        return currX, currY, '', endOfScreen, lineBreak        
     x = currX
     y = currY
     currWord = ''    
-    wrappedLines = currText.split('\n')
+    wrappedLines = currText
     currLine = wrappedLines[y]
     Found = False
     while(not Found):
@@ -52,14 +50,12 @@ def getCurrentWord(currX,currY, currText):
 def getPrevWord(currX,currY, currText):
     lineBreak = False        
     endOfScreen = False
-    if currText == '':
-        return -1, -1, '', endOfScreen, lineBreak
-    if currText.strip( string.whitespace) == '':
-        return currX, currY, '', endOfScreen, lineBreak               
+    if currText == []:
+        return -1, -1, '', endOfScreen, lineBreak        
     x, y, currWord, endOfScreen, lineBreakCurrWord = getCurrentWord(currX,currY,currText)
     if endOfScreen:
         return x, y, currWord, endOfScreen, lineBreak
-    wrappedLines = currText.split('\n')
+    wrappedLines = currText
     currLine = wrappedLines[y]
     if x - 1 < 0:
         if y - 1 < 0:
@@ -81,14 +77,12 @@ def getPrevWord(currX,currY, currText):
 def getNextWord(currX,currY, currText):
     lineBreak = False    
     endOfScreen = False
-    if currText == '':
-        return -1, -1, '', endOfScreen, lineBreak
-    if currText.strip( string.whitespace) == '':
-        return currX, currY, '', endOfScreen, lineBreak        
+    if currText == []:
+        return -1, -1, '', endOfScreen, lineBreak  
     x = currX
     y = currY
     currWord = ''    
-    wrappedLines = currText.split('\n')
+    wrappedLines = currText
     currLine = wrappedLines[y]
     Found = False
     while(not Found):

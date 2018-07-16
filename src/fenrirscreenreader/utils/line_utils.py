@@ -9,9 +9,9 @@ from collections import Counter
 
 def getPrevLine(currX,currY, currText):
     endOfScreen = False
-    if currText == '':
+    if currText == []:
         return -1, -1, '', endOfScreen
-    wrappedLines = currText.split('\n')         
+    wrappedLines = currText   
     x = currX
     y = currY 
     if y - 1 >= 0:
@@ -25,9 +25,9 @@ def getPrevLine(currX,currY, currText):
     return x, y, currLine, endOfScreen
 
 def getCurrentLine(currX,currY, currText):
-    if currText == '':
+    if currText == []:
         return -1, -1, ''
-    wrappedLines = currText.split('\n')         
+    wrappedLines = currText
     x = currX
     y = currY
     x = 0
@@ -36,9 +36,9 @@ def getCurrentLine(currX,currY, currText):
 
 def getNextLine(currX,currY, currText):
     endOfScreen = False
-    if currText == '':
+    if currText == []:
         return -1, -1, '', endOfScreen
-    wrappedLines = currText.split('\n')         
+    wrappedLines = currText
     x = currX
     y = currY
     if y + 1 < len(wrappedLines):

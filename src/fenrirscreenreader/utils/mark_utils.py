@@ -9,10 +9,8 @@ from fenrirscreenreader.core import debug
 def getTextBetweenMarks(firstMark, secondMark, inText):
     if inText == None:
         return ''
-    if not isinstance(inText, list):
-        inText = inText.split('\n')
-    if len(inText) < 1:
-        return ''        
+    if inText == []:
+        return ''      
     if firstMark == None:
         return ''
     if secondMark == None:
@@ -47,6 +45,8 @@ def getTextBetweenMarks(firstMark, secondMark, inText):
 def getTextBeforeMark(mark, inText):
     if inText == None:
         return ''
+    if inText == []:
+        return ''        
     if mark == None:
         return ''
     return getTextBetweenMarks({'x':0,'y':0}, mark, inText)
@@ -54,7 +54,8 @@ def getTextBeforeMark(mark, inText):
 def getTextAfterMark(mark, inText):
     if inText == None:
         return ''
+    if inText == []:
+        return ''
     if mark == None:
         return ''
-    inText = inText.split('\n')
     return getTextBetweenMarks(mark, {'x':len(inText[0])-1,'y':len(inText)-1}, inText)    

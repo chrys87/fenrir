@@ -170,7 +170,7 @@ class outputManager():
         panned = True
         panSize = self.getHorizontalPanSize()
         offset, text = self.getActiveOffsetAndText()
-        currline = text.split('\n')[offset['y']]
+        currline = text[offset['y']]
         newOffsetStart = (int(offset['x']  / panSize) + offsetChange) * panSize
         if newOffsetStart < 0:
             newOffsetStart = 0

@@ -58,7 +58,7 @@ class Terminal:
         self.screen.cursor.y = min(self.screen.cursor.y, self.screen.lines - 1)            
     def GetScreenContent(self):
         cursor = self.screen.cursor
-        self.text = '\n'.join(self.screen.display)
+        self.text = self.screen.display
         self.updateAttributes(self.attributes == None)
         self.screen.dirty.clear()            
         return {"cursor": (cursor.x, cursor.y),
