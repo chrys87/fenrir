@@ -6,8 +6,8 @@ from shutil import copyfile
 from setuptools import find_packages
 from setuptools import setup
 
-fenrirVersion = '1.9'
-packageVersion = 'post2'
+fenrirVersion = '1.9.2'
+packageVersion = 'post1'
 
 # handle flags for package manager like yaourt and pacaur.
 forceSettings = False
