@@ -192,7 +192,7 @@ class driver(screenDriver):
                         "Data":screen_utils.createScreenEventData(terminal.GetScreenContent())
                     })
         except Exception as e:  # Process died?
-            print(e)
+            self.env['runtime']['debug'].writeDebugOut('Process died' + str(e),debug.debugLevel.ERROR)
             active.value = False
         finally:
             os.kill(p_pid, signal.SIGTERM)
