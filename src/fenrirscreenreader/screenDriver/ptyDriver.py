@@ -143,12 +143,14 @@ class driver(screenDriver):
     def handleSigwinch(self, *args):
         os.write(self.signalPipe[1], b'w')        
     def terminalEmulation(self,active , eventQueue):
+
         try:
             old_attr = termios.tcgetattr(sys.stdin)    
             tty.setraw(0)
             lines, columns = self.getTerminalSize(0)
             if self.command == '':
                 self.command = screen_utils.getShell()
+            self.env['runtime']['debug'].writeDebugOut('Process starting.. ' + self.command,debug.debugLevel.INFO)                    
             terminal, p_pid, self.p_out = self.openTerminal(columns, lines, self.command)
             lines, columns = self.resizeTerminal(self.p_out)
             terminal.resize(lines, columns)            
