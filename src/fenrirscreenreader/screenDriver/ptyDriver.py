@@ -30,7 +30,7 @@ class Terminal:
             lines = self.screen.dirty
         else:
             lines = range(self.screen.lines)
-            self.attributes = [[list(attribute[1:]) + [False, 'default', 'default'] for attribute in line] for line in buffer.values()]            
+            self.attributes = [[list(attribute[1:]) + [False, 'default', 'default'] for attribute in line.values()] for line in buffer.values()]            
             
         for y in lines:
             try:
