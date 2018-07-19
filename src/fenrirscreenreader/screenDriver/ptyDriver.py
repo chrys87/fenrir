@@ -4,7 +4,7 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-import os, struct, sys, pty, tty, termios, shlex, signal, select, pyte, time, fcntl ,getpass
+import os, struct, sys, pty, tty, termios, shlex, signal, select, pyte, time, fcntl ,getpass,traceback
 from fenrirscreenreader.core import debug
 from fenrirscreenreader.core.eventData import fenrirEventType
 from fenrirscreenreader.core.screenDriver import screenDriver
@@ -193,6 +193,9 @@ class driver(screenDriver):
                     })
         except Exception as e:  # Process died?
             self.env['runtime']['debug'].writeDebugOut('Process died' + str(e),debug.debugLevel.ERROR)
+            self.env['runtime']['debug'].writeDebugOut(str(traceback.format_exc()),debug.debugLevel.ERROR)            
+            
+            
             active.value = False
         finally:
             os.kill(p_pid, signal.SIGTERM)
