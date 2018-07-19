@@ -194,8 +194,6 @@ class driver(screenDriver):
         except Exception as e:  # Process died?
             self.env['runtime']['debug'].writeDebugOut('Process died' + str(e),debug.debugLevel.ERROR)
             self.env['runtime']['debug'].writeDebugOut(str(traceback.format_exc()),debug.debugLevel.ERROR)            
-            
-            
             active.value = False
         finally:
             os.kill(p_pid, signal.SIGTERM)
