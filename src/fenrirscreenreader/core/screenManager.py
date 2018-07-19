@@ -169,7 +169,7 @@ class screenManager():
                 else:
                     # cleanup scrollbars in windows to not produce wrong output
                     if ('│' in newScreenText) and ('│' in oldScreenText):
-                        for c in ['▒','↑']:
+                        for c in ['▒','↑','↓']:
                             newScreenText = newScreenText.replace(c,'')
                             oldScreenText = oldScreenText.replace(c,'')                   
                     diff = self.differ.compare(oldScreenText.split('\n'),\
