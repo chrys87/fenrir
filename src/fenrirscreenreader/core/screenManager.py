@@ -159,13 +159,19 @@ class screenManager():
                     #newScreenText = re.sub(' +',' ',newScreenText)
                     diff = self.differ.compare(oldScreenText, newScreenText) 
                     diffList = list(diff)
-                    typing = True                    
+                    typing = True
                     tempNewDelta = ''.join(x[2:] for x in diffList if x[0] == '+')
                     if tempNewDelta.strip() != '':
                         if tempNewDelta != ''.join(newScreenText[self.env['screen']['oldCursor']['x']:self.env['screen']['newCursor']['x']].rstrip()):
-                            diffList = ['+ ' + self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']] +'\n']
-                            typing = False
+                            if not '│' not in tempNewDelta:
+                                diffList = ['+ ' + self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']] +'\n']
+                                typing = False
                 else:
+                    # cleanup scrollbars in windows to not produce wrong output
+                    if ('│' in newScreenText) and ('│' in oldScreenText):
+                        for c in ['▒','↑']:
+                            newScreenText = newScreenText.replace(c,'')
+                            oldScreenText = oldScreenText.replace(c,'')                   
                     diff = self.differ.compare(oldScreenText.split('\n'),\
                       newScreenText.split('\n'))                    
                     diffList = list(diff)
