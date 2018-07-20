@@ -44,7 +44,7 @@ destDir = '/usr/share/sounds/fenrirscreenreader/template'
 data_files.append((destDir, files))
 files = glob.glob('tools/*') 
 data_files.append(('/usr/share/fenrirscreenreader/tools', files))
-data_files.append(('/usr/share/man/man1', ['docu/fenrir.1']))
+data_files.append(('/usr/share/man/man1', ['docs/fenrir.1']))
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
@@ -55,7 +55,7 @@ setup(
     # Version number:
     version=fenrirVersion + '.' + packageVersion,
     # description
-    description="A TTY Screen Reader for Linux.",
+    description="A CLI Screen Reader",
     long_description=read('README.md'),
     keywords=['screenreader', 'a11y', 'accessibility', 'terminal', 'TTY', 'console'],        
     license="License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
