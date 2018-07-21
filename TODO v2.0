@@ -1,0 +1,85 @@
+ToDo list for Fenrir Version 2.0 
+Things needing little knowledge are marked with "(Easy for contribution)". so just start with those :).
+[] = ToDo
+[W] = WIP
+[X] = Done
+[S] = Stopped
+
+Cleanups:
+  [] Migrate *Data.py to classes and use getter/setter (Easy for contribution)
+    [] commandsData.py
+    [] eventData.py  
+    [] generalData.py
+    [] inputData.py
+    [] outputData.py
+    [] punctuationData.py
+    [] runtimeData.py
+    [w] screenData.py
+    [] settingsData -> defaultSettings.py
+    [] Unify Key Forewarding and Sticky mode for keyboard and bytecode inputDrivers.
+    [] replace lines by a list insteed of and \n seperated string. (currently we need to split to often) (Easy for contribution)
+General (Easy for contribution)
+  [w] make fenrir runnable without root permissions
+  [] make fenrir runable without settingsfile. fallback to defaults
+  [] Detect progressbars and just present percent
+     |===============            |100%
+     [=================>          ] 100%
+     ########################           100%
+Imporove attribute handling
+  [] beep on review by word (once for multiple, capital wins) (Easy for contribution)
+  [] configurable (by char, by word, none) (Easy for contribution)
+    https://github.com/jwilk/vcsapeek/blob/master/linuxvt.py
+    
+Improved Say all
+  [] speech callbacks
+  [] speech process by word
+  [] all the text of all pages
+  [] command to stop and place review cursor at this position
+  [] command to slow down speech on keypress
+  [] place say all at clipboard buffer
+
+Table review mode
+  [] toggle table mode/ select headline
+  [] next line
+  [] prev line
+  [] current line
+  [] next cell
+  [] prev cell
+  [] current cell
+  [] select field separator
+
+Braille Support:
+  [] brailleFocusMode:
+    [] manual = no automatic toggle command used
+    [] last = follow last used cursor
+  [] print cursor in review
+  [] print cursor in textmode
+  [] word wrapping (if word does not fit print it at next page)
+  https://docs.python.org/2/library/textwrap.html#textwrap.TextWrapper
+  drop_whitespace = False
+  replace_whitespace = False
+  w.fill(i).split('\n')
+  [] command toggle used cursor (in manual brailleFocusMode)  
+  [] capture input from braile
+  [] make routing keys assignable by keyboard
+  [] make brailleTable configurable
+  [] pkg-config --variable=tablesdir liblouis
+    returns on Arch:/usr/share/liblouis/tables
+    http://mielke.cc/brltty/doc/Manual-BrlAPI/English/BrlAPI.html
+    https://git.gnome.org/browse/orca/tree/src/orca/braille.py
+    https://wiki.gnome.org/Attic/LSR/ScratchPad/Braille/BrlAPI 
+    https://github.com/google/brailleback/blob/master/third_party/brltty/Bindings/Python/brlapi.pyx
+
+[] ATK input driver (don't grab on graphical interface)
+  https://git.linux-a11y.org/AIT/pyatspi2/src/master/examples/keypress.py
+
+Driver (speech):
+[S] talkey driver ( verry unresponsive for espeak in linux)
+[S] emacspeak driver (breaks for a whole screen)
+  https://pypi.python.org/pypi/ptyprocess#downloads 
+[] Dectalk SpeechDriver (Easy for contribution, device needed - i dont own one)
+  https://github.com/tvraman/emacspeak/blob/master/servers/obsolete/python/dectalk.py
+[] MacOS speech Driver
+Settings:
+  [] write settings (Easy for contribution)
+  [] menue for settings configuration (Easy for contribution)

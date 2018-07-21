@@ -1,0 +1,71 @@
+Cleanups:
+  [X] re.sub(' +,' ',text) -> text.lstrip()? check this?
+- inheritation for drivers
+  [X] Speech (All)
+  [X] Braille (All)
+  [X] Sound (All)
+  [X] Input (All)
+  [X] Screen (All)
+- generic list or see Tutorial mode list (convert clipboard management) (Easy for contribution) - core.memoryManager
+  [X] next item
+  [X] prev item
+  [X] curr item
+  [X] first item
+  [X] last item  
+General:
+  [X] make it runable using pypy3
+  [X] play sound on plugging device
+  [X] interrupt speech while entering an ignored screen
+  [X] read ignorescreens from an file to be able to halt fenrir from outside
+- commands
+  [X] place last spoken to clipboard (Easy for contribution)
+- Improvend Headline Seperator and Multible Char Support
+  [X]read "13 #" insteed of ###################  
+- autospeak indentation changes (useful for python programming)  
+Braille Support:
+Driver:
+[X] evdev InputDriver
+  [X] grab/ ungrab devices on ignored screens
+  Driver (screen, input):
+[X] PTY Screen driver (to use gnome-terminal and other terminal emulators)
+  [X] emulation
+  [X] basic reading
+  [X] detect colum/ lines
+  [X] resize on colum / line change
+  [X] make shell command configurable (or detect it)
+  [X] stop emulation properly
+  [X] attributes
+  [X] unify hilgight tracking
+  [X] make pasteing text work again
+  [X] make double tap work again
+  [X] new event for byte shortcuts (escape sequences)
+  [X] create driver
+  [X] handle byte shortcuts
+  [X] detect shortcuts
+  [X] Load escape sequence shortcuts
+  [X] controll modes (vim like mode to not collide with application shortcuts)
+  [X] create keyboard layout  
+  [X]set flag that it is used in emulation
+  [X] write/ consume them (controll it at all)  
+  https://docs.python.org/3.2/library/pty.html
+  http://sqizit.bartletts.id.au/2011/02/14/pseudo-terminals-in-python/
+  https://blog.konpat.me/pythons-pseudo-terminal-pty-examples/
+
+[X] make generic speech driver default
+[X] pyttsx3 speech driver
+- get information already in watchdogs insteed of mainloop (use eventloop to transport)
+  [X] InputDriver
+Settings:
+Application Profiles:
+Translation:
+- German (thanks to schulle4u and Jenny) https://robbinaer.info/index.php?article101/fenrir
+Fixes:
+- no shell in generic speech Driver
+- imporove validity checks for speech driver
+- handle thread and process shutdown more gracefully
+- cleanup
+- a lot more fixes
+- better device detection
+[X] (not conflict with other applications) find . -iname "*.py" -exec sed 's/from \(core.*\) import/from fenrir-screenreader.\1 import/g' {} \;
+
+

@@ -1,0 +1,34 @@
+./play zone/wrapWord.py:21:    wrappedLines = currText.split('\n')
+./play zone/wrapWord.py:50:    wrappedLines = currText.split('\n')
+./play zone/wrapWord.py:93:    wrappedLines = currText.split('\n')
+./src/fenrirscreenreader/screenDriver/vcsaDriver.py:281:            apps = subprocess.Popen('ps -t tty' + currScreen + ' -o comm,tty,stat', shell=True, stdout=subprocess.PIPE).stdout.read().decode()[:-1].split('\n')
+./src/fenrirscreenreader/utils/line_utils.py:14:    wrappedLines = currText.split('\n')         
+./src/fenrirscreenreader/utils/line_utils.py:30:    wrappedLines = currText.split('\n')         
+./src/fenrirscreenreader/utils/line_utils.py:41:    wrappedLines = currText.split('\n')         
+./src/fenrirscreenreader/utils/char_utils.py:14:    wrappedLines = currText.split('\n')         
+./src/fenrirscreenreader/utils/char_utils.py:35:    wrappedLines = currText.split('\n')         
+./src/fenrirscreenreader/utils/char_utils.py:43:    wrappedLines = currText.split('\n')   
+./src/fenrirscreenreader/utils/char_utils.py:58:    wrappedLines = currText.split('\n')   
+./src/fenrirscreenreader/utils/char_utils.py:73:    wrappedLines = currText.split('\n')         
+./src/fenrirscreenreader/utils/char_utils.py:85:    wrappedLines = currText.split('\n')         
+./src/fenrirscreenreader/utils/mark_utils.py:13:        inText = inText.split('\n')
+./src/fenrirscreenreader/utils/mark_utils.py:59:    inText = inText.split('\n')
+./src/fenrirscreenreader/utils/word_utils.py:20:    wrappedLines = currText.split('\n')
+./src/fenrirscreenreader/utils/word_utils.py:62:    wrappedLines = currText.split('\n')
+./src/fenrirscreenreader/utils/word_utils.py:91:    wrappedLines = currText.split('\n')
+./src/fenrirscreenreader/core/outputManager.py:173:        currline = text.split('\n')[offset['y']]
+./src/fenrirscreenreader/core/attributeManager.py:250:        textLines = text.split('\n')
+./src/fenrirscreenreader/core/screenManager.py:166:                            diffList = ['+ ' + self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']] +'\n']
+./src/fenrirscreenreader/core/screenManager.py:169:                    diff = self.differ.compare(oldScreenText.split('\n'),\
+./src/fenrirscreenreader/core/screenManager.py:170:                      newScreenText.split('\n'))                    
+./src/fenrirscreenreader/core/screenManager.py:225:        windowList = text.split('\n')
+./src/fenrirscreenreader/commands/onCursorChange/62000-spell_check.py:66:        newContent = self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']]
+./src/fenrirscreenreader/commands/onCursorChange/60000-word_echo_type.py:39:        newContent = self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']]
+./src/fenrirscreenreader/commands/onCursorChange/50000-present_char_if_cursor_change_horizontal.py:41:                newContent = self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']]
+./src/fenrirscreenreader/commands/onCursorChange/61000-word_echo_navigation.py:37:        newContent = self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']]
+./src/fenrirscreenreader/commands/commands/spell_check.py:47:        newContent = self.env['screen']['newContentText'].split('\n')[cursorPos['y']]
+./src/fenrirscreenreader/commands/commands/remove_word_from_spell_check.py:45:        newContent = self.env['screen']['newContentText'].split('\n')[cursorPos['y']]
+./src/fenrirscreenreader/commands/commands/add_word_to_spell_check.py:43:        newContent = self.env['screen']['newContentText'].split('\n')[cursorPos['y']]
+./src/fenrirscreenreader/commands/onScreenUpdate/60000-history.py:38:        prevLine = self.env['screen']['oldContentText'].split('\n')[self.env['screen']['newCursor']['y']]
+./src/fenrirscreenreader/commands/onScreenUpdate/60000-history.py:39:        currLine = self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']]            
+./TODO v2.0:72:  w.fill(i).split('\n')

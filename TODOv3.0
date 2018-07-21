@@ -1,0 +1,22 @@
+ToDo list for Fenrir Version 3.0 
+Things needing little knowledge are marked with "(Easy for contribution)". so just start with those :).
+[] = ToDo
+[W] = WIP
+[X] = Done
+[S] = Stopped
+
+__TOD___
+Application Profiles (low priority):
+- reimplement process detection without subprocessing
+- fenrir is not able to detect the current application inside of screen.
+    ps -e  -H -o pid,pgrp,ppid,tty,cmd
+    http://stackoverflow.com/questions/24861351/how-to-detect-if-python-script-is-being-run-as-a-background-process/24862213
+    fd = os.open("/dev/tty5", os.O_RDONLY )
+    os.tcgetpgrp(fd)
+- add perApplicationTrigger trigger
+    per application commands
+    per application onScreenChange
+    per application onInput
+- per application shortcuts
+
+___DONE___
