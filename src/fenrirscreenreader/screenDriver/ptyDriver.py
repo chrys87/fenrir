@@ -4,7 +4,7 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-import os, struct, sys, pty, tty, termios, shlex, signal, select, pyte, time, fcntl ,getpass,traceback
+import os, struct, sys, pty, tty, termios, shlex, signal, select, pyte, time, fcntl ,getpass
 from fenrirscreenreader.core import debug
 from fenrirscreenreader.core.eventData import fenrirEventType
 from fenrirscreenreader.core.screenDriver import screenDriver
@@ -143,14 +143,12 @@ class driver(screenDriver):
     def handleSigwinch(self, *args):
         os.write(self.signalPipe[1], b'w')        
     def terminalEmulation(self,active , eventQueue):
-
         try:
             old_attr = termios.tcgetattr(sys.stdin)    
             tty.setraw(0)
             lines, columns = self.getTerminalSize(0)
             if self.command == '':
                 self.command = screen_utils.getShell()
-            self.env['runtime']['debug'].writeDebugOut('Process starting.. ' + self.command,debug.debugLevel.INFO)                    
             terminal, p_pid, self.p_out = self.openTerminal(columns, lines, self.command)
             lines, columns = self.resizeTerminal(self.p_out)
             terminal.resize(lines, columns)            
@@ -194,8 +192,7 @@ class driver(screenDriver):
                         "Data":screen_utils.createScreenEventData(terminal.GetScreenContent())
                     })
         except Exception as e:  # Process died?
-            self.env['runtime']['debug'].writeDebugOut('Process died' + str(e),debug.debugLevel.ERROR)
-            self.env['runtime']['debug'].writeDebugOut(str(traceback.format_exc()),debug.debugLevel.ERROR)            
+            print(e)
             active.value = False
         finally:
             os.kill(p_pid, signal.SIGTERM)

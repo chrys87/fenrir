@@ -57,10 +57,7 @@ class command():
             return            
         # deletion
         if self.env['runtime']['screenManager'].isNegativeDelta():
-            # quirk for pseudo windows like finch (uses _ insteed of space in input box)
-            if self.env['screen']['newNegativeDelta'] != '_':
-                return             
-            
+            return             
         # first place could not be the end of a word
         if self.env['screen']['newCursor']['x'] == 0:
             return

@@ -25,9 +25,7 @@ class command():
 
         # More than just a deletion happend
         if self.env['runtime']['screenManager'].isDelta(ignoreSpace=True):
-            # hack for finch and other pseudo window apps that use _ for input boxes
-            if not self.env['screen']['newDelta'] == '_':
-                return
+            return
 
         # no deletion
         if not self.env['runtime']['screenManager'].isNegativeDelta():
