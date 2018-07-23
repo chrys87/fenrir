@@ -14,7 +14,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return _('sends the following keypress to the terminal')        
+        return _('sends the following keypress to the terminal or application')        
     
     def run(self):
         self.env['input']['keyForeward'] = 3
