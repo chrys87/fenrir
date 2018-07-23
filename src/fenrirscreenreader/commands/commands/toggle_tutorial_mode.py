@@ -16,9 +16,9 @@ class command():
     def getDescription(self):
         self.env['runtime']['helpManager'].toggleTutorialMode()            
         #self.env['runtime']['outputManager'].presentText(,  interrupt=True)       
-        return _('You are leaving the tutorial mode. Press that shortcut again to enter the tutorial mode again.')
+        return _('Exiting tutorial mode. To enter tutorial mode again press Fenrir+f1')
     def run(self):
         self.env['runtime']['helpManager'].toggleTutorialMode()            
-        self.env['runtime']['outputManager'].presentText( _('you entered the tutorial mode. In that mode the commands are not executed. but you get a description of what the shortcut does. To leave the tutorial mode, press that shortcut again.'),  interrupt=True)                             
+        self.env['runtime']['outputManager'].presentText( _('Entering tutorial mode. In this mode commands are described but not executed. You can move through the list of commands with the up and down arrow keys. To Exit tutorial mode press Fenrir+f1.'),  interrupt=True)                             
     def setCallback(self, callback):
         pass
