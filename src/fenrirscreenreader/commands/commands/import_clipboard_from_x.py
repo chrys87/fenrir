@@ -18,7 +18,7 @@ class command():
     def shutdown(self):
         pass
     def getDescription(self):
-        return _("imports the current X clipboard to Fenrir's clipboard")
+        return _("imports the graphical clipboard to Fenrir's clipboard")
     def run(self):                       
        _thread.start_new_thread(self._threadRun , ())
 
