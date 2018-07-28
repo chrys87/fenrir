@@ -19,7 +19,7 @@ class command():
     
     def run(self):
         if not self.env['commandBuffer']['Marks']['1']:
-            self.env['runtime']['outputManager'].presentText(_("one or two marks needed"), interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_("One or two marks are needed"), interrupt=True)
             return
         if not self.env['commandBuffer']['Marks']['2']:
             self.env['runtime']['cursorManager'].setMark()

@@ -47,7 +47,7 @@ class command():
         currWord = currWord.strip(string.whitespace + '!"#$%&\()*+,-./:;<=§>?@[\\]^_{|}~')
         if not currWord.isspace():
             if self.spellChecker.is_removed(currWord):
-                self.env['runtime']['outputManager'].presentText(_('{0} is already removed from dict').format(currWord,), soundIcon='Cancel', interrupt=True)                
+                self.env['runtime']['outputManager'].presentText(_('{0} is not in the dictionary').format(currWord,), soundIcon='Cancel', interrupt=True)                
             else:
                 self.spellChecker.remove(currWord)             
                 self.env['runtime']['outputManager'].presentText(_('{0} removed').format(currWord,), soundIcon='Accept', interrupt=True)                    

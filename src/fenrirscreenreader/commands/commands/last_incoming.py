@@ -14,7 +14,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return _('displays the last received text')        
+        return _('Presents the text which was last received')        
     
     def run(self):
         self.env['runtime']['outputManager'].presentText(self.env['screen']['newDelta'], interrupt=True)

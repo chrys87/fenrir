@@ -16,7 +16,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return _('phonetically spells the current word and set review to it')        
+        return _('Phonetically spells the previous word and moves review to it')        
     
     def run(self):
         self.env['runtime']['cursorManager'].enterReviewModeCurrTextCursor()
