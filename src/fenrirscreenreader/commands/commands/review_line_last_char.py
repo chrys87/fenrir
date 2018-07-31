@@ -15,7 +15,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return _('Move the review cursor to the last character on the current line')
+        return _('Move Review to the last character on the line')
 
     def run(self):
         cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
