@@ -24,7 +24,7 @@ class command():
           char_utils.getLastCharInLine(self.env['screen']['newCursorReview']['y'], self.env['screen']['newContentText'])
         
         self.env['runtime']['outputManager'].presentText(lastChar ,interrupt=True, ignorePunctuation=True, announceCapital=True, flush=False)        
-        self.env['runtime']['outputManager'].presentText(_("last char in line"), interrupt=False)
+        self.env['runtime']['outputManager'].presentText(_("last character in line"), interrupt=False)
    
     def setCallback(self, callback):
         pass

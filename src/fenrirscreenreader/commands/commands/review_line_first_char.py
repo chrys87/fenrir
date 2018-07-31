@@ -30,7 +30,7 @@ class command():
           char_utils.getCurrentChar(self.env['screen']['newCursorReview']['x'], self.env['screen']['newCursorReview']['y'], self.env['screen']['newContentText'])       
 
         self.env['runtime']['outputManager'].presentText(currChar ,interrupt=True, ignorePunctuation=True, announceCapital=True, flush=False)        
-        self.env['runtime']['outputManager'].presentText(_("first char in line indent {0}").format(str(len(currLine) - len(currLine.lstrip()))), interrupt=False)
+        self.env['runtime']['outputManager'].presentText(_("first character in line indent {0}").format(str(len(currLine) - len(currLine.lstrip()))), interrupt=False)
    
     def setCallback(self, callback):
         pass
