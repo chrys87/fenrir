@@ -15,7 +15,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return _('moves review to the next line and presents it')        
+        return _('moves review to the next line ')        
     
     def run(self):
         self.env['screen']['oldCursorReview'] = self.env['screen']['newCursorReview']

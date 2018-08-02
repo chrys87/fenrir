@@ -15,7 +15,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return _('moves review to the previous line and presents it')        
+        return _('moves review to the previous line ')        
 
     def run(self):
         self.env['runtime']['cursorManager'].enterReviewModeCurrTextCursor()
