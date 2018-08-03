@@ -21,13 +21,13 @@ class command():
         return _('script: {0} fullpath: {1}').format(os.path.basename(self.scriptPath), self.scriptPath)
     def run(self):
         if not os.path.exists(self.scriptPath):
-            self.env['runtime']['outputManager'].presentText(_('scriptfile does not exist'), soundIcon='', interrupt=False)
+            self.env['runtime']['outputManager'].presentText(_('Script file not found'), soundIcon='', interrupt=False)
             return   
         if not os.path.isfile(self.scriptPath):
-            self.env['runtime']['outputManager'].presentText(_('scriptfile is not a file'), soundIcon='', interrupt=False)
+            self.env['runtime']['outputManager'].presentText(_('Script source is not a valid file'), soundIcon='', interrupt=False)
             return      
         if not os.access(self.scriptPath, os.X_OK):
-            self.env['runtime']['outputManager'].presentText(_('scriptfile is not executable'), soundIcon='', interrupt=False)
+            self.env['runtime']['outputManager'].presentText(_('Script file is not executable'), soundIcon='', interrupt=False)
             return                            
         _thread.start_new_thread(self._threadRun , ())
 

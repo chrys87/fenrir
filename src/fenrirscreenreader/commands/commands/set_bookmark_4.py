@@ -19,7 +19,7 @@ class command():
     
     def run(self):
         if not self.env['commandBuffer']['Marks']['1']:
-            self.env['runtime']['outputManager'].presentText(_("No Mark found"), interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_("No mark found"), interrupt=True)
             return
         currApp = self.env['runtime']['applicationManager'].getCurrentApplication()
         self.env['commandBuffer']['bookMarks'][self.ID][currApp] = {}
