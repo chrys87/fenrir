@@ -14,7 +14,7 @@ class command():
     def shutdown(self):
         pass
     def getDescription(self):
-        return _('presents the current line number for review cursor in review mode or the text cursor if not. Starts with 1')         
+        return _('Line number for cursor')         
     def run(self):
         cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
         self.env['runtime']['outputManager'].presentText(str(cursorPos['y'] + 1), interrupt=True)
