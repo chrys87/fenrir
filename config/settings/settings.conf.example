@@ -198,6 +198,20 @@ cursor=True
 #follow highlighted text changes
 highlight=False
 
+[remote]
+enable=True
+# connection type
+# unix = unix sockets
+method=unix
+# allow settings to overwrite
+enableSettingsRemote=True
+# permitted settings
+allowSettings=barrier#enabled
+# allow commands to be executed
+enableCommandRemote=True
+# permitted commands
+allowCommands=Say,defineWindow,resetSettings,resetWindow,toggleHighlight
+
 [barrier]
 enabled=True
 leftBarriers=│└┌─

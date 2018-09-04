@@ -80,7 +80,14 @@ settingsData = {
 'focus':{
   'cursor': True,
   'highlight': False,
-
+},
+'remote':{
+  'enable': True,
+  'method': 'unix',
+  'enableSettingsRemote': True,
+  'allowSettings': 'barrier#enabled',
+  'enableCommandRemote': True,
+  'allowCommands': 'Say,defineWindow,resetSettings,resetWindow,toggleHighlight',
 },
 'barrier':{
   'enabled': True,
