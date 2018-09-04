@@ -26,6 +26,7 @@ from fenrirscreenreader.core import tableManager
 from fenrirscreenreader.core import byteManager
 from fenrirscreenreader.core import attributeManager
 from fenrirscreenreader.core import barrierManager
+from fenrirscreenreader.core import remoteManager
 from fenrirscreenreader.core import environment 
 from fenrirscreenreader.core.settingsData import settingsData
 from fenrirscreenreader.core import debug
@@ -159,7 +160,7 @@ class settingsManager():
             self.env['runtime'][driverType].shutdown()
         except Exception as e:
             pass              
-        del self.env['runtime'][driverType]          
+        del self.env['runtime'][driverType]
 
     def setFenrirKeys(self, keys):
         keys = keys.upper()
@@ -180,7 +181,7 @@ class settingsManager():
             e = self.settingArgDict[section]
         except KeyError:
             self.settingArgDict[section] = {}
-        self.settingArgDict[section][option] = str(value)    
+        self.settingArgDict[section][option] = str(value)
     
     def parseSettingArgs(self, settingArgs):
         for optionElem in settingArgs.split(';'):
@@ -190,7 +191,7 @@ class settingsManager():
                 continue
             section = str(optionElem.split('#',1)[0]).lower()
             option = str(optionElem.split('#',1)[1].split('=',1)[0]).lower()
-            value = optionElem.split('#',1)[1].split('=',1)[1]           
+            value = optionElem.split('#',1)[1].split('=',1)[1]
             self.setOptionArgDict(section, option, value)
 
     def initFenrirConfig(self, cliArgs, fenrirManager = None, environment = environment.environment):
@@ -208,7 +209,7 @@ class settingsManager():
             if os.path.exists(settingsRoot + '/settings/settings.conf'):
                 settingsFile = settingsRoot + '/settings/settings.conf'
             else:
-                return None            
+                return None
         # get sound themes root
         if not os.path.exists(soundRoot):
             if os.path.exists(fenrirPath + '/../../config/sound/'):
@@ -234,12 +235,12 @@ class settingsManager():
             #self.setOptionArgDict('keyboard', 'keyboardLayout', 'pty')
             self.setSetting('keyboard', 'keyboardLayout', 'pty')
             self.setOptionArgDict('general', 'debugFile', '/tmp/fenrir-pty.log')
-        if cliArgs.emulated_evdev:            
-            self.setOptionArgDict('screen', 'driver', 'ptyDriver')  
-            self.setOptionArgDict('keyboard', 'driver', 'evdevDriver')  
+        if cliArgs.emulated_evdev:
+            self.setOptionArgDict('screen', 'driver', 'ptyDriver')
+            self.setOptionArgDict('keyboard', 'driver', 'evdevDriver')
 
         self.setFenrirKeys(self.getSetting('general','fenrirKeys'))
-        self.setScriptKeys(self.getSetting('general','scriptKeys'))      
+        self.setScriptKeys(self.getSetting('general','scriptKeys'))
 
         environment['runtime']['debug'] = debugManager.debugManager(self.env['runtime']['settingsManager'].getSetting('general','debugFile'))
         environment['runtime']['debug'].initialize(environment)
@@ -265,39 +266,43 @@ class settingsManager():
         else:
             environment['runtime']['punctuationManager'].loadDicts(self.getSetting('general','punctuationProfile'))
 
-        
+
         if fenrirManager:
             environment['runtime']['fenrirManager'] = fenrirManager
 
         environment['runtime']['memoryManager'] = memoryManager.memoryManager()
         environment['runtime']['memoryManager'].initialize(environment) 
-        
+
         environment['runtime']['attributeManager'] = attributeManager.attributeManager()
         environment['runtime']['attributeManager'].initialize(environment)         
-        
+
         environment['runtime']['eventManager'] = eventManager.eventManager()
         environment['runtime']['eventManager'].initialize(environment)            
-        
+
         environment['runtime']['processManager'] = processManager.processManager()  
         environment['runtime']['processManager'].initialize(environment)        
 
         environment['runtime']['outputManager'] = outputManager.outputManager()
-        environment['runtime']['outputManager'].initialize(environment) 
+        environment['runtime']['outputManager'].initialize(environment)
 
         environment['runtime']['byteManager'] = byteManager.byteManager()
-        environment['runtime']['byteManager'].initialize(environment) 
-        
+        environment['runtime']['byteManager'].initialize(environment)
+
         environment['runtime']['inputManager'] = inputManager.inputManager()
-        environment['runtime']['inputManager'].initialize(environment)      
+        environment['runtime']['inputManager'].initialize(environment)
 
         environment['runtime']['screenManager'] = screenManager.screenManager()
-        environment['runtime']['screenManager'].initialize(environment) 
+        environment['runtime']['screenManager'].initialize(environment)
 
-        environment['runtime']['commandManager'] = commandManager.commandManager()        
+        environment['runtime']['commandManager'] = commandManager.commandManager()
         environment['runtime']['commandManager'].initialize(environment)
-        
+
         environment['runtime']['helpManager'] = helpManager.helpManager()
-        environment['runtime']['helpManager'].initialize(environment)         
+        environment['runtime']['helpManager'].initialize(environment)
+
+        environment['runtime']['remoteManager'] = remoteManager.remoteManager()
+        environment['runtime']['remoteManager'].initialize(environment)
+
 
         if environment['runtime']['inputManager'].getShortcutType() == 'KEY':
             if not os.path.exists(self.getSetting('keyboard','keyboardLayout')):
