@@ -4,6 +4,29 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
+'''
+Remote controll:
+start delimiter = #<=>#
+category=settings,command
+setting actions:
+- set (Parameter = settings)
+- reset
+command actions:
+- exec (Parameter1 = Command, Parameter2 = Command Parameters)
+- cancel
+structure:
+#<=>#category##action[##Parameter1##Parameter2]
+
+settings:
+#<=>#settings##set##section#setting=value[,section#setting=value]
+#<=>#settings##set##speech#voice=de
+#<=>#settings##reset
+execute command:
+#<=>#command##exec#say##this is a test
+#<=>#command##cancel##say
+'''
+
+
 from fenrirscreenreader.core import debug
 from fenrirscreenreader.core.eventData import fenrirEventType
 import time
@@ -44,7 +67,7 @@ class remoteManager():
                 if len(r) > 0:
                     rawdata = client_sock.recv(8129)
                     try:
-                        data = rawdata.decode("utf-8").rstrip()
+                        data = rawdata.decode("utf-8").rstrip().lstrip()
                         if data.startswith('#<=>#'):
                             eventQueue.put({"Type":fenrirEventType.RemoteIncomming,
                                 "Data": data
@@ -74,7 +97,7 @@ class remoteManager():
                 if len(r) > 0:
                     rawdata = client_sock.recv(8129)
                     try:
-                        data = rawdata.decode("utf-8").rstrip()
+                        data = rawdata.decode("utf-8").rstrip().lstrip()
                         if data.startswith('#<=>#'):
                             eventQueue.put({"Type":fenrirEventType.RemoteIncomming,
                                 "Data": data
@@ -112,6 +135,7 @@ class remoteManager():
     def handleRemoteIncomming(self, eventData):
         if not eventData:
             return
+        # examples
         # settings:
         # #<=>#settings##set##section#setting=value[,section#setting=value]
         # #<=>#settings##set##speech#voice=de
