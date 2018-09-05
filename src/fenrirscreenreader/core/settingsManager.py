@@ -174,6 +174,8 @@ class settingsManager():
         for key in keyList:
             if not key in  self.env['input']['scriptKey']:
                 self.env['input']['scriptKey'].append(key)
+    def resetSettingArgDict(self):
+        self.settingArgDict = {}
     def setOptionArgDict(self, section, option, value):
         section = section.lower()
         option = option.lower()

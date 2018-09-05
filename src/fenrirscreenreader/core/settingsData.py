@@ -82,7 +82,7 @@ settingsData = {
   'highlight': False,
 },
 'remote':{
-  'enable': True,
+  'enabled': True,
   'method': 'unix',
   'enableSettingsRemote': True,
   'allowSettings': 'barrier#enabled',

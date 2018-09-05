@@ -144,7 +144,7 @@ cursor=True
 highlight=False
 
 [remote]
-enable=True
+enabled=True
 # connection type
 # unix = unix sockets
 method=unix

@@ -29,7 +29,7 @@ class eventManager():
         #print('NET loop ' + str(time.time() - st))        
     def eventDispatcher(self, event):
         self.env['runtime']['debug'].writeDebugOut('eventManager:eventDispatcher:start: event: ' + str(event['Type']),debug.debugLevel.INFO)
-        
+
         if not event:
             return
         if not event['Type']:
@@ -79,9 +79,9 @@ class eventManager():
         except Empty:
             pass
     def getEventQueue(self):
-        return self._eventQueue        
+        return self._eventQueue
     def getRunning(self):
-        return self.running                        
+        return self.running
     def putToEventQueue(self,event, data):
         if not isinstance(event, fenrirEventType):
             return False
