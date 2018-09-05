@@ -5,6 +5,7 @@
 # By Chrys, Storm Dragon, and contributers.
 
 from fenrirscreenreader.core import debug
+from fenrirscreenreader.core.eventData import fenrirEventType
 
 class remoteManager():
     def __init__(self):
@@ -13,3 +14,8 @@ class remoteManager():
         self.env = environment  
     def shutdown(self):
         pass
+    def unixSocketWatchDog():
+        pass
+    def handleRemoteIncomming(self, eventData):
+        if not eventData:
+            return

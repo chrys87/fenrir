@@ -55,7 +55,9 @@ class eventManager():
         elif event['Type'] == fenrirEventType.ExecuteCommand:
             self.env['runtime']['fenrirManager'].handleExecuteCommand(event)
         elif event['Type'] == fenrirEventType.ByteInput:
-            self.env['runtime']['fenrirManager'].handleByteInput(event)            
+            self.env['runtime']['fenrirManager'].handleByteInput(event)
+        elif event['Type'] == fenrirEventType.RemoteIncomming:
+            self.env['runtime']['fenrirManager'].handleRemoteIncomming(event)
     def isMainEventLoopRunning(self):
         return self.running.value == 1
     def startMainEventLoop(self):

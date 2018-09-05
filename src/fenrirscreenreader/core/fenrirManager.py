@@ -105,6 +105,10 @@ class fenrirManager():
                 self.environment['runtime']['commandManager'].executeCommand( command, 'help')
                 return
         self.environment['runtime']['commandManager'].executeCommand( command, 'commands')            
+    def handleRemoteIncomming(self, event):
+        if not event['Data']:
+            return
+        self.environment['runtime']['remoteManager'].handleRemoteIncomming(event['Data'])        
     def handleScreenChange(self, event):   
         self.environment['runtime']['screenManager'].hanldeScreenChange(event['Data'])
         '''        
