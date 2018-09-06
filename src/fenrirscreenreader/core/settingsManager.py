@@ -256,7 +256,10 @@ class settingsManager():
             environment['runtime']['settingsManager'].loadSoundIcons(self.getSetting('sound','theme'))
 
         environment['runtime']['punctuationManager'] = punctuationManager.punctuationManager()
-        environment['runtime']['punctuationManager'].initialize(environment)  
+        environment['runtime']['punctuationManager'].initialize(environment) 
+
+        environment['runtime']['textManager'] = textManager.textManager()
+        environment['runtime']['textManager'].initialize(environment)
 
         if not os.path.exists(self.getSetting('general','punctuationProfile')):
             if os.path.exists(settingsRoot + 'punctuation/' + self.getSetting('general','punctuationProfile')):  
