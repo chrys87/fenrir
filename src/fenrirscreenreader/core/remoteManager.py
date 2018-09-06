@@ -39,8 +39,7 @@ class remoteManager():
         pass
     def initialize(self, environment):
         self.env = environment
-        self.env['runtime']['processManager'].addCustomEventThread(self.unixSocketWatchDog, multiprocess=True)
-        return
+
         if self.env['runtime']['settingsManager'].getSettingAsBool('remote', 'enabled'):
             if self.env['runtime']['settingsManager'].getSetting('remote', 'method') == 'unix':
                 self.env['runtime']['processManager'].addCustomEventThread(self.unixSocketWatchDog, multiprocess=True)
@@ -51,7 +50,7 @@ class remoteManager():
             self.sock.close()
             self.sock = None
     def unixSocketWatchDog(self, active, eventQueue):
-        # echo "#<=>#command##exec#say##this is a test" | socat - UNIX-CLIENT:/tmp/fenrir-deamon.sock
+        # echo "command say this is a test" | socat - UNIX-CLIENT:/tmp/fenrir-deamon.sock
         # socket daemon
         # /run/user/<uid>/fenrirscreenreader/daemon
         # socket pty
@@ -59,7 +58,7 @@ class remoteManager():
         socketpath = '/tmp/fenrir-deamon.sock'
         if os.path.exists(socketpath):
             os.remove(socketpath)
-        self.sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)            
+        self.sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
         self.sock.bind(socketpath)
         self.sock.listen(1)
         while active.value == 1:
@@ -84,7 +83,7 @@ class remoteManager():
             self.sock.close()
             self.sock = None
     def tcpWatchDog(self, active, eventQueue):
-        # echo "#<=>#command##exec#say##this is a test" | nc localhost 22447
+        # echo "command say this is a test" | nc localhost 22447
         # port should be configureable
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
