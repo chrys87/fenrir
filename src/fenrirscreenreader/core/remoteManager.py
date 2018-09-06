@@ -51,10 +51,15 @@ class remoteManager():
             self.sock = None
     def unixSocketWatchDog(self, active, eventQueue):
         # echo "#<=>#command##exec#say##this is a test" | socat - UNIX-CLIENT:/tmp/fenrir-deamon.sock
-        if os.path.exists("/tmp/fenrir-deamon.sock"):
-            os.remove("/tmp/fenrir-deamon.sock")
+        # socket daemon
+        # /run/user/<uid>/fenrirscreenreader/daemon
+        # socket pty
+        # /run/user/<uid>/fenrirscreenreader/ptyX
+        socketpath = '/tmp/fenrir-deamon.sock'
+        if os.path.exists(socketpath):
+            os.remove(socketpath)
         self.sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)            
-        self.sock.bind("/tmp/fenrir-deamon.sock")
+        self.sock.bind(socketpath)
         self.sock.listen(1)
         while active.value == 1:
             client_sock, client_addr = self.sock.accept()
@@ -80,6 +85,7 @@ class remoteManager():
             self.sock = None
     def tcpWatchDog(self, active, eventQueue):
         # echo "#<=>#command##exec#say##this is a test" | nc localhost 22447
+        # port should be configureable
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.host = '0.0.0.0'
