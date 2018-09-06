@@ -6,24 +6,22 @@
 
 '''
 Remote controll:
-start delimiter = #<=>#
-category=settings,command
-setting actions:
-- set (Parameter = settings)
+section<space>command<space>parameters
+sections:command,setting
+setting commands:
+- set section#setting=value[,section#setting=value]
 - reset
-command actions:
-- exec (Parameter1 = Command, Parameter2 = Command Parameters)
-- cancel
-structure:
-#<=>#category##action[##Parameter1##Parameter2]
-
+command commands:
+- say text to speech
+- interrupt
+examples
 settings:
-#<=>#settings##set##section#setting=value[,section#setting=value]
-#<=>#settings##set##speech#voice=de
-#<=>#settings##reset
-execute command:
-#<=>#command##exec#say##this is a test
-#<=>#command##cancel##say
+settings set section#setting=value[,section#setting=value]
+setting set speech#voice=de
+setting reset
+command:
+command say this is a test
+command interrupt
 '''
 
 
@@ -84,7 +82,6 @@ class remoteManager():
             self.sock = None
     def tcpWatchDog(self, active, eventQueue):
         # echo "command say this is a test" | nc localhost 22447
-        # port should be configureable
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.host = '0.0.0.0'
@@ -139,14 +136,6 @@ class remoteManager():
     def handleRemoteIncomming(self, eventData):
         if not eventData:
             return
-        # examples
-        # settings:
-        # settings set section#setting=value[,section#setting=value]
-        # setting set speech#voice=de
-        # setting reset
-        # execute command:
-        # command say this is a test
-        # command interrupt
         if eventData.startswith('setting '):
             settingsText = eventData[len('setting '):]
             self.handleSettingsChange(settingsText)
