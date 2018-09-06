@@ -39,7 +39,8 @@ class remoteManager():
         pass
     def initialize(self, environment):
         self.env = environment
-
+        self.env['runtime']['processManager'].addCustomEventThread(self.unixSocketWatchDog, multiprocess=True)
+        return
         if self.env['runtime']['settingsManager'].getSettingAsBool('remote', 'enabled'):
             if self.env['runtime']['settingsManager'].getSetting('remote', 'method') == 'unix':
                 self.env['runtime']['processManager'].addCustomEventThread(self.unixSocketWatchDog, multiprocess=True)
@@ -73,10 +74,9 @@ class remoteManager():
                     rawdata = client_sock.recv(8129)
                     try:
                         data = rawdata.decode("utf-8").rstrip().lstrip()
-                        if data.startswith('#<=>#'):
-                            eventQueue.put({"Type":fenrirEventType.RemoteIncomming,
-                                "Data": data
-                            })
+                        eventQueue.put({"Type":fenrirEventType.RemoteIncomming,
+                            "Data": data
+                        })
                     except:
                         pass
                 client_sock.close()
@@ -104,10 +104,9 @@ class remoteManager():
                     rawdata = client_sock.recv(8129)
                     try:
                         data = rawdata.decode("utf-8").rstrip().lstrip()
-                        if data.startswith('#<=>#'):
-                            eventQueue.put({"Type":fenrirEventType.RemoteIncomming,
-                                "Data": data
-                            })
+                        eventQueue.put({"Type":fenrirEventType.RemoteIncomming,
+                            "Data": data
+                        })
                     except:
                         pass
                 client_sock.close()
@@ -117,18 +116,18 @@ class remoteManager():
     def handleSettingsChange(self, settingsText):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('remote', 'enableSettingsRemote'):
             return
-        if settingsText.startswith('set##'):
-            parameterText = settingsText[len('set##'):]
+        if settingsText.startswith('set '):
+            parameterText = settingsText[len('set '):]
             self.setSettings(parameterText)
         if settingsText.startswith('reset'):
             self.resetSettings()
     def handleCommandExecution(self, commandText):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('remote', 'enableCommandRemote'):
             return
-        if commandText.startswith('exec#say##'):
-            parameterText = commandText[len('exec#say##'):]
+        if commandText.startswith('say '):
+            parameterText = commandText[len('say '):]
             self.execSay(parameterText)
-        if commandText.startswith('cancel##say'):
+        if commandText.startswith('interrupt'):
             self.execInterruptSpeech()
     def execSay(self, text):
         self.env['runtime']['outputManager'].speakText(text)
@@ -143,17 +142,15 @@ class remoteManager():
             return
         # examples
         # settings:
-        # #<=>#settings##set##section#setting=value[,section#setting=value]
-        # #<=>#settings##set##speech#voice=de
-        # #<=>#settings##reset
+        # settings set section#setting=value[,section#setting=value]
+        # setting set speech#voice=de
+        # setting reset
         # execute command:
-        # #<=>#command##exec#say##this is a test
-        # #<=>#command##cancel##say
-        if not eventData.startswith('#<=>#'):
-            return
-        if eventData.startswith('#<=>#settings##'):
-            settingsText = eventData[len('#<=>#settings##'):]
+        # command say this is a test
+        # command interrupt
+        if eventData.startswith('setting '):
+            settingsText = eventData[len('setting '):]
             self.handleSettingsChange(settingsText)
-        elif eventData.startswith('#<=>#command##'):
-            commandText = eventData[len('#<=>#command##'):]
+        elif eventData.startswith('command '):
+            commandText = eventData[len('command '):]
             self.handleCommandExecution(commandText)
