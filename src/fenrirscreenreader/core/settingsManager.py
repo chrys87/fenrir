@@ -80,7 +80,8 @@ class settingsManager():
         return True
 
     def setSetting(self, section, setting, value):
-        self.env['settings'].set(section, setting, value)
+        self.setOptionArgDict(section, setting, value)
+        #self.env['settings'].set(section, setting, value)
 
     def getSetting(self, section, setting):
         value = ''
