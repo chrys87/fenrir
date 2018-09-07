@@ -84,6 +84,8 @@ settingsData = {
 'remote':{
   'enabled': True,
   'method': 'unix',
+  'port': 22447,
+  'socketpath':'/tmp/',
   'enableSettingsRemote': True,
   'allowSettings': 'barrier#enabled',
   'enableCommandRemote': True,

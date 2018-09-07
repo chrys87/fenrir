@@ -57,21 +57,18 @@ class remoteManager():
             self.sock.close()
             self.sock = None
     def unixSocketWatchDog(self, active, eventQueue):
-        # echo "command say this is a test" | socat - UNIX-CLIENT:/tmp/fenrir-deamon.sock
-        # socket daemon
-        # /run/user/<uid>/fenrirscreenreader/daemon
-        # socket pty
-        # /run/user/<uid>/fenrirscreenreader/ptyX
+        # echo "command say this is a test" | socat - UNIX-CLIENT:/tmp/fenrirscreenreader-deamon.sock
+
         if self.env['runtime']['settingsManager'].getSetting('screen', 'driver') =='vcsaDriver':
-            socketpath = '/tmp/fenrirscreenreader-deamon.sock'
+            socketpath = self.env['runtime']['settingsManager'].getSettingAsInt('remote', 'socketpath') + 'fenrirscreenreader-deamon.sock'
         else:
-            socketpath = '/tmp/fenrirscreenreader-' + str(os.getpid()) + '.sock'
+            socketpath = self.env['runtime']['settingsManager'].getSettingAsInt('remote', 'socketpath') + 'fenrirscreenreader-' + str(os.getpid()) + '.sock'
         if os.path.exists(socketpath):
             os.remove(socketpath)
         self.sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
         self.sock.bind(socketpath)
         self.sock.listen(1)
-        if not self.env['runtime']['settingsManager'].getSetting('screen', 'driver') =='vcsaDriver':
+        if self.env['runtime']['settingsManager'].getSetting('screen', 'driver') =='vcsaDriver':
             os.chmod(socketpath, 0o222)
         while active.value == 1:
             client_sock, client_addr = self.sock.accept()
@@ -91,7 +88,7 @@ class remoteManager():
                     except:
                         pass
                 client_sock.close()
-        
+
         if os.path.exists(socketpath):
             os.remove(socketpath)
         if self.sock:
@@ -102,7 +99,7 @@ class remoteManager():
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.host = '127.0.0.1'
-        self.port = 22447
+        self.port = self.env['runtime']['settingsManager'].getSettingAsInt('remote', 'port')
         self.sock.bind((self.host, self.port))
         self.sock.listen(1)
         while active.value == 1:
