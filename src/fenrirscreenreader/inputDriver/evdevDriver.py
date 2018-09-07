@@ -106,16 +106,16 @@ class driver(inputDriver):
                             if event.code != 0:
                                 currMapEvent = self.mapEvent(event)
                                 if not currMapEvent:
-                                    continue                            
+                                    continue
                                 if not isinstance(currMapEvent['EventName'], str):
-                                    continue                           
+                                    continue
                                 if currMapEvent['EventState'] in [0,1,2]:
                                     eventQueue.put({"Type":fenrirEventType.KeyboardInput,"Data":currMapEvent.copy()}) 
                                     eventFired = True
                         else:
                             if event.type in [2,3]:
                                 foreward = True
-                              
+
                         event = self.iDevices[fd].read_one()   
                     if not foundKeyInSequence:
                         if foreward and not eventFired:
@@ -237,7 +237,14 @@ class driver(inputDriver):
             return None
         mEvent = inputData.inputEvent
         try:
+            # mute is a list = ['KEY_MIN_INTERESTING', 'KEY_MUTE']
             mEvent['EventName'] = evdev.ecodes.keys[event.code]
+            if isinstance(mEvent['EventName'], list):
+                if len(mEvent['EventName']) > 0:
+                    mEvent['EventName'] = mEvent['EventName'][0]
+                    if isinstance(mEvent['EventName'], list):
+                        if len(mEvent['EventName']) > 0:
+                            mEvent['EventName'] = mEvent['EventName'][0]
             mEvent['EventValue'] = event.code
             mEvent['EventSec'] = event.sec
             mEvent['EventUsec'] = event.usec                
