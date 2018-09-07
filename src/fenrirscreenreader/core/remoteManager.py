@@ -94,7 +94,7 @@ class remoteManager():
         # echo "command say this is a test" | nc localhost 22447
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.host = '0.0.0.0'
+        self.host = '127.0.0.1'
         self.port = 22447
         self.sock.bind((self.host, self.port))
         self.sock.listen(1)
