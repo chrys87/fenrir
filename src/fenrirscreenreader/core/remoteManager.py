@@ -154,14 +154,13 @@ class remoteManager():
             windowList = windowText.split(' ')
             if len(windowList) < 4:
                 return
-            print(windowList)
             start['x'] = int(windowList[0])
             start['y'] = int(windowList[1])
             end['x'] = int(windowList[2])
             end['y'] = int(windowList[3])
 
             self.env['runtime']['cursorManager'].setWindowForApplication(start, end)
-        except:
+        except Exception as e:
             pass
     def resetWindow(self):
         self.env['runtime']['cursorManager'].clearWindowForApplication()

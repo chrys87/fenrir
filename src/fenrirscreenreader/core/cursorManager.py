@@ -83,6 +83,10 @@ class cursorManager():
             pass
         return False
     def setWindowForApplication(self, start = None, end = None):
+        x1 = 0
+        x2 = 0
+        y1 = 0
+        y2 = 0
         if start == None:
             if not self.env['commandBuffer']['Marks']['1']:
                 return False
