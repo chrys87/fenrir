@@ -195,15 +195,7 @@ class screenManager():
         if fixIgnoreScreens != '':
             ignoreScreens.extend(fixIgnoreScreens.split(',')) 
         if self.env['runtime']['settingsManager'].getSettingAsBool('screen', 'autodetectSuspendingScreen'):
-            ignoreScreens.extend(self.env['screen']['autoIgnoreScreens'])        
-        try:
-            ignoreFileName = self.env['runtime']['settingsManager'].getSetting('screen', 'suspendingScreenFile')
-            if ignoreFileName != '':
-                if os.access(ignoreFileName, os.R_OK):
-                    with open(ignoreFileName) as fp:
-                        ignoreScreens.extend(fp.read().replace('\n','').split(','))
-        except:
-            pass
+            ignoreScreens.extend(self.env['screen']['autoIgnoreScreens'])
         self.env['runtime']['debug'].writeDebugOut('screenManager:isSuspendingScreen ignore:' + str(ignoreScreens) + ' current:'+ str(screen ), debug.debugLevel.INFO)         
         return (screen in ignoreScreens)
  
@@ -214,7 +206,7 @@ class screenManager():
     def isDelta(self, ignoreSpace=False):
         newDelta = self.env['screen']['newDelta']
         if ignoreSpace:
-            newDelta = newDelta.strip()                
+            newDelta = newDelta.strip()
         return newDelta != ''
     def isNegativeDelta(self):    
         return self.env['screen']['newNegativeDelta'] != ''

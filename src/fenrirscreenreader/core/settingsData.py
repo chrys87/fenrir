@@ -51,7 +51,6 @@ settingsData = {
     'encoding': 'auto',
     'screenUpdateDelay': 0.1,
     'suspendingScreen': '',
-    'suspendingScreenFile': '/tmp/fenrirSuspend',
     'autodetectSuspendingScreen': False,
 },
 'general':{
