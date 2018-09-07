@@ -91,6 +91,9 @@ class remoteManager():
                     except:
                         pass
                 client_sock.close()
+        
+        if os.path.exists(socketpath):
+            os.remove(socketpath)
         if self.sock:
             self.sock.close()
             self.sock = None
