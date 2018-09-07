@@ -71,7 +71,8 @@ class remoteManager():
         self.sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
         self.sock.bind(socketpath)
         self.sock.listen(1)
-        os.chmod(socketpath, 0o222)
+        if not self.env['runtime']['settingsManager'].getSetting('screen', 'driver') =='vcsaDriver':
+            os.chmod(socketpath, 0o222)
         while active.value == 1:
             client_sock, client_addr = self.sock.accept()
             if client_sock:
