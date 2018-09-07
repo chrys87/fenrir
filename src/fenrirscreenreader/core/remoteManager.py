@@ -62,7 +62,10 @@ class remoteManager():
         # /run/user/<uid>/fenrirscreenreader/daemon
         # socket pty
         # /run/user/<uid>/fenrirscreenreader/ptyX
-        socketpath = '/tmp/fenrir-deamon.sock'
+        if self.env['runtime']['settingsManager'].getSetting('screen', 'driver') =='vcsaDriver':
+            socketpath = '/tmp/fenrirscreenreader-deamon.sock'
+        else:
+            socketpath = '/tmp/fenrirscreenreader-' + str(os.getpid()) + '.sock'
         if os.path.exists(socketpath):
             os.remove(socketpath)
         self.sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
@@ -147,7 +150,7 @@ class remoteManager():
             self.defineWindow(parameterText)
         # reset window
         if upperCommandText.startswith(self.resetWindowConst):
-            self.resetWindow()            
+            self.resetWindow()
     def defineWindow(self, windowText):
         start = {}
         end = {}
