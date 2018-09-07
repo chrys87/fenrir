@@ -82,21 +82,36 @@ class cursorManager():
         except:
             pass
         return False
-    def setWindowForApplication(self):
-        if not self.env['commandBuffer']['Marks']['1']:
-            return False
-        if not self.env['commandBuffer']['Marks']['2']:
-            return False
+    def setWindowForApplication(self, start = None, end = None):
+        if start == None:
+            if not self.env['commandBuffer']['Marks']['1']:
+                return False
+            else:
+                x1 = self.env['commandBuffer']['Marks']['1']['x']
+                y1 = self.env['commandBuffer']['Marks']['1']['y']
+        else:
+            x1 = start['x']
+            y1 = start['y']
+        if end == None:            
+            if not self.env['commandBuffer']['Marks']['2']:
+                return False
+            else:
+                x1 = self.env['commandBuffer']['Marks']['2']['x']
+                y1 = self.env['commandBuffer']['Marks']['2']['y']    
+        else:
+            x1 = start['x']
+            y1 = start['y']        
+
         currApp = self.env['runtime']['applicationManager'].getCurrentApplication()
         self.env['commandBuffer']['windowArea'][currApp] = {}
         
-        if self.env['commandBuffer']['Marks']['1']['x'] * self.env['commandBuffer']['Marks']['1']['y'] <= \
-          self.env['commandBuffer']['Marks']['2']['x'] * self.env['commandBuffer']['Marks']['2']['y']:
-            self.env['commandBuffer']['windowArea'][currApp]['1'] = self.env['commandBuffer']['Marks']['1'].copy()
-            self.env['commandBuffer']['windowArea'][currApp]['2'] = self.env['commandBuffer']['Marks']['2'].copy()
+        if x1 * y1 <= \
+          x2 * y2:
+            self.env['commandBuffer']['windowArea'][currApp]['1'] = {'x':x1, 'y':y1}
+            self.env['commandBuffer']['windowArea'][currApp]['2'] = {'x':x2, 'y':y2}
         else:
-            self.env['commandBuffer']['windowArea'][currApp]['1'] = self.env['commandBuffer']['Marks']['2'].copy()
-            self.env['commandBuffer']['windowArea'][currApp]['2'] = self.env['commandBuffer']['Marks']['1'].copy()  
+            self.env['commandBuffer']['windowArea'][currApp]['1'] = {'x':x2, 'y':y2}
+            self.env['commandBuffer']['windowArea'][currApp]['2'] = {'x':x1, 'y':y1}
         return True   
     def clearWindowForApplication(self):
         currApp = self.env['runtime']['applicationManager'].getCurrentApplication()

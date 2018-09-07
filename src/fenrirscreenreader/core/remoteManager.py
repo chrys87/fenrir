@@ -34,7 +34,16 @@ import os, os.path
 
 class remoteManager():
     def __init__(self):
-        pass
+        # command controll
+        self.commandConst = 'COMMAND '
+        self.sayConst = 'SAY '
+        self.interruptConst = 'INTERRUPT'
+        self.defineWindowConst = 'WINDOW '
+        self.resetWindowConst = 'RESETWINDOW'
+        # setting controll
+        self.settingConst = 'SETTING '
+        self.setSettingConst = 'SET '
+        self.resetSettingConst = 'RESET'
     def initialize(self, environment):
         self.env = environment
 
@@ -112,22 +121,53 @@ class remoteManager():
     def handleSettingsChange(self, settingsText):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('remote', 'enableSettingsRemote'):
             return
-        if settingsText.startswith('set '):
-            parameterText = settingsText[len('set '):]
+        upperSettingsText = settingsText.upper()
+        # set setting
+        if upperSettingsText.startswith(self.setSettingConst):
+            parameterText = settingsText[len(self.setSettingConst):]
             self.setSettings(parameterText)
-        if settingsText.startswith('reset'):
+        # reset setting
+        if upperSettingsText.startswith(self.resetSettingConst):
             self.resetSettings()
     def handleCommandExecution(self, commandText):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('remote', 'enableCommandRemote'):
             return
-        if commandText.startswith('say '):
-            parameterText = commandText[len('say '):]
-            self.execSay(parameterText)
-        if commandText.startswith('interrupt'):
-            self.execInterruptSpeech()
-    def execSay(self, text):
+        upperCommandText = commandText.upper()
+        # say
+        if upperCommandText.startswith(self.sayConst):
+            parameterText = commandText[len(self.sayConst):]
+            self.say(parameterText)
+        # interrupt
+        if upperCommandText.startswith(self.interruptConst):
+            self.interruptSpeech()
+        # define window
+        if upperCommandText.startswith(self.defineWindowConst):
+            parameterText = commandText[len(self.defineWindowConst):]
+            self.defineWindow(parameterText)
+        # reset window
+        if upperCommandText.startswith(self.resetWindowConst):
+            self.resetWindow()            
+    def defineWindow(self, windowText):
+        start = {}
+        end = {}
+        try:
+            windowList = windowText.split(' ')
+            if len(windowList) < 4:
+                return
+            print(windowList)
+            start['x'] = int(windowList[0])
+            start['y'] = int(windowList[1])
+            end['x'] = int(windowList[2])
+            end['y'] = int(windowList[3])
+
+            self.env['runtime']['cursorManager'].setWindowForApplication(start, end)
+        except:
+            pass
+    def resetWindow(self):
+        self.env['runtime']['cursorManager'].clearWindowForApplication()
+    def say(self, text):
         self.env['runtime']['outputManager'].speakText(text)
-    def execInterruptSpeech(self):
+    def interruptSpeech(self):
         self.env['runtime']['outputManager'].interruptOutput()
     def resetSettings(self):
         self.env['runtime']['settingsManager'].resetSettingArgDict()
@@ -136,9 +176,10 @@ class remoteManager():
     def handleRemoteIncomming(self, eventData):
         if not eventData:
             return
-        if eventData.startswith('setting '):
-            settingsText = eventData[len('setting '):]
+        upperEventData = eventData.upper()
+        if upperEventData.startswith(self.settingConst):
+            settingsText = eventData[len(self.settingConst):]
             self.handleSettingsChange(settingsText)
-        elif eventData.startswith('command '):
-            commandText = eventData[len('command '):]
+        elif upperEventData.startswith(self.commandConst):
+            commandText = eventData[len(self.commandConst):]
             self.handleCommandExecution(commandText)
