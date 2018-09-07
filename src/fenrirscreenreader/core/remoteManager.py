@@ -48,9 +48,9 @@ class remoteManager():
         self.env = environment
 
         if self.env['runtime']['settingsManager'].getSettingAsBool('remote', 'enabled'):
-            if self.env['runtime']['settingsManager'].getSetting('remote', 'method') == 'unix':
+            if self.env['runtime']['settingsManager'].getSetting('remote', 'method').upper() == 'UNIX':
                 self.env['runtime']['processManager'].addCustomEventThread(self.unixSocketWatchDog, multiprocess=True)
-            elif self.env['runtime']['settingsManager'].getSetting('remote', 'method') == 'tcp':
+            elif self.env['runtime']['settingsManager'].getSetting('remote', 'method').upper() == 'TCP':
                 self.env['runtime']['processManager'].addCustomEventThread(self.tcpWatchDog, multiprocess=True)
     def shutdown(self):
         if self.sock:
@@ -126,6 +126,7 @@ class remoteManager():
     def handleSettingsChange(self, settingsText):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('remote', 'enableSettingsRemote'):
             return
+        
         upperSettingsText = settingsText.upper()
         # set setting
         if upperSettingsText.startswith(self.setSettingConst):
@@ -137,7 +138,14 @@ class remoteManager():
     def handleCommandExecution(self, commandText):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('remote', 'enableCommandRemote'):
             return
+        allowCommands = self.env['runtime']['settingsManager'].getSetting('remote', 'allowCommands').upper().split(',')
         upperCommandText = commandText.upper()
+        allowed = False
+        for a in allowCommands:
+            if upperCommandText.startswith(a):
+                allowed = True
+        if not allowed:
+            return
         # say
         if upperCommandText.startswith(self.sayConst):
             parameterText = commandText[len(self.sayConst):]
@@ -176,7 +184,9 @@ class remoteManager():
     def resetSettings(self):
         self.env['runtime']['settingsManager'].resetSettingArgDict()
     def setSettings(self, settingsArgs):
-        self.env['runtime']['settingsManager'].parseSettingArgs(settingsArgs)
+        allowSettings = self.env['runtime']['settingsManager'].getSetting('remote', 'allowSettings').upper().split(',')
+
+        self.env['runtime']['settingsManager'].parseSettingArgs(settingsArgs, allowSettings)
     def handleRemoteIncomming(self, eventData):
         if not eventData:
             return

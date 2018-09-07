@@ -186,12 +186,20 @@ class settingsManager():
             self.settingArgDict[section] = {}
         self.settingArgDict[section][option] = str(value)
     
-    def parseSettingArgs(self, settingArgs):
+    def parseSettingArgs(self, settingArgs, allowSettings):
         for optionElem in settingArgs.split(';'):
             if len(optionElem.split('#',1)) != 2:
                 continue
             if len(optionElem.split('#',1)[1].split('=',1)) != 2:
                 continue
+            allowed = False
+            if allowSettings:
+                for a in allowSettings:
+                    if a in optionElem:
+                        allowed = True
+                if not allowed:
+                    continue
+                
             section = str(optionElem.split('#',1)[0]).lower()
             option = str(optionElem.split('#',1)[1].split('=',1)[0]).lower()
             value = optionElem.split('#',1)[1].split('=',1)[1]

@@ -89,7 +89,7 @@ settingsData = {
   'enableSettingsRemote': True,
   'allowSettings': 'barrier#enabled',
   'enableCommandRemote': True,
-  'allowCommands': 'Say,defineWindow,resetSettings,resetWindow,toggleHighlight',
+  'allowCommands': 'say,interrupt,window,resetwindow',
 },
 'barrier':{
   'enabled': True,
