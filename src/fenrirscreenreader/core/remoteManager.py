@@ -30,7 +30,7 @@ from fenrirscreenreader.core.eventData import fenrirEventType
 import time
 import select
 import socket
-import os, os.path
+import os, os.path, sys, stat
 
 class remoteManager():
     def __init__(self):
@@ -68,6 +68,7 @@ class remoteManager():
         self.sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
         self.sock.bind(socketpath)
         self.sock.listen(1)
+        os.chmod(socketpath, 0o222)
         while active.value == 1:
             client_sock, client_addr = self.sock.accept()
             if client_sock:
