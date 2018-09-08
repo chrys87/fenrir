@@ -89,7 +89,7 @@ class settingsManager():
                     self.env['settings'].set(section, setting, value)
             #print('full',self.env['settings'])
 
-            configFile = open('/tmp/settings.conf', 'w')
+            configFile = open(settingConfigPath, 'w')
             self.env['settings'].write(configFile)
         except Exception as e:
             print(e)
