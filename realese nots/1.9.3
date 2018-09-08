@@ -2,13 +2,12 @@
 - add remote manager
 - remote manager: TCP connection
 - remote manager: UNIX Socket connection(default)
-- remote manager: set settings set a setting (-o syntax)
-- remote manager: reset settings
-- remote Manager: say command (say something)
-- remote manager: interrupt command (interrupt current speech)
-- remote manager: window command (to define window)
-- remote manager: resetwindow command (to reset window)
-- remote manager: settings filter (only allow things in list)
-- remote manager: command filter (only allow things in list)
+- remote manager: set settings set a setting (-o syntax) "setting set sound#enabled=False"
+- remote manager: reset settings "setting reset"
+- remote manager: save settings "setting save /path/settings.conf"
+- remote Manager: say command (say something) "command say this is a test"
+- remote manager: interrupt command (interrupt current speech) "command interrupt"
+- remote manager: window command (to define window) "command window startX startY endX endY"
+- remote manager: resetwindow command (to reset window) "command resetwindow"
 - settings: store settings more centralized
 - variouse speedups and bugfixes
