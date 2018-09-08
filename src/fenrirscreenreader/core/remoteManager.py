@@ -19,6 +19,7 @@ settings:
 settings set section#setting=value[,section#setting=value]
 setting set speech#voice=de
 setting reset
+setting save /path/settings.conf
 command:
 command say this is a test
 command interrupt
