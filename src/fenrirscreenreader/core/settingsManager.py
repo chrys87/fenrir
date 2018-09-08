@@ -78,7 +78,21 @@ class settingsManager():
         self.env['settings'] = ConfigParser()
         self.env['settings'].read(settingConfigPath)
         return True
+    def saveSettings(self, settingConfigPath):
+        # set opt dict here
+        # save file
+        try:
+            #print('file: ',settingConfigPath)
+            for section, settings in self.settingArgDict.items():
+                for setting, value in settings.items():
+                    #print(section, setting, value)
+                    self.env['settings'].set(section, setting, value)
+            #print('full',self.env['settings'])
 
+            configFile = open('/tmp/settings.conf', 'w')
+            self.env['settings'].write(configFile)
+        except Exception as e:
+            print(e)
     def setSetting(self, section, setting, value):
         self.setOptionArgDict(section, setting, value)
         #self.env['settings'].set(section, setting, value)
