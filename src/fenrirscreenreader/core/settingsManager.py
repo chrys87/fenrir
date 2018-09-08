@@ -92,7 +92,7 @@ class settingsManager():
             configFile = open(settingConfigPath, 'w')
             self.env['settings'].write(configFile)
         except Exception as e:
-            print(e)
+            self.env['runtime']['debug'].writeDebugOut('saveSettings: save settingsfile:' + settingConfigPath + 'failed. Error:' + str(e), debug.debugLevel.ERROR)
     def setSetting(self, section, setting, value):
         self.setOptionArgDict(section, setting, value)
         #self.env['settings'].set(section, setting, value)
