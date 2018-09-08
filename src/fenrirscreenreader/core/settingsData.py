@@ -86,9 +86,7 @@ settingsData = {
   'port': 22447,
   'socketpath':'/tmp/',
   'enableSettingsRemote': True,
-  'allowSettings': 'barrier#enabled',
   'enableCommandRemote': True,
-  'allowCommands': 'say,interrupt,window,resetwindow',
 },
 'barrier':{
   'enabled': True,

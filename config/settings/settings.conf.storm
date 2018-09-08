@@ -154,12 +154,8 @@ port=22447
 socketpath=/tmp/
 # allow settings to overwrite
 enableSettingsRemote=True
-# permitted settings
-allowSettings=barrier#enabled
 # allow commands to be executed
 enableCommandRemote=True
-# permitted commands
-allowCommands=say,interrupt,window,resetwindow
 
 [barrier]
 enabled=True

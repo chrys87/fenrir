@@ -87,10 +87,10 @@ class settingsManager():
         value = ''
         try:
             value = self.settingArgDict[section.lower()][setting.lower()]
-            return value            
+            return value
         except:
             pass
-        try:            
+        try:
             value = self.env['settings'].get(section, setting)
         except:
             value = str(self.settings[section][setting])
@@ -100,7 +100,7 @@ class settingsManager():
         value = 0
         try:
             value = int(self.settingArgDict[section.lower()][setting.lower()])
-            return value            
+            return value
         except Exception as e:
             pass
         try:
@@ -113,9 +113,9 @@ class settingsManager():
         value = 0.0
         try:
             value = float(self.settingArgDict[section.lower()][setting.lower()])
-            return value            
+            return value
         except Exception as e:
-            pass        
+            pass
         try:
             value = self.env['settings'].getfloat(section, setting)
         except:
@@ -160,7 +160,7 @@ class settingsManager():
         try:
             self.env['runtime'][driverType].shutdown()
         except Exception as e:
-            pass              
+            pass
         del self.env['runtime'][driverType]
 
     def setFenrirKeys(self, keys):
@@ -185,21 +185,14 @@ class settingsManager():
         except KeyError:
             self.settingArgDict[section] = {}
         self.settingArgDict[section][option] = str(value)
-    
-    def parseSettingArgs(self, settingArgs, allowSettings = None):
+
+    def parseSettingArgs(self, settingArgs):
         for optionElem in settingArgs.split(';'):
             if len(optionElem.split('#',1)) != 2:
                 continue
             if len(optionElem.split('#',1)[1].split('=',1)) != 2:
                 continue
-            allowed = False
-            if allowSettings:
-                for a in allowSettings:
-                    if a in optionElem:
-                        allowed = True
-                if not allowed:
-                    continue
-                
+
             section = str(optionElem.split('#',1)[0]).lower()
             option = str(optionElem.split('#',1)[1].split('=',1)[0]).lower()
             value = optionElem.split('#',1)[1].split('=',1)[1]
@@ -288,13 +281,13 @@ class settingsManager():
         environment['runtime']['memoryManager'].initialize(environment) 
 
         environment['runtime']['attributeManager'] = attributeManager.attributeManager()
-        environment['runtime']['attributeManager'].initialize(environment)         
+        environment['runtime']['attributeManager'].initialize(environment)
 
         environment['runtime']['eventManager'] = eventManager.eventManager()
-        environment['runtime']['eventManager'].initialize(environment)            
+        environment['runtime']['eventManager'].initialize(environment)
 
         environment['runtime']['processManager'] = processManager.processManager()  
-        environment['runtime']['processManager'].initialize(environment)        
+        environment['runtime']['processManager'].initialize(environment)
 
         environment['runtime']['outputManager'] = outputManager.outputManager()
         environment['runtime']['outputManager'].initialize(environment)
