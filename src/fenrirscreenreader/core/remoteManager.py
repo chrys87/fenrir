@@ -31,7 +31,7 @@ from fenrirscreenreader.core.eventData import fenrirEventType
 import time
 import select
 import socket
-import os, os.path, sys, stat
+import os, os.path
 
 class remoteManager():
     def __init__(self):

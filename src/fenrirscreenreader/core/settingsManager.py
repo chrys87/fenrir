@@ -5,6 +5,7 @@
 # By Chrys, Storm Dragon, and contributers.
 
 import os, inspect
+
 currentdir = os.path.dirname(os.path.realpath(os.path.abspath(inspect.getfile(inspect.currentframe()))))
 fenrirPath = os.path.dirname(currentdir)
 
@@ -91,6 +92,8 @@ class settingsManager():
 
             configFile = open(settingConfigPath, 'w')
             self.env['settings'].write(configFile)
+            configFile.close()
+            os.chmod(settingConfigPath, 0o666)
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('saveSettings: save settingsfile:' + settingConfigPath + 'failed. Error:' + str(e), debug.debugLevel.ERROR)
     def setSetting(self, section, setting, value):
