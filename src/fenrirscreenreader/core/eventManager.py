@@ -29,7 +29,7 @@ class eventManager():
         #print('NET loop ' + str(time.time() - st))        
     def eventDispatcher(self, event):
         self.env['runtime']['debug'].writeDebugOut('eventManager:eventDispatcher:start: event: ' + str(event['Type']),debug.debugLevel.INFO)
-        
+
         if not event:
             return
         if not event['Type']:
@@ -55,7 +55,9 @@ class eventManager():
         elif event['Type'] == fenrirEventType.ExecuteCommand:
             self.env['runtime']['fenrirManager'].handleExecuteCommand(event)
         elif event['Type'] == fenrirEventType.ByteInput:
-            self.env['runtime']['fenrirManager'].handleByteInput(event)            
+            self.env['runtime']['fenrirManager'].handleByteInput(event)
+        elif event['Type'] == fenrirEventType.RemoteIncomming:
+            self.env['runtime']['fenrirManager'].handleRemoteIncomming(event)
     def isMainEventLoopRunning(self):
         return self.running.value == 1
     def startMainEventLoop(self):
@@ -77,9 +79,9 @@ class eventManager():
         except Empty:
             pass
     def getEventQueue(self):
-        return self._eventQueue        
+        return self._eventQueue
     def getRunning(self):
-        return self.running                        
+        return self.running
     def putToEventQueue(self,event, data):
         if not isinstance(event, fenrirEventType):
             return False

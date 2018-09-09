@@ -93,10 +93,10 @@ class driver(inputDriver):
                 event = None                        
                 foundKeyInSequence = False
                 foreward = False
-                eventFired = False                
-                for fd in r:            
+                eventFired = False
+                for fd in r:
                     try:
-                        event = self.iDevices[fd].read_one()                              
+                        event = self.iDevices[fd].read_one()
                     except:
                         self.removeDevice(fd)
                     while(event):
@@ -108,8 +108,10 @@ class driver(inputDriver):
                             if event.code != 0:
                                 currMapEvent = self.mapEvent(event)
                                 if not currMapEvent:
+                                    event = self.iDevices[fd].read_one()
                                     continue
                                 if not isinstance(currMapEvent['EventName'], str):
+                                    event = self.iDevices[fd].read_one()
                                     continue
                                 if currMapEvent['EventState'] in [0,1,2]:
                                     eventQueue.put({"Type":fenrirEventType.KeyboardInput,"Data":currMapEvent.copy()}) 
@@ -118,7 +120,7 @@ class driver(inputDriver):
                             if event.type in [2,3]:
                                 foreward = True
 
-                        event = self.iDevices[fd].read_one()   
+                        event = self.iDevices[fd].read_one()
                     if not foundKeyInSequence:
                         if foreward and not eventFired:
                             self.writeEventBuffer()

@@ -35,17 +35,17 @@ class byteManager():
         if eventData == b'':
             return
 
-        convertedEscapeSequence = self.unifyEscapeSeq(eventData)            
+        convertedEscapeSequence = self.unifyEscapeSeq(eventData)
 
         if self.switchCtrlModeOnce > 0:
-            self.switchCtrlModeOnce -= 1       
-       
+            self.switchCtrlModeOnce -= 1
+
         isControlMode = False
         if self.controlMode and not self.switchCtrlModeOnce == 1 or\
           not self.controlMode:
             isControlMode = self.handleControlMode(eventData)
 
-        isCommand = False                
+        isCommand = False
         if self.controlMode and not self.switchCtrlModeOnce == 1 or\
           not self.controlMode and self.switchCtrlModeOnce == 1:
             if self.lastByteKey == convertedEscapeSequence:
@@ -53,16 +53,16 @@ class byteManager():
                     self.repeat += 1
             shortcutData = b''
             for i in range(self.repeat):
-                shortcutData = shortcutData + convertedEscapeSequence          
+                shortcutData = shortcutData + convertedEscapeSequence
             isCommand = self.detectByteCommand(shortcutData)
             # fall back to single stroke - do we want this?
             if not isCommand:
                 isCommand = self.detectByteCommand(convertedEscapeSequence) 
-                self.repeat = 1                    
+                self.repeat = 1
         if not (isCommand or isControlMode):
             self.env['runtime']['screenManager'].injectTextToScreen(eventData)
         if not isCommand:
-            self.repeat = 1                    
+            self.repeat = 1
         self.lastByteKey = convertedEscapeSequence
         self.lastInputTime = time.time()
     def getLastByteKey(self):

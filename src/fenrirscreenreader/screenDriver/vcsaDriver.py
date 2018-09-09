@@ -155,7 +155,8 @@ class driver(screenDriver):
                             "Data":self.createScreenEventData(currScreen,screenContent)
                         })
         except Exception as e:
-            self.env['runtime']['debug'].writeDebugOut('VCSA:updateWatchdog:' + str(e),debug.debugLevel.ERROR)         
+            self.env['runtime']['debug'].writeDebugOut('VCSA:updateWatchdog:' + str(e),debug.debugLevel.ERROR)
+            time.sleep(0.2)
             
 
     def createScreenEventData(self, screen, content):

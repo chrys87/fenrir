@@ -18,7 +18,8 @@ class fenrirEventType(Enum):
     ScreenChanged = 7
     HeartBeat = 8 # for time based scheduling
     ExecuteCommand = 9
-    ByteInput = 10    
+    ByteInput = 10
+    RemoteIncomming = 11
     def __int__(self):
         return self.value
     def __str__(self):

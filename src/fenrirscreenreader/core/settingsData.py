@@ -51,7 +51,6 @@ settingsData = {
     'encoding': 'auto',
     'screenUpdateDelay': 0.1,
     'suspendingScreen': '',
-    'suspendingScreenFile': '/tmp/fenrirSuspend',
     'autodetectSuspendingScreen': False,
 },
 'general':{
@@ -80,7 +79,14 @@ settingsData = {
 'focus':{
   'cursor': True,
   'highlight': False,
-
+},
+'remote':{
+  'enabled': True,
+  'method': 'unix',
+  'port': 22447,
+  'socketpath':'/tmp/',
+  'enableSettingsRemote': True,
+  'enableCommandRemote': True,
 },
 'barrier':{
   'enabled': True,
