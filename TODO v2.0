@@ -81,5 +81,4 @@ Driver (speech):
   https://github.com/tvraman/emacspeak/blob/master/servers/obsolete/python/dectalk.py
 [] MacOS speech Driver
 Settings:
-  [] write settings (Easy for contribution)
   [] menue for settings configuration (Easy for contribution)
