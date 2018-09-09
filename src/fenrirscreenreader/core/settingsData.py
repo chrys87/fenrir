@@ -82,7 +82,7 @@ settingsData = {
 },
 'remote':{
   'enabled': True,
-  'method': 'unix',
+  'driver': 'unixDriver',
   'port': 22447,
   'socketpath':'/tmp/',
   'enableSettingsRemote': True,

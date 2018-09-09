@@ -29,9 +29,6 @@ command interrupt
 from fenrirscreenreader.core import debug
 from fenrirscreenreader.core.eventData import fenrirEventType
 import time
-import select
-import socket
-import os, os.path
 
 class remoteManager():
     def __init__(self):
@@ -48,83 +45,11 @@ class remoteManager():
         self.resetSettingConst = 'RESET'
     def initialize(self, environment):
         self.env = environment
-
-        if self.env['runtime']['settingsManager'].getSettingAsBool('remote', 'enabled'):
-            if self.env['runtime']['settingsManager'].getSetting('remote', 'method').upper() == 'UNIX':
-                self.env['runtime']['processManager'].addCustomEventThread(self.unixSocketWatchDog, multiprocess=True)
-            elif self.env['runtime']['settingsManager'].getSetting('remote', 'method').upper() == 'TCP':
-                self.env['runtime']['processManager'].addCustomEventThread(self.tcpWatchDog, multiprocess=True)
+        self.env['runtime']['settingsManager'].loadDriver(\
+          self.env['runtime']['settingsManager'].getSetting('remote', 'driver'), 'remoteDriver')
     def shutdown(self):
-        if self.sock:
-            self.sock.close()
-            self.sock = None
-    def unixSocketWatchDog(self, active, eventQueue):
-        # echo "command say this is a test" | socat - UNIX-CLIENT:/tmp/fenrirscreenreader-deamon.sock
+        self.env['runtime']['settingsManager'].shutdownDriver('remoteDriver')
 
-        if self.env['runtime']['settingsManager'].getSetting('screen', 'driver') =='vcsaDriver':
-            socketpath = self.env['runtime']['settingsManager'].getSettingAsInt('remote', 'socketpath') + 'fenrirscreenreader-deamon.sock'
-        else:
-            socketpath = self.env['runtime']['settingsManager'].getSettingAsInt('remote', 'socketpath') + 'fenrirscreenreader-' + str(os.getpid()) + '.sock'
-        if os.path.exists(socketpath):
-            os.remove(socketpath)
-        self.sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-        self.sock.bind(socketpath)
-        self.sock.listen(1)
-        if self.env['runtime']['settingsManager'].getSetting('screen', 'driver') =='vcsaDriver':
-            os.chmod(socketpath, 0o222)
-        while active.value == 1:
-            client_sock, client_addr = self.sock.accept()
-            if client_sock:
-                # Check if the client is still connected and if data is available:
-                try:
-                    r, w, e = select.select([client_sock,], [], [])
-                except select.error:
-                    return
-                if len(r) > 0:
-                    rawdata = client_sock.recv(8129)
-                    try:
-                        data = rawdata.decode("utf-8").rstrip().lstrip()
-                        eventQueue.put({"Type":fenrirEventType.RemoteIncomming,
-                            "Data": data
-                        })
-                    except:
-                        pass
-                client_sock.close()
-
-        if os.path.exists(socketpath):
-            os.remove(socketpath)
-        if self.sock:
-            self.sock.close()
-            self.sock = None
-    def tcpWatchDog(self, active, eventQueue):
-        # echo "command say this is a test" | nc localhost 22447
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.host = '127.0.0.1'
-        self.port = self.env['runtime']['settingsManager'].getSettingAsInt('remote', 'port')
-        self.sock.bind((self.host, self.port))
-        self.sock.listen(1)
-        while active.value == 1:
-            client_sock, client_addr = self.sock.accept()
-            if client_sock:
-                # Check if the client is still connected and if data is available:
-                try:
-                    r, w, e = select.select([client_sock,], [], [])
-                except select.error:
-                    return
-                if len(r) > 0:
-                    rawdata = client_sock.recv(8129)
-                    try:
-                        data = rawdata.decode("utf-8").rstrip().lstrip()
-                        eventQueue.put({"Type":fenrirEventType.RemoteIncomming,
-                            "Data": data
-                        })
-                    except:
-                        pass
-                client_sock.close()
-        if self.sock:
-            self.sock.close()
-            self.sock = None
     def handleSettingsChange(self, settingsText):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('remote', 'enableSettingsRemote'):
             return
@@ -200,6 +125,8 @@ class remoteManager():
         if not eventData:
             return
         upperEventData = eventData.upper()
+        self.env['runtime']['debug'].writeDebugOut('remoteManager:handleRemoteIncomming: event: ' + str(eventData),debug.debugLevel.INFO)
+        
         if upperEventData.startswith(self.settingConst):
             settingsText = eventData[len(self.settingConst):]
             self.handleSettingsChange(settingsText)

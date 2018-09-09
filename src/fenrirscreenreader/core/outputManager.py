@@ -14,11 +14,11 @@ class outputManager():
     def initialize(self, environment):
         self.env = environment
         self.env['runtime']['settingsManager'].loadDriver(\
-          self.env['runtime']['settingsManager'].getSetting('speech', 'driver'), 'speechDriver')    
+          self.env['runtime']['settingsManager'].getSetting('speech', 'driver'), 'speechDriver')
         self.env['runtime']['settingsManager'].loadDriver(\
-          self.env['runtime']['settingsManager'].getSetting('sound', 'driver'), 'soundDriver')    
+          self.env['runtime']['settingsManager'].getSetting('sound', 'driver'), 'soundDriver')
         self.env['runtime']['settingsManager'].loadDriver(\
-          self.env['runtime']['settingsManager'].getSetting('braille', 'driver'), 'brailleDriver')      
+          self.env['runtime']['settingsManager'].getSetting('braille', 'driver'), 'brailleDriver')
     def shutdown(self):
         self.env['runtime']['settingsManager'].shutdownDriver('soundDriver')
         self.env['runtime']['settingsManager'].shutdownDriver('speechDriver')

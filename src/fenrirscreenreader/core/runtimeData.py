@@ -11,6 +11,7 @@ runtimeData = {
 'screenDriver': None,
 'soundDriver': None,
 'inputDriver': None,
+'remoteDriver': None,
 'brailleDriver': None,
 'inputManager': None,
 'commandManager': None,
