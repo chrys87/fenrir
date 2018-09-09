@@ -1,4 +1,5 @@
 #!/bin/python
+import evdev
 iDevices = {}
 iDeviceNo = 0
 def updateInputDevices(force = False, init = False):
@@ -46,3 +47,4 @@ def updateInputDevices(force = False, init = False):
                 print('Device added:' + iDevices[currDevice.fd].name)
         except Exception as e:
             print("Skip Inputdevice : " + deviceFile +' ' + str(e))                     
+updateInputDevices()            

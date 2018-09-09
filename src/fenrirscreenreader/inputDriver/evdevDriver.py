@@ -45,22 +45,22 @@ class driver(inputDriver):
         self.watchDog = Value(c_bool, True)
     def initialize(self, environment):
         self.env = environment
-        self.env['runtime']['inputManager'].setShortcutType('KEY')        
+        self.env['runtime']['inputManager'].setShortcutType('KEY')
         global _evdevAvailable
-        global _udevAvailable        
+        global _udevAvailable
         self._initialized = _evdevAvailable and _udevAvailable
         if not self._initialized:
             global _evdevAvailableError
-            global _udevAvailableError            
+            global _udevAvailableError
             currError = ' '
             if not _evdevAvailable:
                 currError += _evdevAvailableError
             if not _udevAvailable:
-                currError += ' ' + _udevAvailableError            
-            self.env['runtime']['debug'].writeDebugOut('InputDriver:' + currError, debug.debugLevel.ERROR)         
+                currError += ' ' + _udevAvailableError
+            self.env['runtime']['debug'].writeDebugOut('InputDriver:' + currError, debug.debugLevel.ERROR)
             return  
 
-        self.env['runtime']['processManager'].addCustomEventThread(self.plugInputDeviceWatchdogUdev)        
+        self.env['runtime']['processManager'].addCustomEventThread(self.plugInputDeviceWatchdogUdev)
         self.env['runtime']['processManager'].addCustomEventThread(self.inputWatchdog)
     def plugInputDeviceWatchdogUdev(self,active , eventQueue):
         context = pyudev.Context()
@@ -71,6 +71,7 @@ class driver(inputDriver):
             validDevices = []
             device = monitor.poll(1)
             while device:
+                self.env['runtime']['debug'].writeDebugOut('plugInputDeviceWatchdogUdev:' + str(device), debug.debugLevel.INFO)
                 try:
                     if not '/sys/devices/virtual/input/' in device.sys_path:
                         if device.device_node:
@@ -99,6 +100,7 @@ class driver(inputDriver):
                     except:
                         self.removeDevice(fd)
                     while(event):
+                        self.env['runtime']['debug'].writeDebugOut('inputWatchdog: EVENT:' + str(event), debug.debugLevel.INFO)
                         self.env['input']['eventBuffer'].append( [self.iDevices[fd], self.uDevices[fd], event])
                         if event.type == evdev.events.EV_KEY:
                             if not foundKeyInSequence:
