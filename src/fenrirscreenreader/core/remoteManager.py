@@ -9,7 +9,7 @@ Remote controll:
 section<space>command<space>parameters
 sections:command,setting
 setting commands:
-- set section#setting=value[,section#setting=value]
+- set section#setting=value[;section#setting=value]
 - reset
 command commands:
 - say text to speech
