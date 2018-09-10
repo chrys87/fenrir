@@ -12,9 +12,8 @@ import _thread
 class command():
     def __init__(self):
         pass
-    def initialize(self, environment, scriptPath=''):
+    def initialize(self, environment):
         self.env = environment
-        self.scriptPath = scriptPath
     def shutdown(self):
         pass
     def getDescription(self):
