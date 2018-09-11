@@ -154,8 +154,10 @@ class settingsManager():
 
     def loadDriver(self, driverName, driverType):
         try:
-            if self.env['runtime'][driverType] != None:
-                self.env['runtime'][driverType].shutdown(self.env)    
+            self.env['runtime'][driverType].shutdown(self.env)
+        except:
+            pass
+        try:
             driver_mod = module_utils.importModule(driverName,
               fenrirPath + "/" + driverType + '/' + driverName + '.py')
             self.env['runtime'][driverType] = driver_mod.driver()
@@ -170,10 +172,8 @@ class settingsManager():
                 self.env['runtime'][driverType].initialize(self.env)
             except Exception as e:
                 self.env['runtime']['debug'].writeDebugOut('(fallback) Loading Driver '  + driverType + ' (dummyDriver) FAILED:'+ str(e), debug.debugLevel.ERROR)
-            
+
     def shutdownDriver(self, driverType):
-        if self.env['runtime'][driverType] == None:
-            return
         try:
             self.env['runtime'][driverType].shutdown()
         except Exception as e:
@@ -245,13 +245,13 @@ class settingsManager():
         if cliArgs.options != '':
             self.parseSettingArgs(cliArgs.options)
         if cliArgs.debug:
-            self.setOptionArgDict('general', 'debugLevel', 3)   
+            self.setOptionArgDict('general', 'debugLevel', 3)
         if cliArgs.print:
-            self.setOptionArgDict('general', 'debugLevel', 3)  
+            self.setOptionArgDict('general', 'debugLevel', 3)
             self.setOptionArgDict('general', 'debugMode', 'PRINT')
         if cliArgs.emulated_pty:
-            self.setOptionArgDict('screen', 'driver', 'ptyDriver')  
-            self.setOptionArgDict('keyboard', 'driver', 'ptyDriver')  
+            self.setOptionArgDict('screen', 'driver', 'ptyDriver')
+            self.setOptionArgDict('keyboard', 'driver', 'ptyDriver')
             # TODO needs cleanup use dict
             #self.setOptionArgDict('keyboard', 'keyboardLayout', 'pty')
             self.setSetting('keyboard', 'keyboardLayout', 'pty')
@@ -350,21 +350,21 @@ class settingsManager():
                 environment['runtime']['byteManager'].loadByteShortcuts(self.getSetting('keyboard','keyboardLayout'))
                               
         environment['runtime']['cursorManager'] = cursorManager.cursorManager()
-        environment['runtime']['cursorManager'].initialize(environment)  
+        environment['runtime']['cursorManager'].initialize(environment)
         environment['runtime']['applicationManager'] = applicationManager.applicationManager()
-        environment['runtime']['applicationManager'].initialize(environment)  
+        environment['runtime']['applicationManager'].initialize(environment)
         environment['runtime']['textManager'] = textManager.textManager()
-        environment['runtime']['textManager'].initialize(environment)      
+        environment['runtime']['textManager'].initialize(environment)
         environment['runtime']['tableManager'] = tableManager.tableManager()
-        environment['runtime']['tableManager'].initialize(environment)    
+        environment['runtime']['tableManager'].initialize(environment)
         environment['runtime']['barrierManager'] = barrierManager.barrierManager()
-        environment['runtime']['barrierManager'].initialize(environment)              
+        environment['runtime']['barrierManager'].initialize(environment)
             
-        environment['runtime']['debug'].writeDebugOut('\/-------environment-------\/',debug.debugLevel.INFO, onAnyLevel=True)        
+        environment['runtime']['debug'].writeDebugOut('\/-------environment-------\/',debug.debugLevel.INFO, onAnyLevel=True)
         environment['runtime']['debug'].writeDebugOut(str(environment), debug.debugLevel.INFO, onAnyLevel=True)
-        environment['runtime']['debug'].writeDebugOut('\/-------settings.conf-------\/', debug.debugLevel.INFO, onAnyLevel=True)        
+        environment['runtime']['debug'].writeDebugOut('\/-------settings.conf-------\/', debug.debugLevel.INFO, onAnyLevel=True)
         environment['runtime']['debug'].writeDebugOut(str(environment['settings']._sections) , debug.debugLevel.INFO, onAnyLevel=True)
-        environment['runtime']['debug'].writeDebugOut('\/-------self.settingArgDict-------\/',debug.debugLevel.INFO, onAnyLevel=True)        
+        environment['runtime']['debug'].writeDebugOut('\/-------self.settingArgDict-------\/',debug.debugLevel.INFO, onAnyLevel=True)
         environment['runtime']['debug'].writeDebugOut(str( self.settingArgDict) ,debug.debugLevel.INFO, onAnyLevel=True)
         return environment
      
