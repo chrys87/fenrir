@@ -12,4 +12,4 @@ sudo fenrir -d
 stop fenrir (fenrirKey + q)
 the debug file is in /var/log/fenrir.log
 
-plese be as precise as possible to make it easy to solve the problem.
+please be as precise as possible to make it easy to solve the problem.

@@ -5,7 +5,7 @@ Things needing little knowledge are marked with "(Easy for contribution)". so ju
 [X] = Done
 [S] = Stopped
 
-__TOD___
+__TODO___
 Application Profiles (low priority):
 - reimplement process detection without subprocessing
 - fenrir is not able to detect the current application inside of screen.
