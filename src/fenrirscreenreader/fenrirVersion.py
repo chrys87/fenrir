@@ -4,5 +4,5 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-version = 1.8
-codename = 'moenchshof'
+version = 1.9.3
+codename = 'tucher'
