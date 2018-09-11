@@ -16,14 +16,14 @@ class fenrirManager():
         self.initialized = False
         cliArgs = self.handleArgs()
         if not cliArgs:
-            return        
+            return
         try:
             self.environment = settingsManager.settingsManager().initFenrirConfig(cliArgs, self)            
             if not self.environment:
                 raise RuntimeError('Cannot Initialize. Maybe the configfile is not available or not parseable')
         except RuntimeError:
             raise
-        self.environment['runtime']['outputManager'].presentText(_("Start Fenrir"), soundIcon='ScreenReaderOn', interrupt=True)          
+        self.environment['runtime']['outputManager'].presentText(_("Start Fenrir"), soundIcon='ScreenReaderOn', interrupt=True)
         signal.signal(signal.SIGINT, self.captureSignal)
         signal.signal(signal.SIGTERM, self.captureSignal)
         self.initialized = True
@@ -35,11 +35,11 @@ class fenrirManager():
         args = None
         parser = argparse.ArgumentParser(description="Fenrir Help")
         parser.add_argument('-s', '--setting', metavar='SETTING-FILE', default='/etc/fenrir/settings/settings.conf', help='Use a specified settingsfile')
-        parser.add_argument('-o', '--options', metavar='SECTION#SETTING=VALUE;..', default='', help='Overwrite options in given settings file')       
+        parser.add_argument('-o', '--options', metavar='SECTION#SETTING=VALUE;..', default='', help='Overwrite options in given settings file. Sections, settings and Values are cases sensitive')
         parser.add_argument('-d', '--debug',  action='store_true', help='Turns on Debugmode') 
-        parser.add_argument('-p', '--print',  action='store_true', help='Print debug messages on screen')                                         
-        parser.add_argument('-e', '--emulated-pty',  action='store_true', help='Use PTY emulation and escape sequences for input')                                                 
-        parser.add_argument('-E', '--emulated-evdev',  action='store_true', help='Use PTY emulation and evdev for input (single instance)')                                                         
+        parser.add_argument('-p', '--print',  action='store_true', help='Print debug messages on screen')
+        parser.add_argument('-e', '--emulated-pty',  action='store_true', help='Use PTY emulation and escape sequences for input')
+        parser.add_argument('-E', '--emulated-evdev',  action='store_true', help='Use PTY emulation and evdev for input (single instance)')
         try:
             args = parser.parse_args()
         except Exception as e:
@@ -52,38 +52,38 @@ class fenrirManager():
         self.shutdown()
     def handleInput(self, event):
         #startTime = time.time()
-        self.environment['runtime']['debug'].writeDebugOut('DEBUG INPUT fenrirMan:'  + str(event),debug.debugLevel.INFO)                                                       
+        self.environment['runtime']['debug'].writeDebugOut('DEBUG INPUT fenrirMan:'  + str(event),debug.debugLevel.INFO)
         if not event['Data']:
             event['Data'] = self.environment['runtime']['inputManager'].getInputEvent()
-        if event['Data']:        
-            event['Data']['EventName'] = self.environment['runtime']['inputManager'].convertEventName(event['Data']['EventName'])        
+        if event['Data']:
+            event['Data']['EventName'] = self.environment['runtime']['inputManager'].convertEventName(event['Data']['EventName'])
             self.environment['runtime']['inputManager'].handleInputEvent(event['Data'])
         else:
             return
 
         if self.environment['runtime']['inputManager'].noKeyPressed(): 
-            self.environment['runtime']['inputManager'].clearLastDeepInput()        
+            self.environment['runtime']['inputManager'].clearLastDeepInput()
         if self.environment['runtime']['screenManager'].isSuspendingScreen():
-            self.environment['runtime']['inputManager'].writeEventBuffer()            
+            self.environment['runtime']['inputManager'].writeEventBuffer()
         else: 
             if self.environment['runtime']['helpManager'].isTutorialMode():
-                self.environment['runtime']['inputManager'].clearEventBuffer()               
+                self.environment['runtime']['inputManager'].clearEventBuffer()
 
-            self.detectShortcutCommand()                       
+            self.detectShortcutCommand()
 
             if self.modifierInput:
-                self.environment['runtime']['inputManager'].clearEventBuffer()                   
+                self.environment['runtime']['inputManager'].clearEventBuffer() 
             if self.singleKeyCommand:
                 if self.environment['runtime']['inputManager'].noKeyPressed():
                     self.environment['runtime']['inputManager'].clearEventBuffer() 
             else:              
-                self.environment['runtime']['inputManager'].writeEventBuffer()                                      
+                self.environment['runtime']['inputManager'].writeEventBuffer()
         if self.environment['runtime']['inputManager'].noKeyPressed():
             self.modifierInput = False
             self.singleKeyCommand = False  
         if self.environment['input']['keyForeward'] > 0:
             self.environment['input']['keyForeward'] -=1
-        self.environment['runtime']['commandManager'].executeDefaultTrigger('onKeyInput')       
+        self.environment['runtime']['commandManager'].executeDefaultTrigger('onKeyInput')
         #print('handleInput:',time.time() - startTime)
     def handleByteInput(self, event):
         if not event['Data']:
