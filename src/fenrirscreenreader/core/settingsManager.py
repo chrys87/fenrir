@@ -50,7 +50,7 @@ class settingsManager():
                 break
             line = line.replace('\n','')
             if line.replace(" ","") == '':
-                continue            
+                continue
             if line.replace(" ","").startswith("#"):
                 continue
             if line.count("=") != 1:
@@ -103,7 +103,7 @@ class settingsManager():
     def getSetting(self, section, setting):
         value = ''
         try:
-            value = self.settingArgDict[section.lower()][setting.lower()]
+            value = self.settingArgDict[section][setting]
             return value
         except:
             pass
@@ -116,7 +116,7 @@ class settingsManager():
     def getSettingAsInt(self, section, setting):
         value = 0
         try:
-            value = int(self.settingArgDict[section.lower()][setting.lower()])
+            value = int(self.settingArgDict[section][setting])
             return value
         except Exception as e:
             pass
@@ -129,7 +129,7 @@ class settingsManager():
     def getSettingAsFloat(self, section, setting):
         value = 0.0
         try:
-            value = float(self.settingArgDict[section.lower()][setting.lower()])
+            value = float(self.settingArgDict[section][setting])
             return value
         except Exception as e:
             pass
@@ -142,10 +142,10 @@ class settingsManager():
     def getSettingAsBool(self, section, setting):
         value = False
         try:
-            value = self.settingArgDict[section.lower()][setting.lower()].upper() in ['1','YES','JA','TRUE']
+            value = self.settingArgDict[section][setting].upper() in ['1','YES','JA','TRUE']
             return value
         except Exception as e:
-            pass      
+            pass
         try:
             value = self.env['settings'].getboolean(section, setting)
         except:
@@ -194,14 +194,35 @@ class settingsManager():
                 self.env['input']['scriptKey'].append(key)
     def resetSettingArgDict(self):
         self.settingArgDict = {}
-    def setOptionArgDict(self, section, option, value):
-        section = section.lower()
-        option = option.lower()
+    def setOptionArgDict(self, section, setting, value):
+        #section = section.lower()
+        #setting = setting.lower()
         try:
             e = self.settingArgDict[section]
         except KeyError:
             self.settingArgDict[section] = {}
-        self.settingArgDict[section][option] = str(value)
+        try:
+            t = self.settings[section][setting]
+        except:
+            print(section,setting, 'not found')
+            return
+        try:
+            if isinstance(self.settings[section][setting], str):
+                v = str(value)
+            elif isinstance(self.settings[section][setting], bool):
+                if not value in ['True','False']:
+                    raise ValueError('could not convert string to bool: '+ value)
+            elif isinstance(self.settings[section][setting], int):
+                v = int(value)
+            elif isinstance(self.settings[section][setting], float):
+                v = float(value)
+            self.settingArgDict[section][setting] = str(value)
+        except Exception as e:
+            print('settingsManager:setOptionArgDict:Datatype missmatch: '+ section + '#' + setting + '=' +  value + ' Error:' +  str(e))
+            #self.env['runtime']['debug'].writeDebugOut('settingsManager:setOptionArgDict:Datatype missmatch: '+ section + '#' + setting + '=' +  value + ' Error:' +  str(e), debug.debugLevel.ERROR)
+            return
+
+
 
     def parseSettingArgs(self, settingArgs):
         for optionElem in settingArgs.split(';'):
@@ -245,20 +266,20 @@ class settingsManager():
         if cliArgs.options != '':
             self.parseSettingArgs(cliArgs.options)
         if cliArgs.debug:
-            self.setOptionArgDict('general', 'debugLevel', 3)
+            self.setSetting('general', 'debugLevel', 3)
         if cliArgs.print:
-            self.setOptionArgDict('general', 'debugLevel', 3)
-            self.setOptionArgDict('general', 'debugMode', 'PRINT')
+            self.setSetting('general', 'debugLevel', 3)
+            self.setSetting('general', 'debugMode', 'PRINT')
         if cliArgs.emulated_pty:
-            self.setOptionArgDict('screen', 'driver', 'ptyDriver')
-            self.setOptionArgDict('keyboard', 'driver', 'ptyDriver')
+            self.setSetting('screen', 'driver', 'ptyDriver')
+            self.setSetting('keyboard', 'driver', 'ptyDriver')
             # TODO needs cleanup use dict
             #self.setOptionArgDict('keyboard', 'keyboardLayout', 'pty')
             self.setSetting('keyboard', 'keyboardLayout', 'pty')
-            self.setOptionArgDict('general', 'debugFile', '/tmp/fenrir-pty.log')
+            self.setSetting('general', 'debugFile', '/tmp/fenrir-pty.log')
         if cliArgs.emulated_evdev:
-            self.setOptionArgDict('screen', 'driver', 'ptyDriver')
-            self.setOptionArgDict('keyboard', 'driver', 'evdevDriver')
+            self.setSetting('screen', 'driver', 'ptyDriver')
+            self.setSetting('keyboard', 'driver', 'evdevDriver')
 
         self.setFenrirKeys(self.getSetting('general','fenrirKeys'))
         self.setScriptKeys(self.getSetting('general','scriptKeys'))
@@ -267,9 +288,9 @@ class settingsManager():
         environment['runtime']['debug'].initialize(environment)
 
         if not os.path.exists(self.getSetting('sound','theme') + '/soundicons.conf'):
-            if os.path.exists(soundRoot + self.getSetting('sound','theme')):  
+            if os.path.exists(soundRoot + self.getSetting('sound','theme')):
                 self.setSetting('sound', 'theme', soundRoot + self.getSetting('sound','theme'))
-                if os.path.exists(self.getSetting('sound','theme') + '/soundicons.conf'):  
+                if os.path.exists(self.getSetting('sound','theme') + '/soundicons.conf'):
                     environment['runtime']['settingsManager'].loadSoundIcons(self.getSetting('sound','theme'))
         else:
             environment['runtime']['settingsManager'].loadSoundIcons(self.getSetting('sound','theme'))
@@ -348,7 +369,7 @@ class settingsManager():
                     environment['runtime']['byteManager'].loadByteShortcuts(self.getSetting('keyboard','keyboardLayout'))
             else:
                 environment['runtime']['byteManager'].loadByteShortcuts(self.getSetting('keyboard','keyboardLayout'))
-                              
+
         environment['runtime']['cursorManager'] = cursorManager.cursorManager()
         environment['runtime']['cursorManager'].initialize(environment)
         environment['runtime']['applicationManager'] = applicationManager.applicationManager()
@@ -359,7 +380,7 @@ class settingsManager():
         environment['runtime']['tableManager'].initialize(environment)
         environment['runtime']['barrierManager'] = barrierManager.barrierManager()
         environment['runtime']['barrierManager'].initialize(environment)
-            
+
         environment['runtime']['debug'].writeDebugOut('\/-------environment-------\/',debug.debugLevel.INFO, onAnyLevel=True)
         environment['runtime']['debug'].writeDebugOut(str(environment), debug.debugLevel.INFO, onAnyLevel=True)
         environment['runtime']['debug'].writeDebugOut('\/-------settings.conf-------\/', debug.debugLevel.INFO, onAnyLevel=True)
@@ -367,4 +388,3 @@ class settingsManager():
         environment['runtime']['debug'].writeDebugOut('\/-------self.settingArgDict-------\/',debug.debugLevel.INFO, onAnyLevel=True)
         environment['runtime']['debug'].writeDebugOut(str( self.settingArgDict) ,debug.debugLevel.INFO, onAnyLevel=True)
         return environment
-     
