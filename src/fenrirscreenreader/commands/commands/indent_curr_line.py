@@ -15,7 +15,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return _('shows the indention level for the current line')        
+        return _('Presents the indentation level for the current line')        
 
     def run(self):
         # Prefer review cursor over text cursor

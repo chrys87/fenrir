@@ -15,7 +15,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return _('increases the pitch of the speech')        
+        return _('Increases the pitch of the speech')        
     
     def run(self):
         value = self.env['runtime']['settingsManager'].getSettingAsFloat('speech', 'pitch')

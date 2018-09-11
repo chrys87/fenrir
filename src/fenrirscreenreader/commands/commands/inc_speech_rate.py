@@ -15,7 +15,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return _('increase the speech rate')        
+        return _('Increase the speech rate')        
     
     def run(self):
         value = self.env['runtime']['settingsManager'].getSettingAsFloat('speech', 'rate')

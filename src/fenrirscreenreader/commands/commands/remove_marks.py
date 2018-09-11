@@ -14,7 +14,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return _('removes marks from selected text')        
+        return _('Removes marks from selected text')        
     
     def run(self):
         self.env['runtime']['cursorManager'].clearMarks()

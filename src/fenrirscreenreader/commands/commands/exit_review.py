@@ -18,11 +18,11 @@ class command():
     
     def run(self):
         if not self.env['runtime']['cursorManager'].isReviewMode():
-            self.env['runtime']['outputManager'].presentText(_("Not in review mode"), interrupt=True)
+            self.env['runtime']['outputManager'].presentText(_("Not in Review Mode"), interrupt=True)
             return  
 
         self.env['runtime']['cursorManager'].clearReviewCursor()
-        self.env['runtime']['outputManager'].presentText(_("leave review mode"), interrupt=True)
+        self.env['runtime']['outputManager'].presentText(_("Exiting Review Mode"), interrupt=True)
    
     def setCallback(self, callback):
         pass

@@ -15,7 +15,7 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return _('speaks the currently selected text that will be copied to the clipboard')        
+        return _('Presents the currently selected text that will be copied to the clipboard')        
     
     def run(self):
         if not (self.env['commandBuffer']['Marks']['1'] and \

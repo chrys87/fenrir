@@ -46,10 +46,10 @@ class command():
 
         if currWord != '':
             if self.spellChecker.is_added(currWord):
-                self.env['runtime']['outputManager'].presentText(_('{0} is already in dict').format(currWord,), soundIcon='Cancel', interrupt=True)                
+                self.env['runtime']['outputManager'].presentText(_('{0} is already in dictionary').format(currWord,), soundIcon='Cancel', interrupt=True)                
             else:
                 self.spellChecker.add(currWord)             
-                self.env['runtime']['outputManager'].presentText(_('{0} added').format(currWord,), soundIcon='Accept', interrupt=True)               
+                self.env['runtime']['outputManager'].presentText(_('{0} added to dictionary').format(currWord,), soundIcon='Accept', interrupt=True)               
 
     def setCallback(self, callback):
         pass
