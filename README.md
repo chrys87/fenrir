@@ -3,27 +3,26 @@ A modern, modular, flexible and fast console screenreader.
 It should run on any operating system. If you want to help, or write drivers to make it work on other systems, just let me know. 
 This software is licensed under the LGPL v3.
 
-# Requirements (core)
+OS Requirements
 - Linux (ptyDriver, vcsaDriver, evdevDriver)
 - macOS (ptyDriver)
 - BSD (ptyDriver)
 - Windows (ptyDriver)
 
+# Core Requirements
 - python3 >= 3.3
-- python-configargparse
-- screen, input, speech, sound or braille drivers see "Features, Drivers, Extras".
+- screen, input, speech, sound or braille drivers dependencies see "Features, Drivers, Extras".
 
 # Features, Drivers, Extras, Dependencies
 # Input Drivers:
 1. "evdevDriver" input driver for linux evdev
-  - python-evdev >=0.6.3
+  - python-evdev >=0.6.3 (This is commonly referred to as python3-evdev by your distribution)
   - python-pyudev
-2. This is commonly referred to as python3-evdev by your distribution
   - loaded uinput kernel module
   - ReadWrite permission 
     - /dev/input
     - /dev/uinput
-3. "ptyDriver" terminal emulation input driver
+2. "ptyDriver" terminal emulation input driver
   - python-pyte
 
 # Screen Drivers:
@@ -36,7 +35,6 @@ This software is licensed under the LGPL v3.
     - read logind DBUS
 2. "ptyDriver" terminal emulation driver
   - python-pyte
-3. "dummyDriver" just a dummy
   
 # Speech Drivers:
 1. "genericDriver" (default) speech driver for sound as subprocess:
@@ -46,15 +44,11 @@ This software is licensed under the LGPL v3.
 3. "speechdDriver" speech driver for Speech-dispatcher:
   - Speech-dispatcher
   - python-speechd
-4. "dummyDriver" no speech
-5. "debugDriver" speech driver for debugging
 
 # Braille Drivers:
 1. "BrlttyDriver" braille driver (WIP):
   - brltty (configured and running)
   - python-brlapi
-2. "dummyDriver" (default) no braille
-3. "debugDriver" Braille driver for debugging
 
 # Sound Drivers:
 1. "genericDriver" (default) sound driver for sound as subprocess:
@@ -62,8 +56,6 @@ This software is licensed under the LGPL v3.
 2. "gstreamerDriver" sound driver for gstreamer
   - gstreamer >=1.0
   - GLib
-3. "dummyDriver" no sound
-4. "debugDriver" sound driver for debugging
 
 # Extras:
 1. spellchecker
@@ -76,6 +68,7 @@ This software is licensed under the LGPL v3.
 
 # installation
 - Archlinux: PKGBUILD in AUR
+- PIP: sudo pip install fenrir-screenreader
 - Manual: run install.sh and uninstall.sh as root
 - you also can just run it from Git without installing:
 You can just run the following as root:
