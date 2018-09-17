@@ -28,6 +28,7 @@ from fenrirscreenreader.core import byteManager
 from fenrirscreenreader.core import attributeManager
 from fenrirscreenreader.core import barrierManager
 from fenrirscreenreader.core import remoteManager
+from fenrirscreenreader.core import sayAllManager
 from fenrirscreenreader.core import environment 
 from fenrirscreenreader.core.settingsData import settingsData
 from fenrirscreenreader.core import debug
@@ -380,7 +381,8 @@ class settingsManager():
         environment['runtime']['tableManager'].initialize(environment)
         environment['runtime']['barrierManager'] = barrierManager.barrierManager()
         environment['runtime']['barrierManager'].initialize(environment)
-
+        environment['runtime']['sayAllManager'] = sayAllManager.sayAllManager()
+        environment['runtime']['sayAllManager'].initialize(environment)
         environment['runtime']['debug'].writeDebugOut('\/-------environment-------\/',debug.debugLevel.INFO, onAnyLevel=True)
         environment['runtime']['debug'].writeDebugOut(str(environment), debug.debugLevel.INFO, onAnyLevel=True)
         environment['runtime']['debug'].writeDebugOut('\/-------settings.conf-------\/', debug.debugLevel.INFO, onAnyLevel=True)
