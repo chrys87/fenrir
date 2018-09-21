@@ -13,12 +13,15 @@ def addScreenToIgnoreList(ignoreFileName = '/tmp/fenrirSuspend', screen = '1', u
         if os.access(ignoreFileName, os.R_OK):
             with open(ignoreFileName, 'r') as fp:
                 try:
-                    ignoreScreens = fp.read().split(',')#.replace('\n','').split(',')
+                    ignoreScreens = []
+                    content = str(fp.read())
+                    if content != '':
+                        ignoreScreens = content.split(',')
                 except Exception as e:
                    print(e)
         added = False
         if not screen in ignoreScreens:
-            ignoreScreens.extend(screen)
+            ignoreScreens.append(screen)
             added = True
         ignoreScreensStr = ','.join(ignoreScreens)
            

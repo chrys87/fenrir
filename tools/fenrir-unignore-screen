@@ -13,7 +13,10 @@ def removeScreenFromIgnoreList(ignoreFileName = '/tmp/fenrirSuspend', screen = '
         if os.access(ignoreFileName, os.R_OK):
             with open(ignoreFileName, 'r') as fp:
                 try:
-                    ignoreScreens = fp.read().split(',')#.replace('\n','').split(',')
+                    ignoreScreens = []
+                    content = str(fp.read())
+                    if content != '':
+                        ignoreScreens = content.split(',')
                 except Exception as e:
                    print(e)
         removed = False
