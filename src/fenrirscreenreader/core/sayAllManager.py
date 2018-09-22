@@ -13,13 +13,14 @@ class sayAllManager():
     def initialize(self, environment):
         self.env = environment  
     def shutdown(self):
-        pass
+        if self.isActive:
+            self.stop()
     def setIsActive(self, isActive):
-        pass
+        self.isActive = isActive
     def start(self):
-        pass
+        self.setIsActive(True)
     def isSayAllActive(self):
-        pass
+        return self.isActive
     def sayAllWorker(self):
         pass
     def stop(self):
