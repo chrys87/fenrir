@@ -113,6 +113,11 @@ settingsData = {
   'announce': True,
   'interrupt': False,
 },
+'sayall':{
+  'rate': 0.65,
+  'placeToClipboard': False,
+  'pageChangeKey': 'KEY_PAGEDOWN'
+},
 'keyboard':{
   'driver': 'evdev',
   'device': 'all',
