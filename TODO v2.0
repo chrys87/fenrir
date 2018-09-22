@@ -75,7 +75,6 @@ Braille Support:
 
 Driver (speech):
 [S] talkey driver ( verry unresponsive for espeak in linux)
-[S] emacspeak driver (breaks for a whole screen)
   https://pypi.python.org/pypi/ptyprocess#downloads 
 [] Dectalk SpeechDriver (Easy for contribution, device needed - i dont own one)
   https://github.com/tvraman/emacspeak/blob/master/servers/obsolete/python/dectalk.py
