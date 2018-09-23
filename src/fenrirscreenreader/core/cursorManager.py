@@ -82,6 +82,8 @@ class cursorManager():
         except:
             pass
         return False
+    def createCursor(self, x, y):
+        return {'x': x, 'y':y}
     def setWindowForApplication(self, start = None, end = None):
         x1 = 0
         x2 = 0
