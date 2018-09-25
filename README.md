@@ -44,6 +44,8 @@ This software is licensed under the LGPL v3.
 3. "speechdDriver" speech driver for Speech-dispatcher:
   - Speech-dispatcher
   - python-speechd
+4. "emacspeakDriver" speech driver for emacspeak
+  - emacspeak
 
 # Braille Drivers:
 1. "BrlttyDriver" braille driver (WIP):
