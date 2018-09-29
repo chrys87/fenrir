@@ -75,12 +75,23 @@ class driver(screenDriver):
         screenDriver.__init__(self)  
         self.signalPipe = os.pipe()
         self.p_out = None
+        #stdin = param[0]
+        #stdout = param[1]
+        #signalPipe = param[3]
+        #p_out = param[4]
+        #p_pid = param[5]        
         signal.signal(signal.SIGWINCH, self.handleSigwinch)
     def initialize(self, environment):
         self.env = environment
         self.command = self.env['runtime']['settingsManager'].getSetting('general','shell')
         self.shortcutType = self.env['runtime']['inputManager'].getShortcutType()
-        self.env['runtime']['processManager'].addCustomEventThread(self.terminalEmulation)
+        param = []
+        param[0] = self.stdin
+        param[1] = self.stdout
+        param[3] = self.signalPipe
+        param[4] = self.p_out
+        param[5] = self.p_pid
+        self.env['runtime']['processManager'].addCustomEventThread(self.terminalEmulation, pargs = param, multiprocess = False)
     def getCurrScreen(self):
         self.env['screen']['oldTTY'] = 'pty'
         self.env['screen']['newTTY'] = 'pty'
@@ -142,31 +153,39 @@ class driver(screenDriver):
         return lines, columns
     def handleSigwinch(self, *args):
         os.write(self.signalPipe[1], b'w')        
-    def terminalEmulation(self,active , eventQueue):
+    def terminalEmulation(self,active , eventQueue, param = None):
         try:
-            old_attr = termios.tcgetattr(sys.stdin)    
+            #stdin = param[0]
+            #stdout = param[1]
+            #signalPipe = param[3]
+            #p_out = param[4]
+            #p_pid = param[5]
+            stdin = sys.stdin
+            stdout = sys.stdout
+            signalPipe = self.signalPipe
+            old_attr = termios.tcgetattr(stdin)    
             tty.setraw(0)
             lines, columns = self.getTerminalSize(0)
             if self.command == '':
                 self.command = screen_utils.getShell()
-            terminal, p_pid, self.p_out = self.openTerminal(columns, lines, self.command)
-            lines, columns = self.resizeTerminal(self.p_out)
+            terminal, p_pid, p_out = self.openTerminal(columns, lines, self.command)
+            lines, columns = self.resizeTerminal(p_out)
             terminal.resize(lines, columns)            
-            fdList = [sys.stdin, self.p_out, self.signalPipe[0]]
+            fdList = [stdin, p_out, signalPipe[0]]
             while active.value:
                 r, _, _ = select.select(fdList, [], [], 1)
                 # none
                 if r == []:
                     continue
                 # signals
-                if self.signalPipe[0] in r:
-                    os.read(self.signalPipe[0], 1)
-                    lines, columns = self.resizeTerminal(self.p_out)
+                if signalPipe[0] in r:
+                    os.read(signalPipe[0], 1)
+                    lines, columns = self.resizeTerminal(p_out)
                     terminal.resize(lines, columns)   
                 # input
-                if sys.stdin in r:
+                if stdin in r:
                     try:
-                        msgBytes = self.readAll(sys.stdin.fileno())
+                        msgBytes = self.readAll(stdin.fileno())
                     except (EOFError, OSError):
                         active.value = False                    
                         break                  
@@ -180,14 +199,14 @@ class driver(screenDriver):
                         eventQueue.put({"Type":fenrirEventType.ByteInput,
                             "Data":msgBytes })                     
                 # output
-                if self.p_out in r:
+                if p_out in r:
                     try:
-                        msgBytes = self.readAll(self.p_out.fileno(), timeout=0.001, interruptFd=sys.stdin)
+                        msgBytes = self.readAll(p_out.fileno(), timeout=0.001, interruptFd=stdin)
                     except (EOFError, OSError):
                         active.value = False
                         break    
                     terminal.feed(msgBytes)                                
-                    os.write(sys.stdout.fileno(), msgBytes)
+                    os.write(stdout.fileno(), msgBytes)
                     eventQueue.put({"Type":fenrirEventType.ScreenUpdate,
                         "Data":screen_utils.createScreenEventData(terminal.GetScreenContent())
                     })
@@ -196,8 +215,8 @@ class driver(screenDriver):
             active.value = False
         finally:
             os.kill(p_pid, signal.SIGTERM)
-            self.p_out.close()    
-            termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_attr)
+            p_out.close()    
+            termios.tcsetattr(stdin, termios.TCSADRAIN, old_attr)
             eventQueue.put({"Type":fenrirEventType.StopMainLoop,"Data":None}) 
             sys.exit(0)
          
