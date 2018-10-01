@@ -4,11 +4,14 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-import os, struct, sys, pty, tty, termios, shlex, signal, select, pyte, time, fcntl ,getpass
 from fenrirscreenreader.core import debug
 from fenrirscreenreader.core.eventData import fenrirEventType
 from fenrirscreenreader.core.screenDriver import screenDriver
 from fenrirscreenreader.utils import screen_utils
+import os, struct, sys, pty, tty, termios, shlex, signal, select, pyte, time, fcntl ,getpass
+from multiprocessing.sharedctypes import Value
+from ctypes import c_int
+
 
 class Terminal:
     def __init__(self, columns, lines, p_in):
@@ -67,41 +70,53 @@ class Terminal:
             "text": self.text, 
             'attributes': self.attributes.copy(),
             'screen': 'pty',        
-            'screenUpdateTime': time.time(),                            
+            'screenUpdateTime': time.time(),
         }.copy()
 
 class driver(screenDriver):
     def __init__(self):
-        screenDriver.__init__(self)  
+        screenDriver.__init__(self)
         self.signalPipe = os.pipe()
-        self.p_out = None
-        #stdin = param[0]
-        #stdout = param[1]
-        #signalPipe = param[3]
-        #p_out = param[4]
-        #p_pid = param[5]        
+        self.p_out = Value(c_int, 0)
+        self.p_pid = Value(c_int, 0)
         signal.signal(signal.SIGWINCH, self.handleSigwinch)
     def initialize(self, environment):
         self.env = environment
         self.command = self.env['runtime']['settingsManager'].getSetting('general','shell')
         self.shortcutType = self.env['runtime']['inputManager'].getShortcutType()
-        param = []
-        param[0] = self.stdin
-        param[1] = self.stdout
-        param[3] = self.signalPipe
-        param[4] = self.p_out
-        param[5] = self.p_pid
+        param = [sys.stdin.fileno(), sys.stdout.fileno(), self.signalPipe, self.p_out, self.p_pid]
+        #param[0] = sys.stdin
+        #param[1] = sys.stdout
+        #param[2] = self.signalPipe
+        #param[3] = self.p_out
+        #param[4] = self.p_pid
         self.env['runtime']['processManager'].addCustomEventThread(self.terminalEmulation, pargs = param, multiprocess = False)
     def getCurrScreen(self):
         self.env['screen']['oldTTY'] = 'pty'
         self.env['screen']['newTTY'] = 'pty'
  
     def injectTextToScreen(self, msgBytes, screen = None):
-        if not screen:
-            screen = self.p_out.fileno()
+        #if not screen:
+        #    try:
+        #        screen = os.fdopen(int(self.p_out.value), 'w+b', 0)
+        #    except Exception as e:
+        #        print(e)
+        #    if screen < 1:
+        #        return
+        print(self.p_out.value,self.p_out)
+        os.write(self.p_out.value, 'test')
+        return
+        try:
+            screen = os.fdopen(self.p_out.value, "w+b", 0)
+        except Exception as e:
+            print(e)
+        
         if isinstance(msgBytes, str):
             msgBytes = bytes(msgBytes, 'UTF-8')
-        os.write(screen, msgBytes)
+        try:
+            screen.write(msgBytes)
+        except Exception as e:
+            print(int(self.p_out.value), msgBytes,e)
 
     def getSessionInformation(self):
         self.env['screen']['autoIgnoreScreens'] = []
@@ -140,7 +155,7 @@ class driver(screenDriver):
             os.execvpe(argv[0], argv, env)
         # File-like object for I/O with the child process aka command.
         p_out = os.fdopen(master_fd, "w+b", 0)
-        return Terminal(columns, lines, p_out), p_pid, p_out
+        return Terminal(columns, lines, p_out), p_pid, p_out.fileno()
     def resizeTerminal(self,fd):
         s = struct.pack('HHHH', 0, 0, 0, 0)
         s = fcntl.ioctl(0, termios.TIOCGWINSZ, s)
@@ -156,19 +171,21 @@ class driver(screenDriver):
     def terminalEmulation(self,active , eventQueue, param = None):
         try:
             #stdin = param[0]
-            #stdout = param[1]
-            #signalPipe = param[3]
-            #p_out = param[4]
-            #p_pid = param[5]
-            stdin = sys.stdin
-            stdout = sys.stdout
-            signalPipe = self.signalPipe
+            stdin = os.fdopen(param[0])
+            stdout = os.fdopen(param[1])
+            signalPipe = param[2]
+            p_outFd = param[3]
+            p_pid = param[4]
             old_attr = termios.tcgetattr(stdin)    
             tty.setraw(0)
             lines, columns = self.getTerminalSize(0)
             if self.command == '':
                 self.command = screen_utils.getShell()
-            terminal, p_pid, p_out = self.openTerminal(columns, lines, self.command)
+            terminal, p_pid.value, fd = self.openTerminal(columns, lines, self.command)
+            p_outFd.value = os.dup(fd)
+            p_out = fd
+            
+            #p_out = os.fdopen(p_outFd.value, "r+b", 0)
             lines, columns = self.resizeTerminal(p_out)
             terminal.resize(lines, columns)            
             fdList = [stdin, p_out, signalPipe[0]]
@@ -201,7 +218,7 @@ class driver(screenDriver):
                 # output
                 if p_out in r:
                     try:
-                        msgBytes = self.readAll(p_out.fileno(), timeout=0.001, interruptFd=stdin)
+                        msgBytes = self.readAll(p_out, timeout=0.001, interruptFd=stdin)
                     except (EOFError, OSError):
                         active.value = False
                         break    
