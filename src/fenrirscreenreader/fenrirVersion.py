@@ -4,5 +4,5 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-version = 1.9.3
+version = '1.9.4'
 codename = 'tucher'
