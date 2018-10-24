@@ -232,8 +232,8 @@ class settingsManager():
             if len(optionElem.split('#',1)[1].split('=',1)) != 2:
                 continue
 
-            section = str(optionElem.split('#',1)[0]).lower()
-            option = str(optionElem.split('#',1)[1].split('=',1)[0]).lower()
+            section = str(optionElem.split('#',1)[0])
+            option = str(optionElem.split('#',1)[1].split('=',1)[0])
             value = optionElem.split('#',1)[1].split('=',1)[1]
             self.setOptionArgDict(section, option, value)
 
