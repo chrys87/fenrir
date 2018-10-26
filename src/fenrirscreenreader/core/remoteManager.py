@@ -38,6 +38,7 @@ class remoteManager():
         self.interruptConst = 'INTERRUPT'
         self.defineWindowConst = 'WINDOW '
         self.resetWindowConst = 'RESETWINDOW'
+        self.setClipboardConst = 'CLIPBOARD '
         # setting controll
         self.settingConst = 'SETTING '
         self.setSettingConst = 'SET '
@@ -86,6 +87,12 @@ class remoteManager():
         # reset window
         if upperCommandText.startswith(self.resetWindowConst):
             self.resetWindow()
+        # set clipboard
+        if upperCommandText.startswith(self.setClipboardConst):
+            parameterText = commandText[len(self.setClipboardConst):]
+            self.setClipboard(parameterText)
+    def setClipboard(self, text = ''):
+        self.env['runtime']['memoryManager'].addValueToFirstIndex('clipboardHistory', text)
     def defineWindow(self, windowText):
         start = {}
         end = {}
