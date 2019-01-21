@@ -4,3 +4,5 @@ fenrir.egg-info/
 fenrir_screenreader.egg-info/
 dist/
 build/
+*.kate-swp
+.directory

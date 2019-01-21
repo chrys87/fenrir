@@ -9,17 +9,22 @@ from fenrirscreenreader.core import debug
 
 class vmenuManager():
     def __init__(self):
-        self.helpDict = {}
-        self.tutorialListIndex = None          
+        self.menuDict = {}
+        self.currMenu = {}
+        self.currIndex = None
+        self.currLevel = None
+        self.active = False
     def initialize(self, environment):
         self.env = environment
     def shutdown(self):
-        pass      
-    def toggleTutorialMode(self):
-        self.setTutorialMode(not self.env['general']['tutorialMode'])
-    def setTutorialMode(self, newTutorialMode):
-        self.env['general']['tutorialMode'] = newTutorialMode        
-        if newTutorialMode:
+        pass
+    def getActive(self):
+        return self.active
+    def togglelMode(self):
+        self.setActive(not self.getActive())
+    def setActive(self, active):
+        self.active = active
+        if active:
             self.createHelpDict()        
             self.env['bindings'][str([1, ['KEY_ESC']])] = 'TOGGLE_TUTORIAL_MODE'
             self.env['bindings'][str([1, ['KEY_UP']])] = 'PREV_HELP'
@@ -33,49 +38,28 @@ class vmenuManager():
                 del(self.env['bindings'][str([1, ['KEY_SPACE']])])
             except:
                 pass                     
-    def isTutorialMode(self):
-        return self.env['general']['tutorialMode']        
-    def getCommandHelpText(self, command, section = 'commands'):
-        commandName = command.lower()
-        commandName = commandName.split('__-__')[0]       
-        commandName = commandName.replace('_',' ')        
-        commandName = commandName.replace('_',' ')
-        if command == 'TOGGLE_TUTORIAL_MODE':
-            commandDescription = _('toggles the tutorial mode')
-        else:
-            commandDescription = self.env['runtime']['commandManager'].getCommandDescription( command, section = 'commands')
-        if commandDescription == '':
-            commandDescription = 'no Description available'
-        commandShortcut = self.env['runtime']['commandManager'].getShortcutForCommand( command)
-        commandShortcut = commandShortcut.replace('KEY_',' ')
-        commandShortcut = commandShortcut.replace('[','')        
-        commandShortcut = commandShortcut.replace(']','')        
-        commandShortcut = commandShortcut.replace("'",'')        
-        if commandShortcut == '':
-            commandShortcut = 'unbound'
-        helptext = commandName + ', Shortcut ' + commandShortcut + ', Description ' + commandDescription
-        return helptext
+
     def createHelpDict(self, section = 'commands'):
-        self.helpDict = {}        
-        for command in sorted(self.env['commands'][section].keys()):
-            self.helpDict[len(self.helpDict)] = self.getCommandHelpText(command, section)            
-        if len(self.helpDict) > 0:
-            self.tutorialListIndex = 0
+        self.menuDict = {}        
+        #for command in sorted(self.env['commands'][section].keys()):
+        #    self.menuDict[len(self.menuDict)] = self.getCommandHelpText(command, section)            
+        if len(self.menuDict) > 0:
+            self.currIndex = 0
         else:
-            self.tutorialListIndex = None        
+            self.currIndex = None        
     def getHelpForCurrentIndex(self):            
-        if self.tutorialListIndex == None:
+        if self.currIndex == None:
             return '' 
-        return self.helpDict[self.tutorialListIndex]
+        return self.menuDict[self.currIndex]
     def nextIndex(self):
-        if self.tutorialListIndex == None:
+        if self.currIndex == None:
             return    
-        self.tutorialListIndex += 1
-        if self.tutorialListIndex >= len(self.helpDict):
-           self.tutorialListIndex = 0 
+        self.currIndex += 1
+        if self.currIndex >= len(self.menuDict):
+           self.currIndex = 0 
     def prevIndex(self):
-        if self.tutorialListIndex == None:
+        if self.currIndex == None:
             return    
-        self.tutorialListIndex -= 1
-        if self.tutorialListIndex < 0:
-           self.tutorialListIndex = len(self.helpDict) - 1                                                
+        self.currIndex -= 1
+        if self.currIndex < 0:
+           self.currIndex = len(self.menuDict) - 1                                                
