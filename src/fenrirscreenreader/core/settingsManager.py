@@ -22,6 +22,7 @@ from fenrirscreenreader.core import punctuationManager
 from fenrirscreenreader.core import cursorManager
 from fenrirscreenreader.core import applicationManager
 from fenrirscreenreader.core import helpManager
+from fenrirscreenreader.core import vmenuManager
 from fenrirscreenreader.core import textManager
 from fenrirscreenreader.core import tableManager
 from fenrirscreenreader.core import byteManager
@@ -383,6 +384,8 @@ class settingsManager():
         environment['runtime']['barrierManager'].initialize(environment)
         environment['runtime']['sayAllManager'] = sayAllManager.sayAllManager()
         environment['runtime']['sayAllManager'].initialize(environment)
+        environment['runtime']['vmenuManager'] = vmenuManager.vmenuManager()
+        environment['runtime']['vmenuManager'].initialize(environment)
         environment['runtime']['debug'].writeDebugOut('\/-------environment-------\/',debug.debugLevel.INFO, onAnyLevel=True)
         environment['runtime']['debug'].writeDebugOut(str(environment), debug.debugLevel.INFO, onAnyLevel=True)
         environment['runtime']['debug'].writeDebugOut('\/-------settings.conf-------\/', debug.debugLevel.INFO, onAnyLevel=True)
