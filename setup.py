@@ -7,7 +7,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 fenrirVersion = '1.9.3'
-packageVersion = 'post1'
+packageVersion = 'post2'
 
 # handle flags for package manager like yaourt and pacaur.
 forceSettings = False
@@ -86,14 +86,14 @@ setup(
     
     # Dependent packages (distributions)
     install_requires=[
-        "evdev",
-        "daemonize",
-        "dbus-python",
-        "pyudev",
+        "evdev>=1.1.2",
+        "daemonize>=2.5.0",
+        "dbus-python>=1.2.8",
+        "pyudev>=0.21.0",
         "setuptools",
         "pexpect",
         "pyttsx3",
-        "pyte",
+        "pyte>=0.7.0",
     ],
     
 )
