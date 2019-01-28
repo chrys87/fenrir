@@ -82,6 +82,8 @@ class byteManager():
             self.env['runtime']['outputManager'].presentText(_('bypass'), soundIcon='PTYBypass', interrupt=True, flush=True)
             return True
         return False          
+    def sendBytes(self, byteMacro):
+        pass
     def detectByteCommand(self, escapeSequence):
         convertedEscapeSequence = self.unifyEscapeSeq(escapeSequence)
         command = self.env['runtime']['inputManager'].getCommandForShortcut(convertedEscapeSequence)

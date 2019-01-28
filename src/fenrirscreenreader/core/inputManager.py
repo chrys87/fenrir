@@ -61,6 +61,8 @@ class inputManager():
         else:
             self.grabAllDevices()
         self.executeDeviceGrab = False 
+    def sendKeys(self, keyMacro):
+        pass
     def handleInputEvent(self, eventData):
         #print(eventData)
         if not eventData:
