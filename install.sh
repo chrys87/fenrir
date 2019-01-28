@@ -51,9 +51,12 @@ Installation complete.
 install path:/opt/fenrirscreenreader
 settings path:/etc/fenrirscreenreader
 
-To test Fenrir
-sudo systemctl start fenrir
-To have Fenrir start on system boot:
+To test Fenrir:
+sudo fenrir
+
+To have Fenrir start on system boot using systemd:
+download service file: https://raw.githubusercontent.com/chrys87/fenrir/master/autostart/systemd/Arch/fenrir.service
+move the service file to: /etc/systemd/system/fenrir.service
 sudo systemctl enable fenrir
 
 Pulseaudio users may want to run

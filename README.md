@@ -71,7 +71,10 @@ This software is licensed under the LGPL v3.
 # installation
 - Archlinux: PKGBUILD in AUR
 - PIP: sudo pip install fenrir-screenreader
-- Manual: run install.sh and uninstall.sh as root
+- Manual:
+ - install "espeak" and "sox" with your package manager
+ - sudo pip install -r requirements.txt 
+ - run install.sh and uninstall.sh as root
 - you also can just run it from Git without installing:
 You can just run the following as root:
 if you are in Fenrir Git rootfolder:
