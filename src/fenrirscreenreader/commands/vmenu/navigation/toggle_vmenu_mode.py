@@ -14,10 +14,10 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return _('get prev v menu entry')
+        self.env['runtime']['vmenuManager'].togglelVMenuMode()
+        return _('Exiting v menu mode.')
     def run(self):
-        self.env['runtime']['vmenuManager'].prevIndex()
-        text = self.env['runtime']['vmenuManager'].getCurrentEntry()
-        self.env['runtime']['outputManager'].presentText(text, interrupt=True)
+        self.env['runtime']['vmenuManager'].togglelVMenuMode()
+        self.env['runtime']['outputManager'].presentText( _('Entering v menu.'), interrupt=True)
     def setCallback(self, callback):
         pass

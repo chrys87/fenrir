@@ -14,10 +14,8 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return _('get prev help message')
+        return _('execute v menu entry')
     def run(self):
-        self.env['runtime']['helpManager'].prevIndex()
-        text = self.env['runtime']['helpManager'].getHelpForCurrentIndex()            
-        self.env['runtime']['outputManager'].presentText(text,  interrupt=True)                             
+        self.env['runtime']['vmenuManager'].executeMenu()
     def setCallback(self, callback):
         pass
