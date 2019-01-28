@@ -18,22 +18,33 @@ class vmenuManager():
         self.env = environment
     def shutdown(self):
         pass
+    def setCurrMenu(self, currMenu = ''):
+        try:
+            t = self.menuDict[currMenu]
+            l = list(menuDict.keys())
+            self.currIndex = [l.index(currMenu)]
+            self.currMenu = currMenu
+        except:
+            self.currIndex = None
+            self.currMenu = ''
+    def getCurrMenu(self):
+        return self.currMenu
     def getActive(self):
         return self.active
-    def togglelMode(self, currMenu = ''):
-        self.setActive(not self.getActive(), currMenu)
-    def setActive(self, active, currMenu = ''):
+    def togglelMode(self):
+        self.setActive(not self.getActive())
+    def setActive(self, active):
         self.active = active
         self.currMenu = currMenu
         if active:
             self.createMenuTree()        
-            self.env['bindings'][str([1, ['KEY_ESC']])] = 'TOGGLE_TUTORIAL_MODE'
-            self.env['bindings'][str([1, ['KEY_UP']])] = 'PREV_HELP'
-            self.env['bindings'][str([1, ['KEY_DOWN']])] = 'NEXT_HELP'
-            self.env['bindings'][str([1, ['KEY_SPACE']])] = 'CURR_HELP'
-            self.env['bindings'][str([1, ['KEY_LEFT']])] = 'NEXT_HELP'
-            self.env['bindings'][str([1, ['KEY_RIGHT']])] = 'CURR_HELP'
-            self.env['bindings'][str([1, ['KEY_ENTER']])] = 'CURR_HELP'            
+            self.env['bindings'][str([1, ['KEY_ESC']])] = 'TOGGLE_VMENU_MODE'
+            self.env['bindings'][str([1, ['KEY_UP']])] = 'PREV_VMENU_ENTRY'
+            self.env['bindings'][str([1, ['KEY_DOWN']])] = 'NEXT_VMENU_ENTRY'
+            self.env['bindings'][str([1, ['KEY_SPACE']])] = 'CURR_VMENU_ENTRY'
+            self.env['bindings'][str([1, ['KEY_LEFT']])] = 'DEC_LEVEL_VMENU'
+            self.env['bindings'][str([1, ['KEY_RIGHT']])] = 'INC_LEVEL_VMENU'
+            self.env['bindings'][str([1, ['KEY_ENTER']])] = 'EXEC_VMENU_ENTRY'
         else:
             try:
                 self.menuDict = {}
