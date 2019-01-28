@@ -1,0 +1,7 @@
+"evdev>=1.1.2",
+"daemonize>=2.5.0",
+"dbus-python>=1.2.8",
+"pyudev>=0.21.0",
+"pexpect",
+"pyttsx3",
+"pyte>=0.7.0",
