@@ -47,6 +47,9 @@ class inputDriver():
     def removeAllDevices(self):
         if not self._initialized:
             return 
+    def sendKey(self):
+        if not self._initialized:
+            return 
     def __del__(self):
         if not self._initialized:
             return     

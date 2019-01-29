@@ -53,16 +53,32 @@ class inputManager():
         if self.env['input']['eventBuffer'] != []:
             return
         if not self.noKeyPressed():
-            return        
+            return
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
-            return            
+            return
         if self.env['runtime']['screenManager'].getCurrScreenIgnored():
             self.ungrabAllDevices()
         else:
             self.grabAllDevices()
         self.executeDeviceGrab = False 
     def sendKeys(self, keyMacro):
-        pass
+        for e in keyMacro:
+            key = ''
+            value = 0
+            if len(e) != 2:
+                continue
+            if isinstance(e[0], int) and isinstance(e[1], str):
+                key = e[1].upper()
+                value = e[0]
+            elif isinstance(e[1], int) and isinstance(e[0], str):
+                key = e[0].upper()
+                value = e[1]
+            else:
+                continue
+            if key.upper() == 'SLEEP':
+                time.sleep(value)
+            else:
+                self.env['runtime']['inputDriver'].sendKey(key, value)
     def handleInputEvent(self, eventData):
         #print(eventData)
         if not eventData:
@@ -70,9 +86,9 @@ class inputManager():
         # a hang apears.. try to fix
         if self.env['input']['eventBuffer'] == []:
             if self.env['input']['currInput'] != []:
-                self.env['input']['currInput'] = []        
-                self.env['input']['shortcutRepeat'] = 1                
-        
+                self.env['input']['currInput'] = []
+                self.env['input']['shortcutRepeat'] = 1
+
         self.env['input']['prevInput'] = self.env['input']['currInput'].copy()
         if eventData['EventState'] == 0:
             if eventData['EventName'] in self.env['input']['currInput']:
@@ -81,7 +97,7 @@ class inputManager():
                     self.env['input']['currInput'] = sorted(self.env['input']['currInput'])
                 elif len(self.env['input']['currInput']) == 0:
                     self.env['input']['shortcutRepeat'] = 1 
-                self.lastInputTime = time.time()                                                   
+                self.lastInputTime = time.time()
         elif eventData['EventState'] == 1:
             if not eventData['EventName'] in self.env['input']['currInput']:
                 self.env['input']['currInput'].append(eventData['EventName'])
@@ -94,10 +110,10 @@ class inputManager():
                         self.env['input']['shortcutRepeat'] += 1
                     else:
                         self.env['input']['shortcutRepeat'] = 1
-                self.handleLedStates(eventData)      
+                self.handleLedStates(eventData)
                 self.lastInputTime = time.time()
         elif eventData['EventState'] == 2:
-            self.lastInputTime  = time.time()     
+            self.lastInputTime  = time.time()
 
         self.env['input']['oldNumLock'] = self.env['input']['newNumLock']
         self.env['input']['newNumLock'] = self.env['runtime']['inputDriver'].getLedState()
@@ -109,7 +125,7 @@ class inputManager():
         if self.noKeyPressed():
             self.env['input']['prevInput'] = []
             self.handleDeviceGrab()
-            
+
     def handleLedStates(self, mEvent):
         try:
             if mEvent['EventName'] == 'KEY_NUMLOCK':
@@ -173,24 +189,24 @@ class inputManager():
         elif eventName == 'KEY_LEFTMETA':
             eventName = 'KEY_META'
         elif eventName == 'KEY_RIGHTMETA':
-            eventName = 'KEY_META'            
+            eventName = 'KEY_META'
         if self.isFenrirKey(eventName):
             eventName = 'KEY_FENRIR'
         if self.isScriptKey(eventName):
-            eventName = 'KEY_SCRIPT'            
+            eventName = 'KEY_SCRIPT'
         return eventName
 
     def clearEventBuffer(self):
         try:
             self.env['runtime']['inputDriver'].clearEventBuffer()
         except Exception as e:
-            pass              
+            pass
     def setLastDeepestInput(self, currentDeepestInput):
         self.lastDeepestInput = currentDeepestInput
     def clearLastDeepInput(self):
         self.lastDeepestInput = []  
     def getLastInputTime(self):
-        return self.lastInputTime           
+        return self.lastInputTime
     def getLastDeepestInput(self):
         return self.lastDeepestInput 
     def writeEventBuffer(self):
@@ -211,7 +227,7 @@ class inputManager():
         shortcut.append(self.env['input']['shortcutRepeat'])
         shortcut.append(self.getLastDeepestInput())
         return str(shortcut)
-        
+
     def getPrevShortcut(self):
         shortcut = []
         shortcut.append(self.env['input']['shortcutRepeat'])
@@ -223,7 +239,7 @@ class inputManager():
         shortcut.append(self.env['input']['shortcutRepeat'])
         if inputSequence:
             shortcut.append(inputSequence)
-        else:        
+        else:
             shortcut.append(self.env['input']['currInput'])
         if len(self.env['input']['prevInput']) < len(self.env['input']['currInput']):
             if self.env['input']['shortcutRepeat'] > 1  and not self.shortcutExists(str(shortcut)):
@@ -231,20 +247,20 @@ class inputManager():
                 self.env['input']['shortcutRepeat'] = 1
                 shortcut.append(self.env['input']['shortcutRepeat'])
                 shortcut.append(self.env['input']['currInput'])     
-        self.env['runtime']['debug'].writeDebugOut("currShortcut " + str(shortcut) ,debug.debugLevel.INFO)                      
+        self.env['runtime']['debug'].writeDebugOut("currShortcut " + str(shortcut) ,debug.debugLevel.INFO)
         return str(shortcut)
-        
+
     def currKeyIsModifier(self):
         if len(self.getLastDeepestInput()) != 1:
             return False
         return (self.env['input']['currInput'][0] =='KEY_FENRIR') or (self.env['input']['currInput'][0] == 'KEY_SCRIPT')
-    
+
     def isFenrirKey(self, eventName):
         return eventName in self.env['input']['fenrirKey']
-    
+
     def isScriptKey(self, eventName):
         return eventName in self.env['input']['scriptKey']
-    
+
     def getCommandForShortcut(self, shortcut):
         if not self.shortcutExists(shortcut):
             return '' 
@@ -261,7 +277,7 @@ class inputManager():
                 break
             line = line.replace('\n','')
             if line.replace(" ","") == '':
-                continue            
+                continue
             if line.replace(" ","").startswith("#"):
                 continue
             if line.count("=") != 1:
@@ -289,12 +305,12 @@ class inputManager():
             shortcut.append(shortcutRepeat)
             shortcut.append(sorted(shortcutKeys))
             if len(shortcutKeys) != 1 and not 'KEY_FENRIR' in shortcutKeys:
-                self.env['runtime']['debug'].writeDebugOut("invalid shortcut (missing KEY_FENRIR): "+ str(shortcut) + ' command:' +commandName ,debug.debugLevel.ERROR)                    
-                continue            
+                self.env['runtime']['debug'].writeDebugOut("invalid shortcut (missing KEY_FENRIR): "+ str(shortcut) + ' command:' +commandName ,debug.debugLevel.ERROR)
+                continue
             self.env['runtime']['debug'].writeDebugOut("Shortcut: "+ str(shortcut) + ' command:' +commandName ,debug.debugLevel.INFO, onAnyLevel=True)    
-            self.env['bindings'][str(shortcut)] = commandName   
+            self.env['bindings'][str(shortcut)] = commandName
         kbConfig.close()
         # fix bindings 
         self.env['bindings'][str([1, ['KEY_F1', 'KEY_FENRIR']])] = 'TOGGLE_TUTORIAL_MODE'
     def isValidKey(self, key):
-        return key in inputData.keyNames        
+        return key in inputData.keyNames

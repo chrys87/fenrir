@@ -10,7 +10,7 @@ _evdevAvailableError = ''
 _udevAvailableError = ''
 try:
     import evdev
-    from evdev import InputDevice, UInput
+    from evdev import InputDevice, UInput, ecodes as e
     _evdevAvailable = True
 
 except Exception as e:
@@ -43,6 +43,7 @@ class driver(inputDriver):
         self.gDevices = {}
         self.iDeviceNo = 0
         self.watchDog = Value(c_bool, True)
+        self.UInputinject = UInput()
     def initialize(self, environment):
         self.env = environment
         self.env['runtime']['inputManager'].setShortcutType('KEY')
@@ -336,9 +337,9 @@ class driver(inputDriver):
             self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: grabing not possible:  ' + str(e),debug.debugLevel.ERROR)         
     def ungrabDevice(self,fd):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
-            return      
+            return
         try:
-            self.gDevices[fd] = False                    
+            self.gDevices[fd] = False
             self.iDevices[fd].ungrab()
             self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: ungrab device ('+ str(self.iDevices[fd].name) + ')',debug.debugLevel.INFO)
         except:
@@ -365,13 +366,13 @@ class driver(inputDriver):
         try:
             del(self.uDevices[fd])
         except:
-            pass  
+            pass
         try:
             del(self.gDevices[fd])
         except:
-            pass              
+            pass
         self.updateMPiDevicesFD()
-                 
+
     def hasIDevices(self):
         if not self._initialized:
             return False
@@ -379,7 +380,16 @@ class driver(inputDriver):
             return False
         if len(self.iDevices) == 0:
             return False
-        return True    
+        return True
+
+    def sendKey(self, key, state):
+        if not self._initialized:
+            return
+        try:
+            self.UInputinject.write(e.EV_KEY, e.ecodes[key], state)
+            self.UInputinject.syn()
+        except:
+            pass
 
     def removeAllDevices(self):
         if not self.hasIDevices():
@@ -389,5 +399,5 @@ class driver(inputDriver):
             self.removeDevice(fd)
         self.iDevices.clear()
         self.uDevices.clear()
-        self.gDevices.clear()        
+        self.gDevices.clear()
         self.iDeviceNo = 0 
