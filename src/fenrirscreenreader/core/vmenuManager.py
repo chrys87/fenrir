@@ -73,7 +73,7 @@ class vmenuManager():
         if self.currIndex == None:
             return    
         try:
-            r = self.getValueByPath(self.menuDict, self.currIndex +[0]):
+            r = self.getValueByPath(self.menuDict, self.currIndex +[0])
             if not r:
                 return
             if not isinstance(r, dict):
@@ -126,7 +126,7 @@ class vmenuManager():
         for i in path:
             d = d[list(d.keys())[i]]
         return d
-''''
+'''
 import os
 level = [0]
 
@@ -172,4 +172,4 @@ c = [0,0,0]
 getKeysByPath(v,c)
 getValueByPath(v,c)
 
-''''
+'''
