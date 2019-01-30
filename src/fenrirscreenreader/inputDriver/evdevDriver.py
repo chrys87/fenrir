@@ -52,15 +52,14 @@ class driver(inputDriver):
         if not self._initialized:
             global _evdevAvailableError
             global _udevAvailableError
-            currError = ' '
-            if not _evdevAvailable:
-                currError += _evdevAvailableError
             if not _udevAvailable:
-                currError += ' ' + _udevAvailableError
-            self.env['runtime']['debug'].writeDebugOut('InputDriver:' + currError, debug.debugLevel.ERROR)
-            return  
+                self.env['runtime']['debug'].writeDebugOut('InputDriver:' + _udevAvailableError, debug.debugLevel.ERROR)            
+            if not _evdevAvailable:
+                self.env['runtime']['debug'].writeDebugOut('InputDriver:' + _evdevAvailableError, debug.debugLevel.ERROR)
+                return
 
-        self.env['runtime']['processManager'].addCustomEventThread(self.plugInputDeviceWatchdogUdev)
+        if _udevAvailable:
+            self.env['runtime']['processManager'].addCustomEventThread(self.plugInputDeviceWatchdogUdev)
         self.env['runtime']['processManager'].addCustomEventThread(self.inputWatchdog)
     def plugInputDeviceWatchdogUdev(self,active , eventQueue):
         context = pyudev.Context()
