@@ -14,5 +14,5 @@ generalData = {
 'managerList':[ 'attributeManager','punctuationManager', 'byteManager', 'cursorManager', 'applicationManager', 'commandManager'
   , 'screenManager', 'inputManager','outputManager', 'helpManager', 'memoryManager', 'eventManager','processManager', 'debug'],
 'commandFolderList':['commands','onKeyInput', 'onByteInput', 'onCursorChange', 'onScreenUpdate','onScreenChanged','onHeartBeat', 'onPlugInputDevice'
-  ,'onApplicationChange','onSwitchApplicationProfile','help',],
+  ,'onApplicationChange','onSwitchApplicationProfile','help','vmenu-navigation',],
 }

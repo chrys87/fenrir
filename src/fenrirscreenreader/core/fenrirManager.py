@@ -68,6 +68,8 @@ class fenrirManager():
         else: 
             if self.environment['runtime']['helpManager'].isTutorialMode():
                 self.environment['runtime']['inputManager'].clearEventBuffer()
+            if self.environment['runtime']['vmenuManager'].getActive():
+                self.environment['runtime']['inputManager'].clearEventBuffer()
 
             self.detectShortcutCommand()
 
@@ -76,7 +78,7 @@ class fenrirManager():
             if self.singleKeyCommand:
                 if self.environment['runtime']['inputManager'].noKeyPressed():
                     self.environment['runtime']['inputManager'].clearEventBuffer() 
-            else:              
+            else:
                 self.environment['runtime']['inputManager'].writeEventBuffer()
         if self.environment['runtime']['inputManager'].noKeyPressed():
             self.modifierInput = False
@@ -91,7 +93,6 @@ class fenrirManager():
         if event['Data'] == b'':
             return
         self.environment['runtime']['byteManager'].handleByteInput(event['Data'])
-                   
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onByteInput')
     def handleExecuteCommand(self, event):  
         if not event['Data']:
@@ -109,7 +110,7 @@ class fenrirManager():
         if not event['Data']:
             return
         self.environment['runtime']['remoteManager'].handleRemoteIncomming(event['Data'])        
-    def handleScreenChange(self, event):   
+    def handleScreenChange(self, event):
         self.environment['runtime']['screenManager'].hanldeScreenChange(event['Data'])
         '''        
         if self.environment['runtime']['applicationManager'].isApplicationChange():
@@ -118,8 +119,11 @@ class fenrirManager():
               self.environment['runtime']['applicationManager'].getPrevApplication(), \
               self.environment['runtime']['applicationManager'].getCurrentApplication())          
         '''        
-        self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenChanged')             
-        self.environment['runtime']['screenDriver'].getCurrScreen()        
+        if self.environment['runtime']['vmenuManager'].getActive():
+            return
+
+        self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenChanged')
+        self.environment['runtime']['screenDriver'].getCurrScreen()
     def handleScreenUpdate(self, event):
         #startTime = time.time()
         self.environment['runtime']['screenManager'].handleScreenUpdate(event['Data'])
@@ -128,26 +132,24 @@ class fenrirManager():
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onApplicationChange')
             self.environment['runtime']['commandManager'].executeSwitchTrigger('onSwitchApplicationProfile', \
               self.environment['runtime']['applicationManager'].getPrevApplication(), \
-              self.environment['runtime']['applicationManager'].getCurrentApplication())          
+              self.environment['runtime']['applicationManager'].getCurrentApplication())
         '''
         # timout for the last keypress
         if time.time() - self.environment['runtime']['inputManager'].getLastInputTime() >= 0.3:
-            self.environment['runtime']['inputManager'].clearLastDeepInput()        
-        # has cursor changed?            
+            self.environment['runtime']['inputManager'].clearLastDeepInput()
+        # has cursor changed?
         if self.environment['runtime']['cursorManager'].isCursorVerticalMove() or \
           self.environment['runtime']['cursorManager'].isCursorHorizontalMove():
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onCursorChange')
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onScreenUpdate')
         self.environment['runtime']['inputManager'].clearLastDeepInput()
         #print('handleScreenUpdate:',time.time() - startTime)
-    
     def handlePlugInputDevice(self, event):
         self.environment['runtime']['inputManager'].handlePlugInputDevice(event['Data'])
-        self.environment['runtime']['commandManager'].executeDefaultTrigger('onPlugInputDevice', force=True)   
-    
+        self.environment['runtime']['commandManager'].executeDefaultTrigger('onPlugInputDevice', force=True)
     def handleHeartBeat(self, event):
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onHeartBeat',force=True)  
-        #self.environment['runtime']['outputManager'].brailleText(flush=False)                        
+        #self.environment['runtime']['outputManager'].brailleText(flush=False)
 
 
     def detectShortcutCommand(self):    
@@ -163,7 +165,7 @@ class fenrirManager():
         if not( self.singleKeyCommand and self.environment['runtime']['inputManager'].noKeyPressed()):
             shortcut = self.environment['runtime']['inputManager'].getCurrShortcut()                
             self.command = self.environment['runtime']['inputManager'].getCommandForShortcut(shortcut)
-            
+
         if not self.modifierInput:
             if self.environment['runtime']['inputManager'].isKeyPress():
                 if self.command != '':
@@ -172,12 +174,12 @@ class fenrirManager():
         if not (self.singleKeyCommand or self.modifierInput):
             return
 
-        # fire event    
+        # fire event
         if self.command != '':
-            if self.modifierInput:                    
+            if self.modifierInput:
                 self.environment['runtime']['eventManager'].putToEventQueue(fenrirEventType.ExecuteCommand, self.command)
-                self.command = ''                
-            else:        
+                self.command = ''
+            else:
                 if self.singleKeyCommand:
                     if self.environment['runtime']['inputManager'].noKeyPressed():
                         self.environment['runtime']['eventManager'].putToEventQueue(fenrirEventType.ExecuteCommand, self.command)
@@ -217,7 +219,7 @@ class fenrirManager():
         self.shutdownRequest()
 
     def shutdown(self):
-        self.environment['runtime']['eventManager'].stopMainEventLoop()        
+        self.environment['runtime']['eventManager'].stopMainEventLoop()
         self.environment['runtime']['outputManager'].presentText(_("Quit Fenrir"), soundIcon='ScreenReaderOff', interrupt=True)       
         self.environment['runtime']['eventManager'].cleanEventQueue()
         time.sleep(0.6)
