@@ -16,6 +16,8 @@ class command():
     def getDescription(self):
         return _('enter v menu submenu')
     def run(self):
+        print('INC LEVEL')
+        
         self.env['runtime']['vmenuManager'].incLevel()
         text = self.env['runtime']['vmenuManager'].getCurrentEntry()
         self.env['runtime']['outputManager'].presentText(text, interrupt=True)

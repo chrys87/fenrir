@@ -16,6 +16,8 @@ class command():
     def getDescription(self):
         return _('execute v menu entry')
     def run(self):
+        print('EXEC ENTRY')
+        
         self.env['runtime']['vmenuManager'].executeMenu()
     def setCallback(self, callback):
         pass

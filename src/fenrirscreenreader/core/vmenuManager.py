@@ -35,43 +35,51 @@ class vmenuManager():
         self.setActive(not self.getActive())
     def setActive(self, active):
         self.active = active
-        if active:
+        print('drin')
+        if self.active:
+            #try:
             self.createMenuTree()
-            self.env['bindings'][str([1, ['KEY_ESC']])] = 'TOGGLE_VMENU_MODE'
-            self.env['bindings'][str([1, ['KEY_UP']])] = 'PREV_VMENU_ENTRY'
-            self.env['bindings'][str([1, ['KEY_DOWN']])] = 'NEXT_VMENU_ENTRY'
-            self.env['bindings'][str([1, ['KEY_SPACE']])] = 'CURR_VMENU_ENTRY'
-            self.env['bindings'][str([1, ['KEY_LEFT']])] = 'DEC_LEVEL_VMENU'
-            self.env['bindings'][str([1, ['KEY_RIGHT']])] = 'INC_LEVEL_VMENU'
-            self.env['bindings'][str([1, ['KEY_ENTER']])] = 'EXEC_VMENU_ENTRY'
+            #except Exception as e:
+            #    print(e)
+            try:
+                self.env['bindings'][str([1, ['KEY_ESC']])] = 'TOGGLE_VMENU_MODE'
+                self.env['bindings'][str([1, ['KEY_UP']])] = 'PREV_VMENU_ENTRY'
+                self.env['bindings'][str([1, ['KEY_DOWN']])] = 'NEXT_VMENU_ENTRY'
+                self.env['bindings'][str([1, ['KEY_SPACE']])] = 'CURR_VMENU_ENTRY'
+                self.env['bindings'][str([1, ['KEY_LEFT']])] = 'DEC_LEVEL_VMENU'
+                self.env['bindings'][str([1, ['KEY_RIGHT']])] = 'INC_LEVEL_VMENU'
+                self.env['bindings'][str([1, ['KEY_ENTER']])] = 'EXEC_VMENU_ENTRY'
+            except Exception as e:
+                print(e)
         else:
             try:
                 self.menuDict = {}
                 self.currIndex = None
                 self.currMenu = ''
-                self.active = False
                 del(self.env['bindings'][str([1, ['KEY_ESC']])])
                 del(self.env['bindings'][str([1, ['KEY_UP']])])
                 del(self.env['bindings'][str([1, ['KEY_DOWN']])])
                 del(self.env['bindings'][str([1, ['KEY_SPACE']])])
                 del(self.env['bindings'][str([1, ['KEY_LEFT']])])
-                del(self.env['bindings'][str([1, ['KEY_RIGHT']])])                
-                del(self.env['bindings'][str([1, ['KEY_ENTER']])])                
+                del(self.env['bindings'][str([1, ['KEY_RIGHT']])])
+                del(self.env['bindings'][str([1, ['KEY_ENTER']])])
             except:
-                pass                     
-
+                pass
+        print(self.env['bindings'])
     
     def createMenuTree(self):
         self.currIndex = None        
-        self.menuDict = fs_tree_to_dict( '/home/chrys/Projekte/fenrir/src/fenrirscreenreader/commands/vmenu/KEY')
-        if len(self.menuDict) > 0:
-            self.currIndex = [0]
+        menu = self.fs_tree_to_dict( '/home/chrys/Projekte/fenrir/src/fenrirscreenreader/commands/vmenu-profiles/KEY')
+        if menu:
+            self.menuDict = menu
+            if len(self.menuDict) > 0:
+                self.currIndex = [0]
     def executeMenu(self):
         if self.currIndex == None:
-            return    
+            return
     def incLevel(self):
         if self.currIndex == None:
-            return    
+            return
         try:
             r = self.getValueByPath(self.menuDict, self.currIndex +[0])
             if not r:
@@ -107,7 +115,7 @@ class vmenuManager():
         return self.getKeysByPath(self.menuDict, self.currIndex)[self.currIndex[-1]]
     def fs_tree_to_dict(self, path_):
         for root, dirs, files in os.walk(path_):
-            tree = {d: fs_tree_to_dict(os.path.join(root, d)) for d in dirs}
+            tree = {d: self.fs_tree_to_dict(os.path.join(root, d)) for d in dirs}
             tree.update({f: root + '/' + f for f in files})
             return tree  # note we discontinue iteration trough os.walk
     

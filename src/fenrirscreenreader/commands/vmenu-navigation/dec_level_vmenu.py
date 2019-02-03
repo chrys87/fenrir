@@ -16,6 +16,7 @@ class command():
     def getDescription(self):
         return _('leave v menu submenu')
     def run(self):
+        print('DEC LEVEL')
         self.env['runtime']['vmenuManager'].decLevel()
         text = self.env['runtime']['vmenuManager'].getCurrentEntry()
         self.env['runtime']['outputManager'].presentText(text, interrupt=True)

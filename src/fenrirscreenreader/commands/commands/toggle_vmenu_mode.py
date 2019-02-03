@@ -18,6 +18,9 @@ class command():
         return _('Exiting v menu mode.')
     def run(self):
         self.env['runtime']['vmenuManager'].togglelVMenuMode()
-        self.env['runtime']['outputManager'].presentText( _('Entering v menu.'), interrupt=True)
+        if self.env['runtime']['vmenuManager'].getActive():
+            self.env['runtime']['outputManager'].presentText( _('Entering v menu.'), interrupt=True)
+        else:
+            self.env['runtime']['outputManager'].presentText( _('Leaving v menu.'), interrupt=True)
     def setCallback(self, callback):
         pass

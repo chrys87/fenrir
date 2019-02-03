@@ -16,6 +16,8 @@ class command():
     def getDescription(self):
         return _('get prev v menu entry')
     def run(self):
+        print('PREV MENU')
+        
         self.env['runtime']['vmenuManager'].prevIndex()
         text = self.env['runtime']['vmenuManager'].getCurrentEntry()
         self.env['runtime']['outputManager'].presentText(text, interrupt=True)
