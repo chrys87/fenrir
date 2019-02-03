@@ -25,7 +25,7 @@ class attributeManager():
     def setLastCursorAttribute(self, lastCursorAttribute):
         self.prevLastCursorAttribute = self.currLastCursorAttribute
         self.currLastCursorAttribute = lastCursorAttribute     
-    def resetLastCursorAttribute(self, lastCursorAttribute):
+    def resetLastCursorAttribute(self):
         self.prevLastCursorAttribute = None
         self.currLastCursorAttribute = None   
     def isLastCursorAttributeChange(self):
