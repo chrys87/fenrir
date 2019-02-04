@@ -35,6 +35,8 @@ class remoteManager():
         # command controll
         self.commandConst = 'COMMAND '
         self.sayConst = 'SAY '
+        self.vmenuConst = 'VMENU '
+        self.resetVmenuConst = 'RESETVMENU'
         self.interruptConst = 'INTERRUPT'
         self.defineWindowConst = 'WINDOW '
         self.resetWindowConst = 'RESETWINDOW'
@@ -80,6 +82,13 @@ class remoteManager():
         # interrupt
         if upperCommandText.startswith(self.interruptConst):
             self.interruptSpeech()
+        # set vmenu
+        if upperCommandText.startswith(self.vmenuConst):
+            parameterText = commandText[len(self.vmenuConst):]
+            self.setVMenu(parameterText)
+        # reset vmenu
+        if upperCommandText.startswith(self.resetVmenuConst):
+            self.resetVMenu()
         # define window
         if upperCommandText.startswith(self.defineWindowConst):
             parameterText = commandText[len(self.defineWindowConst):]
@@ -91,6 +100,10 @@ class remoteManager():
         if upperCommandText.startswith(self.setClipboardConst):
             parameterText = commandText[len(self.setClipboardConst):]
             self.setClipboard(parameterText)
+    def setVMenu(self, vmenu = ''):
+        self.env['runtime']['vmenuManager'].setCurrMenu(vmenu)
+    def resetVMenu(self):
+        self.env['runtime']['vmenuManager'].setCurrMenu()
     def setClipboard(self, text = ''):
         self.env['runtime']['memoryManager'].addValueToFirstIndex('clipboardHistory', text)
     def defineWindow(self, windowText):
