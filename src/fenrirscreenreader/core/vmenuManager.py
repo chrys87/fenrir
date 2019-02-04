@@ -23,14 +23,18 @@ class vmenuManager():
     def shutdown(self):
         pass
     def setCurrMenu(self, currMenu = ''):
-        try:
-            t = self.menuDict[currMenu]
-            l = list(menuDict.keys())
-            self.currIndex = [l.index(currMenu)]
-            self.currMenu = currMenu
-        except:
+        if currMenu == '':
             self.currIndex = None
             self.currMenu = ''
+        else:
+            try:
+                t = self.menuDict[currMenu]
+                l = list(menuDict.keys())
+            except:
+                return
+            
+            self.currIndex = [l.index(currMenu)]
+            self.currMenu = currMenu
     def getCurrMenu(self):
         return self.currMenu
     def getActive(self):
@@ -100,8 +104,11 @@ class vmenuManager():
     def decLevel(self):
         if self.currIndex == None:
             return
-        if len(self.currIndex) == 1:
-            return
+        if self.currMenu != '':
+            if len(self.currIndex) == 2:
+                return
+        elif len(self.currIndex) == 1:
+                return
         self.currIndex = self.currIndex[:len(self.currIndex) - 1]
         print(self.currIndex)
     def nextIndex(self):
