@@ -5,6 +5,8 @@
 # By Chrys, Storm Dragon, and contributers.
 
 from fenrirscreenreader.core import debug
+from fenrirscreenreader.utils import module_utils
+
 import os
 
 

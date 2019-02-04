@@ -101,10 +101,17 @@ class fenrirManager():
             return
         command = event['Data']
 
+        # special modes
         if self.environment['runtime']['helpManager'].isTutorialMode():
             if self.environment['runtime']['commandManager'].commandExists( command, 'help'):
                 self.environment['runtime']['commandManager'].executeCommand( command, 'help')
                 return
+        elif self.environment['runtime']['vmenuManager'].getActive():
+            if self.environment['runtime']['commandManager'].commandExists( command, 'vmenu-navigation'):
+                self.environment['runtime']['commandManager'].executeCommand( command, 'vmenu-navigation')
+                return
+
+        # default
         self.environment['runtime']['commandManager'].executeCommand( command, 'commands')            
     def handleRemoteIncomming(self, event):
         if not event['Data']:
