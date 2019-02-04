@@ -20,6 +20,8 @@ class vmenuManager():
     def initialize(self, environment):
         self.env = environment
         self.defaultVMenuPath = fenrirPath+ "/commands/vmenu-profiles/" + self.env['runtime']['inputManager'].getShortcutType()
+        self.createMenuTree()
+
     def shutdown(self):
         pass
     def setCurrMenu(self, currMenu = ''):
@@ -45,10 +47,15 @@ class vmenuManager():
     def setActive(self, active):
         self.active = active
         if self.active:
-            #try:
-            self.createMenuTree()
-            #except Exception as e:
-            #    print(e)
+            try:
+                self.createMenuTree()
+            except Exception as e:
+                print(e)
+            try:
+                if self.currMenu != '':
+                    self.setCurrMenu(self.currMenu)
+            except Exception as e:
+                print(e)
             try:
                 self.env['bindings'][str([1, ['KEY_ESC']])] = 'TOGGLE_VMENU_MODE'
                 self.env['bindings'][str([1, ['KEY_UP']])] = 'PREV_VMENU_ENTRY'
@@ -61,9 +68,7 @@ class vmenuManager():
                 print(e)
         else:
             try:
-                self.menuDict = {}
                 self.currIndex = None
-                self.currMenu = ''
                 del(self.env['bindings'][str([1, ['KEY_ESC']])])
                 del(self.env['bindings'][str([1, ['KEY_UP']])])
                 del(self.env['bindings'][str([1, ['KEY_DOWN']])])
