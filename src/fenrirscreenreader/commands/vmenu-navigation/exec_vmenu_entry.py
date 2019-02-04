@@ -16,10 +16,6 @@ class command():
     def getDescription(self):
         return _('execute v menu entry')
     def run(self):
-        print('EXEC ENTRY')
-        try:
-            self.env['runtime']['vmenuManager'].executeMenu()
-        except Exception as e:
-            print(e)
+        self.env['runtime']['vmenuManager'].executeMenu()
     def setCallback(self, callback):
         pass

@@ -16,12 +16,8 @@ class command():
     def getDescription(self):
         return _('leave v menu submenu')
     def run(self):
-        print('DEC LEVEL')
-        try:
-            self.env['runtime']['vmenuManager'].decLevel()
-            text = self.env['runtime']['vmenuManager'].getCurrentEntry()
-            self.env['runtime']['outputManager'].presentText(text, interrupt=True)
-        except Exception as e:
-            print(e)
+        self.env['runtime']['vmenuManager'].decLevel()
+        text = self.env['runtime']['vmenuManager'].getCurrentEntry()
+        self.env['runtime']['outputManager'].presentText(text, interrupt=True)
     def setCallback(self, callback):
         pass

@@ -16,12 +16,8 @@ class command():
     def getDescription(self):
         return _('get prev v menu entry')
     def run(self):
-        print('PREV MENU')
-        try:
-            self.env['runtime']['vmenuManager'].prevIndex()
-            text = self.env['runtime']['vmenuManager'].getCurrentEntry()
-            self.env['runtime']['outputManager'].presentText(text, interrupt=True)
-        except Exception as e:
-            print(e)
+        self.env['runtime']['vmenuManager'].prevIndex()
+        text = self.env['runtime']['vmenuManager'].getCurrentEntry()
+        self.env['runtime']['outputManager'].presentText(text, interrupt=True)
     def setCallback(self, callback):
         pass

@@ -16,12 +16,8 @@ class command():
     def getDescription(self):
         return _('enter v menu submenu')
     def run(self):
-        print('INC LEVEL')
-        try:
-            self.env['runtime']['vmenuManager'].incLevel()
-            text = self.env['runtime']['vmenuManager'].getCurrentEntry()
-            self.env['runtime']['outputManager'].presentText(text, interrupt=True)
-        except Exception as e:
-            print(e)
+        self.env['runtime']['vmenuManager'].incLevel()
+        text = self.env['runtime']['vmenuManager'].getCurrentEntry()
+        self.env['runtime']['outputManager'].presentText(text, interrupt=True)
     def setCallback(self, callback):
         pass
