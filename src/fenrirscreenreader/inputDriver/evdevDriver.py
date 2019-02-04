@@ -1,6 +1,3 @@
-#!/bin/python
-# -*- coding: utf-8 -*-
-
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
@@ -49,20 +46,19 @@ class driver(inputDriver):
         self.env['runtime']['inputManager'].setShortcutType('KEY')
         global _evdevAvailable
         global _udevAvailable
-        self._initialized = _evdevAvailable and _udevAvailable
-        if not self._initialized:
-            global _evdevAvailableError
-            global _udevAvailableError
-            currError = ' '
-            if not _evdevAvailable:
-                currError += _evdevAvailableError
-            if not _udevAvailable:
-                currError += ' ' + _udevAvailableError
-            self.env['runtime']['debug'].writeDebugOut('InputDriver:' + currError, debug.debugLevel.ERROR)
-            return  
+        global _evdevAvailableError
+        global _udevAvailableError
+        if not _udevAvailable:
+            self.env['runtime']['debug'].writeDebugOut('InputDriver:' + _udevAvailableError, debug.debugLevel.ERROR)            
+        if not _evdevAvailable:
+            self.env['runtime']['debug'].writeDebugOut('InputDriver:' + _evdevAvailableError, debug.debugLevel.ERROR)
+            return
 
-        self.env['runtime']['processManager'].addCustomEventThread(self.plugInputDeviceWatchdogUdev)
+        if _udevAvailable:
+            self.env['runtime']['processManager'].addCustomEventThread(self.plugInputDeviceWatchdogUdev)
         self.env['runtime']['processManager'].addCustomEventThread(self.inputWatchdog)
+        self._initialized = True
+        
     def plugInputDeviceWatchdogUdev(self,active , eventQueue):
         context = pyudev.Context()
         monitor = pyudev.Monitor.from_netlink(context)
