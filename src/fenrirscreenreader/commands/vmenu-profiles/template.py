@@ -8,20 +8,22 @@ from fenrirscreenreader.core import debug
 
 class command():
     def __init__(self):
-        # example:
-        # self.keyMakro = [[1,'KEY_CONTROL'],[300,'SLEEP'],[1,'KEY_O'],[10,'SLEEP'],[0,'KEY_O'], [10,'SLEEP'],[0,'KEY_CONTROL']]
-        self.keyMakro = []
-        self.byteMakro = []
+        pass
     def initialize(self, environment):
         self.env = environment
+        # examples:
+        # self.keyMakro = [[1,'KEY_LEFTCTRL'],[1,'KEY_O'],[0.05,'SLEEP'],[0,'KEY_O'],[0,'KEY_LEFTCTRL']]
+        # self.keyMakro = [[1,'KEY_LEFTSHIFT'],[1,'KEY_LEFTCTRL'],[1,'KEY_N'],[0.05,'SLEEP'],[0,'KEY_N'],[0,'KEY_LEFTCTRL'],[0,'KEY_LEFTSHIFT']]
+        self.keyMakro = []
+        self.byteMakro = []
     def shutdown(self):
         pass
     def getDescription(self):
-        return 'No description found'
+        return 'No description found'         
     def run(self):
         if self.env['runtime']['inputManager'].getShortcutType() in ['KEY']:
             self.env['runtime']['inputManager'].sendKeys(self.keyMakro)
-        if self.env['runtime']['inputManager'].getShortcutType() in ['BYTE']:
+        elif self.env['runtime']['inputManager'].getShortcutType() in ['BYTE']:
             self.env['runtime']['byteManager'].sendBytes(self.byteMakro)
     def setCallback(self, callback):
         pass
