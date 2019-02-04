@@ -30,10 +30,9 @@ class vmenuManager():
             try:
                 t = self.menuDict[currMenu]
                 l = list(menuDict.keys())
+                self.currIndex = [l.index(currMenu)]
             except:
                 return
-            
-            self.currIndex = [l.index(currMenu)]
             self.currMenu = currMenu
     def getCurrMenu(self):
         return self.currMenu
@@ -87,8 +86,13 @@ class vmenuManager():
             if not command == None:
                 command.run()
         except Exception as e:
-            print(e)
-            self.incLevel()
+            try:
+                self.incLevel()
+                text = self.getCurrentEntry()
+                self.env['runtime']['outputManager'].presentText(text, interrupt=True)                
+            except:
+                print(e)
+
     def incLevel(self):
         if self.currIndex == None:
             return
@@ -105,7 +109,7 @@ class vmenuManager():
         if self.currIndex == None:
             return
         if self.currMenu != '':
-            if len(self.currIndex) == 2:
+            if len(self.currIndex) <= 2:
                 return
         elif len(self.currIndex) == 1:
                 return
