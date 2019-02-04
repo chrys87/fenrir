@@ -17,9 +17,9 @@ class vmenuManager():
         self.currIndex = None
         self.currMenu = ''
         self.active = False
-        self.defaultVMenuPath = fenrirPath+ "/commands/vmenu-profiles/KEY"
     def initialize(self, environment):
         self.env = environment
+        self.defaultVMenuPath = fenrirPath+ "/commands/vmenu-profiles/" + self.env['runtime']['inputManager'].getShortcutType()
     def shutdown(self):
         pass
     def setCurrMenu(self, currMenu = ''):
@@ -82,7 +82,8 @@ class vmenuManager():
             command = self.getValueByPath(self.menuDict, self.currIndex)
             if not command == None:
                 command.run()
-        except:
+        except Exception as e:
+            print(e)
             self.incLevel()
     def incLevel(self):
         if self.currIndex == None:

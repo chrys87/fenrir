@@ -78,6 +78,7 @@ class inputManager():
             if key.upper() == 'SLEEP':
                 time.sleep(value)
             else:
+                print(key,value)
                 self.env['runtime']['inputDriver'].sendKey(key, value)
     def handleInputEvent(self, eventData):
         #print(eventData)
