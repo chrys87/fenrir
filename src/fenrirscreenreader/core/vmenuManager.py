@@ -91,8 +91,6 @@ class vmenuManager():
         try:
             r = self.getValueByPath(self.menuDict, self.currIndex +[0])
             print(r)
-            #if not r:
-            #    return
             if r == {}:
                 return
         except:
@@ -104,7 +102,7 @@ class vmenuManager():
             return
         if len(self.currIndex) == 1:
             return
-        self.currIndex.remove(len(self.currIndex) - 1)
+        self.currIndex = self.currIndex[:len(self.currIndex) - 1]
         print(self.currIndex)
     def nextIndex(self):
         if self.currIndex == None:
@@ -129,11 +127,15 @@ class vmenuManager():
         return self.getKeysByPath(self.menuDict, self.currIndex)[self.currIndex[-1]]
     def fs_tree_to_dict(self, path_):
         for root, dirs, files in os.walk(path_):
-            tree = {d: self.fs_tree_to_dict(os.path.join(root, d)) for d in dirs}
+            tree = {d + ' ' + _('Menu'): self.fs_tree_to_dict(os.path.join(root, d)) for d in dirs if not d.startswith('__')}
             for f in files:
                 try:
+                    fileName, fileExtension = os.path.splitext(f)
+                    fileName = fileName.split('/')[-1]
+                    if fileName.startswith('__'):
+                        continue
                     command = self.env['runtime']['commandManager'].loadFile(root + '/' + f)
-                    tree.update({f: command})
+                    tree.update({fileName + ' ' + _('Action'): command})
                 except Exception as e:
                     print(e)
             return tree  # note we discontinue iteration trough os.walk
@@ -157,7 +159,7 @@ class vmenuManager():
 
     def getValueByPath(self, complete, path):
         if not isinstance(complete, dict):
-            return None
+            return complete
         d = complete.copy()
         for i in path:
             d = d[list(d.keys())[i]]
