@@ -16,6 +16,6 @@ class command():
     def getDescription(self):
         return 'No description found'         
     def run(self):
-        pass
+        self.env['runtime']['outputManager'].presentText('ok i run open macro' , interrupt=True)
     def setCallback(self, callback):
         pass

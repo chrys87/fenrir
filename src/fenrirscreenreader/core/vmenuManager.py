@@ -79,7 +79,9 @@ class vmenuManager():
         if self.currIndex == None:
             return
         try:
-            pass
+            command = self.getValueByPath(self.menuDict, self.currIndex)
+            if not command == None:
+                command.run()
         except:
             self.incLevel()
     def incLevel(self):
@@ -87,10 +89,9 @@ class vmenuManager():
             return
         try:
             r = self.getValueByPath(self.menuDict, self.currIndex +[0])
-            if not r:
-                return
-            if not isinstance(r, dict):
-                return
+            print(r)
+            #if not r:
+            #    return
             if r == {}:
                 return
         except:
@@ -128,15 +129,18 @@ class vmenuManager():
     def fs_tree_to_dict(self, path_):
         for root, dirs, files in os.walk(path_):
             tree = {d: self.fs_tree_to_dict(os.path.join(root, d)) for d in dirs}
-            tree.update({f: root + '/' + f for f in files})
+            for f in files:
+                try:
+                    command = self.env['runtime']['commandManager'].loadFile(root + '/' + f)
+                    tree.update({f: command})
+                except Exception as e:
+                    print(e)
             return tree  # note we discontinue iteration trough os.walk
     def getNestedByPath(self, complete, path):
         path = path.copy()
         if path != []:
             index = list(complete.keys())[path[0]]
-            print(path)
-            path.remove(0)
-            nested = self.getNestedByPath(complete[index], path)
+            nested = self.getNestedByPath(complete[index], path[1:])
             return nested
         else:
             return complete

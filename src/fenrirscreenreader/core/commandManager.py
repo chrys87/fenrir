@@ -31,22 +31,53 @@ class commandManager():
     def shutdown(self):
         for commandFolder in self.env['general']['commandFolderList']:    
             self.env['runtime']['commandManager'].shutdownCommands(commandFolder)
-        
+
+    def loadFile(self, filepath = ''):
+        if filepath == '':
+            return None
+        if not os.path.exists(filepath):
+            self.env['runtime']['debug'].writeDebugOut("loadFile: filepath not exists:" + filepath ,debug.debugLevel.WARNING)
+            print('1')
+            return None
+        if os.path.isdir(filepath):
+            print('2')
+            self.env['runtime']['debug'].writeDebugOut("loadFile: filepath is a directory:" + filepath ,debug.debugLevel.ERROR)
+            return None
+        if not os.access(filepath, os.R_OK):
+            print('3')
+            self.env['runtime']['debug'].writeDebugOut("loadFile: filepath not readable:" + filepath ,debug.debugLevel.ERROR)
+            return None
+
+        try:
+            fileName, fileExtension = os.path.splitext(filepath)
+            fileName = fileName.split('/')[-1]
+            if fileName.startswith('__'):
+                return None
+            if fileExtension.lower() == '.py':
+                command_mod = module_utils.importModule(fileName, filepath)
+                command = command_mod.command()
+                command.initialize(self.env)
+                self.env['runtime']['debug'].writeDebugOut("loadFile: Load command:" + filepath ,debug.debugLevel.INFO, onAnyLevel=True)
+                return command
+        except Exception as e:
+            self.env['runtime']['debug'].writeDebugOut("loadFile: Loading command:" + filepath ,debug.debugLevel.ERROR)
+            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)                
+        return None
     def loadCommands(self, section='commands',commandPath=''):
         if commandPath =='':
             commandPath = fenrirPath+ "/commands/"
         if not commandPath.endswith('/'):
-            commandPath += '/'        
+            commandPath += '/'
         commandFolder = commandPath + section +"/"
         if not os.path.exists(commandFolder):
-            self.env['runtime']['debug'].writeDebugOut("commandFolder not exists:" + commandFolder ,debug.debugLevel.WARNING)                   
+            self.env['runtime']['debug'].writeDebugOut("loadCommands: commandFolder not exists:" + commandFolder ,debug.debugLevel.WARNING)                   
             return   
         if not os.path.isdir(commandFolder):
-            self.env['runtime']['debug'].writeDebugOut("commandFolder not a directory:" + commandFolder ,debug.debugLevel.ERROR)                                    
-            return      
+            self.env['runtime']['debug'].writeDebugOut("loadCommands: commandFolder not a directory:" + commandFolder ,debug.debugLevel.ERROR)                                    
+            return
         if not os.access(commandFolder, os.R_OK):
-            self.env['runtime']['debug'].writeDebugOut("commandFolder not readable:" + commandFolder ,debug.debugLevel.ERROR)                                    
-            return           
+            self.env['runtime']['debug'].writeDebugOut("loadCommands: commandFolder not readable:" + commandFolder ,debug.debugLevel.ERROR)                                    
+            return
         self.env['commands'][section] = {}
         self.env['commandsIgnore'][section] = {}
         commandList = glob.glob(commandFolder+'*')
@@ -66,9 +97,9 @@ class commandManager():
                     self.env['commands'][section][fileName.upper()] = command_mod.command()
                     self.env['commandsIgnore'][section][fileName.upper()[fileName.upper().find('-')+1:]+'_IGNORE'] = False
                     self.env['commands'][section][fileName.upper()].initialize(self.env)
-                    self.env['runtime']['debug'].writeDebugOut("Load command:" + section + "." + fileName.upper() ,debug.debugLevel.INFO, onAnyLevel=True)                    
+                    self.env['runtime']['debug'].writeDebugOut("loadCommands: Load command:" + section + "." + fileName.upper() ,debug.debugLevel.INFO, onAnyLevel=True)                    
             except Exception as e:
-                self.env['runtime']['debug'].writeDebugOut("Loading command:" + command ,debug.debugLevel.ERROR)
+                self.env['runtime']['debug'].writeDebugOut("loadCommands: Loading command:" + command ,debug.debugLevel.ERROR)
                 self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)                
                 continue
     
