@@ -6,9 +6,10 @@
 
 from fenrirscreenreader.core import debug
 from fenrirscreenreader.utils import module_utils
+import os, inspect
 
-import os
-
+currentdir = os.path.dirname(os.path.realpath(os.path.abspath(inspect.getfile(inspect.currentframe()))))
+fenrirPath = os.path.dirname(currentdir)
 
 class vmenuManager():
     def __init__(self):
@@ -16,6 +17,7 @@ class vmenuManager():
         self.currIndex = None
         self.currMenu = ''
         self.active = False
+        self.defaultVMenuPath = fenrirPath+ "/commands/vmenu-profiles/KEY"
     def initialize(self, environment):
         self.env = environment
     def shutdown(self):
@@ -37,7 +39,6 @@ class vmenuManager():
         self.setActive(not self.getActive())
     def setActive(self, active):
         self.active = active
-        print('drin')
         if self.active:
             #try:
             self.createMenuTree()
@@ -67,11 +68,9 @@ class vmenuManager():
                 del(self.env['bindings'][str([1, ['KEY_ENTER']])])
             except:
                 pass
-        print(self.env['bindings'])
-    
     def createMenuTree(self):
-        self.currIndex = None        
-        menu = self.fs_tree_to_dict( '/home/chrys/Projekte/fenrir/src/fenrirscreenreader/commands/vmenu-profiles/KEY')
+        self.currIndex = None
+        menu = self.fs_tree_to_dict( self.defaultVMenuPath)
         if menu:
             self.menuDict = menu
             if len(self.menuDict) > 0:
@@ -79,6 +78,10 @@ class vmenuManager():
     def executeMenu(self):
         if self.currIndex == None:
             return
+        try:
+            pass
+        except:
+            self.incLevel()
     def incLevel(self):
         if self.currIndex == None:
             return
@@ -93,34 +96,52 @@ class vmenuManager():
         except:
             return
         self.currIndex.append(0)
+        print(self.currIndex)
     def decLevel(self):
         if self.currIndex == None:
-            return    
+            return
         if len(self.currIndex) == 1:
-            return        
+            return
         self.currIndex.remove(len(self.currIndex) - 1)
+        print(self.currIndex)
     def nextIndex(self):
         if self.currIndex == None:
-            return    
-        self.currIndex[len(self.currIndex) - 1] += 1
-        if self.currIndex[len(self.currIndex) - 1] >= len(self.getNestedByPath(self.menuDict, self.currIndex[:-1])):
+            return
+        if self.currIndex[len(self.currIndex) - 1] + 1 >= len(self.getNestedByPath(self.menuDict, self.currIndex[:-1])):
            self.currIndex[len(self.currIndex) - 1] = 0 
+        else:
+            self.currIndex[len(self.currIndex) - 1] += 1
+        print(self.currIndex)
+
     def prevIndex(self):
         if self.currIndex == None:
-            return    
-        if len(self.currIndex) - 1 < self.currLevel:
             return
-        self.currIndex[len(self.currIndex) - 1] -= 1
-        if self.currIndex[len(self.currIndex) - 1] < 0:
+        if self.currIndex[len(self.currIndex) - 1] == 0:
            self.currIndex[len(self.currIndex) - 1] = len(self.getNestedByPath(self.menuDict, self.currIndex[:-1])) - 1
+        else:
+            self.currIndex[len(self.currIndex) - 1] -= 1
+        print(self.currIndex)
+
     def getCurrentEntry(self):
+        print( self.getKeysByPath(self.menuDict, self.currIndex)[self.currIndex[-1]])
         return self.getKeysByPath(self.menuDict, self.currIndex)[self.currIndex[-1]]
     def fs_tree_to_dict(self, path_):
         for root, dirs, files in os.walk(path_):
             tree = {d: self.fs_tree_to_dict(os.path.join(root, d)) for d in dirs}
             tree.update({f: root + '/' + f for f in files})
             return tree  # note we discontinue iteration trough os.walk
-    
+    def getNestedByPath(self, complete, path):
+        path = path.copy()
+        if path != []:
+            index = list(complete.keys())[path[0]]
+            print(path)
+            path.remove(0)
+            nested = self.getNestedByPath(complete[index], path)
+            return nested
+        else:
+            return complete
+
+
     def getKeysByPath(self, complete, path):
         if not isinstance(complete, dict):
             return[]

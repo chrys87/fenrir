@@ -17,9 +17,11 @@ class command():
         return _('enter v menu submenu')
     def run(self):
         print('INC LEVEL')
-        
-        self.env['runtime']['vmenuManager'].incLevel()
-        text = self.env['runtime']['vmenuManager'].getCurrentEntry()
-        self.env['runtime']['outputManager'].presentText(text, interrupt=True)
+        try:
+            self.env['runtime']['vmenuManager'].incLevel()
+            text = self.env['runtime']['vmenuManager'].getCurrentEntry()
+            self.env['runtime']['outputManager'].presentText(text, interrupt=True)
+        except Exception as e:
+            print(e)
     def setCallback(self, callback):
         pass
