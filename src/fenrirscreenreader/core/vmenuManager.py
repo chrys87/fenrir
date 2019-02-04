@@ -23,17 +23,19 @@ class vmenuManager():
     def shutdown(self):
         pass
     def setCurrMenu(self, currMenu = ''):
-        if currMenu == '':
-            self.currIndex = None
-            self.currMenu = ''
-        else:
+        self.currIndex = None
+        self.currMenu = ''
+        currIndex = None
+        if currMenu != '':
             try:
                 t = self.menuDict[currMenu]
                 l = list(menuDict.keys())
-                self.currIndex = [l.index(currMenu)]
+                currIndex = [l.index(currMenu)]
             except:
                 return
-            self.currMenu = currMenu
+            if self.incLevel():
+                self.currIndex = currIndex
+                self.currMenu = currMenu
     def getCurrMenu(self):
         return self.currMenu
     def getActive(self):
@@ -95,43 +97,43 @@ class vmenuManager():
 
     def incLevel(self):
         if self.currIndex == None:
-            return
+            return False
         try:
             r = self.getValueByPath(self.menuDict, self.currIndex +[0])
             print(r)
             if r == {}:
-                return
+                return False
         except:
-            return
+            return False
         self.currIndex.append(0)
-        print(self.currIndex)
+        return True
     def decLevel(self):
         if self.currIndex == None:
-            return
+            return False
         if self.currMenu != '':
             if len(self.currIndex) <= 2:
-                return
+                return False
         elif len(self.currIndex) == 1:
-                return
+            return False
         self.currIndex = self.currIndex[:len(self.currIndex) - 1]
-        print(self.currIndex)
+        return True
     def nextIndex(self):
         if self.currIndex == None:
-            return
+            return False
         if self.currIndex[len(self.currIndex) - 1] + 1 >= len(self.getNestedByPath(self.menuDict, self.currIndex[:-1])):
            self.currIndex[len(self.currIndex) - 1] = 0 
         else:
             self.currIndex[len(self.currIndex) - 1] += 1
-        print(self.currIndex)
+        return True
 
     def prevIndex(self):
         if self.currIndex == None:
-            return
+            return False
         if self.currIndex[len(self.currIndex) - 1] == 0:
            self.currIndex[len(self.currIndex) - 1] = len(self.getNestedByPath(self.menuDict, self.currIndex[:-1])) - 1
         else:
             self.currIndex[len(self.currIndex) - 1] -= 1
-        print(self.currIndex)
+        return True
 
     def getCurrentEntry(self):
         print( self.getKeysByPath(self.menuDict, self.currIndex)[self.currIndex[-1]])
