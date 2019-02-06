@@ -21,7 +21,7 @@ class vmenuManager():
         self.env = environment
         self.defaultVMenuPath = fenrirPath+ "/commands/vmenu-profiles/" + self.env['runtime']['inputManager'].getShortcutType()
         self.createMenuTree()
-
+        self.closeAfterAction = False
     def shutdown(self):
         pass
     def setCurrMenu(self, currMenu = ''):
@@ -47,11 +47,12 @@ class vmenuManager():
         return self.currMenu
     def getActive(self):
         return self.active
-    def togglelVMenuMode(self):
-        self.setActive(not self.getActive())
-    def setActive(self, active):
+    def togglelVMenuMode(self, closeAfterAction = True):
+        self.setActive(not self.getActive(), closeAfterAction)
+    def setActive(self, active, closeAfterAction = True):
         self.active = active
         if self.active:
+            self.closeAfterAction = closeAfterAction
             try:
                 self.createMenuTree()
             except Exception as e:
@@ -98,6 +99,8 @@ class vmenuManager():
             command = self.getValueByPath(self.menuDict, self.currIndex)
             if not command == None:
                 command.run()
+                if self.closeAfterAction:
+                    self.setActive(False)
         except Exception as e:
             try:
                 self.incLevel()
