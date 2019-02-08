@@ -6,7 +6,7 @@
 
 from fenrirscreenreader.core import debug
 from fenrirscreenreader.utils import module_utils
-import os, inspect
+import os, inspect, time
 
 currentdir = os.path.dirname(os.path.realpath(os.path.abspath(inspect.getfile(inspect.currentframe()))))
 fenrirPath = os.path.dirname(currentdir)
@@ -17,6 +17,8 @@ class vmenuManager():
         self.currIndex = None
         self.currMenu = ''
         self.active = False
+        self.searchText = ''
+        self.lastSearchTime = time.time()
     def initialize(self, environment):
         self.env = environment
         self.defaultVMenuPath = fenrirPath+ "/commands/vmenu-profiles/" + self.env['runtime']['inputManager'].getShortcutType()
@@ -24,6 +26,21 @@ class vmenuManager():
         self.closeAfterAction = False
     def shutdown(self):
         pass
+    def searchEntry(self, value):
+        if self.currIndex == None:
+            return False      
+        if time.time() - self.lastSearchTime > 1:
+            self.searchText = ''
+        self.searchText += value
+        self.lastSearchTime = time.time()
+        startIndex = 0
+        while True:
+            entry = self.getCurrentEntry()
+            if entry.startswith(self.searchText):
+                return True            
+            if not self.nextIndex():
+                return False                 
+            if         
     def setCurrMenu(self, currMenu = ''):
         self.currIndex = None
         self.currMenu = ''
