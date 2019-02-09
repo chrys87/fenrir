@@ -40,7 +40,8 @@ class vmenuManager():
                 return True            
             if not self.nextIndex():
                 return False                 
-            if         
+            if True:
+                return False
     def setCurrMenu(self, currMenu = ''):
         self.currIndex = None
         self.currMenu = ''
