@@ -10,7 +10,8 @@ from fenrirscreenreader.core import debug
 class helpManager():
     def __init__(self):
         self.helpDict = {}
-        self.tutorialListIndex = None          
+        self.tutorialListIndex = None
+        self.bindingsBackup = None
     def initialize(self, environment):
         self.env = environment
     def shutdown(self):
@@ -18,21 +19,26 @@ class helpManager():
     def toggleTutorialMode(self):
         self.setTutorialMode(not self.env['general']['tutorialMode'])
     def setTutorialMode(self, newTutorialMode):
-        self.env['general']['tutorialMode'] = newTutorialMode        
+        if self.environment['runtime']['vmenuManager'].getActive():
+            return
+        self.env['general']['tutorialMode'] = newTutorialMode
         if newTutorialMode:
-            self.createHelpDict()        
+            self.bindingsBackup = self.env['bindings'].copy()
+            self.createHelpDict()
             self.env['bindings'][str([1, ['KEY_ESC']])] = 'TOGGLE_TUTORIAL_MODE'
             self.env['bindings'][str([1, ['KEY_UP']])] = 'PREV_HELP'
             self.env['bindings'][str([1, ['KEY_DOWN']])] = 'NEXT_HELP'
-            self.env['bindings'][str([1, ['KEY_SPACE']])] = 'CURR_HELP'                                    
+            self.env['bindings'][str([1, ['KEY_SPACE']])] = 'CURR_HELP'
         else:
             try:
-                del(self.env['bindings'][str([1, ['KEY_ESC']])])
-                del(self.env['bindings'][str([1, ['KEY_UP']])])
-                del(self.env['bindings'][str([1, ['KEY_DOWN']])])
-                del(self.env['bindings'][str([1, ['KEY_SPACE']])])
+                self.env['bindings'] = self.bindingsBackup.copy()
+                self.bindingsBackup = None
+                #del(self.env['bindings'][str([1, ['KEY_ESC']])])
+                #del(self.env['bindings'][str([1, ['KEY_UP']])])
+                #del(self.env['bindings'][str([1, ['KEY_DOWN']])])
+                #del(self.env['bindings'][str([1, ['KEY_SPACE']])])
             except:
-                pass                     
+                pass
     def isTutorialMode(self):
         return self.env['general']['tutorialMode']        
     def getCommandHelpText(self, command, section = 'commands'):

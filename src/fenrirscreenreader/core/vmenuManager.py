@@ -17,8 +17,11 @@ class vmenuManager():
         self.currIndex = None
         self.currMenu = ''
         self.active = False
+        self.reset = True
+        self.useTimeout = True
         self.searchText = ''
         self.lastSearchTime = time.time()
+        self.bindingsBackup = None
     def initialize(self, environment):
         self.env = environment
         # use default path
@@ -34,22 +37,29 @@ class vmenuManager():
         self.closeAfterAction = False
     def shutdown(self):
         pass
-    def searchEntry(self, value):
+    def clearSearchText(self):
+        self.searchText = ''
+    def searchEntry(self, value, forceReset = False):
         if self.currIndex == None:
-            return False      
-        if time.time() - self.lastSearchTime > 1:
-            self.searchText = ''
+            return ''
+        if self.reset or forceReset:
+            self.clearSearchText()
+        else:
+            if self.useTimeout:
+                if time.time() - self.lastSearchTime > 1:
+                    self.clearSearchText()
         self.searchText += value
         self.lastSearchTime = time.time()
-        startIndex = 0
+        startIndex = self.getCurrIndex()
         while True:
+            if not self.nextIndex():
+                return ''
             entry = self.getCurrentEntry()
             if entry.startswith(self.searchText):
-                return True
-            if not self.nextIndex():
-                return False
-            if True:
-                return False
+                return entry
+            if startIndex == self.getCurrIndex():
+                return ''
+
     def setCurrMenu(self, currMenu = ''):
         self.currIndex = None
         self.currMenu = ''
@@ -76,6 +86,8 @@ class vmenuManager():
     def togglelVMenuMode(self, closeAfterAction = True):
         self.setActive(not self.getActive(), closeAfterAction)
     def setActive(self, active, closeAfterAction = True):
+        if self.env['runtime']['helpManager'].isTutorialMode():
+            return
         self.active = active
         if self.active:
             self.closeAfterAction = closeAfterAction
@@ -92,6 +104,8 @@ class vmenuManager():
             except Exception as e:
                 print(e)
             try:
+                self.bindingsBackup = self.env['bindings'].copy()
+                # navigation
                 self.env['bindings'][str([1, ['KEY_ESC']])] = 'TOGGLE_VMENU_MODE'
                 self.env['bindings'][str([1, ['KEY_UP']])] = 'PREV_VMENU_ENTRY'
                 self.env['bindings'][str([1, ['KEY_DOWN']])] = 'NEXT_VMENU_ENTRY'
@@ -99,18 +113,47 @@ class vmenuManager():
                 self.env['bindings'][str([1, ['KEY_LEFT']])] = 'DEC_LEVEL_VMENU'
                 self.env['bindings'][str([1, ['KEY_RIGHT']])] = 'INC_LEVEL_VMENU'
                 self.env['bindings'][str([1, ['KEY_ENTER']])] = 'EXEC_VMENU_ENTRY'
+                # search
+                self.env['bindings'][str([1, ['KEY_A']])] = 'SEARCH_A'
+                self.env['bindings'][str([1, ['KEY_B']])] = 'SEARCH_B'
+                self.env['bindings'][str([1, ['KEY_C']])] = 'SEARCH_C'
+                self.env['bindings'][str([1, ['KEY_D']])] = 'SEARCH_D'
+                self.env['bindings'][str([1, ['KEY_E']])] = 'SEARCH_E'
+                self.env['bindings'][str([1, ['KEY_F']])] = 'SEARCH_F'
+                self.env['bindings'][str([1, ['KEY_G']])] = 'SEARCH_G'
+                self.env['bindings'][str([1, ['KEY_H']])] = 'SEARCH_H'
+                self.env['bindings'][str([1, ['KEY_I']])] = 'SEARCH_I'
+                self.env['bindings'][str([1, ['KEY_J']])] = 'SEARCH_J'
+                self.env['bindings'][str([1, ['KEY_K']])] = 'SEARCH_K'
+                self.env['bindings'][str([1, ['KEY_L']])] = 'SEARCH_L'
+                self.env['bindings'][str([1, ['KEY_M']])] = 'SEARCH_M'
+                self.env['bindings'][str([1, ['KEY_N']])] = 'SEARCH_N'
+                self.env['bindings'][str([1, ['KEY_O']])] = 'SEARCH_O'
+                self.env['bindings'][str([1, ['KEY_P']])] = 'SEARCH_P'
+                self.env['bindings'][str([1, ['KEY_Q']])] = 'SEARCH_Q'
+                self.env['bindings'][str([1, ['KEY_R']])] = 'SEARCH_R'
+                self.env['bindings'][str([1, ['KEY_S']])] = 'SEARCH_S'
+                self.env['bindings'][str([1, ['KEY_T']])] = 'SEARCH_T'
+                self.env['bindings'][str([1, ['KEY_U']])] = 'SEARCH_U'
+                self.env['bindings'][str([1, ['KEY_V']])] = 'SEARCH_V'
+                self.env['bindings'][str([1, ['KEY_W']])] = 'SEARCH_W'
+                self.env['bindings'][str([1, ['KEY_X']])] = 'SEARCH_X'
+                self.env['bindings'][str([1, ['KEY_Y']])] = 'SEARCH_Y'
+                self.env['bindings'][str([1, ['KEY_Z']])] = 'SEARCH_Z'
             except Exception as e:
                 print(e)
         else:
             try:
                 self.currIndex = None
-                del(self.env['bindings'][str([1, ['KEY_ESC']])])
-                del(self.env['bindings'][str([1, ['KEY_UP']])])
-                del(self.env['bindings'][str([1, ['KEY_DOWN']])])
-                del(self.env['bindings'][str([1, ['KEY_SPACE']])])
-                del(self.env['bindings'][str([1, ['KEY_LEFT']])])
-                del(self.env['bindings'][str([1, ['KEY_RIGHT']])])
-                del(self.env['bindings'][str([1, ['KEY_ENTER']])])
+                self.env['bindings'] = self.bindingsBackup.copy()
+                self.bindingsBackup = None
+                #del(self.env['bindings'][str([1, ['KEY_ESC']])])
+                #del(self.env['bindings'][str([1, ['KEY_UP']])])
+                #del(self.env['bindings'][str([1, ['KEY_DOWN']])])
+                #del(self.env['bindings'][str([1, ['KEY_SPACE']])])
+                #del(self.env['bindings'][str([1, ['KEY_LEFT']])])
+                #del(self.env['bindings'][str([1, ['KEY_RIGHT']])])
+                #del(self.env['bindings'][str([1, ['KEY_ENTER']])])
             except:
                 pass
     def createMenuTree(self):
@@ -164,7 +207,10 @@ class vmenuManager():
         else:
             self.currIndex[len(self.currIndex) - 1] += 1
         return True
-
+    def getCurrIndex(self):
+        if self.currIndex == None:
+            return 0        
+        return self.currIndex[len(self.currIndex) - 1]
     def prevIndex(self):
         if self.currIndex == None:
             return False
