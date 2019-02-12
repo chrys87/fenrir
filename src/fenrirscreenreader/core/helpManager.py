@@ -33,18 +33,14 @@ class helpManager():
             try:
                 self.env['bindings'] = self.bindingsBackup.copy()
                 self.bindingsBackup = None
-                #del(self.env['bindings'][str([1, ['KEY_ESC']])])
-                #del(self.env['bindings'][str([1, ['KEY_UP']])])
-                #del(self.env['bindings'][str([1, ['KEY_DOWN']])])
-                #del(self.env['bindings'][str([1, ['KEY_SPACE']])])
             except:
                 pass
     def isTutorialMode(self):
-        return self.env['general']['tutorialMode']        
+        return self.env['general']['tutorialMode']
     def getCommandHelpText(self, command, section = 'commands'):
         commandName = command.lower()
-        commandName = commandName.split('__-__')[0]       
-        commandName = commandName.replace('_',' ')        
+        commandName = commandName.split('__-__')[0]
+        commandName = commandName.replace('_',' ')
         commandName = commandName.replace('_',' ')
         if command == 'TOGGLE_TUTORIAL_MODE':
             commandDescription = _('toggles the tutorial mode')
@@ -54,22 +50,22 @@ class helpManager():
             commandDescription = 'no Description available'
         commandShortcut = self.env['runtime']['commandManager'].getShortcutForCommand( command)
         commandShortcut = commandShortcut.replace('KEY_',' ')
-        commandShortcut = commandShortcut.replace('[','')        
-        commandShortcut = commandShortcut.replace(']','')        
-        commandShortcut = commandShortcut.replace("'",'')        
+        commandShortcut = commandShortcut.replace('[','')
+        commandShortcut = commandShortcut.replace(']','')
+        commandShortcut = commandShortcut.replace("'",'')
         if commandShortcut == '':
             commandShortcut = 'unbound'
         helptext = commandName + ', Shortcut ' + commandShortcut + ', Description ' + commandDescription
         return helptext
     def createHelpDict(self, section = 'commands'):
-        self.helpDict = {}        
+        self.helpDict = {}
         for command in sorted(self.env['commands'][section].keys()):
-            self.helpDict[len(self.helpDict)] = self.getCommandHelpText(command, section)            
+            self.helpDict[len(self.helpDict)] = self.getCommandHelpText(command, section)
         if len(self.helpDict) > 0:
             self.tutorialListIndex = 0
         else:
-            self.tutorialListIndex = None        
-    def getHelpForCurrentIndex(self):            
+            self.tutorialListIndex = None
+    def getHelpForCurrentIndex(self):
         if self.tutorialListIndex == None:
             return '' 
         return self.helpDict[self.tutorialListIndex]

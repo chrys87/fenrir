@@ -147,13 +147,6 @@ class vmenuManager():
                 self.currIndex = None
                 self.env['bindings'] = self.bindingsBackup.copy()
                 self.bindingsBackup = None
-                #del(self.env['bindings'][str([1, ['KEY_ESC']])])
-                #del(self.env['bindings'][str([1, ['KEY_UP']])])
-                #del(self.env['bindings'][str([1, ['KEY_DOWN']])])
-                #del(self.env['bindings'][str([1, ['KEY_SPACE']])])
-                #del(self.env['bindings'][str([1, ['KEY_LEFT']])])
-                #del(self.env['bindings'][str([1, ['KEY_RIGHT']])])
-                #del(self.env['bindings'][str([1, ['KEY_ENTER']])])
             except:
                 pass
     def createMenuTree(self):
