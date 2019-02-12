@@ -36,6 +36,7 @@ class remoteManager():
         self.commandConst = 'COMMAND '
         self.sayConst = 'SAY '
         self.interruptConst = 'INTERRUPT'
+        self.quitAppConst = 'QUITAPPLICATION'
         self.defineWindowConst = 'WINDOW '
         self.resetWindowConst = 'RESETWINDOW'
         self.setClipboardConst = 'CLIPBOARD '
@@ -80,6 +81,9 @@ class remoteManager():
         # interrupt
         if upperCommandText.startswith(self.interruptConst):
             self.interruptSpeech()
+        # quit fenrir
+        if upperCommandText.startswith(self.quitAppConst):
+            self.quitFenrir()
         # define window
         if upperCommandText.startswith(self.defineWindowConst):
             parameterText = commandText[len(self.defineWindowConst):]
@@ -93,6 +97,8 @@ class remoteManager():
             self.setClipboard(parameterText)
     def setClipboard(self, text = ''):
         self.env['runtime']['memoryManager'].addValueToFirstIndex('clipboardHistory', text)
+    def quitFenrir(self):
+        self.env['runtime']['eventManager'].stopMainEventLoop()
     def defineWindow(self, windowText):
         start = {}
         end = {}
