@@ -19,7 +19,7 @@ class helpManager():
     def toggleTutorialMode(self):
         self.setTutorialMode(not self.env['general']['tutorialMode'])
     def setTutorialMode(self, newTutorialMode):
-        if self.environment['runtime']['vmenuManager'].getActive():
+        if self.env['runtime']['vmenuManager'].getActive():
             return
         self.env['general']['tutorialMode'] = newTutorialMode
         if newTutorialMode:
