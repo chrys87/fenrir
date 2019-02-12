@@ -244,7 +244,10 @@ class commandManager():
         self.env['commandInfo']['lastCommandExecutionTime'] = time.time()  
         
     def commandExists(self, command, section = 'commands'):
-        return( command in self.env['commands'][section])
+        try:
+            return( command in self.env['commands'][section])
+        except:
+            return False
     def getShortcutForCommand(self, command):
         shortcut = ''
         try:
