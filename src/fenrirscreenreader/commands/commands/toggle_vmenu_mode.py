@@ -15,7 +15,7 @@ class command():
         pass 
     def getDescription(self):
         self.env['runtime']['vmenuManager'].togglelVMenuMode()
-        return _('Exiting v menu mode.')
+        return _('Entering or Leaving v menu mode.')
     def run(self):
         self.env['runtime']['vmenuManager'].togglelVMenuMode()
         if self.env['runtime']['vmenuManager'].getActive():
