@@ -38,6 +38,7 @@ class remoteManager():
         self.vmenuConst = 'VMENU '
         self.resetVmenuConst = 'RESETVMENU'
         self.interruptConst = 'INTERRUPT'
+        self.quitAppConst = 'QUITAPPLICATION'
         self.defineWindowConst = 'WINDOW '
         self.resetWindowConst = 'RESETWINDOW'
         self.setClipboardConst = 'CLIPBOARD '
@@ -89,6 +90,9 @@ class remoteManager():
         # reset vmenu
         if upperCommandText.startswith(self.resetVmenuConst):
             self.resetVMenu()
+        # quit fenrir
+        if upperCommandText.startswith(self.quitAppConst):
+            self.quitFenrir()
         # define window
         if upperCommandText.startswith(self.defineWindowConst):
             parameterText = commandText[len(self.defineWindowConst):]
@@ -106,6 +110,8 @@ class remoteManager():
         self.env['runtime']['vmenuManager'].setCurrMenu()
     def setClipboard(self, text = ''):
         self.env['runtime']['memoryManager'].addValueToFirstIndex('clipboardHistory', text)
+    def quitFenrir(self):
+        self.env['runtime']['eventManager'].stopMainEventLoop()
     def defineWindow(self, windowText):
         start = {}
         end = {}
