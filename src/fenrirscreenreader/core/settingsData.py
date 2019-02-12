@@ -99,6 +99,9 @@ settingsData = {
   'leaveReviewOnCursorChange': True,
   'leaveReviewOnScreenChange': True,
 },
+'menu':{
+  'vmenuPath': '',
+},
 'promote':{
   'enabled': True,
   'inactiveTimeoutSec': 120,

@@ -21,7 +21,15 @@ class vmenuManager():
         self.lastSearchTime = time.time()
     def initialize(self, environment):
         self.env = environment
+        # use default path
         self.defaultVMenuPath = fenrirPath+ "/commands/vmenu-profiles/" + self.env['runtime']['inputManager'].getShortcutType()
+        # if there is no user configuration
+        if self.env['runtime']['settingsManager'].getSetting('menu', 'vmenuPath') != '':
+            self.defaultVMenuPath = self.env['runtime']['settingsManager'].getSetting('menu', 'vmenuPath')
+            if not self.defaultVMenuPath.endswith('/'):
+                self.defaultVMenuPath += '/'
+            self.defaultVMenuPath += self.env['runtime']['inputManager'].getShortcutType()
+
         self.createMenuTree()
         self.closeAfterAction = False
     def shutdown(self):
@@ -37,9 +45,9 @@ class vmenuManager():
         while True:
             entry = self.getCurrentEntry()
             if entry.startswith(self.searchText):
-                return True            
+                return True
             if not self.nextIndex():
-                return False                 
+                return False
             if True:
                 return False
     def setCurrMenu(self, currMenu = ''):
