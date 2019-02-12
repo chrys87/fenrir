@@ -7,7 +7,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 fenrirVersion = '1.9.3'
-packageVersion = 'post2'
+packageVersion = 'post4'
 
 # handle flags for package manager like yaourt and pacaur.
 forceSettings = False
