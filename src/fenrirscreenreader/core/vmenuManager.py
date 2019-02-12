@@ -21,7 +21,6 @@ class vmenuManager():
         self.useTimeout = True
         self.searchText = ''
         self.lastSearchTime = time.time()
-        self.bindingsBackup = None
     def initialize(self, environment):
         self.env = environment
         # use default path
@@ -104,7 +103,6 @@ class vmenuManager():
             except Exception as e:
                 print(e)
             try:
-                self.bindingsBackup = self.env['bindings'].copy()
                 # navigation
                 self.env['bindings'][str([1, ['KEY_ESC']])] = 'TOGGLE_VMENU_MODE'
                 self.env['bindings'][str([1, ['KEY_UP']])] = 'PREV_VMENU_ENTRY'
@@ -145,8 +143,7 @@ class vmenuManager():
         else:
             try:
                 self.currIndex = None
-                self.env['bindings'] = self.bindingsBackup.copy()
-                self.bindingsBackup = None
+                self.env['bindings'] = self.env['runtime']['settingsManager'].getBindingBackup()
             except:
                 pass
     def createMenuTree(self):

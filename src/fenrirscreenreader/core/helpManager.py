@@ -11,7 +11,6 @@ class helpManager():
     def __init__(self):
         self.helpDict = {}
         self.tutorialListIndex = None
-        self.bindingsBackup = None
     def initialize(self, environment):
         self.env = environment
     def shutdown(self):
@@ -23,7 +22,6 @@ class helpManager():
             return
         self.env['general']['tutorialMode'] = newTutorialMode
         if newTutorialMode:
-            self.bindingsBackup = self.env['bindings'].copy()
             self.createHelpDict()
             self.env['bindings'][str([1, ['KEY_ESC']])] = 'TOGGLE_TUTORIAL_MODE'
             self.env['bindings'][str([1, ['KEY_UP']])] = 'PREV_HELP'
@@ -31,8 +29,7 @@ class helpManager():
             self.env['bindings'][str([1, ['KEY_SPACE']])] = 'CURR_HELP'
         else:
             try:
-                self.env['bindings'] = self.bindingsBackup.copy()
-                self.bindingsBackup = None
+                self.env['bindings'] = self.env['runtime']['settingsManager'].getBindingBackup()
             except:
                 pass
     def isTutorialMode(self):

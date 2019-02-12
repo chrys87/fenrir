@@ -39,11 +39,13 @@ class settingsManager():
     def __init__(self):
         self.settings = settingsData
         self.settingArgDict = {}
+        self.bindingsBackup = None
     def initialize(self, environment):
         self.env = environment
     def shutdown(self):
         pass
-        
+    def getBindingBackup(self):
+        return self.bindingsBackup.copy()
     def loadSoundIcons(self, soundIconPath):
         siConfig = open(soundIconPath + '/soundicons.conf',"r")
         while(True):
@@ -392,4 +394,6 @@ class settingsManager():
         environment['runtime']['debug'].writeDebugOut(str(environment['settings']._sections) , debug.debugLevel.INFO, onAnyLevel=True)
         environment['runtime']['debug'].writeDebugOut('\/-------self.settingArgDict-------\/',debug.debugLevel.INFO, onAnyLevel=True)
         environment['runtime']['debug'].writeDebugOut(str( self.settingArgDict) ,debug.debugLevel.INFO, onAnyLevel=True)
+        self.bindingsBackup = environment['bindings'].copy()
+
         return environment
