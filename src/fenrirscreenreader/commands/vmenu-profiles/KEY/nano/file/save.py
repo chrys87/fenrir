@@ -10,9 +10,9 @@ class command():
     def initialize(self, environment):
         self.env = environment
         self.keyMakro = [[1, 'KEY_LEFTCTRL'],
-                         [1, 'KEY_O'],
+                         [1, 'KEY_S'],
                          [0.05, 'SLEEP'],
-                         [0, 'KEY_O'],
+                         [0, 'KEY_S'],
                          [0, 'KEY_LEFTCTRL']]
 
     def shutdown(self):
