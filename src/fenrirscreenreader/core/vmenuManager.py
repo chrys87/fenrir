@@ -48,14 +48,14 @@ class vmenuManager():
             if self.useTimeout:
                 if time.time() - self.lastSearchTime > 1:
                     self.clearSearchText()
-        self.searchText += value
+        self.searchText += value.upper()
         self.lastSearchTime = time.time()
         startIndex = self.getCurrIndex()
         while True:
             if not self.nextIndex():
                 return ''
             entry = self.getCurrentEntry()
-            if entry.startswith(self.searchText):
+            if entry.upper().startswith(self.searchText):
                 return entry
             if startIndex == self.getCurrIndex():
                 return ''
