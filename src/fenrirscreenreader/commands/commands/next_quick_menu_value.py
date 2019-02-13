@@ -21,5 +21,3 @@ class command():
             self.env['runtime']['outputManager'].presentText(value, interrupt=True)
     def setCallback(self, callback):
         pass
-    def setCallback(self, callback):
-        pass

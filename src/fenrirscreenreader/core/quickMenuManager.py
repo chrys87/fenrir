@@ -67,18 +67,18 @@ class quickMenuManager():
                 if not valueString in ['True','False']:
                     return False
                 value = not value
-                self.env['runtime']['settingsManager'].setSettingAsBool(section, setting, value)
+                self.env['runtime']['settingsManager'].setSetting(section, setting, str(value))
             elif isinstance(self.settings[section][setting], int):
                 value = int(valueString)
                 value += 1
-                self.env['runtime']['settingsManager'].setSettingAsInt(section, setting, value)
+                self.env['runtime']['settingsManager'].setSetting(section, setting, str(value))
             elif isinstance(self.settings[section][setting], float):
                 value = float(valueString)
                 value += 0.05
                 if value > 1.0:
                     value = 1.0
-                self.env['runtime']['settingsManager'].setSettingAsFloat(section, setting, value)
-        except:
+                self.env['runtime']['settingsManager'].setSetting(section, setting, str(value))
+        except Exception as e:
             return False
         return True
     def prevValue(self):
@@ -99,20 +99,20 @@ class quickMenuManager():
                 if not valueString in ['True','False']:
                     return False
                 value = not value
-                self.env['runtime']['settingsManager'].setSettingAsBool(section, setting, value)
+                self.env['runtime']['settingsManager'].setSetting(section, setting, str(value))
             elif isinstance(self.settings[section][setting], int):
                 value = int(valueString)
                 value -= 1
                 if value < 0:
                     value = 0
-                self.env['runtime']['settingsManager'].setSettingAsInt(section, setting, value)
+                self.env['runtime']['settingsManager'].setSetting(section, setting, str(value))
             elif isinstance(self.settings[section][setting], float):
                 value = float(valueString)
                 value -= 0.05
                 if value < 0.0:
                     value = 0.0
-                self.env['runtime']['settingsManager'].setSettingAsFloat(section, setting, value)
-        except:
+                self.env['runtime']['settingsManager'].setSetting(section, setting, str(value))
+        except Exception as e:
             return False
         return True
     def getCurrentEntry(self):
