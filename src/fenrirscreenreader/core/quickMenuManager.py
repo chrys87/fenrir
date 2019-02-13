@@ -55,7 +55,7 @@ class quickMenuManager():
         setting = self.quickMenu[self.position]['setting']
         valueString = ''
         try:
-            valueString = self.env['runtime']['settingsManager'].getSetting(self.quickMenu[self.position]['section'], self.quickMenu[self.position]['setting'])
+            valueString = self.env['runtime']['settingsManager'].getSetting(section, setting)
         except:
             return False
 

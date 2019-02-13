@@ -16,10 +16,11 @@ class command():
     def getDescription(self):
         return _('get next quick menu value')
     def run(self):
-        if self.env['runtime']['quickMenuManager'].nextValue():
-            value = self.env['runtime']['quickMenuManager'].getCurrentValue()
-            self.env['runtime']['outputManager'].presentText(value, interrupt=True)
-    def setCallback(self, callback):
-        pass
+        try:
+            if self.env['runtime']['quickMenuManager'].nextValue():
+                value = self.env['runtime']['quickMenuManager'].getCurrentValue()
+                self.env['runtime']['outputManager'].presentText(value, interrupt=True)
+        except Exception as e:
+            print(e)        
     def setCallback(self, callback):
         pass
