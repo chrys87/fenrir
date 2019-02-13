@@ -5,11 +5,14 @@
 # By Chrys, Storm Dragon, and contributers.
 
 from fenrirscreenreader.core import debug
+from fenrirscreenreader.core.settingsData import settingsData
 
 class quickMenuManager():
     def __init__(self):
         self.position = 0
         self.quickMenu = []
+        self.settings = settingsData
+
     def initialize(self, environment):
         self.env = environment
         self.loadMenu(self.env['runtime']['settingsManager'].getSetting('menu', 'quickMenu'))
@@ -24,6 +27,11 @@ class quickMenuManager():
         for e in entrys:
             entry = e.split('#')
             if len(entry) != 2:
+                continue
+            try:
+                t = self.settings[entry[0]][entry[1]]
+            except:
+                print(entry[0],entry[1], 'not found')
                 continue
             self.quickMenu.append({'section': entry[0], 'setting': entry[1]})
     def nextEntry(self):
@@ -43,48 +51,67 @@ class quickMenuManager():
     def nextValue(self):
         if len(self.quickMenu) == 0:
             return False
+        section = self.quickMenu[self.position]['section']
+        setting = self.quickMenu[self.position]['setting']
+        valueString = ''
         try:
             valueString = self.env['runtime']['settingsManager'].getSetting(self.quickMenu[self.position]['section'], self.quickMenu[self.position]['setting'])
         except:
             return False
-        # bool
-        if valueString.upper() in ['TRUE', 'FALSE']:
-            value = valueString.upper() == 'TRUE'
-            value = not value
-            self.env['runtime']['settingsManager'].setSettingAsBool(self.quickMenu[self.position]['section'], self.quickMenu[self.position]['setting'], value)
-            return True
-        # float
+
         try:
-            value = float(valueString)
-            value += 0.05
-            if value > 1.0:
-                value = 1.0
-            self.env['runtime']['settingsManager'].setSettingAsFloat(self.quickMenu[self.position]['section'], self.quickMenu[self.position]['setting'], value)
-            return True
+            if isinstance(self.settings[section][setting], str):
+                value = str(valueString)
+                return False
+            elif isinstance(self.settings[section][setting], bool):
+                if not valueString in ['True','False']:
+                    return False
+                value = not value
+                self.env['runtime']['settingsManager'].setSettingAsBool(section, setting, value)
+            elif isinstance(self.settings[section][setting], int):
+                value = int(valueString)
+                value += 1
+                self.env['runtime']['settingsManager'].setSettingAsInt(section, setting, value)
+            elif isinstance(self.settings[section][setting], float):
+                value = float(valueString)
+                value += 0.05
+                if value > 1.0:
+                    value = 1.0
+                self.env['runtime']['settingsManager'].setSettingAsFloat(section, setting, value)
         except:
             return False
         return True
     def prevValue(self):
         if len(self.quickMenu) == 0:
             return False
+        section = self.quickMenu[self.position]['section']
+        setting = self.quickMenu[self.position]['setting']
+        valueString = ''
         try:
-            valueString = self.env['runtime']['settingsManager'].getSetting(self.quickMenu[self.position]['section'], self.quickMenu[self.position]['setting'])
+            valueString = self.env['runtime']['settingsManager'].getSetting(section, setting)
         except:
             return False
-        # bool
-        if valueString.upper() in ['TRUE', 'FALSE']:
-            value = valueString.upper() == 'TRUE'
-            value = not value
-            self.env['runtime']['settingsManager'].setSettingAsBool(self.quickMenu[self.position]['section'], self.quickMenu[self.position]['setting'], value)
-            return True
-        # float
         try:
-            value = float(valueString)
-            value -= 0.05
-            if value < 0.0:
-                value = 0
-            self.env['runtime']['settingsManager'].setSettingAsFloat(self.quickMenu[self.position]['section'], self.quickMenu[self.position]['setting'], value)
-            return True
+            if isinstance(self.settings[section][setting], str):
+                value = str(valueString)
+                return False
+            elif isinstance(self.settings[section][setting], bool):
+                if not valueString in ['True','False']:
+                    return False
+                value = not value
+                self.env['runtime']['settingsManager'].setSettingAsBool(section, setting, value)
+            elif isinstance(self.settings[section][setting], int):
+                value = int(valueString)
+                value -= 1
+                if value < 0:
+                    value = 0
+                self.env['runtime']['settingsManager'].setSettingAsInt(section, setting, value)
+            elif isinstance(self.settings[section][setting], float):
+                value = float(valueString)
+                value -= 0.05
+                if value < 0.0:
+                    value = 0.0
+                self.env['runtime']['settingsManager'].setSettingAsFloat(section, setting, value)
         except:
             return False
         return True
@@ -102,4 +129,3 @@ class quickMenuManager():
             return self.env['runtime']['settingsManager'].getSetting(self.quickMenu[self.position]['section'], self.quickMenu[self.position]['setting'])
         except:
             return _('setting value invalid')
-
