@@ -30,6 +30,7 @@ from fenrirscreenreader.core import attributeManager
 from fenrirscreenreader.core import barrierManager
 from fenrirscreenreader.core import remoteManager
 from fenrirscreenreader.core import sayAllManager
+from fenrirscreenreader.core import quickMenuManager
 from fenrirscreenreader.core import environment 
 from fenrirscreenreader.core.settingsData import settingsData
 from fenrirscreenreader.core import debug
@@ -388,6 +389,8 @@ class settingsManager():
         environment['runtime']['sayAllManager'].initialize(environment)
         environment['runtime']['vmenuManager'] = vmenuManager.vmenuManager()
         environment['runtime']['vmenuManager'].initialize(environment)
+        environment['runtime']['quickMenuManager'] = quickMenuManager.quickMenuManager()
+        environment['runtime']['quickMenuManager'].initialize(environment)
         environment['runtime']['debug'].writeDebugOut('\/-------environment-------\/',debug.debugLevel.INFO, onAnyLevel=True)
         environment['runtime']['debug'].writeDebugOut(str(environment), debug.debugLevel.INFO, onAnyLevel=True)
         environment['runtime']['debug'].writeDebugOut('\/-------settings.conf-------\/', debug.debugLevel.INFO, onAnyLevel=True)
