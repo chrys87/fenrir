@@ -77,7 +77,7 @@ class quickMenuManager():
                 value += 0.05
                 if value > 1.0:
                     value = 1.0
-                self.env['runtime']['settingsManager'].setSetting(section, setting, str(value))
+                self.env['runtime']['settingsManager'].setSetting(section, setting, str(value)[:3])
         except Exception as e:
             return False
         return True
@@ -111,7 +111,7 @@ class quickMenuManager():
                 value -= 0.05
                 if value < 0.0:
                     value = 0.0
-                self.env['runtime']['settingsManager'].setSetting(section, setting, str(value))
+                self.env['runtime']['settingsManager'].setSetting(section, setting, str(value)[:3])
         except Exception as e:
             return False
         return True
