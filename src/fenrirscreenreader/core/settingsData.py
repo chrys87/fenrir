@@ -101,6 +101,7 @@ settingsData = {
 },
 'menu':{
   'vmenuPath': '',
+  'quickMenu': 'speech#rate;speech#pitch;speech#volume',
 },
 'promote':{
   'enabled': True,
