@@ -62,7 +62,7 @@ class quickMenuManager():
             self.env['runtime']['settingsManager'].setSettingAsFloat(self.quickMenu[self.position]['section'], self.quickMenu[self.position]['setting'], value)
             return True
         except:
-            pass
+            return False
         return True
     def prevValue(self):
         if len(self.quickMenu) == 0:
@@ -86,7 +86,7 @@ class quickMenuManager():
             self.env['runtime']['settingsManager'].setSettingAsFloat(self.quickMenu[self.position]['section'], self.quickMenu[self.position]['setting'], value)
             return True
         except:
-            pass
+            return False
         return True
     def getCurrentEntry(self):
         if len(self.quickMenu) == 0:
