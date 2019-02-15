@@ -6,10 +6,10 @@ from shutil import copyfile
 from setuptools import find_packages
 from setuptools import setup
 
-fenrirVersion = '1.9.3'
-packageVersion = 'post4'
+fenrirVersion = '1.9.6'
+packageVersion = 'post1'
 
-# handle flags for package manager like yaourt and pacaur.
+# handle flags for package manager like aurman and pacaur.
 forceSettings = False
 if "--force-settings" in sys.argv:
     forceSettings = True
@@ -18,7 +18,7 @@ if "--force-settings" in sys.argv:
 data_files = []
 directories = glob.glob('config/*')
 for directory in directories:
-    files = glob.glob(directory+'/*') 
+    files = glob.glob(directory+'/*')
     destDir = ''
     if 'config/punctuation' in directory :
         destDir = '/etc/fenrirscreenreader/punctuation'
@@ -32,14 +32,14 @@ for directory in directories:
             except:
                 pass
     elif 'config/scripts' in directory:
-        destDir = '/usr/share/fenrirscreenreader/scripts' 
+        destDir = '/usr/share/fenrirscreenreader/scripts'
     if destDir != '':
         data_files.append((destDir, files))
 
-files = glob.glob('config/sound/default/*')                 
-destDir = '/usr/share/sounds/fenrirscreenreader/default'            
+files = glob.glob('config/sound/default/*')
+destDir = '/usr/share/sounds/fenrirscreenreader/default'
 data_files.append((destDir, files))
-files = glob.glob('config/sound//template/*')                 
+files = glob.glob('config/sound//template/*')
 destDir = '/usr/share/sounds/fenrirscreenreader/template'
 data_files.append((destDir, files))
 files = glob.glob('tools/*') 
@@ -57,18 +57,18 @@ setup(
     # description
     description="A TTY Screen Reader for Linux.",
     long_description=read('README.md'),
-    keywords=['screenreader', 'a11y', 'accessibility', 'terminal', 'TTY', 'console'],        
+    keywords=['screenreader', 'a11y', 'accessibility', 'terminal', 'TTY', 'console'],
     license="License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
     url="https://github.com/chrys87/fenrir/",
     download_url = 'https://github.com/chrys87/fenrir/archive/' + fenrirVersion + '.tar.gz',	
     classifiers=[
-        "Programming Language :: Python",        
-        "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",        
+        "Programming Language :: Python",
+        "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
         "Development Status :: 5 - Production/Stable",
         "Topic :: Multimedia :: Sound/Audio :: Speech",
-        "Environment :: Console",        
+        "Environment :: Console",
     ],
-    
+
     # Application author details:
     author="Chrys, Storm_dragon, Jeremiah and others",
     author_email="chrysg@linux-a11y.org",
@@ -83,7 +83,7 @@ setup(
     zip_safe=False,
 
     data_files=data_files,
-    
+
     # Dependent packages (distributions)
     install_requires=[
         "evdev>=1.1.2",
@@ -95,7 +95,7 @@ setup(
         "pyttsx3",
         "pyte>=0.7.0",
     ],
-    
+
 )
 
 if not forceSettings:

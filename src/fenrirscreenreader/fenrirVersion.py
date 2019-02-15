@@ -4,5 +4,5 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-version = '1.9.4'
-codename = 'tucher'
+version = '1.9.6'
+codename = 'mahrs'
