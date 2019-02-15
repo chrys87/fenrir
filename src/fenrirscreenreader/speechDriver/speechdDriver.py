@@ -37,6 +37,8 @@ class driver(speechDriver):
         if not queueable:
             self.cancel()
         if not self._isInitialized:
+            if not queueable:
+                self.cancel()
             self.initialize(self.env)
             if not self._isInitialized:
                 return
