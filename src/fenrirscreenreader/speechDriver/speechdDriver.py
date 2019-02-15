@@ -51,7 +51,6 @@ class driver(speechDriver):
                 self._sd.set_language(self.language)
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver set_language:' + str(e),debug.debugLevel.ERROR)
-            self._isInitialized = False
 
         try:
             if self.voice:
@@ -64,8 +63,6 @@ class driver(speechDriver):
             self._sd.set_punctuation(self._punct.NONE)
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver set_punctuation:' + str(e),debug.debugLevel.ERROR)
-            self._isInitialized = False
-
 
         try:
             self._sd.speak(text)
