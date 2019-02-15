@@ -57,7 +57,7 @@ class driver(speechDriver):
         try:
             if self.voice:
                 if self.voice != '':
-                    self._sd.set_voice(self.voice)
+                    self._sd.set_synthesis_voice(self.voice)
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver setVoice:' + str(e),debug.debugLevel.ERROR)
 
