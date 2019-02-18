@@ -263,18 +263,31 @@ class outputManager():
         if not self.env['runtime']['settingsManager'].getSettingAsBool('sound', 'enabled'):
             self.env['runtime']['debug'].writeDebugOut("Sound disabled in outputManager.speakText",debug.debugLevel.INFO)        
             return False  
-            
+
+        try:
+            e = self.env['soundIcons'][soundIcon]
+        except:
+            self.env['runtime']['debug'].writeDebugOut("SoundIcon doesnt exist: " + soundIcon, debug.debugLevel.WARNING)        
+            return False        
+
         if self.env['runtime']['soundDriver'] == None:
             self.env['runtime']['debug'].writeDebugOut("No speechDriver in outputManager.speakText",debug.debugLevel.ERROR)        
-            return False       
+            return False
+
         try:
             self.env['runtime']['soundDriver'].setVolume(self.env['runtime']['settingsManager'].getSettingAsFloat('sound', 'volume'))
+        except Exception as e:
+            self.env['runtime']['debug'].writeDebugOut("outputManager.playSoundIcon::setVolume: " + str(e),debug.debugLevel.ERROR)
+
+        try:
             self.env['runtime']['soundDriver'].playSoundFile(self.env['soundIcons'][soundIcon], interrupt)
             return True
         except Exception as e:
-            self.env['runtime']['debug'].writeDebugOut("\"playSoundIcon\" in outputManager.speakText ",debug.debugLevel.ERROR)
-            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)            
+            self.env['runtime']['debug'].writeDebugOut("outputManager.playSoundIcon::playSoundFile: " + str(e),debug.debugLevel.ERROR)
+            return False
+
         return False
+
     def announceActiveCursor(self, interrupt_p=False):        
         if self.env['runtime']['cursorManager'].isReviewMode():
             self.presentText(' review cursor ', interrupt=interrupt_p)                                
