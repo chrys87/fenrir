@@ -49,15 +49,12 @@ class driver(speechDriver):
             self.env['runtime']['debug'].writeDebugOut('speechDriver setModule:' + str(e),debug.debugLevel.ERROR)
 
         try:
-            if self.language != '':
-                self._sd.set_language(self.language)
+            self._sd.set_language(self.language)
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver set_language:' + str(e),debug.debugLevel.ERROR)
 
         try:
-            if self.voice:
-                if self.voice != '':
-                    self._sd.set_synthesis_voice(self.voice)
+            self._sd.set_synthesis_voice(self.voice)
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver setVoice:' + str(e),debug.debugLevel.ERROR)
 
