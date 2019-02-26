@@ -11,9 +11,9 @@ from fenrirscreenreader.core.speechDriver import speechDriver
 class driver(speechDriver):
     def __init__(self):
         speechDriver.__init__(self)
-        self._sd = None
 
     def initialize(self, environment):
+        self._sd = None
         self.env = environment
         try:
             import speechd 
