@@ -8,6 +8,8 @@ from fenrirscreenreader.core import debug
 
 class speechDriver():
     def __init__(self):
+        pass
+    def initialize(self, environment):
         self._isInitialized = False
         self.language = None
         self.voice = None
@@ -15,14 +17,12 @@ class speechDriver():
         self.pitch = None
         self.rate = None
         self.volume = None
-    def initialize(self, environment):
         self.env = environment
-        self._isInitialized = True        
-        
+        self._isInitialized = True
     def shutdown(self):
         if self._isInitialized:
             self.cancel()
-        self._isInitialized = False            
+        self._isInitialized = False
 
     def speak(self,text, queueable=True):
         if not self._isInitialized:
@@ -32,11 +32,11 @@ class speechDriver():
     
     def cancel(self):
         if not self._isInitialized:
-            return     
+            return
 
     def setCallback(self, callback):
         if not self._isInitialized:
-            return        
+            return
         if not callback:
             return
 
@@ -48,7 +48,7 @@ class speechDriver():
         if not self._isInitialized:
             return
         if voice == '':
-            return            
+            return
         self.voice = voice 
 
     def setPitch(self, pitch):
@@ -77,16 +77,18 @@ class speechDriver():
         if not isinstance(module, str):
             return
         if module == '':
-            return            
+            return
         self.module = module
-
+    def reset(self):
+        self.shutdown()
+        self.initialize(self.env)
     def setLanguage(self, language):
         if not self._isInitialized:
             return
         if not isinstance(language, str):
             return
         if language == '':
-            return            
+            return
         self.language = language 
     def setVolume(self, volume):
         if not self._isInitialized:
