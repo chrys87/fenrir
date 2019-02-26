@@ -199,6 +199,7 @@ class settingsManager():
                 self.env['input']['scriptKey'].append(key)
     def resetSettingArgDict(self):
         self.settingArgDict = {}
+        self.env['runtime']['outputManager'].resetSpeechDriver()
     def setOptionArgDict(self, section, setting, value):
         #section = section.lower()
         #setting = setting.lower()
