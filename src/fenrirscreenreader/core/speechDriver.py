@@ -79,7 +79,9 @@ class speechDriver():
         if module == '':
             return            
         self.module = module
-
+    def reset(self):
+        self.shutdown()
+        self.initialize(self.env)
     def setLanguage(self, language):
         if not self._isInitialized:
             return
