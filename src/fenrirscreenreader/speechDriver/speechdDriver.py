@@ -15,6 +15,10 @@ class driver(speechDriver):
     def initialize(self, environment):
         self._sd = None
         self.env = environment
+        self._isInitialized = False
+        self.language = ''
+        self.voice = ''
+        self.module = ''
         try:
             import speechd 
             self._sd =  speechd.SSIPClient('fenrir')
@@ -29,7 +33,7 @@ class driver(speechDriver):
         self.cancel()
         try:
             self._sd.close()
-        except:
+        except Exception as e:
             pass
         self._isInitialized = False
 
@@ -44,17 +48,20 @@ class driver(speechDriver):
                 return
 
         try:
-            self._sd.set_output_module(self.module)
+            if self.module != '':
+                self._sd.set_output_module(self.module)
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver setModule:' + str(e),debug.debugLevel.ERROR)
 
         try:
-            self._sd.set_language(self.language)
+            if self.language != '':
+                self._sd.set_language(self.language)
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver set_language:' + str(e),debug.debugLevel.ERROR)
 
         try:
-            self._sd.set_synthesis_voice(self.voice)
+            if self.voice != '':
+                self._sd.set_synthesis_voice(self.voice)
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver setVoice:' + str(e),debug.debugLevel.ERROR)
 
@@ -71,7 +78,9 @@ class driver(speechDriver):
 
     def cancel(self):
         if not self._isInitialized:
-            return
+            self.initialize(self.env)
+            if not self._isInitialized:
+                return
         try:
             self._sd.cancel()
         except Exception as e:
