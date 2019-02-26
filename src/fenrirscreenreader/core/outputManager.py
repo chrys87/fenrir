@@ -135,7 +135,12 @@ class outputManager():
             else:
                 displayText = self.getBrailleTextWithOffset(self.env['output']['messageText'], self.env['output']['messageOffset'])    
                 self.env['runtime']['brailleDriver'].writeText('flush'+displayText)                          
-
+    def resetSpeechDriver(self):
+        try:            
+            self.env['runtime']['speechDriver'].reset()
+        except Exception as e:
+            self.env['runtime']['debug'].writeDebugOut("reset " + str(e),debug.debugLevel.ERROR)
+        
     def getBrailleCursor(self):
         if self.env['runtime']['settingsManager'].getSetting('braille', 'cursorFollowMode').upper() == 'REVIEW':
             return self.env['runtime']['cursorManager'].getReviewOrTextCursor()
