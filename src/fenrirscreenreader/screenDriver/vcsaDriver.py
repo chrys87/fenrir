@@ -123,12 +123,15 @@ class driver(screenDriver):
                             try:
                                 watchdog.unregister(vcsa[ oldScreen ])              
                             except:
-                                pass
+                                print('watchdog.unregister: '+  str(e))                                
                             try:
                                 watchdog.register(vcsa[ currScreen ], select.POLLPRI | select.POLLERR) 
-                            except:
-                                pass
-                            self.updateCharMap(currScreen)                            
+                            except Exception as e:
+                                print('watchdog.register: '+  str(e))                                
+                            try:
+                                self.updateCharMap(currScreen)                            
+                            except Exception as e:
+                                print('updateCharMap: '+  str(e))                                      
                             oldScreen = currScreen
                             try:
                                 vcsa[currScreen].seek(0)                        
@@ -144,6 +147,7 @@ class driver(screenDriver):
                         dirtyContent = vcsa[currScreen].read()
                         screenContent = b''
                         timeout = time.time()
+                        print('dirty ' + str(currScreen))
                         while screenContent != dirtyContent:
                             screenContent = dirtyContent
                             if time.time() - timeout >= 0.4:
@@ -194,8 +198,10 @@ class driver(screenDriver):
                 unipairs = array("H", [0]*(2*sz))
                 unimapdesc = array("B", pack("@HP", sz, unipairs.buffer_info()[0]))
                 ioctl(tty.fileno(), GIO_UNIMAP, unimapdesc)
+                print('updateCharMap sz good')                                        
                 break
             except Exception as e:
+                print('updateCharMap sz wrong: ' + str(e))                        
                 self.env['runtime']['debug'].writeDebugOut('VCSA:updateCharMap:scaling up sz=' + str(sz) + ' ' + str(e),debug.debugLevel.WARNING)   
                 sz *= 2
         tty.close()
@@ -204,11 +210,13 @@ class driver(screenDriver):
         for u, b in zip(utable[::2], utable[1::2]):
             if self.charmap.get(b) is None:
                 self.charmap[b] = chr(u)
+        print('charmap ' + str(self.charmap[b])) 
 
     def autoDecodeVCSA(self, allData, rows, cols):
         allText = ''
         allAttrib = []
         i = 0
+        print('autoDecodeVCSA start')                                
         for y in range(rows):
             lineText = ''
             lineAttrib = []
