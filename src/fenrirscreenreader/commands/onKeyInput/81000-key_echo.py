@@ -17,7 +17,7 @@ class command():
         return 'No description found'
     def run(self):
         if self.env['runtime']['helpManager'].isTutorialMode():
-            self.env['runtime']['inputManager'].keyEcho(event)
+            self.env['runtime']['inputManager'].keyEcho()
 
     def setCallback(self, callback):
         pass

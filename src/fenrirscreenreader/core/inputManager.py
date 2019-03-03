@@ -270,7 +270,7 @@ class inputManager():
         return self.env['bindings'][shortcut]
     def keyEcho(self, eventData = None):
         if not eventData:
-            eventData = self.env['runtime']['inputManager'].getLastEvent()
+            eventData = self.getLastEvent()
             if not eventData:
                 return
         keyName = ''
