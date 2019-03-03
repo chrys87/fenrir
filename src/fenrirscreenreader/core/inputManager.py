@@ -33,6 +33,7 @@ class inputManager():
         self.env['input']['newScrollLock'] = self.env['runtime']['inputDriver'].getLedState(2)
         self.env['input']['oldScrollLock'] = self.env['input']['newScrollLock']
         self.lastDeepestInput = []
+        self.lastEvent = None
         self.env['input']['shortcutRepeat'] = 1
         self.lastInputTime = time.time()
     def shutdown(self):
@@ -79,10 +80,12 @@ class inputManager():
                 time.sleep(value)
             else:
                 self.env['runtime']['inputDriver'].sendKey(key, value)
+    def getLastEvent(self):
+        return self.lastEvent
     def handleInputEvent(self, eventData):
-        #print(eventData)
         if not eventData:
             return
+        self.lastEvent = eventData
         # a hang apears.. try to fix
         if self.env['input']['eventBuffer'] == []:
             if self.env['input']['currInput'] != []:
@@ -265,6 +268,18 @@ class inputManager():
         if not self.shortcutExists(shortcut):
             return '' 
         return self.env['bindings'][shortcut]
+    def keyEcho(self, eventData = None):
+        if not eventData:
+            eventData = self.env['runtime']['inputManager'].getLastEvent()
+            if not eventData:
+                return
+        keyName = ''
+        if eventData['EventState'] == 1:
+            keyName = eventData['EventName'].lower()
+            if keyName.startswith('key_'):
+                keyName = keyName[4:]
+                self.env['runtime']['outputManager'].presentText(_(keyName), interrupt=True)
+
 
     def shortcutExists(self, shortcut):
         return(shortcut in self.env['bindings'])

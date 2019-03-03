@@ -68,6 +68,8 @@ class fenrirManager():
         else: 
             if self.environment['runtime']['helpManager'].isTutorialMode():
                 self.environment['runtime']['inputManager'].clearEventBuffer()
+                self.environment['runtime']['inputManager'].keyEcho(event['Data'])
+
             if self.environment['runtime']['vmenuManager'].getActive():
                 self.environment['runtime']['inputManager'].clearEventBuffer()
 
@@ -112,11 +114,11 @@ class fenrirManager():
                 return
 
         # default
-        self.environment['runtime']['commandManager'].executeCommand( command, 'commands')            
+        self.environment['runtime']['commandManager'].executeCommand( command, 'commands')
     def handleRemoteIncomming(self, event):
         if not event['Data']:
             return
-        self.environment['runtime']['remoteManager'].handleRemoteIncomming(event['Data'])        
+        self.environment['runtime']['remoteManager'].handleRemoteIncomming(event['Data'])
     def handleScreenChange(self, event):
         self.environment['runtime']['screenManager'].hanldeScreenChange(event['Data'])
         '''        
