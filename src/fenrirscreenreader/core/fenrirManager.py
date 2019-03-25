@@ -52,9 +52,14 @@ class fenrirManager():
         self.shutdown()
     def handleInput(self, event):
         #startTime = time.time()
+        if self.environment['runtime']['screenManager'].isSuspendingScreen():
+            if self.environment['runtime']['inputManager'].noKeyPressed(): 
+                self.environment['runtime']['inputManager'].clearEventBuffer()
+                return
         self.environment['runtime']['debug'].writeDebugOut('DEBUG INPUT fenrirMan:'  + str(event),debug.debugLevel.INFO)
-        if not event['Data']:
-            event['Data'] = self.environment['runtime']['inputManager'].getInputEvent()
+        # not yet needed:
+        #if not event['Data']:
+        #    event['Data'] = self.environment['runtime']['inputManager'].getInputEvent()
         if event['Data']:
             event['Data']['EventName'] = self.environment['runtime']['inputManager'].convertEventName(event['Data']['EventName'])
             self.environment['runtime']['inputManager'].handleInputEvent(event['Data'])
