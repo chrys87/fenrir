@@ -292,7 +292,12 @@ class outputManager():
             return False
 
         return False
-
+    def tempDisableSpeech(self):
+        if self.env['runtime']['settingsManager'].getSettingAsBool('speech', 'enabled'): 
+            self.presentText(_("speech temporary disabled"), soundIcon='SpeechOff', interrupt=True)
+            self.env['commandBuffer']['enableSpeechOnKeypress'] = True
+            self.env['runtime']['settingsManager'].setSetting('speech', 'enabled', str(not self.env['runtime']['settingsManager'].getSettingAsBool('speech', 'enabled')))
+            self.interruptOutput()
     def announceActiveCursor(self, interrupt_p=False):        
         if self.env['runtime']['cursorManager'].isReviewMode():
             self.presentText(' review cursor ', interrupt=interrupt_p)                                

@@ -39,6 +39,7 @@ class remoteManager():
         self.resetVmenuConst = 'RESETVMENU'
         self.interruptConst = 'INTERRUPT'
         self.quitAppConst = 'QUITAPPLICATION'
+        self.tempDisableSpeechConst = 'TEMPDISABLESPEECH'        
         self.defineWindowConst = 'WINDOW '
         self.resetWindowConst = 'RESETWINDOW'
         self.setClipboardConst = 'CLIPBOARD '
@@ -70,6 +71,7 @@ class remoteManager():
         # reset setting
         if upperSettingsText.startswith(self.resetSettingConst):
             self.resetSettings()
+
     def handleCommandExecution(self, commandText):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('remote', 'enableCommandRemote'):
             return
@@ -83,6 +85,9 @@ class remoteManager():
         # interrupt
         if upperCommandText.startswith(self.interruptConst):
             self.interruptSpeech()
+        # temp disable speech
+        if upperCommandText.startswith(self.tempDisableSpeechConst):
+            self.tempDisableSpeech()
         # set vmenu
         if upperCommandText.startswith(self.vmenuConst):
             parameterText = commandText[len(self.vmenuConst):]
@@ -104,6 +109,8 @@ class remoteManager():
         if upperCommandText.startswith(self.setClipboardConst):
             parameterText = commandText[len(self.setClipboardConst):]
             self.setClipboard(parameterText)
+    def tempDisableSpeech(self):
+        self.env['runtime']['outputManager'].tempDisableSpeech()
     def setVMenu(self, vmenu = ''):
         self.env['runtime']['vmenuManager'].setCurrMenu(vmenu)
     def resetVMenu(self):
