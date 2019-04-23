@@ -146,11 +146,20 @@ class vmenuManager():
                 self.env['bindings'] = self.env['runtime']['settingsManager'].getBindingBackup()
             except:
                 pass
-    def createMenuTree(self):
-        self.currIndex = None
+    def createMenuTree(self, resetIndex = True):
+        if resetIndex:
+            self.currIndex = None
         menu = self.fs_tree_to_dict( self.defaultVMenuPath)
         if menu:
             self.menuDict = menu
+        # index still valid?
+        if self.currIndex != None:
+            try:
+                r = self.getValueByPath(self.menuDict, self.currIndex)
+                if r == {}:
+                    self.currIndex = None
+            except:
+                self.currIndex = None        
     def executeMenu(self):
         if self.currIndex == None:
             return
