@@ -89,10 +89,10 @@ class barrierManager():
                 offset = xCursor - 1
             start = line[:offset].rfind(b)
             if start != -1:
-                if not self.hasBorder(text, xCursor, yCursor, leftBarriers, start):
-                    start = -1  
-                else:
-                    start += 1  
+                #if not self.hasBorder(text, xCursor, yCursor, leftBarriers, start):
+                #    start = -1  
+                #else:
+                start += 1  
                 break
         if start == -1:
             return False, line                
@@ -101,8 +101,8 @@ class barrierManager():
             end = line[start:].find(b)
             if end != -1:
                 end = start + end  
-                if not self.hasBorder(text, xCursor, yCursor,rightBarriers, end):
-                    end = -1
+                #if not self.hasBorder(text, xCursor, yCursor,rightBarriers, end):
+                #    end = -1
                 break
         if end == -1:
             return False, line                            
