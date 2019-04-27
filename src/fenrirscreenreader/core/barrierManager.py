@@ -41,37 +41,8 @@ class barrierManager():
                 
         if not isBarrier:
             sayLine = ''   
-        return isBarrier, sayLine               
-              
-    def hasBorder(self, text, xCursor, yCursor, validBorder, barrierPos):
-        # check for corners here
-        lastLineNo = len(text) - 1
-        if yCursor <= 0:
-            if not (text[0][barrierPos] in validBorder):
-                return False    
-            if len(text) > 1:
-                if not (text[1][barrierPos] in validBorder):            
-                    return False    
-            if len(text) > 2:
-                if not (text[2][barrierPos] in validBorder):            
-                    return False                      
-        elif yCursor >= lastLineNo:
-            if not (text[lastLineNo][barrierPos] in validBorder):
-                return False    
-            if len(text) > 1:
-                if not (text[lastLineNo - 1][barrierPos] in validBorder):            
-                    return False    
-            if len(text) > 2:
-                if not (text[lastLineNo - 2][barrierPos] in validBorder):            
-                    return False          
-        else:
-            if not (text[yCursor][barrierPos] in validBorder):
-                return False    
-            if not (text[yCursor - 1][barrierPos] in validBorder):            
-                return False    
-            if not (text[yCursor + 1][barrierPos] in validBorder):            
-                return False  
-        return True
+        return isBarrier, sayLine
+
     def getBarrierText(self, text, xCursor, yCursor):
         line = text[yCursor]
         if not self.env['runtime']['settingsManager'].getSettingAsBool('barrier', 'enabled'):
@@ -89,9 +60,6 @@ class barrierManager():
                 offset = xCursor - 1
             start = line[:offset].rfind(b)
             if start != -1:
-                #if not self.hasBorder(text, xCursor, yCursor, leftBarriers, start):
-                #    start = -1  
-                #else:
                 start += 1  
                 break
         if start == -1:
@@ -101,8 +69,6 @@ class barrierManager():
             end = line[start:].find(b)
             if end != -1:
                 end = start + end  
-                #if not self.hasBorder(text, xCursor, yCursor,rightBarriers, end):
-                #    end = -1
                 break
         if end == -1:
             return False, line                            
