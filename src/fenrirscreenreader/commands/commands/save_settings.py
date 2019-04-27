@@ -17,7 +17,6 @@ class command():
     def getDescription(self):
         return 'Saves your current Fenrir settings so they are the default.'
     def run(self):
-    def saveSettings(self):
         self.env['runtime']['settingsManager'].saveSettings(settingConfigPath)
         self.env['runtime']['outputManager'].presentText("Settings saved.", interrupt=True)True
     def setCallback(self, callback):
