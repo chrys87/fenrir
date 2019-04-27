@@ -41,6 +41,7 @@ class settingsManager():
         self.settings = settingsData
         self.settingArgDict = {}
         self.bindingsBackup = None
+        self.settingsFile = ''
     def initialize(self, environment):
         self.env = environment
     def shutdown(self):
@@ -75,14 +76,25 @@ class settingsManager():
             self.env['soundIcons'][soundIcon] = soundIconFile
             self.env['runtime']['debug'].writeDebugOut("SoundIcon: " + soundIcon + '.' + soundIconFile, debug.debugLevel.INFO, onAnyLevel=True)               
         siConfig.close()
-    
+    def getSettingsFile(self):
+        return self.settingsFile
+    def setSettingsFile(self, settingsFile):
+        if not os.path.exists(settingsFile):
+            return
+        if not os.access(settingsFile, os.R_OK):
+            return        
+        self.settingsFile = settingsFile
     def loadSettings(self, settingConfigPath):
         if not os.path.exists(settingConfigPath):
             return False
         if not os.access(settingConfigPath, os.R_OK):
             return False
         self.env['settings'] = ConfigParser()
-        self.env['settings'].read(settingConfigPath)
+        try:
+            self.env['settings'].read(settingConfigPath)
+        except:
+            return False
+        self.setSettingsFile(settingConfigPath)
         return True
     def saveSettings(self, settingConfigPath):
         # set opt dict here
