@@ -19,5 +19,6 @@ class command():
     def run(self):
     def saveSettings(self):
         self.env['runtime']['settingsManager'].saveSettings(settingConfigPath)
+        self.env['runtime']['outputManager'].presentText("Settings saved.", interrupt=True)True
     def setCallback(self, callback):
         pass
