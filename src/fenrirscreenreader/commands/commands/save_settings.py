@@ -15,9 +15,10 @@ class command():
     def shutdown(self):
         pass
     def getDescription(self):
-        return 'Saves your current Fenrir settings so they are the default.'
+        return _('Saves your current Fenrir settings so they are the default.')
     def run(self):
-        self.env['runtime']['settingsManager'].saveSettings(self.env['runtime']['settingsManager'].getSettingsFile())
-        self.env['runtime']['outputManager'].presentText("Settings saved.", interrupt=True)
+        settingsFile = self.env['runtime']['settingsManager'].getSettingsFile()
+        self.env['runtime']['settingsManager'].saveSettings(settingsFile)
+        self.env['runtime']['outputManager'].presentText(_("Settings saved."), interrupt=True)
     def setCallback(self, callback):
         pass
