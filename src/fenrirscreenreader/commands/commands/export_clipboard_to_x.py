@@ -7,7 +7,6 @@
 from fenrirscreenreader.core import debug
 import subprocess, os
 from subprocess import Popen, PIPE
-import shlex
 import _thread
 
 class command():
