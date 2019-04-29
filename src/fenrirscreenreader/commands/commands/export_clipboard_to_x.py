@@ -29,7 +29,7 @@ class command():
                 return 
             clipboard = self.env['runtime']['memoryManager'].getIndexListElement('clipboardHistory')                               
             for display in range(10):
-                p = Popen('su ' + self.env['general']['currUser'] + ' -c  "echo -n \\\"' + shlex.quote(clipboard) +'\\\" | xclip -d :' + str(display) + ' -selection c"' , stdout=PIPE, stderr=PIPE, shell=True)
+                p = Popen('su ' + self.env['general']['currUser'] + ' -c  "cat << \\\"EOF\\\"\n' + clipboard + '\nEOF | xclip -d :' + str(display) + ' -selection c"', stdout=PIPE, stderr=PIPE, shell=True)
                 stdout, stderr = p.communicate()
                 self.env['runtime']['outputManager'].interruptOutput()
                 #screenEncoding = self.env['runtime']['settingsManager'].getSetting('screen', 'encoding')
