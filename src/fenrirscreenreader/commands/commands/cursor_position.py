@@ -20,7 +20,7 @@ class command():
         # Prefer review cursor over text cursor
         cursorPos = self.env['runtime']['cursorManager'].getReviewOrTextCursor()
 
-        self.env['runtime']['outputManager'].presentText(_("line {0}, column {1}").format(cursorPos['y']+1, cursorPos['x']+1), interrupt=True)
+        self.env['runtime']['outputManager'].presentText(_("line {0}, column {1}, Terminal {2}").format(cursorPos['y']+1, cursorPos['x']+1, self.env['screen']['newTTY']), interrupt=True)
    
     def setCallback(self, callback):
         pass
