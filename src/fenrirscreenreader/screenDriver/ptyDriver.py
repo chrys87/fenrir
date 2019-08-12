@@ -125,7 +125,12 @@ class driver(screenDriver):
             argv = shlex.split(command)
             env = os.environ.copy()
             #values are VT100,xterm-256color,linux
-            env["TERM"] = 'linux'
+            try: 
+                eterm = env["TERM"]
+                if eterm == '':
+                    env["TERM"] = 'linux'
+            except:
+                env["TERM"] = 'linux'
             os.execvpe(argv[0], argv, env)
         # File-like object for I/O with the child process aka command.
         p_out = os.fdopen(master_fd, "w+b", 0)
