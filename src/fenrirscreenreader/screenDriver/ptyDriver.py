@@ -30,14 +30,13 @@ class Terminal:
         self.stream.feed(data)
             
     def updateAttributes(self, initialize = False):
-        buffer = self.screen.buffer    
+        buffer = self.screen.buffer
         lines = None
         if not initialize:
             lines = self.screen.dirty
         else:
             lines = range(self.screen.lines)
-            self.attributes = [[list(attribute[1:]) + [False, 'default', 'default'] for attribute in line.values()] for line in buffer.values()]            
-            
+            self.attributes = [[list(attribute[1:]) + [False, 'default', 'default'] for attribute in line.values()] for line in buffer.values()]
         for y in lines:
             try:
                 t = self.attributes[y]
@@ -61,24 +60,24 @@ class Terminal:
         if yPos == -1:
             yPos = self.screen.cursor.y
         self.screen.cursor.x = min(self.screen.cursor.x, self.screen.columns - 1)
-        self.screen.cursor.y = min(self.screen.cursor.y, self.screen.lines - 1)            
+        self.screen.cursor.y = min(self.screen.cursor.y, self.screen.lines - 1)
     def GetScreenContent(self):
         cursor = self.screen.cursor
         self.text = '\n'.join(self.screen.display)
         self.updateAttributes(self.attributes == None)
-        self.screen.dirty.clear()            
+        self.screen.dirty.clear()
         return {"cursor": (cursor.x, cursor.y),
             'lines': self.screen.lines,
             'columns': self.screen.columns,
             "text": self.text, 
             'attributes': self.attributes.copy(),
-            'screen': 'pty',        
-            'screenUpdateTime': time.time(),                            
+            'screen': 'pty',
+            'screenUpdateTime': time.time(),
         }.copy()
 
 class driver(screenDriver):
     def __init__(self):
-        screenDriver.__init__(self)  
+        screenDriver.__init__(self)
         self.signalPipe = os.pipe()
         self.p_out = None
         signal.signal(signal.SIGWINCH, self.handleSigwinch)
@@ -105,14 +104,14 @@ class driver(screenDriver):
     def readAll(self, fd, timeout = 9999999, interruptFd = None, len = 2048):
         bytes = b'' 
         fdList = []
-        fdList += [fd]        
+        fdList += [fd]
         if interruptFd:
             fdList += [interruptFd]
         starttime = time.time()
         while True:
             # respect timeout but wait a little bit of time to see if something more is here
             if (time.time() - starttime) >= timeout:
-                break            
+                break
             r = screen_utils.hasMoreWhat(fdList,0)
             hasmore = fd in r
             if not hasmore:
@@ -124,7 +123,7 @@ class driver(screenDriver):
             if data == b'':
                 raise EOFError
             bytes += data
-        return bytes      
+        return bytes
     def openTerminal(self, columns, lines, command):
         p_pid, master_fd = pty.fork()
         if p_pid == 0:  # Child.
@@ -151,17 +150,17 @@ class driver(screenDriver):
         lines, columns, _, _ = struct.unpack('HHHH', fcntl.ioctl(fd, termios.TIOCGWINSZ, s))
         return lines, columns
     def handleSigwinch(self, *args):
-        os.write(self.signalPipe[1], b'w')        
+        os.write(self.signalPipe[1], b'w')
     def terminalEmulation(self,active , eventQueue):
         try:
-            old_attr = termios.tcgetattr(sys.stdin)    
+            old_attr = termios.tcgetattr(sys.stdin)
             tty.setraw(0)
             lines, columns = self.getTerminalSize(0)
             if self.command == '':
                 self.command = screen_utils.getShell()
             terminal, p_pid, self.p_out = self.openTerminal(columns, lines, self.command)
             lines, columns = self.resizeTerminal(self.p_out)
-            terminal.resize(lines, columns)            
+            terminal.resize(lines, columns)
             fdList = [sys.stdin, self.p_out, self.signalPipe[0]]
             while active.value:
                 r, _, _ = select.select(fdList, [], [], 1)
@@ -172,31 +171,31 @@ class driver(screenDriver):
                 if self.signalPipe[0] in r:
                     os.read(self.signalPipe[0], 1)
                     lines, columns = self.resizeTerminal(self.p_out)
-                    terminal.resize(lines, columns)   
+                    terminal.resize(lines, columns)
                 # input
                 if sys.stdin in r:
                     try:
                         msgBytes = self.readAll(sys.stdin.fileno())
                     except (EOFError, OSError):
-                        active.value = False                    
-                        break                  
+                        active.value = False
+                        break
                     if self.shortcutType == 'KEY':
                         try:
                             self.injectTextToScreen(msgBytes)
                         except:
-                            active.value = False                    
+                            active.value = False
                             break
                     else:    
                         eventQueue.put({"Type":fenrirEventType.ByteInput,
-                            "Data":msgBytes })                     
+                            "Data":msgBytes })
                 # output
                 if self.p_out in r:
                     try:
                         msgBytes = self.readAll(self.p_out.fileno(), timeout=0.001, interruptFd=sys.stdin)
                     except (EOFError, OSError):
                         active.value = False
-                        break    
-                    terminal.feed(msgBytes)                                
+                        break
+                    terminal.feed(msgBytes)
                     os.write(sys.stdout.fileno(), msgBytes)
                     eventQueue.put({"Type":fenrirEventType.ScreenUpdate,
                         "Data":screen_utils.createScreenEventData(terminal.GetScreenContent())
@@ -206,7 +205,7 @@ class driver(screenDriver):
             active.value = False
         finally:
             os.kill(p_pid, signal.SIGTERM)
-            self.p_out.close()    
+            self.p_out.close()
             termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_attr)
             eventQueue.put({"Type":fenrirEventType.StopMainLoop,"Data":None}) 
             sys.exit(0)
