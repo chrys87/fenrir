@@ -132,7 +132,8 @@ class driver(screenDriver):
             env = os.environ.copy()
             #values are VT100,xterm-256color,linux
             try: 
-                if env["TERM"] == '':
+                eterm = env["TERM"]
+                if eterm == '':
                     env["TERM"] = 'linux'
             except:
                 env["TERM"] = 'linux'
