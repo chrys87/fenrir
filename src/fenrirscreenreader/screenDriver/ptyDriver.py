@@ -10,6 +10,12 @@ from fenrirscreenreader.core.eventData import fenrirEventType
 from fenrirscreenreader.core.screenDriver import screenDriver
 from fenrirscreenreader.utils import screen_utils
 
+
+class fenrirScreen(pyte.HistoryScreen):
+    def set_margins(self, *args, **kwargs):
+        kwargs.pop("private", None)
+        return super(fenrirScreen, self).set_margins(*args, **kwargs)
+
 class Terminal:
     def __init__(self, columns, lines, p_in):
         self.text = ''
