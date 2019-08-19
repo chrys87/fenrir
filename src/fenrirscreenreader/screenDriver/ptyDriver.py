@@ -64,6 +64,9 @@ class Terminal:
     def GetScreenContent(self):
         cursor = self.screen.cursor
         self.text = '\n'.join(self.screen.display)
+        with open('flog.txt', 'a') as out_file:
+            out_file.write('____________fenrir-frame-start________________\n')
+            out_file.write(self.text)
         self.updateAttributes(self.attributes == None)
         self.screen.dirty.clear()
         return {"cursor": (cursor.x, cursor.y),
