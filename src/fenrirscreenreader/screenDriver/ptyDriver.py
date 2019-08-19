@@ -14,7 +14,7 @@ from fenrirscreenreader.utils import screen_utils
 class fenrirScreen(pyte.Screen):
     def set_margins(self, *args, **kwargs):
         kwargs.pop("private", None)
-        return super(fenrirScreen, self).set_margins(*args, **kwargs)
+        super(fenrirScreen, self).set_margins(*args, **kwargs)
 
 class Terminal:
     def __init__(self, columns, lines, p_in):
