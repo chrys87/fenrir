@@ -185,9 +185,9 @@ class driver(inputDriver):
                 except:
                     continue
                 try:
-                    if currDevice.name.upper() in ['','SPEAKUP','PY-EVDEV-UINPUT']:
+                    if currDevice.name.upper() in ['','SPEAKUP','FENRIR-UINPUT']:
                         continue                
-                    if currDevice.phys.upper() in ['','SPEAKUP','PY-EVDEV-UINPUT']:
+                    if currDevice.phys.upper() in ['','SPEAKUP']:
                         continue                    
                     if 'BRLTTY' in  currDevice.name.upper():
                         continue
@@ -301,7 +301,7 @@ class driver(inputDriver):
         if self.uDevices[fd] != None:
             return
         try:      
-            self.uDevices[fd] = UInput.from_device(self.iDevices[fd])            
+            self.uDevices[fd] = UInput.from_device(self.iDevices[fd], name='fenrir-uinput')            
         except Exception as e:
             try:
                 self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: compat fallback:  ' + str(e),debug.debugLevel.WARNING)         
