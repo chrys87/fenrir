@@ -245,10 +245,28 @@ class commandManager():
             return( command in self.env['commands'][section])
         except:
             return False
-    def getShortcutForCommand(self, command):
-        shortcut = ''
+    def getShortcutForCommand(self, command, formatKeys = False):
+        shortcut = []
         try:
-            shortcut = list(self.env['bindings'].keys())[list(self.env['bindings'].values()).index(command)]      
+            rawShortcut = list(self.env['bindings'].keys())[list(self.env['bindings'].values()).index(command)]      
+            # prefer metha keys
+            for k in ['KEY_FENRIR', 'KEY_SCRIPT', 'KEY_CTRL', 'KEY_SHIFT', 'KEY_ALT', 'KEY_META']:
+                if k in rawShortcut:
+                    formattedKey = k
+                    if formatKeys:
+                        formattedKey = formattedKey.lower()
+                        formattedKey = formattedKey.replace('key_kp', 'kp ')
+                        formattedKey = formattedKey.replace('key_', '')
+                    shortcut.append(formattedKey)
+                    rawShortcut.remove(k)
+            # handle other keys
+            for k in rawShortcut:
+                formattedKey = k
+                if formatKeys:
+                    formattedKey = formattedKey.lower()
+                    formattedKey = formattedKey.replace('key_kp', 'kp ')
+                    formattedKey = formattedKey.replace('key_', '')
+                shortcut.append(formattedKey)                
         except:
             pass
         return shortcut      
