@@ -21,7 +21,6 @@ class Terminal:
         self.text = ''
         self.attributes = None
         self.screen = fenrirScreen(columns, lines)
-        self.screen.set_mode(pyte.modes.LNM)
         self.screen.write_process_input = \
             lambda data: p_in.write(data.encode())
         self.stream = pyte.ByteStream()
