@@ -28,7 +28,7 @@ class Terminal:
         self.stream.attach(self.screen)
     def feed(self, data):
         self.stream.feed(data)
-            
+
     def updateAttributes(self, initialize = False):
         buffer = self.screen.buffer
         lines = None
@@ -80,6 +80,8 @@ class driver(screenDriver):
         screenDriver.__init__(self)
         self.signalPipe = os.pipe()
         self.p_out = None
+        self.terminal = None
+        self.p_pid = -1
         signal.signal(signal.SIGWINCH, self.handleSigwinch)
     def initialize(self, environment):
         self.env = environment
@@ -112,7 +114,7 @@ class driver(screenDriver):
             # respect timeout but wait a little bit of time to see if something more is here
             if (time.time() - starttime) >= timeout:
                 break
-            r = screen_utils.hasMoreWhat(fdList,0)
+            r = screen_utils.hasMoreWhat(fdList, 0.002)
             hasmore = fd in r
             if not hasmore:
                 break
@@ -158,9 +160,9 @@ class driver(screenDriver):
             lines, columns = self.getTerminalSize(0)
             if self.command == '':
                 self.command = screen_utils.getShell()
-            terminal, p_pid, self.p_out = self.openTerminal(columns, lines, self.command)
+            self.terminal, self.p_pid, self.p_out = self.openTerminal(columns, lines, self.command)
             lines, columns = self.resizeTerminal(self.p_out)
-            terminal.resize(lines, columns)
+            self.terminal.resize(lines, columns)
             fdList = [sys.stdin, self.p_out, self.signalPipe[0]]
             while active.value:
                 r, _, _ = select.select(fdList, [], [], 1)
@@ -171,18 +173,18 @@ class driver(screenDriver):
                 if self.signalPipe[0] in r:
                     os.read(self.signalPipe[0], 1)
                     lines, columns = self.resizeTerminal(self.p_out)
-                    terminal.resize(lines, columns)
+                    self.terminal.resize(lines, columns)
                 # output
                 if self.p_out in r:
                     try:
-                        msgBytes = self.readAll(self.p_out.fileno(), timeout=0.2, interruptFd=sys.stdin)
+                        msgBytes = self.readAll(self.p_out.fileno())
                     except (EOFError, OSError):
                         active.value = False
                         break
-                    terminal.feed(msgBytes)
+                    self.terminal.feed(msgBytes)
                     os.write(sys.stdout.fileno(), msgBytes)
                     eventQueue.put({"Type":fenrirEventType.ScreenUpdate,
-                        "Data":screen_utils.createScreenEventData(terminal.GetScreenContent())
+                        "Data":screen_utils.createScreenEventData(self.terminal.GetScreenContent())
                     })
                 # input
                 if sys.stdin in r:
@@ -197,14 +199,14 @@ class driver(screenDriver):
                         except:
                             active.value = False
                             break
-                    else:    
+                    else:
                         eventQueue.put({"Type":fenrirEventType.ByteInput,
-                            "Data":msgBytes })                  
+                            "Data":msgBytes })
         except Exception as e:  # Process died?
             print(e)
             active.value = False
         finally:
-            os.kill(p_pid, signal.SIGTERM)
+            os.kill(self.p_pid, signal.SIGTERM)
             self.p_out.close()
             termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_attr)
             eventQueue.put({"Type":fenrirEventType.StopMainLoop,"Data":None}) 
