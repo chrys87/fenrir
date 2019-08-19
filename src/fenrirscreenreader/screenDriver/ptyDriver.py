@@ -11,7 +11,7 @@ from fenrirscreenreader.core.screenDriver import screenDriver
 from fenrirscreenreader.utils import screen_utils
 
 
-class fenrirScreen(pyte.HistoryScreen):
+class fenrirScreen(pyte.Screen):
     def set_margins(self, *args, **kwargs):
         kwargs.pop("private", None)
         return super(fenrirScreen, self).set_margins(*args, **kwargs)
@@ -101,7 +101,7 @@ class driver(screenDriver):
         self.env['screen']['autoIgnoreScreens'] = []
         self.env['general']['prevUser'] = getpass.getuser()
         self.env['general']['currUser'] = getpass.getuser()
-    def readAll(self, fd, timeout = 9999999, interruptFd = None, len = 2048):
+    def readAll(self, fd, timeout = 9999999, interruptFd = None, len = 8192):
         bytes = b'' 
         fdList = []
         fdList += [fd]
@@ -172,6 +172,18 @@ class driver(screenDriver):
                     os.read(self.signalPipe[0], 1)
                     lines, columns = self.resizeTerminal(self.p_out)
                     terminal.resize(lines, columns)
+                # output
+                if self.p_out in r:
+                    try:
+                        msgBytes = self.readAll(self.p_out.fileno(), timeout=0.2, interruptFd=sys.stdin)
+                    except (EOFError, OSError):
+                        active.value = False
+                        break
+                    terminal.feed(msgBytes)
+                    os.write(sys.stdout.fileno(), msgBytes)
+                    eventQueue.put({"Type":fenrirEventType.ScreenUpdate,
+                        "Data":screen_utils.createScreenEventData(terminal.GetScreenContent())
+                    })
                 # input
                 if sys.stdin in r:
                     try:
@@ -187,19 +199,7 @@ class driver(screenDriver):
                             break
                     else:    
                         eventQueue.put({"Type":fenrirEventType.ByteInput,
-                            "Data":msgBytes })
-                # output
-                if self.p_out in r:
-                    try:
-                        msgBytes = self.readAll(self.p_out.fileno(), timeout=0.001, interruptFd=sys.stdin)
-                    except (EOFError, OSError):
-                        active.value = False
-                        break
-                    terminal.feed(msgBytes)
-                    os.write(sys.stdout.fileno(), msgBytes)
-                    eventQueue.put({"Type":fenrirEventType.ScreenUpdate,
-                        "Data":screen_utils.createScreenEventData(terminal.GetScreenContent())
-                    })
+                            "Data":msgBytes })                  
         except Exception as e:  # Process died?
             print(e)
             active.value = False
