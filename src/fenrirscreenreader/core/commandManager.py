@@ -249,6 +249,15 @@ class commandManager():
         shortcut = []
         try:
             rawShortcut = list(self.env['bindings'].keys())[list(self.env['bindings'].values()).index(command)]      
+            # prefer numbers for multitap
+            for k in ['2', '3', '4', '5', '6', '7', '8']:
+                if k in rawShortcut:
+                    formattedKey = k
+                    if formatKeys:
+                        formattedKey = formattedKey.lower()
+                        formattedKey += ' times '
+                    shortcut.append(formattedKey)
+                    rawShortcut.remove(k)     
             # prefer metha keys
             for k in ['KEY_FENRIR', 'KEY_SCRIPT', 'KEY_CTRL', 'KEY_SHIFT', 'KEY_ALT', 'KEY_META']:
                 if k in rawShortcut:
@@ -264,7 +273,7 @@ class commandManager():
                 formattedKey = k
                 if formatKeys:
                     formattedKey = formattedKey.lower()
-                    formattedKey = formattedKey.replace('key_kp', ' kp ')
+                    formattedKey = formattedKey.replace('key_kp', ' keypad ')
                     formattedKey = formattedKey.replace('key_', ' ')
                 shortcut.append(formattedKey)                
         except:
