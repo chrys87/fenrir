@@ -42,11 +42,10 @@ class helpManager():
         if command == 'TOGGLE_TUTORIAL_MODE':
             commandDescription = _('toggles the tutorial mode')
         else:
-            commandDescription = self.env['runtime']['commandManager'].getCommandDescription( command, section = 'commands')
+            commandDescription = self.env['runtime']['commandManager'].getCommandDescription(command, section = 'commands')
         if commandDescription == '':
             commandDescription = 'no Description available'
-        commandShortcut = self.env['runtime']['commandManager'].getShortcutForCommand( command)
-        commandShortcut = commandShortcut.replace('KEY_',' ')
+        commandShortcut = self.env['runtime']['commandManager'].getShortcutForCommand(command, formatKeys = True)
         commandShortcut = commandShortcut.replace('[','')
         commandShortcut = commandShortcut.replace(']','')
         commandShortcut = commandShortcut.replace("'",'')
