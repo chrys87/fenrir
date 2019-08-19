@@ -34,6 +34,40 @@ class helpManager():
                 pass
     def isTutorialMode(self):
         return self.env['general']['tutorialMode']
+    def getFormattedShortcutForCommand(self, command):
+        shortcut = []
+        rawShortcut = []
+        try:
+            rawShortcut = list(self.env['bindings'].keys())[list(self.env['bindings'].values()).index(command)]
+            rawShortcut = self.env['rawBindings'][rawShortcut]
+            # prefer numbers for multitap
+            if rawShortcut[0] in range(2, 9):
+                formattedKey = str(rawShortcut[0]) +' times '
+                shortcut.append(formattedKey)
+            # prefer metha keys
+            for k in ['KEY_FENRIR', 'KEY_SCRIPT', 'KEY_CTRL', 'KEY_SHIFT', 'KEY_ALT', 'KEY_META']:
+                if k in rawShortcut[1]:
+                    formattedKey = k
+                    formattedKey = formattedKey.lower()
+                    formattedKey = formattedKey.replace('key_kp', ' keypad ')
+                    formattedKey = formattedKey.replace('key_', ' ')
+                    shortcut.append(formattedKey)
+                    rawShortcut[1].remove(k)
+            # handle other keys
+            for k in rawShortcut[1]:
+                formattedKey = k
+                formattedKey = formattedKey.lower()
+                formattedKey = formattedKey.replace('key_kp', ' keypad ')
+                formattedKey = formattedKey.replace('key_', ' ')
+                shortcut.append(formattedKey)
+        except Exception as e:
+            return ''
+        shortcut = str(shortcut)
+        shortcut = shortcut.replace('[','')
+        shortcut = shortcut.replace(']','')
+        shortcut = shortcut.replace("'",'')
+        return shortcut
+
     def getCommandHelpText(self, command, section = 'commands'):
         commandName = command.lower()
         commandName = commandName.split('__-__')[0]
@@ -45,10 +79,7 @@ class helpManager():
             commandDescription = self.env['runtime']['commandManager'].getCommandDescription(command, section = 'commands')
         if commandDescription == '':
             commandDescription = 'no Description available'
-        commandShortcut = self.env['runtime']['commandManager'].getShortcutForCommand(command, formatKeys = True)
-        commandShortcut = commandShortcut.replace('[','')
-        commandShortcut = commandShortcut.replace(']','')
-        commandShortcut = commandShortcut.replace("'",'')
+        commandShortcut = self.getFormattedShortcutForCommand(command)
         if commandShortcut == '':
             commandShortcut = 'unbound'
         helptext = commandName + ', Shortcut ' + commandShortcut + ', Description ' + commandDescription

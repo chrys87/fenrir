@@ -26,4 +26,5 @@ environment = {
 'output': outputData,
 'soundIcons': {},
 'bindings': {},
+'rawBindings': {},
 }

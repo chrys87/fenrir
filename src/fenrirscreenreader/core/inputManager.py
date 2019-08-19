@@ -324,6 +324,7 @@ class inputManager():
                 continue
             self.env['runtime']['debug'].writeDebugOut("Shortcut: "+ str(shortcut) + ' command:' +commandName ,debug.debugLevel.INFO, onAnyLevel=True)    
             self.env['bindings'][str(shortcut)] = commandName
+            self.env['rawBindings'][str(shortcut)] = shortcut
         kbConfig.close()
         # fix bindings 
         self.env['bindings'][str([1, ['KEY_F1', 'KEY_FENRIR']])] = 'TOGGLE_TUTORIAL_MODE'
