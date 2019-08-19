@@ -255,8 +255,8 @@ class commandManager():
                     formattedKey = k
                     if formatKeys:
                         formattedKey = formattedKey.lower()
-                        formattedKey = formattedKey.replace('key_kp', 'kp ')
-                        formattedKey = formattedKey.replace('key_', '')
+                        formattedKey = formattedKey.replace('key_kp', ' keypad ')
+                        formattedKey = formattedKey.replace('key_', ' ')
                     shortcut.append(formattedKey)
                     rawShortcut.remove(k)
             # handle other keys
@@ -264,8 +264,8 @@ class commandManager():
                 formattedKey = k
                 if formatKeys:
                     formattedKey = formattedKey.lower()
-                    formattedKey = formattedKey.replace('key_kp', 'kp ')
-                    formattedKey = formattedKey.replace('key_', '')
+                    formattedKey = formattedKey.replace('key_kp', ' kp ')
+                    formattedKey = formattedKey.replace('key_', ' ')
                 shortcut.append(formattedKey)                
         except:
             pass
