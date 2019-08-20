@@ -203,7 +203,7 @@ class driver(screenDriver):
                     eventQueue.put({"Type":fenrirEventType.ScreenUpdate,
                         "Data":screen_utils.createScreenEventData(self.terminal.GetScreenContent())
                     })
-                    os.write(sys.stdout.fileno(), msgBytes)
+                    self.injectTextToScreen(msgBytes, screen=sys.stdout.fileno(),)
         except Exception as e:  # Process died?
             print(e)
             active.value = False
