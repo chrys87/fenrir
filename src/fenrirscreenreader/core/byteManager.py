@@ -29,12 +29,36 @@ class byteManager():
             if convertedEscapeSequence[0] == 94 and convertedEscapeSequence[1] ==91:
                 convertedEscapeSequence = b'^[' + convertedEscapeSequence[2:]            
         return convertedEscapeSequence
+    def handleByteStream(self, eventData, sep = b'\x1b'):
+        buffer = eventData
+        # handle prefix
+        endIndex = buffer.find(sep)
+        if endIndex > 0:
+            currSequence = buffer[:endIndex]
+            buffer = buffer[endIndex:]
+            self.handleSingleByteSequence(currSequence)
+        # special handlig for none found (performance)
+        elif endIndex == -1:
+            self.handleSingleByteSequence(buffer)
+            return
+        # handle outstanding sequence
+        while buffer != b'':
+            endIndex = buffer[len(sep):].find(sep)
+            if endIndex == -1:
+                currSequence = buffer
+                buffer = b''
+            else:
+                currSequence = buffer[:endIndex + len(sep)]
+                buffer = buffer[endIndex + len(sep):]
+            self.handleSingleByteSequence(currSequence)
     def handleByteInput(self, eventData):
         if not eventData:
             return
         if eventData == b'':
             return
-
+        self.handleByteStream(eventData)
+        #self.handleSingleByteSequence(eventData)
+    def handleSingleByteSequence(self, eventData):
         convertedEscapeSequence = self.unifyEscapeSeq(eventData)
 
         if self.switchCtrlModeOnce > 0:
