@@ -102,29 +102,29 @@ class driver(screenDriver):
         self.env['screen']['autoIgnoreScreens'] = []
         self.env['general']['prevUser'] = getpass.getuser()
         self.env['general']['currUser'] = getpass.getuser()
-    def readAll(self, fd, timeout = 9999999, interruptFd = None, len = 8192):
-        bytes = b'' 
+    def readAll(self, fd, timeout = 1, interruptFd = None, len = 65536):
+        valueBytes = b'' 
         fdList = []
         fdList += [fd]
         if interruptFd:
             fdList += [interruptFd]
         starttime = time.time()
         while True:
-            # respect timeout but wait a little bit of time to see if something more is here
-            if (time.time() - starttime) >= timeout:
-                break
-            r = screen_utils.hasMoreWhat(fdList, 0.002)
-            hasmore = fd in r
-            if not hasmore:
-                break
-            # exit on interrupt available
-            if interruptFd in r:
+            r = screen_utils.hasMoreWhat(fdList, 0.0001)
+            # nothing more to read
+            if not fd in r:
                 break
             data = os.read(fd, len)
             if data == b'':
                 raise EOFError
-            bytes += data
-        return bytes
+            valueBytes += data
+            # exit on interrupt available
+            if interruptFd in r:
+                break
+            # respect timeout but wait a little bit of time to see if something more is here
+            if (time.time() - starttime) >= timeout:
+                break                
+        return valueBytes
     def openTerminal(self, columns, lines, command):
         p_pid, master_fd = pty.fork()
         if p_pid == 0:  # Child.
@@ -173,18 +173,6 @@ class driver(screenDriver):
                     os.read(self.signalPipe[0], 1)
                     lines, columns = self.resizeTerminal(self.p_out)
                     self.terminal.resize(lines, columns)
-                # output
-                if self.p_out in r:
-                    try:
-                        msgBytes = self.readAll(self.p_out.fileno())
-                    except (EOFError, OSError):
-                        active.value = False
-                        break
-                    self.terminal.feed(msgBytes)
-                    os.write(sys.stdout.fileno(), msgBytes)
-                    eventQueue.put({"Type":fenrirEventType.ScreenUpdate,
-                        "Data":screen_utils.createScreenEventData(self.terminal.GetScreenContent())
-                    })
                 # input
                 if sys.stdin in r:
                     try:
@@ -201,6 +189,18 @@ class driver(screenDriver):
                     else:
                         eventQueue.put({"Type":fenrirEventType.ByteInput,
                             "Data":msgBytes })
+                # output
+                if self.p_out in r:
+                    try:
+                        msgBytes = self.readAll(self.p_out.fileno(), interruptFd=sys.stdin.fileno())
+                    except (EOFError, OSError):
+                        active.value = False
+                        break
+                    self.terminal.feed(msgBytes)
+                    os.write(sys.stdout.fileno(), msgBytes)
+                    eventQueue.put({"Type":fenrirEventType.ScreenUpdate,
+                        "Data":screen_utils.createScreenEventData(self.terminal.GetScreenContent())
+                    })
         except Exception as e:  # Process died?
             print(e)
             active.value = False
