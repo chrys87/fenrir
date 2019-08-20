@@ -57,7 +57,6 @@ class byteManager():
         if eventData == b'':
             return
         self.handleByteStream(eventData)
-        #self.handleSingleByteSequence(eventData)
     def handleSingleByteSequence(self, eventData):
         convertedEscapeSequence = self.unifyEscapeSeq(eventData)
 
