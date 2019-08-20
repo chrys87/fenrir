@@ -4,7 +4,8 @@
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
 
-import os, struct, sys, pty, tty, termios, shlex, signal, select, pyte, time, fcntl ,getpass
+import os, struct, sys, pty, tty, termios, shlex, signal, pyte, time, fcntl ,getpass
+from select import select
 from fenrirscreenreader.core import debug
 from fenrirscreenreader.core.eventData import fenrirEventType
 from fenrirscreenreader.core.screenDriver import screenDriver
@@ -164,7 +165,7 @@ class driver(screenDriver):
             self.terminal.resize(lines, columns)
             fdList = [sys.stdin, self.p_out, self.signalPipe[0]]
             while active.value:
-                r, _, _ = select.select(fdList, [], [], 1)
+                r, _, _ = select(fdList, [], [], 1)
                 # none
                 if r == []:
                     continue
