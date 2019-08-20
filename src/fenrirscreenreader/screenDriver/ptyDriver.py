@@ -197,11 +197,13 @@ class driver(screenDriver):
                     except (EOFError, OSError):
                         active.value = False
                         break
+                    # feed and send event bevore write, the pyte already has the right state
+                    # so fenrir already can progress bevore os.write what should give some better reaction time
                     self.terminal.feed(msgBytes)
-                    os.write(sys.stdout.fileno(), msgBytes)
                     eventQueue.put({"Type":fenrirEventType.ScreenUpdate,
                         "Data":screen_utils.createScreenEventData(self.terminal.GetScreenContent())
                     })
+                    os.write(sys.stdout.fileno(), msgBytes)
         except Exception as e:  # Process died?
             print(e)
             active.value = False
