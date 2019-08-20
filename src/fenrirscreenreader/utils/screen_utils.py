@@ -5,7 +5,8 @@
 # By Chrys, Storm Dragon, and contributers.
 
 from fenrirscreenreader.core import debug
-import getpass, time, string, select, os
+import getpass, time, string, os
+from select import select
 
 def removeNonprintable(text):
     # Get the difference of all ASCII characters from the set of printable characters
@@ -35,16 +36,18 @@ def createScreenEventData(content):
     }
     return eventData.copy() 
 
-def hasMore(fd, timetout=0.1):
-    r, _, _ = select.select([fd], [], [], timetout)
-    return (fd in r) 
-def hasMoreWhat(fdList, timetout=0.1):
+def hasMore(fd, timetout=0.05):
+    r, _, _ = select([fd], [], [], timetout)
+    return (fd in r)
+
+def hasMoreWhat(fdList, timetout=0.05):
     if not isinstance(fdList, list):
         return []  
     elif fdList == []:
         return []
-    r, _, _ = select.select(fdList, [], [], timetout)
+    r, _, _ = select(fdList, [], [], timetout)
     return r
+
 def isValidShell(shell = ''):
     if not isinstance(shell, str):
         return False
@@ -58,6 +61,7 @@ def isValidShell(shell = ''):
     except:
             return False
     return True
+
 def getShell():
     try:
         shell = os.environ["FENRIRSHELL"]
