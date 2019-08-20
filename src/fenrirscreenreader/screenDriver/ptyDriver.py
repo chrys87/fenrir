@@ -103,7 +103,7 @@ class driver(screenDriver):
         self.env['general']['prevUser'] = getpass.getuser()
         self.env['general']['currUser'] = getpass.getuser()
     def readAll(self, fd, timeout = 1, interruptFd = None, len = 65536):
-        valueBytes = b'' 
+        msgBytes = b'' 
         fdList = []
         fdList += [fd]
         if interruptFd:
@@ -117,14 +117,14 @@ class driver(screenDriver):
             data = os.read(fd, len)
             if data == b'':
                 raise EOFError
-            valueBytes += data
+            msgBytes += data
             # exit on interrupt available
             if interruptFd in r:
                 break
             # respect timeout but wait a little bit of time to see if something more is here
             if (time.time() - starttime) >= timeout:
                 break                
-        return valueBytes
+        return msgBytes
     def openTerminal(self, columns, lines, command):
         p_pid, master_fd = pty.fork()
         if p_pid == 0:  # Child.
