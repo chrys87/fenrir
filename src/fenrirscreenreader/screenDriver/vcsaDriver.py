@@ -32,7 +32,7 @@ class driver(screenDriver):
         self.charmap = {}
         self.bgColorValues = {0: 'black', 1: 'blue', 2: 'green', 3: 'cyan', 4: 'red', 5: 'magenta', 6: 'brown/yellow', 7: 'white'}
         self.fgColorValues = {0: 'black', 1: 'blue', 2: 'green', 3: 'cyan', 4: 'red', 5: 'magenta', 6: 'brown/yellow', 7: 'light gray', 8: 'dark gray', 9: 'light blue', 10: 'light green', 11: 'light cyan', 12: 'light red', 13: 'light magenta', 14: 'light yellow', 15: 'white'}
-        self.hichar = None        
+        self.hichar = None       
     def initialize(self, environment):
         self.env = environment
         self.env['runtime']['attributeManager'].appendDefaultAttributes([
@@ -97,12 +97,19 @@ class driver(screenDriver):
 
     def updateWatchdog(self,active , eventQueue):
         try:
+            useVCSU = os.access('/dev/vcsu', os.R_OK)
             vcsa = {}
             vcsaDevices = glob.glob('/dev/vcsa*')
+            vcsu = {}
+            vcsuDevices = None
             for vcsaDev in vcsaDevices:
                 index = vcsaDev[9:]
                 vcsa[str(index)] = open(vcsaDev,'rb')
-
+            if useVCSU:
+                vcsuDevices = glob.glob('/dev/vcsu*')                
+                for vcsuDev in vcsuDevices:
+                    index = vcsuDev[9:]
+                    vcsu[str(index)] = open(vcsuDev,'rb')
             tty = open('/sys/devices/virtual/tty/tty0/active','r')
             currScreen = str(tty.read()[3:-1])
             oldScreen = currScreen
@@ -143,6 +150,7 @@ class driver(screenDriver):
                         vcsa[currScreen].seek(0)                                                
                         dirtyContent = vcsa[currScreen].read()
                         screenContent = b''
+                        vcsuContent = None                        
                         timeout = time.time()
                         while screenContent != dirtyContent:
                             screenContent = dirtyContent
@@ -151,29 +159,33 @@ class driver(screenDriver):
                             time.sleep(0.02)
                             vcsa[currScreen].seek(0)                             
                             dirtyContent = vcsa[currScreen].read()
+                        if useVCSU:
+                            vcsuContent = vcsu[currScreen].read()
                         eventQueue.put({"Type":fenrirEventType.ScreenUpdate,
-                            "Data":self.createScreenEventData(currScreen,screenContent)
+                            "Data":self.createScreenEventData(currScreen, screenContent, vcsuContent)
                         })
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('VCSA:updateWatchdog:' + str(e),debug.debugLevel.ERROR)
             time.sleep(0.2)
             
 
-    def createScreenEventData(self, screen, content):
+    def createScreenEventData(self, screen, vcsaContent, vcsuContent = None):
         eventData = {
-            'bytes': content,
-            'lines': int( content[0]),
-            'columns': int( content[1]),
+            'bytes': vcsaContent,
+            'lines': int( vcsaContent[0]),
+            'columns': int( vcsaContent[1]),
             'textCursor': 
                 {
-                    'x': int( content[2]),
-                    'y': int( content[3])
+                    'x': int( vcsaContent[2]),
+                    'y': int( vcsaContent[3])
                 },
             'screen': screen,     
             'screenUpdateTime': time.time(),            
         }
         eventData['text'], eventData['attributes'] =\
-          self.autoDecodeVCSA(content[4:], eventData['lines'], eventData['columns'])
+          self.autoDecodeVCSA(vcsaContent[4:], eventData['lines'], eventData['columns'])
+        #if vcsuContent != None:
+        #    eventData['text'] = vcsuContent.decode('utf-8')
         return eventData.copy()     
     def updateCharMap(self, screen):
         self.charmap = {}
