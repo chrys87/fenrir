@@ -185,7 +185,7 @@ class driver(screenDriver):
         eventData['text'], eventData['attributes'] =\
           self.autoDecodeVCSA(vcsaContent[4:], eventData['lines'], eventData['columns'])
         #if vcsuContent != None:
-        #    eventData['text'] = vcsuContent.decode('utf-8')
+        #    eventData['text'] = vcsuContent.decode('UTF-32')
         return eventData.copy()     
     def updateCharMap(self, screen):
         self.charmap = {}
