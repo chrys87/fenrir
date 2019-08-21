@@ -20,6 +20,8 @@ Cleanups:
     [] replace lines by a list insteed of and \n seperated string. (currently we need to split to often) (Easy for contribution)
 General (Easy for contribution)
   [w] make fenrir runnable without root permissions
+  [] check pythran for performance
+    https://github.com/serge-sans-paille/pythran
   [] make fenrir runable without settingsfile. fallback to defaults
   [] Detect progressbars and just present percent
      |===============            |100%
