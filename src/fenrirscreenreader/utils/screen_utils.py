@@ -32,7 +32,7 @@ def createScreenEventData(content):
         'screen': content['screen'],
         'text': content['text'],
         'attributes': content['attributes'],
-        'screenUpdateTime': time.time(),            
+        'screenUpdateTime': time.time(),
     }
     return eventData.copy() 
 
@@ -65,7 +65,7 @@ def isValidShell(shell = ''):
 def getShell():
     try:
         shell = os.environ["FENRIRSHELL"]
-        if isValidShell(shell):                                        
+        if isValidShell(shell):
             return shell
     except:
         pass        
@@ -83,7 +83,7 @@ def getShell():
                     (username, encrypwd, uid, gid, gecos, homedir, shell) = user.split(':')
                     shell = shell.replace('\n','')
                     if username == getpass.getuser():
-                        if isValidShell(shell):                            
+                        if isValidShell(shell):
                             return shell
     except:
         pass

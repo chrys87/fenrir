@@ -23,6 +23,7 @@ from struct import unpack_from, unpack, pack
 from fenrirscreenreader.core import debug
 from fenrirscreenreader.core.eventData import fenrirEventType
 from fenrirscreenreader.core.screenDriver import screenDriver
+from fenrirscreenreader.utils import screen_utils
 
 class driver(screenDriver):
     def __init__(self):
@@ -47,7 +48,7 @@ class driver(screenDriver):
             'default', # fontsize
             'default' # fontfamily
         ]) #end attribute   )
-        self.env['runtime']['processManager'].addCustomEventThread(self.updateWatchdog, multiprocess=True)        
+        self.env['runtime']['processManager'].addCustomEventThread(self.updateWatchdog, multiprocess=True)
     def getCurrScreen(self):
         self.env['screen']['oldTTY'] = self.env['screen']['newTTY']
         try:    
@@ -55,7 +56,7 @@ class driver(screenDriver):
             self.env['screen']['newTTY'] = str(currScreenFile.read()[3:-1])
             currScreenFile.close()
         except Exception as e:
-            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)   
+            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)
     def injectTextToScreen(self, text, screen = None):
         useScreen = "/dev/tty" + self.env['screen']['newTTY']
         if screen != None:
@@ -63,12 +64,12 @@ class driver(screenDriver):
         with open(useScreen, 'w') as fd:
             for c in text:
                 fcntl.ioctl(fd, termios.TIOCSTI, c)
-                
+
     def getSessionInformation(self):
-        self.env['screen']['autoIgnoreScreens'] = []         
+        self.env['screen']['autoIgnoreScreens'] = []
         try:
             if not self.sysBus:
-                self.sysBus = dbus.SystemBus()            
+                self.sysBus = dbus.SystemBus()
                 obj  = self.sysBus.get_object('org.freedesktop.login1', '/org/freedesktop/login1')
                 inf = dbus.Interface(obj, 'org.freedesktop.login1.Manager')
                 self.ListSessions = inf.get_dbus_method('ListSessions')
@@ -83,16 +84,16 @@ class driver(screenDriver):
                     screen = str(inf.Get('org.freedesktop.login1.Session', 'TTY'))
                     screen = screen[screen.upper().find('TTY') + 3:]
                 if screen == '':
-                    self.env['runtime']['debug'].writeDebugOut('No TTY found for session:' + session[4],debug.debugLevel.ERROR)               
+                    self.env['runtime']['debug'].writeDebugOut('No TTY found for session:' + session[4],debug.debugLevel.ERROR)
                     return
                 if sessionType.upper() != 'TTY':
                     self.env['screen']['autoIgnoreScreens'] += [screen]
                 if screen == self.env['screen']['newTTY'] :
                     if self.env['general']['currUser'] != session[2]:
                         self.env['general']['prevUser'] = self.env['general']['currUser']
-                        self.env['general']['currUser'] = session[2]                                                                
+                        self.env['general']['currUser'] = session[2]
         except Exception as e:
-            self.env['runtime']['debug'].writeDebugOut('getSessionInformation: Maybe no LoginD:' + str(e),debug.debugLevel.ERROR)               
+            self.env['runtime']['debug'].writeDebugOut('getSessionInformation: Maybe no LoginD:' + str(e),debug.debugLevel.ERROR)
         #self.env['runtime']['debug'].writeDebugOut('getSessionInformation:'  + str(self.env['screen']['autoIgnoreScreens']) + ' ' + str(self.env['general'])  ,debug.debugLevel.INFO)                           
 
     def updateWatchdog(self,active , eventQueue):
@@ -106,7 +107,7 @@ class driver(screenDriver):
                 index = vcsaDev[9:]
                 vcsa[str(index)] = open(vcsaDev,'rb')
             if useVCSU:
-                vcsuDevices = glob.glob('/dev/vcsu*')                
+                vcsuDevices = glob.glob('/dev/vcsu*')
                 for vcsuDev in vcsuDevices:
                     index = vcsuDev[9:]
                     vcsu[str(index)] = open(vcsuDev,'rb')
@@ -123,43 +124,48 @@ class driver(screenDriver):
                     fileno = change[0]
                     event = change[1]
                     if fileno == tty.fileno():
-                        self.env['runtime']['debug'].writeDebugOut('ScreenChange',debug.debugLevel.INFO)                             
+                        self.env['runtime']['debug'].writeDebugOut('ScreenChange',debug.debugLevel.INFO)
                         tty.seek(0)
-                        currScreen = str(tty.read()[3:-1])        
+                        currScreen = str(tty.read()[3:-1])
                         if currScreen != oldScreen:
                             try:
-                                watchdog.unregister(vcsa[ oldScreen ])              
+                                watchdog.unregister(vcsa[oldScreen])
                             except:
                                 pass
                             try:
-                                watchdog.register(vcsa[ currScreen ], select.POLLPRI | select.POLLERR) 
+                                watchdog.register(vcsa[currScreen], select.POLLPRI | select.POLLERR) 
                             except:
                                 pass
-                            self.updateCharMap(currScreen)                            
+                            self.updateCharMap(currScreen)
                             oldScreen = currScreen
                             try:
-                                vcsa[currScreen].seek(0)                        
+                                vcsa[currScreen].seek(0)
                                 lastScreenContent = vcsa[currScreen].read() 
                             except:
-                                pass                             
+                                pass
+                            vcsuContent = None
+                            if useVCSU:
+                                vcsu[currScreen].seek(0)
+                                vcsuContent = vcsu[currScreen].read()
                             eventQueue.put({"Type":fenrirEventType.ScreenChanged,
-                                "Data":self.createScreenEventData(currScreen,lastScreenContent)                            
+                                "Data":self.createScreenEventData(currScreen, lastScreenContent, vcsuContent)
                             })  
                     else:
-                        self.env['runtime']['debug'].writeDebugOut('ScreenUpdate',debug.debugLevel.INFO)                                                 
-                        vcsa[currScreen].seek(0)                                                
+                        self.env['runtime']['debug'].writeDebugOut('ScreenUpdate',debug.debugLevel.INFO)
+                        vcsa[currScreen].seek(0)
                         dirtyContent = vcsa[currScreen].read()
                         screenContent = b''
-                        vcsuContent = None                        
+                        vcsuContent = None
                         timeout = time.time()
                         while screenContent != dirtyContent:
                             screenContent = dirtyContent
                             if time.time() - timeout >= 0.4:
                                 break
                             time.sleep(0.02)
-                            vcsa[currScreen].seek(0)                             
+                            vcsa[currScreen].seek(0)
                             dirtyContent = vcsa[currScreen].read()
                         if useVCSU:
+                            vcsu[currScreen].seek(0)
                             vcsuContent = vcsu[currScreen].read()
                         eventQueue.put({"Type":fenrirEventType.ScreenUpdate,
                             "Data":self.createScreenEventData(currScreen, screenContent, vcsuContent)
@@ -167,7 +173,6 @@ class driver(screenDriver):
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('VCSA:updateWatchdog:' + str(e),debug.debugLevel.ERROR)
             time.sleep(0.2)
-            
 
     def createScreenEventData(self, screen, vcsaContent, vcsuContent = None):
         eventData = {
@@ -179,14 +184,14 @@ class driver(screenDriver):
                     'x': int( vcsaContent[2]),
                     'y': int( vcsaContent[3])
                 },
-            'screen': screen,     
-            'screenUpdateTime': time.time(),            
+            'screen': screen,
+            'screenUpdateTime': time.time(),
         }
         eventData['text'], eventData['attributes'] =\
           self.autoDecodeVCSA(vcsaContent[4:], eventData['lines'], eventData['columns'])
-        #if vcsuContent != None:
-        #    eventData['text'] = vcsuContent.decode('UTF-32')
-        return eventData.copy()     
+        if vcsuContent != None:
+            eventData['text'] = screen_utils.insertNewlines(vcsuContent.decode('UTF-32', 'replace'), eventData['columns'])
+        return eventData.copy()
     def updateCharMap(self, screen):
         self.charmap = {}
         try:
@@ -226,7 +231,7 @@ class driver(screenDriver):
             lineAttrib = []
             for x in range(cols):
                 data = allData[i: i + 2]
-                i += 2            
+                i += 2
                 if data == b' \x07':
                     #attr = 7
                     #ink = 7
@@ -266,7 +271,7 @@ class driver(screenDriver):
                 if sh & self.hichar:
                     ch |= 0x100
                 try:
-                    lineText += self.charmap[ch]            
+                    lineText += self.charmap[ch]
                 except KeyError:
                     lineText += '?'
                 charAttrib = [
@@ -293,7 +298,7 @@ class driver(screenDriver):
             currScreen = self.env['screen']['newTTY']
             apps = subprocess.Popen('ps -t tty' + currScreen + ' -o comm,tty,stat', shell=True, stdout=subprocess.PIPE).stdout.read().decode()[:-1].split('\n')
         except Exception as e:
-            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)         
+            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)
             return
         try:
             for i in apps:
@@ -308,8 +313,7 @@ class driver(screenDriver):
                           not "PS" == i[0]:
                             if "TTY"+currScreen in i[1]:
                                 if self.env['screen']['newApplication'] != i[0]:
-                                    self.env['screen']['newApplication'] = i[0]                        
+                                    self.env['screen']['newApplication'] = i[0]
                                 return
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)    
-        
