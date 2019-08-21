@@ -58,7 +58,7 @@ class driver(inputDriver):
             self.env['runtime']['processManager'].addCustomEventThread(self.plugInputDeviceWatchdogUdev)
         self.env['runtime']['processManager'].addCustomEventThread(self.inputWatchdog)
         self._initialized = True
-        
+
     def plugInputDeviceWatchdogUdev(self,active , eventQueue):
         context = pyudev.Context()
         monitor = pyudev.Monitor.from_netlink(context)
@@ -70,24 +70,24 @@ class driver(inputDriver):
             while device:
                 self.env['runtime']['debug'].writeDebugOut('plugInputDeviceWatchdogUdev:' + str(device), debug.debugLevel.INFO)
                 try:
-                    if not '/sys/devices/virtual/input/' in device.sys_path:
-                        if device.device_node:
+                    #if not '/sys/devices/virtual/input/' in device.sys_path:
+                    if device.device_node:
                             validDevices.append(str(device.device_node))
-                except:                    
+                except:
                     pass
                 try:
-                    device = monitor.poll(0.1)                
-                except:                    
+                    device = monitor.poll(0.1)
+                except:
                     device = None
             if validDevices:
                 eventQueue.put({"Type":fenrirEventType.PlugInputDevice,"Data":validDevices})
-        return time.time()       
-         
+        return time.time()
+
     def inputWatchdog(self,active , eventQueue):
         try:
             while active.value:
                 r, w, x = select(self.iDevices, [], [], 0.8)
-                event = None                        
+                event = None
                 foundKeyInSequence = False
                 foreward = False
                 eventFired = False
@@ -134,7 +134,7 @@ class driver(inputDriver):
                     if self.gDevices[iDevice.fd]:
                         self.writeUInput(uDevice, event)
             except Exception as e:
-                pass           
+                pass
 
     def writeUInput(self, uDevice, event):
         if not self._initialized:
@@ -186,9 +186,9 @@ class driver(inputDriver):
                     continue
                 try:
                     if currDevice.name.upper() in ['','SPEAKUP','FENRIR-UINPUT']:
-                        continue                
+                        continue
                     if currDevice.phys.upper() in ['','SPEAKUP']:
-                        continue                    
+                        continue
                     if 'BRLTTY' in  currDevice.name.upper():
                         continue
                 except:
@@ -197,25 +197,25 @@ class driver(inputDriver):
                 if mode in ['ALL','NOMICE']:
                     if eventType.EV_KEY in cap:
                         if 116 in cap[eventType.EV_KEY] and len(cap[eventType.EV_KEY]) < 10:
-                            self.env['runtime']['debug'].writeDebugOut('Device Skipped (has 116):' + currDevice.name,debug.debugLevel.INFO)                                                                
+                            self.env['runtime']['debug'].writeDebugOut('Device Skipped (has 116):' + currDevice.name,debug.debugLevel.INFO)
                             continue
                         if len(cap[eventType.EV_KEY]) < 60:
-                            self.env['runtime']['debug'].writeDebugOut('Device Skipped (< 60 keys):' + currDevice.name,debug.debugLevel.INFO)                                                                                        
-                            continue                                                   
+                            self.env['runtime']['debug'].writeDebugOut('Device Skipped (< 60 keys):' + currDevice.name,debug.debugLevel.INFO)
+                            continue
                         if mode == 'ALL':
                             self.addDevice(currDevice)
-                            self.env['runtime']['debug'].writeDebugOut('Device added (ALL):' + self.iDevices[currDevice.fd].name, debug.debugLevel.INFO)                           
+                            self.env['runtime']['debug'].writeDebugOut('Device added (ALL):' + self.iDevices[currDevice.fd].name, debug.debugLevel.INFO)
                         elif mode == 'NOMICE':
                             if not ((eventType.EV_REL in cap) or (eventType.EV_ABS in cap)):
                                 self.addDevice(currDevice)
-                                self.env['runtime']['debug'].writeDebugOut('Device added (NOMICE):' + self.iDevices[currDevice.fd].name,debug.debugLevel.INFO)                                                
+                                self.env['runtime']['debug'].writeDebugOut('Device added (NOMICE):' + self.iDevices[currDevice.fd].name,debug.debugLevel.INFO)
                             else:
-                                self.env['runtime']['debug'].writeDebugOut('Device Skipped (NOMICE):' + currDevice.name,debug.debugLevel.INFO)      
+                                self.env['runtime']['debug'].writeDebugOut('Device Skipped (NOMICE):' + currDevice.name,debug.debugLevel.INFO)
                     else:
-                        self.env['runtime']['debug'].writeDebugOut('Device Skipped (no EV_KEY):' + currDevice.name,debug.debugLevel.INFO)                                                                                       
+                        self.env['runtime']['debug'].writeDebugOut('Device Skipped (no EV_KEY):' + currDevice.name,debug.debugLevel.INFO)
                 elif currDevice.name.upper() in mode.split(','):
                     self.addDevice(currDevice)
-                    self.env['runtime']['debug'].writeDebugOut('Device added (Name):' + self.iDevices[currDevice.fd].name,debug.debugLevel.INFO) 
+                    self.env['runtime']['debug'].writeDebugOut('Device added (Name):' + self.iDevices[currDevice.fd].name,debug.debugLevel.INFO)
             except Exception as e:
                 self.env['runtime']['debug'].writeDebugOut("Device Skipped (Exception): " + deviceFile +' ' + currDevice.name +' '+ str(e),debug.debugLevel.INFO)
         self.iDeviceNo = len(evdev.list_devices())
@@ -233,7 +233,7 @@ class driver(inputDriver):
             pass
     def mapEvent(self, event):
         if not self._initialized:
-            return None    
+            return None
         if not event:
             return None
         mEvent = inputData.inputEvent
@@ -248,31 +248,31 @@ class driver(inputDriver):
                             mEvent['EventName'] = mEvent['EventName'][0]
             mEvent['EventValue'] = event.code
             mEvent['EventSec'] = event.sec
-            mEvent['EventUsec'] = event.usec                
+            mEvent['EventUsec'] = event.usec
             mEvent['EventState'] = event.value
             mEvent['EventType']  = event.type
             return mEvent
         except Exception as e:
             return None
-       
+
     def getLedState(self, led = 0):
         if not self.hasIDevices():
-            return False    
+            return False
         # 0 = Numlock
         # 1 = Capslock
         # 2 = Rollen
         for fd, dev in self.iDevices.items():
             if led in dev.leds():
                 return True
-        return False          
+        return False
     def toggleLedState(self, led = 0):
         if not self.hasIDevices():
-            return False    
+            return False
         ledState = self.getLedState(led)
         for i in self.iDevices:
             if self.gDevices[i]:
                 # 17 LEDs
-                if 17 in self.iDevices[i].capabilities():            
+                if 17 in self.iDevices[i].capabilities():
                     if ledState == 1:
                         self.iDevices[i].set_led(led , 0)
                     else:
@@ -281,7 +281,7 @@ class driver(inputDriver):
         if not self._initialized:
             return
         for fd in self.iDevices:
-            self.grabDevice(fd)  
+            self.grabDevice(fd)
 
     def ungrabAllDevices(self):
         if not self._initialized:
@@ -300,11 +300,11 @@ class driver(inputDriver):
             self.uDevices[fd] = None
         if self.uDevices[fd] != None:
             return
-        try:      
-            self.uDevices[fd] = UInput.from_device(self.iDevices[fd], name='fenrir-uinput')            
+        try:
+            self.uDevices[fd] = UInput.from_device(self.iDevices[fd], name='fenrir-uinput')
         except Exception as e:
             try:
-                self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: compat fallback:  ' + str(e),debug.debugLevel.WARNING)         
+                self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: compat fallback:  ' + str(e),debug.debugLevel.WARNING)
                 dev = self.iDevices[fd]
                 cap = dev.capabilities()
                 del cap[0]
@@ -313,12 +313,12 @@ class driver(inputDriver):
                   dev.name,
                 )
             except Exception as e:
-                self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: init Uinput not possible:  ' + str(e),debug.debugLevel.ERROR)         
-                return               
+                self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: init Uinput not possible:  ' + str(e),debug.debugLevel.ERROR)
+                return
     def addDevice(self, newDevice):
-        self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: device added:  ' + str(newDevice.fd) + ' ' +str(newDevice),debug.debugLevel.INFO)      
+        self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: device added:  ' + str(newDevice.fd) + ' ' +str(newDevice),debug.debugLevel.INFO)
         self.iDevices[newDevice.fd] = newDevice  
-        self.gDevices[newDevice.fd] = False                      
+        self.gDevices[newDevice.fd] = False
         self.createUInputDev(newDevice.fd)
     def grabDevice(self, fd):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
@@ -326,11 +326,11 @@ class driver(inputDriver):
         try:
             self.iDevices[fd].grab()
             self.gDevices[fd] = True
-            self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: grab device ('+ str(self.iDevices[fd].name) + ')',debug.debugLevel.INFO)            
-        except IOError:            
-            self.gDevices[fd] = True            
+            self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: grab device ('+ str(self.iDevices[fd].name) + ')',debug.debugLevel.INFO)
+        except IOError:
+            self.gDevices[fd] = True
         except Exception as e:
-            self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: grabing not possible:  ' + str(e),debug.debugLevel.ERROR)         
+            self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: grabing not possible:  ' + str(e),debug.debugLevel.ERROR)
     def ungrabDevice(self,fd):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
             return
@@ -339,9 +339,9 @@ class driver(inputDriver):
             self.iDevices[fd].ungrab()
             self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: ungrab device ('+ str(self.iDevices[fd].name) + ')',debug.debugLevel.INFO)
         except:
-            pass    
+            pass
     def removeDevice(self,fd):
-        self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: device removed:  ' + str(fd) + ' ' +str(self.iDevices[fd]),debug.debugLevel.INFO)         
+        self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: device removed:  ' + str(fd) + ' ' +str(self.iDevices[fd]),debug.debugLevel.INFO)
         self.clearEventBuffer()
         try:
             self.ungrabDevice(fd)
