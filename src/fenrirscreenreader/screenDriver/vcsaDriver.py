@@ -153,17 +153,29 @@ class driver(screenDriver):
                     else:
                         self.env['runtime']['debug'].writeDebugOut('ScreenUpdate',debug.debugLevel.INFO)
                         vcsa[currScreen].seek(0)
-                        dirtyContent = vcsa[currScreen].read()
-                        screenContent = b''
+                        screenContent = vcsa[currScreen].read()
                         vcsuContent = None
+                        DoScan = True
                         timeout = time.time()
-                        while screenContent != dirtyContent:
-                            screenContent = dirtyContent
+                        while DoScan:
                             if time.time() - timeout >= 0.4:
-                                break
+                                DoScan = False
+                                print('timeout')
                             time.sleep(0.02)
                             vcsa[currScreen].seek(0)
                             dirtyContent = vcsa[currScreen].read()
+                            # X movement?
+                            if abs( int(screenContent[2]) - int(dirtyContent[2])) in [1]:
+                                DoScan = False
+                                print('X')
+                            # Y movement?
+                            elif abs( int(screenContent[3]) - int(dirtyContent[3])) in [1]:
+                                DoScan = False
+                                print('Y')
+                            elif screenContent == dirtyContent:
+                                DoScan = False
+                                print('gleich')
+                            screenContent = dirtyContent
                         if useVCSU:
                             vcsu[currScreen].seek(0)
                             vcsuContent = vcsu[currScreen].read()
