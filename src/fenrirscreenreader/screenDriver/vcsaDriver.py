@@ -103,17 +103,20 @@ class driver(screenDriver):
             vcsaDevices = glob.glob('/dev/vcsa*')
             vcsu = {}
             vcsuDevices = None
+            lastScreenContent = b''
+            tty = open('/sys/devices/virtual/tty/tty0/active','r')
+            currScreen = str(tty.read()[3:-1])
+            oldScreen = currScreen
             for vcsaDev in vcsaDevices:
-                index = vcsaDev[9:]
-                vcsa[str(index)] = open(vcsaDev,'rb')
+                index = str(vcsaDev[9:])
+                vcsa[index] = open(vcsaDev,'rb')
+                if index == currScreen:
+                    lastScreenContent = vcsa[str(index)].read()
             if useVCSU:
                 vcsuDevices = glob.glob('/dev/vcsu*')
                 for vcsuDev in vcsuDevices:
                     index = vcsuDev[9:]
                     vcsu[str(index)] = open(vcsuDev,'rb')
-            tty = open('/sys/devices/virtual/tty/tty0/active','r')
-            currScreen = str(tty.read()[3:-1])
-            oldScreen = currScreen
             self.updateCharMap(currScreen)
             watchdog = select.epoll()
             watchdog.register(vcsa[currScreen], select.POLLPRI | select.POLLERR)
@@ -140,7 +143,7 @@ class driver(screenDriver):
                             oldScreen = currScreen
                             try:
                                 vcsa[currScreen].seek(0)
-                                lastScreenContent = vcsa[currScreen].read() 
+                                lastScreenContent = vcsa[currScreen].read()
                             except:
                                 pass
                             vcsuContent = None
@@ -153,20 +156,35 @@ class driver(screenDriver):
                     else:
                         self.env['runtime']['debug'].writeDebugOut('ScreenUpdate',debug.debugLevel.INFO)
                         vcsa[currScreen].seek(0)
-                        dirtyContent = vcsa[currScreen].read()
-                        screenContent = b''
+                        screenContent = vcsa[currScreen].read()
+                        dirtyContent = b''
                         vcsuContent = None
                         timeout = time.time()
-                        while screenContent != dirtyContent:
-                            screenContent = dirtyContent
-                            if time.time() - timeout >= 0.4:
-                                break
-                            time.sleep(0.02)
-                            vcsa[currScreen].seek(0)
-                            dirtyContent = vcsa[currScreen].read()
+                        if screenContent == b'':
+                            continue
+                        if lastScreenContent == b'':
+                            lastScreenContent = screenContent
+                        if abs( int(screenContent[2]) - int(lastScreenContent[2])) in [1]:
+                            # Skip X Movement
+                            pass
+                        elif abs( int(screenContent[3]) - int(lastScreenContent[3])) in [1]:
+                            # Skip Y Movement
+                            pass
+                        else:
+                            # anything else? wait for completion
+                            while True:
+                                screenContent = dirtyContent
+                                vcsa[currScreen].seek(0)
+                                time.sleep(0.03)
+                                dirtyContent = vcsa[currScreen].read()
+                                if screenContent == dirtyContent:
+                                    break
+                                if time.time() - timeout >= 0.3:
+                                    break
                         if useVCSU:
                             vcsu[currScreen].seek(0)
                             vcsuContent = vcsu[currScreen].read()
+                        lastScreenContent = screenContent
                         eventQueue.put({"Type":fenrirEventType.ScreenUpdate,
                             "Data":self.createScreenEventData(currScreen, screenContent, vcsuContent)
                         })
