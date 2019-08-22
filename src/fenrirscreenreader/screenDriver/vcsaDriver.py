@@ -156,13 +156,14 @@ class driver(screenDriver):
                     else:
                         self.env['runtime']['debug'].writeDebugOut('ScreenUpdate',debug.debugLevel.INFO)
                         vcsa[currScreen].seek(0)
-                        screenContent = vcsa[currScreen].read()
-                        dirtyContent = b''
+                        dirtyContent = vcsa[currScreen].read()
+                        screenContent = dirtyContent
                         vcsuContent = None
                         timeout = time.time()
+                        # error case
                         if screenContent == b'':
                             continue
-                        if lastScreenContent == b'':
+                        elif lastScreenContent == b'':
                             lastScreenContent = screenContent
                         if abs( int(screenContent[2]) - int(lastScreenContent[2])) in [1]:
                             # Skip X Movement
@@ -174,7 +175,7 @@ class driver(screenDriver):
                             # anything else? wait for completion
                             while True:
                                 screenContent = dirtyContent
-                                r,_,_ select.select([vcsu[currScreen]],[],[],0.07)
+                                r,_,_ = select.select([vcsu[currScreen]], [], [], 0.07)
                                 if not vcsa[currScreen] in r:
                                     break
                                 vcsa[currScreen].seek(0)
@@ -182,6 +183,7 @@ class driver(screenDriver):
                                 if screenContent == dirtyContent:
                                     break
                                 if time.time() - timeout >= 0.3:
+                                    screenContent = dirtyContent
                                     break
                         if useVCSU:
                             vcsu[currScreen].seek(0)
@@ -193,6 +195,7 @@ class driver(screenDriver):
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('VCSA:updateWatchdog:' + str(e),debug.debugLevel.ERROR)
             time.sleep(0.2)
+            print(e)
 
     def createScreenEventData(self, screen, vcsaContent, vcsuContent = None):
         eventData = {
