@@ -111,12 +111,12 @@ class driver(screenDriver):
                 index = str(vcsaDev[9:])
                 vcsa[index] = open(vcsaDev,'rb')
                 if index == currScreen:
-                    lastScreenContent = vcsa[str(index)].read()
+                    lastScreenContent = vcsa[index].read()
             if useVCSU:
                 vcsuDevices = glob.glob('/dev/vcsu*')
                 for vcsuDev in vcsuDevices:
-                    index = vcsuDev[9:]
-                    vcsu[str(index)] = open(vcsuDev,'rb')
+                    index = str(vcsuDev[9:])
+                    vcsu[index] = open(vcsuDev,'rb')
             self.updateCharMap(currScreen)
             watchdog = select.epoll()
             watchdog.register(vcsa[currScreen], select.POLLPRI | select.POLLERR)
