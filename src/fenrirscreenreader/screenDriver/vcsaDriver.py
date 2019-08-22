@@ -124,7 +124,9 @@ class driver(screenDriver):
                 self.env['runtime']['debug'].writeDebugOut('VCSU'),debug.debugLevel.ERROR)
                 vcsuDevices = glob.glob('/dev/vcsu*')
                 for vcsuDev in vcsuDevices:
+                    self.env['runtime']['debug'].writeDebugOut('9'),debug.debugLevel.ERROR)
                     index = str(vcsuDev[9:])
+                    self.env['runtime']['debug'].writeDebugOut('10'),debug.debugLevel.ERROR)
                     vcsu[index] = open(vcsuDev,'rb')
             self.env['runtime']['debug'].writeDebugOut('charmap'),debug.debugLevel.ERROR)
             self.updateCharMap(currScreen)
