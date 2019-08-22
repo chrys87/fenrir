@@ -189,8 +189,9 @@ class driver(screenDriver):
         }
         eventData['text'], eventData['attributes'] =\
           self.autoDecodeVCSA(vcsaContent[4:], eventData['lines'], eventData['columns'])
-        if vcsuContent != None:
-            eventData['text'] = screen_utils.insertNewlines(vcsuContent.decode('UTF-32', 'replace'), eventData['columns'])
+        # VCSU seems to give b'   ' instead of b'\x00\x00\x00' (tsp), deactivated until its fixed
+        #if vcsuContent != None:
+        #    eventData['text'] = screen_utils.insertNewlines(vcsuContent.decode('UTF-32', 'replace'), eventData['columns'])
         return eventData.copy()
     def updateCharMap(self, screen):
         self.charmap = {}
