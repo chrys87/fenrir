@@ -165,7 +165,8 @@ class driver(screenDriver):
                             continue
                         elif lastScreenContent == b'':
                             lastScreenContent = screenContent
-                        if abs( int(screenContent[2]) - int(lastScreenContent[2])) in [1]:
+                        if (abs( int(screenContent[2]) - int(lastScreenContent[2])) in [1,2]) and \
+                            (abs( int(screenContent[3]) == int(lastScreenContent[3]))):
                             # Skip X Movement
                             pass
                         elif abs( int(screenContent[3]) - int(lastScreenContent[3])) in [1]:
