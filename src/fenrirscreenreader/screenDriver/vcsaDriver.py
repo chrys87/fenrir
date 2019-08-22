@@ -174,8 +174,10 @@ class driver(screenDriver):
                             # anything else? wait for completion
                             while True:
                                 screenContent = dirtyContent
+                                r,_,_ select.select([vcsu[currScreen]],[],[],0.07)
+                                if not vcsa[currScreen] in r:
+                                    break
                                 vcsa[currScreen].seek(0)
-                                time.sleep(0.03)
                                 dirtyContent = vcsa[currScreen].read()
                                 if screenContent == dirtyContent:
                                     break
