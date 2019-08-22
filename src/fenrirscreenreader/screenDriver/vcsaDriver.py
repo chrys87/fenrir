@@ -104,36 +104,36 @@ class driver(screenDriver):
             vcsu = {}
             vcsuDevices = None
             lastScreenContent = b''
-            self.env['runtime']['debug'].writeDebugOut('1'),debug.debugLevel.ERROR)
+            self.env['runtime']['debug'].writeDebugOut('1',debug.debugLevel.ERROR)
             tty = open('/sys/devices/virtual/tty/tty0/active','r')
-            self.env['runtime']['debug'].writeDebugOut('2'),debug.debugLevel.ERROR)
+            self.env['runtime']['debug'].writeDebugOut('2',debug.debugLevel.ERROR)
             currScreen = str(tty.read()[3:-1])
-            self.env['runtime']['debug'].writeDebugOut('3'),debug.debugLevel.ERROR)
+            self.env['runtime']['debug'].writeDebugOut('3',debug.debugLevel.ERROR)
             oldScreen = currScreen
-            self.env['runtime']['debug'].writeDebugOut('4'),debug.debugLevel.ERROR)
+            self.env['runtime']['debug'].writeDebugOut('4',debug.debugLevel.ERROR)
             for vcsaDev in vcsaDevices:
                 index = str(vcsaDev[9:])
-                self.env['runtime']['debug'].writeDebugOut('5'),debug.debugLevel.ERROR)
+                self.env['runtime']['debug'].writeDebugOut('5',debug.debugLevel.ERROR)
                 vcsa[index] = open(vcsaDev,'rb')
-                self.env['runtime']['debug'].writeDebugOut('6'),debug.debugLevel.ERROR)
+                self.env['runtime']['debug'].writeDebugOut('6',debug.debugLevel.ERROR)
                 if index == currScreen:
-                    self.env['runtime']['debug'].writeDebugOut('7'),debug.debugLevel.ERROR)
+                    self.env['runtime']['debug'].writeDebugOut('7',debug.debugLevel.ERROR)
                     lastScreenContent = vcsa[index].read()
-            self.env['runtime']['debug'].writeDebugOut('8'),debug.debugLevel.ERROR)
+            self.env['runtime']['debug'].writeDebugOut('8',debug.debugLevel.ERROR)
             if useVCSU:
-                self.env['runtime']['debug'].writeDebugOut('VCSU'),debug.debugLevel.ERROR)
+                self.env['runtime']['debug'].writeDebugOut('VCSU',debug.debugLevel.ERROR)
                 vcsuDevices = glob.glob('/dev/vcsu*')
                 for vcsuDev in vcsuDevices:
-                    self.env['runtime']['debug'].writeDebugOut('9'),debug.debugLevel.ERROR)
+                    self.env['runtime']['debug'].writeDebugOut('9',debug.debugLevel.ERROR)
                     index = str(vcsuDev[9:])
-                    self.env['runtime']['debug'].writeDebugOut('10'),debug.debugLevel.ERROR)
+                    self.env['runtime']['debug'].writeDebugOut('10',debug.debugLevel.ERROR)
                     vcsu[index] = open(vcsuDev,'rb')
-            self.env['runtime']['debug'].writeDebugOut('charmap'),debug.debugLevel.ERROR)
+            self.env['runtime']['debug'].writeDebugOut('charmap',debug.debugLevel.ERROR)
             self.updateCharMap(currScreen)
             watchdog = select.epoll()
             watchdog.register(vcsa[currScreen], select.POLLPRI | select.POLLERR)
             watchdog.register(tty, select.POLLPRI | select.POLLERR)
-            self.env['runtime']['debug'].writeDebugOut('start'),debug.debugLevel.ERROR)
+            self.env['runtime']['debug'].writeDebugOut('start',debug.debugLevel.ERROR)
             while active.value == 1:
                 changes = watchdog.poll(1)
                 for change in changes:
