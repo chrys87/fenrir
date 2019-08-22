@@ -156,6 +156,7 @@ class driver(screenDriver):
                     else:
                         self.env['runtime']['debug'].writeDebugOut('ScreenUpdate',debug.debugLevel.INFO)
                         vcsa[currScreen].seek(0)
+                        time.sleep(0.0005)
                         dirtyContent = vcsa[currScreen].read()
                         screenContent = dirtyContent
                         vcsuContent = None
@@ -163,7 +164,7 @@ class driver(screenDriver):
                         # error case
                         if screenContent == b'':
                             continue
-                        elif lastScreenContent == b'':
+                        if lastScreenContent == b'':
                             lastScreenContent = screenContent
                         if (abs( int(screenContent[2]) - int(lastScreenContent[2])) in [1,2]) and \
                             (abs( int(screenContent[3]) == int(lastScreenContent[3]))):
@@ -176,9 +177,10 @@ class driver(screenDriver):
                             # anything else? wait for completion
                             while True:
                                 screenContent = dirtyContent
-                                r,_,_ = select.select([vcsa[currScreen]], [], [], 0.07)
-                                if not vcsa[currScreen] in r:
-                                    break
+                                time.sleep(0.02)
+                                #r,_,_ = select.select([vcsa[currScreen]], [], [], 0.07)
+                                #if not vcsa[currScreen] in r:
+                                #    break
                                 vcsa[currScreen].seek(0)
                                 dirtyContent = vcsa[currScreen].read()
                                 if screenContent == dirtyContent:
