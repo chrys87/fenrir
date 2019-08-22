@@ -46,7 +46,8 @@ class remoteManager():
         # setting controll
         self.settingConst = 'SETTING '
         self.setSettingConst = 'SET '
-        self.saveSettingConst = 'SAVE '
+        self.saveAsSettingConst = 'SAVEAS '
+        self.saveSettingConst = 'SAVE'        
         self.resetSettingConst = 'RESET'
     def initialize(self, environment):
         self.env = environment
@@ -64,10 +65,13 @@ class remoteManager():
         if upperSettingsText.startswith(self.setSettingConst):
             parameterText = settingsText[len(self.setSettingConst):]
             self.setSettings(parameterText)
+        # save as setting
+        if upperSettingsText.startswith(self.saveAsSettingConst):
+            parameterText = settingsText[len(self.saveAsSettingConst):]
+            self.saveSettings(parameterText)
         # save setting
         if upperSettingsText.startswith(self.saveSettingConst):
-            parameterText = settingsText[len(self.saveSettingConst):]
-            self.saveSettings(parameterText)
+            self.saveSettings()
         # reset setting
         if upperSettingsText.startswith(self.resetSettingConst):
             self.resetSettings()
@@ -144,9 +148,9 @@ class remoteManager():
         self.env['runtime']['outputManager'].speakText(text)
     def interruptSpeech(self):
         self.env['runtime']['outputManager'].interruptOutput()
-    def saveSettings(self, settingConfigPath):
+    def saveSettings(self, settingConfigPath = None):
         if not settingConfigPath:
-            return
+            settingConfigPath = self.env['runtime']['settingsManager'].getSettingsFile()
         if settingConfigPath == '':
             return
         self.env['runtime']['settingsManager'].saveSettings(settingConfigPath)
