@@ -66,14 +66,14 @@ class remoteManager():
             parameterText = settingsText[len(self.setSettingConst):]
             self.setSettings(parameterText)
         # save as setting
-        if upperSettingsText.startswith(self.saveAsSettingConst):
+        elif upperSettingsText.startswith(self.saveAsSettingConst):
             parameterText = settingsText[len(self.saveAsSettingConst):]
             self.saveSettings(parameterText)
         # save setting
-        if upperSettingsText.startswith(self.saveSettingConst):
+        elif upperSettingsText == self.saveSettingConst:
             self.saveSettings()
         # reset setting
-        if upperSettingsText.startswith(self.resetSettingConst):
+        elif upperSettingsText == self.resetSettingConst:
             self.resetSettings()
 
     def handleCommandExecution(self, commandText):
@@ -87,30 +87,30 @@ class remoteManager():
             parameterText = commandText[len(self.sayConst):]
             self.say(parameterText)
         # interrupt
-        if upperCommandText.startswith(self.interruptConst):
+        elif upperCommandText == self.interruptConst:
             self.interruptSpeech()
         # temp disable speech
-        if upperCommandText.startswith(self.tempDisableSpeechConst):
+        elif upperCommandText == self.tempDisableSpeechConst:
             self.tempDisableSpeech()
         # set vmenu
-        if upperCommandText.startswith(self.vmenuConst):
+        elif upperCommandText.startswith(self.vmenuConst):
             parameterText = commandText[len(self.vmenuConst):]
             self.setVMenu(parameterText)
         # reset vmenu
-        if upperCommandText.startswith(self.resetVmenuConst):
+        elif upperCommandText == self.resetVmenuConst:
             self.resetVMenu()
         # quit fenrir
-        if upperCommandText.startswith(self.quitAppConst):
+        elif upperCommandText == self.quitAppConst:
             self.quitFenrir()
         # define window
-        if upperCommandText.startswith(self.defineWindowConst):
+        elif upperCommandText.startswith(self.defineWindowConst):
             parameterText = commandText[len(self.defineWindowConst):]
             self.defineWindow(parameterText)
         # reset window
-        if upperCommandText.startswith(self.resetWindowConst):
+        elif upperCommandText == self.resetWindowConst:
             self.resetWindow()
         # set clipboard
-        if upperCommandText.startswith(self.setClipboardConst):
+        elif upperCommandText.startswith(self.setClipboardConst):
             parameterText = commandText[len(self.setClipboardConst):]
             self.setClipboard(parameterText)
     def tempDisableSpeech(self):
