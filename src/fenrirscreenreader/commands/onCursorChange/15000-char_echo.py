@@ -22,7 +22,7 @@ class command():
             return
         # big changes are no char (but the value is bigger than one maybe the differ needs longer than you can type, so a little strange random buffer for now)
         xMove = abs(self.env['screen']['newCursor']['x'] - self.env['screen']['oldCursor']['x'])
-        if xMove > 2:
+        if xMove > 1:
             return
         # detect deletion or chilling 
         if self.env['screen']['newCursor']['x'] <= self.env['screen']['oldCursor']['x']:
