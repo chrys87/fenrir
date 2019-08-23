@@ -19,7 +19,7 @@ class command():
     def run(self):
         # try to detect the tab completion by cursor change
         xMove = abs(self.env['screen']['newCursor']['x'] - self.env['screen']['oldCursor']['x'])
-        if xMove <= 2:
+        if xMove == 1:
             return
         # is there any change?
         if not self.env['runtime']['screenManager'].isDelta():
