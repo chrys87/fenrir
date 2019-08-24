@@ -177,7 +177,7 @@ class driver(screenDriver):
                 # input
                 if sys.stdin in r:
                     try:
-                        msgBytes = self.readAll(sys.stdin.fileno())
+                        msgBytes = self.readAll(sys.stdin.fileno(), len=4096)
                     except (EOFError, OSError):
                         active.value = False
                         break
@@ -203,7 +203,7 @@ class driver(screenDriver):
                     eventQueue.put({"Type":fenrirEventType.ScreenUpdate,
                         "Data":screen_utils.createScreenEventData(self.terminal.GetScreenContent())
                     })
-                    self.injectTextToScreen(msgBytes, screen=sys.stdout.fileno(),)
+                    self.injectTextToScreen(msgBytes, screen=sys.stdout.fileno())
         except Exception as e:  # Process died?
             print(e)
             active.value = False
