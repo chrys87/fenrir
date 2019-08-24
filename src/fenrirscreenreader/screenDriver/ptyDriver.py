@@ -103,7 +103,7 @@ class driver(screenDriver):
         self.env['screen']['autoIgnoreScreens'] = []
         self.env['general']['prevUser'] = getpass.getuser()
         self.env['general']['currUser'] = getpass.getuser()
-    def readAll(self, fd, timeout = -1, interruptFd = None, len = 65536):
+    def readAll(self, fd, timeout = 1, interruptFd = None, len = 65536):
         msgBytes = b'' 
         fdList = []
         fdList += [fd]
@@ -111,7 +111,7 @@ class driver(screenDriver):
             fdList += [interruptFd]
         starttime = time.time()
         while True:
-            r = screen_utils.hasMoreWhat(fdList)
+            r = screen_utils.hasMoreWhat(fdList, 0.0001)
             # nothing more to read
             if not fd in r:
                 break
@@ -123,9 +123,8 @@ class driver(screenDriver):
             if interruptFd in r:
                 break
             # respect timeout but wait a little bit of time to see if something more is here
-            if timeout != -1:
-                if (time.time() - starttime) >= timeout:
-                    break                
+            if (time.time() - starttime) >= timeout:
+                break                
         return msgBytes
     def openTerminal(self, columns, lines, command):
         p_pid, master_fd = pty.fork()
@@ -178,7 +177,7 @@ class driver(screenDriver):
                 # input
                 if sys.stdin in r:
                     try:
-                        msgBytes = self.readAll(sys.stdin.fileno(), len=4096)
+                        msgBytes = self.readAll(sys.stdin.fileno())
                     except (EOFError, OSError):
                         active.value = False
                         break
@@ -194,7 +193,7 @@ class driver(screenDriver):
                 # output
                 if self.p_out in r:
                     try:
-                        msgBytes = self.readAll(self.p_out.fileno(), interruptFd=sys.stdin.fileno(), timeout = 0.5)
+                        msgBytes = self.readAll(self.p_out.fileno(), interruptFd=sys.stdin.fileno())
                     except (EOFError, OSError):
                         active.value = False
                         break
