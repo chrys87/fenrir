@@ -103,7 +103,7 @@ class driver(screenDriver):
         self.env['screen']['autoIgnoreScreens'] = []
         self.env['general']['prevUser'] = getpass.getuser()
         self.env['general']['currUser'] = getpass.getuser()
-    def readAll(self, fd, timeout = 1, interruptFd = None, len = 65536):
+    def readAll(self, fd, timeout = 0.3, interruptFd = None, len = 65536):
         msgBytes = b'' 
         fdList = []
         fdList += [fd]
