@@ -124,7 +124,7 @@ class driver(screenDriver):
                 break
             # respect timeout but wait a little bit of time to see if something more is here
             if (time.time() - starttime) >= timeout:
-                break                
+                break
         return msgBytes
     def openTerminal(self, columns, lines, command):
         p_pid, master_fd = pty.fork()
