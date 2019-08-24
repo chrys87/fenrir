@@ -132,11 +132,11 @@ class inputManager():
     def handleLedStates(self, mEvent):
         try:
             if mEvent['EventName'] == 'KEY_NUMLOCK':
-                self.env['runtime']['inputDriver'].toggleLedState()             
-            elif mEvent['EventName'] == 'KEY_CAPSLOCK':   
-                self.env['runtime']['inputDriver'].toggleLedState(1)                           
-            elif mEvent['EventName'] == 'KEY_SCROLLLOCK':  
-                self.env['runtime']['inputDriver'].toggleLedState(2)               
+                self.env['runtime']['inputDriver'].toggleLedState()
+            elif mEvent['EventName'] == 'KEY_CAPSLOCK':
+                self.env['runtime']['inputDriver'].toggleLedState(1)
+            elif mEvent['EventName'] == 'KEY_SCROLLLOCK':
+                self.env['runtime']['inputDriver'].toggleLedState(2)
         except:
             pass
     def grabAllDevices(self):
@@ -144,7 +144,7 @@ class inputManager():
             try:
                 self.env['runtime']['inputDriver'].grabAllDevices()
             except Exception as e:
-                pass                
+                pass
     def ungrabAllDevices(self):
         if self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
             try:
@@ -152,8 +152,19 @@ class inputManager():
             except Exception as e:
                 pass
     def handlePlugInputDevice(self, eventData):
-        self.env['runtime']['inputManager'].updateInputDevices(eventData)
-            
+        playSound = False
+        for deviceEntry in eventData:
+            self.env['runtime']['inputManager'].updateInputDevices(deviceEntry['device'])
+            # dont play sounds for virtual devices
+            try:
+                playSound = playSound or not deviceEntry['virtual']
+            except:
+                playSound = True
+        if not playSound:
+            try:
+                self.env['commands']['onPlugInputDevice']['PLUGSOUND'].setTempDisable()
+            except:
+                pass
     def updateInputDevices(self, newDevice = None):
         try:
             self.env['runtime']['inputDriver'].updateInputDevices(newDevice)  

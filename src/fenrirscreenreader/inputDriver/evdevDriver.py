@@ -70,13 +70,13 @@ class driver(inputDriver):
             while device:
                 self.env['runtime']['debug'].writeDebugOut('plugInputDeviceWatchdogUdev:' + str(device), debug.debugLevel.INFO)
                 try:
-                    #if not '/sys/devices/virtual/input/' in device.sys_path:
+                    virtual = '/sys/devices/virtual/input/' in device.sys_path
                     if device.device_node:
-                            validDevices.append(str(device.device_node))
+                        validDevices.append({'device': device.device_node, 'virtual': virtual})
                 except:
                     pass
                 try:
-                    device = monitor.poll(0.1)
+                    device = monitor.poll(0.5)
                 except:
                     device = None
             if validDevices:
@@ -149,6 +149,8 @@ class driver(inputDriver):
         deviceFileList = None
 
         if newDevices and not init:
+            if not isinstance(newDevices, list):
+                newDevices = [newDevices]
             deviceFileList = newDevices
         else:
             deviceFileList = evdev.list_devices()
