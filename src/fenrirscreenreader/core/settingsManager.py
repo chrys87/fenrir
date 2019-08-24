@@ -240,18 +240,32 @@ class settingsManager():
             #self.env['runtime']['debug'].writeDebugOut('settingsManager:setOptionArgDict:Datatype missmatch: '+ section + '#' + setting + '=' +  value + ' Error:' +  str(e), debug.debugLevel.ERROR)
             return
 
-
-
     def parseSettingArgs(self, settingArgs):
         for optionElem in settingArgs.split(';'):
-            if len(optionElem.split('#',1)) != 2:
+            settingValList = []
+            sectionOptionList = []
+            section = ''
+            option = ''
+            value = ''
+            settingValList = optionElem.split('=',1)
+            if len(settingValList) != 2:
                 continue
-            if len(optionElem.split('#',1)[1].split('=',1)) != 2:
+            if '#' in settingValList[0]:
+                sectionOptionList = settingValList[0].split('#', 1)
+            elif '.' in settingValList[0]:
+                sectionOptionList = settingValList[0].split('.', 1)
+            elif ',' in settingValList[0]:
+                sectionOptionList = settingValList[0].split(',', 1)
+            elif '!' in settingValList[0]:
+                sectionOptionList = settingValList[0].split('!', 1)
+            else:
+                continue
+            if len(sectionOptionList) != 2:
                 continue
 
-            section = str(optionElem.split('#',1)[0])
-            option = str(optionElem.split('#',1)[1].split('=',1)[0])
-            value = optionElem.split('#',1)[1].split('=',1)[1]
+            section = str(sectionOptionList[0])
+            option = str(sectionOptionList[1])
+            value = str(settingValList[1])
             self.setOptionArgDict(section, option, value)
 
     def initFenrirConfig(self, cliArgs, fenrirManager = None, environment = environment.environment):
