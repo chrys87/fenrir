@@ -13,7 +13,6 @@ class command():
     def initialize(self, environment):
         self.env = environment
         self.lastTime = time.time()
-        self.tempDisable = False
     def shutdown(self):
         pass
     def getDescription(self):
