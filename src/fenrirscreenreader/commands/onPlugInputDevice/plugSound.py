@@ -19,17 +19,17 @@ class command():
     def getDescription(self):
         return 'No description found'
     def run(self):
-        if time.time() - self.lastTime > 5:
-            if not self.isTempDisable():
+        playSound = False
+        deviceList = self.env['runtime']['inputManager'].getLastDetectedDevices()
+        try:
+            for deviceEntry in deviceList:
+            # dont play sounds for virtual devices
+                playSound = playSound or not deviceEntry['virtual']
+        except:
+            playSound = True
+        if playSound:
+            if time.time() - self.lastTime > 5:
                 self.env['runtime']['outputManager'].playSoundIcon(soundIcon = 'accept', interrupt=True)
-            else:
-                self.resetTempDisable()
-            lastTime = time.time()
+                lastTime = time.time()
     def setCallback(self, callback):
         pass
-    def setTempDisable(self):
-        self.tempDisable = True
-    def resetTempDisable(self):
-        self.tempDisable = False
-    def isTempDisable(self):
-        return self.tempDisable

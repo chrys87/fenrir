@@ -13,7 +13,8 @@ fenrirPath = os.path.dirname(currentdir)
 class inputManager():
     def __init__(self):
         self.shortcutType = 'KEY'
-        self.executeDeviceGrab = False        
+        self.executeDeviceGrab = False
+        self.lastDetectedDevices = None
     def setShortcutType(self, shortcutType = 'KEY'):
         if shortcutType in ['KEY', 'BYTE']:
             self.shortcutType = shortcutType
@@ -152,19 +153,8 @@ class inputManager():
             except Exception as e:
                 pass
     def handlePlugInputDevice(self, eventData):
-        playSound = False
         for deviceEntry in eventData:
             self.env['runtime']['inputManager'].updateInputDevices(deviceEntry['device'])
-            # dont play sounds for virtual devices
-            try:
-                playSound = playSound or not deviceEntry['virtual']
-            except:
-                playSound = True
-        if not playSound:
-            try:
-                self.env['commands']['onPlugInputDevice']['PLUGSOUND'].setTempDisable()
-            except:
-                pass
     def updateInputDevices(self, newDevice = None):
         try:
             self.env['runtime']['inputDriver'].updateInputDevices(newDevice)  
@@ -341,3 +331,7 @@ class inputManager():
         self.env['bindings'][str([1, ['KEY_F1', 'KEY_FENRIR']])] = 'TOGGLE_TUTORIAL_MODE'
     def isValidKey(self, key):
         return key in inputData.keyNames
+    def setLastDetectedDevices(self, devices):
+        self.lastDetectedDevices =devices
+    def getLastDetectedDevices(self):
+        return self.lastDetectedDevices

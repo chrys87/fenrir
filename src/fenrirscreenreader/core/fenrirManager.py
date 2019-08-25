@@ -121,7 +121,7 @@ class fenrirManager():
         self.environment['runtime']['remoteManager'].handleRemoteIncomming(event['Data'])
     def handleScreenChange(self, event):
         self.environment['runtime']['screenManager'].hanldeScreenChange(event['Data'])
-        '''        
+        '''
         if self.environment['runtime']['applicationManager'].isApplicationChange():
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onApplicationChange')
             self.environment['runtime']['commandManager'].executeSwitchTrigger('onSwitchApplicationProfile', \
@@ -154,8 +154,13 @@ class fenrirManager():
         self.environment['runtime']['inputManager'].clearLastDeepInput()
         #print('handleScreenUpdate:',time.time() - startTime)
     def handlePlugInputDevice(self, event):
+        try:
+            self.environment['runtime']['inputManager'].setLastDetectedDevices(event['Data'])
+        except:
+            pass
         self.environment['runtime']['inputManager'].handlePlugInputDevice(event['Data'])
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onPlugInputDevice', force=True)
+        self.environment['runtime']['inputManager'].setLastDetectedDevices(None)
     def handleHeartBeat(self, event):
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onHeartBeat',force=True)  
         #self.environment['runtime']['outputManager'].brailleText(flush=False)
