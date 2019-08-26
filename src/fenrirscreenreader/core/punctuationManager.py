@@ -114,4 +114,4 @@ class punctuationManager():
                     sepLine[1] = ':===:'
                 self.env['punctuation'][currDictName][sepLine[0]] = sepLine[1]
                 self.env['runtime']['debug'].writeDebugOut("Punctuation: " + currDictName + '.' + str(sepLine[0]) + ' :' + sepLine[1] ,debug.debugLevel.INFO, onAnyLevel=True)    
-        dictConfig.close()        
+        dictConfig.close()
