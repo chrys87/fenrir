@@ -87,13 +87,6 @@ class driver(screenDriver):
         self.env = environment
         self.command = self.env['runtime']['settingsManager'].getSetting('general','shell')
         self.shortcutType = self.env['runtime']['inputManager'].getShortcutType()
-        param = [sys.stdin.fileno(), sys.stdout.fileno(), self.signalPipe, self.p_out, self.p_pid]
-        #param[0] = sys.stdin
-        #param[1] = sys.stdout
-        #param[2] = self.signalPipe
-        #param[3] = self.p_out
-        #param[4] = self.p_pid
-        self.env['runtime']['processManager'].addCustomEventThread(self.terminalEmulation, pargs = param, multiprocess = False)
         self.env['runtime']['processManager'].addCustomEventThread(self.terminalEmulation)
     def getCurrScreen(self):
         self.env['screen']['oldTTY'] = 'pty'
@@ -160,26 +153,17 @@ class driver(screenDriver):
         return lines, columns
     def handleSigwinch(self, *args):
         os.write(self.signalPipe[1], b'w')
-    def terminalEmulation(self,active , eventQueue, param = None):
+    def terminalEmulation(self,active , eventQueue):
         try:
-            #stdin = param[0]
-            stdin = os.fdopen(param[0])
-            stdout = os.fdopen(param[1])
-            signalPipe = param[2]
-            p_outFd = param[3]
-            p_pid = param[4]
-            old_attr = termios.tcgetattr(stdin)
+            old_attr = termios.tcgetattr(sys.stdin)
             tty.setraw(0)
             lines, columns = self.getTerminalSize(0)
             if self.command == '':
                 self.command = screen_utils.getShell()
-            terminal, p_pid.value, fd = self.openTerminal(columns, lines, self.command)
-            p_outFd.value = os.dup(fd)
-            p_out = fd
-            #p_out = os.fdopen(p_outFd.value, "r+b", 0)
-            lines, columns = self.resizeTerminal(p_out)
-            terminal.resize(lines, columns)
-            fdList = [stdin, p_out, signalPipe[0]]
+            self.terminal, self.p_pid, self.p_out = self.openTerminal(columns, lines, self.command)
+            lines, columns = self.resizeTerminal(self.p_out)
+            self.terminal.resize(lines, columns)
+            fdList = [sys.stdin, self.p_out, self.signalPipe[0]]
             while active.value:
                 r, _, _ = select(fdList, [], [], 1)
                 # none
