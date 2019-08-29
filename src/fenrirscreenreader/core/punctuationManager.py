@@ -38,8 +38,10 @@ class punctuationManager():
         resultText = str(text)
         if customDict:
             for key,item in customDict.items():
-                #resultText = resultText.replace(str(key),seperator + str(item) + seperator)
-                resultText = re.sub(str(key), seperator + str(item) + seperator, resultText)
+                try:
+                    resultText = re.sub(str(key), seperator + str(item) + seperator, resultText)
+                except:
+                    resultText = resultText.replace(str(key),seperator + str(item) + seperator)
         return resultText
     def usePunctuationDict(self, text, punctuationDict, punctuation):
         resultText = str(text)
