@@ -19,7 +19,7 @@ class driver(speechDriver):
     def shutdown(self):
         if self._isInitialized:
             self.cancel()
-        self._isInitialized = False    
+        self._isInitialized = False
         print('Speech Debug Driver: Shutdown')
 
     def speak(self,text, queueable=True):
@@ -33,42 +33,42 @@ class driver(speechDriver):
     def cancel(self):
         if not self._isInitialized:
             return
-        print('Speech Debug Driver: Cancel')        
+        print('Speech Debug Driver: Cancel')
 
     def setCallback(self, callback):
-        print('Speech Debug Driver: setCallback')    
+        print('Speech Debug Driver: setCallback')
 
     def clear_buffer(self):
         if not self._isInitialized:
             return
-        print('Speech Debug Driver: clear_buffer')    
+        print('Speech Debug Driver: clear_buffer')
 
     def setVoice(self, voice):
         if not self._isInitialized:
             return
-        print('Speech Debug Driver: setVoice:' +  str(voice))    
+        print('Speech Debug Driver: setVoice:' +  str(voice))
 
     def setPitch(self, pitch):
         if not self._isInitialized:
             return
-        print('Speech Debug Driver: setPitch:' + str(pitch))    
+        print('Speech Debug Driver: setPitch:' + str(pitch))
 
     def setRate(self, rate):
         if not self._isInitialized:
             return
-        print('Speech Debug Driver: setRate:' + str(rate))    
+        print('Speech Debug Driver: setRate:' + str(rate))
 
     def setModule(self, module):
         if not self._isInitialized:
-            return 
-        print('Speech Debug Driver: setModule:' + str(module))    
+            return
+        print('Speech Debug Driver: setModule:' + str(module))
 
     def setLanguage(self, language):
         if not self._isInitialized:
             return
-        print('Speech Debug Driver: setLanguage:' + str(language))    
+        print('Speech Debug Driver: setLanguage:' + str(language))
 
     def setVolume(self, volume):
         if not self._isInitialized:
-            return     
+            return
         print('Speech Debug Driver: setVolume:' + str(volume))

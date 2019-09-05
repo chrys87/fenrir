@@ -44,6 +44,6 @@ class driver(brailleDriver):
 
     def shutdown(self):
         if self._isInitialized:
-            self.leveScreen()    
-        self._isInitialized = False        
+            self.leveScreen()
+        self._isInitialized = False
         print('Braille Debug Driver: Shutdown')

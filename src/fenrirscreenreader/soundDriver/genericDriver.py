@@ -28,7 +28,7 @@ class driver(soundDriver):
 
     def playFrequence(self, frequence = 1000, duration = 0.3, adjustVolume = 0):
         if not self._initialized:
-            return    
+            return
         if interrupt:
             self.cancel()
         popenFrequenceCommand = shlex.split(self.frequenceCommand)
@@ -36,28 +36,28 @@ class driver(soundDriver):
             word = word.replace('fenrirVolume', str(self.volume + adjustVolume ))
             word = word.replace('fenrirFreqDuration', str(duration))
             word = word.replace('fenrirFrequence', str(frequence))
-            popenFrequenceCommand[idx] = word        
+            popenFrequenceCommand[idx] = word
         self.proc = subprocess.Popen(popenFrequenceCommand, stdin=None, stdout=None, stderr=None, shell=False)
         self.soundType = 'frequence'
     def playSoundFile(self, filePath, interrupt = True):
         if not self._initialized:
-            return    
+            return
         if interrupt:
             self.cancel()
         popenSoundFileCommand = shlex.split(self.soundFileCommand)
         for idx, word in enumerate(popenSoundFileCommand):
             word = word.replace('fenrirVolume', str(self.volume ))
             word = word.replace('fenrirSoundFile', str(filePath))
-            popenSoundFileCommand[idx] = word                
+            popenSoundFileCommand[idx] = word
         self.proc = subprocess.Popen(popenSoundFileCommand, shell=False)
         self.soundType = 'file'
     def cancel(self):
         if not self._initialized:
-            return    
+            return
         if self.soundType == '':
             return
         if self.soundType == 'file':
             self.proc.kill()
         if self.soundType == 'frequence':
-            self.proc.kill()            
-        self.soundType = ''      
+            self.proc.kill()
+        self.soundType = ''

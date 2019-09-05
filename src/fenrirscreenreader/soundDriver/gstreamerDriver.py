@@ -10,11 +10,11 @@ from fenrirscreenreader.core.soundDriver import soundDriver
 
 _gstreamerAvailable = False
 try:
-    import gi        
-    from gi.repository import GLib        
+    import gi
+    from gi.repository import GLib
     gi.require_version('Gst', '1.0')
     from gi.repository import Gst
-    _gstreamerAvailable, args = Gst.init_check(None)   
+    _gstreamerAvailable, args = Gst.init_check(None)
 except Exception as e:
     _gstreamerAvailable = False
     _availableError = str(e)
@@ -28,10 +28,10 @@ class driver(soundDriver):
     def initialize(self, environment):
         self.env = environment
         global _gstreamerAvailable
-        self._initialized = _gstreamerAvailable              
+        self._initialized = _gstreamerAvailable
         if not self._initialized:
             global _availableError
-            self.environment['runtime']['debug'].writeDebugOut('Gstreamer not available ' + _availableError,debug.debugLevel.ERROR)                        
+            self.environment['runtime']['debug'].writeDebugOut('Gstreamer not available ' + _availableError,debug.debugLevel.ERROR)
             return
         self._player = Gst.ElementFactory.make('playbin', 'player')
         bus = self._player.get_bus()
@@ -48,7 +48,7 @@ class driver(soundDriver):
         self._pipeline.add(self._source)
         self._pipeline.add(self._sink)
         self._source.link(self._sink)
-        self.mainloop = GLib.MainLoop()        
+        self.mainloop = GLib.MainLoop()
         self.thread = threading.Thread(target=self.mainloop.run)
         self.thread.start()
 
@@ -66,7 +66,7 @@ class driver(soundDriver):
         elif message.type == Gst.MessageType.ERROR:
             self._player.set_state(Gst.State.NULL)
             error, info = message.parse_error()
-            self.env['runtime']['debug'].writeDebugOut('GSTREAMER: _onPlayerMessage'+ str(error) + str(info),debug.debugLevel.WARNING)                        
+            self.env['runtime']['debug'].writeDebugOut('GSTREAMER: _onPlayerMessage'+ str(error) + str(info),debug.debugLevel.WARNING)
 
     def _onPipelineMessage(self, bus, message):
         if not self._initialized:
@@ -80,12 +80,12 @@ class driver(soundDriver):
             
     def _onTimeout(self, element):
         if not self._initialized:
-            return    
+            return
         element.set_state(Gst.State.NULL)
 
     def playSoundFile(self, fileName, interrupt=True):
         if not self._initialized:
-            return    
+            return
         if interrupt:
             self.cancel()
         self._player.set_property('uri', 'file://%s' % fileName)
@@ -93,7 +93,7 @@ class driver(soundDriver):
 
     def playFrequence(self, frequence, duration, adjustVolume, interrupt=True):
         if not self._initialized:
-            return    
+            return
         if interrupt:
             self.cancel()
         self._source.set_property('volume', tone.volume)

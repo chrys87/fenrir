@@ -14,13 +14,13 @@ class driver(speechDriver):
         self._es = None
 
     def initialize(self, environment):
-        self.env = environment          
+        self.env = environment
         try:
             from espeak import espeak 
             self._es = espeak
             self._isInitialized = True
         except Exception as e:
-            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)         
+            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)
             self._initialized = False
 
     def speak(self,text, interrupt=True):
@@ -30,10 +30,10 @@ class driver(speechDriver):
             self.cancel()
         if self.language != None:
             if self.language != '':
-                self._es.set_voice(self.language)   
+                self._es.set_voice(self.language)
         elif self.voice != None:
-            if self.voice != '':                
-                self._es.set_voice(self.voice)         
+            if self.voice != '':
+                self._es.set_voice(self.voice)
         self._es.synth(text)
 
     def cancel(self):

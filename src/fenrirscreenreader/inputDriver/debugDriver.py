@@ -14,14 +14,14 @@ class driver(inputDriver):
         
     def initialize(self, environment):
         self.env = environment
-        self.env['runtime']['inputManager'].setShortcutType('KEY')        
-        self._initialized = True        
-        print('Input Debug Driver: Initialized')    
+        self.env['runtime']['inputManager'].setShortcutType('KEY')
+        self._initialized = True
+        print('Input Debug Driver: Initialized')
         
     def shutdown(self):
         if self._initialized:
-            self.removeAllDevices()       
-        self._initialized = False    
+            self.removeAllDevices()
+        self._initialized = False
         print('Input Debug Driver: Shutdown')
         
     def getInputEvent(self):
@@ -32,32 +32,32 @@ class driver(inputDriver):
         return None
     def writeEventBuffer(self):
         if not self._initialized:
-            return    
+            return
         print('Input Debug Driver: writeEventBuffer')
     def clearEventBuffer(self):
         if not self._initialized:
-            return    
-        del self.env['input']['eventBuffer'][:]            
+            return
+        del self.env['input']['eventBuffer'][:]
         print('Input Debug Driver: clearEventBuffer')
     def updateInputDevices(self, newDevices = None, init = False):
         if not self._initialized:
-            return    
+            return
         print('Input Debug Driver: updateInputDevices') 
     def getLedState(self, led = 0):
         if not self._initialized:
-            return False    
-        return False          
+            return False
+        return False
     def toggleLedState(self, led = 0):
         if not self._initialized:
-            return    
+            return
         print('Input Debug Driver: toggleLedState')
     def grabAllDevices(self):
         if not self._initialized:
-            return    
+            return
         print('Input Debug Driver: grabAllDevices')
     def ungrabAllDevices(self):
         if not self._initialized:
-            return    
+            return
         print('Input Debug Driver: ungrabAllDevices')
         
     def removeAllDevices(self):
@@ -67,6 +67,6 @@ class driver(inputDriver):
     def __del__(self):
         if self._initialized:
             self.removeAllDevices()
-        print('Input Debug Driver: __del__')        
+        print('Input Debug Driver: __del__')
 
 

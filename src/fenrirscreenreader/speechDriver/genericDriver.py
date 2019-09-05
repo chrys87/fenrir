@@ -27,11 +27,11 @@ class driver(speechDriver):
         self.speechThread = Thread(target=self.worker)
         self.lock = Lock()
         self.textQueue = speakQueue()
-    def initialize(self, environment):   
+    def initialize(self, environment):
         self.env = environment  
         self.minVolume = self.env['runtime']['settingsManager'].getSettingAsInt('speech', 'fenrirMinVolume')
-        self.maxVolume = self.env['runtime']['settingsManager'].getSettingAsInt('speech', 'fenrirMaxVolume')        
-        self.minPitch = self.env['runtime']['settingsManager'].getSettingAsInt('speech', 'fenrirMinPitch')        
+        self.maxVolume = self.env['runtime']['settingsManager'].getSettingAsInt('speech', 'fenrirMaxVolume')
+        self.minPitch = self.env['runtime']['settingsManager'].getSettingAsInt('speech', 'fenrirMinPitch')
         self.maxPitch = self.env['runtime']['settingsManager'].getSettingAsInt('speech', 'fenrirMaxPitch')
         self.minRate = self.env['runtime']['settingsManager'].getSettingAsInt('speech', 'fenrirMinRate')
         self.maxRate = self.env['runtime']['settingsManager'].getSettingAsInt('speech', 'fenrirMaxRate')
@@ -40,23 +40,23 @@ class driver(speechDriver):
         if self.speechCommand == '':
             self.speechCommand = 'espeak -a fenrirVolume -s fenrirRate -p fenrirPitch -v fenrirVoice -- "fenrirText"'
         if False: #for debugging overwrite here
-            #self.speechCommand = 'spd-say --wait -r 100 -i 100  "fenrirText"'  
-            self.speechCommand = 'flite -t "fenrirText"'           
+            #self.speechCommand = 'spd-say --wait -r 100 -i 100  "fenrirText"'
+            self.speechCommand = 'flite -t "fenrirText"'
         
-        self._isInitialized = True   
+        self._isInitialized = True
         if self._isInitialized:
-            self.speechThread.start()   
+            self.speechThread.start()
     def shutdown(self):
         if not self._isInitialized:
             return
-        self.cancel()    
+        self.cancel()
         self.textQueue.put(-1)
 
     def speak(self,text, queueable=True):
         if not self._isInitialized:
             return
-        if not queueable: 
-            self.cancel()        
+        if not queueable:
+            self.cancel()
         utterance = {
           'text': text,
           'volume': self.volume,
@@ -65,7 +65,7 @@ class driver(speechDriver):
           'module': self.module,
           'language': self.language,
           'voice': self.voice,
-        }        
+        }
         self.textQueue.put(utterance.copy())
 
     def cancel(self):
@@ -77,20 +77,20 @@ class driver(speechDriver):
             try:
                 self.proc.terminate()
             except Exception as e:
-                self.env['runtime']['debug'].writeDebugOut('speechDriver:Cancel:self.proc.terminate():' + str(e),debug.debugLevel.WARNING)                                
+                self.env['runtime']['debug'].writeDebugOut('speechDriver:Cancel:self.proc.terminate():' + str(e),debug.debugLevel.WARNING)
                 try:
                     self.proc.kill()
                 except Exception as e:
-                    self.env['runtime']['debug'].writeDebugOut('speechDriver:Cancel:self.proc.kill():' + str(e),debug.debugLevel.WARNING)                    
-            self.proc = None            
+                    self.env['runtime']['debug'].writeDebugOut('speechDriver:Cancel:self.proc.kill():' + str(e),debug.debugLevel.WARNING)
+            self.proc = None
         self.lock.release()
     def setCallback(self, callback):
-        print('SpeechDummyDriver: setCallback')    
+        print('SpeechDummyDriver: setCallback')
 
     def clear_buffer(self):
         if not self._isInitialized:
             return
-        self.textQueue.clear()     
+        self.textQueue.clear()
     
     def setVoice(self, voice):
         if not self._isInitialized:
@@ -137,7 +137,7 @@ class driver(speechDriver):
             if not 'text' in utterance:
                 continue
             if not isinstance(utterance['text'],str):
-                continue            
+                continue
             if utterance['text'] == '':
                 continue
             # check for valid data fields
@@ -178,13 +178,13 @@ class driver(speechDriver):
                 popenSpeechCommand[idx] = word
 
             try:
-                self.env['runtime']['debug'].writeDebugOut('speechDriver:worker:' + ' '.join(popenSpeechCommand),debug.debugLevel.INFO)                                            
+                self.env['runtime']['debug'].writeDebugOut('speechDriver:worker:' + ' '.join(popenSpeechCommand),debug.debugLevel.INFO)
                 self.lock.acquire(True)
                 self.proc = Popen(popenSpeechCommand, stdin=None, stdout=None, stderr=None, shell=False)
                 self.lock.release()	
                 self.proc.wait()
             except Exception as e:
-                self.env['runtime']['debug'].writeDebugOut('speechDriver:worker:' + str(e),debug.debugLevel.ERROR)    
+                self.env['runtime']['debug'].writeDebugOut('speechDriver:worker:' + str(e),debug.debugLevel.ERROR)
 
             self.lock.acquire(True)
             self.proc = None

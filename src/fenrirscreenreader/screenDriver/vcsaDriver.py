@@ -33,7 +33,7 @@ class driver(screenDriver):
         self.charmap = {}
         self.bgColorValues = {0: 'black', 1: 'blue', 2: 'green', 3: 'cyan', 4: 'red', 5: 'magenta', 6: 'brown/yellow', 7: 'white'}
         self.fgColorValues = {0: 'black', 1: 'blue', 2: 'green', 3: 'cyan', 4: 'red', 5: 'magenta', 6: 'brown/yellow', 7: 'light gray', 8: 'dark gray', 9: 'light blue', 10: 'light green', 11: 'light cyan', 12: 'light red', 13: 'light magenta', 14: 'light yellow', 15: 'white'}
-        self.hichar = None       
+        self.hichar = None
     def initialize(self, environment):
         self.env = environment
         self.env['runtime']['attributeManager'].appendDefaultAttributes([
@@ -47,11 +47,11 @@ class driver(screenDriver):
             False, # blink
             'default', # fontsize
             'default' # fontfamily
-        ]) #end attribute   )
+        ]) #end attribute )
         self.env['runtime']['processManager'].addCustomEventThread(self.updateWatchdog, multiprocess=True)
     def getCurrScreen(self):
         self.env['screen']['oldTTY'] = self.env['screen']['newTTY']
-        try:    
+        try:
             currScreenFile = open('/sys/devices/virtual/tty/tty0/active','r')
             self.env['screen']['newTTY'] = str(currScreenFile.read()[3:-1])
             currScreenFile.close()
@@ -121,7 +121,7 @@ class driver(screenDriver):
             watchdog = select.epoll()
             watchdog.register(vcsa[currScreen], select.POLLPRI | select.POLLERR)
             watchdog.register(tty, select.POLLPRI | select.POLLERR)
-            while active.value == 1:
+            while active.value:
                 changes = watchdog.poll(1)
                 for change in changes:
                     fileno = change[0]
@@ -229,7 +229,7 @@ class driver(screenDriver):
             tty = open('/dev/tty' + screen, 'rb')
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('VCSA:updateCharMap:' + str(e),debug.debugLevel.ERROR)   
-            return        
+            return
         GIO_UNIMAP = 0x4B66
         VT_GETHIFONTMASK = 0x560D
         himask = array("H", (0,))

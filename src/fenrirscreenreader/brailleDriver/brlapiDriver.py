@@ -16,11 +16,11 @@ class driver(brailleDriver):
         self.env = environment
         try:
             import brlapi
-            self._brl = brlapi.Connection()            
-            self._deviceSize = self._brl.displaySize           
+            self._brl = brlapi.Connection()
+            self._deviceSize = self._brl.displaySize
         except Exception as e:
             print(e)
-            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)                 
+            self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)
             return
         self._isInitialized = True
 
