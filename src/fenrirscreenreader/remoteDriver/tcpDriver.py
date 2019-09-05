@@ -24,7 +24,7 @@ class driver(remoteDriver):
         self.port = self.env['runtime']['settingsManager'].getSettingAsInt('remote', 'port')
         self.fenrirSock.bind((self.host, self.port))
         self.fenrirSock.listen(1)
-        while active.value == 1:
+        while active.value:
             try:
                 r, _, _ = select.select([self.fenrirSock], [], [], 0.8)
             except select.error:
