@@ -23,15 +23,15 @@ class processManager():
         
     def terminateAllProcesses(self):
         for proc in self._Processes:
-            try:
-                proc.terminate()
-            except KeyboardInterrupt:
-                pass           
-            except:
-                pass
-            proc.join()                
+            #try:
+            #    proc.terminate()
+            #except KeyboardInterrupt:
+            #    pass
+            #except:
+            #    pass
+            proc.join()
         for t in self._Threads:
-            t.join()         
+            t.join()
     def heartBeatTimer(self, active):
         try:
             time.sleep(0.5)

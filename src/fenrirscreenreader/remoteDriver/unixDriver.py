@@ -19,39 +19,49 @@ class driver(remoteDriver):
         self.env['runtime']['processManager'].addCustomEventThread(self.watchDog, multiprocess=True)
     def watchDog(self, active, eventQueue):
         # echo "command say this is a test" | socat - UNIX-CLIENT:/tmp/fenrirscreenreader-deamon.sock
-
-        if self.env['runtime']['settingsManager'].getSetting('screen', 'driver') =='vcsaDriver':
-            socketpath = self.env['runtime']['settingsManager'].getSettingAsInt('remote', 'socketpath') + 'fenrirscreenreader-deamon.sock'
-        else:
-            socketpath = self.env['runtime']['settingsManager'].getSettingAsInt('remote', 'socketpath') + 'fenrirscreenreader-' + str(os.getpid()) + '.sock'
-        if os.path.exists(socketpath):
-            os.remove(socketpath)
-        self.sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-        self.sock.bind(socketpath)
-        self.sock.listen(1)
-        if self.env['runtime']['settingsManager'].getSetting('screen', 'driver') =='vcsaDriver':
-            os.chmod(socketpath, 0o222)
-        while active.value == 1:
-            client_sock, client_addr = self.sock.accept()
-            if client_sock:
-                # Check if the client is still connected and if data is available:
-                try:
-                    r, w, e = select.select([client_sock,], [], [])
-                except select.error:
-                    return
-                if len(r) > 0:
-                    rawdata = client_sock.recv(8129)
-                    try:
-                        data = rawdata.decode("utf-8").rstrip().lstrip()
-                        eventQueue.put({"Type":fenrirEventType.RemoteIncomming,
-                            "Data": data
-                        })
-                    except:
-                        pass
+        socketFile = ''
+        try:
+            socketFile = self.env['runtime']['settingsManager'].getSetting('remote', 'socketFile')
+        except:
+            pass
+        if socketFile == '':
+            if self.env['runtime']['settingsManager'].getSetting('screen', 'driver') =='vcsaDriver':
+                socketFile =  '/tmp/fenrirscreenreader-deamon.sock'
+            else:
+                socketFile = '/tmp/fenrirscreenreader-' + str(os.getppid()) + '.sock'
+        if os.path.exists(socketFile):
+            os.unlink(socketFile)
+        self.fenrirSock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        self.fenrirSock.bind(socketFile)
+        os.chmod(socketFile, 0o222)
+        self.fenrirSock.listen(1)
+        while active.value:
+            # Check if the client is still connected and if data is available:
+            try:
+                r, _, _ = select.select([self.fenrirSock], [], [], 0.8)
+            except select.error:
+                break
+            if r == []:
+                continue
+            if self.fenrirSock in r:
+                client_sock, client_addr = self.fenrirSock.accept()
+            try:
+                rawdata = client_sock.recv(8129)
+            except:
+                pass
+            try:
+                data = rawdata.decode("utf-8").rstrip().lstrip()
+                eventQueue.put({"Type":fenrirEventType.RemoteIncomming,
+                    "Data": data
+                })
+            except:
+                pass
+            try:
                 client_sock.close()
-
-        if os.path.exists(socketpath):
-            os.remove(socketpath)
-        if self.sock:
-            self.sock.close()
-            self.sock = None
+            except:
+                pass
+        if self.fenrirSock:
+            self.fenrirSock.close()
+            self.fenrirSock = None
+        if os.path.exists(socketFile):
+            os.unlink(socketFile)

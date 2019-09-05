@@ -84,7 +84,7 @@ settingsData = {
   'enabled': True,
   'driver': 'unixDriver',
   'port': 22447,
-  'socketpath':'/tmp/',
+  'socketFile':'',
   'enableSettingsRemote': True,
   'enableCommandRemote': True,
 },

@@ -179,13 +179,13 @@ class driver(screenDriver):
                     try:
                         msgBytes = self.readAll(sys.stdin.fileno(), len=4096)
                     except (EOFError, OSError):
-                        active.value = False
+                        eventQueue.put({"Type":fenrirEventType.StopMainLoop,"Data":None}) 
                         break
                     if self.shortcutType == 'KEY':
                         try:
                             self.injectTextToScreen(msgBytes)
                         except:
-                            active.value = False
+                            eventQueue.put({"Type":fenrirEventType.StopMainLoop,"Data":None}) 
                             break
                     else:
                         eventQueue.put({"Type":fenrirEventType.ByteInput,
@@ -195,7 +195,7 @@ class driver(screenDriver):
                     try:
                         msgBytes = self.readAll(self.p_out.fileno(), interruptFd=sys.stdin.fileno())
                     except (EOFError, OSError):
-                        active.value = False
+                        eventQueue.put({"Type":fenrirEventType.StopMainLoop,"Data":None}) 
                         break
                     # feed and send event bevore write, the pyte already has the right state
                     # so fenrir already can progress bevore os.write what should give some better reaction time
@@ -206,7 +206,7 @@ class driver(screenDriver):
                     self.injectTextToScreen(msgBytes, screen=sys.stdout.fileno())
         except Exception as e:  # Process died?
             print(e)
-            active.value = False
+            eventQueue.put({"Type":fenrirEventType.StopMainLoop,"Data":None}) 
         finally:
             os.kill(self.p_pid, signal.SIGTERM)
             self.p_out.close()

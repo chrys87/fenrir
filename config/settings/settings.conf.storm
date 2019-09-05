@@ -151,7 +151,7 @@ driver=unixDriver
 # tcp port
 port=22447
 # socket filepath
-socketpath=/tmp/
+socketFile=
 # allow settings to overwrite
 enableSettingsRemote=True
 # allow commands to be executed
