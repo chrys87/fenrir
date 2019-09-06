@@ -18,7 +18,7 @@ class command():
     def run(self):
         # try to detect the tab completion by cursor change
         xMove = self.env['screen']['newCursor']['x'] - self.env['screen']['oldCursor']['x']
-        if xMove > 0:
+        if xMove <= 0:
             return
         if self.env['runtime']['inputManager'].getShortcutType() in ['KEY']:
             if not (self.env['runtime']['inputManager'].getLastDeepestInput() in [['KEY_TAB']]):
