@@ -32,10 +32,7 @@ class command():
             return
         if not xMove == len(self.env['screen']['newDelta']):
             return
-        # detect deletion or chilling 
-        if self.env['screen']['newCursor']['x'] <= self.env['screen']['oldCursor']['x']:
-            return
-        
+
         # filter unneded space on word begin
         currDelta = self.env['screen']['newDelta']
         if len(currDelta.strip()) != len(currDelta) and \
