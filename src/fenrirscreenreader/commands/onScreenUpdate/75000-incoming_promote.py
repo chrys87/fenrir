@@ -15,8 +15,7 @@ class command():
     def shutdown(self):
         pass
     def getDescription(self):
-        return 'No Description found'     
-
+        return 'No Description found'
     def run(self):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('promote', 'enabled'):
             return
@@ -25,13 +24,12 @@ class command():
         if int(time.time() - self.env['input']['lastInputTime']) < self.env['runtime']['settingsManager'].getSettingAsInt('promote', 'inactiveTimeoutSec'):
             return
         if len(self.env['runtime']['settingsManager'].getSetting('promote', 'list')) == 0:
-            return       
+            return
         for promote in self.env['runtime']['settingsManager'].getSetting('promote', 'list').split(','):
             if promote in self.env['screen']['newDelta']:    
-                self.env['runtime']['outputManager'].playSoundIcon('PromotedText')        
+                self.env['runtime']['outputManager'].playSoundIcon('PromotedText')
                 self.env['input']['lastInputTime'] = time.time()
                 return
-
     def setCallback(self, callback):
         pass
 

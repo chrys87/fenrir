@@ -14,16 +14,13 @@ class command():
     def shutdown(self):
         pass
     def getDescription(self):
-        return 'No Description found'      
-
+        return 'No Description found'
     def run(self):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('barrier','enabled'):
             return
         if not self.env['runtime']['screenManager'].isDelta(ignoreSpace=True):
-            return      
-
+            return
         self.env['runtime']['barrierManager'].handleLineBarrier(self.env['screen']['newContentText'].split('\n'), self.env['screen']['newCursor']['x'],self.env['screen']['newCursor']['y'])
-
     def setCallback(self, callback):
         pass
 

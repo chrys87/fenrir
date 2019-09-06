@@ -21,9 +21,9 @@ class command():
             return
         # is there something to read?
         if not self.env['runtime']['screenManager'].isDelta(ignoreSpace=True):
-            return      
-        
-        # this must be a keyecho or something      
+            return
+
+        # this must be a keyecho or something
         #if len(self.env['screen']['newDelta'].strip(' \n\t')) <= 1:
         xMove = abs(self.env['screen']['newCursor']['x'] - self.env['screen']['oldCursor']['x'])
         yMove = abs(self.env['screen']['newCursor']['y'] - self.env['screen']['oldCursor']['y'])

@@ -14,7 +14,7 @@ class command():
     def shutdown(self):
         pass
     def getDescription(self):
-        return ''        
+        return ''
     def run(self):
         if self.env['screen']['newAttribDelta'] != '':
             return  
@@ -31,15 +31,15 @@ class command():
         if self.env['runtime']['inputManager'].getShortcutType() in ['KEY']:
             if not (self.env['runtime']['inputManager'].getLastDeepestInput() in [['KEY_UP'],['KEY_DOWN']]):
                 return 
-        if self.env['runtime']['inputManager'].getShortcutType() in ['BYTE']:
+        elif self.env['runtime']['inputManager'].getShortcutType() in ['BYTE']:
             if not (self.env['runtime']['byteManager'].getLastByteKey() in [b'^[[A',b'^[[B']):
                 return 
-                
+
         prevLine = self.env['screen']['oldContentText'].split('\n')[self.env['screen']['newCursor']['y']]
-        currLine = self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']]            
+        currLine = self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']]
         if prevLine == currLine:
             if self.env['screen']['newDelta'] != '':
-                return         
+                return
         if not currLine.isspace():
             currPrompt = currLine.find('$')
             rootPrompt = currLine.find('#')
@@ -47,17 +47,17 @@ class command():
                 if rootPrompt > 0:
                     currPrompt = rootPrompt
                 else:
-                    announce = currLine            
+                    announce = currLine
             if currPrompt > 0:
                 remove_digits = str.maketrans('0123456789', '          ')
                 if prevLine[:currPrompt].translate(remove_digits) == currLine[:currPrompt].translate(remove_digits):
                     announce = currLine[currPrompt+1:]
                 else:
-                    announce = currLine                      
+                    announce = currLine
 
         if currLine.isspace():
             self.env['runtime']['outputManager'].presentText(_("blank"), soundIcon='EmptyLine', interrupt=True, flush=False)
-        else:            
+        else:
             self.env['runtime']['outputManager'].presentText(announce, interrupt=True, flush=False)
         self.env['commandsIgnore']['onScreenUpdate']['CHAR_DELETE_ECHO'] = True
         self.env['commandsIgnore']['onScreenUpdate']['CHAR_ECHO'] = True

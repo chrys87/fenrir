@@ -15,7 +15,6 @@ class command():
         pass
     def getDescription(self):
         return 'No Description found'
-
     def run(self):
         # try to detect the tab completion by cursor change
         xMove = self.env['screen']['newCursor']['x'] - self.env['screen']['oldCursor']['x']
@@ -32,7 +31,6 @@ class command():
             return
         if not xMove == len(self.env['screen']['newDelta']):
             return
-
         # filter unneded space on word begin
         currDelta = self.env['screen']['newDelta']
         if len(currDelta.strip()) != len(currDelta) and \

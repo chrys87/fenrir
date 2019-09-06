@@ -36,7 +36,6 @@ class command():
         # is there any change?
         if not self.env['runtime']['screenManager'].isDelta():
             return
-    
         # filter unneded space on word begin
         currDelta = self.env['screen']['newDelta']
         if len(currDelta.strip()) != len(currDelta) and \

@@ -13,13 +13,11 @@ class command():
     def shutdown(self):
         pass 
     def getDescription(self):
-        return _('enables or disables tracking of highlighted')        
-    
+        return _('enables or disables tracking of highlighted')
     def run(self):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('focus', 'highlight'):
             return
         attributeDelta = self.env['runtime']['attributeManager'].getAttributeDelta()
-        self.env['runtime']['outputManager'].presentText(attributeDelta, soundIcon='', interrupt=True, flush=False)                          
-    
+        self.env['runtime']['outputManager'].presentText(attributeDelta, soundIcon='', interrupt=True, flush=False)
     def setCallback(self, callback):
         pass
