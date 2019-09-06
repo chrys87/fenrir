@@ -128,6 +128,7 @@ settingsData = {
   'wordEcho': True,
   'interruptOnKeyPress': True,
   'interruptOnKeyPressFilter': '',
+  'smartInterruptOnKeyPress': False,
   'doubleTapTimeout': 0.2,
 }
 }
