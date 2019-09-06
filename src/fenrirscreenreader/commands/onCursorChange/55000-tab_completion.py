@@ -18,14 +18,14 @@ class command():
 
     def run(self):
         # try to detect the tab completion by cursor change
-        xMove = abs(self.env['screen']['newCursor']['x'] - self.env['screen']['oldCursor']['x'])
-        if xMove == 1:
+        xMove = self.env['screen']['newCursor']['x'] - self.env['screen']['oldCursor']['x']
+        if xMove > 0:
             return
         if self.env['runtime']['inputManager'].getShortcutType() in ['KEY']:
             if not (self.env['runtime']['inputManager'].getLastDeepestInput() in [['KEY_TAB']]):
                 return 
-        if self.env['runtime']['inputManager'].getShortcutType() in ['BYTE']:
-            if not (self.env['runtime']['byteManager'].getLastByteKey() in [b'	'):
+        elif self.env['runtime']['inputManager'].getShortcutType() in ['BYTE']:
+            if not (self.env['runtime']['byteManager'].getLastByteKey() in [b'	', b'\t']):
                 return 
         # is there any change?
         if not self.env['runtime']['screenManager'].isDelta():

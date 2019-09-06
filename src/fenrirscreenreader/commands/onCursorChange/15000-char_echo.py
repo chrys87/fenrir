@@ -24,6 +24,12 @@ class command():
         xMove = abs(self.env['screen']['newCursor']['x'] - self.env['screen']['oldCursor']['x'])
         if xMove > 1:
             return
+        if self.env['runtime']['inputManager'].getShortcutType() in ['KEY']:
+            if self.env['runtime']['inputManager'].getLastDeepestInput() in [['KEY_TAB']]:
+                return 
+        elif self.env['runtime']['inputManager'].getShortcutType() in ['BYTE']:
+            if self.env['runtime']['byteManager'].getLastByteKey() in [b'	', b'\t']:
+                return 
         # detect deletion or chilling 
         if self.env['screen']['newCursor']['x'] <= self.env['screen']['oldCursor']['x']:
             return
