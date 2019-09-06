@@ -23,10 +23,14 @@ class outputManager():
         self.env['runtime']['settingsManager'].shutdownDriver('soundDriver')
         self.env['runtime']['settingsManager'].shutdownDriver('speechDriver')
         self.env['runtime']['settingsManager'].shutdownDriver('brailleDriver')
-        
-    def presentText(self, text, interrupt=True, soundIcon = '', ignorePunctuation=False, announceCapital=False, flush=True, brailleAlternative = ''):
+    def setOutputReason(self, reason):
+        self.reason = reason
+    def getOutputReason(self):
+        return self.reason
+    def presentText(self, text, interrupt=True, soundIcon = '', ignorePunctuation=False, announceCapital=False, flush=True, brailleAlternative = '', reason=''):
         if text == '':
             return
+        self.setOutputReason(reason)
         self.env['runtime']['debug'].writeDebugOut("presentText:\nsoundIcon:'"+soundIcon+"'\nText:\n" + text ,debug.debugLevel.INFO)
         if self.playSoundIcon(soundIcon, interrupt):
             self.env['runtime']['debug'].writeDebugOut("soundIcon found" ,debug.debugLevel.INFO)            

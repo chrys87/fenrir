@@ -27,11 +27,12 @@ class command():
             filterList = self.env['runtime']['settingsManager'].getSetting('keyboard', 'interruptOnKeyPressFilter').split(',')
         else:
             filterList = self.smartByteFilter
+            if self.env['runtime']['outputManager'].getOutputReason() != 'char_echo':
+                self.env['runtime']['outputManager'].interruptOutput()
         if filterList != []:
             found = False
             for filterEntry in filterList:
                 if filterEntry.startswith(self.env['runtime']['byteManager'].getLastByteKey()):
-                    print('found')
                     found = True
             if not found:
                 return

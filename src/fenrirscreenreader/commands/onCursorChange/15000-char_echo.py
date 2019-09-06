@@ -41,7 +41,8 @@ class command():
         if len(currDelta.strip()) != len(currDelta) and \
           currDelta.strip() != '':
             currDelta = currDelta.strip()
-        self.env['runtime']['outputManager'].presentText(currDelta, interrupt=False, ignorePunctuation=True, announceCapital=True, flush=False)
+        doInterrupt = not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'smartInterruptOnKeyPress')
+        self.env['runtime']['outputManager'].presentText(currDelta, interrupt=doInterrupt, ignorePunctuation=True, announceCapital=True, flush=False, reason='char_echo')
 
     def setCallback(self, callback):
         pass

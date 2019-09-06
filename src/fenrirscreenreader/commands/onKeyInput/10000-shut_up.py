@@ -31,6 +31,8 @@ class command():
             filterList = self.env['runtime']['settingsManager'].getSetting('keyboard', 'interruptOnKeyPressFilter').split(',')
         else:
             filterList = self.smartKeyFilter
+            if self.env['runtime']['outputManager'].getOutputReason() != 'char_echo':
+                self.env['runtime']['outputManager'].interruptOutput()
 
         if filterList != []:
             found = False
