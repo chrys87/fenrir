@@ -6,12 +6,14 @@ from datetime import datetime
 import pathlib, os
 
 class debugManager():
-    def __init__(self, fileName = '/var/log/fenrirscreenreader/fenrir.log'):
+    def __init__(self, fileName = ''):
         self._file = None
         self._fileOpened = False
-        self._fileName = fileName
+        self._fileName = '/tmp/fenrir_' + str(os.getpid()) + '_' +  str(datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')) + '.log'
+        if fileName != '':
+            self._fileName = fileName
     def initialize(self, environment):
-        self.env = environment    
+        self.env = environment
     def shutdown(self):
         self.closeDebugFile()
     def __del__(self):
@@ -27,7 +29,7 @@ class debugManager():
         if self._fileName != '':
             directory = os.path.dirname(self._fileName)
             if not os.path.exists(directory):
-                pathlib.Path(directory).mkdir(parents=True, exist_ok=True)         
+                pathlib.Path(directory).mkdir(parents=True, exist_ok=True)
             try:
                 self._file = open(self._fileName,'a')
                 self._fileOpened = True

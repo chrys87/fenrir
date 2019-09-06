@@ -308,7 +308,6 @@ class settingsManager():
             # TODO needs cleanup use dict
             #self.setOptionArgDict('keyboard', 'keyboardLayout', 'pty')
             self.setSetting('keyboard', 'keyboardLayout', 'pty')
-            self.setSetting('general', 'debugFile', '/tmp/fenrir-pty.log')
         if cliArgs.emulated_evdev:
             self.setSetting('screen', 'driver', 'ptyDriver')
             self.setSetting('keyboard', 'driver', 'evdevDriver')
