@@ -14,7 +14,7 @@ class command():
     def shutdown(self):
         pass
     def getDescription(self):
-        return 'No Description found'      
+        return 'No Description found'
 
     def run(self):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('speech', 'autoReadIncoming'):
@@ -31,7 +31,7 @@ class command():
         if (xMove >= 1) and xMove == len(self.env['screen']['newDelta']):
         # if len(self.env['screen']['newDelta'].strip(' \n\t0123456789')) <= 2:
             if not '\n' in self.env['screen']['newDelta']:
-                return          
+                return
         #print(xMove, yMove, len(self.env['screen']['newDelta']), len(self.env['screen']['newNegativeDelta']))
         self.env['runtime']['outputManager'].presentText(self.env['screen']['newDelta'], interrupt=False, flush=False)
 
