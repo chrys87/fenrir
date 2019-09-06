@@ -22,7 +22,7 @@ class command():
             return
         # big changes are no char (but the value is bigger than one maybe the differ needs longer than you can type, so a little strange random buffer for now)
         xMove = abs(self.env['screen']['newCursor']['x'] - self.env['screen']['oldCursor']['x'])
-        if xMove > 1:
+        if xMove > 3:
             return
         if self.env['runtime']['inputManager'].getShortcutType() in ['KEY']:
             if self.env['runtime']['inputManager'].getLastDeepestInput() in [['KEY_TAB']]:
