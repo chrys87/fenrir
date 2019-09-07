@@ -25,7 +25,11 @@ class command():
                 if xMove < 5:
                     return 
         elif self.env['runtime']['inputManager'].getShortcutType() in ['BYTE']:
-            if not (self.env['runtime']['byteManager'].getLastByteKey() in [b'	', b'\t']):
+            found = False
+            for currByte in self.env['runtime']['byteManager'].getLastByteKey():
+                if currByte == 9:
+                    found = True
+            if not found:
                 if xMove < 5:
                     return 
         # is there any change?
