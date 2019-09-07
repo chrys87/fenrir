@@ -22,10 +22,12 @@ class command():
             return
         if self.env['runtime']['inputManager'].getShortcutType() in ['KEY']:
             if not (self.env['runtime']['inputManager'].getLastDeepestInput() in [['KEY_TAB']]):
-                return 
+                if xMove < 5:
+                    return 
         elif self.env['runtime']['inputManager'].getShortcutType() in ['BYTE']:
             if not (self.env['runtime']['byteManager'].getLastByteKey() in [b'	', b'\t']):
-                return 
+                if xMove < 5:
+                    return 
         # is there any change?
         if not self.env['runtime']['screenManager'].isDelta():
             return
