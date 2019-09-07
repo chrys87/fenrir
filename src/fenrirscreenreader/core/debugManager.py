@@ -9,7 +9,7 @@ class debugManager():
     def __init__(self, fileName = ''):
         self._file = None
         self._fileOpened = False
-        self._fileName = '/tmp/fenrir_' + str(os.getpid()) + '_' +  str(datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')) + '.log'
+        self._fileName = '/tmp/fenrir_' + str(os.getpid()) + '_' +  str(datetime.utcnow().strftime('%Y-%m-%d_%H-%M-%S')) + '.log'
         if fileName != '':
             self._fileName = fileName
     def initialize(self, environment):
