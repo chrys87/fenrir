@@ -57,7 +57,6 @@ class byteManager():
         if eventData == b'':
             return
         try:
-            print(eventData.decode('utf8'))
             self.env['runtime']['debug'].writeDebugOut("handleByteInput " + eventData.decode('utf8') ,debug.debugLevel.INFO)
         except:
             pass
