@@ -56,6 +56,11 @@ class byteManager():
             return
         if eventData == b'':
             return
+        try:
+            print(eventData.decode('utf8'))
+            self.env['runtime']['debug'].writeDebugOut("handleByteInput " + eventData.decode('utf8') ,debug.debugLevel.INFO)
+        except:
+            pass
         self.handleByteStream(eventData)
     def handleSingleByteSequence(self, eventData):
         convertedEscapeSequence = self.unifyEscapeSeq(eventData)
