@@ -284,14 +284,16 @@ class driver(inputDriver):
             return True
         ok = True
         for fd in self.iDevices:
-            ok = ok and self.grabDevice(fd)
+            if not self.gDevices[fd]:
+                ok = ok and self.grabDevice(fd)
         return ok
     def ungrabAllDevices(self):
         if not self._initialized:
             return True
         ok = True
         for fd in self.iDevices:
-            ok = ok and self.ungrabDevice(fd)
+            if self.gDevices[fd]:
+                ok = ok and self.ungrabDevice(fd)
         return ok
     def createUInputDev(self, fd):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
