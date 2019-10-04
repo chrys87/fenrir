@@ -62,11 +62,9 @@ class inputManager():
         if self.env['runtime']['screenManager'].getCurrScreenIgnored():
             if self.ungrabAllDevices():
                 self.executeDeviceGrab = False
-                print('ungrabbed')
         else:
             if self.grabAllDevices():
                 self.executeDeviceGrab = False
-                print('grabbed')
     def sendKeys(self, keyMacro):
         for e in keyMacro:
             key = ''
