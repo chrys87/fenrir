@@ -281,16 +281,18 @@ class driver(inputDriver):
                         self.iDevices[i].set_led(led , 1)
     def grabAllDevices(self):
         if not self._initialized:
-            return
+            return True
+        ok = True
         for fd in self.iDevices:
-            self.grabDevice(fd)
-
+            ok = ok and self.grabDevice(fd)
+        return ok
     def ungrabAllDevices(self):
         if not self._initialized:
-            return
+            return True
+        ok = True
         for fd in self.iDevices:
-            self.ungrabDevice(fd)
-
+            ok = ok and self.ungrabDevice(fd)
+        return ok
     def createUInputDev(self, fd):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
             self.uDevices[fd] = None
@@ -324,7 +326,7 @@ class driver(inputDriver):
         self.createUInputDev(newDevice.fd)
     def grabDevice(self, fd):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
-            return
+            return True
         try:
             self.iDevices[fd].grab()
             self.gDevices[fd] = True
@@ -333,15 +335,20 @@ class driver(inputDriver):
             self.gDevices[fd] = True
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: grabing not possible:  ' + str(e),debug.debugLevel.ERROR)
+            return False
+        return True
     def ungrabDevice(self,fd):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
-            return
+            return True
         try:
-            self.gDevices[fd] = False
             self.iDevices[fd].ungrab()
+            self.gDevices[fd] = False
             self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: ungrab device ('+ str(self.iDevices[fd].name) + ')',debug.debugLevel.INFO)
-        except:
-            pass
+        except IOError:
+            self.gDevices[fd] = False
+        except Exception as e:
+            return False
+        return True
     def removeDevice(self,fd):
         self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: device removed:  ' + str(fd) + ' ' +str(self.iDevices[fd]),debug.debugLevel.INFO)
         self.clearEventBuffer()

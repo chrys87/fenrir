@@ -57,12 +57,14 @@ class inputManager():
         if not self.noKeyPressed():
             return
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
+            self.executeDeviceGrab = False
             return
         if self.env['runtime']['screenManager'].getCurrScreenIgnored():
-            self.ungrabAllDevices()
+            if self.ungrabAllDevices():
+                self.executeDeviceGrab = False
         else:
-            self.grabAllDevices()
-        self.executeDeviceGrab = False 
+            if self.grabAllDevices():
+                self.executeDeviceGrab = False
     def sendKeys(self, keyMacro):
         for e in keyMacro:
             key = ''
@@ -143,15 +145,17 @@ class inputManager():
     def grabAllDevices(self):
         if self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
             try:
-                self.env['runtime']['inputDriver'].grabAllDevices()
+                return self.env['runtime']['inputDriver'].grabAllDevices()
             except Exception as e:
-                pass
+                return False
+        return True
     def ungrabAllDevices(self):
         if self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
             try:
-                self.env['runtime']['inputDriver'].ungrabAllDevices()
+                return self.env['runtime']['inputDriver'].ungrabAllDevices()
             except Exception as e:
-                pass
+                return False
+        return True
     def handlePlugInputDevice(self, eventData):
         for deviceEntry in eventData:
             self.env['runtime']['inputManager'].updateInputDevices(deviceEntry['device'])
