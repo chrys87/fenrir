@@ -63,8 +63,9 @@ class inputManager():
             if self.ungrabAllDevices():
                 self.executeDeviceGrab = False
         else:
-            if self.grabAllDevices():
-                self.executeDeviceGrab = False
+            while not self.grabAllDevices():
+                time.sleep(0.2)
+            self.executeDeviceGrab = False
     def sendKeys(self, keyMacro):
         for e in keyMacro:
             key = ''
@@ -284,7 +285,6 @@ class inputManager():
             if keyName.startswith('key_'):
                 keyName = keyName[4:]
                 self.env['runtime']['outputManager'].presentText(_(keyName), interrupt=True)
-
 
     def shortcutExists(self, shortcut):
         return(shortcut in self.env['bindings'])
