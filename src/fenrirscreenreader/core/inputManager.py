@@ -64,7 +64,7 @@ class inputManager():
                 self.executeDeviceGrab = False
         else:
             while not self.grabAllDevices():
-                time.sleep(0.2)
+                time.sleep(0.1)
             self.executeDeviceGrab = False
     def sendKeys(self, keyMacro):
         for e in keyMacro:
