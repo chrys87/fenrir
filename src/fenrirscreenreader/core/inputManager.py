@@ -62,9 +62,11 @@ class inputManager():
         if self.env['runtime']['screenManager'].getCurrScreenIgnored():
             if self.ungrabAllDevices():
                 self.executeDeviceGrab = False
+                print('ungrabbed')
         else:
             if self.grabAllDevices():
                 self.executeDeviceGrab = False
+                print('grabbed')
     def sendKeys(self, keyMacro):
         for e in keyMacro:
             key = ''
@@ -183,7 +185,7 @@ class inputManager():
             return ''
         eventName = eventName.upper()
         if eventName == 'KEY_LEFTCTRL':
-            eventName = 'KEY_CTRL'         
+            eventName = 'KEY_CTRL'
         elif eventName == 'KEY_RIGHTCTRL':
             eventName = 'KEY_CTRL'
         elif eventName == 'KEY_LEFTSHIFT':

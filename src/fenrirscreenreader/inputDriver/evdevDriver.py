@@ -230,7 +230,7 @@ class driver(inputDriver):
                     self.iDevicesFD.append(fd)
             for fd in self.iDevicesFD:
                 if not fd in self.iDevices:
-                    self.iDevicesFD.remove(fd)  
+                    self.iDevicesFD.remove(fd)
         except:
             pass
     def mapEvent(self, event):
@@ -321,9 +321,24 @@ class driver(inputDriver):
                 return
     def addDevice(self, newDevice):
         self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: device added:  ' + str(newDevice.fd) + ' ' +str(newDevice),debug.debugLevel.INFO)
-        self.iDevices[newDevice.fd] = newDevice  
-        self.gDevices[newDevice.fd] = False
-        self.createUInputDev(newDevice.fd)
+        try:
+            self.iDevices[newDevice.fd] = newDevice  
+            self.createUInputDev(newDevice.fd)
+            self.gDevices[newDevice.fd] = False
+        except:
+            # if it doesnt work clean up
+            try:
+                del(self.iDevices[newDevice.fd])
+            except:
+                pass
+            try:
+                del(self.uDevices[newDevice.fd])
+            except:
+                pass
+            try:
+                del(self.gDevices[newDevice.fd])
+            except:
+                pass
     def grabDevice(self, fd):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
             return True
@@ -333,7 +348,7 @@ class driver(inputDriver):
             self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: grab device ('+ str(self.iDevices[fd].name) + ')',debug.debugLevel.INFO)
         except IOError:
             self.gDevices[fd] = True
-            self.removeDevice(fd)
+            #self.removeDevice(fd)
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: grabing not possible:  ' + str(e),debug.debugLevel.ERROR)
             return False
@@ -347,7 +362,7 @@ class driver(inputDriver):
             self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: ungrab device ('+ str(self.iDevices[fd].name) + ')',debug.debugLevel.INFO)
         except IOError:
             self.gDevices[fd] = False
-            self.removeDevice(fd)
+            #self.removeDevice(fd)
         except Exception as e:
             return False
         return True
