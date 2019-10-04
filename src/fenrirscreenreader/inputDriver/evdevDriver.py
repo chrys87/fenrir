@@ -347,8 +347,9 @@ class driver(inputDriver):
             self.gDevices[fd] = True
             self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: grab device ('+ str(self.iDevices[fd].name) + ')',debug.debugLevel.INFO)
         except IOError:
-            self.gDevices[fd] = True
-            #self.removeDevice(fd)
+            return False
+        #    self.gDevices[fd] = True
+        #    #self.removeDevice(fd)
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: grabing not possible:  ' + str(e),debug.debugLevel.ERROR)
             return False
@@ -361,8 +362,9 @@ class driver(inputDriver):
             self.gDevices[fd] = False
             self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: ungrab device ('+ str(self.iDevices[fd].name) + ')',debug.debugLevel.INFO)
         except IOError:
-            self.gDevices[fd] = False
-            #self.removeDevice(fd)
+            return False
+        #    self.gDevices[fd] = False
+        #    #self.removeDevice(fd)
         except Exception as e:
             return False
         return True
