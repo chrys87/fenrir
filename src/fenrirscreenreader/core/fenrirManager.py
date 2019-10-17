@@ -98,7 +98,7 @@ class fenrirManager():
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onByteInput')
     def handleExecuteCommand(self, event):  
         if not event['Data']:
-            return          
+            return
         if event['Data'] == '':
             return
         command = event['Data']
@@ -233,13 +233,14 @@ class fenrirManager():
         self.shutdownRequest()
 
     def shutdown(self):
+        self.environment['runtime']['inputManager'].ungrabAllDevices()
         self.environment['runtime']['eventManager'].stopMainEventLoop()
-        self.environment['runtime']['outputManager'].presentText(_("Quit Fenrir"), soundIcon='ScreenReaderOff', interrupt=True)       
+        self.environment['runtime']['outputManager'].presentText(_("Quit Fenrir"), soundIcon='ScreenReaderOff', interrupt=True)
         self.environment['runtime']['eventManager'].cleanEventQueue()
         time.sleep(0.6)
         for currManager in self.environment['general']['managerList']:
             if self.environment['runtime'][currManager]:
-                self.environment['runtime'][currManager].shutdown()   
+                self.environment['runtime'][currManager].shutdown()
                 del self.environment['runtime'][currManager]
 
         self.environment = None

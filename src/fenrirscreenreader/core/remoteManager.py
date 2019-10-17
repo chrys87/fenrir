@@ -39,7 +39,7 @@ class remoteManager():
         self.resetVmenuConst = 'RESETVMENU'
         self.interruptConst = 'INTERRUPT'
         self.quitAppConst = 'QUITAPPLICATION'
-        self.tempDisableSpeechConst = 'TEMPDISABLESPEECH'        
+        self.tempDisableSpeechConst = 'TEMPDISABLESPEECH'
         self.defineWindowConst = 'WINDOW '
         self.resetWindowConst = 'RESETWINDOW'
         self.setClipboardConst = 'CLIPBOARD '
@@ -47,7 +47,7 @@ class remoteManager():
         self.settingConst = 'SETTING '
         self.setSettingConst = 'SET '
         self.saveAsSettingConst = 'SAVEAS '
-        self.saveSettingConst = 'SAVE'        
+        self.saveSettingConst = 'SAVE'
         self.resetSettingConst = 'RESET'
     def initialize(self, environment):
         self.env = environment
@@ -158,15 +158,13 @@ class remoteManager():
         self.env['runtime']['settingsManager'].resetSettingArgDict()
     def setSettings(self, settingsArgs):
         self.env['runtime']['settingsManager'].parseSettingArgs(settingsArgs)
-        self.env['runtime']['screenManager'].getCurrScreen()
-        self.env['runtime']['screenManager'].getSessionInformation()
         self.env['runtime']['screenManager'].updateScreenIgnored()
     def handleRemoteIncomming(self, eventData):
         if not eventData:
             return
         upperEventData = eventData.upper()
         self.env['runtime']['debug'].writeDebugOut('remoteManager:handleRemoteIncomming: event: ' + str(eventData),debug.debugLevel.INFO)
-        
+
         if upperEventData.startswith(self.settingConst):
             settingsText = eventData[len(self.settingConst):]
             self.handleSettingsChange(settingsText)

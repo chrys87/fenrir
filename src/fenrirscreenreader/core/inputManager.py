@@ -62,7 +62,7 @@ class inputManager():
         print(self.env['runtime']['screenManager'].getCurrScreenIgnored())
         if self.env['runtime']['screenManager'].getCurrScreenIgnored():
             while not self.ungrabAllDevices():
-                time.sleep(0.1)
+                time.sleep(0.2)
                 self.env['runtime']['debug'].writeDebugOut("retry ungrabAllDevices " ,debug.debugLevel.WARNING)
                 print('try ungrabbing')
             self.env['runtime']['debug'].writeDebugOut("All devices ungrabbed" ,debug.debugLevel.INFO)
@@ -74,7 +74,6 @@ class inputManager():
                 print('try grabbing')
             print('grabbed')
             self.env['runtime']['debug'].writeDebugOut("All devices grabbed" ,debug.debugLevel.INFO)
-
         self.executeDeviceGrab = False
     def sendKeys(self, keyMacro):
         for e in keyMacro:
