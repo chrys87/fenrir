@@ -158,6 +158,9 @@ class remoteManager():
         self.env['runtime']['settingsManager'].resetSettingArgDict()
     def setSettings(self, settingsArgs):
         self.env['runtime']['settingsManager'].parseSettingArgs(settingsArgs)
+        self.env['runtime']['screenManager'].getCurrScreen()
+        self.env['runtime']['screenManager'].getSessionInformation()
+        self.env['runtime']['screenManager'].updateScreenIgnored()
     def handleRemoteIncomming(self, eventData):
         if not eventData:
             return

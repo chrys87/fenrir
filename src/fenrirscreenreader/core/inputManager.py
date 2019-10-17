@@ -59,13 +59,23 @@ class inputManager():
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
             self.executeDeviceGrab = False
             return
+        print(self.env['runtime']['screenManager'].getCurrScreenIgnored())
         if self.env['runtime']['screenManager'].getCurrScreenIgnored():
-            if self.ungrabAllDevices():
-                self.executeDeviceGrab = False
+            while not self.ungrabAllDevices():
+                time.sleep(0.1)
+                self.env['runtime']['debug'].writeDebugOut("retry ungrabAllDevices " ,debug.debugLevel.WARNING)
+                print('try ungrabbing')
+            self.env['runtime']['debug'].writeDebugOut("All devices ungrabbed" ,debug.debugLevel.INFO)
+            print('ungrabbed')
         else:
             while not self.grabAllDevices():
-                time.sleep(0.1)
-            self.executeDeviceGrab = False
+                time.sleep(0.2)
+                self.env['runtime']['debug'].writeDebugOut("retry grabAllDevices" ,debug.debugLevel.WARNING)
+                print('try grabbing')
+            print('grabbed')
+            self.env['runtime']['debug'].writeDebugOut("All devices grabbed" ,debug.debugLevel.INFO)
+
+        self.executeDeviceGrab = False
     def sendKeys(self, keyMacro):
         for e in keyMacro:
             key = ''
@@ -316,7 +326,7 @@ class inputManager():
                     shortcutRepeat = int(key)
                 except:
                     if not self.isValidKey(key.upper()):
-                        self.env['runtime']['debug'].writeDebugOut("invalid key : "+ key.upper() + ' command:' +commandName ,debug.debugLevel.WARNING)                    
+                        self.env['runtime']['debug'].writeDebugOut("invalid key : "+ key.upper() + ' command:' +commandName ,debug.debugLevel.WARNING)
                         invalid = True
                         break
                     shortcutKeys.append(key.upper()) 
