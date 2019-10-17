@@ -83,6 +83,7 @@ class fenrirManager():
             else:
                 self.environment['runtime']['inputManager'].writeEventBuffer()
         if self.environment['runtime']['inputManager'].noKeyPressed():
+            self.environment['runtime']['inputManager'].handleDeviceGrab()
             self.modifierInput = False
             self.singleKeyCommand = False  
         if self.environment['input']['keyForeward'] > 0:
@@ -127,7 +128,7 @@ class fenrirManager():
             self.environment['runtime']['commandManager'].executeSwitchTrigger('onSwitchApplicationProfile', \
               self.environment['runtime']['applicationManager'].getPrevApplication(), \
               self.environment['runtime']['applicationManager'].getCurrentApplication())          
-        '''        
+        '''
         if self.environment['runtime']['vmenuManager'].getActive():
             return
 
@@ -166,7 +167,7 @@ class fenrirManager():
         #self.environment['runtime']['outputManager'].brailleText(flush=False)
 
 
-    def detectShortcutCommand(self):    
+    def detectShortcutCommand(self):
         if self.environment['input']['keyForeward'] > 0:
             return
         if self.environment['runtime']['inputManager'].isKeyPress():
@@ -177,7 +178,7 @@ class fenrirManager():
                     self.singleKeyCommand = len( self.environment['runtime']['inputManager'].getLastDeepestInput() ) == 1
         # key is already released. we need the old one
         if not( self.singleKeyCommand and self.environment['runtime']['inputManager'].noKeyPressed()):
-            shortcut = self.environment['runtime']['inputManager'].getCurrShortcut()                
+            shortcut = self.environment['runtime']['inputManager'].getCurrShortcut()
             self.command = self.environment['runtime']['inputManager'].getCommandForShortcut(shortcut)
 
         if not self.modifierInput:

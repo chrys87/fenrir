@@ -159,6 +159,8 @@ class remoteManager():
     def setSettings(self, settingsArgs):
         self.env['runtime']['settingsManager'].parseSettingArgs(settingsArgs)
         self.env['runtime']['screenManager'].updateScreenIgnored()
+        self.env['runtime']['inputManager'].setExecuteDeviceGrab()
+        self.env['runtime']['inputManager'].handleDeviceGrab()
     def handleRemoteIncomming(self, eventData):
         if not eventData:
             return
