@@ -28,6 +28,6 @@ if [[ "$i" != "/tmp/fenrirscreenreader-deamon.sock" ]]; then
     fi
 done
 
-/usr/bin/urxvt -name "${1%% *}" -e ../src/fenrir -d -s ./xterm.conf -o "general.shell=./waitForKey2;remote#socketFile=/tmp/fenrirscreenreader-waitForKey2.sock"
+/usr/bin/urxvt -e ../src/fenrir -d -s ./xterm.conf -o "general.shell=./waitForKey2;remote#socketFile=/tmp/fenrirscreenreader-waitForKey2.sock"
 
 
