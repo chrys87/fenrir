@@ -40,8 +40,8 @@ class punctuationManager():
             for key,item in customDict.items():
                 try:
                     regexLbl = 'REGEX;'
-                    if item.upper().startswith(regexLbl) and (len(item) > len(regexLbl)):
-                        resultText = re.sub(str(key), seperator + str(item[len(regexLbl):]) + seperator, resultText)
+                    if key.upper().startswith(regexLbl) and (len(key) > len(regexLbl)):
+                        resultText = re.sub(str(key[len(regexLbl):]), seperator + str(item) + seperator, resultText)
                     else:
                         resultText = resultText.replace(str(key),seperator + str(item) + seperator)
                 except Exception as e:
