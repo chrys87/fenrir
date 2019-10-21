@@ -320,13 +320,14 @@ class driver(inputDriver):
             self.uDevices[fd] = UInput.from_device(self.iDevices[fd], name='fenrir-uinput')
         except Exception as e:
             try:
+                print(e)
                 self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: compat fallback:  ' + str(e),debug.debugLevel.WARNING)
                 dev = self.iDevices[fd]
                 cap = dev.capabilities()
                 del cap[0]
                 self.uDevices[fd] = UInput(
                   cap,
-                  dev.name,
+                  'fenrir-uinput',
                 )
             except Exception as e:
                 self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: init Uinput not possible:  ' + str(e),debug.debugLevel.ERROR)
