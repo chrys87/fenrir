@@ -53,13 +53,10 @@ class inputManager():
         if force:
             self.setExecuteDeviceGrab()
         if not self.executeDeviceGrab:
-            print('1')
             return
         if self.env['input']['eventBuffer'] != []:
-            print('2', self.env['input']['eventBuffer'])
             return
         if not self.noKeyPressed():
-            print('3')
             return
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
             self.executeDeviceGrab = False
@@ -224,7 +221,7 @@ class inputManager():
     def setLastDeepestInput(self, currentDeepestInput):
         self.lastDeepestInput = currentDeepestInput
     def clearLastDeepInput(self):
-        self.lastDeepestInput = []  
+        self.lastDeepestInput = []
     def getLastInputTime(self):
         return self.lastInputTime
     def getLastDeepestInput(self):
@@ -266,7 +263,7 @@ class inputManager():
                 shortcut = []
                 self.env['input']['shortcutRepeat'] = 1
                 shortcut.append(self.env['input']['shortcutRepeat'])
-                shortcut.append(self.env['input']['currInput'])     
+                shortcut.append(self.env['input']['currInput'])
         self.env['runtime']['debug'].writeDebugOut("currShortcut " + str(shortcut) ,debug.debugLevel.INFO)
         return str(shortcut)
 

@@ -73,7 +73,7 @@ class driver(inputDriver):
                 try:
                     if currDevice.name.upper() in ['','SPEAKUP','FENRIR-UINPUT']:
                         ignorePlug = True
-                    if currDevice.phys.upper() in ['','SPEAKUP']:
+                    if currDevice.phys.upper() in ['','SPEAKUP','FENRIR-UINPUT']:
                         ignorePlug = True
                     if 'BRLTTY' in  currDevice.name.upper():
                         ignorePlug = True
@@ -150,6 +150,7 @@ class driver(inputDriver):
         if not self._initialized:
             return
         uDevice.write_event(event)
+        time.sleep(0.0000002)
         uDevice.syn()
 
     def updateInputDevices(self, newDevices = None, init = False):
@@ -199,7 +200,7 @@ class driver(inputDriver):
                 try:
                     if currDevice.name.upper() in ['','SPEAKUP','FENRIR-UINPUT']:
                         continue
-                    if currDevice.phys.upper() in ['','SPEAKUP']:
+                    if currDevice.phys.upper() in ['','SPEAKUP','FENRIR-UINPUT']:
                         continue
                     if 'BRLTTY' in  currDevice.name.upper():
                         continue
@@ -317,17 +318,17 @@ class driver(inputDriver):
         if self.uDevices[fd] != None:
             return
         try:
-            self.uDevices[fd] = UInput.from_device(self.iDevices[fd], name='fenrir-uinput')
+            self.uDevices[fd] = UInput.from_device(self.iDevices[fd], name='fenrir-uinput', phys='fenrir-uinput')
         except Exception as e:
             try:
-                print(e)
                 self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: compat fallback:  ' + str(e),debug.debugLevel.WARNING)
                 dev = self.iDevices[fd]
                 cap = dev.capabilities()
                 del cap[0]
                 self.uDevices[fd] = UInput(
                   cap,
-                  'fenrir-uinput',
+                  name = 'fenrir-uinput',
+                  phys = 'fenrir-uinput'
                 )
             except Exception as e:
                 self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: init Uinput not possible:  ' + str(e),debug.debugLevel.ERROR)
@@ -356,7 +357,6 @@ class driver(inputDriver):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
             return True
         try:
-            print(self.iDevices[fd])
             self.iDevices[fd].grab()
             self.gDevices[fd] = True
             self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: grab device ('+ str(self.iDevices[fd].name) + ')',debug.debugLevel.INFO)
