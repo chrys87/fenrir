@@ -33,15 +33,16 @@ class punctuationManager():
                 del currAllPunctNone[ord(char)]
             except:
                 pass
-        return text.translate(currAllPunctNone)   
-    
+        return text.translate(currAllPunctNone)
     def useCustomDict(self, text, customDict, seperator=''):
         resultText = str(text)
         if customDict:
             for key,item in customDict.items():
-                resultText = resultText.replace(str(key),seperator + str(item) + seperator)
+                try:
+                    resultText = re.sub(str(key), seperator + str(item) + seperator, resultText)
+                except:
+                    resultText = resultText.replace(str(key),seperator + str(item) + seperator)
         return resultText
-    
     def usePunctuationDict(self, text, punctuationDict, punctuation):
         resultText = str(text)
 
@@ -49,11 +50,11 @@ class punctuationManager():
             if ' ' in punctuation:
                 resultText = resultText.replace(' ',' ' + punctuationDict[' '] + ' ')
             for key,item in punctuationDict.items():
-                if key in punctuation and key not in ' ':
+                if (punctuation != '' and key in punctuation) and key not in ' ':
                     if self.env['runtime']['settingsManager'].getSetting('general', 'respectPunctuationPause') and \
                       len(key) == 1 and \
                       key in "',.;:?!":
-                        resultText = resultText.replace(str(key),' ' +str(item) + str(key) + ' ')                    
+                        resultText = resultText.replace(str(key),' ' +str(item) + str(key) + ' ')
                     else:
                         resultText = resultText.replace(str(key),' ' +str(item) + ' ')
         return resultText
