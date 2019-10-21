@@ -417,10 +417,10 @@ class settingsManager():
         environment['runtime']['vmenuManager'].initialize(environment)
         environment['runtime']['quickMenuManager'] = quickMenuManager.quickMenuManager()
         environment['runtime']['quickMenuManager'].initialize(environment)
+
         # only possible after having input and screen managers with clean buffer
-        environment['runtime']['inputManager'].setExecuteDeviceGrab()
         environment['runtime']['inputManager'].writeEventBuffer()
-        environment['runtime']['inputManager'].handleDeviceGrab()
+        environment['runtime']['inputManager'].handleDeviceGrab(force = True)
 
         environment['runtime']['debug'].writeDebugOut('\/-------environment-------\/',debug.debugLevel.INFO, onAnyLevel=True)
         environment['runtime']['debug'].writeDebugOut(str(environment), debug.debugLevel.INFO, onAnyLevel=True)

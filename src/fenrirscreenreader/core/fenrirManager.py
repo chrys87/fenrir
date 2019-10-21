@@ -127,7 +127,7 @@ class fenrirManager():
             self.environment['runtime']['commandManager'].executeDefaultTrigger('onApplicationChange')
             self.environment['runtime']['commandManager'].executeSwitchTrigger('onSwitchApplicationProfile', \
               self.environment['runtime']['applicationManager'].getPrevApplication(), \
-              self.environment['runtime']['applicationManager'].getCurrentApplication())          
+              self.environment['runtime']['applicationManager'].getCurrentApplication())
         '''
         if self.environment['runtime']['vmenuManager'].getActive():
             return

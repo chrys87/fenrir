@@ -49,7 +49,9 @@ class inputManager():
         return event
     def setExecuteDeviceGrab(self, newExecuteDeviceGrab = True):
         self.executeDeviceGrab = newExecuteDeviceGrab
-    def handleDeviceGrab(self):
+    def handleDeviceGrab(self, force = False):
+        if force:
+            self.setExecuteDeviceGrab()
         if not self.executeDeviceGrab:
             print('1')
             return
@@ -175,10 +177,9 @@ class inputManager():
             self.env['runtime']['inputDriver'].updateInputDevices(newDevice)
         except:
             pass
-        self.setExecuteDeviceGrab()
         try:
             if self.env['runtime']['screenManager']:
-                self.handleDeviceGrab()
+                self.handleDeviceGrab(force = True)
         except:
             pass
     def removeAllDevices(self):
