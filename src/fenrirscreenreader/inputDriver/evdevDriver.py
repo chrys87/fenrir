@@ -64,21 +64,31 @@ class driver(inputDriver):
         monitor = pyudev.Monitor.from_netlink(context)
         monitor.filter_by(subsystem='input')
         monitor.start()
+        ignorePlug = False
         while active.value:
             validDevices = []
             device = monitor.poll(1)
             while device:
                 self.env['runtime']['debug'].writeDebugOut('plugInputDeviceWatchdogUdev:' + str(device), debug.debugLevel.INFO)
                 try:
-                    virtual = '/sys/devices/virtual/input/' in device.sys_path
-                    if device.device_node:
-                        validDevices.append({'device': device.device_node, 'virtual': virtual})
+                    if currDevice.name.upper() in ['','SPEAKUP','FENRIR-UINPUT']:
+                        ignorePlug = True
+                    if currDevice.phys.upper() in ['','SPEAKUP']:
+                        ignorePlug = True
+                    if 'BRLTTY' in  currDevice.name.upper():
+                        ignorePlug = True
+                    if not ignorePlug:
+                        virtual = '/sys/devices/virtual/input/' in device.sys_path
+                        if device.device_node:
+                            validDevices.append({'device': device.device_node, 'virtual': virtual})
                 except:
                     pass
                 try:
-                    device = monitor.poll(0.5)
+                    pollTimeout = 1
+                    device = monitor.poll(pollTimeout)
                 except:
                     device = None
+                ignorePlug = False
             if validDevices:
                 eventQueue.put({"Type":fenrirEventType.PlugInputDevice,"Data":validDevices})
         return time.time()
@@ -138,7 +148,7 @@ class driver(inputDriver):
 
     def writeUInput(self, uDevice, event):
         if not self._initialized:
-            return    
+            return
         uDevice.write_event(event)
         uDevice.syn()
 
@@ -345,6 +355,7 @@ class driver(inputDriver):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
             return True
         try:
+            print(self.iDevices[fd])
             self.iDevices[fd].grab()
             self.gDevices[fd] = True
             self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: grab device ('+ str(self.iDevices[fd].name) + ')',debug.debugLevel.INFO)

@@ -22,11 +22,11 @@
 #
 #--code--
  
-for i in /tmp/fenrirscreenreader-*.sock ; do
-if [[ "$i" != "/tmp/fenrirscreenreader-deamon.sock" ]]; then
-        echo -n "setting set screen#suspendingScreen=pty" | socat - UNIX-CLIENT:$i
-    fi
-done
+#for i in /tmp/fenrirscreenreader-*.sock ; do
+#if [[ "$i" != "/tmp/fenrirscreenreader-deamon.sock" ]]; then
+#        echo -n "setting set screen#suspendingScreen=pty" | socat - UNIX-CLIENT:$i
+#    fi
+#done
 
 /usr/bin/urxvt -e ../src/fenrir -d -s ./xterm.conf -o "general.shell=./waitForKey2;remote#socketFile=/tmp/fenrirscreenreader-waitForKey2.sock"
 

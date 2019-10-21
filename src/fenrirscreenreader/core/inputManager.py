@@ -6,7 +6,7 @@
 
 from fenrirscreenreader.core import debug
 from fenrirscreenreader.core import inputData
-import os, inspect, time
+import os, inspect, time, traceback
 currentdir = os.path.dirname(os.path.realpath(os.path.abspath(inspect.getfile(inspect.currentframe()))))
 fenrirPath = os.path.dirname(currentdir)
 
@@ -61,14 +61,14 @@ class inputManager():
             return
         if self.env['runtime']['screenManager'].getCurrScreenIgnored():
             while not self.ungrabAllDevices():
-                time.sleep(0.2)
+                time.sleep(0.25)
                 self.env['runtime']['debug'].writeDebugOut("retry ungrabAllDevices " ,debug.debugLevel.WARNING)
                 print('try ungrabbing')
             self.env['runtime']['debug'].writeDebugOut("All devices ungrabbed" ,debug.debugLevel.INFO)
             print('ungrabbed')
         else:
             while not self.grabAllDevices():
-                time.sleep(0.2)
+                time.sleep(0.25)
                 self.env['runtime']['debug'].writeDebugOut("retry grabAllDevices" ,debug.debugLevel.WARNING)
                 print('try grabbing')
             print('grabbed')

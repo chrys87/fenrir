@@ -83,9 +83,9 @@ class fenrirManager():
             else:
                 self.environment['runtime']['inputManager'].writeEventBuffer()
         if self.environment['runtime']['inputManager'].noKeyPressed():
-            self.environment['runtime']['inputManager'].handleDeviceGrab()
             self.modifierInput = False
             self.singleKeyCommand = False  
+            self.environment['runtime']['inputManager'].handleDeviceGrab()
         if self.environment['input']['keyForeward'] > 0:
             self.environment['input']['keyForeward'] -=1
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onKeyInput')
@@ -201,11 +201,6 @@ class fenrirManager():
                         self.command = ''
     def setProcessName(self, name = 'fenrir'):
         """Attempts to set the process name to 'fenrir'."""
-
-        #sys.argv[0] = name
-
-        # Disabling the import error of setproctitle.
-        # pylint: disable-msg=F0401
         try:
             from setproctitle import setproctitle
         except ImportError:
