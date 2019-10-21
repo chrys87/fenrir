@@ -51,10 +51,13 @@ class inputManager():
         self.executeDeviceGrab = newExecuteDeviceGrab
     def handleDeviceGrab(self):
         if not self.executeDeviceGrab:
+            print('1')
             return
         if self.env['input']['eventBuffer'] != []:
+            print('2', self.env['input']['eventBuffer'])
             return
         if not self.noKeyPressed():
+            print('3')
             return
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
             self.executeDeviceGrab = False
@@ -166,7 +169,7 @@ class inputManager():
         return True
     def handlePlugInputDevice(self, eventData):
         for deviceEntry in eventData:
-            self.env['runtime']['inputManager'].updateInputDevices(deviceEntry['device'])
+            self.updateInputDevices(deviceEntry['device'])
     def updateInputDevices(self, newDevice = None):
         try:
             self.env['runtime']['inputDriver'].updateInputDevices(newDevice)
