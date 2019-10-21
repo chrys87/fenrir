@@ -39,8 +39,9 @@ class punctuationManager():
         if customDict:
             for key,item in customDict.items():
                 try:
-                    if item.upper().startswith('REGEX;') and (len(item) > 6):
-                        resultText = re.sub(str(key), seperator + str(item[6:]) + seperator, resultText)
+                    regexLbl = 'REGEX;'
+                    if item.upper().startswith(regexLbl) and (len(item) > len(regexLbl)):
+                        resultText = re.sub(str(key), seperator + str(item[len(regexLbl):]) + seperator, resultText)
                     else:
                         resultText = resultText.replace(str(key),seperator + str(item) + seperator)
                 except Exception as e:
