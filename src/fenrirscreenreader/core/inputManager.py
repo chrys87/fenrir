@@ -65,15 +65,11 @@ class inputManager():
             while not self.ungrabAllDevices():
                 time.sleep(0.25)
                 self.env['runtime']['debug'].writeDebugOut("retry ungrabAllDevices " ,debug.debugLevel.WARNING)
-                print('try ungrabbing')
             self.env['runtime']['debug'].writeDebugOut("All devices ungrabbed" ,debug.debugLevel.INFO)
-            print('ungrabbed')
         else:
             while not self.grabAllDevices():
                 time.sleep(0.25)
                 self.env['runtime']['debug'].writeDebugOut("retry grabAllDevices" ,debug.debugLevel.WARNING)
-                print('try grabbing')
-            print('grabbed')
             self.env['runtime']['debug'].writeDebugOut("All devices grabbed" ,debug.debugLevel.INFO)
         self.executeDeviceGrab = False
     def sendKeys(self, keyMacro):
