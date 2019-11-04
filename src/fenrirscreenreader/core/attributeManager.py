@@ -14,20 +14,20 @@ class attributeManager():
         self.currAttributeDelta = ''
         self.currAttributeCursor = None
         self.prefAttributeCursor = None
-        self.initDefaultAttributes()    
-        self.prevLastCursorAttribute = None            
-        self.currLastCursorAttribute = None            
-        
+        self.initDefaultAttributes()
+        self.prevLastCursorAttribute = None
+        self.currLastCursorAttribute = None
+
     def initialize(self, environment):
-        self.env = environment  
+        self.env = environment
     def shutdown(self):
         pass
     def setLastCursorAttribute(self, lastCursorAttribute):
         self.prevLastCursorAttribute = self.currLastCursorAttribute
-        self.currLastCursorAttribute = lastCursorAttribute     
+        self.currLastCursorAttribute = lastCursorAttribute
     def resetLastCursorAttribute(self):
         self.prevLastCursorAttribute = None
-        self.currLastCursorAttribute = None   
+        self.currLastCursorAttribute = None
     def isLastCursorAttributeChange(self):
         if self.prevLastCursorAttribute == None:
             return False
@@ -43,32 +43,33 @@ class attributeManager():
     def resetAttributeAll(self):
         self.resetAttributeDelta()
         self.resetAttributeCursor()
-    def getAttributeDelta(self):       
-        return self.currAttributeDelta        
+    def getAttributeDelta(self):
+        return self.currAttributeDelta
     def resetAttributeDelta(self):
-        self.currAttributeDelta = ''    
-    def setAttributeDelta(self, currAttributeDelta):       
+        self.currAttributeDelta = ''
+    def setAttributeDelta(self, currAttributeDelta):
         self.currAttributeDelta = currAttributeDelta
     def resetAttributeCursor(self):
         self.currAttributeCursor = None
         self.prefAttributeCursor = None
     def setAttributeCursor(self, currAttributeCursor):
-        self.prefAttributeCursor = self.currAttributeCursor        
+        self.prefAttributeCursor = self.currAttributeCursor
         self.currAttributeCursor = currAttributeCursor.copy()
     def resetAttributes(self, currAttributes):
-        self.prevAttributes = None                                    
-        self.currAttributes = currAttributes        
+        self.prevAttributes = None
+        self.currAttributes = currAttributes
     def setAttributes(self, currAttributes):
-        self.prevAttributes = self.currAttributes                                    
+        self.prevAttributes = self.currAttributes
         self.currAttributes = currAttributes.copy()
+
     def getAttributeByXY(self, x, y):
         if not self.currAttributes:
             return None
         if len(self.currAttributes) < y:
             return None
         if len(self.currAttributes[y]) < x - 1:
-            return None    
-        try:    
+            return None
+        try:
             return self.currAttributes[y][x]
         except KeyError:
             try:
@@ -81,7 +82,7 @@ class attributeManager():
             return
         if len(attribute) != 10:
             return
-        self.defaultAttributes.append(attribute)     
+        self.defaultAttributes.append(attribute)
     def initDefaultAttributes(self):
         self.defaultAttributes = [None]
         self.defaultAttributes.append([
@@ -95,7 +96,7 @@ class attributeManager():
             False, # blink
             'default', # fontsize
             'default' # fontfamily
-        ]) #end attribute              
+        ]) #end attribute
     def isDefaultAttribute(self,attribute):
         return attribute in self.defaultAttributes
     def hasAttributes(self, cursor, update=True):
@@ -106,7 +107,7 @@ class attributeManager():
             attribute = self.getAttributeByXY( cursorPos['x'], cursorPos['y'])
             
             if update:
-                self.setLastCursorAttribute(attribute)            
+                self.setLastCursorAttribute(attribute)
             if not self.isLastCursorAttributeChange():
                 return False
 
@@ -134,10 +135,10 @@ class attributeManager():
         # "italics",
         # "underscore",
         # "strikethrough",
-        # "reverse",  
-        # "blink"   
+        # "reverse",
+        # "blink"
         # "fontsieze"
-        # "fontfamily" 
+        # "fontfamily"
         if attributeFormatString == '':
             attributeFormatString = self.env['runtime']['settingsManager'].getSetting('general', 'attributeFormatString')
         if not attributeFormatString:
@@ -148,7 +149,7 @@ class attributeManager():
             return ''
         if len(attribute) != 10:
             return ''
-        
+
         # 0 FG color (name)
         try:
             attributeFormatString = attributeFormatString.replace('fenrirFGColor', _(attribute[0]))
@@ -169,9 +170,9 @@ class attributeManager():
             pass
         attributeFormatString = attributeFormatString.replace('fenrirBold', '')
         
-        # 3 italics (True/ False)                                       
+        # 3 italics (True/ False)
         try:
-            if attribute[3]:        
+            if attribute[3]:
                 attributeFormatString = attributeFormatString.replace('fenrirItalics', _('italic'))
         except Exception as e:
             pass
@@ -195,15 +196,15 @@ class attributeManager():
         
         # 6 reverse (True/ False)
         try:
-            if attribute[6]:        
+            if attribute[6]:
                 attributeFormatString = attributeFormatString.replace('fenrirReverse', _('reverse'))
         except Exception as e:
             pass
         attributeFormatString = attributeFormatString.replace('fenrirReverse', '')
         
-        # 7 blink (True/ False)     
+        # 7 blink (True/ False)
         try:
-            if attribute[7]:        
+            if attribute[7]:
                 attributeFormatString = attributeFormatString.replace('fenrirBlink', _('blink'))
         except Exception as e:
             pass
@@ -236,16 +237,16 @@ class attributeManager():
         currCursor = None
         # screen change
         if self.prevAttributes == None:
-            return result,  currCursor                
+            return result,  currCursor
         # no change
         if self.prevAttributes == self.currAttributes:
             return result,  currCursor
         # error case
         if self.currAttributes == None:
-            return result,  currCursor                  
+            return result,  currCursor
         # special case for pty if not text exists.
         if len(self.currAttributes) == 0:
-            return result,  currCursor        
+            return result,  currCursor
         text = self.env['runtime']['screenManager'].getScreenText()
         textLines = text.split('\n')
 
@@ -268,7 +269,7 @@ class attributeManager():
         if line < 0:
             return False   
         if line > len(currAttributes):
-            return False                     
+            return False
         useful = False
         if mode == 'default':
             # non default tracking
@@ -278,12 +279,12 @@ class attributeManager():
             if line == 0:
                 useful = (currAttributes[line][column][attribute] != currAttributes[line + 1][column][attribute]) and (currAttributes[line][column][attribute] != currAttributes[line + 2][column][attribute])
             elif line >= len(prevAttributes):
-                useful = (currAttributes[line][column][attribute] != currAttributes[line - 1][column][attribute]) and (currAttributes[line][column][attribute] != currAttributes[line - 2][column][attribute])        
+                useful = (currAttributes[line][column][attribute] != currAttributes[line - 1][column][attribute]) and (currAttributes[line][column][attribute] != currAttributes[line - 2][column][attribute])
             else:
-                useful = (currAttributes[line][column][attribute] != currAttributes[line + 1][column][attribute]) and (currAttributes[line][column][attribute] != currAttributes[line - 1][column][attribute])         
+                useful = (currAttributes[line][column][attribute] != currAttributes[line + 1][column][attribute]) and (currAttributes[line][column][attribute] != currAttributes[line - 1][column][attribute])
         elif mode == 'barrier':
             # to be implement
             useful = True
-            
+
         return useful
         

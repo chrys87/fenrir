@@ -212,9 +212,14 @@ class driver(screenDriver):
                 },
             'screen': screen,
             'screenUpdateTime': time.time(),
+            'text': '',
+            'attributes': [],
         }
-        eventData['text'], eventData['attributes'] =\
-          self.autoDecodeVCSA(vcsaContent[4:], eventData['lines'], eventData['columns'])
+        try:
+            eventData['text'], eventData['attributes'] =\
+              self.autoDecodeVCSA(vcsaContent[4:], eventData['lines'], eventData['columns'])
+        except:
+            pass
         # VCSU seems to give b'   ' instead of b'\x00\x00\x00' (tsp), deactivated until its fixed
         if vcsuContent != None:
             try:
