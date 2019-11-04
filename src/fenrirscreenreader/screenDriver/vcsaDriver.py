@@ -287,29 +287,37 @@ class driver(screenDriver):
                     lineAttrib.append(charAttrib)
                     lineText += ' '
                     continue
-                (sh,) = unpack("=H", data)
-                attr = (sh >> 8) & 0xFF
-                ch = sh & 0xFF
-                if self.hichar == 0x100:
-                    attr >>= 1
-                ink = attr & 0x0F
-                paper = (attr>>4) & 0x0F
                 blink = 0
-                if attr & 1: 
-                    blink = 1
-                # blink seems to be set always, ignore for now
-                blink = 0 
-                bold = 0 
-                if attr & 16:
-                    bold = 1
-                #if (ink != 7) or (paper != 0):
-                #    print(ink,paper)
-                if sh & self.hichar:
-                    ch |= 0x100
+                bold = 0
+                ink = 7
+                paper = 0
+                ch = 32
+                try:
+                    (sh,) = unpack("=H", data)
+                    attr = (sh >> 8) & 0xFF
+                    ch = sh & 0xFF
+                    if self.hichar == 0x100:
+                        attr >>= 1
+                    ink = attr & 0x0F
+                    paper = (attr>>4) & 0x0F
+                    if attr & 1: 
+                        blink = 1
+                    # blink seems to be set always, ignore for now
+                    blink = 0 
+                    bold = 0 
+                    if attr & 16:
+                        bold = 1
+                    #if (ink != 7) or (paper != 0):
+                    #    print(ink,paper)
+                    if sh & self.hichar:
+                        ch |= 0x100
+                except:
+                    pass
                 try:
                     lineText += self.charmap[ch]
                 except KeyError:
                     lineText += '?'
+
                 charAttrib = [
                 self.fgColorValues[ink],
                 self.bgColorValues[paper],
