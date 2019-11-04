@@ -291,7 +291,7 @@ class driver(screenDriver):
                 bold = 0
                 ink = 7
                 paper = 0
-                ch = 32
+                ch = None
                 try:
                     (sh,) = unpack("=H", data)
                     attr = (sh >> 8) & 0xFF
@@ -309,8 +309,11 @@ class driver(screenDriver):
                         bold = 1
                     #if (ink != 7) or (paper != 0):
                     #    print(ink,paper)
-                    if sh & self.hichar:
-                        ch |= 0x100
+                    try:
+                        if sh & self.hichar:
+                            ch |= 0x100
+                    except:
+                        ch = None
                 except:
                     pass
                 try:
