@@ -265,6 +265,10 @@ class driver(screenDriver):
         for y in range(rows):
             lineText = ''
             lineAttrib = []
+            blink = 0
+            bold = 0
+            ink = 7
+            paper = 0            
             for x in range(cols):
                 data = allData[i: i + 2]
                 i += 2
@@ -287,15 +291,16 @@ class driver(screenDriver):
                     lineAttrib.append(charAttrib)
                     lineText += ' '
                     continue
-                blink = 0
-                bold = 0
-                ink = 7
-                paper = 0
                 ch = None
                 try:
                     (sh,) = unpack("=H", data)
                     attr = (sh >> 8) & 0xFF
                     ch = sh & 0xFF
+                    try:
+                        if sh & self.hichar:
+                            ch |= 0x100
+                    except:
+                        ch = None                    
                     if self.hichar == 0x100:
                         attr >>= 1
                     ink = attr & 0x0F
@@ -309,11 +314,6 @@ class driver(screenDriver):
                         bold = 1
                     #if (ink != 7) or (paper != 0):
                     #    print(ink,paper)
-                    try:
-                        if sh & self.hichar:
-                            ch |= 0x100
-                    except:
-                        ch = None
                 except:
                     pass
                 try:
