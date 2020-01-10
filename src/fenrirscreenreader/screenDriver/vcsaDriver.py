@@ -156,7 +156,7 @@ class driver(screenDriver):
                     else:
                         self.env['runtime']['debug'].writeDebugOut('ScreenUpdate',debug.debugLevel.INFO)
                         vcsa[currScreen].seek(0)
-                        time.sleep(0.0005)
+                        time.sleep(0.01)
                         dirtyContent = vcsa[currScreen].read()
                         screenContent = dirtyContent
                         vcsuContent = None
