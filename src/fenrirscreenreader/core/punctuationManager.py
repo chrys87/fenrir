@@ -101,7 +101,8 @@ class punctuationManager():
             if line.replace(" ","") == '':
                 continue
             if line.replace(" ","").startswith("#"):
-                continue
+                if not line.replace(" ","").startswith("#:===:"):
+                    continue
             if line.replace(" ","").upper().startswith("[") and \
               line.replace(" ","").upper().endswith("DICT]"):
                 currDictName = line[line.find('[') + 1 :line.upper().find('DICT]') + 4].upper()
