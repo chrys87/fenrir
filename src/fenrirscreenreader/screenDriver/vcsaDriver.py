@@ -186,7 +186,7 @@ class driver(screenDriver):
                                 dirtyContent = vcsa[currScreen].read()
                                 if screenContent == dirtyContent:
                                     break
-                                if time.time() - timeout >= 0.3:
+                                if time.time() - timeout >= 0.1:
                                     screenContent = dirtyContent
                                     break
                         if useVCSU:
