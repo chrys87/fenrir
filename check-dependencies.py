@@ -6,7 +6,7 @@ import os, sys
 # speech: speech-dispatcher
 # sound: sox
 # braille: brltty:
-defaultInstallation = ['FenrirCore','vcsaDriver','brlapiDriver','evdevDriver','genericDriver (speech)', 'genericDriver (sound)']
+defaultInstallation = ['FenrirCore','vcsaDriver','dummyDriver (braille)','evdevDriver','genericDriver (speech)', 'genericDriver (sound)']
 currentInstallation = []
 
 print('checking dependencys...')
@@ -34,6 +34,10 @@ if available:
 # SCREEN
 print('--------------------')
 print('screen driver')
+# dummy and debug
+print('dummyDriver (screen): OK')
+currentInstallation.append('dummyDriver (screen)')
+
 # VCSA (screen driver)
 print('vcsaDriver')
 available = True
@@ -66,6 +70,11 @@ if available:
 # BRAILLE
 print('--------------------')
 print('braille driver')
+# dummy and debug
+print('dummyDriver (braille): OK')
+currentInstallation.append('dummyDriver (braille)')
+print('debugDriver (braille): OK')
+currentInstallation.append('debugDriver (braille)')
 # brltty (braille driver)
 print('brlapiDriver')
 available = True
@@ -81,6 +90,11 @@ if available:
 # INPUT
 print('--------------------')
 print('input driver')
+# dummy and debug
+print('dummyDriver (input): OK')
+currentInstallation.append('dummyDriver (input)')
+print('debugDriver (input): OK')
+currentInstallation.append('debugDriver (input)')
 # evdev (input driver)
 print('evdevDriver')
 available = True
@@ -90,13 +104,13 @@ try:
     print('python3-evdev: OK')
 except:
     print('python3-evdev: FAIL')
-    available = available and False    
+    available = available and False
 try:
     import pyudev
     print('python3-pyudev: OK')
 except:
     print('python3-pyudev: FAIL')
-    available = available and False     
+    available = available and False
 if available:
     currentInstallation.append('evdevDriver')
 # pty emulation (input driver)
@@ -108,19 +122,24 @@ try:
     print('pyte: OK')
 except:
     print('pyte: FAIL')
-    available = available and False    
+    available = available and False
 if available:
-    currentInstallation.append('ptyDriver (Input)')     
+    currentInstallation.append('ptyDriver (Input)')
 # SOUND
 print('--------------------')
 print('sound driver')
+# dummy and debug
+print('dummyDriver (sound): OK')
+currentInstallation.append('dummyDriver (sound)')
+print('debugDriver (sound): OK')
+currentInstallation.append('debugDriver (sound)')
 print('genericDriver (uses sox by default)')
 available = True
 if os.path.exists('/usr/bin/play') and os.path.exists('/usr/bin/sox'):
     print('sox: OK')
 else:
     print('sox: FAIL')
-    available = available and False    
+    available = available and False
 if available:
     currentInstallation.append('genericDriver (sound)')
 print('')
@@ -132,26 +151,31 @@ try:
     print('gi: OK')
 except:
     print('gi: FAIL')
-    available = available and False    
+    available = available and False
 try:
     from gi.repository import GLib 
     print('gi GLib: OK')
 except:
     print('gi GLib: FAIL')
-    available = available and False    
+    available = available and False
 try:
     gi.require_version('Gst', '1.0')
     from gi.repository import Gst
     print('gi Gst: OK')
 except:
-    print('gi Gst: FAIL')   
-    available = available and False     
+    print('gi Gst: FAIL')
+    available = available and False
 if available:
     currentInstallation.append('gstreamerDriver')
 
 # SPEECH
 print('--------------------')
 print('speech driver')
+# dummy and debug
+print('dummyDriver (speech): OK')
+currentInstallation.append('dummyDriver (speech)')
+print('debugDriver (speech): OK')
+currentInstallation.append('debugDriver (speech)')
 # speechd (speech driver)
 print('speechdDriver')
 available = True
@@ -160,7 +184,7 @@ try:
     print('python3-speechd: OK')
 except:
     print('python3-speechd: FAIL')
-    available = available and False    
+    available = available and False
 if available:
     currentInstallation.append('speechdDriver')
 print('')
@@ -172,9 +196,9 @@ try:
     print('python3-espeak: OK')
 except:
     print('python3-espeak: FAIL')
-    available = available and False    
+    available = available and False
 if available:
-    currentInstallation.append('espeakDriver')    
+    currentInstallation.append('espeakDriver')
 print('genericDriver (uses espeak by default)')
 available = True
 if os.path.exists('/usr/bin/espeak') or os.path.exists('/bin/espeak'):
@@ -183,7 +207,7 @@ else:
     print('espeak: FAIL')
     available = available and False    
 if available:
-    currentInstallation.append('genericDriver (speech)')    
+    currentInstallation.append('genericDriver (speech)')
 
 # SUMMERY
 print('====================')
