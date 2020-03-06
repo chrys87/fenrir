@@ -18,7 +18,7 @@ class command():
         return _('copies last presented text to the clipboard')    
     
     def run(self):
-        lastEcho = self.env['runtime']['outputManager'].getLastEcho()
+        lastEcho = self.env['runtime']['outputManager'].getLastEcho().rstrip()
         self.env['runtime']['memoryManager'].addValueToFirstIndex('clipboardHistory', lastEcho)
         self.env['runtime']['outputManager'].presentText(lastEcho, soundIcon='CopyToClipboard', interrupt=True)
 
