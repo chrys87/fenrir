@@ -71,18 +71,21 @@ class driver(inputDriver):
             while device:
                 self.env['runtime']['debug'].writeDebugOut('plugInputDeviceWatchdogUdev:' + str(device), debug.debugLevel.INFO)
                 try:
-                    if currDevice.name.upper() in ['','SPEAKUP','FENRIR-UINPUT']:
-                        ignorePlug = True
-                    if currDevice.phys.upper() in ['','SPEAKUP','FENRIR-UINPUT']:
-                        ignorePlug = True
-                    if 'BRLTTY' in  currDevice.name.upper():
-                        ignorePlug = True
+                    try:
+                        if device.name.upper() in ['','SPEAKUP','FENRIR-UINPUT']:
+                            ignorePlug = True
+                        if device.phys.upper() in ['','SPEAKUP','FENRIR-UINPUT']:
+                            ignorePlug = True
+                        if 'BRLTTY' in  device.name.upper():
+                            ignorePlug = True
+                    except Exception as e:
+                        self.env['runtime']['debug'].writeDebugOut("plugInputDeviceWatchdogUdev CHECK NAME CRASH: " + str(e),debug.debugLevel.ERROR)
                     if not ignorePlug:
                         virtual = '/sys/devices/virtual/input/' in device.sys_path
                         if device.device_node:
                             validDevices.append({'device': device.device_node, 'virtual': virtual})
-                except:
-                    pass
+                except Exception as e:
+                    self.env['runtime']['debug'].writeDebugOut("plugInputDeviceWatchdogUdev APPEND CRASH: " + str(e),debug.debugLevel.ERROR)
                 try:
                     pollTimeout = 1
                     device = monitor.poll(pollTimeout)
