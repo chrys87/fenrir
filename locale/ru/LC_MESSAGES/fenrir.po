@@ -1,0 +1,1219 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2020-04-19 09:11+0700\n"
+"PO-Revision-Date: 2020-04-19 19:26+07\n"
+"Last-Translator: denis rybin <mejdugorka@yandex.ru>\n"
+"Language-Team: russian \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+#: ../src/fenrirscreenreader/commands/commands/add_word_to_spell_check.py:27
+msgid "adds the current word to the exceptions dictionary"
+msgstr "добавляет текущее слово в словарь исключение"
+
+#: ../src/fenrirscreenreader/commands/commands/add_word_to_spell_check.py:34
+#: ../src/fenrirscreenreader/commands/commands/remove_word_from_spell_check.py:34
+#: ../src/fenrirscreenreader/commands/commands/spell_check.py:35
+msgid "pyenchant is not installed"
+msgstr "pyenchant не установлен"
+
+#: ../src/fenrirscreenreader/commands/commands/add_word_to_spell_check.py:49
+msgid "{0} is already in dictionary"
+msgstr "{0} уже находится в словаре"
+
+#: ../src/fenrirscreenreader/commands/commands/add_word_to_spell_check.py:52
+msgid "{0} added to dictionary"
+msgstr "{0} добавлено в словарь"
+
+#: ../src/fenrirscreenreader/commands/commands/attribute_cursor.py:18
+#: ../src/fenrirscreenreader/commands/onCursorChange/85000-has_attribute.py:18
+msgid "Reads attributes of current cursor position"
+msgstr "Читает атрибуты текущей позиции курсора"
+
+#: ../src/fenrirscreenreader/commands/commands/bookmark_1.py:19
+#: ../src/fenrirscreenreader/commands/commands/bookmark_10.py:19
+#: ../src/fenrirscreenreader/commands/commands/bookmark_2.py:19
+#: ../src/fenrirscreenreader/commands/commands/bookmark_3.py:19
+#: ../src/fenrirscreenreader/commands/commands/bookmark_4.py:19
+#: ../src/fenrirscreenreader/commands/commands/bookmark_5.py:19
+#: ../src/fenrirscreenreader/commands/commands/bookmark_6.py:19
+#: ../src/fenrirscreenreader/commands/commands/bookmark_7.py:19
+#: ../src/fenrirscreenreader/commands/commands/bookmark_8.py:19
+#: ../src/fenrirscreenreader/commands/commands/bookmark_9.py:19
+msgid "read Bookmark {0}"
+msgstr "чтение закладки {0}"
+
+#: ../src/fenrirscreenreader/commands/commands/bookmark_1.py:24
+#: ../src/fenrirscreenreader/commands/commands/bookmark_10.py:24
+#: ../src/fenrirscreenreader/commands/commands/bookmark_2.py:24
+#: ../src/fenrirscreenreader/commands/commands/bookmark_3.py:24
+#: ../src/fenrirscreenreader/commands/commands/bookmark_4.py:24
+#: ../src/fenrirscreenreader/commands/commands/bookmark_5.py:24
+#: ../src/fenrirscreenreader/commands/commands/bookmark_6.py:24
+#: ../src/fenrirscreenreader/commands/commands/bookmark_7.py:24
+#: ../src/fenrirscreenreader/commands/commands/bookmark_8.py:24
+#: ../src/fenrirscreenreader/commands/commands/bookmark_9.py:24
+msgid "Bookmark {0} not set"
+msgstr "Закладка {0} не установлена"
+
+#: ../src/fenrirscreenreader/commands/commands/bookmark_1.py:27
+#: ../src/fenrirscreenreader/commands/commands/bookmark_1.py:30
+#: ../src/fenrirscreenreader/commands/commands/bookmark_10.py:27
+#: ../src/fenrirscreenreader/commands/commands/bookmark_10.py:30
+#: ../src/fenrirscreenreader/commands/commands/bookmark_2.py:27
+#: ../src/fenrirscreenreader/commands/commands/bookmark_2.py:30
+#: ../src/fenrirscreenreader/commands/commands/bookmark_3.py:27
+#: ../src/fenrirscreenreader/commands/commands/bookmark_3.py:30
+#: ../src/fenrirscreenreader/commands/commands/bookmark_4.py:27
+#: ../src/fenrirscreenreader/commands/commands/bookmark_4.py:30
+#: ../src/fenrirscreenreader/commands/commands/bookmark_5.py:27
+#: ../src/fenrirscreenreader/commands/commands/bookmark_5.py:30
+#: ../src/fenrirscreenreader/commands/commands/bookmark_6.py:27
+#: ../src/fenrirscreenreader/commands/commands/bookmark_6.py:30
+#: ../src/fenrirscreenreader/commands/commands/bookmark_7.py:27
+#: ../src/fenrirscreenreader/commands/commands/bookmark_7.py:30
+#: ../src/fenrirscreenreader/commands/commands/bookmark_8.py:27
+#: ../src/fenrirscreenreader/commands/commands/bookmark_8.py:30
+#: ../src/fenrirscreenreader/commands/commands/bookmark_9.py:27
+#: ../src/fenrirscreenreader/commands/commands/bookmark_9.py:30
+msgid "Bookmark for application {0} not set"
+msgstr "Закладка для приложения {0} не установлена"
+
+#: ../src/fenrirscreenreader/commands/commands/bookmark_1.py:43
+#: ../src/fenrirscreenreader/commands/commands/bookmark_10.py:43
+#: ../src/fenrirscreenreader/commands/commands/bookmark_2.py:43
+#: ../src/fenrirscreenreader/commands/commands/bookmark_3.py:43
+#: ../src/fenrirscreenreader/commands/commands/bookmark_4.py:43
+#: ../src/fenrirscreenreader/commands/commands/bookmark_5.py:43
+#: ../src/fenrirscreenreader/commands/commands/bookmark_6.py:43
+#: ../src/fenrirscreenreader/commands/commands/bookmark_7.py:43
+#: ../src/fenrirscreenreader/commands/commands/bookmark_8.py:43
+#: ../src/fenrirscreenreader/commands/commands/bookmark_9.py:43
+#: ../src/fenrirscreenreader/commands/commands/curr_screen_after_cursor.py:27
+#: ../src/fenrirscreenreader/commands/commands/curr_screen_before_cursor.py:30
+#: ../src/fenrirscreenreader/commands/commands/cursor_read_to_end_of_line.py:27
+#: ../src/fenrirscreenreader/commands/commands/indent_curr_line.py:31
+#: ../src/fenrirscreenreader/commands/commands/marked_text.py:33
+#: ../src/fenrirscreenreader/commands/commands/present_first_line.py:25
+#: ../src/fenrirscreenreader/commands/commands/present_last_line.py:25
+#: ../src/fenrirscreenreader/commands/commands/review_curr_char_phonetic.py:27
+#: ../src/fenrirscreenreader/commands/commands/review_curr_line.py:27
+#: ../src/fenrirscreenreader/commands/commands/review_curr_word.py:27
+#: ../src/fenrirscreenreader/commands/commands/review_curr_word_phonetic.py:27
+#: ../src/fenrirscreenreader/commands/commands/review_line_begin.py:27
+#: ../src/fenrirscreenreader/commands/commands/review_next_line.py:29
+#: ../src/fenrirscreenreader/commands/commands/review_next_word.py:29
+#: ../src/fenrirscreenreader/commands/commands/review_next_word_phonetic.py:27
+#: ../src/fenrirscreenreader/commands/commands/review_prev_line.py:27
+#: ../src/fenrirscreenreader/commands/commands/review_prev_word.py:27
+#: ../src/fenrirscreenreader/commands/commands/review_prev_word_phonetic.py:27
+#: ../src/fenrirscreenreader/commands/onCursorChange/65000-present_line_if_cursor_change_vertical.py:37
+#: ../src/fenrirscreenreader/commands/onScreenUpdate/60000-history.py:59
+msgid "blank"
+msgstr "пусто"
+
+#: ../src/fenrirscreenreader/commands/commands/braille_flush.py:17
+msgid "Clear the Braille device if it is displaying a message"
+msgstr "Очистить устройство Брайля, если оно отображает сообщение."
+
+#: ../src/fenrirscreenreader/commands/commands/braille_pan_left.py:17
+msgid "Move braille view to the left."
+msgstr "Переместить брайлевский вид влево."
+
+#: ../src/fenrirscreenreader/commands/commands/braille_pan_right.py:17
+msgid "Move braille view to the right."
+msgstr "Переместить брайлевский вид вправо."
+
+#: ../src/fenrirscreenreader/commands/commands/braille_return_to_cursor.py:17
+msgid "Set the braille view back to cursor."
+msgstr "Установить брайлевский вид обратно на курсор."
+
+#: ../src/fenrirscreenreader/commands/commands/clear_bookmark_1.py:17
+#: ../src/fenrirscreenreader/commands/commands/clear_bookmark_10.py:17
+#: ../src/fenrirscreenreader/commands/commands/clear_bookmark_2.py:17
+#: ../src/fenrirscreenreader/commands/commands/clear_bookmark_3.py:17
+#: ../src/fenrirscreenreader/commands/commands/clear_bookmark_4.py:17
+#: ../src/fenrirscreenreader/commands/commands/clear_bookmark_5.py:17
+#: ../src/fenrirscreenreader/commands/commands/clear_bookmark_6.py:17
+#: ../src/fenrirscreenreader/commands/commands/clear_bookmark_7.py:17
+#: ../src/fenrirscreenreader/commands/commands/clear_bookmark_8.py:17
+#: ../src/fenrirscreenreader/commands/commands/clear_bookmark_9.py:17
+msgid "remove Bookmark {0}"
+msgstr "Удалить закладку {0}"
+
+#: ../src/fenrirscreenreader/commands/commands/clear_bookmark_1.py:24
+#: ../src/fenrirscreenreader/commands/commands/clear_bookmark_10.py:24
+#: ../src/fenrirscreenreader/commands/commands/clear_bookmark_2.py:24
+#: ../src/fenrirscreenreader/commands/commands/clear_bookmark_3.py:24
+#: ../src/fenrirscreenreader/commands/commands/clear_bookmark_4.py:24
+#: ../src/fenrirscreenreader/commands/commands/clear_bookmark_5.py:24
+#: ../src/fenrirscreenreader/commands/commands/clear_bookmark_6.py:24
+#: ../src/fenrirscreenreader/commands/commands/clear_bookmark_7.py:24
+#: ../src/fenrirscreenreader/commands/commands/clear_bookmark_8.py:24
+#: ../src/fenrirscreenreader/commands/commands/clear_bookmark_9.py:24
+msgid "Bookmark {0} removed for application {1}"
+msgstr "Закладка {0} удалена для приложения {1}"
+
+#: ../src/fenrirscreenreader/commands/commands/clear_clipboard.py:17
+msgid "clears the currently selected clipboard"
+msgstr "Очищает текущий выбранный буфер обмена."
+
+#: ../src/fenrirscreenreader/commands/commands/clear_clipboard.py:21
+msgid "clipboard cleared"
+msgstr "Буфер обмена очищен."
+
+#: ../src/fenrirscreenreader/commands/commands/clear_window_application.py:17
+msgid "Turn off window mode for application"
+msgstr "Отключить режим окна для приложения."
+
+#: ../src/fenrirscreenreader/commands/commands/clear_window_application.py:22
+msgid "Window Mode off for application {0}"
+msgstr "Режим окна выключен для приложения {0}"
+
+#: ../src/fenrirscreenreader/commands/commands/clear_window_application.py:24
+msgid "Not in window Mode"
+msgstr "Не в режиме окна."
+
+#:
+#: ../src/fenrirscreenreader/commands/commands/copy_last_echo_to_clipboard.py:18
+msgid "copies last presented text to the clipboard"
+msgstr "Копирует последний представленный текст в буфер обмена."
+
+#: ../src/fenrirscreenreader/commands/commands/copy_marked_to_clipboard.py:18
+msgid "copies marked text to the currently selected clipboard"
+msgstr "Копирует помеченный текст в выбранный буфер обмена."
+
+#: ../src/fenrirscreenreader/commands/commands/copy_marked_to_clipboard.py:22
+msgid "One or two marks are needed"
+msgstr "Необходимы одна или две ментки."
+
+#: ../src/fenrirscreenreader/commands/commands/curr_clipboard.py:17
+msgid "speaks the contents of the currently selected clipboard"
+msgstr "Говорит содержимое выбранного буфера обмена."
+
+#: ../src/fenrirscreenreader/commands/commands/curr_clipboard.py:21
+#: ../src/fenrirscreenreader/commands/commands/export_clipboard_to_file.py:28
+#: ../src/fenrirscreenreader/commands/commands/export_clipboard_to_x.py:27
+#: ../src/fenrirscreenreader/commands/commands/first_clipboard.py:21
+#: ../src/fenrirscreenreader/commands/commands/last_clipboard.py:21
+#: ../src/fenrirscreenreader/commands/commands/next_clipboard.py:21
+#: ../src/fenrirscreenreader/commands/commands/paste_clipboard.py:23
+#: ../src/fenrirscreenreader/commands/commands/prev_clipboard.py:21
+msgid "clipboard empty"
+msgstr "Буфер обмена пустой."
+
+#: ../src/fenrirscreenreader/commands/commands/curr_screen.py:17
+msgid "reads the contents of the current screen"
+msgstr "Чтение содержимого текущего экрана."
+
+#: ../src/fenrirscreenreader/commands/commands/curr_screen.py:21
+msgid "screen is empty"
+msgstr "Экран пустой."
+
+#: ../src/fenrirscreenreader/commands/commands/curr_screen_after_cursor.py:18
+msgid "reads from the cursor to the bottom of the screen"
+msgstr "Чтение от курсора до конца экрана."
+
+#: ../src/fenrirscreenreader/commands/commands/curr_screen_before_cursor.py:18
+msgid "Reads from the top of the screen to the cursor position"
+msgstr "Чтение сначала экрана до курсора."
+
+#: ../src/fenrirscreenreader/commands/commands/current_quick_menu_entry.py:17
+#: ../src/fenrirscreenreader/commands/quickMenu/current_quick_menu_entry.py:17
+msgid "get current quick menu entry"
+msgstr "Получить текущий быстрый пункт меню"
+
+#: ../src/fenrirscreenreader/commands/commands/current_quick_menu_value.py:17
+#: ../src/fenrirscreenreader/commands/quickMenu/current_quick_menu_value.py:17
+msgid "get current quick menu value"
+msgstr "Получить текущее значение быстрого меню."
+
+#: ../src/fenrirscreenreader/commands/commands/cursor_column.py:17
+msgid "Column number for cursor"
+msgstr "Номер столбца для курсора."
+
+#: ../src/fenrirscreenreader/commands/commands/cursor_lineno.py:17
+msgid "Line number for cursor"
+msgstr "Номер строки для курсора."
+
+#: ../src/fenrirscreenreader/commands/commands/cursor_position.py:17
+msgid "displays the position of the review cursor"
+msgstr "Отображает положение курсора обзора."
+
+#: ../src/fenrirscreenreader/commands/commands/cursor_position.py:23
+msgid "line {0}, column {1}, Terminal {2}"
+msgstr "Строка {0}, столбец {1}, терминал {2}"
+
+#:
+#: ../src/fenrirscreenreader/commands/commands/cursor_read_to_end_of_line.py:18
+msgid "read to end of line, use review cursor if you are in review mode, otherwhise use text cursor"
+msgstr "Чтение до конца строки, используйте курсор обзора, если вы находитесь в режиме просмотра, иначе используйте текстовый курсор."
+
+#: ../src/fenrirscreenreader/commands/commands/date.py:18
+msgid "presents the date"
+msgstr "Сообщить дату."
+
+#: ../src/fenrirscreenreader/commands/commands/dec_alsa_volume.py:24
+msgid "Decrease system volume"
+msgstr "Уменьшить громкость системы."
+
+#: ../src/fenrirscreenreader/commands/commands/dec_alsa_volume.py:28
+#: ../src/fenrirscreenreader/commands/commands/inc_alsa_volume.py:28
+msgid "alsaaudio is not installed"
+msgstr "alsaaudio не установлено"
+
+#: ../src/fenrirscreenreader/commands/commands/dec_alsa_volume.py:36
+#: ../src/fenrirscreenreader/commands/commands/inc_alsa_volume.py:36
+msgid "{0} percent system volume"
+msgstr "Громкость системы {0} процентов."
+
+#: ../src/fenrirscreenreader/commands/commands/dec_sound_volume.py:18
+msgid "decrease sound volume"
+msgstr "Уменьшить громкость звука."
+
+#: ../src/fenrirscreenreader/commands/commands/dec_sound_volume.py:29
+#: ../src/fenrirscreenreader/commands/commands/inc_sound_volume.py:29
+msgid "{0} percent sound volume"
+msgstr "Громкость звука {0} процентов."
+
+#: ../src/fenrirscreenreader/commands/commands/dec_speech_pitch.py:18
+msgid "Decreases the pitch of the speech"
+msgstr "Уменьшить тон речи."
+
+#: ../src/fenrirscreenreader/commands/commands/dec_speech_pitch.py:26
+#: ../src/fenrirscreenreader/commands/commands/inc_speech_pitch.py:27
+msgid "{0} percent speech pitch"
+msgstr "Тон речи {0} процентов."
+
+#: ../src/fenrirscreenreader/commands/commands/dec_speech_rate.py:18
+msgid "Decreases the rate of the speech"
+msgstr "Уменьшить скорость речи."
+
+#: ../src/fenrirscreenreader/commands/commands/dec_speech_rate.py:27
+#: ../src/fenrirscreenreader/commands/commands/inc_speech_rate.py:27
+msgid "{0} percent speech rate"
+msgstr "Скорость речи {0} процентов."
+
+#: ../src/fenrirscreenreader/commands/commands/dec_speech_volume.py:18
+msgid "Decreases the volume of the speech"
+msgstr "Уменьшить громкость речи."
+
+#: ../src/fenrirscreenreader/commands/commands/dec_speech_volume.py:27
+#: ../src/fenrirscreenreader/commands/commands/inc_speech_volume.py:27
+msgid "{0} percent speech volume"
+msgstr "Громкость речи {0} процентов."
+
+#: ../src/fenrirscreenreader/commands/commands/exit_review.py:17
+#: ../src/fenrirscreenreader/commands/onCursorChange/95000-exit_review_mode.py:17
+msgid "exits review mode"
+msgstr "Выход из режима просмотра."
+
+#: ../src/fenrirscreenreader/commands/commands/exit_review.py:21
+msgid "Not in Review Mode"
+msgstr "Нет в режиме просмотра."
+
+#: ../src/fenrirscreenreader/commands/commands/exit_review.py:25
+msgid "Exiting Review Mode"
+msgstr "Закрытие режима просмотра."
+
+#: ../src/fenrirscreenreader/commands/commands/export_clipboard_to_file.py:19
+msgid "export the current fenrir clipboard to a file"
+msgstr "Экспортировать текущий буфер обмена Fenrir в файл."
+
+#: ../src/fenrirscreenreader/commands/commands/export_clipboard_to_file.py:34
+msgid "clipboard exported to file"
+msgstr "Буфер обмена экспортирован в файл."
+
+#: ../src/fenrirscreenreader/commands/commands/export_clipboard_to_x.py:20
+msgid "Export current fenrir clipboard to X or GUI clipboard"
+msgstr "Экспорт текущего буфера обмена fenrir в буфер обмена X или GUI"
+
+#: ../src/fenrirscreenreader/commands/commands/first_clipboard.py:17
+msgid "selects the first clipboard"
+msgstr "Выбирает первый буфер обмена."
+
+#: ../src/fenrirscreenreader/commands/commands/forward_keypress.py:17
+msgid "sends the following keypress to the terminal or application"
+msgstr "Отправляет следующее нажатие на терминал или приложение."
+
+#: ../src/fenrirscreenreader/commands/commands/forward_keypress.py:21
+msgid "Forward next keypress"
+msgstr "Переслать следующую клавишу."
+
+#:
+#: ../src/fenrirscreenreader/commands/commands/import_clipboard_from_file.py:19
+msgid "imports text from clipboard file to the clipboard"
+msgstr "импортирует текст из буфера файла в буфер обмена"
+
+#:
+#: ../src/fenrirscreenreader/commands/commands/import_clipboard_from_file.py:27
+msgid "File does not exist"
+msgstr "Файл не существует."
+
+#: ../src/fenrirscreenreader/commands/commands/import_clipboard_from_x.py:21
+msgid "imports the graphical clipboard to Fenrir's clipboard"
+msgstr "Импортирует графический буфер обмена в буфер обмена Фенрира."
+
+#: ../src/fenrirscreenreader/commands/commands/inc_alsa_volume.py:24
+msgid "Increase system volume"
+msgstr "Увеличение громкости системы."
+
+#: ../src/fenrirscreenreader/commands/commands/inc_sound_volume.py:18
+msgid "adjusts the volume for in coming sounds"
+msgstr "Регулирует громкость входящих звуков."
+
+#: ../src/fenrirscreenreader/commands/commands/inc_speech_pitch.py:18
+msgid "Increases the pitch of the speech"
+msgstr "Увеличение тона речи."
+
+#: ../src/fenrirscreenreader/commands/commands/inc_speech_rate.py:18
+msgid "Increase the speech rate"
+msgstr "Увеличение скорости речи."
+
+#: ../src/fenrirscreenreader/commands/commands/inc_speech_volume.py:18
+msgid "Increase the speech volume"
+msgstr "Увеличение громкости речи."
+
+#: ../src/fenrirscreenreader/commands/commands/indent_curr_line.py:18
+msgid "Presents the indentation level for the current line"
+msgstr "Сообщает уровень отступа для текущей строки."
+
+#: ../src/fenrirscreenreader/commands/commands/indent_curr_line.py:33
+msgid "indent {0}"
+msgstr "Отступ {0}"
+
+#: ../src/fenrirscreenreader/commands/commands/last_clipboard.py:17
+msgid "selects the last clipboard"
+msgstr "Выбирает последний буфер обмена."
+
+#: ../src/fenrirscreenreader/commands/commands/last_incoming.py:17
+msgid "Presents the text which was last received"
+msgstr "Сообщать текст, который был получен последним."
+
+#: ../src/fenrirscreenreader/commands/commands/marked_text.py:18
+msgid "Presents the currently selected text that will be copied to the clipboard"
+msgstr "Сообщает текущий выбранный текст, который будет скопирован в буфер обмена."
+
+#: ../src/fenrirscreenreader/commands/commands/marked_text.py:23
+msgid "please set begin and endmark"
+msgstr "Пожалуйста, установите начало и конец."
+
+#: ../src/fenrirscreenreader/commands/commands/next_clipboard.py:17
+msgid "selects the next clipboard"
+msgstr "Выбирает следующий буфер обмена."
+
+#: ../src/fenrirscreenreader/commands/commands/next_clipboard.py:28
+#: ../src/fenrirscreenreader/commands/commands/prev_clipboard.py:28
+msgid "First clipboard "
+msgstr "Первый буфер обмена."
+
+#: ../src/fenrirscreenreader/commands/commands/next_clipboard.py:30
+#: ../src/fenrirscreenreader/commands/commands/prev_clipboard.py:30
+msgid "Last clipboard "
+msgstr "Последний буфер обмена."
+
+#: ../src/fenrirscreenreader/commands/commands/next_quick_menu_entry.py:17
+#: ../src/fenrirscreenreader/commands/quickMenu/next_quick_menu_entry.py:17
+msgid "get next quick menu entry"
+msgstr "Получить следующий быстрый пункт меню."
+
+#: ../src/fenrirscreenreader/commands/commands/next_quick_menu_entry.py:27
+#: ../src/fenrirscreenreader/commands/commands/prev_quick_menu_entry.py:27
+#: ../src/fenrirscreenreader/commands/quickMenu/next_quick_menu_entry.py:27
+#: ../src/fenrirscreenreader/commands/quickMenu/prev_quick_menu_entry.py:27
+msgid "Quick menu not available"
+msgstr "Быстрое меню недоступно."
+
+#: ../src/fenrirscreenreader/commands/commands/next_quick_menu_value.py:17
+#: ../src/fenrirscreenreader/commands/quickMenu/next_quick_menu_value.py:17
+msgid "get next quick menu value"
+msgstr "Получить следующее значение быстрого меню."
+
+#: ../src/fenrirscreenreader/commands/commands/paste_clipboard.py:19
+msgid "pastes the text from the currently selected clipboard"
+msgstr "Вставляет текст из текущего выбранного буфера обмена."
+
+#: ../src/fenrirscreenreader/commands/commands/present_first_line.py:18
+msgid "present first line"
+msgstr "Сообщать первую строку."
+
+#: ../src/fenrirscreenreader/commands/commands/present_last_line.py:18
+#: ../src/fenrirscreenreader/commands/commands/review_curr_line.py:18
+msgid "current line"
+msgstr "Текущая строка."
+
+#: ../src/fenrirscreenreader/commands/commands/prev_clipboard.py:17
+msgid "selects the previous clipboard"
+msgstr "Выбирает предыдущий буфер обмена."
+
+#: ../src/fenrirscreenreader/commands/commands/prev_quick_menu_entry.py:17
+#: ../src/fenrirscreenreader/commands/quickMenu/prev_quick_menu_entry.py:17
+msgid "get previous quick menu entry"
+msgstr "Получить предыдущий пункт быстрого меню."
+
+#: ../src/fenrirscreenreader/commands/commands/prev_quick_menu_value.py:17
+#: ../src/fenrirscreenreader/commands/quickMenu/prev_quick_menu_value.py:17
+msgid "get previous quick menu value"
+msgstr "Получить предыдущее значение быстрого меню."
+
+#: ../src/fenrirscreenreader/commands/commands/quit_fenrir.py:17
+msgid "exits Fenrir"
+msgstr "Выход из  fenrir."
+
+#: ../src/fenrirscreenreader/commands/commands/remove_marks.py:17
+msgid "Removes marks from selected text"
+msgstr "Удалить метки из выбранного текста."
+
+#: ../src/fenrirscreenreader/commands/commands/remove_marks.py:21
+msgid "Remove marks"
+msgstr "Удалить метки."
+
+#:
+#: ../src/fenrirscreenreader/commands/commands/remove_word_from_spell_check.py:27
+msgid "removes the current word from the exceptions dictionary"
+msgstr "Удаляет текущее слова из словаря исключений."
+
+#:
+#: ../src/fenrirscreenreader/commands/commands/remove_word_from_spell_check.py:50
+msgid "{0} is not in the dictionary"
+msgstr "{0} нет в словаре"
+
+#:
+#: ../src/fenrirscreenreader/commands/commands/remove_word_from_spell_check.py:53
+msgid "{0} removed"
+msgstr "{0} удалено"
+
+#: ../src/fenrirscreenreader/commands/commands/review_bottom.py:17
+msgid "Move review to the bottom of the screen"
+msgstr "Переместить просмотр в конец экрана."
+
+#: ../src/fenrirscreenreader/commands/commands/review_bottom.py:21
+msgid "Bottom"
+msgstr "Конец"
+
+#: ../src/fenrirscreenreader/commands/commands/review_curr_char.py:18
+msgid "presents the current character."
+msgstr "Сообщать текущий символ."
+
+#: ../src/fenrirscreenreader/commands/commands/review_curr_char_phonetic.py:18
+msgid "set review and phonetically presents the current character"
+msgstr "Установить обзор и фонетически представлять текущий символ."
+
+#: ../src/fenrirscreenreader/commands/commands/review_curr_word.py:18
+msgid "current word."
+msgstr "Текущее слово."
+
+#: ../src/fenrirscreenreader/commands/commands/review_curr_word.py:32
+#: ../src/fenrirscreenreader/commands/commands/review_curr_word_phonetic.py:36
+#: ../src/fenrirscreenreader/commands/commands/review_down.py:27
+#: ../src/fenrirscreenreader/commands/commands/review_next_char.py:28
+#: ../src/fenrirscreenreader/commands/commands/review_next_char_phonetic.py:30
+#: ../src/fenrirscreenreader/commands/commands/review_next_line.py:34
+#: ../src/fenrirscreenreader/commands/commands/review_next_word.py:34
+#: ../src/fenrirscreenreader/commands/commands/review_next_word_phonetic.py:36
+#: ../src/fenrirscreenreader/commands/commands/review_prev_char.py:31
+#: ../src/fenrirscreenreader/commands/commands/review_prev_char_phonetic.py:30
+#: ../src/fenrirscreenreader/commands/commands/review_prev_line.py:32
+#: ../src/fenrirscreenreader/commands/commands/review_prev_word.py:32
+#: ../src/fenrirscreenreader/commands/commands/review_prev_word_phonetic.py:36
+#: ../src/fenrirscreenreader/commands/commands/review_up.py:27
+msgid "end of screen"
+msgstr "Конец экрана."
+
+#: ../src/fenrirscreenreader/commands/commands/review_curr_word.py:35
+#: ../src/fenrirscreenreader/commands/commands/review_curr_word_phonetic.py:39
+#: ../src/fenrirscreenreader/commands/commands/review_next_char.py:31
+#: ../src/fenrirscreenreader/commands/commands/review_next_char_phonetic.py:33
+#: ../src/fenrirscreenreader/commands/commands/review_next_word.py:37
+#: ../src/fenrirscreenreader/commands/commands/review_next_word_phonetic.py:39
+#: ../src/fenrirscreenreader/commands/commands/review_prev_char.py:34
+#: ../src/fenrirscreenreader/commands/commands/review_prev_char_phonetic.py:33
+#: ../src/fenrirscreenreader/commands/commands/review_prev_word.py:35
+#: ../src/fenrirscreenreader/commands/commands/review_prev_word_phonetic.py:39
+#: ../src/fenrirscreenreader/commands/commands/review_up.py:30
+msgid "line break"
+msgstr "Разрыв строки"
+
+#: ../src/fenrirscreenreader/commands/commands/review_curr_word_phonetic.py:19
+msgid "Phonetically spells the current word"
+msgstr "Представляет фонетически  текущее слово"
+
+#: ../src/fenrirscreenreader/commands/commands/review_down.py:18
+msgid "Move review to the character below the current position"
+msgstr "Переместить обзор на символ ниже текущей позиции."
+
+#: ../src/fenrirscreenreader/commands/commands/review_line_begin.py:18
+msgid "set review cursor to begin of current line and display the content"
+msgstr "Установить курсор просмотра в начало текущей строки и отобразить содержимое."
+
+#: ../src/fenrirscreenreader/commands/commands/review_line_begin.py:30
+msgid "beginning of line"
+msgstr "Начало строки"
+
+#: ../src/fenrirscreenreader/commands/commands/review_line_end.py:18
+msgid "Move Review to the end of current line and display the content"
+msgstr "Установить курсор просмотра в конец текущей строки и отобразить содержимое."
+
+#: ../src/fenrirscreenreader/commands/commands/review_line_end.py:27
+msgid "end of line"
+msgstr "Конец строки"
+
+#: ../src/fenrirscreenreader/commands/commands/review_line_first_char.py:19
+msgid "Move Review to the first character on the line"
+msgstr "Переместить курсор просмотра к первому символу строки"
+
+#: ../src/fenrirscreenreader/commands/commands/review_line_first_char.py:26
+msgid "line is empty"
+msgstr "Строка пустая"
+
+#: ../src/fenrirscreenreader/commands/commands/review_line_first_char.py:33
+msgid "first character in line indent {0}"
+msgstr "Первый символ в строке {0}"
+
+#: ../src/fenrirscreenreader/commands/commands/review_line_last_char.py:18
+msgid "Move Review to the last character on the line"
+msgstr "Переместить курсор к последнему символу на строке"
+
+#: ../src/fenrirscreenreader/commands/commands/review_line_last_char.py:27
+msgid "last character in line"
+msgstr "Последний символ в строке"
+
+#: ../src/fenrirscreenreader/commands/commands/review_next_char.py:18
+msgid "Moves review to the next character "
+msgstr "Переместить курсор просмотра к следующему символу "
+
+#: ../src/fenrirscreenreader/commands/commands/review_next_char_phonetic.py:18
+msgid "phonetically presents the next character and set review to it"
+msgstr "Фонетически представляет следующий символ и устанавливает курсор обзора к нему."
+
+#: ../src/fenrirscreenreader/commands/commands/review_next_line.py:18
+msgid "moves review to the next line "
+msgstr "Переместить курсор просмотра к следующей строке"
+
+#: ../src/fenrirscreenreader/commands/commands/review_next_word.py:18
+msgid "moves review to the next word "
+msgstr "Переместить курсор просмотра к следующему слову"
+
+#: ../src/fenrirscreenreader/commands/commands/review_next_word_phonetic.py:19
+msgid "Phonetically spells the next word and moves review to it"
+msgstr "Фонетически представляет следующее слово и перемещает курсор обзора к нему."
+
+#: ../src/fenrirscreenreader/commands/commands/review_prev_char.py:18
+msgid "moves review to the previous character "
+msgstr "Переместить курсор просмотра к предыдущему символу"
+
+#: ../src/fenrirscreenreader/commands/commands/review_prev_char_phonetic.py:18
+msgid "phonetically presents the previous character and set review to it"
+msgstr "Фонетически представляет предыдущий символ и устанавливает курсор обзора к нему."
+
+#: ../src/fenrirscreenreader/commands/commands/review_prev_line.py:18
+msgid "moves review to the previous line "
+msgstr "Переместить курсор просмотра к предыдущей строке"
+
+#: ../src/fenrirscreenreader/commands/commands/review_prev_word.py:18
+msgid "moves review focus to the previous word "
+msgstr "Переместить курсор просмотра к предыдущему слову"
+
+#: ../src/fenrirscreenreader/commands/commands/review_prev_word_phonetic.py:19
+msgid "Phonetically spells the previous word and moves review to it"
+msgstr "Фонетически представляет предыдущее слово и перемещает курсор обзора к нему."
+
+#: ../src/fenrirscreenreader/commands/commands/review_top.py:18
+msgid "move review to top of screen"
+msgstr "Переместить курсор просмотра в начало экрана"
+
+#: ../src/fenrirscreenreader/commands/commands/review_top.py:22
+msgid "Top"
+msgstr "Начало"
+
+#: ../src/fenrirscreenreader/commands/commands/review_up.py:18
+msgid "Move review to the character in the line above the current position"
+msgstr "Переместить курсор обзора на символ в строке выше текущей позиции."
+
+#: ../src/fenrirscreenreader/commands/commands/save_settings.py:18
+msgid "Saves your current Fenrir settings so they are the default."
+msgstr "Сохранить текущие настройки fenrir как настройки по умолчанию."
+
+#: ../src/fenrirscreenreader/commands/commands/save_settings.py:22
+msgid "Settings saved."
+msgstr "Настройки сохранены"
+
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_1.py:18
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_10.py:18
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_2.py:18
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_3.py:18
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_4.py:18
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_5.py:18
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_6.py:18
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_7.py:18
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_8.py:18
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_9.py:18
+msgid "set Bookmark {0}"
+msgstr "Установить закладку {0}"
+
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_1.py:22
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_10.py:22
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_2.py:22
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_3.py:22
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_4.py:22
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_5.py:22
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_6.py:22
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_7.py:22
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_8.py:22
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_9.py:22
+msgid "No mark found"
+msgstr "Метка не найдена."
+
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_1.py:32
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_10.py:32
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_2.py:32
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_3.py:32
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_4.py:32
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_5.py:32
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_6.py:32
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_7.py:32
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_8.py:32
+#: ../src/fenrirscreenreader/commands/commands/set_bookmark_9.py:32
+msgid "Bookmark {0} set for application {1}"
+msgstr "Закладка {0} установлена для приложения {1}"
+
+#: ../src/fenrirscreenreader/commands/commands/set_mark.py:17
+msgid "places marks to select text to copy to the clipboard"
+msgstr "Ставит метки для выбора текста для копирования в буфер обмена."
+
+#: ../src/fenrirscreenreader/commands/commands/set_mark.py:21
+msgid "no review cursor"
+msgstr "Нет курсора просмотра"
+
+#: ../src/fenrirscreenreader/commands/commands/set_mark.py:26
+#: ../src/fenrirscreenreader/commands/commands/set_mark.py:28
+msgid "set mark"
+msgstr "Установка метки."
+
+#: ../src/fenrirscreenreader/commands/commands/set_window_application.py:17
+msgid "set Window Mode, needs 2 marks "
+msgstr "Установка режима окна нуждается в двух метках"
+
+#: ../src/fenrirscreenreader/commands/commands/set_window_application.py:22
+msgid "Window Mode on for application {0}"
+msgstr "Режим окна для приложения {0}"
+
+#: ../src/fenrirscreenreader/commands/commands/set_window_application.py:25
+msgid "Set window begin and end marks"
+msgstr "Установка начала и конца окна"
+
+#: ../src/fenrirscreenreader/commands/commands/shut_up.py:17
+msgid "Interrupts the current presentation"
+msgstr "Прерывать текущую речь."
+
+#: ../src/fenrirscreenreader/commands/commands/spell_check.py:26
+msgid "checks the spelling of the current word"
+msgstr "Проверяет написание текущего слова."
+
+#: ../src/fenrirscreenreader/commands/commands/spell_check.py:51
+#: ../src/fenrirscreenreader/commands/onCursorChange/35000-spell_check.py:129
+msgid "misspelled"
+msgstr "Орфографическая ошибка"
+
+#: ../src/fenrirscreenreader/commands/commands/spell_check.py:53
+msgid "correct"
+msgstr "Правильно"
+
+#: ../src/fenrirscreenreader/commands/commands/subprocess.py:21
+msgid "script: {0} fullpath: {1}"
+msgstr "Скрипт; {0}, путь {1}"
+
+#: ../src/fenrirscreenreader/commands/commands/subprocess.py:24
+msgid "Script file not found"
+msgstr "Скрипт не найден"
+
+#: ../src/fenrirscreenreader/commands/commands/subprocess.py:27
+msgid "Script source is not a valid file"
+msgstr "Исходник скрипта неправильный файл"
+
+#: ../src/fenrirscreenreader/commands/commands/subprocess.py:30
+msgid "Script file is not executable"
+msgstr "Файл скрипта не исполняемый"
+
+#: ../src/fenrirscreenreader/commands/commands/temp_disable_speech.py:17
+#: ../src/fenrirscreenreader/commands/onByteInput/15000-enable_temp_speech.py:17
+#: ../src/fenrirscreenreader/commands/onKeyInput/15000-enable_temp_speech.py:17
+msgid "disables speech until next keypress"
+msgstr "Отключить речь пока не нажата следующая клавиша"
+
+#: ../src/fenrirscreenreader/commands/commands/time.py:18
+msgid "presents the time"
+msgstr "Сообщить время"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_auto_indent.py:16
+msgid "enables or disables automatic reading of indentation level changes"
+msgstr "включить или отключить чтение изменения уровня отступов."
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_auto_indent.py:21
+msgid "autoindent enabled"
+msgstr "чтение отступов включено"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_auto_indent.py:23
+msgid "autoindent disabled"
+msgstr "чтение отступов отключено"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_auto_read.py:16
+msgid "enables or disables automatic reading of new text as it appears"
+msgstr "включить или отключить чтения нового текста"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_auto_read.py:21
+msgid "autoread enabled"
+msgstr "Автоматическое чтение нового текста включено"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_auto_read.py:23
+msgid "autoread disabled"
+msgstr "Автоматическое чтение нового текста выключено"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_auto_spell_check.py:17
+msgid "enables or disables automatic spell checking"
+msgstr "Включить или отключить проверку орфографических ошибок."
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_auto_spell_check.py:22
+msgid "auto spellcheck enabled"
+msgstr "Проверка орфографических ошибок включена"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_auto_spell_check.py:24
+msgid "auto spellcheck disabled"
+msgstr "Проверка орфографических ошибок выключена"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_auto_time.py:16
+msgid "Enables or disables automatic reading of time after specified intervals"
+msgstr "Включение или выключение автоматического сообщение времени в указанном интервале."
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_auto_time.py:21
+msgid "Automatic time announcement enabled"
+msgstr "Автоматическое сообщение времени включено"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_auto_time.py:23
+msgid "Automatic time announcement disabled"
+msgstr "Автоматическое сообщение времени отключено"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_barrier.py:16
+msgid "enables or disables the barrier mode"
+msgstr "Включение или отключение режима барьера"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_barrier.py:21
+msgid "barrier mode enabled"
+msgstr "Режим барьера включен"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_barrier.py:23
+msgid "barrier mode disabled"
+msgstr "Режим барьера выключен"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_braille.py:17
+msgid "Enables and disables Braille output"
+msgstr "Включение и отключение устройства Брайля."
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_braille.py:21
+msgid "braille disabled"
+msgstr "Браиль выключен"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_braille.py:24
+msgid "braille enabled"
+msgstr "Браиль включен"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_emoticons.py:16
+msgid "enables or disables announcement of emoticons instead of chars"
+msgstr "Включение или отключение смайлов вместо символов."
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_emoticons.py:21
+msgid "emoticons enabled"
+msgstr "Смайлы включены"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_emoticons.py:23
+msgid "emoticons disabled"
+msgstr "Смайлы выключены"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_has_attribute.py:16
+msgid "enables or disables the announcement of attributes"
+msgstr "Включение или отключение чтения атрибутов"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_has_attribute.py:21
+msgid "announcement of attributes enabled"
+msgstr "Чтение атрибутов включено"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_has_attribute.py:23
+msgid "announcement of attributes disabled"
+msgstr "Чтение атрибутов выключено"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_highlight_tracking.py:16
+msgid "enables or disables tracking of highlighted text"
+msgstr "Включает или отключает отслеживание выделенного текста"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_highlight_tracking.py:24
+msgid "highlight tracking"
+msgstr "Отслеживание выделения"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_highlight_tracking.py:26
+msgid "cursor tracking"
+msgstr "Отслеживание курсора"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_output.py:17
+msgid "toggles all output settings"
+msgstr "Переключает все настройки вывода"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_output.py:23
+msgid "Fenrir muted"
+msgstr "Речь fenrir отключена"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_output.py:31
+msgid "Fenrir unmuted"
+msgstr "Речь fenrir включена"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_punctuation_level.py:23
+msgid "No punctuation found."
+msgstr "Пунктуация не найдена"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_sound.py:17
+msgid "enables or disables sound"
+msgstr "Включение или отключение звуковых эффектов"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_sound.py:21
+msgid "sound disabled"
+msgstr "Звуковые эффекты выключены"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_sound.py:24
+msgid "sound enabled"
+msgstr "Звуковые эффекты включены"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_speech.py:17
+msgid "enables or disables speech"
+msgstr "Включение или отключение речи"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_speech.py:22
+msgid "speech disabled"
+msgstr "Речь выключена"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_speech.py:25
+#: ../src/fenrirscreenreader/commands/onByteInput/15000-enable_temp_speech.py:24
+#: ../src/fenrirscreenreader/commands/onKeyInput/15000-enable_temp_speech.py:28
+msgid "speech enabled"
+msgstr "Речь включена"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_tutorial_mode.py:18
+msgid "Exiting tutorial mode. To enter tutorial mode again press Fenrir+f1"
+msgstr "Режим обучения закрыт. Чтобы снова войти в режим обучения нажмите fenrir+f1"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_tutorial_mode.py:22
+msgid "Entering tutorial mode. In this mode commands are described but not executed. You can move through the list of commands with the up and down arrow keys. To Exit tutorial mode press Fenrir+f1."
+msgstr "Включен режим обучения. В этом режиме можно ознакомиться с описанием команд сами команды не выполняются. Перемещаться по списку можно с помощью клавиш стрелок вверх, вниз. Для закрытия нажмите fenrir+f1"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_vmenu_mode.py:18
+msgid "Entering or Leaving v menu mode."
+msgstr "вход и выход из v меню"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_vmenu_mode.py:22
+msgid "Entering v menu."
+msgstr "вход в v меню"
+
+#: ../src/fenrirscreenreader/commands/commands/toggle_vmenu_mode.py:24
+msgid "Leaving v menu."
+msgstr "выъход из v меню"
+
+#: ../src/fenrirscreenreader/commands/help/curr_help.py:17
+msgid "get current help message"
+msgstr "Получить текущее сообщение подсказки"
+
+#: ../src/fenrirscreenreader/commands/help/next_help.py:17
+msgid "get next help message"
+msgstr "Получить следующее сообщение подсказки"
+
+#: ../src/fenrirscreenreader/commands/help/prev_help.py:17
+msgid "get prev help message"
+msgstr "Получить предыдущее сообщение подсказки"
+
+#:
+#: ../src/fenrirscreenreader/commands/onCursorChange/65000-present_line_if_cursor_change_vertical.py:46
+msgid "indented "
+msgstr ""
+
+#: ../src/fenrirscreenreader/commands/onHeartBeat/76000-time.py:66
+msgid "Autotime: {0}"
+msgstr "объявление времени {0}"
+
+#: ../src/fenrirscreenreader/commands/onKeyInput/80000-capslock.py:22
+msgid "Capslock on"
+msgstr "Capslock включен"
+
+#: ../src/fenrirscreenreader/commands/onKeyInput/80000-capslock.py:24
+msgid "Capslock off"
+msgstr "Capslock выключен"
+
+#: ../src/fenrirscreenreader/commands/onKeyInput/80300-scrolllock.py:22
+msgid "Scrolllock on"
+msgstr "Scrolllock включен"
+
+#: ../src/fenrirscreenreader/commands/onKeyInput/80300-scrolllock.py:24
+msgid "Scrolllock off"
+msgstr "Scrolllock выключен"
+
+#: ../src/fenrirscreenreader/commands/onKeyInput/80500-numlock.py:22
+msgid "Numlock on"
+msgstr "Numlock включен"
+
+#: ../src/fenrirscreenreader/commands/onKeyInput/80500-numlock.py:24
+msgid "Numlock off"
+msgstr "Numlock выключен"
+
+#:
+#: ../src/fenrirscreenreader/commands/onScreenChanged/80000-screen_change_announcement.py:20
+msgid "screen {0}"
+msgstr "Экран {0} "
+
+#:
+#: ../src/fenrirscreenreader/commands/onScreenUpdate/56000-highlight_tracking.py:16
+msgid "enables or disables tracking of highlighted"
+msgstr "Включает или отключает отслеживание выделения"
+
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/curr_vmenu_entry.py:17
+msgid "get current v menu entry"
+msgstr "Получить текущий пункт меню v"
+
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/dec_level_vmenu.py:17
+msgid "leave v menu submenu"
+msgstr "Выйти v меню подменю"
+
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/exec_vmenu_entry.py:17
+msgid "execute v menu entry"
+msgstr "Выполнить пункт v меню"
+
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/inc_level_vmenu.py:17
+msgid "enter v menu submenu"
+msgstr "войти в подменю меню"
+
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/next_vmenu_entry.py:17
+msgid "get next v menu entry"
+msgstr "получить следующий пункт меню v"
+
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/prev_vmenu_entry.py:17
+msgid "get prev v menu entry"
+msgstr "получить предыдущий пункт меню v"
+
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_a.py:17
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_b.py:17
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_c.py:17
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_d.py:17
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_e.py:17
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_f.py:17
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_g.py:17
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_h.py:17
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_i.py:17
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_j.py:17
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_k.py:17
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_l.py:17
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_m.py:17
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_n.py:17
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_o.py:17
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_p.py:17
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_q.py:17
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_r.py:17
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_s.py:17
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_t.py:17
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_u.py:17
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_v.py:17
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_w.py:17
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_x.py:17
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_y.py:17
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_z.py:17
+msgid "search for an menu entry"
+msgstr "поиск пункта меню"
+
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_a.py:23
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_b.py:23
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_c.py:23
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_d.py:23
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_e.py:23
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_f.py:23
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_g.py:23
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_h.py:23
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_i.py:23
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_j.py:23
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_k.py:23
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_l.py:23
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_m.py:23
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_n.py:23
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_o.py:23
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_p.py:23
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_q.py:23
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_r.py:23
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_s.py:23
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_t.py:23
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_u.py:23
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_v.py:23
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_w.py:23
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_x.py:23
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_y.py:23
+#: ../src/fenrirscreenreader/commands/vmenu-navigation/search_z.py:23
+msgid "not found"
+msgstr "Не найдено"
+
+#: ../src/fenrirscreenreader/core/attributeManager.py:168
+msgid "bold"
+msgstr "Жирный"
+
+#: ../src/fenrirscreenreader/core/attributeManager.py:176
+msgid "italic"
+msgstr "Курсивный"
+
+#: ../src/fenrirscreenreader/core/attributeManager.py:184
+msgid "underline"
+msgstr "Подчеркнутый"
+
+#: ../src/fenrirscreenreader/core/attributeManager.py:192
+msgid "strikethrough"
+msgstr "Зачеркнутый"
+
+#: ../src/fenrirscreenreader/core/attributeManager.py:200
+msgid "reverse"
+msgstr "Обратный"
+
+#: ../src/fenrirscreenreader/core/attributeManager.py:208
+msgid "blink"
+msgstr "Мерцание"
+
+#: ../src/fenrirscreenreader/core/attributeManager.py:225
+#: ../src/fenrirscreenreader/core/attributeManager.py:232
+msgid "default"
+msgstr "По умолчанию"
+
+#: ../src/fenrirscreenreader/core/byteManager.py:103
+#: ../src/fenrirscreenreader/core/byteManager.py:105
+msgid "Sticky Mode On"
+msgstr "Режим залипания включен"
+
+#: ../src/fenrirscreenreader/core/byteManager.py:109
+msgid "bypass"
+msgstr ""
+
+#: ../src/fenrirscreenreader/core/fenrirManager.py:26
+msgid "Start Fenrir"
+msgstr "fenrir запущен"
+
+#: ../src/fenrirscreenreader/core/fenrirManager.py:234
+msgid "Quit Fenrir"
+msgstr "выключить fenrir"
+
+#: ../src/fenrirscreenreader/core/helpManager.py:77
+msgid "toggles the tutorial mode"
+msgstr "Переключение в режим обучения"
+
+#: ../src/fenrirscreenreader/core/outputManager.py:297
+msgid "speech temporary disabled"
+msgstr "Речь временно отключена"
+
+#: ../src/fenrirscreenreader/core/quickMenuManager.py:124
+msgid "setting invalid"
+msgstr "Неправильная настройка"
+
+#: ../src/fenrirscreenreader/core/quickMenuManager.py:131
+msgid "setting value invalid"
+msgstr "Значение настройки неправильное"
+
+#: ../src/fenrirscreenreader/core/screenDriver.py:12
+msgid "black"
+msgstr "черный"
+
+#: ../src/fenrirscreenreader/core/screenDriver.py:12
+msgid "blue"
+msgstr "синий"
+
+#: ../src/fenrirscreenreader/core/screenDriver.py:12
+msgid "cyan"
+msgstr ""
+
+#: ../src/fenrirscreenreader/core/screenDriver.py:12
+msgid "green"
+msgstr "зеленый"
+
+#: ../src/fenrirscreenreader/core/screenDriver.py:12
+msgid "red"
+msgstr "красный"
+
+#: ../src/fenrirscreenreader/core/screenDriver.py:12
+msgid "white"
+msgstr "белый"
+
+#: ../src/fenrirscreenreader/core/screenDriver.py:12
+#: ../src/fenrirscreenreader/core/screenDriver.py:13
+msgid "Magenta"
+msgstr "пурпурный"
+
+#: ../src/fenrirscreenreader/core/screenDriver.py:12
+#: ../src/fenrirscreenreader/core/screenDriver.py:13
+msgid "brown/yellow"
+msgstr "коричневый/желтый"
+
+#: ../src/fenrirscreenreader/core/screenDriver.py:13
+msgid "Black"
+msgstr "черный"
+
+#: ../src/fenrirscreenreader/core/screenDriver.py:13
+msgid "Blue"
+msgstr "синий"
+
+#: ../src/fenrirscreenreader/core/screenDriver.py:13
+msgid "Cyan"
+msgstr ""
+
+#: ../src/fenrirscreenreader/core/screenDriver.py:13
+msgid "Dark gray"
+msgstr "темно серый"
+
+#: ../src/fenrirscreenreader/core/screenDriver.py:13
+msgid "Green"
+msgstr "зеленый"
+
+#: ../src/fenrirscreenreader/core/screenDriver.py:13
+msgid "Light blue"
+msgstr "голубой"
+
+#: ../src/fenrirscreenreader/core/screenDriver.py:13
+msgid "Light cyan"
+msgstr "светло-голубой"
+
+#: ../src/fenrirscreenreader/core/screenDriver.py:13
+msgid "Light gray"
+msgstr "светлосерый"
+
+#: ../src/fenrirscreenreader/core/screenDriver.py:13
+msgid "Light magenta"
+msgstr "Светло-пурпурный"
+
+#: ../src/fenrirscreenreader/core/screenDriver.py:13
+msgid "Light red"
+msgstr "розовый"
+
+#: ../src/fenrirscreenreader/core/screenDriver.py:13
+msgid "Light yellow"
+msgstr "светло желтый"
+
+#: ../src/fenrirscreenreader/core/screenDriver.py:13
+msgid "Red"
+msgstr "красный"
+
+#: ../src/fenrirscreenreader/core/screenDriver.py:13
+msgid "White"
+msgstr "белый"
+
+#: ../src/fenrirscreenreader/core/vmenuManager.py:66
+#: ../src/fenrirscreenreader/core/vmenuManager.py:226
+msgid "Menu"
+msgstr "Меню"
+
+#: ../src/fenrirscreenreader/core/vmenuManager.py:234
+msgid "Action"
+msgstr "Действие"
+
