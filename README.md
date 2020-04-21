@@ -87,6 +87,9 @@ By default it uses:
 - speech driver: genericDriver (via espeak or espeak-ng, could configured in settings.conf)
 - braille driver: brlttyDriver (WIP)
 - input driver: evdevDriver
+# Configure pulseaudio
+Pulseaudio by default does only play sound for the user its currently running for. As fenrir is running as root, your local user does not hear the sound and speech produced by fenrir.
+for this fenrir provides a script to configure pulseaudio to stream the sound played as root to your local user. Last is playing the sound then. This is not a issue of fenrir but this is how pulseaudio works.
 
 # Documentation
 You can see all information on the Wiki:
