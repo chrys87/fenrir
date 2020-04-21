@@ -91,6 +91,14 @@ By default it uses:
 Pulseaudio by default does only play sound for the user its currently running for. As fenrir is running as root, your local user does not hear the sound and speech produced by fenrir.
 for this fenrir provides a script to configure pulseaudio to stream the sound played as root to your local user. Last is playing the sound then. This is not a issue of fenrir but this is how pulseaudio works.
 
+just run the configuration scipt twice (once as user, once as root).
+
+Run:
+configure_pulse.sh
+sudo configure_pulse.sh
+
+The script could also be found at /tools/ in git
+
 # Documentation
 You can see all information on the Wiki:
 https://wiki.linux-a11y.org/doku.php?id=fenrir_user_manual
