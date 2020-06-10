@@ -99,6 +99,9 @@ sudo configure_pulse.sh
 
 The script could also be found at /tools/ in git
 
+# localization
+copy fenrir.mo translations file  from fenrir/locale/your_language/LC_MESSAGES/fenrir.mo to /usr/share/locale/your_language/LC_MESSAGES/fenrir.mo
+ 
 # Documentation
 You can see all information on the Wiki:
 https://wiki.linux-a11y.org/doku.php?id=fenrir_user_manual
