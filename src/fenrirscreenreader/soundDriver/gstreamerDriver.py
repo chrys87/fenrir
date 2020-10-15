@@ -88,6 +88,7 @@ class driver(soundDriver):
             return
         if interrupt:
             self.cancel()
+        self._source.set_property('volume', self.volume)
         self._player.set_property('uri', 'file://%s' % fileName)
         self._player.set_state(Gst.State.PLAYING)
 
@@ -96,11 +97,9 @@ class driver(soundDriver):
             return
         if interrupt:
             self.cancel()
-        self._source.set_property('volume', tone.volume)
-        self._source.set_property('freq', tone.frequency)
-        self._source.set_property('wave', tone.wave)
+        self._source.set_property('volume', self.volume)
+        self._source.set_property('freq', frequence)
         self._pipeline.set_state(Gst.State.PLAYING)
-        duration = int(1000 * tone.duration)
         GLib.timeout_add(duration, self._onTimeout, self._pipeline)
 
     def cancel(self, element=None):
