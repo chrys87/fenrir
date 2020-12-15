@@ -88,7 +88,7 @@ class driver(soundDriver):
             return
         if interrupt:
             self.cancel()
-        self._source.set_property('volume', self.volume)
+        self._player.set_property('volume', self.volume)
         self._player.set_property('uri', 'file://%s' % fileName)
         self._player.set_state(Gst.State.PLAYING)
 
