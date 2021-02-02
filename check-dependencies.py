@@ -201,7 +201,7 @@ if available:
     currentInstallation.append('espeakDriver')
 print('genericDriver (uses espeak by default)')
 available = True
-if os.path.exists('/usr/bin/espeak') or os.path.exists('/bin/espeak'):
+if os.path.exists('/usr/bin/espeak-ng') or os.path.exists('/bin/espeak-ng'):
     print('espeak: OK')
 else:
     print('espeak: FAIL')
