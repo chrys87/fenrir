@@ -17,8 +17,9 @@ install -m755 -d /usr/share/fenrirscreenreader/scripts
 cp -af "config/scripts/wlan__-__key_y.sh" /usr/share/fenrirscreenreader/scripts/
 
 # keyboard
-install -m644 -D "config/keyboard/desktop.conf" /etc/fenrirscreenreader/keyboard/desktop.conf
-install -m644 -D "config/keyboard/laptop.conf" /etc/fenrirscreenreader/keyboard/laptop.conf
+for i in "config/keyboard/"*.conf ; do
+    install -m644 -D "$i" "/etc/fenrirscreenreader/keyboard/${i##*/}"
+done
 
 # punctuation
 install -m755 -d /etc/fenrirscreenreader/punctuation 
