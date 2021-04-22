@@ -31,7 +31,6 @@ class command():
     
     def run(self):
         if not initialized:
-           self.env['runtime']['outputManager'].presentText(_('pyenchant is not installed'), interrupt=True) 
            return
         if self.env['runtime']['settingsManager'].getSetting('general', 'spellCheckLanguage') != self.language:
             try:
