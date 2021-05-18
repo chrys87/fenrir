@@ -170,6 +170,8 @@ class fenrirManager():
     def detectShortcutCommand(self):
         if self.environment['input']['keyForeward'] > 0:
             return
+        if len(self.environment['input']['prevInput']) >= len(self.environment['input']['currInput']):
+            return
         if self.environment['runtime']['inputManager'].isKeyPress():
             self.modifierInput = self.environment['runtime']['inputManager'].currKeyIsModifier()
         else:
@@ -196,9 +198,8 @@ class fenrirManager():
                 self.command = ''
             else:
                 if self.singleKeyCommand:
-                    if self.environment['runtime']['inputManager'].noKeyPressed():
-                        self.environment['runtime']['eventManager'].putToEventQueue(fenrirEventType.ExecuteCommand, self.command)
-                        self.command = ''
+                    self.environment['runtime']['eventManager'].putToEventQueue(fenrirEventType.ExecuteCommand, self.command)
+                    self.command = ''
     def setProcessName(self, name = 'fenrir'):
         """Attempts to set the process name to 'fenrir'."""
         try:
