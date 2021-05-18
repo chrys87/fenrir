@@ -170,7 +170,7 @@ class fenrirManager():
     def detectShortcutCommand(self):
         if self.environment['input']['keyForeward'] > 0:
             return
-        if len(self.environment['input']['prevInput']) >= len(self.environment['input']['currInput']):
+        if len(self.environment['input']['prevInput']) > len(self.environment['input']['currInput']):
             return
         if self.environment['runtime']['inputManager'].isKeyPress():
             self.modifierInput = self.environment['runtime']['inputManager'].currKeyIsModifier()
