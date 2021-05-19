@@ -23,7 +23,7 @@ class driver(soundDriver):
         self._initialized = False
         print('Sound Debug Driver: Shutdown')
 
-    def playFrequence(self, frequence, duration, adjustVolume = 0, interrupt=True):
+    def playFrequence(self, frequence, duration, adjustVolume = 0.0, interrupt=True):
         if not self._initialized:
             return    
         if interrupt:

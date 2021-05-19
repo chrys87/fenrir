@@ -23,7 +23,10 @@ class fenrirManager():
                 raise RuntimeError('Cannot Initialize. Maybe the configfile is not available or not parseable')
         except RuntimeError:
             raise
-        self.environment['runtime']['outputManager'].playFrequence(500, 1, interrupt=True)
+        for m in range(1, 280):
+            if m % 4 ==0:
+                self.environment['runtime']['outputManager'].playFrequence(m * 40, 0.2, interrupt=True)
+                time.sleep(0.3)
         #self.environment['runtime']['outputManager'].presentText(_("Start Fenrir"), soundIcon='ScreenReaderOn', interrupt=True)
         signal.signal(signal.SIGINT, self.captureSignal)
         signal.signal(signal.SIGTERM, self.captureSignal)

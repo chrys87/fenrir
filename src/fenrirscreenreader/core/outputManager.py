@@ -310,9 +310,16 @@ class outputManager():
             self.env['runtime']['soundDriver'].setVolume(self.env['runtime']['settingsManager'].getSettingAsFloat('sound', 'volume'))
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut("outputManager.playSoundIcon::setVolume: " + str(e),debug.debugLevel.ERROR)
+        adjustVolume = 0.0
+        try:
+            adjustVolume = 1.0 - (frequence / 20000)
+        except:
+            pass
+        if adjustVolume > 9.0:
+            adjustVolume = 9.0
 
         try:
-            self.env['runtime']['soundDriver'].playFrequence(frequence, duration, interrupt)
+            self.env['runtime']['soundDriver'].playFrequence(frequence, duration, adjustVolume, interrupt)
             return True
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut("outputManager.playSoundIcon::playSoundFile: " + str(e),debug.debugLevel.ERROR)

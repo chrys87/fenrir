@@ -26,19 +26,17 @@ class driver(soundDriver):
             self.frequenceCommand = 'play -q -v fenrirVolume -n -c1 synth fenrirDuration sine fenrirFrequence'
         self._initialized = True
 
-    def playFrequence(self, frequence, duration,  adjustVolume = 0, interrupt=True):
-        print('drin')
+    def playFrequence(self, frequence, duration,  adjustVolume = 0.0, interrupt=True):
         if not self._initialized:
             return
         if interrupt:
             self.cancel()
         popenFrequenceCommand = shlex.split(self.frequenceCommand)
         for idx, word in enumerate(popenFrequenceCommand):
-            word = word.replace('fenrirVolume', str(self.volume))
+            word = word.replace('fenrirVolume', str(self.volume * adjustVolume))
             word = word.replace('fenrirDuration', str(duration))
             word = word.replace('fenrirFrequence', str(frequence))
             popenFrequenceCommand[idx] = word
-        print(popenFrequenceCommand)
         self.proc = subprocess.Popen(popenFrequenceCommand, stdin=None, stdout=None, stderr=None, shell=False)
         self.soundType = 'frequence'
     def playSoundFile(self, filePath, interrupt = True):
