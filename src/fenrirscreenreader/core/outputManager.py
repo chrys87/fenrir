@@ -29,14 +29,14 @@ class outputManager():
             return
         self.env['runtime']['debug'].writeDebugOut("presentText:\nsoundIcon:'"+soundIcon+"'\nText:\n" + text ,debug.debugLevel.INFO)
         if self.playSoundIcon(soundIcon, interrupt):
-            self.env['runtime']['debug'].writeDebugOut("soundIcon found" ,debug.debugLevel.INFO)            
+            self.env['runtime']['debug'].writeDebugOut("soundIcon found" ,debug.debugLevel.INFO)
             return
         if (len(text) > 1) and (text.strip(string.whitespace) == ''):
             return
         toAnnounceCapital = announceCapital and text[0].isupper()
         if toAnnounceCapital:
             if self.playSoundIcon('capital', False):
-                toAnnounceCapital = False         
+                toAnnounceCapital = False
         self.lastEcho = text
         self.speakText(text, interrupt, ignorePunctuation,toAnnounceCapital)
         if flush:
@@ -89,7 +89,7 @@ class outputManager():
             self.env['runtime']['debug'].writeDebugOut("setting speech module in outputManager.speakText",debug.debugLevel.ERROR)
             self.env['runtime']['debug'].writeDebugOut(str(e),debug.debugLevel.ERROR)
 
-        try:            
+        try:
             self.env['runtime']['speechDriver'].setVolume(self.env['runtime']['settingsManager'].getSettingAsFloat('speech', 'volume'))
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut("setting speech volume in outputManager.speakText ",debug.debugLevel.ERROR)
@@ -114,7 +114,7 @@ class outputManager():
         if not self.env['runtime']['settingsManager'].getSettingAsBool('braille', 'enabled'):
             return
         if self.env['runtime']['brailleDriver'] == None:
-            return        
+            return
         if flush:
             self.env['output']['nextFlush'] = time.time() + self.getFlushTime(text)
             self.env['output']['messageOffset'] = {'x':0,'y':0}            
@@ -136,7 +136,7 @@ class outputManager():
                 displayText = self.getBrailleTextWithOffset(self.env['output']['messageText'], self.env['output']['messageOffset'])    
                 self.env['runtime']['brailleDriver'].writeText('flush'+displayText)                          
     def resetSpeechDriver(self):
-        try:            
+        try:
             self.env['runtime']['speechDriver'].reset()
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut("reset " + str(e),debug.debugLevel.ERROR)
@@ -169,7 +169,7 @@ class outputManager():
         if self.env['runtime']['settingsManager'].getSettingAsInt('braille', 'panSizeHorizontal') <= 0:
             return size[0]
         if self.env['runtime']['settingsManager'].getSettingAsInt('braille', 'panSizeHorizontal') >= size[0]:
-            return size[0]            
+            return size[0]
         return self.env['runtime']['settingsManager'].getSettingAsInt('braille', 'panSizeHorizontal')
     def getHorizontalPanLevel(self,offsetChange = 0):
         panned = True
@@ -189,14 +189,14 @@ class outputManager():
         if self.env['output']['messageOffset']:
             self.env['output']['messageOffset'] = newPan.copy()
         else:
-            self.env['output']['cursorOffset'] = newPan.copy()       
+            self.env['output']['cursorOffset'] = newPan.copy()
         return panned
     def setPanRight(self):
         newPan, panned = self.getHorizontalPanLevel(1)  
         if self.env['output']['messageOffset']:
             self.env['output']['messageOffset'] = newPan.copy()
         else:
-            self.env['output']['cursorOffset'] = newPan.copy()            
+            self.env['output']['cursorOffset'] = newPan.copy()
         return panned
     def removePanning(self):
         if self.env['output']['messageOffset']:
@@ -212,9 +212,9 @@ class outputManager():
         if cursor and not offset:
             if self.env['runtime']['settingsManager'].getSetting('braille', 'cursorFollowMode').upper() == 'FIXCELL':
                 #fix cell
-                cursorCell = self.getFixCursorCell()                                
-                offsetStart = cursor['x']      
-                if offsetStart < size[0]:        
+                cursorCell = self.getFixCursorCell()
+                offsetStart = cursor['x']
+                if offsetStart < size[0]:
                     if offsetStart <= cursorCell:
                         return offsetText[0: size[0]]
 
@@ -227,21 +227,21 @@ class outputManager():
         else:
             if not offset:
                 offset = {'x':0,'y':0}
-            offsetStart = offset['x']         
+            offsetStart = offset['x']
             if offsetStart >= len(offsetText):
                 offsetStart = len(offsetText) - size[0]
         
         if offsetStart < 0:
-            offsetStart = 0           
-        offsetEnd = offsetStart + size[0]            
-        offsetText = offsetText[offsetStart: offsetEnd]        
+            offsetStart = 0
+        offsetEnd = offsetStart + size[0]
+        offsetText = offsetText[offsetStart: offsetEnd]
         return offsetText
     def interruptOutput(self):
         try:
             self.env['runtime']['speechDriver'].cancel()
             self.env['runtime']['debug'].writeDebugOut("Interrupt speech",debug.debugLevel.INFO)       
         except:
-            pass            
+            pass
 
     def clearFlushTime(self):
         self.setFlushTime(0.0)
@@ -252,7 +252,7 @@ class outputManager():
     def getFlushTime(self,text=''):
         if self.env['runtime']['settingsManager'].getSettingAsFloat('braille', 'flushTimeout') < 0 or \
           self.env['runtime']['settingsManager'].getSetting('braille', 'flushMode').upper() == 'NONE':
-            return 999999999999    
+            return 999999999999
         if self.env['runtime']['settingsManager'].getSetting('braille', 'flushMode').upper() == 'FIX':
             return self.env['runtime']['settingsManager'].getSettingAsFloat('braille', 'flushTimeout')
         if self.env['runtime']['settingsManager'].getSetting('braille', 'flushMode').upper() == 'CHAR':
@@ -260,23 +260,23 @@ class outputManager():
         if self.env['runtime']['settingsManager'].getSetting('braille', 'flushMode').upper() == 'WORD':
             wordsList = text.split(' ')
             return self.env['runtime']['settingsManager'].getSettingAsFloat('braille', 'flushTimeout') * len( list( filter(None, wordsList) ) )
-                           
+
     def playSoundIcon(self, soundIcon = '', interrupt=True):
         if soundIcon == '':
             return False
         soundIcon = soundIcon.upper()
         if not self.env['runtime']['settingsManager'].getSettingAsBool('sound', 'enabled'):
-            self.env['runtime']['debug'].writeDebugOut("Sound disabled in outputManager.speakText",debug.debugLevel.INFO)        
+            self.env['runtime']['debug'].writeDebugOut("Sound disabled in outputManager.playSoundIcon",debug.debugLevel.INFO)
             return False  
 
         try:
             e = self.env['soundIcons'][soundIcon]
         except:
-            self.env['runtime']['debug'].writeDebugOut("SoundIcon doesnt exist: " + soundIcon, debug.debugLevel.WARNING)        
-            return False        
+            self.env['runtime']['debug'].writeDebugOut("SoundIcon doesnt exist: " + soundIcon, debug.debugLevel.WARNING)
+            return False
 
         if self.env['runtime']['soundDriver'] == None:
-            self.env['runtime']['debug'].writeDebugOut("No speechDriver in outputManager.speakText",debug.debugLevel.ERROR)        
+            self.env['runtime']['debug'].writeDebugOut("No soundDriver in outputManager.playSoundIcon:  soundDriver not loaded",debug.debugLevel.ERROR)
             return False
 
         try:
@@ -292,15 +292,43 @@ class outputManager():
             return False
 
         return False
+
+    def playFrequence(self, frequence, duration, interrupt=True):
+        if not self.env['runtime']['settingsManager'].getSettingAsBool('sound', 'enabled'):
+            self.env['runtime']['debug'].writeDebugOut("Sound disabled in outputManager.playFrequence",debug.debugLevel.INFO)
+            return False
+
+        if frequence < 1 or frequence > 20000:
+            self.env['runtime']['debug'].writeDebugOut("outputManager.playFrequence::Filefrequence is out of range:" + str(frequence),debug.debugLevel.INFO)
+            return False
+
+        if self.env['runtime']['soundDriver'] == None:
+            self.env['runtime']['debug'].writeDebugOut("No soundDriver in outputManager.playFrequence: soundDriver not loaded",debug.debugLevel.ERROR)
+            return False
+
+        try:
+            self.env['runtime']['soundDriver'].setVolume(self.env['runtime']['settingsManager'].getSettingAsFloat('sound', 'volume'))
+        except Exception as e:
+            self.env['runtime']['debug'].writeDebugOut("outputManager.playSoundIcon::setVolume: " + str(e),debug.debugLevel.ERROR)
+
+        try:
+            self.env['runtime']['soundDriver'].playFrequence(frequence, duration, interrupt)
+            return True
+        except Exception as e:
+            self.env['runtime']['debug'].writeDebugOut("outputManager.playSoundIcon::playSoundFile: " + str(e),debug.debugLevel.ERROR)
+            return False
+
+        return False
+
     def tempDisableSpeech(self):
         if self.env['runtime']['settingsManager'].getSettingAsBool('speech', 'enabled'): 
             self.presentText(_("speech temporary disabled"), soundIcon='SpeechOff', interrupt=True)
             self.env['commandBuffer']['enableSpeechOnKeypress'] = True
             self.env['runtime']['settingsManager'].setSetting('speech', 'enabled', str(not self.env['runtime']['settingsManager'].getSettingAsBool('speech', 'enabled')))
             self.interruptOutput()
-    def announceActiveCursor(self, interrupt_p=False):        
+    def announceActiveCursor(self, interrupt_p=False):
         if self.env['runtime']['cursorManager'].isReviewMode():
-            self.presentText(' review cursor ', interrupt=interrupt_p)                                
+            self.presentText(' review cursor ', interrupt=interrupt_p)
         else:
-            self.presentText(' text cursor ', interrupt=interrupt_p)       
-            
+            self.presentText(' text cursor ', interrupt=interrupt_p)
+

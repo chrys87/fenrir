@@ -92,7 +92,7 @@ class driver(soundDriver):
         self._player.set_property('uri', 'file://%s' % fileName)
         self._player.set_state(Gst.State.PLAYING)
 
-    def playFrequence(self, frequence, duration, adjustVolume, interrupt=True):
+    def playFrequence(self, frequence, duration, interrupt=True):
         if not self._initialized:
             return
         if interrupt:
