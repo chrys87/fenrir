@@ -34,7 +34,6 @@ class command():
         if (xMove >= 1) and abs(xMove) == len(self.env['screen']['newDelta']):
         # if len(self.env['screen']['newDelta'].strip(' \n\t0123456789')) <= 2:
             if not '\n' in self.env['screen']['newDelta']:
-                print('out')
                 return
         # shift line
         if (xMove != 0) and len(self.env['screen']['newNegativeDelta']) == 0:
