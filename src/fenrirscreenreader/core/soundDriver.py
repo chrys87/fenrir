@@ -19,19 +19,19 @@ class soundDriver():
         if not self._initialized:
             return
         self.cancel()
-        self._isInitialized = False            
+        self._isInitialized = False
 
-    def playFrequence(self, frequence = 1000, duration = 0.3, adjustVolume = 0):
+    def playFrequence(self, frequence, duration, adjustVolume = 0, interrupt=True):
         if not self._initialized:
-            return    
+            return
         if interrupt:
             self.cancel()
 
     def playSoundFile(self, filePath, interrupt = True):
         if not self._initialized:
-            return    
+            return
         if interrupt:
-            self.cancel()            
+            self.cancel()
 
     def cancel(self):
         if not self._initialized:
@@ -43,5 +43,5 @@ class soundDriver():
 
     def setVolume(self, volume):
         if not self._initialized:
-            return    
+            return
         self.volume = volume
