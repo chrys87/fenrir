@@ -14,22 +14,22 @@ class driver(soundDriver):
     def initialize(self, environment):
         self.env = environment
         self._initialized = True
-        print('Sound Debug Driver: Initialized')        
+        print('Sound Debug Driver: Initialized')
 
     def shutdown(self):
         if not self._initialized:
             return
         self.cancel()
-        self._initialized = False        
+        self._initialized = False
         print('Sound Debug Driver: Shutdown')
 
-    def playFrequence(self, frequence = 1000, duration = 0.3, adjustVolume = 0):
+    def playFrequence(self, frequence, duration, adjustVolume = 0, interrupt=True):
         if not self._initialized:
             return    
         if interrupt:
             self.cancel()
         print('Sound Debug Driver: playFrequence:' + ' freq:' + str(frequence) + ' duration:' + str(duration) + ' adjustVolume:' + str(adjustVolume) )
-        print('Sound Debug Driver: -----------------------------------')          
+        print('Sound Debug Driver: -----------------------------------')
 
     def playSoundFile(self, filePath, interrupt = True):
         if not self._initialized:
@@ -37,7 +37,7 @@ class driver(soundDriver):
         if interrupt:
             self.cancel()
         print('Sound Debug Driver: playSoundFile:' + str(filePath)) 
-        print('Sound Debug Driver: -----------------------------------')              
+        print('Sound Debug Driver: -----------------------------------')
 
     def cancel(self):
         if not self._initialized:
