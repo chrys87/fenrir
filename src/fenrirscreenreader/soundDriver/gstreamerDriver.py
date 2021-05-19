@@ -92,12 +92,13 @@ class driver(soundDriver):
         self._player.set_property('uri', 'file://%s' % fileName)
         self._player.set_state(Gst.State.PLAYING)
 
-    def playFrequence(self, frequence, duration, interrupt=True):
+    def playFrequence(self, frequence, duration, adjustVolume = 0, interrupt=True):
         if not self._initialized:
             return
         if interrupt:
             self.cancel()
-        self._source.set_property('volume', self.volume)
+        duration = duration * 1000
+        self._source.set_property('volume', self.volume - adjustVolume)
         self._source.set_property('freq', frequence)
         self._pipeline.set_state(Gst.State.PLAYING)
         GLib.timeout_add(duration, self._onTimeout, self._pipeline)

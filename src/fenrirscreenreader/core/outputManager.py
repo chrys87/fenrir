@@ -239,7 +239,7 @@ class outputManager():
     def interruptOutput(self):
         try:
             self.env['runtime']['speechDriver'].cancel()
-            self.env['runtime']['debug'].writeDebugOut("Interrupt speech",debug.debugLevel.INFO)       
+            self.env['runtime']['debug'].writeDebugOut("Interrupt speech",debug.debugLevel.INFO)
         except:
             pass
 
