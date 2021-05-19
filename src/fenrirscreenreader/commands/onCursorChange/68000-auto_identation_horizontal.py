@@ -28,7 +28,9 @@ class command():
         # is a vertical change?
         if not self.env['runtime']['cursorManager'].isCursorHorizontalMove():
             return
-        currIdent, y, currLine = line_utils.getCurrentLine(self.env['screen']['newCursor']['x'], self.env['screen']['newCursor']['y'], self.env['screen']['newContentText'])
+        x, y, currLine = line_utils.getCurrentLine(self.env['screen']['newCursor']['x'], self.env['screen']['newCursor']['y'], self.env['screen']['newContentText'])
+        currIdent = self.env['screen']['newCursor']['x']
+
         if not currLine.isspace():
             # ident
             lastIdent, lastY, lastLine = line_utils.getCurrentLine(self.env['screen']['newCursor']['x'], self.env['screen']['newCursor']['y'], self.env['screen']['oldContentText'])
@@ -49,7 +51,6 @@ class command():
             if self.env['runtime']['settingsManager'].getSettingAsInt('general', 'autoPresentIndentMode') in [0,2]:
                 if self.lastIdent != currIdent: 
                     self.env['runtime']['outputManager'].presentText(_('indented ') + str(currIdent) + ' ', interrupt=False, flush=False)
-
         self.lastIdent = currIdent
     def setCallback(self, callback):
         pass
