@@ -9,7 +9,7 @@ from fenrirscreenreader.core import debug
 settingsData = {
 'sound': {
   'enabled': True,
-  'driver': 'genericDriver', 
+  'driver': 'genericDriver',
   'theme': 'default',
   'volume': 1.0,
   'genericPlayFileCommand': 'play -q -v fenrirVolume fenrirSoundFile',
@@ -22,7 +22,7 @@ settingsData = {
   'rate': 0.75,
   'pitch': 0.5,
   'capitalPitch':0.8,
-  'volume': 1.0,    
+  'volume': 1.0,
   'module': '',
   'voice': 'en-us',
   'language': '',
@@ -33,7 +33,7 @@ settingsData = {
   'fenrirMinPitch':0,
   'fenrirMaxPitch':99,
   'fenrirMinRate':80,
-  'fenrirMaxRate':450,   
+  'fenrirMaxRate':450,
 },
 'braille':{
   'enabled': False, 
@@ -43,7 +43,7 @@ settingsData = {
   'flushTimeout': 3,
   'cursorFocusMode':'page', # page,fixCell
   'fixCursorOnCell': -1,
-  'cursorFollowMode': 'review', # none, review, last, text  
+  'cursorFollowMode': 'review', # none, review, last, text
   'panSizeHorizontal': 0 # 0 = display size
 },
 'screen':{
@@ -64,7 +64,7 @@ settingsData = {
   'numberOfClipboards': 10,
   'emoticons': True,
   'fenrirKeys': 'KEY_KP0,KEY_META',
-  'scriptKeys': 'KEY_COMPOSE',  
+  'scriptKeys': 'KEY_COMPOSE',
   'timeFormat': '%I:%M%P',
   'dateFormat': '%A, %B %d, %Y',
   'autoSpellCheck': False,
@@ -73,6 +73,7 @@ settingsData = {
   'commandPath': '/usr/share/fenrirscreenreader/commands',
   'attributeFormatString': 'Background fenrirBGColor,Foreground fenrirFGColor,fenrirUnderline,fenrirBold,fenrirBlink, Font fenrirFont,Fontsize fenrirFontSize',
   'autoPresentIndent': False,
+  'autoPresentIndentMode': 1,
   'hasAttributes': True,
   'shell': '',
 },
@@ -111,7 +112,7 @@ settingsData = {
 'time':{
   'enabled': False,
   'presentTime': True,
-  'presentDate': True,  
+  'presentDate': True,
   'delaySec': 0,
   'onMinutes': '00,30',
   'announce': True,
@@ -121,7 +122,7 @@ settingsData = {
   'driver': 'evdev',
   'device': 'all',
   'grabDevices': True,
-  'ignoreShortcuts': False,  
+  'ignoreShortcuts': False,
   'keyboardLayout': "desktop",
   'charEcho': False,
   'charDeleteEcho': True,

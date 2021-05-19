@@ -130,7 +130,13 @@ commandPath=
 #fenrirFont = the font
 #fenrirFontSize = the fontsize
 attributeFormatString=Background fenrirBGColor,Foreground fenrirFGColor,fenrirUnderline,fenrirBold,fenrirBlink, Font fenrirFont,Fontsize fenrirFontSize
+# present indentation
 autoPresentIndent=False
+# speak is only invoked on changeing ident level, sound always
+# 0 = sound and speak
+# 1 = sound only
+# 2 = speak only
+autoPresentIndentMode=1
 # play a sound when attributes are changeing
 hasAttributes=False
 # shell for PTY emulatiun (empty = default shell)

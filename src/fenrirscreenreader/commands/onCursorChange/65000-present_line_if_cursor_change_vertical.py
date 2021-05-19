@@ -40,13 +40,16 @@ class command():
             currIdent = len(currLine) - len(currLine.lstrip())
             if self.lastIdent == -1:
                 self.lastIdent = currIdent
-            doInterrupt = True                
+            doInterrupt = True
             if self.env['runtime']['settingsManager'].getSettingAsBool('general', 'autoPresentIndent'):
-                if self.lastIdent != currIdent: 
-                    self.env['runtime']['outputManager'].presentText(_('indented ') + str(currIdent) + ' ', interrupt=doInterrupt, flush=False)
-                    doInterrupt = False    
+                if self.env['runtime']['settingsManager'].getSettingAsInt('general', 'autoPresentIndentMode') in [0,1]:
+                    self.env['runtime']['outputManager'].playFrequence(currIdent * 50, 0.1, interrupt=doInterrupt)
+                if self.env['runtime']['settingsManager'].getSettingAsInt('general', 'autoPresentIndentMode') in [0,2]:
+                    if self.lastIdent != currIdent: 
+                        self.env['runtime']['outputManager'].presentText(_('indented ') + str(currIdent) + ' ', interrupt=doInterrupt, flush=False)
+                        doInterrupt = False
             # barrier
-            sayLine = currLine        
+            sayLine = currLine
             if self.env['runtime']['settingsManager'].getSettingAsBool('barrier','enabled'):
                 isBarrier, barrierLine = self.env['runtime']['barrierManager'].handleLineBarrier(self.env['screen']['newContentText'].split('\n'), self.env['screen']['newCursor']['x'],self.env['screen']['newCursor']['y'])
                 if isBarrier:
