@@ -177,7 +177,7 @@ class fenrirManager():
         else:
             if not self.environment['runtime']['inputManager'].noKeyPressed():
                 if self.singleKeyCommand:
-                    self.singleKeyCommand = len( self.environment['runtime']['inputManager'].getLastDeepestInput() ) == 1
+                    self.singleKeyCommand = len(self.environment['input']['currInput'])== 1
         # key is already released. we need the old one
         if not( self.singleKeyCommand and self.environment['runtime']['inputManager'].noKeyPressed()):
             shortcut = self.environment['runtime']['inputManager'].getCurrShortcut()
