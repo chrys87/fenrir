@@ -38,7 +38,7 @@ class command():
                     return
         else:
             # shoul announce?
-            if not str(now.minute) in onMinutes:
+            if not str(now.minute).zfill(2) in onMinutes:
                 return
             # already announced?
             if now.hour == self.lastTime.hour:
@@ -63,7 +63,7 @@ class command():
         
         if presentTime:
             # present the time
-            self.env['runtime']['outputManager'].presentText(_('Autotime: {0}').format(timeString), soundIcon='', interrupt=False)
+            self.env['runtime']['outputManager'].presentText(_("It's {0}").format(timeString), soundIcon='', interrupt=False)
         # and date if changes
         if presentDate:
                 self.env['runtime']['outputManager'].presentText(dateString , soundIcon='', interrupt=False)        
