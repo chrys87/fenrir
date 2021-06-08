@@ -44,7 +44,7 @@ class remoteManager():
         self.resetWindowConst = 'RESETWINDOW'
         self.setClipboardConst = 'CLIPBOARD '
         self.exportConst = 'EXPORT'
-        self.readClipboard = 'READ'
+        self.setClipboard = 'SET '
         # setting controll
         self.settingConst = 'SETTING '
         self.setSettingConst = 'SET '
@@ -114,7 +114,7 @@ class remoteManager():
         # set clipboard
         elif upperCommandText.startswith(self.setClipboardConst):
             parameterText = commandText[len(self.setClipboardConst):]
-            self.setClipboard(parameterText)
+            self.handleClipboard(parameterText)
     def tempDisableSpeech(self):
         self.env['runtime']['outputManager'].tempDisableSpeech()
     def setVMenu(self, vmenu = ''):
@@ -154,11 +154,13 @@ class remoteManager():
         upperParameter = parameter.upper()
         # export clipboard
         if upperParameter.startswith(self.setSettingConst):
-            self.exportClipboard(parameterText)
+            self.exportClipboard()
         # read clipboard
-        elif upperParameter.startswith(self.readClipboard):
+        elif upperParameter.startswith(self.setClipboard):
+            parameterText = commandText[len(self.setClipboard):]
             self.setClipboard(parameterText)
-        elif:
+        else:
+            parameterText = commandText[len(self.setClipboard):]
             self.setClipboard(parameterText)
     def exportClipboard(self):
         clipboardFilePath = self.env['runtime']['settingsManager'].getSetting('general', 'clipboardExportPath')
