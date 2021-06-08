@@ -1,5 +1,6 @@
 #!/bin/python
 import time
+import re
 # -*- coding: utf-8 -*-
 
 # Fenrir TTY screen reader
@@ -63,7 +64,7 @@ class command():
         
         if presentTime:
             # present the time
-            self.env['runtime']['outputManager'].presentText(_("It's {0}").format(timeString), soundIcon='', interrupt=False)
+            self.env['runtime']['outputManager'].presentText(_("It's {0}").format(re.sub('^0', '', timeString).replace(':00', " O'clock ")), soundIcon='', interrupt=False)
         # and date if changes
         if presentDate:
                 self.env['runtime']['outputManager'].presentText(dateString , soundIcon='', interrupt=False)        
