@@ -162,7 +162,11 @@ class remoteManager():
                 self.env['runtime']['outputManager'].presentText(_('clipboard empty'), interrupt=True)
                 return 
             clipboard = self.env['runtime']['memoryManager'].getIndexListElement('clipboardHistory')
-            clipboardFile.write(clipboard)
+            # Fenrir will crash if the clipboard variable is type None
+            if clipboard is not None:
+                clipboardFile.write(clipboard)
+            else:
+                clipboardFile.write('')
             clipboardFile.close()
             os.chmod(clipboardFilePath, 0o666)
             self.env['runtime']['outputManager'].presentText(_('clipboard exported to file'), interrupt=True)
