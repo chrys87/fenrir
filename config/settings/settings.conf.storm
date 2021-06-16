@@ -1,25 +1,25 @@
 [sound]
 enabled=True
-driver=genericDriver
+driver=gstreamerDriver
 theme=default
-volume=1.0
+volume=0.5
 # shell commands for generic sound driver
 genericPlayFileCommand=play -q -v fenrirVolume fenrirSoundFile
 genericFrequencyCommand=play -q -v fenrirVolume -n -c1 synth fenrirDuration sine fenrirFrequence
 
 [speech]
 enabled=True
-#driver=speechdDriver
-driver=genericDriver
+driver=speechdDriver
+#driver=genericDriver
 serverPath=
 rate=0.80
 pitch=0.5
 # Pitch for capital letters
 capitalPitch=0.9
-module=espeak
+module=espeak-ng
 voice=en-us
-language=english-us
-volume=1.0
+language=en-us
+volume=0.6
 autoReadIncoming=True
 
 # genericSpeechCommand is the command that is executed for talking
@@ -98,6 +98,7 @@ interruptOnKeyPressFilter=
 doubleTapTimeout=0.2
 
 [general]
+autoPresentIndentMode=1
 debugLevel=0
 # debugMode sets where the debug output should send to:
 # debugMode=File writes to debugFile (Default:/tmp/fenrir-PID.log)
@@ -113,8 +114,8 @@ numberOfClipboards=10
 # $user is replaced by username
 clipboardExportPath=/tmp/fenrirClipboard
 emoticons=True
-fenrirKeys=KEY_KP0,KEY_META
-scriptKey=KEY_COMPOSE
+fenrirKeys=KEY_KP0,KEY_CAPSLOCK
+scriptKeys=KEY_COMPOSE,KEY_META
 timeFormat=%H:%M:%P
 dateFormat="%A, %B %d, %Y"
 autoSpellCheck=True
@@ -130,13 +131,7 @@ commandPath=
 #fenrirFont = the font
 #fenrirFontSize = the fontsize
 attributeFormatString=Background fenrirBGColor,Foreground fenrirFGColor,fenrirUnderline,fenrirBold,fenrirBlink, Font fenrirFont,Fontsize fenrirFontSize
-# present indentation
 autoPresentIndent=False
-# speak is only invoked on changeing ident level, sound always
-# 0 = sound and speak
-# 1 = sound only
-# 2 = speak only
-autoPresentIndentMode=1
 # play a sound when attributes are changeing
 hasAttributes=False
 # shell for PTY emulatiun (empty = default shell)
@@ -187,7 +182,7 @@ quickMenu=speech#rate;speech#pitch;speech#volume
 
 [time]
 # automatic time anouncement
-enabled=False
+enabled=True
 # present time
 presentTime=True
 # present date (on change)
@@ -196,7 +191,7 @@ presentDate=True
 delaySec=0
 # present time after to given minutes example every 15 minutes: 00,15,30,45
 # if delaySec is >0 onMinutes is ignored
-onMinutes=00,30
+onMinutes=00
 # announce via soundicon
 announce=True
 # interrupt current speech for time announcement
