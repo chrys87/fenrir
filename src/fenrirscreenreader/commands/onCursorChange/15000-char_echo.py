@@ -19,8 +19,10 @@ class command():
     def run(self):
         # enabled? 
         active = self.env['runtime']['settingsManager'].getSettingAsInt('keyboard', 'charEchoMode')
+        # 0 = off
         if active == 0:
             return
+        # 2 = caps only
         if active == 2:
             if not self.env['input']['newCapsLock']:
                 return
