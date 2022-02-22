@@ -19,7 +19,7 @@ class command():
     def run(self):
         # enabled? 
         active = self.env['runtime']['settingsManager'].getSettingAsInt('keyboard', 'charEchoMode')
-        self.env['runtime']['debug'].writeDebugOut('charEchoMode: ' + str(active) + ' CAPS:' + str(self.env['input']['newCapsLock']),debug.debugLevel.INFO)
+        self.env['runtime']['debug'].writeDebugOut('charEchoMode: ' + str(active) + ' CAPS:' + str(self.env['input']['newCapsLock'] == True),debug.debugLevel.INFO)
 
         # 0 = off
         if active == 0:
@@ -50,6 +50,7 @@ class command():
           currDelta.strip() != '':
             currDelta = currDelta.strip()
         self.env['runtime']['outputManager'].presentText(currDelta, interrupt=True, ignorePunctuation=True, announceCapital=True, flush=False)
+        print(currDelta)
 
     def setCallback(self, callback):
         pass
