@@ -139,6 +139,8 @@ class inputManager():
             self.env['input']['prevInput'] = []
 
     def handleLedStates(self, mEvent):
+        if self.currKeyIsModifier():
+            return
         try:
             if mEvent['EventName'] == 'KEY_NUMLOCK':
                 self.env['runtime']['inputDriver'].toggleLedState()
