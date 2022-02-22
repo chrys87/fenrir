@@ -124,8 +124,7 @@ settingsData = {
   'grabDevices': True,
   'ignoreShortcuts': False,
   'keyboardLayout': "desktop",
-  'charEcho': False, # deprecated
-  'charEchoMode': 2,
+  'charEchoMode': 2, # while capslock
   'charDeleteEcho': True,
   'wordEcho': True,
   'interruptOnKeyPress': True,
