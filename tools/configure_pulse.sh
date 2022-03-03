@@ -5,6 +5,7 @@
 if [[ $(whoami) != "root" ]]; then
 # Get the current user's XDG_HOME
 xdgPath="${XDG_CONFIG_HOME:-$HOME/.config}"
+mkdir -p "$xdgPath/pulse"
 
 # Warn user if we are going to overwrite an existing default.pa
 if [ -f "$xdgPath/pulse/default.pa" ]; then
