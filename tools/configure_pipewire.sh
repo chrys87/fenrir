@@ -7,6 +7,7 @@ if [[ $(whoami) != "root" ]]; then
 xdgPath="${XDG_CONFIG_HOME:-$HOME/.config}"
 mkdir -p "$xdgPath/pipewire/pipewire-pulse.conf.d"
 mkdir -p "$xdgPath/wireplumber/main.lua.d"
+#create the file that tells the pipewire-pulse server to use a second socket located at /tmp/pulse.sock
 # Warn user if we are going to overwrite an existing 10-console_audio.conf
 if [ -f "$xdgPath/pipewire/pipewire-pulse.conf.d/10-console_audio.conf" ]; then
     read -p "This will replace the current file located at $xdgPath/pipewire/pipewire-pulse.conf.d/10-console_audio.conf, press enter to continue or control+c to abort. " continue
@@ -24,6 +25,7 @@ context.exec = [
     { path = "pactl"        args = "load-module module-switch-on-connect" }
 ]' > $xdgPath/pipewire/pipewire-pulse.conf.d/10-console_audio.conf
 
+#Creates the file that tells pipewire not to suspend any sinks for all devices. This makes sure audio doesn't die after switching to the console.
 # Warn user if we are going to overwrite an existing 50-do-not-suspend.lua
 if [ -f "$xdgPath/wireplumber/main.lua.d/50-do-not-suspend.lua" ]; then
     read -p "This will replace the current file located at $xdgPath/wireplumber/main.lua.d/50-do-not-suspend.lua, press enter to continue or control+c to abort. " continue
@@ -36,6 +38,9 @@ echo 'alsa_monitor.rules = {
       },
     },
    apply_properties = {
+      ["api.alsa.use-acp"] = true,
+      ["api.acp.auto-profile"] = false,
+      ["api.acp.auto-port"] = false,
 ["session.suspend-timeout-seconds"] = 0
     },
   },
