@@ -54,6 +54,7 @@ echo 'alsa_monitor.rules = {
   },
 }' > $xdgPath/wireplumber/main.lua.d/50-do-not-suspend.lua
 
+echo "Please ensure that your user is added to the audio group."
 echo "If you have not yet done so, please run this script as root to write the client.conf file."
 else
 # This section does the root part:
