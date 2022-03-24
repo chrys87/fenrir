@@ -7,6 +7,8 @@ if [[ $(whoami) != "root" ]]; then
 xdgPath="${XDG_CONFIG_HOME:-$HOME/.config}"
 mkdir -p "$xdgPath/pipewire/pipewire-pulse.conf.d"
 mkdir -p "$xdgPath/wireplumber/main.lua.d"
+mkdir -p "$xdgPath/wireplumber/bluetooth.lua.d"
+
 #create the file that tells the pipewire-pulse server to use a second socket located at /tmp/pulse.sock
 # Warn user if we are going to overwrite an existing 10-console_audio.conf
 if [ -f "$xdgPath/pipewire/pipewire-pulse.conf.d/10-console_audio.conf" ]; then
@@ -58,6 +60,23 @@ echo 'alsa_monitor.rules = {
     },
   },
 }' > $xdgPath/wireplumber/main.lua.d/50-do-not-suspend.lua
+
+#Creates the file that disables the logind module for wireplumber which causes bluetooth to disconnect when switching tty
+# Warn user if we are going to overwrite an existing 30-bluez-monitor.lua
+if [ -f "$xdgPath/wireplumber/bluetooth.lua.d/30-bluez-monitor.lua" ]; then
+    read -p "This will replace the current file located at $xdgPath/wireplumber/bluetooth.lua.d/30-bluez-monitor.lua, press enter to continue or control+c to abort. " continue
+fi
+echo 'bluez_monitor = {}
+bluez_monitor.properties = {}
+bluez_monitor.rules = {}
+
+function bluez_monitor.enable()
+  load_monitor("bluez", {
+    properties = bluez_monitor.properties,
+    rules = bluez_monitor.rules,
+  })
+
+end' > $xdgPath/wireplumber/bluetooth.lua.d/30-bluez-monitor.lua
 
 echo "Please ensure that your user is added to the audio group."
 echo "If you have not yet done so, please run this script as root to write the client.conf file."
