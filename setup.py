@@ -1,4 +1,4 @@
-#!/bin/python
+#!/usr/bin/env python3
 #https://python-packaging.readthedocs.io/en/latest/minimal.html
 import os, glob, sys
 import os.path
