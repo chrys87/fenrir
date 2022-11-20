@@ -148,4 +148,4 @@ copy fenrir.mo translations file  from fenrir/locale/your_language/LC_MESSAGES/f
  
 # Documentation
 
-Here is the [Fenrir Wiki](https://github.com/chrys87/fenrir.wiki). It is currently being updated, so keep checking back. Feel free to help with documentation.
+Here is the [Fenrir Wiki](https://github.com/chrys87/fenrir/wiki). It is currently being updated, so keep checking back. Feel free to help with documentation.
