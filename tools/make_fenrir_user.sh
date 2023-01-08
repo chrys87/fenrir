@@ -34,7 +34,7 @@ if ! [[ "$tty" =~ ^[a-zA-Z]+$ ]]; then
 fi
 
 # Add fenrirscreenreader
-id fenrirscreenreader &> /dev/null || \
+id fenrirscreenreader &> /dev/null || 
     useradd -m -d /var/fenrirscreenreader -r -G $input,$tty,$uinput -s /bin/nologin -U fenrirscreenreader
 
 #configure directory structure.
@@ -50,9 +50,47 @@ for i in /dev/tty[0-9]* ; do
     chmod 660 "$i"
 done
 
-sudo -Hu fenrirscreenreader mkdir ~/.config/{pipewire,pulse}
-echo "Remember to run the configuration script for the sound server you are using as the fenrirscreenreader user."
-echo "For example, to configure pipewire, run the following:"
-echo 'sudo -Hu fenrirscreenreader /usr/share/fenrirscreenreader/tools/configure_pipewire.sh'
+sudo -Hu fenrirscreenreader mkdir /var/fenrirscreenreader/.config/pulse
+
+# Set up sound 
+cat << EOF > /var/fenrirscreenreader/.config/pulse/client.conf
+# This file is part of PulseAudio.
+#
+# PulseAudio is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# PulseAudio is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with PulseAudio; if not, see <http://www.gnu.org/licenses/>.
+                                                                                                                                                                
+## Configuration file for PulseAudio clients. See pulse-client.conf(5) for
+## more information. Default values are commented out.  Use either ; or # for
+## commenting.
+                                                                                                                                                                
+; default-sink =
+; default-source =
+default-server = unix:/tmp/pulse.sock
+; default-dbus-server =
+                                                                                                                                                                
+autospawn = no
+; autospawn = yes
+; daemon-binary = /usr/bin/pulseaudio
+; extra-arguments = --log-target=syslog
+                                                                                                                                                                
+; cookie-file =
+                                                                                                                                                                
+; enable-shm = yes
+; shm-size-bytes = 0 # setting this 0 will use the system-default, usually 64 MiB
+                                                                                                                                                                
+; auto-connect-localhost = no
+; auto-connect-display = no
+EOF
+
 
 exit 0
