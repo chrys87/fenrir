@@ -84,8 +84,10 @@ class fenrirManager():
                 self.environment['runtime']['inputManager'].writeEventBuffer()
         if self.environment['runtime']['inputManager'].noKeyPressed():
             self.modifierInput = False
-            self.singleKeyCommand = False  
+            self.singleKeyCommand = False
+            self.environment['runtime']['inputManager'].writeEventBuffer()
             self.environment['runtime']['inputManager'].handleDeviceGrab()
+
         if self.environment['input']['keyForeward'] > 0:
             self.environment['input']['keyForeward'] -=1
         self.environment['runtime']['commandManager'].executeDefaultTrigger('onKeyInput')
