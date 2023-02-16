@@ -99,6 +99,11 @@ class driver(screenDriver):
     def updateWatchdog(self,active , eventQueue):
         try:
             useVCSU = os.access('/dev/vcsu', os.R_OK)
+            try:
+                with open('/dev/vcsu', 'rb') as vcsuDummyFile:
+                    d = vcsuDummyFile.read()
+            except:
+                useVCSU = False
             vcsa = {}
             vcsaDevices = glob.glob('/dev/vcsa*')
             vcsu = {}
