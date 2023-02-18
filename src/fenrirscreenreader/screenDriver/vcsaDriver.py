@@ -158,13 +158,13 @@ class driver(screenDriver):
                             oldScreen = currScreen
                             try:
                                 vcsa[currScreen].seek(0)
-                                lastScreenContent = readFile(vcsa[currScreen])
+                                lastScreenContent = self.readFile(vcsa[currScreen])
                             except:
                                 pass
                             vcsuContent = None
                             if useVCSU:
                                 vcsu[currScreen].seek(0)
-                                vcsuContent = readFile(vcsu[currScreen])
+                                vcsuContent = self.readFile(vcsu[currScreen])
                             eventQueue.put({"Type":fenrirEventType.ScreenChanged,
                                 "Data":self.createScreenEventData(currScreen, lastScreenContent, vcsuContent)
                             })  
@@ -172,7 +172,7 @@ class driver(screenDriver):
                         self.env['runtime']['debug'].writeDebugOut('ScreenUpdate',debug.debugLevel.INFO)
                         vcsa[currScreen].seek(0)
                         time.sleep(0.01)
-                        dirtyContent = readFile(vcsa[currScreen])
+                        dirtyContent = self.readFile(vcsa[currScreen])
                         screenContent = dirtyContent
                         vcsuContent = None
                         timeout = time.time()
@@ -198,7 +198,7 @@ class driver(screenDriver):
                                 #if not vcsa[currScreen] in r:
                                 #    break
                                 vcsa[currScreen].seek(0)
-                                dirtyContent = readFile(vcsa[currScreen])
+                                dirtyContent = self.readFile(vcsa[currScreen])
                                 if screenContent == dirtyContent:
                                     break
                                 if time.time() - timeout >= 0.1:
@@ -206,7 +206,7 @@ class driver(screenDriver):
                                     break
                         if useVCSU:
                             vcsu[currScreen].seek(0)
-                            vcsuContent = readFile(vcsu[currScreen])
+                            vcsuContent = self.readFile(vcsu[currScreen])
                         lastScreenContent = screenContent
                         eventQueue.put({"Type":fenrirEventType.ScreenUpdate,
                             "Data":self.createScreenEventData(currScreen, screenContent, vcsuContent)
