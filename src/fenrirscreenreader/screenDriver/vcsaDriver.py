@@ -34,6 +34,12 @@ class driver(screenDriver):
         self.bgColorValues = {0: 'black', 1: 'blue', 2: 'green', 3: 'cyan', 4: 'red', 5: 'magenta', 6: 'brown/yellow', 7: 'white'}
         self.fgColorValues = {0: 'black', 1: 'blue', 2: 'green', 3: 'cyan', 4: 'red', 5: 'magenta', 6: 'brown/yellow', 7: 'light gray', 8: 'dark gray', 9: 'light blue', 10: 'light green', 11: 'light cyan', 12: 'light red', 13: 'light magenta', 14: 'light yellow', 15: 'white'}
         self.hichar = None
+        try:
+            # set workaround for paste clipboard -> injectTextToScreen
+            os.system('sysctl dev.tty.legacy_tiocsti=1')
+        except:
+            pass
+        try:
     def initialize(self, environment):
         self.env = environment
         self.env['runtime']['attributeManager'].appendDefaultAttributes([
