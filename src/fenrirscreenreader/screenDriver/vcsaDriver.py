@@ -39,7 +39,6 @@ class driver(screenDriver):
             os.system('sysctl dev.tty.legacy_tiocsti=1')
         except:
             pass
-        try:
     def initialize(self, environment):
         self.env = environment
         self.env['runtime']['attributeManager'].appendDefaultAttributes([
