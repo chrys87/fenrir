@@ -20,30 +20,37 @@ class command():
         return _('Export current fenrir clipboard to X or GUI clipboard')
     def run(self):                       
        _thread.start_new_thread(self._threadRun , ())
-
     def _threadRun(self):
         try:
             if self.env['runtime']['memoryManager'].isIndexListEmpty('clipboardHistory'):
                 self.env['runtime']['outputManager'].presentText(_('clipboard empty'), interrupt=True)
-                return 
-            clipboard = self.env['runtime']['memoryManager'].getIndexListElement('clipboardHistory')                               
+                return
+                                                                                                                                                                
+            clipboard = self.env['runtime']['memoryManager'].getIndexListElement('clipboardHistory')
+            user = self.env['general']['currUser']
+                                                                                                                                                                
             for display in range(10):
-                p = Popen('su ' + self.env['general']['currUser'] + ' -c  "cat << \\\"EOF\\\" | xclip -d :' + str(display) + ' -selection clipboard\n' + clipboard + '\nEOF\n"', stdout=PIPE, stderr=PIPE, shell=True)
-                stdout, stderr = p.communicate()
+                p = Popen(
+                    ['su', user, '-c', f"xclip -d :{display} -selection clipboard"],
+                    stdin=PIPE, stdout=PIPE, stderr=PIPE, preexec_fn=os.setpgrp
+                )
+                stdout, stderr = p.communicate(input=clipboard.encode('utf-8'))
+                                                                                                                                                                
                 self.env['runtime']['outputManager'].interruptOutput()
-                #screenEncoding = self.env['runtime']['settingsManager'].getSetting('screen', 'encoding')
+                                                                                                                                                                
                 stderr = stderr.decode('utf-8')
                 stdout = stdout.decode('utf-8')
-                if (stderr == ''):
-                    break      
-            #stderr = stderr.decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
-            #stdout = stdout.decode(screenEncoding, "replace").encode('utf-8').decode('utf-8')
+                                                                                                                                                                
+                if stderr == '':
+                    break
+                                                                                                                                                                
             if stderr != '':
-                self.env['runtime']['outputManager'].presentText(stderr , soundIcon='', interrupt=False)
+                self.env['runtime']['outputManager'].presentText(stderr, soundIcon='', interrupt=False)
             else:
-                self.env['runtime']['outputManager'].presentText('exported to the X session.', interrupt=True)                
+                self.env['runtime']['outputManager'].presentText('exported to the X session.', interrupt=True)
+                                                                                                                                                                
         except Exception as e:
-            self.env['runtime']['outputManager'].presentText(e , soundIcon='', interrupt=False)
-        
+            self.env['runtime']['outputManager'].presentText(str(e), soundIcon='', interrupt=False)
+                                                                                                                                                                
     def setCallback(self, callback):
         pass
