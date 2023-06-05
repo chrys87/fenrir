@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
                                                                                                                                                                 
 # Fenrir TTY screen reader
 # By Chrys, Storm Dragon, and contributers.
@@ -13,7 +12,6 @@ os.environ['DIALOGOPTS'] = '--no-lines --visit-items'
 # Initialize the dialog
 tui = dialog.Dialog(dialog="dialog")
 
-
 # Define the path to the settings file
 settings_file = '/etc/fenrirscreenreader/settings/settings.conf'
 
@@ -22,41 +20,47 @@ if not os.access(settings_file, os.W_OK):
     tui.msgbox("Error: Insufficient permissions to modify the settings file. Please run as root or with sudo.")
     exit()
 
-# Load the settings file
-config = configparser.ConfigParser()
-config.read(settings_file)
+while True:
+    # Load the settings file
+    config = configparser.ConfigParser()
+    config.read(settings_file)
 
-# Get a list of sections in the settings file
-sections = config.sections()
+    # Get a list of sections in the settings file
+    sections = config.sections()
 
-# Select a section.
-code, section = tui.menu("Select a section:", choices=[(s, "") for s in sections])
+    # Select a section.
+    code, section = tui.menu("Select a section:", choices=[(s, "") for s in sections] + [("Exit", " ")])
 
-# If a section is selected, modify its values
-if code == tui.OK:
-    # Get the options in the selected section
-    options = config.options(section)
+    # Exit if the "Exit" option is chosen
+    if section == "Exit":
+        break
 
-    # Select a value to edit using dialog
-    code, option = tui.menu(f"Select a value to edit in '{section}':", choices=[(o, "") for o in options])
+    while True:
+        # Get the options in the selected section
+        options = config.options(section)
 
-    # If something is selected, prompt for a new value.
-    if code == tui.OK:
-        value = config.get(section, option)
-        code, new_value = tui.inputbox(f"Enter a new value for '{option}':", init=value)
+        # Select a value to edit using dialog
+        code, option = tui.menu(f"Select a value to edit in '{section}':", choices=[(o, "") for o in options] + [("Go Back", " ")])
 
-        # If a new setting is provided, update the configuration
+        # Go back to the section menu if the "Go Back" option is chosen
+        if option == "Go Back":
+            break
+
+        # If something is selected, prompt for a new value.
         if code == tui.OK:
-            config.set(section, option, new_value)
+            value = config.get(section, option)
+            code, new_value = tui.inputbox(f"Enter a new value for '{option}':", init=value)
 
-            # Save changes.
-            with open(settings_file, 'w') as configfile:
-                config.write(configfile)
+            # If a new setting is provided, update the configuration
+            if code == tui.OK:
+                config.set(section, option, new_value)
 
-            tui.msgbox("Fenrir settings saved.")
+                # Save changes.
+                with open(settings_file, 'w') as configfile:
+                    config.write(configfile)
+
+                tui.msgbox("Fenrir settings saved.")
+            else:
+                tui.msgbox("Changes discarded. Your Fenrir configuration has not been modified.")
         else:
-            tui.msgbox("Changes discarded. Your Fenrir configuration has not been modified.")
-    else:
-        tui.msgbox("Canceled.")
-else:
-    tui.msgbox("Canceled.")
+            tui.msgbox("Canceled.")
