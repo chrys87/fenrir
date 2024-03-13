@@ -19,11 +19,9 @@ class command():
         if self.env['input']['oldCapsLock'] == self.env['input']['newCapsLock']:
             return
         if self.env['input']['newCapsLock']:
-            oldKeyboardEcho = self.env['runtime']['outputManager'].presentText(_("Capslock on"), interrupt=True)
-            self.env['runtime']['settingsManager']('keyboard', 'charEcho') = True
+            self.env['runtime']['outputManager'].presentText(_("Capslock on"), interrupt=True)
         else:
             self.env['runtime']['outputManager'].presentText(_("Capslock off"), interrupt=True)
-            self.env['runtime']['settingsManager']('keyboard', 'charEcho') = oldKeyboardEcho
         
     def setCallback(self, callback):
         pass
