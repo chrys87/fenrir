@@ -27,6 +27,7 @@ settingsData = {
   'voice': 'en-us',
   'language': '',
   'autoReadIncoming': True,
+  'readNumbersAsDigits': False,
   'genericSpeechCommand':'espeak -a fenrirVolume -s fenrirRate -p fenrirPitch -v fenrirVoice "fenrirText"',
   'fenrirMinVolume':0,
   'fenrirMaxVolume':200,

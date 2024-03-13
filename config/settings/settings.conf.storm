@@ -21,6 +21,9 @@ voice=en-us
 language=en-us
 volume=0.6
 autoReadIncoming=True
+                                                                                                                                                                          
+# Speak individual numbers instead of whole string.
+readNumbersAsDigits': False
 
 # genericSpeechCommand is the command that is executed for talking
 # the following variables are replaced with values 
