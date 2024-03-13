@@ -27,7 +27,7 @@ class outputManager():
     def presentText(self, text, interrupt=True, soundIcon = '', ignorePunctuation=False, announceCapital=False, flush=True, brailleAlternative = ''):
         if text == '':
             return
-        if self.env['runtime']['settingsManager'].getSettingAsBool('speech', 'readNumbersAsDigits'):
+        if self.env['runtime']['settingsManager'].getSettingAsBool('speech', 'readNumbersAsDigits') and len(text.strip()) > 1:
             text = re.sub(r"(\d)", r"\1 ", text).rstrip()
         self.env['runtime']['debug'].writeDebugOut("presentText:\nsoundIcon:'"+soundIcon+"'\nText:\n" + text ,debug.debugLevel.INFO)
         if self.playSoundIcon(soundIcon, interrupt):
