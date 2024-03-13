@@ -82,8 +82,15 @@ class eventManager():
         return self._eventQueue
     def getRunning(self):
         return self.running
+    def getEventQueueSize(self):
+        return self._eventQueue.qsize()
     def putToEventQueue(self,event, data):
         if not isinstance(event, fenrirEventType):
             return False
-        self._eventQueue.put({"Type":event,"Data":data})    
-        return True
+        if event == fenrirEventType.Ignore:
+            return False
+        if self.getEventQueueSize() > 40:
+            if not event in [fenrirEventType.ScreenUpdate, fenrirEventType.HeartBeat]:
+                self.cleanEventQueue()
+            self._eventQueue.put({"Type":event,"Data":data})
+            return True
