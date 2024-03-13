@@ -89,8 +89,8 @@ class eventManager():
             return False
         if event == fenrirEventType.Ignore:
             return False
-        if self.getEventQueueSize() > 40:
+        if self.getEventQueueSize() > 50:
             if not event in [fenrirEventType.ScreenUpdate, fenrirEventType.HeartBeat]:
                 self.cleanEventQueue()
-            self._eventQueue.put({"Type":event,"Data":data})
-            return True
+        self._eventQueue.put({"Type":event,"Data":data})
+        return True
