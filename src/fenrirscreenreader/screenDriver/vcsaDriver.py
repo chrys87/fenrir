@@ -34,6 +34,11 @@ class driver(screenDriver):
         self.bgColorValues = {0: 'black', 1: 'blue', 2: 'green', 3: 'cyan', 4: 'red', 5: 'magenta', 6: 'brown/yellow', 7: 'white'}
         self.fgColorValues = {0: 'black', 1: 'blue', 2: 'green', 3: 'cyan', 4: 'red', 5: 'magenta', 6: 'brown/yellow', 7: 'light gray', 8: 'dark gray', 9: 'light blue', 10: 'light green', 11: 'light cyan', 12: 'light red', 13: 'light magenta', 14: 'light yellow', 15: 'white'}
         self.hichar = None
+        try:
+            # set workaround for paste clipboard -> injectTextToScreen
+            os.system('sysctl dev.tty.legacy_tiocsti=1')
+        except:
+            pass
     def initialize(self, environment):
         self.env = environment
         self.env['runtime']['attributeManager'].appendDefaultAttributes([
@@ -95,8 +100,23 @@ class driver(screenDriver):
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('getSessionInformation: Maybe no LoginD:' + str(e),debug.debugLevel.ERROR)
         #self.env['runtime']['debug'].writeDebugOut('getSessionInformation:'  + str(self.env['screen']['autoIgnoreScreens']) + ' ' + str(self.env['general'])  ,debug.debugLevel.INFO)                           
-
-    def updateWatchdog(self,active , eventQueue):
+    def readFile(self, file):
+        d = b''
+        file.seek(0)
+        try:
+            d = file.read()
+        except:
+            file.seek(0)
+            while True:
+                # Read from file
+                try:
+                    d += file.readline(1)
+                    if not d:
+                        break
+                except Exception as e:
+                    break
+        return d
+    def updateWatchdog(self, active , eventQueue):
         try:
             useVCSU = os.access('/dev/vcsu', os.R_OK)
             vcsa = {}
@@ -111,7 +131,7 @@ class driver(screenDriver):
                 index = str(vcsaDev[9:])
                 vcsa[index] = open(vcsaDev,'rb')
                 if index == currScreen:
-                    lastScreenContent = vcsa[index].read()
+                    lastScreenContent = self.readFile(vcsa[index])
             if useVCSU:
                 vcsuDevices = glob.glob('/dev/vcsu*')
                 for vcsuDev in vcsuDevices:
@@ -143,13 +163,13 @@ class driver(screenDriver):
                             oldScreen = currScreen
                             try:
                                 vcsa[currScreen].seek(0)
-                                lastScreenContent = vcsa[currScreen].read()
+                                lastScreenContent = self.readFile(vcsa[currScreen])
                             except:
                                 pass
                             vcsuContent = None
                             if useVCSU:
                                 vcsu[currScreen].seek(0)
-                                vcsuContent = vcsu[currScreen].read()
+                                vcsuContent = self.readFile(vcsu[currScreen])
                             eventQueue.put({"Type":fenrirEventType.ScreenChanged,
                                 "Data":self.createScreenEventData(currScreen, lastScreenContent, vcsuContent)
                             })  
@@ -157,7 +177,7 @@ class driver(screenDriver):
                         self.env['runtime']['debug'].writeDebugOut('ScreenUpdate',debug.debugLevel.INFO)
                         vcsa[currScreen].seek(0)
                         time.sleep(0.01)
-                        dirtyContent = vcsa[currScreen].read()
+                        dirtyContent = self.readFile(vcsa[currScreen])
                         screenContent = dirtyContent
                         vcsuContent = None
                         timeout = time.time()
@@ -183,7 +203,7 @@ class driver(screenDriver):
                                 #if not vcsa[currScreen] in r:
                                 #    break
                                 vcsa[currScreen].seek(0)
-                                dirtyContent = vcsa[currScreen].read()
+                                dirtyContent = self.readFile(vcsa[currScreen])
                                 if screenContent == dirtyContent:
                                     break
                                 if time.time() - timeout >= 0.1:
@@ -191,7 +211,7 @@ class driver(screenDriver):
                                     break
                         if useVCSU:
                             vcsu[currScreen].seek(0)
-                            vcsuContent = vcsu[currScreen].read()
+                            vcsuContent = self.readFile(vcsu[currScreen])
                         lastScreenContent = screenContent
                         eventQueue.put({"Type":fenrirEventType.ScreenUpdate,
                             "Data":self.createScreenEventData(currScreen, screenContent, vcsuContent)
