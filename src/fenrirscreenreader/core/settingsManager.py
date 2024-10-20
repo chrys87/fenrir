@@ -422,11 +422,11 @@ class settingsManager():
         environment['runtime']['inputManager'].writeEventBuffer()
         environment['runtime']['inputManager'].handleDeviceGrab(force = True)
 
-        environment['runtime']['debug'].writeDebugOut('\/-------environment-------\/',debug.debugLevel.INFO, onAnyLevel=True)
+        environment['runtime']['debug'].writeDebugOut(r'/-------environment-------/',debug.debugLevel.INFO, onAnyLevel=True)
         environment['runtime']['debug'].writeDebugOut(str(environment), debug.debugLevel.INFO, onAnyLevel=True)
-        environment['runtime']['debug'].writeDebugOut('\/-------settings.conf-------\/', debug.debugLevel.INFO, onAnyLevel=True)
+        environment['runtime']['debug'].writeDebugOut(r'/-------settings.conf-------/', debug.debugLevel.INFO, onAnyLevel=True)
         environment['runtime']['debug'].writeDebugOut(str(environment['settings']._sections) , debug.debugLevel.INFO, onAnyLevel=True)
-        environment['runtime']['debug'].writeDebugOut('\/-------self.settingArgDict-------\/',debug.debugLevel.INFO, onAnyLevel=True)
+        environment['runtime']['debug'].writeDebugOut(r'/-------self.settingArgDict-------/',debug.debugLevel.INFO, onAnyLevel=True)
         environment['runtime']['debug'].writeDebugOut(str( self.settingArgDict) ,debug.debugLevel.INFO, onAnyLevel=True)
         self.bindingsBackup = environment['bindings'].copy()
 

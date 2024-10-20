@@ -44,7 +44,7 @@ class command():
         # get the word
         newContent = self.env['screen']['newContentText'].split('\n')[cursorPos['y']]
         x, y, currWord, endOfScreen, lineBreak =  word_utils.getCurrentWord(cursorPos['x'], 0, newContent)                  
-        currWord = currWord.strip(string.whitespace + '!"#$%&\()*+,-./:;<=§>?@[\\]^_{|}~')
+        currWord = currWord.strip(string.whitespace + r'!"#$%&()*+,-./:;<=Â?@[\\]^_{|}~')
         if not currWord.isspace():
             if self.spellChecker.is_removed(currWord):
                 self.env['runtime']['outputManager'].presentText(_('{0} is not in the dictionary').format(currWord,), soundIcon='Cancel', interrupt=True)                
