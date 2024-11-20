@@ -356,6 +356,7 @@ class driver(inputDriver):
                 del(self.gDevices[newDevice.fd])
             except:
                 pass
+
     def grabDevice(self, fd):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
             return True
@@ -363,15 +364,23 @@ class driver(inputDriver):
             self.iDevices[fd].grab()
             self.gDevices[fd] = True
             self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: grab device ('+ str(self.iDevices[fd].name) + ')',debug.debugLevel.INFO)
+            # Reset modifier keys on successful grab
+            if self.uDevices[fd]:
+                modifierKeys = [e.KEY_LEFTCTRL, e.KEY_RIGHTCTRL, e.KEY_LEFTALT, e.KEY_RIGHTALT, e.KEY_LEFTSHIFT, e.KEY_RIGHTSHIFT]
+                for key in modifierKeys:
+                    try:
+                        self.uDevices[fd].write(e.EV_KEY, key, 0)  # 0 = key up
+                        self.uDevices[fd].syn()
+                    except Exception as e:
+                        self.env['runtime']['debug'].writeDebugOut('Failed to reset modifier key: ' + str(e), debug.debugLevel.WARNING)
         except IOError:
             if not self.gDevices[fd]:
                 return False
-        #    self.gDevices[fd] = True
-        #    #self.removeDevice(fd)
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('InputDriver evdev: grabing not possible:  ' + str(e),debug.debugLevel.ERROR)
             return False
         return True
+
     def ungrabDevice(self,fd):
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'grabDevices'):
             return True
