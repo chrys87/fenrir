@@ -31,7 +31,7 @@ class command():
         if startY == endY:
             line = screenLines[startY]
             startX = min(startMark['x'], len(line))
-            endX = min(endMark['x'], len(line))
+            endX = min(endMark['x'], len(line)) + 1
             return line[startX:endX]
             
         # Handle multi-line selection
@@ -49,7 +49,7 @@ class command():
         # Last line (from start to end mark)
         if endY > startY:
             lastLine = screenLines[endY]
-            endX = min(endMark['x'], len(lastLine))
+            endX = min(endMark['x'], len(lastLine)) + 1
             result.append(lastLine[:endX])
             
         return '\n'.join(result)
