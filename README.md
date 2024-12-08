@@ -1,3 +1,8 @@
+# NOTICE
+
+For the foreseeable future, development of Fenrir continues at <https://git.stormux.org/storm/fenrir>.
+
+
 # Fenrir
 
 A modern, modular, flexible and fast console screenreader.
