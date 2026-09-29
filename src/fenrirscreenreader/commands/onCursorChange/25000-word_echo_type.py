@@ -31,27 +31,37 @@ class command():
         # for now no new line
         if self.env['runtime']['cursorManager'].isCursorVerticalMove():
             return
+        delimiters = string.whitespace + string.punctuation
         # currently writing
-        if self.env['runtime']['screenManager'].isDelta():
-            return            
-        
+        lines = self.env['screen']['newContentText'].split('\n')
+        if self.env['screen']['newCursor']['y'] >= len(lines):
+            return
+        newContent = lines[self.env['screen']['newCursor']['y']]
+        prevX = self.env['screen']['oldCursor']['x']
+        if prevX < 0 or prevX >= len(newContent) or newContent[prevX] not in delimiters:
+            return
+
         # get the word            
-        newContent = self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']]
         x, y, currWord, endOfScreen, lineBreak = \
-          word_utils.getCurrentWord(self.env['screen']['newCursor']['x'], 0, newContent)                          
+          word_utils.getCurrentWord(self.env['screen']['newCursor']['x'], 0, newContent, delimiters)                          
         
         # is there a word?        
         if currWord == '':
             return
         # at the end of a word        
-        if not newContent[self.env['screen']['newCursor']['x']].isspace():
+        cursorX = self.env['screen']['newCursor']['x']
+        if cursorX < len(newContent) and newContent[cursorX] not in delimiters:
             return
         # at the end of a word        
         if (x + len(currWord) != self.env['screen']['newCursor']['x']) and \
           (x + len(currWord) != self.env['screen']['newCursor']['x']-1):
             return    
 
-        self.env['runtime']['outputManager'].presentText(currWord, interrupt=True, flush=False)
+        cleanWord = currWord.strip(string.whitespace).rstrip(string.punctuation)
+        if cleanWord == '':
+            return
+
+        self.env['runtime']['outputManager'].presentText(cleanWord, interrupt=True, flush=False)
 
     def setCallback(self, callback):
         pass
