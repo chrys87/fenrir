@@ -24,6 +24,8 @@ class command():
             return                                          
         self.env['runtime']['outputManager'].presentText('paste clipboard', soundIcon='PasteClipboardOnScreen', interrupt=True)
         clipboard = self.env['runtime']['memoryManager'].getIndexListElement('clipboardHistory')
+        if isinstance(clipboard, str):
+            clipboard = clipboard.replace('\r\n', '\r').replace('\n', '\r')
         self.env['runtime']['screenManager'].injectTextToScreen(clipboard)
               
     def setCallback(self, callback):

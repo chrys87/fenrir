@@ -21,9 +21,17 @@ class command():
         return _('copies marked text to the currently selected clipboard')    
     
     def getTextFromScreen(self, startMark, endMark):
+        if not startMark or not endMark:
+            return ''
         screenContent = self.env['screen']['newContentText']
         screenLines = screenContent.split('\n')
+        if not screenLines:
+            return ''
         
+        # Ensure startMark is before endMark
+        if (startMark['y'] > endMark['y']) or (startMark['y'] == endMark['y'] and startMark['x'] > endMark['x']):
+            startMark, endMark = endMark, startMark
+
         startY = min(startMark['y'], len(screenLines) - 1)
         endY = min(endMark['y'], len(screenLines) - 1)
         
@@ -40,11 +48,11 @@ class command():
         # First line (from start mark to end of line)
         firstLine = screenLines[startY]
         startX = min(startMark['x'], len(firstLine))
-        result.append(firstLine[startX:])
+        result.append(firstLine[startX:].rstrip())
         
         # Middle lines (complete lines)
         for lineNum in range(startY + 1, endY):
-            result.append(screenLines[lineNum])
+            result.append(screenLines[lineNum].rstrip())
             
         # Last line (from start to end mark)
         if endY > startY:
