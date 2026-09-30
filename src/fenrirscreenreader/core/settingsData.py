@@ -35,6 +35,7 @@ settingsData = {
   'fenrirMaxPitch':99,
   'fenrirMinRate':80,
   'fenrirMaxRate':450,
+  'autoSaveVoice': False,
 },
 'braille':{
   'enabled': False, 
@@ -103,7 +104,7 @@ settingsData = {
 },
 'menu':{
   'vmenuPath': '',
-  'quickMenu': 'speech#rate;speech#pitch;speech#volume',
+  'quickMenu': 'speech#rate;speech#pitch;speech#volume;speech#voice',
 },
 'promote':{
   'enabled': True,

@@ -142,6 +142,23 @@ class outputManager():
             self.env['runtime']['speechDriver'].reset()
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut("reset " + str(e),debug.debugLevel.ERROR)
+
+    def getVoices(self):
+        if self.env['runtime'].get('speechDriver', None) == None:
+            return []
+        try:
+            return self.env['runtime']['speechDriver'].getVoices()
+        except Exception as e:
+            self.env['runtime']['debug'].writeDebugOut("getVoices in outputManager: " + str(e), debug.debugLevel.ERROR)
+            return []
+
+    def setVoice(self, voice):
+        if self.env['runtime'].get('speechDriver', None) == None:
+            return
+        try:
+            self.env['runtime']['speechDriver'].setVoice(voice)
+        except Exception as e:
+            self.env['runtime']['debug'].writeDebugOut("setVoice in outputManager: " + str(e), debug.debugLevel.ERROR)
         
     def getBrailleCursor(self):
         if self.env['runtime']['settingsManager'].getSetting('braille', 'cursorFollowMode').upper() == 'REVIEW':

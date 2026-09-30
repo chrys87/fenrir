@@ -54,19 +54,16 @@ class driver(speechDriver):
             self._engine.setProperty('pitch', self.pitch)
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('SpeechDriver:speak:pitch:' + str(e),debug.debugLevel.ERROR)
-        if self.language != None:
-            if self.language != '':
-                try:
-                    self._engine.setProperty('voice', self.language)
-                except Exception as e:
-                    self.env['runtime']['debug'].writeDebugOut('SpeechDriver:speak:language:' + str(e),debug.debugLevel.ERROR)
-
-        elif self.voice != None:
-            if self.voice != '':
-                try:
-                    self._engine.setProperty('voice', self.voice) 
-                except Exception as e:
-                    self.env['runtime']['debug'].writeDebugOut('SpeechDriver:speak:voice:' + str(e),debug.debugLevel.ERROR)
+        if self.voice != None and self.voice != '':
+            try:
+                self._engine.setProperty('voice', self.voice) 
+            except Exception as e:
+                self.env['runtime']['debug'].writeDebugOut('SpeechDriver:speak:voice:' + str(e),debug.debugLevel.ERROR)
+        elif self.language != None and self.language != '':
+            try:
+                self._engine.setProperty('voice', self.language)
+            except Exception as e:
+                self.env['runtime']['debug'].writeDebugOut('SpeechDriver:speak:language:' + str(e),debug.debugLevel.ERROR)
         self._engine.say(text)
 
     def cancel(self):
@@ -83,3 +80,32 @@ class driver(speechDriver):
         if not self._isInitialized:
             return
         self.rate = rate
+
+    def setVoice(self, voice):
+        if voice == '':
+            return
+        self.voice = str(voice)
+        if self._isInitialized and self._engine:
+            try:
+                self._engine.setProperty('voice', self.voice)
+            except Exception as e:
+                self.env['runtime']['debug'].writeDebugOut('pyttsxDriver:setVoice:' + str(e), debug.debugLevel.ERROR)
+
+    def getVoices(self):
+        if not self._isInitialized:
+            self.startEngine()
+        if not self._isInitialized or not self._engine:
+            return []
+        try:
+            voices = []
+            for v in self._engine.getProperty('voices'):
+                if hasattr(v, 'id') and v.id:
+                    voices.append(str(v.id))
+                elif hasattr(v, 'name') and v.name:
+                    voices.append(str(v.name))
+                elif isinstance(v, str):
+                    voices.append(v)
+            return voices
+        except Exception as e:
+            self.env['runtime']['debug'].writeDebugOut('pyttsxDriver getVoices:' + str(e), debug.debugLevel.ERROR)
+            return []
