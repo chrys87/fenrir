@@ -97,6 +97,38 @@ class driver(speechDriver):
             return
         self.voice = str(voice)
 
+    def getVoices(self):
+        import subprocess
+        speech_cmd = getattr(self, 'speechCommand', '')
+        cmds_to_try = []
+        if 'espeak-ng' in speech_cmd:
+            cmds_to_try = ['espeak-ng', 'espeak']
+        elif 'espeak' in speech_cmd:
+            cmds_to_try = ['espeak', 'espeak-ng']
+        else:
+            cmds_to_try = ['espeak-ng', 'espeak']
+
+        for cmd in cmds_to_try:
+            try:
+                res = subprocess.run([cmd, '--voices'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=2)
+                if res.returncode == 0 and res.stdout:
+                    voices = []
+                    lines = res.stdout.strip().splitlines()
+                    for line in lines[1:]:
+                        line = line.strip()
+                        if not line:
+                            continue
+                        parts = line.split()
+                        if len(parts) >= 4:
+                            v_id = parts[1]
+                            if v_id not in voices:
+                                voices.append(v_id)
+                    if voices:
+                        return voices
+            except Exception:
+                pass
+        return []
+
     def setPitch(self, pitch):
         if not self._isInitialized:
             return

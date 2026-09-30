@@ -110,3 +110,33 @@ class driver(speechDriver):
             self._sd.set_volume(int(-100 + volume * 200))
         except Exception as e:
             self.env['runtime']['debug'].writeDebugOut('speechDriver setVolume:' + str(e),debug.debugLevel.ERROR)
+
+    def setVoice(self, voice):
+        if voice == '':
+            return
+        self.voice = str(voice)
+        if self._isInitialized and self._sd:
+            try:
+                self._sd.set_synthesis_voice(self.voice)
+            except Exception as e:
+                self.env['runtime']['debug'].writeDebugOut('speechDriver setVoice:' + str(e), debug.debugLevel.ERROR)
+
+    def getVoices(self):
+        if not self._isInitialized:
+            self.initialize(self.env)
+            if not self._isInitialized or not self._sd:
+                return []
+        try:
+            voices = []
+            raw_voices = self._sd.list_synthesis_voices()
+            for v in raw_voices:
+                if isinstance(v, (list, tuple)) and len(v) > 0:
+                    voices.append(str(v[0]))
+                elif hasattr(v, 'name') and v.name:
+                    voices.append(str(v.name))
+                elif isinstance(v, str):
+                    voices.append(v)
+            return voices
+        except Exception as e:
+            self.env['runtime']['debug'].writeDebugOut('speechDriver getVoices:' + str(e), debug.debugLevel.ERROR)
+            return []

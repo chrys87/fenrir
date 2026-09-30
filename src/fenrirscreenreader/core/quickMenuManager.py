@@ -6,6 +6,7 @@
 
 from fenrirscreenreader.core import debug
 from fenrirscreenreader.core.settingsData import settingsData
+from fenrirscreenreader.utils.voice_utils import cycle_voice
 
 class quickMenuManager():
     def __init__(self):
@@ -59,6 +60,9 @@ class quickMenuManager():
         except:
             return False
 
+        if section == 'speech' and setting == 'voice':
+            return cycle_voice(self.env, direction=1, announce=False)
+
         try:
             if isinstance(self.settings[section][setting], str):
                 value = str(valueString)
@@ -91,6 +95,10 @@ class quickMenuManager():
             valueString = self.env['runtime']['settingsManager'].getSetting(section, setting)
         except:
             return False
+
+        if section == 'speech' and setting == 'voice':
+            return cycle_voice(self.env, direction=-1, announce=False)
+
         try:
             if isinstance(self.settings[section][setting], str):
                 value = str(valueString)

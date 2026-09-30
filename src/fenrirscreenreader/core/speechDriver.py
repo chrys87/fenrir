@@ -49,7 +49,13 @@ class speechDriver():
             return
         if voice == '':
             return
-        self.voice = voice 
+        self.voice = str(voice)
+
+    def getVoice(self):
+        return self.voice
+
+    def getVoices(self):
+        return []
 
     def setPitch(self, pitch):
         if not self._isInitialized:

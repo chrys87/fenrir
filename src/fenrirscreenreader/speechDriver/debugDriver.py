@@ -46,7 +46,11 @@ class driver(speechDriver):
     def setVoice(self, voice):
         if not self._isInitialized:
             return
+        self.voice = str(voice)
         print('Speech Debug Driver: setVoice:' +  str(voice))
+
+    def getVoices(self):
+        return ['default', 'en-us', 'en-gb', 'de', 'fr', 'es']
 
     def setPitch(self, pitch):
         if not self._isInitialized:
