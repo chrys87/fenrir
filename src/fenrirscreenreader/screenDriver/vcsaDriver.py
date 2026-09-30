@@ -66,6 +66,10 @@ class driver(screenDriver):
         useScreen = "/dev/tty" + self.env['screen']['newTTY']
         if screen != None:
             useScreen = screen
+        if isinstance(text, str):
+            text = text.replace('\r\n', '\r').replace('\n', '\r')
+        elif isinstance(text, (bytes, bytearray)):
+            text = text.replace(b'\r\n', b'\r').replace(b'\n', b'\r').decode('UTF-8', errors='ignore')
         with open(useScreen, 'w') as fd:
             for c in text:
                 fcntl.ioctl(fd, termios.TIOCSTI, c)

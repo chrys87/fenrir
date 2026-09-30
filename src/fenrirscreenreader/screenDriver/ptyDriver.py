@@ -93,11 +93,25 @@ class driver(screenDriver):
         self.env['screen']['newTTY'] = 'pty'
  
     def injectTextToScreen(self, msgBytes, screen = None):
-        if not screen:
+        if screen is None and self.p_out:
             screen = self.p_out.fileno()
-        if isinstance(msgBytes, str):
-            msgBytes = bytes(msgBytes, 'UTF-8')
-        os.write(screen, msgBytes)
+        isStdout = False
+        try:
+            if screen is not None and screen == sys.stdout.fileno():
+                isStdout = True
+        except Exception:
+            pass
+        if not isStdout:
+            if isinstance(msgBytes, str):
+                msgBytes = msgBytes.replace('\r\n', '\r').replace('\n', '\r')
+                msgBytes = bytes(msgBytes, 'UTF-8')
+            elif isinstance(msgBytes, (bytes, bytearray)):
+                msgBytes = msgBytes.replace(b'\r\n', b'\r').replace(b'\n', b'\r')
+        else:
+            if isinstance(msgBytes, str):
+                msgBytes = bytes(msgBytes, 'UTF-8')
+        if screen is not None:
+            os.write(screen, msgBytes)
 
     def getSessionInformation(self):
         self.env['screen']['autoIgnoreScreens'] = []
