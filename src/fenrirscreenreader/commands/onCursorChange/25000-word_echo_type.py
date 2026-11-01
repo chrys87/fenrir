@@ -10,11 +10,15 @@ import string
 
 class command():
     def __init__(self):
-        pass
+        self.lastEchoedWord = None
+
     def initialize(self, environment):
         self.env = environment
+        self.lastEchoedWord = None
+
     def shutdown(self):
-        pass
+        self.lastEchoedWord = None
+
     def getDescription(self):
         return 'No Description found'     
 
@@ -22,47 +26,60 @@ class command():
         # is it enabled?    
         if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'wordEcho'):
             return
-        # is naviation?
-        if self.env['screen']['newCursor']['x'] - self.env['screen']['oldCursor']['x'] != 1:
-            return
         # just when cursor move worddetection is needed
         if not self.env['runtime']['cursorManager'].isCursorHorizontalMove():
             return
         # for now no new line
         if self.env['runtime']['cursorManager'].isCursorVerticalMove():
             return
+
         delimiters = string.whitespace + string.punctuation
-        # currently writing
+
+        if 'screenManager' in self.env['runtime'] and hasattr(self.env['runtime']['screenManager'], 'isDelta'):
+            if self.env['runtime']['screenManager'].isDelta():
+                return            
+        
         lines = self.env['screen']['newContentText'].split('\n')
-        if self.env['screen']['newCursor']['y'] >= len(lines):
+        cursorY = self.env['screen']['newCursor']['y']
+        if cursorY >= len(lines):
             return
-        newContent = lines[self.env['screen']['newCursor']['y']]
-        prevX = self.env['screen']['oldCursor']['x']
-        if prevX < 0 or prevX >= len(newContent) or newContent[prevX] not in delimiters:
+        newContent = lines[cursorY]
+        cursorX = self.env['screen']['newCursor']['x']
+        oldX = self.env['screen']['oldCursor']['x']
+
+        # if cursor is on a word character, reset tracking and return
+        if cursorX < len(newContent) and newContent[cursorX] not in delimiters:
+            self.lastEchoedWord = None
+            return
+
+        # only word echo on single-character forward movement
+        if cursorX - oldX != 1:
             return
 
         # get the word            
         x, y, currWord, endOfScreen, lineBreak = \
-          word_utils.getCurrentWord(self.env['screen']['newCursor']['x'], 0, newContent, delimiters)                          
+          word_utils.getCurrentWord(cursorX, 0, newContent, delimiters)                          
         
         # is there a word?        
         if currWord == '':
             return
-        # at the end of a word        
-        cursorX = self.env['screen']['newCursor']['x']
-        if cursorX < len(newContent) and newContent[cursorX] not in delimiters:
-            return
-        # at the end of a word        
-        if (x + len(currWord) != self.env['screen']['newCursor']['x']) and \
-          (x + len(currWord) != self.env['screen']['newCursor']['x']-1):
+
+        # at the end of a word (boundary check)
+        if (x + len(currWord) != cursorX) and \
+          (x + len(currWord) != cursorX - 1):
             return    
+
+        # do not trigger repeatedly on subsequent delimiter / consecutive whitespace characters
+        wordKey = (x, cursorY, currWord)
+        if self.lastEchoedWord == wordKey:
+            return
 
         cleanWord = currWord.strip(string.whitespace).rstrip(string.punctuation)
         if cleanWord == '':
             return
 
+        self.lastEchoedWord = wordKey
         self.env['runtime']['outputManager'].presentText(cleanWord, interrupt=True, flush=False)
 
     def setCallback(self, callback):
         pass
-

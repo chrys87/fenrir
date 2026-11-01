@@ -19,6 +19,10 @@ class command():
         return 'No Description found'     
 
     def run(self):
+        # is it enabled?    
+        if not self.env['runtime']['settingsManager'].getSettingAsBool('keyboard', 'wordEcho'):
+            return
+
         # is navigation?    
         if not abs(self.env['screen']['oldCursor']['x'] - self.env['screen']['newCursor']['x']) > 1:
             return
@@ -30,24 +34,35 @@ class command():
         if self.env['runtime']['cursorManager'].isCursorVerticalMove():
             return
         # currently writing
-        if self.env['runtime']['screenManager'].isDelta():
-            return            
+        if 'screenManager' in self.env['runtime'] and hasattr(self.env['runtime']['screenManager'], 'isDelta'):
+            if self.env['runtime']['screenManager'].isDelta():
+                return            
         
+        lines = self.env['screen']['newContentText'].split('\n')
+        cursorY = self.env['screen']['newCursor']['y']
+        if cursorY >= len(lines):
+            return
+        newContent = lines[cursorY]
+        cursorX = self.env['screen']['newCursor']['x']
+
         # get the word            
-        newContent = self.env['screen']['newContentText'].split('\n')[self.env['screen']['newCursor']['y']]
         x, y, currWord, endOfScreen, lineBreak = \
-          word_utils.getCurrentWord(self.env['screen']['newCursor']['x'], 0, newContent)                          
+          word_utils.getCurrentWord(cursorX, 0, newContent, string.whitespace)                          
         
         # is there a word?        
         if currWord == '':
             return
 
-        # at the start of a word        
-        if (x + len(currWord) != self.env['screen']['newCursor']['x'])  and \
-          (self.env['screen']['newCursor']['x'] != x):
+        # at the start or end of a word        
+        if (x + len(currWord) != cursorX) and \
+          (cursorX != x):
             return     
 
-        self.env['runtime']['outputManager'].presentText(currWord, interrupt=True, flush=False)
+        cleanWord = currWord.strip(string.whitespace)
+        if cleanWord == '':
+            return
+
+        self.env['runtime']['outputManager'].presentText(cleanWord, interrupt=True, flush=False)
 
     def setCallback(self, callback):
         pass
